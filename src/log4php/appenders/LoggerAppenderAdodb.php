@@ -25,7 +25,8 @@ require_once(ADODB_DIR . '/adodb.inc.php');
  * Appends log events to a db table using adodb class.
  *
  * <p>This appender uses a table in a database to log events.</p>
- * <p>Parameters are {@link $dsn}, {@link $createTable}, {@link table} and {@link $sql}.</p>
+ * <p>Parameters are {@link $host}, {@link $user}, {@link $password},
+ * {@link $database}, {@link $createTable}, {@link $table} and {@link $sql}.</p>
  * <p>See examples in test directory.</p>
  *
  * @author sbw <sbw@ibiblio.org>
