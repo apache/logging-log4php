@@ -23,7 +23,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * This class encapsulates the information obtained when parsing
  * formatting modifiers in conversion modifiers.
  * 
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage spi
  * @since 0.3

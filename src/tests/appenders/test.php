@@ -7,7 +7,7 @@
  * distribution in the LICENSE file.
  * 
  * @package tests
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @subpackage appenders
  * @version $Revision$
  * @since 0.3

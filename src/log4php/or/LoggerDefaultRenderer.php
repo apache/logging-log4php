@@ -22,7 +22,7 @@ require_once(LOG4PHP_DIR . '/or/LoggerObjectRenderer.php');
 /**
  * The default Renderer renders objects by type casting
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage or
  * @since 0.3

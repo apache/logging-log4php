@@ -27,7 +27,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * - <b>WARN &lt;= level &lt; ERROR</b> mapped to E_USER_WARNING
  * - <b>level &gt;= ERROR</b> mapped to E_USER_ERROR  
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -38,7 +38,7 @@ require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
  * </code>
  * if such methods exist.
  *  
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage config

@@ -27,7 +27,7 @@ require_once('DB.php');
  * <p>Parameters are {@link $dsn}, {@link $createTable}, {@link table} and {@link $sql}.</p>
  * <p>See examples in test directory.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

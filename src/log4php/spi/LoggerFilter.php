@@ -65,7 +65,7 @@ define('LOG4PHP_LOGGER_FILTER_DENY',    -1);
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains. 
  * 
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage spi

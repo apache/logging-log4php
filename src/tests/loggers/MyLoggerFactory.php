@@ -7,7 +7,7 @@
  * distribution in the LICENSE file.
  * 
  * @package tests
- * @author Marco V. <marco@apache.org>
+ * @author Marco Vassura
  * @subpackage loggers
  * @version $Revision$
  * @since 0.6
@@ -23,7 +23,7 @@ require_once('./MyLogger.php');
  *
  * @package tests
  * @subpackage loggers
- * @author Marco V. <marco@apache.org>
+ * @author Marco Vassura
  * @version $Revision$
  * @since 0.6
  */

@@ -21,7 +21,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * Extend and implement this abstract class to create new instances of 
  * {@link Logger} or a sub-class of {@link Logger}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage spi

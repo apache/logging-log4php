@@ -25,7 +25,7 @@ require_once(LOG4PHP_DIR . '/appenders/LoggerAppenderFile.php');
  *
  * <p>Contributors: Sergio Strampelli.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -25,7 +25,7 @@ require_once(LOG4PHP_DIR . '/LoggerNDC.php');
 /**
  * The internal representation of logging event.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage spi 

@@ -50,7 +50,7 @@ require_once(LOG4PHP_DIR . '/spi/LoggerFilter.php');
  * @log4j-author Simon Kitching
  * @log4j-author based on code by Ceki G&uuml;lc&uuml; 
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

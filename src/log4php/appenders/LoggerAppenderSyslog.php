@@ -29,7 +29,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * - <b>WARN  &gt; level &gt;= INFO</b> to LOG_INFO
  * - <b>INFO  &gt; level &gt;= DEBUG</b> to LOG_DEBUG
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

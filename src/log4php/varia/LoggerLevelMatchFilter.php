@@ -32,7 +32,7 @@ require_once(LOG4PHP_DIR . '/spi/LoggerFilter.php');
  * {@link LOG4PHP_LOGGER_FILTER_DENY} is returned. If there is no match, 
  * {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} is returned.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

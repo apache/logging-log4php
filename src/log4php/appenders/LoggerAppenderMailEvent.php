@@ -31,8 +31,8 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * {@link $subject} (optional).</p>
  * <p>A layout is required.</p>
  *
- * @author Domenico Lordi <lordi@interfree.it>
- * @author Marco V. <marco@apache.org>
+ * @author  Domenico Lordi <lordi@interfree.it>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -27,7 +27,7 @@ require_once(LOG4PHP_DIR . '/spi/LoggerFilter.php');
  * filtering behaviour to a "deny all unless instructed otherwise"
  * behaviour.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

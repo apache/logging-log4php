@@ -35,7 +35,7 @@ $GLOBALS['log4php.LoggerPatternConverter.spaces'] = array(" ", "  ", "    ", "  
  * individual PatternConverters. Each of which is responsible for
  * converting a logging event in a converter specific manner.</p>
  * 
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage helpers
@@ -146,7 +146,7 @@ class LoggerPatternConverter {
 // ---------------------------------------------------------------------
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -203,7 +203,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -246,7 +246,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -287,7 +287,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -323,7 +323,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -371,7 +371,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  * @abstract
@@ -435,7 +435,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */
@@ -465,7 +465,7 @@ class LoggerClassNamePatternConverter extends LoggerNamedPatternConverter {
 }
 
 /**
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  */

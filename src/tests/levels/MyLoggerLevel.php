@@ -7,7 +7,7 @@
  * distribution in the LICENSE file.
  * 
  * @package tests
- * @author Marco V. <marco@apache.org>
+ * @author Marco Vassura
  * @subpackage levels
  * @version $Revision$
  * @since 0.6
@@ -25,7 +25,7 @@ define('LOG4PHP_LEVEL_LETHAL_INT',       LOG4PHP_LEVEL_FATAL_INT + 1);
  *
  * @package tests
  * @subpackage levels
- * @author Marco V. <marco@apache.org>
+ * @author Marco Vassura
  * @version $Revision$
  * @since 0.6
  */

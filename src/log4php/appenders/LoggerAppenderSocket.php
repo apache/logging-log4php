@@ -29,7 +29,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * Parameters are {@link $remoteHost}, {@link $port}, {@link $timeout}, 
  * {@link $locationInfo}, {@link $useXml} and {@link $log4jNamespace}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

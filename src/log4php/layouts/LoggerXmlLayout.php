@@ -36,7 +36,7 @@ require_once(LOG4PHP_DIR . '/LoggerLayout.php');
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

@@ -67,7 +67,7 @@ define('LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE',       'd M Y H:i:s,u');
  * <p>It is this class that parses conversion patterns and creates
  * a chained list of {@link LoggerPatternConverter} converters.</p>
  * 
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$ 
  * @package log4php
  * @subpackage helpers
@@ -284,13 +284,11 @@ class LoggerPatternParser {
             case 'c':
                 $pc = new LoggerCategoryPatternConverter($this->formattingInfo, $this->extractPrecisionOption());
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() CATEGORY converter.");
-                // $this->formattingInfo->dump();
                 $this->currentLiteral = '';
                 break;
             case 'C':
                 $pc = new LoggerClassNamePatternConverter($this->formattingInfo, $this->extractPrecisionOption());
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() CLASSNAME converter.");
-                //$this->formattingInfo->dump();
                 $this->currentLiteral = '';
                 break;
             case 'd':
@@ -318,49 +316,39 @@ class LoggerPatternParser {
             case 'F':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() File name converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'l':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() Location converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'L':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() LINE NUMBER converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'm':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() MESSAGE converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'M':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER);
-                //LogLog.debug("METHOD converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'p':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER);
-                //LogLog.debug("LEVEL converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'r':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() RELATIVE TIME converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 't':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER);
                 LoggerLog::debug("LoggerPatternParser::finalizeConverter() THREAD converter.");
-                //formattingInfo.dump();
                 $this->currentLiteral = '';
                 break;
             case 'u':
@@ -369,7 +357,6 @@ class LoggerPatternParser {
                     if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
 	                    $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
                         LoggerLog::debug("LoggerPatternParser::finalizeConverter() USER converter [{$cNext}].");
-	                    // formattingInfo.dump();
                         $this->currentLiteral = '';
 	                    $this->i++;
 	                } else {

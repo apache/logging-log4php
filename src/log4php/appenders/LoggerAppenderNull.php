@@ -21,7 +21,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
 /**
  * A NullAppender merely exists, it never outputs a message to any device.  
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

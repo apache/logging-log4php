@@ -39,7 +39,7 @@ require_once(LOG4PHP_DIR . '/LoggerLayout.php');
  * For example, 
  * <samp> INFO - "A message" </samp>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

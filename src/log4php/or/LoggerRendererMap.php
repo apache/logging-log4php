@@ -24,7 +24,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
 /**
  * Map class objects to an {@link LoggerObjectRenderer}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage or

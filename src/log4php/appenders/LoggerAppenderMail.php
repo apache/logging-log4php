@@ -24,7 +24,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * <p>Parameters are {@link $from}, {@link $to}, {@link $subject}.</p>
  * <p>This appender requires a layout.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -144,7 +144,7 @@ define('LOG4PHP_LOGGER_PATTERN_LAYOUT_TTCC_CONVERSION_PATTERN',    '%r [%t] %p %
  *                                                                then truncate from the beginning.  
  * </pre>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

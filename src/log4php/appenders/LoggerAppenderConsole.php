@@ -32,7 +32,7 @@ define('LOG4PHP_LOGGER_APPENDER_CONSOLE_STDERR', 'php://stderr');
  * On web scripts this appender has no effects.</p>
  * <p>This appender requires a layout.</p>  
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

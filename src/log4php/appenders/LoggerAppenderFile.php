@@ -25,7 +25,7 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * Parameters are ({@link $fileName} but option name is <b>file</b>), 
  * {@link $append}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

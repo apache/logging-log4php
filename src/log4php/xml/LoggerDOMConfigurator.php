@@ -69,7 +69,7 @@ define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS', 'HTTP://LOGGING.APACHE.ORG/LOG4P
  * <p>There are sample XML files included in the package under <b>tests/</b> 
  * subdirectories.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage xml

@@ -39,7 +39,7 @@ require_once(LOG4PHP_DIR . '/spi/LoggerLoggingEvent.php');
  *
  * Parameters are: {@link $title}, {@link $locationInfo}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts
