@@ -52,7 +52,7 @@ class LoggerBasicConfigurator extends LoggerConfigurator {
         $layout = LoggerLayout::factory('LoggerLayoutTTCC');
         $appender->setLayout($layout);
 
-        $root->addAppender($appender));
+        $root->addAppender($appender);
     }
 
     /**
