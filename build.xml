@@ -1,0 +1,311 @@
+<!--
+  Log4php ANT build script.
+  
+  $Revision$
+-->
+<project name="Log4php" default="usage" basedir=".">
+
+    <!-- Give user a chance to override without editing this file or typing -D -->
+    <property environment="env"/>
+    <property file="${user.home}/.ant.properties"/>
+    <property file="build.properties"/>    
+    <!-- Read the system environment variables and stores them in properties, -->
+    <!-- prefixed with "env". -->
+
+    <property name="logging-site" value="../logging-site"/>
+     
+    <!-- set global properties for this build -->
+    <property name="src.dir" value="src" />
+    <property name="doc.dir" value="docs" />
+    
+    <property name="build.dir" value="build" />
+    <property name="build.src.dir" value="${build.dir}/src" />
+    <!-- <property name="build.test.dir" value="${build.src.dir}/tests" /> -->
+    <property name="build.doc.dir" value="${build.dir}/docs" />
+    <property name="build.api.dir" value="${build.dir}/docs/api" />
+
+    <property name="dist.dir" value="dist"/>
+    <property name="dist.images" value="dist/images"/>
+    <property name="dist.tmp"   value="dist/tmp"/>
+    
+     <!-- Construct classpath for building the html pages -->
+     <path id="site.classpath">
+       <fileset dir="${logging-site}/lib">
+         <include name="*.jar"/>
+       </fileset>
+     </path>
+    
+    <patternset id="source.files">
+        <!-- include everything we want in the src directory 
+           that we didn't want in the dist itself -->
+        <include name="**/*.php"/>
+        <!--
+        <include name="**/*.xml"/>
+        <include name="**/*.htm*"/>
+        <include name="**/*.dtd"/>
+        -->
+        <exclude name="**/*CVS*"/>
+    </patternset>
+    
+    <patternset id="html.files">
+        <!-- include everything we want in the html directory 
+           that we didn't want in the dist itself -->
+        <include name="**/*.htm*"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.png"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.jpeg"/>
+        <include name="**/*.txt"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
+        <exclude name="**/*CVS*"/>
+    </patternset>
+
+    <patternset id="xml.files">
+        <!-- include everything we want in the html directory 
+           that we didn't want in the dist itself -->
+        <include name="**/*.xml"/>
+        <include name="**/*.dtd"/>
+        <include name="**/*.xsd"/>
+        <include name="**/*.xsl"/>
+        <exclude name="**/*CVS*"/>
+    </patternset>
+    
+    <patternset id="php.files">
+        <include name="**/*.php"/>
+        <include name="**/*.php3"/>
+        <include name="**/*.phps"/>
+    </patternset>
+    
+    <patternset id="doc.files">
+        <include name="**/*.doc"/>
+        <include name="**/*.txt"/>
+        <include name="**/*.pdf"/>
+        <patternset refid="html.files" />
+    </patternset>
+    
+    <patternset id="base.doc.files">
+        <include name="README"/>
+        <include name="INSTALL"/>
+        <include name="LICENSE"/>
+        <include name="ChangeLog"/>
+    </patternset>
+    
+    <patternset id="test.files">
+        <!-- include everything we want in the src directory 
+           that we didn't want in the dist itself -->
+        <include name="**/*.php"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.htm*"/>
+        <include name="**/*.properties"/>
+        <exclude name="**/*CVS*"/>
+    </patternset>
+    
+    <patternset id="contribs.files">
+        <!-- include everything we want in the src directory 
+           that we didn't want in the dist itself -->
+        <include name="**/*"/>
+        <exclude name="**/*CVS*"/>
+    </patternset>
+    
+    
+    <!-- Tasks -->
+    
+    <target name="clean" description="Cleans up build and dist directories">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="usage">
+        <echo>
+        
+        These are the targets supported by this ANT build scpript:
+        
+        build   - compile all project files.
+        
+        phpdoc  - build project phpdoc files
+        doc     - build project doc and phpdoc files
+        
+        dist    - will create a complete distribution in dist/
+                  Setting the env variable NO_PHPDOC will build the distribution
+                  without running the phpdoc target.
+
+        site    - will create the www site
+        </echo>
+    </target>
+
+    <!-- ================================================================= -->
+    <!-- Initialize variables                                              -->
+    <!-- NOTE: all directories are relative to log4php/              -->
+    <!-- ================================================================= -->
+    <target name="init">
+        <echo>Basedir is ${basedir}</echo>
+        <tstamp />
+    </target>
+    
+    <target name="build" depends="init" >
+        <mkdir dir="${build.src.dir}/${name}"/>
+        <copy todir="${build.src.dir}/${name}">
+            <fileset dir="${src.dir}/${name}">
+                <patternset refid="source.files"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${build.src.dir}/tests"/>
+        <copy todir="${build.src.dir}/tests">
+            <fileset dir="${src.dir}/tests">
+                <patternset refid="test.files"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${build.dir}/contribs"/>
+        <copy todir="${build.dir}/contribs">
+            <fileset dir="${basedir}/contribs">
+                <patternset refid="contribs.files"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="phpdoc" depends="build" unless="env.NO_PHPDOC" description="Compile the phpDocumentor API documentation to dist dir">
+        <mkdir dir="${build.api.dir}"/>
+
+        <!-- Copy and replace phpdoc.ini -->
+        <copy file="${basedir}/phpdoc.ini" todir="${build.api.dir}"/>
+        <replace file="${build.api.dir}/phpdoc.ini" token="@Name@" value="${Name}" />
+        <replace file="${build.api.dir}/phpdoc.ini" token="@package@" value="${name}" />
+        <replace file="${build.api.dir}/phpdoc.ini" token="@basedir@" value="${basedir}" />
+        <replace file="${build.api.dir}/phpdoc.ini" token="@src.dir@" value="${basedir}/${build.src.dir}" />
+        <replace file="${build.api.dir}/phpdoc.ini" token="@target@" value="${basedir}/${build.api.dir}" />
+
+        <!-- Add html package info in source -->
+        <copy todir="${build.src.dir}">
+            <fileset dir="${src.dir}">
+                <patternset refid="html.files"/>
+            </fileset>
+        </copy>
+        <replace dir="${build.src.dir}" token="@release@" value="${release}" />
+        
+        <!-- Copy README,INSTALL,CHANGELOG -->
+        <copy todir="${build.src.dir}">
+            <fileset dir="${basedir}">
+                <patternset refid="base.doc.files"/>
+            </fileset>
+        </copy>
+
+        <!-- exec phpdoc -->
+        <exec executable="${phpdoc.exe}">
+            <arg line="--useconfig ./${build.api.dir}/phpdoc.ini" />
+        </exec>
+
+        <delete>
+            <fileset dir="${build.src.dir}">
+                <patternset refid="base.doc.files"/>
+            </fileset>
+        </delete>
+
+        <!-- Delete html package infos in source -->
+        <delete>
+            <fileset dir="${build.src.dir}">
+                <patternset refid="html.files"/>
+            </fileset>
+        </delete>
+    </target>
+    
+    <target name="doc" depends="phpdoc, site">
+        <mkdir dir="${build.doc.dir}"/>
+        <copy todir="${build.doc.dir}">
+            <fileset dir="${doc.dir}">
+                <patternset refid="doc.files"/>
+                <patternset refid="base.doc.files"/>                
+            </fileset>
+        </copy>
+        <replace dir="${build.doc.dir}" token="@release@" value="${release}" />
+        <copy file="${src.dir}/log4php/xml/log4php.dtd" todir="${build.doc.dir}"/>
+    </target>
+    
+
+    <!-- ================================================================= -->
+    <!-- Build a complete distribution. Results go to ${dist.images}       -->
+    <!-- ================================================================= -->
+    <target name="dist" depends="build, doc, site">
+        <delete dir="${dist.dir}"/>
+        <delete verbose="yes">
+            <fileset dir="${build.dir}">
+                <patternset>
+                    <include name="**/*.bak"/>
+                </patternset>
+            </fileset>
+            <fileset dir="${build.doc.dir}/api">
+                <patternset>
+                    <include name="errors.html"/>
+                    <include name="phpdoc.ini"/>
+                </patternset>
+            </fileset>
+        </delete>
+        <mkdir  dir="${dist.images}" />
+        <mkdir  dir="${dist.tmp}/${name}-${release}" />
+        <copy todir="${dist.tmp}/${name}-${release}">
+            <fileset dir="${build.dir}" includes="src/**, contribs/**, docs/**" />
+        </copy>
+        <copy verbose="yes" todir="${dist.tmp}/${name}-${release}">
+            <fileset dir="${build.dir}/docs">
+                <patternset refid="base.doc.files"/>
+            </fileset>
+        </copy>
+        <touch datetime="${release-datetime}">
+            <fileset dir="${dist.tmp}/${name}-${release}"/>
+        </touch>                
+        <tar tarfile="${dist.images}/${name}-${release}.tar.gz"
+             basedir="${dist.tmp}"
+             includes="${name}-${release}/**"
+             longfile="gnu"
+             compression="gzip" 
+        />
+        <zip zipfile="${dist.images}/${name}-${release}.zip"
+             basedir="${dist.tmp}"
+             includes="${name}-${release}/**" />
+    </target>
+    
+    <!-- ============================ -->
+    <!-- ======= New targets ======== -->
+    <!-- ============================ -->
+
+    <target name="prepareSite">
+      <available classname="org.apache.velocity.anakia.AnakiaTask"
+    	property="AnakiaTask.present">
+    	<classpath refid="site.classpath"/>
+      </available>
+    </target>
+    
+    <target name="checkSite" depends="prepareSite" unless="AnakiaTask.present">
+      <echo>
+    	AnakiaTask is not present in ${logging-site}/lib! Please check to make sure that
+    	velocity.jar is in your classpath.
+      </echo>
+    </target>
+
+    <target name="site" depends="checkSite" if="AnakiaTask.present">
+      <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
+    	<classpath refid="site.classpath"/>
+      </taskdef>
+      <mkdir dir="${build.doc.dir}/css"/>  
+      <copy file="${logging-site}/docs/css/site.css" tofile="${build.doc.dir}/css/site.css"/>
+      
+      <anakia basedir="${src.dir}/xdocs" destdir="${build.doc.dir}/"
+    	extension=".html"
+    	style="site.vsl"
+    	projectFile="stylesheets/project.xml"
+    	excludes="**/stylesheets/**, empty.xml"
+    	includes="**/*.xml"
+    	lastModifiedCheck="true"
+    	templatePath="${logging-site}/src/xdocs/stylesheets">
+      </anakia>    
+
+      <mkdir dir="${build.doc.dir}/images"/>
+      <copy todir="${build.doc.dir}/images">
+        <fileset dir="${src.dir}/xdocs/images">
+            <patternset refid="html.files"/>
+        </fileset>
+      </copy>
+      
+    </target>
+    
+</project>

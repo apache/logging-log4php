@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+
+<document>
+    <properties>
+        <author email="marco at apache dot org">Marco Vassura</author>
+        <title>Log4php Usage Example</title>
+    </properties>
+    <meta name="keywords" content="php, java, logging, tracing, component, framework, API, log4php"/>
+    <body>
+        <section name="Log4php Usage Example">
+            <code><![CDATA[<font color="#000000">
+                    <font color="#0000BB">&lt;?php 
+                    <br />
+                    <br /></font><font color="#FF8000">/**
+                    <br /> * This is a log4php usage example file
+                    <br /> *
+                    <br /> * @version $Revision$
+                    <br /> * @author Marco V. &lt;marco@apache.org&gt;
+                    <br /> */
+                    <br />
+                    <br />/**
+                    <br /> * Set LOG4PHP_DIR to Your log4php root dir or it will
+                    <br /> * be set automatically at the first require_once().
+                    <br /> * Here 'log4php' is an 'include_path' subdir.
+                    <br /> */
+                    <br /></font><font color="#0000BB">define</font><font color="#007700">(</font><font color="#DD0000">'LOG4PHP_DIR'</font><font color="#007700">, </font><font color="#DD0000">'log4php'</font><font color="#007700">);
+                    <br />
+                    <br /></font><font color="#FF8000">/*
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;&nbsp;If you want to use a custom Configurator,
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set the LOG4PHP_CONFIGURATOR_CLASS constants to Your Configurator class file.
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The class name must have the same base name of the classfile.
+                    <br />
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ex: define('LOG4PHP_CONFIGURATOR_CLASS', '/my/path/LoggerMyConfigurator');
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log4php will try to include '/my/path/LoggerMyConfigurator.php'
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and instantiate a 'LoggerMyConfigurator' class.
+                    <br />
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;&nbsp;If you want to use a configuration file that's not the default,
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set the LOG4PHP_CONFIGURATION constants to Your configuration filename.
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ex: define('LOG4PHP_CONFIGURATION', '/my/path/my_config.conf');
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note that if config extension is NOT .xml and LOG4PHP_CONFIGURATOR_CLASS
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is not defined, the LoggerPropertyConfigurator will be used.&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;&nbsp;If you want to bypass the initial configuration procedure, set the 
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'LOG4PHP_DEFAULT_INIT_OVERRIDE' to true.
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ex: define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
+                    <br />*/
+                    <br />
+                    <br />
+                    <br /></font><font color="#007700">require_once(</font><font color="#0000BB">LOG4PHP_DIR </font><font color="#007700">. </font><font color="#DD0000">'/LoggerManager.php'</font><font color="#007700">);
+                    <br /></font><font color="#FF8000">/* 
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;Or You can use:
+                    <br />&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require_once('/my/log4php/path/LoggerManager.php');
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;and LOG4PHP_DIR will be automatically set to '/my/log4php/path'.
+                    <br />*/
+                    <br />
+                    <br />
+                    <br /></font><font color="#007700">class </font><font color="#0000BB">Test </font><font color="#007700">{
+                    <br />
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;var </font><font color="#0000BB">$logger</font><font color="#007700">;
+                    <br />
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;function </font><font color="#0000BB">Test</font><font color="#007700">()
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger </font><font color="#007700">=&amp; </font><font color="#0000BB">LoggerManager</font><font color="#007700">::</font><font color="#0000BB">getLogger</font><font color="#007700">(</font><font color="#DD0000">'Test'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;}
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;function </font><font color="#0000BB">testLog</font><font color="#007700">()
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">debug</font><font color="#007700">(</font><font color="#DD0000">'this is a DEBUG log generated by Test::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">info</font><font color="#007700">(</font><font color="#DD0000">'this is an INFO log generated by Test::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">warn</font><font color="#007700">(</font><font color="#DD0000">'this is a WARN log generated by Test::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">error</font><font color="#007700">(</font><font color="#DD0000">'this is an ERROR log generated by Test::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">fatal</font><font color="#007700">(</font><font color="#DD0000">'this is a FATAL log generated by Test::testLog() class'</font><font color="#007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;}
+                    <br />
+                    <br />}
+                    <br />
+                    <br />class </font><font color="#0000BB">TestTest </font><font color="#007700">extends </font><font color="#0000BB">test </font><font color="#007700">{
+                    <br />
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;var </font><font color="#0000BB">$logger</font><font color="#007700">;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;function </font><font color="#0000BB">TestTest</font><font color="#007700">()
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">Test</font><font color="#007700">();&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger </font><font color="#007700">=&amp; </font><font color="#0000BB">LoggerManager</font><font color="#007700">::</font><font color="#0000BB">getLogger</font><font color="#007700">(</font><font color="#DD0000">'Test.Test'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;}
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;function </font><font color="#0000BB">testLog</font><font color="#007700">()
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;{
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">LoggerNDC</font><font color="#007700">::</font><font color="#0000BB">push</font><font color="#007700">(</font><font color="#DD0000">'NDC generated by TestTest::testLog()'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">debug</font><font color="#007700">(</font><font color="#DD0000">'this is a DEBUG log generated by TestTest::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">info</font><font color="#007700">(</font><font color="#DD0000">'this is an INFO log generated by TestTest::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">warn</font><font color="#007700">(</font><font color="#DD0000">'this is a WARN log generated by TestTest::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">error</font><font color="#007700">(</font><font color="#DD0000">'this is an ERROR log generated by TestTest::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$this</font><font color="#007700">-&gt;</font><font color="#0000BB">logger</font><font color="#007700">-&gt;</font><font color="#0000BB">fatal</font><font color="#007700">(</font><font color="#DD0000">'this is a FATAL log generated by TestTest::testLog() class'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">LoggerNDC</font><font color="#007700">::</font><font color="#0000BB">pop</font><font color="#007700">();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;}
+                    <br />
+                    <br />} 
+                    <br />
+                    <br />function </font><font color="#0000BB">Bar</font><font color="#007700">()
+                    <br />{
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger </font><font color="#007700">=&amp; </font><font color="#0000BB">LoggerManager</font><font color="#007700">::</font><font color="#0000BB">getLogger</font><font color="#007700">(</font><font color="#DD0000">'bar'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FF8000">/*
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;note that the message here is an array
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;*/ 
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">debug</font><font color="#007700">(array(</font><font color="#DD0000">'one'</font><font color="#007700">, </font><font color="#DD0000">'two'</font><font color="#007700">, </font><font color="#DD0000">'tree'</font><font color="#007700">));
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">info</font><font color="#007700">(</font><font color="#DD0000">'this is an INFO log generated by Bar() function'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">warn</font><font color="#007700">(</font><font color="#DD0000">'this is a WARN log generated by Bar() function'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">error</font><font color="#007700">(</font><font color="#DD0000">'this is an ERROR log generated by Bar() function'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">fatal</font><font color="#007700">(</font><font color="#DD0000">'this is a FATAL log generated by Bar() function'</font><font color="#007700">);
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />}
+                    <br />
+                    <br /></font><font color="#0000BB">$logger </font><font color="#007700">=&amp; </font><font color="#0000BB">LoggerManager</font><font color="#007700">::</font><font color="#0000BB">getLogger</font><font color="#007700">(</font><font color="#DD0000">'main'</font><font color="#007700">);
+                    <br />
+                    <br /></font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">debug</font><font color="#007700">(</font><font color="#DD0000">'this is a DEBUG log generated by main() function'</font><font color="#007700">);
+                    <br /></font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">info</font><font color="#007700">(</font><font color="#DD0000">'this is an INFO log generated by main() function'</font><font color="#007700">);
+                    <br /></font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">warn</font><font color="#007700">(</font><font color="#DD0000">'this is a WARN log generated by main() function'</font><font color="#007700">);
+                    <br /></font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">error</font><font color="#007700">(</font><font color="#DD0000">'this is an ERROR log generated by main() function'</font><font color="#007700">);
+                    <br /></font><font color="#0000BB">$logger</font><font color="#007700">-&gt;</font><font color="#0000BB">fatal</font><font color="#007700">(</font><font color="#DD0000">'this is a FATAL log generated by main() function'</font><font color="#007700">);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />
+                    <br />
+                    <br /></font><font color="#0000BB">$test </font><font color="#007700">= new </font><font color="#0000BB">Test</font><font color="#007700">();
+                    <br /></font><font color="#0000BB">$test</font><font color="#007700">-&gt;</font><font color="#0000BB">testLog</font><font color="#007700">();
+                    <br />
+                    <br /></font><font color="#0000BB">$testTest </font><font color="#007700">= new </font><font color="#0000BB">TestTest</font><font color="#007700">();
+                    <br /></font><font color="#0000BB">$testTest</font><font color="#007700">-&gt;</font><font color="#0000BB">testLog</font><font color="#007700">();
+                    <br />
+                    <br /></font><font color="#0000BB">Bar</font><font color="#007700">();
+                    <br />
+                    <br /></font><font color="#0000BB">?&gt;</font>
+                    </font>]]>
+            </code>
+        </section>            
+    </body>
+</document>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Log4php" href="http://logging.apache.org/log4php/">
+
+  <title>Log4php project</title>
+  
+  <body>
+      
+    <menu name="Log4php Project">
+      <item name="News"           href="/news.html"/>
+      <item name="Introduction"   href="/index.html"/>
+      <item name="Project status" href="/projectStatus.html"/>
+      <item name="Download"       href="/download.html"/>
+      <item name="Documentation"  href="/documentation.html"/>
+      <item name="Contributors"   href="/contributors.html"/>
+    </menu>
+
+    <menu name="Logging Services">
+      <item name="Home page" href="http://logging.apache.org/"/>
+      <item name="News" href="http://logging.apache.org/site/news.html"/>
+      <item name="Mission" href="http://logging.apache.org/site/mission-statement.html"/>
+      <item name="Guidelines" href="http://logging.apache.org/site/bylaws.html"/>
+    </menu>
+
+  </body>
+</project>

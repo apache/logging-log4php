@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="marco at apache dot org">Marco Vassura</author>
+    <title>Log4php - Documentation and Usage</title>
+  </properties>
+  <meta name="keywords" content="php, java, logging, tracing, component, framework, API, log4php"/>
+<body>
+    <section name="Documentation and Usage">
+        <p>
+            <ul>
+                <li>The original <a href="http://logging.apache.org/log4j/docs">Log4j</a> documentation.</li>
+                <li>Quick setup <a href="qsg.html">guide</a>.</li>
+                <li>An usage <a href="usage.html">example</a>.</li>
+                <li>Browse the online <a href="api/index.html">api documentation</a>.</li>
+            </ul>
+        </p>
+    </section>
+</body>
+</document>

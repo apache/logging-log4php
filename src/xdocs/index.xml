@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<document>
+    <properties>
+        <author email="marco at apache dot org">Marco Vassura</author>
+        <title>Welcome to Log4php!</title>
+    </properties>
+    <meta name="keywords" content="php, java, logging, tracing, component, framework, API, log4php"/>
+    <body>
+        <section name="Introduction">
+            <p>Log4php is a php port of Log4j, the most popular Java logging framework 
+            (see <a href="http://logging.apache.org/log4j/docs">Log4j</a> for details).</p>
+            <p>
+                Log4php supports:
+                <ul>
+                    <li>Configuration through xml and properties file (same structure as log4j).</li> 
+                    <li>File, RollingFile, DailyFile, Echo, Console, Mail, PEAR::Db, PHP error, 
+                    Syslog or NT events and Socket appenders.</li> 
+                    <li>Simple, TTCC, Pattern, Html and Xml Layouts.</li> 
+                    <li>Nested (NDC) and Mapped (MDC) Diagnostic Contexts.</li> 
+                    <li>Switchable internal debug.</li>
+                </ul> 
+            </p>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,25 @@
+===============================================================================
+    log4php
+===============================================================================
+
+Summary
+
+    Log4php is a php port of the most popular java logging framework log4j 
+    (see http://logging.apache.org/log4j/docs for details).
+
+Installation
+
+    See INSTALL file.
+    
+Documentation
+
+    . Main documentation in docs/
+    
+    . API documentation in docs/api
+    
+    . Log4j documentation at 
+        http://logging.apache.org/log4j/docs/documentation.html
+    
+-------------------------------------------------------------------------------
+$Revision$
+-------------------------------------------------------------------------------
