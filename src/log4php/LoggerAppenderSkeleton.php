@@ -26,8 +26,8 @@ require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
  * This class provides the code for common functionality, such as
  * support for threshold filtering and support for general filters.
  *
- * @author  Marco V. <marco@apache.org>
- * @author  Sergio Strampelli <sergio@ascia.net> 
+ * @author  Marco Vassura
+ * @author  Sergio Strampelli 
  * @version $Revision$
  * @package log4php
  * @abstract

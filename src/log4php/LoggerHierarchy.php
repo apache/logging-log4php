@@ -39,7 +39,7 @@ require_once(LOG4PHP_DIR . '/LoggerDefaultCategoryFactory.php');
  * to the provision node. Other descendants of the same ancestor add
  * themselves to the previously created provision node.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

@@ -20,7 +20,7 @@ require_once(LOG4PHP_DIR . '/LoggerManager.php');
 /**
  * Main class for logging operations  
  *
- * @author       Marco V. <marco@apache.org>
+ * @author       Marco Vassura
  * @version      $Revision$
  * @package log4php
  */

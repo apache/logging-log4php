@@ -21,7 +21,7 @@ if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
  * to output messages.</p>
  * <p>You need to recode methods to output messages in a different way.</p> 
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

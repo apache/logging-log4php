@@ -35,7 +35,7 @@ define('LOG4PHP_LEVEL_ALL_INT',    -2147483648);
  * <p>The <i>LoggerLevel</i> class may be subclassed to define a larger
  * level set.</p>
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @since 0.5

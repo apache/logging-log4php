@@ -22,7 +22,7 @@ require_once(LOG4PHP_DIR . '/LoggerLevel.php');
 /**
  * The root logger.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @see Logger

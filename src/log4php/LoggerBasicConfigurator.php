@@ -25,7 +25,7 @@ require_once(LOG4PHP_DIR . '/LoggerManager.php');
  * <p>For file based configuration see {@link LoggerPropertyConfigurator}. 
  * <p>For XML based configuration see {@link LoggerDOMConfigurator}.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @since 0.5

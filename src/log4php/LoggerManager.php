@@ -24,7 +24,7 @@ require_once(LOG4PHP_DIR . '/LoggerHierarchy.php');
 /**
  * Use the LoggerManager to get Logger instances.
  *
- * @author Marco V. <marco@apache.org>
+ * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @see Logger
