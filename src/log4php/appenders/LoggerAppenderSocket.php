@@ -260,7 +260,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
             LoggerLog::debug("LoggerAppenderSocket::append()");
             
             if ($this->getLocationInfo())
-                $event->getLocationInfo();
+                $event->getLocationInformation();
         
             if (!$this->getUseXml()) {
                 $sEvent = serialize($event);
