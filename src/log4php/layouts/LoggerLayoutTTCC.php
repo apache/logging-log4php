@@ -196,7 +196,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         $format = strftime($this->dateFormat, (int)$timeStamp);
         
         if ($this->microSecondsPrinting) {
-            $usecs = round(($timeStamp - (int)$timeStamp) * 1000);
+            $usecs = floor(($timeStamp - (int)$timeStamp) * 1000);
             $format .= sprintf(',%03d', $usecs);
         }
             
