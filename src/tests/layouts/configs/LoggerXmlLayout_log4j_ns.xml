@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    Copyright 2004 The Apache Software Foundation.
+
+    This software is published under the terms of the Apache Software
+    License version 2.0, a copy of which has been included with this
+    distribution in the LICENSE file.
+ 
+    @author Marco V. <marco@apache.org>
+    @version $Revision$
+    @since 0.6
+-->
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="all" debug="false">
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerXmlLayout">
+            <param name="locationInfo" value="true" />
+            <param name="log4jNamespace" value="true" />
+        </layout>
+    </appender>
+    
+    <root>
+        <level value="all" />
+        <appender_ref ref="default" />        
+    </root>
+</log4php:configuration>
