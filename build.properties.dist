@@ -1,1 +1,6 @@
+name=log4php
+Name=Log4php
+release=0.10
+release-datetime=03/01/2004 00:00 am
 phpdoc.exe=/your/phpdoc/exec/file
+
