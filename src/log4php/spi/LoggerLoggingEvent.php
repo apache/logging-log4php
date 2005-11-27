@@ -180,7 +180,7 @@ class LoggerLoggingEvent {
                 $hop = array_pop($trace);
                 while ($hop !== null) {
                     $className = @$hop['class'];
-                    if ( !empty($className) and ($className == 'logger' or get_parent_class($className) == 'logger') ) {
+                    if ( !empty($className) and (strtolower($className) == 'logger' or strtolower(get_parent_class($className)) == 'logger') ) {
                         $locationInfo['line'] = $hop['line'];
                         $locationInfo['file'] = $hop['file'];                         
                         break;
