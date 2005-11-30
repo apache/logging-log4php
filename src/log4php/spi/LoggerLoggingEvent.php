@@ -365,7 +365,7 @@ class LoggerLoggingEvent {
             'ndc','ndcLookupRequired',
             'message','renderedMessage',
             'threadName',
-            'timestamp',
+            'timeStamp',
             'locationInfo'
         );
     }
