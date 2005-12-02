@@ -78,7 +78,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
         if ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT or strtoupper($v) == 'STDOUT') {
             $this->target = LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT;
         } elseif ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDERR or strtoupper($v) == 'STDERR') {
-            $target = LOG4PHP_LOGGER_APPENDER_CONSOLE_STDERR;
+            $this->target = LOG4PHP_LOGGER_APPENDER_CONSOLE_STDERR;
         } else {
             LoggerLog::debug(
                 "LoggerAppenderConsole::targetWarn() ".
