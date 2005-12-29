@@ -116,7 +116,7 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
 
     function setFrom($from)             { $this->from = $from; }
     function setPort($port)             { $this->port = (int)$port; }
-    function setSmtpHost($smtphost)     { $this->smtpHost = $smtpHost; }
+    function setSmtpHost($smtpHost)     { $this->smtpHost = $smtpHost; }
     function setSubject($subject)       { $this->subject = $subject; }
     function setTo($to)                 { $this->to = $to; }
 
