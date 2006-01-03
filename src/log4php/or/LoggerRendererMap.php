@@ -56,8 +56,8 @@ class LoggerRendererMap {
      * Note that hierarchy must implement getRendererMap() and setRenderer() methods.
      *
      * @param LoggerHierarchy &$repository a logger repository.
-     * @param string &$renderedClassName
-     * @param string &$renderingClassName
+     * @param string $renderedClassName
+     * @param string $renderingClassName
      * @static
      */
     function addRenderer(&$repository, $renderedClassName, $renderingClassName)
