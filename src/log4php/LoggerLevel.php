@@ -24,7 +24,7 @@ define('LOG4PHP_LEVEL_ERROR_INT',        40000);
 define('LOG4PHP_LEVEL_WARN_INT',         30000);
 define('LOG4PHP_LEVEL_INFO_INT',         20000);
 define('LOG4PHP_LEVEL_DEBUG_INT',        10000);
-define('LOG4PHP_LEVEL_ALL_INT',    -2147483648);
+define('LOG4PHP_LEVEL_ALL_INT',    -2147483647);
 
 /**
  * Defines the minimum set of levels recognized by the system, that is
