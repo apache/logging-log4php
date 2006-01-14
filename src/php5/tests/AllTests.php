@@ -37,9 +37,12 @@ if (!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
 require_once('PHPUnit2/Framework/TestSuite.php');
 require_once('PHPUnit2/TextUI/TestRunner.php');
 
+require_once('spi/AllTests.php');
+
 require_once('LoggerLogTestCase.php');
 require_once('LoggerLevelTestCase.php');
 require_once('LoggerRootTestCase.php');
+require_once('LoggerHierarchyTestCase.php');
 require_once('LoggerBasicConfiguratorTestCase.php');
 
 class AllTests {
@@ -49,13 +52,15 @@ class AllTests {
     }
 
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite('Log4php5');
+        $suite = new PHPUnit2_Framework_TestSuite('Log4php');
 
         $suite->addTestSuite('LoggerLogTestCase');
         $suite->addTestSuite('LoggerLevelTestCase');
         $suite->addTestSuite('LoggerRootTestCase');
-        
+        $suite->addTestSuite('LoggerHierarchyTestCase');
         $suite->addTestSuite('LoggerBasicConfiguratorTestCase');
+
+        $suite->addTest(spi_AllTests::suite());
 
         return $suite;
     }
