@@ -318,6 +318,7 @@ class LoggerHierarchy {
             $loggers[$i]->setLevel(null);
         	$loggers[$i]->setAdditivity(true);
         	$loggers[$i]->setResourceBundle(null);
+        	$loggers[$i]->removeAllAppenders();
         }
         $this->rendererMap->clear();
     }
