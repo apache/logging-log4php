@@ -31,6 +31,8 @@ require_once(LOG4PHP_DIR . '/LoggerNDC.php');
  * @subpackage spi 
  */
 class LoggerLoggingEvent {
+	
+	private static $startTime;
 
     /** 
     * @var string Fully Qualified Class Name of the calling category class.
@@ -107,7 +109,7 @@ class LoggerLoggingEvent {
     * was created plus microseconds if available.
     * @var float
     */
-    var $timeStamp;
+    public $timeStamp;
     
     /** 
     * @var LoggerLocationInfo Location information for the caller. 
@@ -133,18 +135,18 @@ class LoggerLoggingEvent {
             $this->logger = $logger;
             $this->categoryName = $logger->getName();
         } else {
-            $this->categoryName = (string)$logger;
+            $this->categoryName = strval($logger);
         }
         $this->level = $priority;
         $this->message = $message;
-        if ($timeStamp !== null and is_float($timeStamp)) {
+        if ($timeStamp !== null && is_float($timeStamp)) {
             $this->timeStamp = $timeStamp;
         } else {
             if (function_exists('microtime')) {
 				// get microtime as float
                 $this->timeStamp = microtime(true);
             } else {
-                $this->timeStamp = time();
+                $this->timeStamp = floatval(time());
             }
         }
     }
@@ -295,19 +297,16 @@ class LoggerLoggingEvent {
      * @return float
      * @static
      */
-    public function getStartTime()
-    {
-        static $startTime;
-        
-        if (!isset($startTime)) {
+    public static function getStartTime() {
+        if (!isset(self::$startTime)) {
             if (function_exists('microtime')) {
             	// microtime as float
-                $startTime = microtime(true);
+                self::$startTime = microtime(true);
             } else {
-                $startTime = time();
+                self::$startTime = floatval(time());
             }
         }
-        return $startTime; 
+        return self::$startTime; 
     }
     
     /**
