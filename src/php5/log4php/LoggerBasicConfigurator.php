@@ -15,8 +15,8 @@
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
 require_once(LOG4PHP_DIR . '/spi/LoggerConfigurator.php');
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-require_once(LOG4PHP_DIR . '/LoggerAppender.php');
+require_once(LOG4PHP_DIR . '/layouts/LoggerLayoutTTCC.php');
+require_once(LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php');
 require_once(LOG4PHP_DIR . '/LoggerManager.php');
 
 /**
@@ -40,9 +40,8 @@ class LoggerBasicConfigurator implements LoggerConfigurator {
     public static function configure($url = null)
     {
         $root = LoggerManager::getRootLogger();
-        $appender = LoggerAppender::singleton('A1', 'LoggerAppenderConsole');
-        $layout = LoggerLayout::factory('LoggerLayoutTTCC');
-        $appender->setLayout($layout);
+        $appender = new LoggerAppenderConsole('A1');
+        $appender->setLayout( new LoggerLayoutTTCC() );
         $root->addAppender($appender);
     }
 
