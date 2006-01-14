@@ -24,6 +24,9 @@
 
 /**  */
 require_once 'PHPUnit2/Framework/TestCase.php';
+
+require_once(LOG4PHP_DIR . '/layouts/LoggerLayoutTTCC.php');
+require_once(LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php');
 require_once LOG4PHP_DIR . '/LoggerHierarchy.php';
 
 class LoggerHierarchyTestCase extends PHPUnit2_Framework_TestCase {
@@ -35,20 +38,37 @@ class LoggerHierarchyTestCase extends PHPUnit2_Framework_TestCase {
 	}
 	
 	public function testIfLevelIsInitiallyLevelAll() {
-		$this->assertEquals($this->loggerRoot->getLevel()->levelStr, 'ALL');
+		$this->assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'ALL');
 	}
 
 	public function testIfNameIsRoot() {
-		$this->assertEquals($this->loggerRoot->getName(), 'root');
+		$this->assertEquals($this->hierarchy->getRootLogger()->getName(), 'root');
 	}
 
 	public function testIfParentIsNull() {
-		$this->assertSame($this->loggerRoot->getParent(), null);
+		$this->assertSame($this->hierarchy->getRootLogger()->getParent(), null);
 	}
 
 	public function testSetParent() {
-		$this->loggerRoot->setParent('dummy');
+		$this->hierarchy->getRootLogger()->setParent('dummy');
 		$this->testIfParentIsNull();
+	}
+	
+	public function testResetConfiguration() {
+		$root = $this->hierarchy->getRootLogger();
+        $appender = new LoggerAppenderConsole('A1');
+        $root->addAppender($appender);
+        $logger = $this->hierarchy->getLogger('test');
+        $this->assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+        $this->hierarchy->resetConfiguration();
+        $this->assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'DEBUG');
+        $this->assertEquals($this->hierarchy->getThreshold()->levelStr, 'ALL');
+        $this->assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+        foreach($this->hierarchy->getCurrentLoggers() as $l) {
+        	$this->assertEquals($l->getLevel(), null);
+        	$this->assertTrue($l->getAdditivity());
+        	$this->assertEquals(sizeof($l->getAllAppenders()), 0);
+        }
 	}
 
 }

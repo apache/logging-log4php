@@ -44,6 +44,11 @@ class LoggerBasicConfiguratorTestCase extends PHPUnit2_Framework_TestCase {
 		$this->assertTrue($l instanceof LoggerLayoutTTCC);
 		
 	}
+	
+	protected function tearDown() {
+		LoggerManager::resetConfiguration();
+		
+	}
 
 }
 ?>
