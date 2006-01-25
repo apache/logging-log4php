@@ -172,8 +172,9 @@ class LoggerLoggingEvent {
                 // make a downsearch to identify the caller
                 $hop = array_pop($trace);
                 while ($hop !== null) {
-                    $className = @$hop['class'];
-                    if ( !empty($className) and ($className == 'Logger' or get_parent_class($className) == 'Logger') ) {
+                    $className = @strtolower($hop['class']);
+                    if ( !empty($className) and ($className == 'logger' or $className == 'loggercategory' or 
+               			get_parent_class($className) == 'logger') or get_parent_class($className) == 'loggercategory') {
                         $locationInfo['line'] = $hop['line'];
                         $locationInfo['file'] = $hop['file'];                         
                         break;
