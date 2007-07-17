@@ -102,9 +102,9 @@ class LoggerFilter {
         return LOG4PHP_LOGGER_FILTER_NEUTRAL;
     }
 
-	public function getNext() {
-		return $this->next;
-	}
+        public function getNext() {
+                return $this->next;
+        }
 
 }
 ?>

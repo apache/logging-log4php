@@ -46,9 +46,9 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
      */
     private $fp = false;
     
-	public function __construct($name) {
-		parent::__construct($name);
-		$this->requiresLayout = true;
+        public function __construct($name) {
+                parent::__construct($name);
+                $this->requiresLayout = true;
     }
 
     public function activateOptions() {
@@ -67,8 +67,8 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     
     public function close() {
         if($this->fp and $this->layout !== null) {
-			fwrite($this->fp, $this->layout->getFooter());
-		}
+                        fwrite($this->fp, $this->layout->getFooter());
+                }
             
         $this->closeFile();
         $this->closed = true;

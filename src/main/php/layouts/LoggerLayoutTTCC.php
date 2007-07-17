@@ -94,7 +94,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     }
 
     public function activateOptions() {
-    	return;
+        return;
     }
 
     /**
@@ -219,7 +219,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         if($this->contextPrinting) {
             $ndc = $event->getNDC();
             if($ndc != null) {
-    	        $format .= $ndc.' ';
+                $format .= $ndc.' ';
             }
         }
         

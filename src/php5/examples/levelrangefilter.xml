@@ -6,7 +6,7 @@
         <layout class="LoggerLayoutTTCC"/>
         <filter class="LoggerLevelRangeFilter">
             <param name="LevelMin" value="ERROR" />
-			<param name="LevelMax" value="FATAL" />
+                        <param name="LevelMax" value="FATAL" />
             <param name="AcceptOnMatch" value="false" />
         </filter>
     </appender>

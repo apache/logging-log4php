@@ -29,36 +29,36 @@
     <url>http://issues.apache.org/jira/</url>
   </issueManagement>
   <ciManagement>
-  		<system>Gump</system>
-  		 <url>http://vmgump.apache.org/gump/public/logging-log4php/logging-log4php/index.html</url>
+                <system>Gump</system>
+                 <url>http://vmgump.apache.org/gump/public/logging-log4php/logging-log4php/index.html</url>
   </ciManagement>
 <mailingLists>
-	<mailingList>
-		<name>log4php-user</name>
-		<subscribe>log4php-user-subscribe@logging.apache.org</subscribe>
-		<unsubscribe>log4php-user-unsubscribe@logging.apache.org</unsubscribe>
-		<post>log4php-user@logging.apache.org</post>
-		<archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-user/</archive>
-	</mailingList>
-	<mailingList>
-		<name>log4php-dev</name>
-		<subscribe>log4php-dev-subscribe@logging.apache.org</subscribe>
-		<unsubscribe>log4php-dev-unsubscribe@logging.apache.org</unsubscribe>
-		<post>log4php-dev@logging.apache.org</post>
-		<archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-dev/</archive>
-	</mailingList>
+        <mailingList>
+                <name>log4php-user</name>
+                <subscribe>log4php-user-subscribe@logging.apache.org</subscribe>
+                <unsubscribe>log4php-user-unsubscribe@logging.apache.org</unsubscribe>
+                <post>log4php-user@logging.apache.org</post>
+                <archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-user/</archive>
+        </mailingList>
+        <mailingList>
+                <name>log4php-dev</name>
+                <subscribe>log4php-dev-subscribe@logging.apache.org</subscribe>
+                <unsubscribe>log4php-dev-unsubscribe@logging.apache.org</unsubscribe>
+                <post>log4php-dev@logging.apache.org</post>
+                <archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-dev/</archive>
+        </mailingList>
 </mailingLists>
 <licenses>
-	<license>
-		<name>Apache License, Version 2.0</name>
-		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		<distribution>repo</distribution>
-	</license>
+        <license>
+                <name>Apache License, Version 2.0</name>
+                <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+                <distribution>repo</distribution>
+        </license>
 </licenses>
 <scm>
-	<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php</connection>
-	<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php</developerConnection>
-	<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php</developerConnection>
+        <url>http://svn.apache.org/viewcvs.cgi/incubator/log4php</url>
 </scm>
 <organization>
     <name>Apache Software Foundation</name>
@@ -80,7 +80,7 @@
             <id>compile</id>
             <configuration>
                 <tasks>
-					<ant target="compile"/>
+                                        <ant target="compile"/>
                 </tasks>
             </configuration>
             <goals>
@@ -92,7 +92,7 @@
             <id>test-compile</id>
             <configuration>
                 <tasks>
-					<ant target="test-compile"/>
+                                        <ant target="test-compile"/>
                 </tasks>
             </configuration>
             <goals>
@@ -104,19 +104,19 @@
             <id>test</id>
             <configuration>
                 <tasks>
-					<ant target="test"/>
+                                        <ant target="test"/>
                 </tasks>
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
           </execution>
-		  <execution>
+                  <execution>
             <phase>site</phase>
             <id>site</id>
             <configuration>
                 <tasks>
-					<ant target="apidocs"/>
+                                        <ant target="apidocs"/>
                     <taskdef name="replaceregexp" classname="org.apache.tools.ant.taskdefs.optional.ReplaceRegExp" />                
                    <replaceregexp file="target/site/source-repository.html" match="/tags/[^ ]*" replace="/trunk" flags="g" />
                 </tasks>
@@ -138,8 +138,8 @@
             <version>1.0b2</version>
           </dependency>
         </dependencies>
-      </plugin>	 
-	  <plugin>
+      </plugin>  
+          <plugin>
          <artifactId>maven-assembly-plugin</artifactId>
          <configuration>
            <descriptors>
@@ -154,7 +154,7 @@
                 </goals>
             </execution>
         </executions>
-	 </plugin>
+         </plugin>
     </plugins>
 </build>
   <dependencies>
@@ -185,7 +185,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
-      	<reportSets>
+        <reportSets>
           <reportSet>
             <reports>
               <report>changes-report</report>
@@ -193,7 +193,7 @@
           </reportSet>
         </reportSets>
         <configuration>
-        	<issueLinkTemplate>%URL%/browse/%ISSUE%</issueLinkTemplate>
+                <issueLinkTemplate>%URL%/browse/%ISSUE%</issueLinkTemplate>
         </configuration>
       </plugin>      
     </plugins>

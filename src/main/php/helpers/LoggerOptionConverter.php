@@ -153,10 +153,10 @@ class LoggerOptionConverter {
         $hashIndex = strpos($value, '#');
         if ($hashIndex === false) {
             if("NULL" == strtoupper($value)) {
-	            return null;
+                    return null;
             } else {
-	            // no class name specified : use standard Level class
-	            return LoggerLevel::toLevel($value, $defaultValue);
+                    // no class name specified : use standard Level class
+                    return LoggerLevel::toLevel($value, $defaultValue);
             }
         }
 
@@ -167,7 +167,7 @@ class LoggerOptionConverter {
 
         // This is degenerate case but you never know.
         if("NULL" == strtoupper($levelName)) {
-        	return null;
+                return null;
         }
 
         LoggerLog::debug("LoggerOptionConverter::toLevel():class=[{$clazz}]:pri=[{$levelName}]");
@@ -286,47 +286,47 @@ class LoggerOptionConverter {
             $j = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_START, $i);
             if ($j === false) {
                 LoggerLog::debug("LoggerOptionConverter::substVars() no more variables");
-	            // no more variables
-	            if ($i == 0) { // this is a simple string
+                    // no more variables
+                    if ($i == 0) { // this is a simple string
                     LoggerLog::debug("LoggerOptionConverter::substVars() simple string");
-	                return $val;
-            	} else { // add the tail string which contails no variables and return the result.
+                        return $val;
+                } else { // add the tail string which contails no variables and return the result.
                     $sbuf .= substr($val, $i);
                     LoggerLog::debug("LoggerOptionConverter::substVars():sbuf=[{$sbuf}]. Returning sbuf");                    
                     return $sbuf;
-	            }
+                    }
             } else {
             
-	            $sbuf .= substr($val, $i, $j-$i);
+                    $sbuf .= substr($val, $i, $j-$i);
                 LoggerLog::debug("LoggerOptionConverter::substVars():sbuf=[{$sbuf}]:i={$i}:j={$j}.");
-            	$k = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_STOP, $j);
-            	if ($k === false) {
+                $k = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_STOP, $j);
+                if ($k === false) {
                     LoggerLog::warn(
                         "LoggerOptionConverter::substVars() " .
                         "'{$val}' has no closing brace. Opening brace at position {$j}."
                     );
                     return '';
-	            } else {
-	                $j += LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN;
-	                $key = substr($val, $j, $k - $j);
+                    } else {
+                        $j += LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN;
+                        $key = substr($val, $j, $k - $j);
                     // first try in System properties
-	                $replacement = LoggerOptionConverter::getSystemProperty($key, null);
-	                // then try props parameter
-	                if($replacement == null and $props !== null) {
-            	        $replacement = @$props[$key];
-	                }
+                        $replacement = LoggerOptionConverter::getSystemProperty($key, null);
+                        // then try props parameter
+                        if($replacement == null and $props !== null) {
+                        $replacement = @$props[$key];
+                        }
 
                     if(!empty($replacement)) {
-	                    // Do variable substitution on the replacement string
-                	    // such that we can solve "Hello ${x2}" as "Hello p1" 
+                            // Do variable substitution on the replacement string
+                            // such that we can solve "Hello ${x2}" as "Hello p1" 
                         // the where the properties are
-                	    // x1=p1
+                            // x1=p1
                         // x2=${x1}
-	                    $recursiveReplacement = LoggerOptionConverter::substVars($replacement, $props);
-                	    $sbuf .= $recursiveReplacement;
-	                }
-	                $i = $k + LOG4PHP_OPTION_CONVERTER_DELIM_STOP_LEN;
-	            }
+                            $recursiveReplacement = LoggerOptionConverter::substVars($replacement, $props);
+                            $sbuf .= $recursiveReplacement;
+                        }
+                        $i = $k + LOG4PHP_OPTION_CONVERTER_DELIM_STOP_LEN;
+                    }
             }
         }
     }

@@ -27,7 +27,7 @@ if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
  */
 class LoggerLog {
 
-	protected static $debug = false;
+        protected static $debug = false;
 
     /**
      * Log if debug is enabled.

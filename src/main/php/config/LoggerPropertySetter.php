@@ -133,7 +133,7 @@ class LoggerPropertySetter {
         if (!method_exists($this->obj, $method)) {
             LoggerLog::warn(
                 "LoggerOptionConverter::setProperty() No such setter method for [{$name}] property in " .
-		        get_class($this->obj) . "." 
+                        get_class($this->obj) . "." 
             );
         } else {
             return call_user_func(array(&$this->obj, $method), $value);

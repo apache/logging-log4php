@@ -59,7 +59,7 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
      */
     public function __construct($name) {
         parent::__construct($name);
-		$this->requiresLayout = true;
+                $this->requiresLayout = true;
     }
 
     public function activateOptions() {
@@ -71,7 +71,7 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
         $to = $this->to;
 
         if (!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-			$subject = $this->subject;
+                        $subject = $this->subject;
             LoggerLog::debug("LoggerAppenderMail::close() sending mail from=[{$from}] to=[{$to}] subject=[{$subject}]");
             mail(
                 $to, $subject, 

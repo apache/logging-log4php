@@ -28,28 +28,28 @@
       <item name="log4php" href="http://incubator.apache.org:80/log4php/"/>
     </breadcrumbs>
   
-	<menu name="Get log4php">
-	   <item name="Download" href="/download.html"/>
-	   <item name="Changes" href="/changes-report.html"/>
-	   <item name="License" href="/license.html"/>
-	</menu>
+        <menu name="Get log4php">
+           <item name="Download" href="/download.html"/>
+           <item name="Changes" href="/changes-report.html"/>
+           <item name="License" href="/license.html"/>
+        </menu>
 
-	<menu name="About log4php">
-	   <item name="What is it?" href="/index.html"/>
-	   <item name="Quick start" href="/qsg.html"/>
-	   <item name="Usage" href="/usage.html"/>
-	   <item name="Roadmap" href="/roadmap.html"/>
-	   <item name="PHPDoc" href="/apidocs/index.html"/>
-	</menu>
+        <menu name="About log4php">
+           <item name="What is it?" href="/index.html"/>
+           <item name="Quick start" href="/qsg.html"/>
+           <item name="Usage" href="/usage.html"/>
+           <item name="Roadmap" href="/roadmap.html"/>
+           <item name="PHPDoc" href="/apidocs/index.html"/>
+        </menu>
 
-	<menu name="Community">
-		<item name="Mailing Lists" href="/mail-lists.html"/>
-		<item name="Issue Tracking" href="/issue-tracking.html"/>
-	</menu>
-	
-	<menu name="Development">
-		<item name="Repository" href="/source-repository.html"/>
-		<item name="Continuous Integration" href="/integration.html"/>
-	</menu>
+        <menu name="Community">
+                <item name="Mailing Lists" href="/mail-lists.html"/>
+                <item name="Issue Tracking" href="/issue-tracking.html"/>
+        </menu>
+        
+        <menu name="Development">
+                <item name="Repository" href="/source-repository.html"/>
+                <item name="Continuous Integration" href="/integration.html"/>
+        </menu>
   </body>
 </project>

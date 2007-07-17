@@ -44,11 +44,11 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
 class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
     
     /**
-	 * The ident string is added to each message. Typically the name of your application.
-	 *
-	 * @var string Ident for your application
-	 */
-	private $_ident = "Log4PHP Syslog-Event";
+         * The ident string is added to each message. Typically the name of your application.
+         *
+         * @var string Ident for your application
+         */
+        private $_ident = "Log4PHP Syslog-Event";
 
     /**
      * The priority parameter value indicates the level of importance of the message.
@@ -83,32 +83,32 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
      */
     private $_overridePriority;
 
-	/**
+        /**
      * Set the ident of the syslog message.
      *
      * @param string Ident
      */
-	public function setIdent($ident) {      
-		$this->_ident = $ident;       
+        public function setIdent($ident) {      
+                $this->_ident = $ident;       
     }
 
     /**
      * Set the priority value for the syslog message.
      *
-     * @param const int	Priority
+     * @param const int Priority
      */
-	public function setPriority($priority) {      
-		$this->_priority = $priority;       
+        public function setPriority($priority) {      
+                $this->_priority = $priority;       
     }
     
     
     /**
      * Set the facility value for the syslog message.
      *
-     * @param const int	Facility
+     * @param const int Facility
      */
     public function setFacility($facility) {
-		$this->_facility = $facility;
+                $this->_facility = $facility;
     } 
     
     /**
@@ -118,7 +118,7 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
      * @param bool Override priority
      */
     public function setOverridePriority($overridePriority) {
-		$this->_overridePriority = $overridePriority;                           
+                $this->_overridePriority = $overridePriority;                           
     } 
     
     /**
@@ -129,7 +129,7 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
      * @param string    $option
      */
     public function setOption($option) {      
-		$this->_option = $option;       
+                $this->_option = $option;       
     }
     
     
@@ -158,7 +158,7 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
         // If the priority of a syslog message can be overridden by a value defined in the properties-file,
         // use that value, else use the one that is defined in the code.
         if($this->_overridePriority){
-			syslog($this->_priority, $message);            
+                        syslog($this->_priority, $message);            
         } else {
         if ($level->isGreaterOrEqual(LoggerLevel::getLevelFatal())) {
             syslog(LOG_ALERT, $message);

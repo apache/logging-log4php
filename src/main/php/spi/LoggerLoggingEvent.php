@@ -32,7 +32,7 @@ require_once(LOG4PHP_DIR . '/LoggerNDC.php');
  */
 class LoggerLoggingEvent {
 
-	private static $startTime;
+        private static $startTime;
 
     /** 
     * @var string Fully Qualified Class Name of the calling category class.
@@ -143,7 +143,7 @@ class LoggerLoggingEvent {
             $this->timeStamp = $timeStamp;
         } else {
             if (function_exists('microtime')) {
-				// get microtime as float
+                                // get microtime as float
                 $this->timeStamp = microtime(true);
             } else {
                 $this->timeStamp = floatval(time());
@@ -174,7 +174,7 @@ class LoggerLoggingEvent {
                 while ($hop !== null) {
                     $className = @strtolower($hop['class']);
                     if ( !empty($className) and ($className == 'logger' or $className == 'loggercategory' or 
-               			get_parent_class($className) == 'logger') or get_parent_class($className) == 'loggercategory') {
+                                get_parent_class($className) == 'logger') or get_parent_class($className) == 'loggercategory') {
                         $locationInfo['line'] = $hop['line'];
                         $locationInfo['file'] = $hop['file'];                         
                         break;
@@ -273,7 +273,7 @@ class LoggerLoggingEvent {
     {
         if($this->renderedMessage === null and $this->message !== null) {
             if (is_string($this->message)) {
-	            $this->renderedMessage = $this->message;
+                    $this->renderedMessage = $this->message;
             } else {
                 if ($this->logger !== null) {
                     $repository = $this->logger->getLoggerRepository();
@@ -282,10 +282,10 @@ class LoggerLoggingEvent {
                 }
                 if (method_exists($repository, 'getRendererMap')) {
                     $rendererMap = $repository->getRendererMap();
-	                $this->renderedMessage= $rendererMap->findAndRender($this->message);
-	            } else {
-	                $this->renderedMessage = (string)$this->message;
-	            }
+                        $this->renderedMessage= $rendererMap->findAndRender($this->message);
+                    } else {
+                        $this->renderedMessage = (string)$this->message;
+                    }
             }
         }
         return $this->renderedMessage;
@@ -301,7 +301,7 @@ class LoggerLoggingEvent {
     public static function getStartTime() {
         if (!isset(self::$startTime)) {
             if (function_exists('microtime')) {
-            	// microtime as float
+                // microtime as float
                 self::$startTime = microtime(true);
             } else {
                 self::$startTime = floatval(time());

@@ -90,7 +90,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
     public function close() {
         if ($this->fp && $this->layout !== null) {
             fwrite($this->fp, $this->layout->getFooter());
-			fclose($this->fp);
+                        fclose($this->fp);
         }        
         $this->closed = true;
     }

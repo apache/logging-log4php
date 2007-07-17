@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright 1999,2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -47,7 +48,7 @@ class Logger {
      * appenders of their ancestors by default.
      * @var boolean
      */
-   	protected $additive       = true;
+        protected $additive       = true;
     
     /**
      * @var string fully qualified class name
@@ -231,7 +232,7 @@ class Logger {
      */
     public function getAllAppenders() 
     {
-    	return array_values($this->aai);
+        return array_values($this->aai);
     }
     
     /**
@@ -288,7 +289,7 @@ class Logger {
     {
         for($c = $this; $c != null; $c = $c->parent) {
             if($c->getLevel() !== null)
-            	return $c->getLevel();
+                return $c->getLevel();
         }
         return null;
     }
@@ -556,9 +557,9 @@ class Logger {
     }
     
     public function setParent($logger) {
-    	if ($logger instanceof Logger) {
-    		$this->parent = $logger;
-    	}
+        if ($logger instanceof Logger) {
+                $this->parent = $logger;
+        }
     } 
 
     /**

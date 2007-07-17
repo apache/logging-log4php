@@ -24,8 +24,8 @@ require_once(LOG4PHP_DIR . '/LoggerLog.php');
  * Used by {@link LoggerPatternConverter::spacePad()}.  
  */
 $GLOBALS['log4php.LoggerPatternConverter.spaces'] = array(" ", "  ", "    ", "        ", //1,2,4,8 spaces
-			    "                ", // 16 spaces
-			    "                                " ); // 32 spaces
+                            "                ", // 16 spaces
+                            "                                " ); // 32 spaces
 
 /**
  * LoggerPatternConverter is an abstract class that provides the formatting 
@@ -101,7 +101,7 @@ class LoggerPatternConverter {
         if($len > $this->max) {
             $sbuf .= substr($s , 0, ($len - $this->max));
         } elseif($len < $this->min) {
-            if($this->leftAlign) {	
+            if($this->leftAlign) {      
                 $sbuf .= $s;
                 $this->spacePad($sbuf, ($this->min - $len));
             } else {
@@ -111,7 +111,7 @@ class LoggerPatternConverter {
         } else {
             $sbuf .= $s;
         }
-    }	
+    }   
 
 
     /**
@@ -131,9 +131,9 @@ class LoggerPatternConverter {
           $length -= 32;
         }
         
-        for($i = 4; $i >= 0; $i--) {	
+        for($i = 4; $i >= 0; $i--) {    
             if(($length & (1<<$i)) != 0) {
-    	        $sbuf .= $GLOBALS['log4php.LoggerPatternConverter.spaces'][$i];
+                $sbuf .= $GLOBALS['log4php.LoggerPatternConverter.spaces'][$i];
             }
         }
 
@@ -181,20 +181,20 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
             case LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER:
                 $timeStamp = $event->getTimeStamp();
                 $startTime = LoggerLoggingEvent::getStartTime();
-	            return (string)(int)($timeStamp * 1000 - $startTime * 1000);
+                    return (string)(int)($timeStamp * 1000 - $startTime * 1000);
                 
             case LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER:
-	            return $event->getThreadName();
+                    return $event->getThreadName();
 
             case LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER:
                 $level = $event->getLevel();
-	            return $level->toString();
+                    return $level->toString();
 
             case LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER:
-	            return $event->getNDC();
+                    return $event->getNDC();
 
             case LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER:
-	            return $event->getRenderedMessage();
+                    return $event->getRenderedMessage();
                 
             default: 
                 return '';
@@ -357,13 +357,13 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
         $locationInfo = $event->getLocationInformation();
         switch($this->type) {
             case LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER:
-	            return $locationInfo->fullInfo;
+                    return $locationInfo->fullInfo;
             case LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER:
-	            return $locationInfo->getMethodName();
+                    return $locationInfo->getMethodName();
             case LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER:
-	            return $locationInfo->getLineNumber();
+                    return $locationInfo->getLineNumber();
             case LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER:
-	            return $locationInfo->getFileName();
+                    return $locationInfo->getFileName();
             default: 
                 return '';
         }
@@ -416,20 +416,20 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
     {
         $n = $this->getFullyQualifiedName($event);
         if ($this->precision <= 0) {
-	        return $n;
+                return $n;
         } else {
-	        $len = strlen($n);
+                $len = strlen($n);
             
-        	// We substract 1 from 'len' when assigning to 'end' to avoid out of
-        	// bounds exception in return r.substring(end+1, len). This can happen if
-        	// precision is 1 and the category name ends with a dot.
-        	$end = $len -1 ;
-        	for($i = $this->precision; $i > 0; $i--) {
-        	    $end = strrpos(substr($n, 0, ($end - 1)), '.');
-        	    if ($end == false)
-        	        return $n;
-        	}
-        	return substr($n, ($end + 1), $len);
+                // We substract 1 from 'len' when assigning to 'end' to avoid out of
+                // bounds exception in return r.substring(end+1, len). This can happen if
+                // precision is 1 and the category name ends with a dot.
+                $end = $len -1 ;
+                for($i = $this->precision; $i > 0; $i--) {
+                    $end = strrpos(substr($n, 0, ($end - 1)), '.');
+                    if ($end == false)
+                        return $n;
+                }
+                return substr($n, ($end + 1), $len);
         }
     }
 }

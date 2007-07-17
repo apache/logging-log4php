@@ -16,23 +16,23 @@
 
 -->
 <assembly>
-	<id>bin</id>
-	<formats>
-		<format>zip</format>
-		<format>tar.gz</format>
-	</formats>
-	<baseDirectory>apache-log4php-${project.version}</baseDirectory>
-	<includeSiteDirectory>true</includeSiteDirectory>
-	<fileSets>
-		<fileSet>
-			<includes>
-				<include>LICENSE</include>
-				<include>NOTICE</include>
-				<include>build.xml</include>
-				<include>pom.xml</include>
-				<include>src/**</include>
-			</includes>
-		</fileSet>
-	</fileSets>
-	
+        <id>bin</id>
+        <formats>
+                <format>zip</format>
+                <format>tar.gz</format>
+        </formats>
+        <baseDirectory>apache-log4php-${project.version}</baseDirectory>
+        <includeSiteDirectory>true</includeSiteDirectory>
+        <fileSets>
+                <fileSet>
+                        <includes>
+                                <include>LICENSE</include>
+                                <include>NOTICE</include>
+                                <include>build.xml</include>
+                                <include>pom.xml</include>
+                                <include>src/**</include>
+                        </includes>
+                </fileSet>
+        </fileSets>
+        
 </assembly>

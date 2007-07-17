@@ -67,7 +67,7 @@ class LoggerRoot extends Logger {
      */
     public function setLevel($level)
     {
-    	if ($level != null) {
+        if ($level != null) {
         $this->level = $level;
     }    
     }    

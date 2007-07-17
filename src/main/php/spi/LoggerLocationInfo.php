@@ -84,7 +84,7 @@ class LoggerLocationInfo {
      *  Return the file name of the caller.
      *  <p>This information is not always available.
      */
-	public function getFileName()
+        public function getFileName()
     {
         return ($this->fileName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->fileName; 
     }

@@ -141,8 +141,8 @@ class LoggerPatternParser {
             $end = strpos($this->pattern, '}' , $this->i);
             if ($end !== false) {
                 $r = substr($this->pattern, ($this->i + 1), ($end - $this->i - 1));
-	            $this->i= $end + 1;
-        	    return $r;
+                    $this->i= $end + 1;
+                    return $r;
             }
         }
         return null;
@@ -158,11 +158,11 @@ class LoggerPatternParser {
         $r = 0;
         if ($opt !== null) {
             if (is_numeric($opt)) {
-    	        $r = (int)$opt;
-            	if($r <= 0) {
-            	    LoggerLog::warn("Precision option ({$opt}) isn't a positive integer.");
-            	    $r = 0;
-            	}
+                $r = (int)$opt;
+                if($r <= 0) {
+                    LoggerLog::warn("Precision option ({$opt}) isn't a positive integer.");
+                    $r = 0;
+                }
             } else {
                 LoggerLog::warn("Category option \"{$opt}\" not a decimal integer.");
             }
@@ -217,55 +217,55 @@ class LoggerPatternParser {
                     break;
               case LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE'");              
-                	$this->currentLiteral .= $c;
-                	switch($c) {
-                    	case '-':
+                        $this->currentLiteral .= $c;
+                        switch($c) {
+                        case '-':
                             $this->formattingInfo->leftAlign = true;
                             break;
-                    	case '.':
+                        case '.':
                             $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
-	                        break;
-                    	default:
+                                break;
+                        default:
                             if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
-                        	    $this->formattingInfo->min = ord($c) - ord('0');
-                        	    $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE;
+                                    $this->formattingInfo->min = ord($c) - ord('0');
+                                    $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE;
                             } else {
                                 $this->finalizeConverter($c);
                             }
-                  	} // switch
+                        } // switch
                     break;
               case LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE'");              
-	                $this->currentLiteral .= $c;
+                        $this->currentLiteral .= $c;
                     if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
                         $this->formattingInfo->min = ($this->formattingInfo->min * 10) + (ord($c) - ord('0'));
-                	} elseif ($c == '.') {
+                        } elseif ($c == '.') {
                         $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
                     } else {
-                    	$this->finalizeConverter($c);
-                	}
-                	break;
+                        $this->finalizeConverter($c);
+                        }
+                        break;
               case LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE'");              
-                	$this->currentLiteral .= $c;
+                        $this->currentLiteral .= $c;
                     if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
                         $this->formattingInfo->max = ord($c) - ord('0');
-	                    $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE;
+                            $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE;
                     } else {
-                	  LoggerLog::warn("LoggerPatternParser::parse() Error occured in position {$this->i}. Was expecting digit, instead got char \"{$c}\".");
-	                  $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
+                          LoggerLog::warn("LoggerPatternParser::parse() Error occured in position {$this->i}. Was expecting digit, instead got char \"{$c}\".");
+                          $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
                     }
-                	break;
+                        break;
               case LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE'");              
-                	$this->currentLiteral .= $c;
+                        $this->currentLiteral .= $c;
                     if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
                         $this->formattingInfo->max = ($this->formattingInfo->max * 10) + (ord($c) - ord('0'));
-	                } else {
-                	  $this->finalizeConverter($c);
+                        } else {
+                          $this->finalizeConverter($c);
                       $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
-	                }
-                	break;
+                        }
+                        break;
             } // switch
         } // while
         if(strlen($this->currentLiteral) != 0) {
@@ -296,7 +296,7 @@ class LoggerPatternParser {
                 $dOpt = $this->extractOption();
 
                 if($dOpt !== null)
-	                $dateFormatStr = $dOpt;
+                        $dateFormatStr = $dOpt;
                     
                 if ($dateFormatStr == 'ISO8601') {
                     $df = LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
@@ -309,7 +309,7 @@ class LoggerPatternParser {
                     if ($df == null) {
                         $df = LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
                     }
-	            }
+                    }
                 $pc = new LoggerDatePatternConverter($this->formattingInfo, $df);
                 $this->currentLiteral = '';
                 break;
@@ -353,13 +353,13 @@ class LoggerPatternParser {
                 break;
             case 'u':
                 if($this->i < $this->patternLength) {
-	                $cNext = $this->pattern{$this->i};
+                        $cNext = $this->pattern{$this->i};
                     if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
-	                    $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
+                            $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
                         LoggerLog::debug("LoggerPatternParser::finalizeConverter() USER converter [{$cNext}].");
                         $this->currentLiteral = '';
-	                    $this->i++;
-	                } else {
+                            $this->i++;
+                        } else {
                         LoggerLog::warn("LoggerPatternParser::finalizeConverter() Unexpected char '{$cNext}' at position {$this->i}.");
                     }
                 }

@@ -428,7 +428,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
         } else {
             $root =& $hierarchy->getRootLogger();
             // synchronized(root) {
-        	$this->parseCategory(
+                $this->parseCategory(
                 $props, 
                 $root, 
                 $effectivePrefix, 
@@ -450,23 +450,23 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
         while(list($key,$value) = each($props)) {
             if( strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0 or 
                 strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
-	            if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0) {
+                    if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0) {
                     $loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX));
-	            } elseif (strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
+                    } elseif (strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
                     $loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX));
                 }
                 $logger =& $hierarchy->getLogger($loggerName, $this->loggerFactory);
-	            // synchronized(logger) {
-	            $this->parseCategory($props, $logger, $key, $loggerName, $value);
-        	    $this->parseAdditivityForLogger($props, $logger, $loggerName);
-	            // }
+                    // synchronized(logger) {
+                    $this->parseCategory($props, $logger, $key, $loggerName, $value);
+                    $this->parseAdditivityForLogger($props, $logger, $loggerName);
+                    // }
             } elseif (strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX) === 0) {
                 $renderedClass = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX));
-	            $renderingClass = $value;
-            	if (method_exists($hierarchy, 'addrenderer')) { // ?
-	                LoggerRendererMap::addRenderer($hierarchy, $renderedClass, $renderingClass);
+                    $renderingClass = $value;
+                if (method_exists($hierarchy, 'addrenderer')) { // ?
+                        LoggerRendererMap::addRenderer($hierarchy, $renderedClass, $renderingClass);
                 }
-	        }
+                }
         }
     }
 
@@ -481,7 +481,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
     {
         $value = LoggerOptionConverter::findAndSubst(
                     LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX . $loggerName,
-					$props
+                                        $props
                  );
         LoggerLog::debug(
             "LoggerPropertyConfigurator::parseAdditivityForLogger() ".
@@ -523,7 +523,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
         if(!(@$value{0} == ',' || empty($value))) {
             // just to be on the safe side...
             if(sizeof($st) == 0)
-	            return;
+                    return;
                 
             $levelStr = current($st);
             LoggerLog::debug(
@@ -535,16 +535,16 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
             // null. We also check that the user has not specified inherited for the
             // root category.
             if('INHERITED' == strtoupper($levelStr) || 'NULL' == strtoupper($levelStr)) {
-        	    if ($loggerName == LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME) {
+                    if ($loggerName == LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME) {
                     LoggerLog::warn(
                         "LoggerPropertyConfigurator::parseCategory() ".
                         "The root logger cannot be set to null."
                     );
-	            } else {
-	                $logger->setLevel(null);
-	            }
+                    } else {
+                        $logger->setLevel(null);
+                    }
             } else {
-	            $logger->setLevel(LoggerOptionConverter::toLevel($levelStr, LoggerLevel::getLevelDebug()));
+                    $logger->setLevel(LoggerOptionConverter::toLevel($levelStr, LoggerLevel::getLevelDebug()));
             }
         }
 
@@ -560,7 +560,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
             );
             $appender =& $this->parseAppender($props, $appenderName);
             if($appender !== null) {
-	            $logger->addAppender($appender);
+                    $logger->addAppender($appender);
             }
         }
     }
@@ -616,10 +616,10 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
                 );
                 $layout = LoggerLayout::factory('LoggerLayoutSimple');
             } else {
-        	    $layout = LoggerLayout::factory($layoutClass);
+                    $layout = LoggerLayout::factory($layoutClass);
                 
-	            if($layout === null) {
-	                LoggerLog::warn(
+                    if($layout === null) {
+                        LoggerLog::warn(
                         "LoggerPropertyConfigurator::parseAppender() ".
                         "cannot create layout '$layoutClass'. Using Simple layout"
                     );

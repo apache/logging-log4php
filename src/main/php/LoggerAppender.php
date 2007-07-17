@@ -34,7 +34,7 @@ abstract class LoggerAppender {
     {
         $class = basename($class);
         if (!empty($class)) {
-        	
+                
             if (!class_exists($class)) 
                 include_once(LOG4PHP_DIR . "/appenders/{$class}.php");
             if (class_exists($class))

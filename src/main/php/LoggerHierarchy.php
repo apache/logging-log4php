@@ -151,11 +151,11 @@ class LoggerHierarchy {
         return isset($this->ht[$name]);
     }
 
-	/**
-	 * Not Implemented.
-	 * @param Logger $logger
-	 * @param LoggerAppender $appender
-	 */
+        /**
+         * Not Implemented.
+         * @param Logger $logger
+         * @param LoggerAppender $appender
+         */
     public function fireAddAppenderEvent($logger, $appender)
     {
         return;
@@ -297,9 +297,9 @@ class LoggerHierarchy {
         $enumLoggers = sizeof($loggers);
         for ($i = 0; $i < $enumLoggers; $i++) {
             $loggers[$i]->setLevel(null);
-        	$loggers[$i]->setAdditivity(true);
-        	$loggers[$i]->setResourceBundle(null);
-        	$loggers[$i]->removeAllAppenders();
+                $loggers[$i]->setAdditivity(true);
+                $loggers[$i]->setResourceBundle(null);
+                $loggers[$i]->removeAllAppenders();
         }
         $this->rendererMap->clear();
     }
