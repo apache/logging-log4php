@@ -39,17 +39,31 @@
                 <foreach target="compile-file" param="src.php">
                         <path>
                                 <fileset dir="." includes="src/test/php/**/*.php"/>
+                                <fileset dir="." includes="src/examples/php/**/*.php"/>
                         </path>
                 </foreach>
+        </target>
+
+        <target name="php-file">
+                <exec executable="php" failonerror="true" dir="target">
+                        <arg value="-f"/>
+                        <arg value="${src.php}"/>
+                </exec>
         </target>
 
         <target name="test">
             <!--  PHPUnit3 must be installed for this to work.
                          See http://www.phpunit.de  -->
+            <!-- TODO: change dir to "target", needs changes in some tests -->
             <exec executable="phpunit" failonerror="true" dir="src/test/php">
                         <arg value="AllTests"/>
                         <arg value="AllTests.php"/>
-                </exec>
+            </exec>
+            <foreach target="php-file" param="src.php">
+                 <path>
+                      <fileset dir="." includes="src/examples/php/**/*.php" excludes="**/server.php"/>
+                 </path>
+            </foreach>
         </target>
         
         <target name="apidocs">
