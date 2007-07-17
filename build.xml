@@ -55,6 +55,7 @@
             <!--  PHPUnit3 must be installed for this to work.
                          See http://www.phpunit.de  -->
             <!-- TODO: change dir to "target", needs changes in some tests -->
+            <mkdir dir="target"/>
             <exec executable="phpunit" failonerror="true" dir="src/test/php">
                         <arg value="AllTests"/>
                         <arg value="AllTests.php"/>
