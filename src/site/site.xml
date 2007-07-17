@@ -36,7 +36,10 @@
 
 	<menu name="About log4php">
 	   <item name="What is it?" href="/index.html"/>
+	   <item name="Quick start" href="/qsg.html"/>
+	   <item name="Usage" href="/usage.html"/>
 	   <item name="Roadmap" href="/roadmap.html"/>
+	   <item name="PHPDoc" href="/apidocs/index.html"/>
 	</menu>
 
 	<menu name="Community">

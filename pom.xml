@@ -76,10 +76,47 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <phase>site</phase>
-            <id>untag-site</id>
+            <phase>compile</phase>
+            <id>compile</id>
             <configuration>
                 <tasks>
+					<ant target="compile"/>
+                </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <phase>test-compile</phase>
+            <id>test-compile</id>
+            <configuration>
+                <tasks>
+					<ant target="test-compile"/>
+                </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <phase>test</phase>
+            <id>test</id>
+            <configuration>
+                <tasks>
+					<ant target="test"/>
+                </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+		  <execution>
+            <phase>site</phase>
+            <id>site</id>
+            <configuration>
+                <tasks>
+					<ant target="apidocs"/>
                     <taskdef name="replaceregexp" classname="org.apache.tools.ant.taskdefs.optional.ReplaceRegExp" />                
                    <replaceregexp file="target/site/source-repository.html" match="/tags/[^ ]*" replace="/trunk" flags="g" />
                 </tasks>
@@ -94,6 +131,11 @@
             <groupId>ant</groupId>
             <artifactId>ant-nodeps</artifactId>
             <version>1.6.5</version>
+          </dependency>
+          <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>1.0b2</version>
           </dependency>
         </dependencies>
       </plugin>	 
@@ -113,16 +155,6 @@
             </execution>
         </executions>
 	 </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-            <execution>
-                <goals>
-                    <goal>jar</goal>
-                </goals>
-            </execution>
-        </executions>
-      </plugin>     
     </plugins>
 </build>
   <dependencies>

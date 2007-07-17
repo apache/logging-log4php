@@ -21,7 +21,7 @@
 		<format>zip</format>
 		<format>tar.gz</format>
 	</formats>
-	<baseDirectory>apache-log4j-component-${project.version}</baseDirectory>
+	<baseDirectory>apache-log4php-${project.version}</baseDirectory>
 	<includeSiteDirectory>true</includeSiteDirectory>
 	<fileSets>
 		<fileSet>
@@ -31,13 +31,6 @@
 				<include>build.xml</include>
 				<include>pom.xml</include>
 				<include>src/**</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>target</directory>
-			<outputDirectory>.</outputDirectory>
-			<includes>
-				<include>apache-log4j-component-${project.version}.jar</include>
 			</includes>
 		</fileSet>
 	</fileSets>

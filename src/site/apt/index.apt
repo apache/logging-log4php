@@ -13,11 +13,31 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache Component Companion for log4j 1.2
+ Apache log4php
  ------
  ------
  ------
 
-   This companion implements on log4j 1.2 the component framework from the
-   discontinued log4j 1.3 development activity to support backporting
-   log4j 1.3 code that depends on the framework.
+   log4php is a PHP port of log4j.
+   
+   log4php supports:
+   
+   * Configuration through xml and properties file (same structure as log4j).
+
+   * File, RollingFile, DailyFile, Echo, Console, Mail, PEAR::Db, PHP error, 
+                    Syslog or NT events and Socket appenders.
+
+   * Simple, TTCC, Pattern, Html and Xml Layouts.
+   
+   * Nested (NDC) and Mapped (MDC) Diagnostic Contexts. 
+
+   * Switchable internal debug.
+
+   Log4php is an effort undergoing incubation at the Apache Software Foundation (ASF), 
+   sponsored by the Apache Logging Services project. 
+   Incubation is required of all newly accepted projects until a further review 
+   indicates that the infrastructure, communications, and decision making process 
+   have stabilized in a manner consistent with other successful ASF projects. 
+   While incubation status is not necessarily a reflection of the completeness or 
+   stability of the code, it does indicate that the project has yet to be 
+   fully endorsed by the ASF. 
