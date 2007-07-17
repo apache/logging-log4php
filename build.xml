@@ -46,7 +46,7 @@
 	<target name="test">
 	    <!--  PHPUnit3 must be installed for this to work.
 		         See http://www.phpunit.de  -->
-	    <exec executable="phpunit" failonerror="false" dir="src/test/php">
+	    <exec executable="phpunit" failonerror="true" dir="src/test/php">
 			<arg value="AllTests"/>
 			<arg value="AllTests.php"/>
 		</exec>
@@ -55,7 +55,7 @@
 	<target name="apidocs">
 	    <!--  PHPDoc must be installed for this to work.  -->
 		<mkdir dir="target/site/apidocs"/>
-		<exec executable="phpdoc" failonerror="false">
+		<exec executable="phpdoc" failonerror="true">
 			<arg value="-d"/>
 			<arg value="src/main/php"/>
 			<arg value="-t"/>
