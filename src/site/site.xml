@@ -49,7 +49,14 @@
         
         <menu name="Development">
                 <item name="Repository" href="/source-repository.html"/>
-                <item name="Continuous Integration" href="/integration.html"/>
         </menu>
+
+	<menu name="Apache">
+		<item name="Home" href="http://www.apache.org"/>	
+		<item name="Sponsorship" href="http://www.apache.org/foundation/sponsorship.html"/>
+		<item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
+		<item name="Conferences" href="http://www.apachecon.com"/>
+	</menu>
+
   </body>
 </project>

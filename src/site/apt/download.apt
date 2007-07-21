@@ -22,18 +22,5 @@ Download apache-log4php
 
   Apache log4php is distributed under the {{{http://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
 
-  The link in the Mirrors column should display a list of available mirrors with a
-  default selection based on your inferred location.  If you do not see that page,
-  try a different browser.  The checksum and signature are links to
-  the originals on the main distribution server.
-  
-*-------------------------+---------+----------+-----------+
-|                         | Mirrors | Checksum | Signature |
-*-------------------------+---------+----------+-----------+
-| apache-log4php-2.0 (tar.gz)      | {{{http://www.apache.org/dyn/closer.cgi/logging/log4j/companions/component/1.0/apache-log4php-2.0.tar.gz} apache-log4php-2.0.tar.gz}} | {{{http://www.apache.org/dist/logging/log4j/companions/component/1.0/apache-log4php-2.0.tar.gz.md5} apache-log4php-2.0.tar.gz.md5}} | {{{http://www.apache.org/dist/logging/log4j/companions/component/1.0/apache-log4php-2.0.tar.gz.asc} apache-log4php-2.0.tar.gz.asc}} |
-*-------------------------+---------+----------+-----------+
-| apache-log4php-2.0 (zip)      | {{{http://www.apache.org/dyn/closer.cgi/logging/log4j/companions/component/1.0/apache-log4php-2.0.zip} apache-log4php-2.0.zip}} | {{{http://www.apache.org/dist/logging/log4j/companions/component/1.0/apache-log4php-2.0.zip.md5} apache-log4php-2.0.zip.md5}} | {{{http://www.apache.org/dist/logging/log4j/companions/component/1.0/apache-log4php-2.0.zip.asc} apache-log4php-2.0.zip.asc}} |
-*-------------------------+---------+----------+-----------+
 
-  Please read {{{http://httpd.apache.org/dev/verification.html}Verifying Apache HTTP Server Releases}}
-   for more information on why you should verify our releases.
+   No releases have yet been made.

@@ -189,7 +189,6 @@
             <reports>
               <report>scm</report>
               <report>dependencies</report>
-              <report>cim</report>
               <report>issue-tracking</report>
               <report>mailing-list</report>
               <report>license</report>
