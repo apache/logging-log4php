@@ -20,10 +20,10 @@
     <title>Apache log4php.</title>
   </properties>
   <body>
-    <release version="2.0" date="2007-12-31" description="Initial release">
-      <action issue="LOG4PHP-1" type="add">
-Some sample bug report.
-      </action>
+    <release version="2.0" description="PHP 5 compatibility">
+      <action type="fix">Maven 2.0 build</action>
+      <action type="fix">Updated source file headers with current ASF notice</action>
+      <action type="fix">PHP 5 compatibility modification.</action>
     </release>
   </body>
 </document>
