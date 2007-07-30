@@ -36,7 +36,7 @@ log4php-{version}
                     Copy the "<code>log4php-{version}/src/log4php</code>" directory in a place accessible by PHP 
                     (called in this document <code>{LOG4PHP-ROOT}</code>)
                     and  that's all! Log4php is installed. 
-                    Optionally the <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_DIR">LOG4PHP_DIR</a> 
+                    Optionally the <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_DIR">LOG4PHP_DIR</a> 
                     constant can be defined to point to <code>{LOG4PHP-ROOT}</code>.
                 </p>
             </subsection>
@@ -54,25 +54,25 @@ log4php-{version}
                         Finally, take a look at the original log4j manual for more examples.
                     </li>
                     <li>
-                        (Optional) Define the <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_CONFIGURATION"><code>LOG4PHP_CONFIGURATION</code></a> 
+                        (Optional) Define the <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_CONFIGURATION"><code>LOG4PHP_CONFIGURATION</code></a> 
                         constant to point to the configuration above. 
                     </li>
                     <li>
-                        (Optional) Define the <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_CONFIGURATOR_CLASS"><code>LOG4PHP_CONFIGURATOR_CLASS</code></a>
+                        (Optional) Define the <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_CONFIGURATOR_CLASS"><code>LOG4PHP_CONFIGURATOR_CLASS</code></a>
                         constant to point to a configuration class file.
                     </li>
                     <li>
-                        Include the '<a href="api/log4php/LoggerManager.html"><code>LoggerManager.php</code></a>' 
+                        Include the '<a href="apidocs/log4php/LoggerManager.html"><code>LoggerManager.php</code></a>' 
                         class file in your php scripts.
                     </li>
                 </ol>
                 <p>
-                    Once the '<a href="api/log4php/LoggerManager.html">LoggerManager</a>' is included,
-                    it will start the <a href="api/log4php/_log4php_LoggerManager_php.html#functionLoggerManagerDefaultInit">default init procedure</a> 
-                    that can be paramaterized by the previuosly defined 
-                    <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_DEFAULT_INIT_OVERRIDE"><code>LOG4PHP_DEFAULT_INIT_OVERRIDE</code></a>, 
-                    <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_CONFIGURATION"><code>LOG4PHP_CONFIGURATION</code></a> and 
-                    <a href="api/log4php/_log4php_LoggerManager_php.html#defineLOG4PHP_CONFIGURATOR_CLASS"><code>LOG4PHP_CONFIGURATOR_CLASS</code></a>
+                    Once the '<a href="apidocs/log4php/LoggerManager.html">LoggerManager</a>' is included,
+                    it will start the <a href="apidocs/log4php/_LoggerManager.php.html#functionLoggerManagerDefaultInit">default init procedure</a> 
+                    that can be parameterized by the previously defined 
+                    <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_DEFAULT_INIT_OVERRIDE"><code>LOG4PHP_DEFAULT_INIT_OVERRIDE</code></a>, 
+                    <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_CONFIGURATION"><code>LOG4PHP_CONFIGURATION</code></a> and 
+                    <a href="apidocs/log4php/_LoggerManager.php.html#defineLOG4PHP_CONFIGURATOR_CLASS"><code>LOG4PHP_CONFIGURATOR_CLASS</code></a>
                     constants.
                 </p>
                 <p>Here is how to use <code>log4php</code> in user PHP code:</p>
