@@ -520,7 +520,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
         // If value is not in the form ", appender.." or "", then we should set
         // the level of the loggeregory.
 
-        if(!(@$value{0} == ',' || empty($value))) {
+        if(!(empty($value) || @$value[0] == ',')) {
             // just to be on the safe side...
             if(sizeof($st) == 0)
                     return;
