@@ -179,6 +179,10 @@
             </execution>
         </executions>
          </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>rat-maven-plugin</artifactId>
+      </plugin>         
     </plugins>
 </build>
   <dependencies>
