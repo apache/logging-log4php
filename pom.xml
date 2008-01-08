@@ -35,6 +35,9 @@
                 <unsubscribe>log4php-user-unsubscribe@logging.apache.org</unsubscribe>
                 <post>log4php-user@logging.apache.org</post>
                 <archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-user/</archive>
+                <otherArchives>
+                    <otherArchive>http://markmail.org/search/list:org.apache.logging.log4php-user</otherArchive>
+                </otherArchives>
         </mailingList>
         <mailingList>
                 <name>log4php-dev</name>
@@ -42,6 +45,9 @@
                 <unsubscribe>log4php-dev-unsubscribe@logging.apache.org</unsubscribe>
                 <post>log4php-dev@logging.apache.org</post>
                 <archive>http://mail-archives.apache.org/mod_mbox/logging-log4php-dev/</archive>
+                <otherArchives>
+                    <otherArchive>http://markmail.org/search/list:org.apache.logging.log4php-dev</otherArchive>
+                </otherArchives>
         </mailingList>
 </mailingLists>
 <licenses>
@@ -76,7 +82,7 @@
             <id>compile</id>
             <configuration>
                 <tasks>
-                                        <ant target="compile"/>
+                    <ant target="compile"/>
                 </tasks>
             </configuration>
             <goals>
@@ -88,7 +94,7 @@
             <id>test-compile</id>
             <configuration>
                 <tasks>
-                                        <ant target="test-compile"/>
+                    <ant target="test-compile"/>
                 </tasks>
             </configuration>
             <goals>
@@ -100,7 +106,7 @@
             <id>test</id>
             <configuration>
                 <tasks>
-                                        <ant target="test"/>
+                    <ant target="test"/>
                 </tasks>
             </configuration>
             <goals>
@@ -228,7 +234,7 @@
  <distributionManagement>
     <site>
       <id>logging.site</id>
-      <url>scp://localhost/${user.dir}/target/site-deploy</url>
+      <url>file:///${user.dir}/target/site-deploy</url>
     </site>
   </distributionManagement> 
 </project>

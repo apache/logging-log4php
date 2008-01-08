@@ -16,18 +16,20 @@
 
 -->
 <assembly>
-        <id>bin</id>
+        <id>src</id>
         <formats>
                 <format>zip</format>
                 <format>tar.gz</format>
         </formats>
-        <baseDirectory>apache-log4php-${project.version}</baseDirectory>
+        <baseDirectory>apache-log4php-${project.version}-incubating</baseDirectory>
         <includeSiteDirectory>true</includeSiteDirectory>
         <fileSets>
                 <fileSet>
                         <includes>
                                 <include>LICENSE</include>
                                 <include>NOTICE</include>
+                                <include>README</include>
+                                <include>INSTALL</include>
                                 <include>build.xml</include>
                                 <include>pom.xml</include>
                                 <include>src/**</include>

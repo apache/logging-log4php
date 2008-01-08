@@ -17,10 +17,15 @@
 -->
 <project name="log4php">
   <bannerLeft>
-    <name>Logging Services</name>
+    <name>Apache Logging Services Project</name>
     <src>images/ls-logo.jpg</src>
     <href>http://logging.apache.org/</href>
-  </bannerLeft>
+  </bannerLeft>  
+  <bannerRight>
+    <name>Apache Incubator</name>
+    <src>images/apache-incubator-logo.png</src>
+    <href>http://incubator.apache.org/</href>
+  </bannerRight>
   <body>
     <breadcrumbs>
       <item name="Apache" href="http://www.apache.org/"/>

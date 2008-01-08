@@ -21,8 +21,8 @@
   </properties>
   <body>
     <release version="2.0" description="PHP 5 compatibility">
-      <action type="fix">Maven 2.0 build</action>
-      <action type="fix">Updated source file headers with current ASF notice</action>
+      <action type="fix" issue="LOG4PHP-3">Maven 2.0 build</action>
+      <action type="fix" issue="LOG4PHP-7">Updated source file headers with current ASF notice</action>
       <action type="fix">PHP 5 compatibility modification.</action>
     </release>
   </body>
