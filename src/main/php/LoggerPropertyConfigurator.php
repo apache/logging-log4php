@@ -658,4 +658,3 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
     }
 
 }
-?>

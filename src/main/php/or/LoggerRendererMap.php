@@ -184,4 +184,3 @@ class LoggerRendererMap {
         return class_exists($class);
     }
 }
-?>

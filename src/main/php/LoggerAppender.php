@@ -182,4 +182,3 @@ abstract class LoggerAppender {
     abstract public function requiresLayout();
 
 }
-?>

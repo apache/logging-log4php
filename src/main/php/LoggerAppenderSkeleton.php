@@ -335,4 +335,3 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
     }
     
 }
-?>

@@ -85,4 +85,3 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 
 }
 
-?>

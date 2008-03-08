@@ -60,4 +60,3 @@ interface LoggerConfigurator {
     public static function configure($url=null);
     
 }
-?>

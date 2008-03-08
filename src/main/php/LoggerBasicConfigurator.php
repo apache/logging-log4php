@@ -70,4 +70,3 @@ class LoggerBasicConfigurator implements LoggerConfigurator {
         LoggerManager::resetConfiguration();
     }
 }
-?>

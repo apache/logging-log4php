@@ -49,4 +49,3 @@ class LoggerDefaultRenderer extends LoggerObjectRenderer{
         return var_export($o, true);
     }
 }
-?>

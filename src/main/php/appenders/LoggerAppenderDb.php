@@ -211,4 +211,3 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
     
 }
 
-?>

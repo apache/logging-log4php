@@ -260,4 +260,3 @@ class LoggerPatternLayout extends LoggerLayout {
     }
     
 }
-?>

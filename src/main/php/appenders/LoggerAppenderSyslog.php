@@ -178,4 +178,3 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
         closelog();
     }
 }
-?>

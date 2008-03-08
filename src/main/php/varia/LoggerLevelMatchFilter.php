@@ -119,4 +119,3 @@ class LoggerLevelMatchFilter extends LoggerFilter {
         }
     }
 }
-?>

@@ -94,4 +94,3 @@ abstract class LoggerLayout {
         return null;
     }
 }
-?>

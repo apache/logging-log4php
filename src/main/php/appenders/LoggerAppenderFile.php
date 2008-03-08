@@ -156,4 +156,3 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
         } 
     }
 }
-?>

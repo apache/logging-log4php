@@ -244,4 +244,3 @@ class LoggerLayoutTTCC extends LoggerLayout {
         return true;
     }
 }
-?>

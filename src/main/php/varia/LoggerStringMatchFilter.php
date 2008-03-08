@@ -108,4 +108,3 @@ class LoggerStringMatchFilter extends LoggerFilter {
         return LOG4PHP_LOGGER_FILTER_NEUTRAL;        
     }
 }
-?>

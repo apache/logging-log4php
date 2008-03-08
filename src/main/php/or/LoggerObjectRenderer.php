@@ -59,4 +59,3 @@ abstract class LoggerObjectRenderer {
      */
     abstract public function doRender($o);
 }
-?>

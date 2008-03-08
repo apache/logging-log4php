@@ -116,4 +116,3 @@ class LoggerLocationInfo {
         return ($this->methodName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->methodName; 
     }
 }
-?>

@@ -504,4 +504,3 @@ class LoggerCategoryPatternConverter extends LoggerNamedPatternConverter {
     }
 }
 
-?>

@@ -279,4 +279,3 @@ class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
     
 }
 
-?>

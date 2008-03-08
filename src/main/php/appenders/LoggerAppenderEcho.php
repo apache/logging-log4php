@@ -80,4 +80,3 @@ class LoggerAppenderEcho extends LoggerAppenderSkeleton {
     }
 }
 
-?>

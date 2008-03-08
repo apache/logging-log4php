@@ -609,4 +609,3 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
     }
 
 }
-?>

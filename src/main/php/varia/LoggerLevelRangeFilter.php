@@ -168,4 +168,3 @@ class LoggerLevelRangeFilter extends LoggerFilter {
         }
     }
 }
-?>

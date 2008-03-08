@@ -137,4 +137,3 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
             $this->body .= $this->layout->format($event);
     }
 }
-?>

@@ -84,4 +84,3 @@ class LoggerLayoutSimple extends LoggerLayout {
         return $level->toString() . ' - ' . $event->getRenderedMessage(). LOG4PHP_LINE_SEP;
     }
 }
-?>

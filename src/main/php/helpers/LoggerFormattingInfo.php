@@ -61,4 +61,3 @@ class LoggerFormattingInfo {
         LoggerLog::debug("LoggerFormattingInfo::dump() min={$this->min}, max={$this->max}, leftAlign={$this->leftAlign}");
     }
 } 
-?>

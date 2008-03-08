@@ -68,4 +68,3 @@ class LoggerAppenderPhp extends LoggerAppenderSkeleton {
         }
     }
 }
-?>

@@ -103,4 +103,3 @@ class LoggerRoot extends Logger {
         return false;
     }  
 }
-?>

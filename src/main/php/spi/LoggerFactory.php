@@ -48,4 +48,3 @@ abstract class LoggerFactory {
     abstract function makeNewLoggerInstance($name);
 
 }
-?>

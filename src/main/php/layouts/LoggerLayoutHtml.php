@@ -256,4 +256,3 @@ class LoggerLayoutHtml extends LoggerLayout {
         return $sbuf;
     }
 }
-?>

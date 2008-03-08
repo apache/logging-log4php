@@ -57,4 +57,3 @@ class LoggerDenyAllFilter extends LoggerFilter {
     return LOG4PHP_LOGGER_FILTER_DENY;
   }
 }
-?>

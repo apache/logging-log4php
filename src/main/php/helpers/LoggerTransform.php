@@ -93,4 +93,3 @@ class LoggerTransform {
         $buf .= $rStr;
     }
 }
-?>

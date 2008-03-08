@@ -112,4 +112,3 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
     }
 }
 
-?>

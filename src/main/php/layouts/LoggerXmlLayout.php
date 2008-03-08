@@ -206,4 +206,3 @@ class LoggerXmlLayout extends LoggerLayout {
     }
 }
 
-?>
