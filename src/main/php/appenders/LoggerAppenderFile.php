@@ -50,16 +50,16 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     /**
      * @var string the file name used to append events
      */
-    private $fileName;
+	protected $fileName;
     /**
      * @var mixed file resource
      */
-    private $fp = false;
+	protected $fp = false;
     
-        public function __construct($name) {
-                parent::__construct($name);
-                $this->requiresLayout = true;
-    }
+	public function __construct($name) {
+		parent::__construct($name);
+		$this->requiresLayout = true;
+	}
 
     public function activateOptions() {
         $fileName = $this->getFile();
