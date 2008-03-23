@@ -85,9 +85,8 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderRollingFile($name)
-    {
-        $this->LoggerAppenderFile($name);
+    public function __construct($name) {
+        parent::__construct($name);
     }
     
     /**
