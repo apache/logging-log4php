@@ -129,7 +129,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
      */
     public static function configure($url = '') {
         $configurator = new LoggerPropertyConfigurator();
-        $repository =& LoggerManager::getLoggerRepository();
+        $repository = LoggerManager::getLoggerRepository();
         return $configurator->doConfigure($url, $repository);
     }
 
@@ -436,7 +436,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
                 "Could not find root logger information. Is this OK?"
             );
         } else {
-            $root =& $hierarchy->getRootLogger();
+            $root = $hierarchy->getRootLogger();
             // synchronized(root) {
                 $this->parseCategory(
                 $props, 
@@ -582,7 +582,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
      */
     function &parseAppender($props, $appenderName)
     {
-        $appender =& LoggerAppender::singleton($appenderName);
+        $appender = LoggerAppender::singleton($appenderName);
         if($appender !== null) {
             LoggerLog::debug(
                 "LoggerPropertyConfigurator::parseAppender() ".
@@ -595,7 +595,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
         $layoutPrefix = $prefix . ".layout";
         $appenderClass = @$props[$prefix];
         if (!empty($appenderClass)) {
-            $appender =& LoggerAppender::singleton($appenderName, $appenderClass);
+            $appender = LoggerAppender::singleton($appenderName, $appenderClass);
             if($appender === null) {
                 LoggerLog::warn(
                     "LoggerPropertyConfigurator::parseAppender() ".
