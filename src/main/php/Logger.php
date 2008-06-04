@@ -507,7 +507,7 @@ class Logger {
      */
     public function removeAppender($appender)
     {
-        if (is_a($appender, 'loggerappender')) {
+        if ($appender instanceof LoggerAppender) {
             $appender->close();
             unset($this->aai[$appender->getName()]);
         } elseif (is_string($appender) and isset($this->aai[$appender])) {
