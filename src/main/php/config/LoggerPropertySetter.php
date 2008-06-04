@@ -83,7 +83,7 @@ class LoggerPropertySetter {
      * @param string $prefix Only keys having the specified prefix will be set.
      * @static
      */
-    function setPropertiesByObject(&$obj, $properties, $prefix)
+    public static function setPropertiesByObject(&$obj, $properties, $prefix)
     {
         $pSetter = new LoggerPropertySetter($obj);
         return $pSetter->setProperties($properties, $prefix);
@@ -108,7 +108,7 @@ class LoggerPropertySetter {
                     continue;
                 $value = LoggerOptionConverter::findAndSubst($key, $properties);
                 $key = substr($key, $len);
-                if ($key == 'layout' and is_a($this->obj, 'loggerappender')) {
+                if ($key == 'layout' and ($this->obj instanceof LoggerAppender)) {
                     continue;
                 }
                 $this->setProperty($key, $value);
