@@ -367,7 +367,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
         $locationInfo = $event->getLocationInformation();
         switch($this->type) {
             case LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER:
-                    return $locationInfo->fullInfo;
+                    return $locationInfo->getFullInfo();
             case LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER:
                     return $locationInfo->getMethodName();
             case LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER:

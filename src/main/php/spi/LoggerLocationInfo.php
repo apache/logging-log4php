@@ -115,4 +115,13 @@ class LoggerLocationInfo {
     {
         return ($this->methodName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->methodName; 
     }
+
+    /**
+     *  Returns the full information of the caller.
+     */
+    public function getFullInfo()
+    {
+        return ($this->fullInfo === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->fullInfo;
+    }
+
 }
