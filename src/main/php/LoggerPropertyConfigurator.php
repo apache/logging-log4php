@@ -331,7 +331,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
     function doConfigure($url, &$repository)
     {
         $properties = @parse_ini_file($url);
-        if ($properties === false) {
+        if (count($properties) == 0) {
             LoggerLog::warn("LoggerPropertyConfigurator::doConfigure() cannot load '$url' configuration.");
             return false; 
         }
