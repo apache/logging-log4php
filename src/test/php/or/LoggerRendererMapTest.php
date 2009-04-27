@@ -23,59 +23,45 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/../phpunit.php';
-
 require_once LOG4PHP_DIR.'/or/LoggerRendererMap.php';
 require_once LOG4PHP_DIR.'/LoggerHierarchy.php';
 
 class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
+
+	public function testAddRenderer() {
+		$hierarchy = LoggerHierarchy::singleton();
+		//print_r($hierarchy);
+		LoggerRendererMap::addRenderer($hierarchy, 'string', 'LoggerDefaultRenderer');
+		//print_r($hierarchy);
+		self::markTestIncomplete();
+	}
         
-        protected function setUp() {
-        }
+	public function testFindAndRender() {
+		self::markTestIncomplete();
+	}
         
-        protected function tearDown() {
-        }
+	public function testGetByObject() {
+		self::markTestIncomplete();
+	}
         
-        public function testAddRenderer() {
-                
-                $hierarchy = LoggerHierarchy::singleton();
-                
-                //print_r($hierarchy);
-                
-                LoggerRendererMap::addRenderer($hierarchy, 'string', 'LoggerDefaultRenderer');
-                
-                //print_r($hierarchy);
-                
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
+	public function testGetByClassName() {
+		self::markTestIncomplete();
+	}
         
-        public function testFindAndRender() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
+	public function testGetDefaultRenderer() {
+		self::markTestIncomplete();
+	}
         
-        public function testGetByObject() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
+	public function testClear() {
+		self::markTestIncomplete();
+	}
         
-        public function testGetByClassName() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
+	public function testPut() {
+		self::markTestIncomplete();
+	}
         
-        public function testGetDefaultRenderer() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
-        
-        public function testClear() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
-        
-        public function testPut() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
-        
-        public function testRendererExists() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-        }
+	public function testRendererExists() {
+		self::markTestIncomplete();
+	}
 
 }
-?>

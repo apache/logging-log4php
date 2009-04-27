@@ -1,5 +1,6 @@
 <?php
-/** Licensed to the Apache Software Foundation (ASF) under one or more
+/** 
+ * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
@@ -21,27 +22,17 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
- 
-require_once dirname(__FILE__).'/../phpunit.php';
 
 require_once LOG4PHP_DIR . '/appenders/LoggerAppenderNull.php';
 
 class LoggerAppenderNullTest extends PHPUnit_Framework_TestCase {
 
-        public function setUp() {
-        }
-        
-        public function tearDown() {
-        }
-        
-        public function testActivateOptions() { 
-                throw new PHPUnit_Framework_IncompleteTestError();
+	public function testActivateOptions() { 
+		self::markTestIncomplete();
     }
     
     public function testClose() {
-                throw new PHPUnit_Framework_IncompleteTestError();
+		self::markTestIncomplete();
     }
         
 }
-
-?>

@@ -23,34 +23,31 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
-
 require_once LOG4PHP_DIR . '/LoggerRoot.php';
 
 class LoggerRootTest extends PHPUnit_Framework_TestCase {
         
-        private $loggerRoot;
+	private $loggerRoot;
         
-        protected function setUp() {
-                $this->loggerRoot = new LoggerRoot();
-        }
+	protected function setUp() {
+		$this->loggerRoot = new LoggerRoot();
+	}
         
-        public function testIfLevelIsInitiallyLevelAll() {
-                $this->assertEquals($this->loggerRoot->getLevel()->levelStr, 'ALL');
-        }
+	public function testIfLevelIsInitiallyLevelAll() {
+		self::assertEquals($this->loggerRoot->getLevel()->levelStr, 'ALL');
+	}
 
-        public function testIfNameIsRoot() {
-                $this->assertEquals($this->loggerRoot->getName(), 'root');
-        }
+	public function testIfNameIsRoot() {
+		self::assertEquals($this->loggerRoot->getName(), 'root');
+	}
 
-        public function testIfParentIsNull() {
-                $this->assertSame($this->loggerRoot->getParent(), null);
-        }
+	public function testIfParentIsNull() {
+		self::assertSame($this->loggerRoot->getParent(), null);
+	}
 
-        public function testSetParent() {
-                $this->loggerRoot->setParent('dummy');
-                $this->testIfParentIsNull();
-        }
+	public function testSetParent() {
+		$this->loggerRoot->setParent('dummy');
+		$this->testIfParentIsNull();
+	}
 
 }
-?>

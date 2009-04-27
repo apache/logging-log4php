@@ -17,37 +17,22 @@
  * 
  * @category   tests   
  * @package    log4php
- * @subpackage appenders
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
-require_once dirname(__FILE__).'/../phpunit.php';
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'or_AllTests::main');
+if(!defined('LOG4PHP_DIR')) {
+    define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 }
 
-require_once 'LoggerDefaultRendererTest.php';
-require_once 'LoggerRendererMapTest.php';
-
-class or_AllTests {
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
-    public static function suite() {
-        $suite = new PHPUnit_Framework_TestSuite('log4php.or');
-
-        $suite->addTestSuite('LoggerDefaultRendererTest');
-                $suite->addTestSuite('LoggerRendererMapTest');
-        
-        return $suite;
-    }
+if(!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
+    define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
 }
 
-if (PHPUnit_MAIN_METHOD == 'or_AllTests::main') {
-    or_AllTests::main();
-}
-?>
+set_include_path(LOG4PHP_DIR.':'.get_include_path());
+
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Util/Filter.php';

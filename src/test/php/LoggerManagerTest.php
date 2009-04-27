@@ -23,14 +23,8 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
-
 require_once LOG4PHP_DIR . '/LoggerManager.php';
 
 class LoggerManagerTest extends PHPUnit_Framework_TestCase {
-        
-                
-
+	
 }
-
-?>

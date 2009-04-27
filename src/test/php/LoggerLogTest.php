@@ -23,25 +23,22 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
-
 require_once LOG4PHP_DIR . '/LoggerLog.php';
 
 class LoggerLogTest extends PHPUnit_Framework_TestCase {
 
-        public function testInternalDebuggingIsInitallyFalse() {
-        $this->assertFalse( LoggerLog::internalDebugging() );
-    }
+	public function testInternalDebuggingIsInitallyFalse() {
+		self::assertFalse( LoggerLog::internalDebugging() );
+	}
 
-        public function testInternalDebuggingIsSetTrue() {
-                LoggerLog::internalDebugging( true );
-        $this->assertTrue( LoggerLog::internalDebugging() );
-    }
+	public function testInternalDebuggingIsSetTrue() {
+		LoggerLog::internalDebugging( true );
+		self::assertTrue( LoggerLog::internalDebugging() );
+	}
 
-        public function testInternalDebuggingIsSetFalse() {
-                LoggerLog::internalDebugging( false );
-        $this->assertFalse( LoggerLog::internalDebugging() );
-    }
+	public function testInternalDebuggingIsSetFalse() {
+		LoggerLog::internalDebugging( false );
+		self::assertFalse( LoggerLog::internalDebugging() );
+	}
 
 }
-?>

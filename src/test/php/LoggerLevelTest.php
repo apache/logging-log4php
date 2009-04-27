@@ -23,8 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
-
 require_once LOG4PHP_DIR . '/LoggerLevel.php';
 
 /**
@@ -32,54 +30,52 @@ require_once LOG4PHP_DIR . '/LoggerLevel.php';
  */
 class LoggerLevelTest extends PHPUnit_Framework_TestCase {
         
-    protected function doTestLevel($o, $code, $str, $syslog) {
-        $this->assertTrue( $o instanceof LoggerLevel );
-        $this->assertEquals( $o->level, $code);
-        $this->assertEquals( $o->levelStr, $str);
-        $this->assertEquals( $o->syslogEquivalent, $syslog);
+	protected function doTestLevel($o, $code, $str, $syslog) {
+		self::assertTrue( $o instanceof LoggerLevel );
+		self::assertEquals( $o->level, $code);
+		self::assertEquals( $o->levelStr, $str);
+		self::assertEquals( $o->syslogEquivalent, $syslog);
+	}
+
+	public function testLevelOff() {
+		$this->doTestLevel( LoggerLevel::getLevelOff(), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_OFF_INT), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
+		$this->doTestLevel( LoggerLevel::toLevel('OFF'), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
     }
 
-        public function testLevelOff() {
-                $this->doTestLevel( LoggerLevel::getLevelOff(), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_OFF_INT), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
-                $this->doTestLevel( LoggerLevel::toLevel('OFF'), LOG4PHP_LEVEL_OFF_INT, 'OFF', 0 );
-    }
-    
-
-        public function testLevelFatal() {
-                $this->doTestLevel( LoggerLevel::getLevelFatal(), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_FATAL_INT), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
-                $this->doTestLevel( LoggerLevel::toLevel('FATAL'), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
+	public function testLevelFatal() {
+		$this->doTestLevel( LoggerLevel::getLevelFatal(), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_FATAL_INT), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
+		$this->doTestLevel( LoggerLevel::toLevel('FATAL'), LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0 );
     }
 
-        public function testLevelError() {
-                $this->doTestLevel( LoggerLevel::getLevelError(), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_ERROR_INT), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
-                $this->doTestLevel( LoggerLevel::toLevel('ERROR'), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
+	public function testLevelError() {
+		$this->doTestLevel( LoggerLevel::getLevelError(), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_ERROR_INT), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
+		$this->doTestLevel( LoggerLevel::toLevel('ERROR'), LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3 );
+    }
+	
+	public function testLevelWarn() {
+		$this->doTestLevel( LoggerLevel::getLevelWarn(), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_WARN_INT), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
+		$this->doTestLevel( LoggerLevel::toLevel('WARN'), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
     }
 
-        public function testLevelWarn() {
-                $this->doTestLevel( LoggerLevel::getLevelWarn(), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_WARN_INT), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
-                $this->doTestLevel( LoggerLevel::toLevel('WARN'), LOG4PHP_LEVEL_WARN_INT, 'WARN', 4 );
+	public function testLevelInfo() {
+		$this->doTestLevel( LoggerLevel::getLevelInfo(), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_INFO_INT), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
+		$this->doTestLevel( LoggerLevel::toLevel('INFO'), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
     }
 
-        public function testLevelInfo() {
-                $this->doTestLevel( LoggerLevel::getLevelInfo(), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_INFO_INT), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
-                $this->doTestLevel( LoggerLevel::toLevel('INFO'), LOG4PHP_LEVEL_INFO_INT, 'INFO', 6 );
+	public function testLevelDebug() {
+		$this->doTestLevel( LoggerLevel::getLevelDebug(), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_DEBUG_INT), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel('DEBUG'), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
     }
 
-        public function testLevelDebug() {
-                $this->doTestLevel( LoggerLevel::getLevelDebug(), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_DEBUG_INT), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
-                $this->doTestLevel( LoggerLevel::toLevel('DEBUG'), LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7 );
-    }
-
-        public function testLevelAll() {
-                $this->doTestLevel( LoggerLevel::getLevelAll(), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
-                $this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_ALL_INT), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
-                $this->doTestLevel( LoggerLevel::toLevel('ALL'), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
+	public function testLevelAll() {
+		$this->doTestLevel( LoggerLevel::getLevelAll(), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel(LOG4PHP_LEVEL_ALL_INT), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel('ALL'), LOG4PHP_LEVEL_ALL_INT, 'ALL', 7 );
     }
 }
-?>

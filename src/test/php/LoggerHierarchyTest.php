@@ -23,53 +23,50 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
-
 require_once LOG4PHP_DIR . '/layouts/LoggerLayoutTTCC.php';
 require_once LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php';
 require_once LOG4PHP_DIR . '/LoggerHierarchy.php';
 
 class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
         
-        private $hierarchy;
+	private $hierarchy;
         
-        protected function setUp() {
-                $this->hierarchy = LoggerHierarchy::singleton();
-        }
+	protected function setUp() {
+		$this->hierarchy = LoggerHierarchy::singleton();
+	}
+	
+	public function testIfLevelIsInitiallyLevelDebug() {
+		self::assertEquals('DEBUG', $this->hierarchy->getRootLogger()->getLevel()->levelStr);
+	}
+
+	public function testIfNameIsRoot() {
+		self::assertEquals('root', $this->hierarchy->getRootLogger()->getName());
+	}
+
+	public function testIfParentIsNull() {
+		self::assertSame(null, $this->hierarchy->getRootLogger()->getParent());
+	}
+
+	public function testSetParent() {
+		$this->hierarchy->getRootLogger()->setParent('dummy');
+		$this->testIfParentIsNull();
+	}
         
-        public function testIfLevelIsInitiallyLevelAll() {
-                $this->assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'ALL');
-        }
-
-        public function testIfNameIsRoot() {
-                $this->assertEquals($this->hierarchy->getRootLogger()->getName(), 'root');
-        }
-
-        public function testIfParentIsNull() {
-                $this->assertSame($this->hierarchy->getRootLogger()->getParent(), null);
-        }
-
-        public function testSetParent() {
-                $this->hierarchy->getRootLogger()->setParent('dummy');
-                $this->testIfParentIsNull();
-        }
-        
-        public function testResetConfiguration() {
-                $root = $this->hierarchy->getRootLogger();
-        $appender = new LoggerAppenderConsole('A1');
-        $root->addAppender($appender);
-        $logger = $this->hierarchy->getLogger('test');
-        $this->assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
-        $this->hierarchy->resetConfiguration();
-        $this->assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'DEBUG');
-        $this->assertEquals($this->hierarchy->getThreshold()->levelStr, 'ALL');
-        $this->assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
-        foreach($this->hierarchy->getCurrentLoggers() as $l) {
-                $this->assertEquals($l->getLevel(), null);
-                $this->assertTrue($l->getAdditivity());
-                $this->assertEquals(sizeof($l->getAllAppenders()), 0);
-        }
-        }
+	public function testResetConfiguration() {
+		$root = $this->hierarchy->getRootLogger();
+		$appender = new LoggerAppenderConsole('A1');
+		$root->addAppender($appender);
+		$logger = $this->hierarchy->getLogger('test');
+		self::assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+		$this->hierarchy->resetConfiguration();
+		self::assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'DEBUG');
+		self::assertEquals($this->hierarchy->getThreshold()->levelStr, 'ALL');
+		self::assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+		foreach($this->hierarchy->getCurrentLoggers() as $l) {
+			self::assertEquals($l->getLevel(), null);
+			self::assertTrue($l->getAdditivity());
+			self::assertEquals(sizeof($l->getAllAppenders()), 0);
+		}
+	}
 
 }
-?>

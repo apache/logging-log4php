@@ -1,0 +1,15 @@
+<phpunit bootstrap="bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnFailure="false">
+
+	<testsuite name="log4php">
+		<directory>.</directory>
+		<directory>./appenders</directory>
+		<directory>./or</directory>
+		<directory>./spi</directory>
+	</testsuite>
+
+</phpunit>

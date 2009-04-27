@@ -23,62 +23,53 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/phpunit.php';
 require_once LOG4PHP_DIR . '/LoggerBasicConfigurator.php';
 
 class LoggerBasicConfiguratorTest extends PHPUnit_Framework_TestCase {
         
-        protected function setUp() {
-                LoggerBasicConfigurator::configure();
-        }
+	protected function setUp() {
+		LoggerBasicConfigurator::configure();
+	}
         
-        protected function tearDown() {
-                LoggerBasicConfigurator::resetConfiguration();
-        }
+	protected function tearDown() {
+		LoggerBasicConfigurator::resetConfiguration();
+	}
         
-        public function testConfigure() {
-                $root = LoggerManager::getRootLogger();
-                $appender = $root->getAppender('A1');
-                self::assertType('LoggerAppenderConsole', $appender);
-                $layout = $appender->getLayout();
-                self::assertType('LoggerLayoutTTCC', $layout);
-        }
-        
-        public function testResetConfiguration() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-                
-                $this->testConfigure();
-                
-                //$root = LoggerManager::getRootLogger();
-                
-                $hierarchy = LoggerHierarchy::singleton();
-                
-                var_dump(count($hierarchy->getCurrentLoggers()));
-                
-                LoggerBasicConfigurator::resetConfiguration();
-                
-                var_dump(count($hierarchy->getCurrentLoggers()));
-                
-                /*
-                $logger = LoggerManager::getLogger('A1');
+	public function testConfigure() {
+		$root = LoggerManager::getRootLogger();
+		$appender = $root->getAppender('A1');
+		self::assertType('LoggerAppenderConsole', $appender);
+		$layout = $appender->getLayout();
+		self::assertType('LoggerLayoutTTCC', $layout);
+	}
 
-                $layout = $logger->getLayout();
-                var_dump($layout);
+	public function testResetConfiguration() {
+		self::markTestIncomplete();
                 
-                var_dump($logger->getName());
-                */
-                //$appender = LoggerManager::getRootLogger()->getAppender('A1');
-                //var_dump($appender);
-                
-        }
+		$this->testConfigure();
+		//$root = LoggerManager::getRootLogger();
+		$hierarchy = LoggerHierarchy::singleton();
+		var_dump(count($hierarchy->getCurrentLoggers()));
+		LoggerBasicConfigurator::resetConfiguration();
+		var_dump(count($hierarchy->getCurrentLoggers()));
+        /*
+        $logger = LoggerManager::getLogger('A1');
+
+        $layout = $logger->getLayout();
+        var_dump($layout);
         
-        /*public function testRootLogger() {
-                $root = LoggerManager::getRootLogger();
-                $a = $root->getAppender('A1');
-                self::assertType('LoggerAppenderConsole', $a);
-                $l = $a->getLayout();
-                self::assertType('LoggerLayoutTTCC', $l);
-        }*/
+        var_dump($logger->getName());
+        */
+        //$appender = LoggerManager::getRootLogger()->getAppender('A1');
+        //var_dump($appender);   
+	}
+
+	/*public function testRootLogger() {
+            $root = LoggerManager::getRootLogger();
+            $a = $root->getAppender('A1');
+            self::assertType('LoggerAppenderConsole', $a);
+            $l = $a->getLayout();
+            self::assertType('LoggerLayoutTTCC', $l);
+    }*/
 
 }
-?>

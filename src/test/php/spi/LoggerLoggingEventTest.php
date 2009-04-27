@@ -25,9 +25,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-/**  */
-require_once 'PHPUnit/Framework/TestCase.php';
-
 require_once LOG4PHP_DIR.'/appenders/LoggerAppenderNull.php';
 require_once LOG4PHP_DIR.'/spi/LoggerLoggingEvent.php';
 require_once LOG4PHP_DIR.'/LoggerHierarchy.php';
@@ -35,71 +32,69 @@ require_once LOG4PHP_DIR.'/LoggerLayout.php';
 
 class LoggerLoggingEventTestCaseAppender extends LoggerAppenderNull {
         
-        protected $requiresLayout = true;
+	protected $requiresLayout = true;
 
-        protected function append($event) {
-                $this->layout->format($event);
-        }
+	protected function append($event) {
+		$this->layout->format($event);
+	}
 
 }
 
 class LoggerLoggingEventTestCaseLayout extends LoggerLayout { 
         
-        public function activateOptions() {
-                return;
-        }
+	public function activateOptions() {
+		return;
+	}
         
-        public function format($event) {
-                LoggerLoggingEventTest::$locationInfo = $event->getLocationInformation();
-        }
+	public function format($event) {
+		LoggerLoggingEventTest::$locationInfo = $event->getLocationInformation();
+	}
 }
 
 class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
         
-        public static $locationInfo;
+	public static $locationInfo;
 
-        public function testConstructWithLoggerName() {
-                $l = LoggerLevel :: getLevelDebug();
-                $e = new LoggerLoggingEvent('fqcn', 'TestLogger', $l, 'test');
-                $this->assertEquals($e->getLoggerName(), 'TestLogger');
-        }
+	public function testConstructWithLoggerName() {
+		$l = LoggerLevel :: getLevelDebug();
+		$e = new LoggerLoggingEvent('fqcn', 'TestLogger', $l, 'test');
+		self::assertEquals($e->getLoggerName(), 'TestLogger');
+	}
 
-        public function testConstructWithTimestamp() {
-                $l = LoggerLevel :: getLevelDebug();
-                $timestamp = microtime(true);
-                $e = new LoggerLoggingEvent('fqcn', 'TestLogger', $l, 'test', $timestamp);
-                $this->assertEquals($e->getTimeStamp(), $timestamp);
-        }
+	public function testConstructWithTimestamp() {
+		$l = LoggerLevel :: getLevelDebug();
+		$timestamp = microtime(true);
+		$e = new LoggerLoggingEvent('fqcn', 'TestLogger', $l, 'test', $timestamp);
+		self::assertEquals($e->getTimeStamp(), $timestamp);
+ 	}
 
-        public function testGetStartTime() {
-                $time = LoggerLoggingEvent :: getStartTime();
-                $this->assertType('float', $time);
-                $time2 = LoggerLoggingEvent :: getStartTime();
-                $this->assertEquals($time, $time2);
-        }
+	public function testGetStartTime() {
+		$time = LoggerLoggingEvent :: getStartTime();
+		self::assertType('float', $time);
+		$time2 = LoggerLoggingEvent :: getStartTime();
+		self::assertEquals($time, $time2);
+	}
 
-        public function testGetLocationInformation() {
-                $hierarchy = LoggerHierarchy :: singleton();
-                $root = $hierarchy->getRootLogger();
+	public function testGetLocationInformation() {
+		$hierarchy = LoggerHierarchy :: singleton();
+		$root = $hierarchy->getRootLogger();
 
-                $a = new LoggerLoggingEventTestCaseAppender('A1');
-                $a->setLayout( new LoggerLoggingEventTestCaseLayout() );
-                $root->addAppender($a);
+		$a = new LoggerLoggingEventTestCaseAppender('A1');
+		$a->setLayout( new LoggerLoggingEventTestCaseLayout() );
+		$root->addAppender($a);
                 
-                $logger = $hierarchy->getLogger('test');
+		$logger = $hierarchy->getLogger('test');
 
-                $line = __LINE__; $logger->debug('test');
-                $hierarchy->shutdown();
+		$line = __LINE__; $logger->debug('test');
+		$hierarchy->shutdown();
                 
-                $li = self::$locationInfo;
+		$li = self::$locationInfo;
                 
-                $this->assertEquals($li->getClassName(), get_class($this));
-                $this->assertEquals($li->getFileName(), __FILE__);
-                $this->assertEquals($li->getLineNumber(), $line);
-                $this->assertEquals($li->getMethodName(), __FUNCTION__);
+		self::assertEquals($li->getClassName(), get_class($this));
+		self::assertEquals($li->getFileName(), __FILE__);
+		self::assertEquals($li->getLineNumber(), $line);
+		self::assertEquals($li->getMethodName(), __FUNCTION__);
 
-        }
+	}
 
 }
-?>
-

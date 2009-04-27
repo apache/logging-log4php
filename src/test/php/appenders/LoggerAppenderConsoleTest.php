@@ -23,34 +23,24 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once dirname(__FILE__).'/../phpunit.php';
-
 require_once LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php';
 
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
-
-        public function setUp() {
-        }
         
-        public function tearDown() {
-        }
-        
-        public function testSetTarget() { 
-                throw new PHPUnit_Framework_IncompleteTestError();
-    }
-    
-    public function testGetTarget() {
-                throw new PHPUnit_Framework_IncompleteTestError();
+	public function testSetTarget() { 
+		self::markTestIncomplete();
     }
 
-        public function testActivateOptions() { 
-                throw new PHPUnit_Framework_IncompleteTestError();
+	public function testGetTarget() {
+		self::markTestIncomplete();
+    }
+
+	public function testActivateOptions() { 
+		self::markTestIncomplete();
+    }
+
+	public function testClose() {
+		self::markTestIncomplete();
     }
     
-    public function testClose() {
-                throw new PHPUnit_Framework_IncompleteTestError();
-    }
-        
 }
-
-?>
