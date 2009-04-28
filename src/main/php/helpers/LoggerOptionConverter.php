@@ -71,18 +71,19 @@ class LoggerOptionConverter {
     *
     * @static
     */
-    public static function getSystemProperty($key, $def)
-    {
-        LoggerLog::debug("LoggerOptionConverter::getSystemProperty():key=[{$key}]:def=[{$def}].");
+	public static function getSystemProperty($key, $def) {
+		LoggerLog::debug("LoggerOptionConverter::getSystemProperty():key=[{$key}]:def=[{$def}].");
 
-        if (defined($key)) {
-            return (string)constant($key);
-        } elseif (isset($_ENV[$key])) {
-            return (string)$_ENV[$key];
-        } else {
-            return $def;
-        }
-    }
+		if(defined($key)) {
+			return (string)constant($key);
+		} else if(isset($_SERVER[$key])) {
+			return (string)$_SERVER[$key];
+		} else if(isset($_ENV[$key])) {
+			return (string)$_ENV[$key];
+		} else {
+			return $def;
+		}
+	}
 
     /**
      * If <var>$value</var> is <i>true</i>, then <i>true</i> is
