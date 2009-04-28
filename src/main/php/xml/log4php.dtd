@@ -29,7 +29,7 @@ element. -->
     category instead of logger cannot be used. categoryFactory is not implemented in log4php.
 -->
 <!-- [/log4php] -->
-<!ELEMENT configuration (renderer*, appender*,(logger)*,root?)>
+<!ELEMENT log4php:configuration (renderer*, appender*,(logger)*,root?)>
 
 <!-- The "threshold" attribute takes a level value such that all -->
 <!-- logging statements with a level equal or below this value are -->
@@ -48,8 +48,8 @@ element. -->
 <!-- the "null" value in debug means "turn off debugging" -->
 <!-- [/log4php] -->
      
-<!ATTLIST configuration
-  xmlns:log4php              CDATA #FIXED "http://www.vxr.it/log4php/"
+<!ATTLIST log4php:configuration
+  xmlns:log4php            CDATA #FIXED "http://logging.apache.org/log4php"
   threshold                (all|debug|info|warn|error|fatal|off|null) "null"
   debug                    (true|false|null)  "null"
 >
