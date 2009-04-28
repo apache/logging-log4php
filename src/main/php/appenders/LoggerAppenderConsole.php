@@ -53,7 +53,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
      * Default is STDOUT
      * @var string    
      */
-    protected $target = 'php://stdout';
+    protected $target = self::STDOUT;
     
     /**
      * @var boolean
@@ -76,7 +76,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
         if ($v == self::STDOUT || strtoupper($v) == 'STDOUT') {
             $this->target = self::STDOUT;
         } elseif ($v == self::STDERR || strtoupper($v) == 'STDERR') {
-            $target = self::STDERR;
+            $this->target = self::STDERR;
         } else {
             LoggerLog::debug("Invalid target. Using '".self::STDOUT."' by default.");        
         }

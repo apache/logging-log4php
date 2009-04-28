@@ -331,9 +331,10 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
     function doConfigure($url, &$repository)
     {
         $properties = @parse_ini_file($url);
-        if (count($properties) == 0) {
+        if($properties === false || count($properties) == 0) {
+			// as of PHP 5.2.7 parse_ini_file() returns FALSE instead of an empty array
             LoggerLog::warn("LoggerPropertyConfigurator::doConfigure() cannot load '$url' configuration.");
-            return false; 
+            return false;
         }
         return $this->doConfigureProperties($properties, $repository);
     }
