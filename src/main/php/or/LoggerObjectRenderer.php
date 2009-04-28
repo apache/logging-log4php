@@ -44,10 +44,7 @@ abstract class LoggerObjectRenderer {
     public static function factory($class) {
         if (!empty($class)) {
             $class = basename($class);
-            include_once LOG4PHP_DIR."/or/{$class}.php";
-            if (class_exists($class)) {
-                return new $class();
-            }
+            return new $class();
         }
         return null;
     }
