@@ -25,4 +25,31 @@
 
 class LoggerManagerTest extends PHPUnit_Framework_TestCase {
 	
+	public function testCanAutoloadClasses() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanCheckIfAGivenLoggerExists() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanGetCurrentLoggers() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanGetRootLogger() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanGetASpecificLogger() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanGetTheLoggerRepository() {
+		self::markTestIncomplete();
+	}
+	
+	public function testCanResetConfiguration() {
+		self::markTestIncomplete();
+	}
 }

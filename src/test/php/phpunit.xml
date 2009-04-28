@@ -7,9 +7,6 @@
 
 	<testsuite name="log4php">
 		<directory>.</directory>
-		<directory>./appenders</directory>
-		<directory>./or</directory>
-		<directory>./spi</directory>
 	</testsuite>
 
 </phpunit>
