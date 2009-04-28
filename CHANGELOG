@@ -16,6 +16,7 @@ Version 2.0 to be released
 - Bug #25: Allow to set environment variables in LoggerOptionConverter (Christian Hammers, Knut Urdalen)
 - Bug #28: LoggerAppenderConsole doesn't write to STDERR (Michael Kuenzli, Knut Urdalen)
 - Enh #29: Load classes through autoload instead of explicitly include them (Knut Urdalen)
+- Enh #31: Removing unnecessary use of LOG4PHP_DIR (Knut Urdalen)
 - Enh: Initial port to PHP 5 (Knut Urdalen)
 - Enh: Established unit test suite (Knut Urdalen)
 - Enh: Added a range of examples (Knut Urdalen)
