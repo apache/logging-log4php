@@ -26,11 +26,6 @@
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
 
 /**
- */
-require_once(LOG4PHP_DIR . '/LoggerAppenderSkeleton.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-
-/**
  * Log events to an email address. It will be created an email for each event. 
  *
  * <p>Parameters are 

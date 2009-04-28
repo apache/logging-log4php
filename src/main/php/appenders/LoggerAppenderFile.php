@@ -25,10 +25,6 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
 
-require_once(LOG4PHP_DIR . '/LoggerAppenderSkeleton.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-
 /**
  * FileAppender appends log events to a file.
  *
@@ -66,10 +62,15 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
         LoggerLog::debug("LoggerAppenderFile::activateOptions() opening file '{$fileName}'");
         $this->fp = fopen($fileName, ($this->getAppend()? 'a':'w'));
         if ($this->fp) {
-            if ($this->getAppend())
-                fseek($this->fp, 0, SEEK_END);
-            fwrite($this->fp, $this->layout->getHeader());
-            $this->closed = false;
+			if(flock($this->fp, LOCK_EX)) {
+				if ($this->getAppend())
+	                fseek($this->fp, 0, SEEK_END);
+	            fwrite($this->fp, $this->layout->getHeader());
+	            $this->closed = false;
+			} else { // race condition, unable to lock file
+				// TODO: should we take some action in this case?
+				$this->closed = true;
+			}        
         } else {
             $this->closed = true;
         }

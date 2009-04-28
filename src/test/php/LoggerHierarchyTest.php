@@ -23,10 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR . '/layouts/LoggerLayoutTTCC.php';
-require_once LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php';
-require_once LOG4PHP_DIR . '/LoggerHierarchy.php';
-
 class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
         
 	private $hierarchy;

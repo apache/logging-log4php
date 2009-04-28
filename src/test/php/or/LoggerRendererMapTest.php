@@ -23,9 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR.'/or/LoggerRendererMap.php';
-require_once LOG4PHP_DIR.'/LoggerHierarchy.php';
-
 class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 
 	public function testAddRenderer() {

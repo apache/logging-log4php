@@ -24,14 +24,6 @@
  * @ignore 
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
- 
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
-require_once(LOG4PHP_DIR . '/or/LoggerObjectRenderer.php');
-require_once(LOG4PHP_DIR . '/spi/LoggerConfigurator.php');
-require_once(LOG4PHP_DIR . '/LoggerAppender.php');
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-require_once(LOG4PHP_DIR . '/LoggerManager.php');
 
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE',    1000);
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE',      1010);

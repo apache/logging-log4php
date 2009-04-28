@@ -23,8 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR.'/or/LoggerObjectRenderer.php';
-
 class LoggerObjectRendererTest extends PHPUnit_Framework_TestCase {
 
 	public function testFactory() {

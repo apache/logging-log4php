@@ -24,12 +24,6 @@
  * @ignore 
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/helpers/LoggerPatternParser.php');
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
 
 /**
  * Default conversion Pattern

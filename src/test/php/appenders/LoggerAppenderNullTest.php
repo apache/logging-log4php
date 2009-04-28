@@ -23,8 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR . '/appenders/LoggerAppenderNull.php';
-
 class LoggerAppenderNullTest extends PHPUnit_Framework_TestCase {
 
 	public function testActivateOptions() { 

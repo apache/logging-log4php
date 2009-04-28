@@ -23,10 +23,6 @@
  * @ignore 
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
 
 define('LOG4PHP_LEVEL_OFF_INT',     2147483647); 
 define('LOG4PHP_LEVEL_FATAL_INT',        50000);

@@ -23,12 +23,6 @@
  * @ignore 
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerAppender.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
 
 /**
  * Abstract superclass of the other appenders in the package.

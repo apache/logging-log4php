@@ -25,14 +25,6 @@
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__)); 
 
 /**
- */
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-require_once(LOG4PHP_DIR . '/LoggerLevel.php');
-require_once(LOG4PHP_DIR . '/LoggerRoot.php');
-require_once(LOG4PHP_DIR . '/or/LoggerRendererMap.php');
-require_once(LOG4PHP_DIR . '/LoggerDefaultCategoryFactory.php');
-
-/**
  * This class is specialized in retrieving loggers by name and also maintaining 
  * the logger hierarchy.
  *

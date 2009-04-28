@@ -24,10 +24,6 @@
  * @ignore 
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
 
 /**
  * This class encapsulates the information obtained when parsing

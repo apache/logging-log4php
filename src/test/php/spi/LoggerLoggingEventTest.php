@@ -25,11 +25,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR.'/appenders/LoggerAppenderNull.php';
-require_once LOG4PHP_DIR.'/spi/LoggerLoggingEvent.php';
-require_once LOG4PHP_DIR.'/LoggerHierarchy.php';
-require_once LOG4PHP_DIR.'/LoggerLayout.php';
-
 class LoggerLoggingEventTestCaseAppender extends LoggerAppenderNull {
         
 	protected $requiresLayout = true;

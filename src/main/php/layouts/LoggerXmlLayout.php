@@ -32,12 +32,6 @@ define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX',   'log4php');
 define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS',          'http://logging.apache.org/log4php/');
 
 /**
- */
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerTransform.php');
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-
-/**
  * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
  * 
  * <p>Parameters: {@link $locationInfo}.</p>

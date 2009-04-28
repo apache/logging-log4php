@@ -24,11 +24,6 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
-require_once(LOG4PHP_DIR . '/spi/LoggerConfigurator.php');
-require_once(LOG4PHP_DIR . '/layouts/LoggerLayoutTTCC.php');
-require_once(LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php');
-require_once(LOG4PHP_DIR . '/LoggerManager.php');
-
 /**
  * Use this class to quickly configure the package.
  *

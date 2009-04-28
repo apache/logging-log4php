@@ -38,12 +38,6 @@ if (!defined('LOG4PHP_LINE_SEP')) {
         define('LOG4PHP_LINE_SEP', "\n");
     }
 }
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/helpers/LoggerFormattingInfo.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerPatternConverter.php');
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
 
 define('LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR',         '%');
 

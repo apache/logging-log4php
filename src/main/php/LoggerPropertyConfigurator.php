@@ -24,18 +24,6 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
-require_once(LOG4PHP_DIR . '/config/LoggerPropertySetter.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
-require_once(LOG4PHP_DIR . '/or/LoggerObjectRenderer.php');
-require_once(LOG4PHP_DIR . '/or/LoggerRendererMap.php');
-require_once(LOG4PHP_DIR . '/spi/LoggerConfigurator.php');
-require_once(LOG4PHP_DIR . '/spi/LoggerFilter.php');
-require_once(LOG4PHP_DIR . '/LoggerAppender.php');
-require_once(LOG4PHP_DIR . '/LoggerDefaultCategoryFactory.php');
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-require_once(LOG4PHP_DIR . '/LoggerLevel.php');
-require_once(LOG4PHP_DIR . '/LoggerManager.php');
-
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX',      "log4php.category.");
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX',        "log4php.logger.");
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX',       "log4php.factory");

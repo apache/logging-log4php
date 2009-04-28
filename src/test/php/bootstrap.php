@@ -30,7 +30,7 @@ if(!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
     define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
 }
 
-set_include_path(LOG4PHP_DIR.PATH_SEPARATOR.get_include_path());
+require_once LOG4PHP_DIR.'/LoggerManager.php';
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Framework/TestSuite.php';

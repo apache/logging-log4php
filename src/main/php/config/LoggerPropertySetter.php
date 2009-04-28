@@ -25,9 +25,6 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
 
-require_once(LOG4PHP_DIR . '/LoggerLog.php');
-require_once(LOG4PHP_DIR . '/helpers/LoggerOptionConverter.php');
-
 /**
  * General purpose Object property setter. Clients repeatedly invokes
  * {@link setProperty()} in order to invoke setters

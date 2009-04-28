@@ -23,8 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR . '/LoggerLog.php';
-
 class LoggerLogTest extends PHPUnit_Framework_TestCase {
 
 	public function testInternalDebuggingIsInitallyFalse() {

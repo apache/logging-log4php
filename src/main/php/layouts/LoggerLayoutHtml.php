@@ -38,11 +38,6 @@ if (!defined('LOG4PHP_LINE_SEP')) {
         define('LOG4PHP_LINE_SEP', "\n");
     }
 }
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-require_once(LOG4PHP_DIR . '/spi/LoggerLoggingEvent.php');
 
 /**
  * This layout outputs events in a HTML table.

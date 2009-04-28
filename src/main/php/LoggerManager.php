@@ -29,7 +29,7 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
-require_once(LOG4PHP_DIR . '/LoggerHierarchy.php');
+spl_autoload_register(array('LoggerManager', 'autoload'));
 
 /**
  * Use the LoggerManager to get Logger instances.
@@ -41,6 +41,72 @@ require_once(LOG4PHP_DIR . '/LoggerHierarchy.php');
  * @todo create a configurator selector  
  */
 class LoggerManager {
+
+	private static $_classes = array(
+		'Logger' => '/Logger.php',
+		'LoggerAppender' => '/LoggerAppender.php',
+		'LoggerAppenderSkeleton' => '/LoggerAppenderSkeleton.php',
+		'LoggerHierarchy' => '/LoggerHierarchy.php',
+		'LoggerBasicConfigurator' => '/LoggerBasicConfigurator.php',
+		'LoggerDefaultCategoryFactory' => '/LoggerDefaultCategoryFactory.php',
+		'LoggerHierarchy' => '/LoggerHierarchy.php',
+		'LoggerLayout' => '/LoggerLayout.php',
+		'LoggerLevel' => '/LoggerLevel.php',
+		'LoggerLog' => '/LoggerLog.php',
+		'LoggerMDC' => '/LoggerMDC.php',
+		'LoggerNDC' => '/LoggerNDC.php',
+		'LoggerPropertyConfigurator' => '/LoggerPropertyConfigurator.php',
+		'LoggerRoot' => '/LoggerRoot.php',
+		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
+		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
+		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
+		'LoggerAppenderDb' => '/appenders/LoggerAppenderDb.php',
+		'LoggerAppenderEcho' => '/appenders/LoggerAppenderEcho.php',
+		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
+		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
+		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
+		'LoggerAppenderNull' => '/appenders/LoggerAppenderNull.php',
+		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
+		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
+		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
+		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
+		'LoggerPropertyGetter' => '/config/LoggerPropertyGetter.php',
+		'LoggerPropertySetter' => '/config/LoggerPropertySetter.php',
+		'LoggerFormattingInfo' => '/helpers/LoggerFormattingInfo.php',
+		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
+		'LoggerPatternConverter' => '/helpers/LoggerPatternConverter.php',
+		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
+		'LoggerTransform' => '/helpers/LoggerTransform.php',
+		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
+		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
+		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
+		'LoggerPatternLayout' => '/layouts/LoggerPatternLayout.php',
+		'LoggerXmlLayout' => '/layouts/LoggerXmlLayout.php',
+		'LoggerDefaultRenderer' => '/or/LoggerDefaultRenderer.php',
+		'LoggerObjectRenderer' => '/or/LoggerObjectRenderer.php',
+		'LoggerRendererMap' => '/or/LoggerRendererMap.php',
+		'LoggerConfigurator' => '/spi/LoggerConfigurator.php',
+		'LoggerFactory' => '/spi/LoggerFactory.php',
+		'LoggerFilter' => '/spi/LoggerFilter.php',
+		'LoggerLocationInfo' => '/spi/LoggerLocationInfo.php',
+		'LoggerLoggingEvent' => '/spi/LoggerLoggingEvent.php',
+		'LoggerDenyAllFilter' => '/varia/LoggerDenyAllFilter.php',
+		'LoggerLevelMatchFilter' => '/varia/LoggerLevelMatchFilter.php',
+		'LoggerLevelRangeFilter' => '/varia/LoggerLevelRangeFilter.php',
+		'LoggerStringMatchFilter' => '/varia/LoggerStringMatchFilter.php',
+		'LoggerDOMConfigurator' => '/xml/LoggerDOMConfigurator.php',
+	);
+
+	/**
+	 * Class autoloader
+	 * This method is provided to be invoked within an __autoload() magic method.
+	 * @param string class name
+	 */
+	public static function autoload($className) {
+		if(isset(self::$_classes[$className])) {
+			include LOG4PHP_DIR.self::$_classes[$className];
+		}
+	}
 
     /**
      * check if a given logger exists.

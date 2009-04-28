@@ -24,9 +24,6 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
-require_once(LOG4PHP_DIR . '/spi/LoggerFactory.php');
-require_once(LOG4PHP_DIR . '/Logger.php');
-
 /**
  * Creates instances of {@link Logger} with a given name.
  *

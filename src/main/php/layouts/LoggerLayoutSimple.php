@@ -36,11 +36,6 @@ if (!defined('LOG4PHP_LINE_SEP')) {
     }
 }
 
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
-
 /**
  * A simple layout.
  *

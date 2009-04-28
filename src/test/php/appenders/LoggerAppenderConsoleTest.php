@@ -23,8 +23,6 @@
  * @link       http://logging.apache.org/log4php
  */
 
-require_once LOG4PHP_DIR . '/appenders/LoggerAppenderConsole.php';
-
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
         
 	public function testSetTarget() { 

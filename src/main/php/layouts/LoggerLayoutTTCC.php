@@ -38,11 +38,7 @@ if (!defined('LOG4PHP_LINE_SEP')) {
         define('LOG4PHP_LINE_SEP', "\n");
     }
 }
- 
-/**
- */
-require_once(LOG4PHP_DIR . '/LoggerLayout.php');
- 
+
 /**
  * String constant designating no time information. Current value of
  * this constant is <b>NULL</b>.
