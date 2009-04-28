@@ -24,7 +24,7 @@
 <!-- A configuration element consists of optional renderer
 elements,appender elements, categories and an optional root
 element. -->
-<!-- [loh4php] -->
+<!-- [log4php] -->
 <!--
     category instead of logger cannot be used. categoryFactory is not implemented in log4php.
 -->
@@ -44,7 +44,7 @@ element. -->
 <!-- cannot be set to null. The "null" value for the threshold attribute -->
 <!-- simply means don't touch the threshold field, the threshold field   --> 
 <!-- keeps its old value.                                                -->
-<!-- [loh4php] -->
+<!-- [log4php] -->
 <!-- the "null" value in debug means "turn off debugging" -->
 <!-- [/log4php] -->
      
