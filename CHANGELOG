@@ -1,0 +1,21 @@
+log4php Change Log
+==================
+
+Version 2.0 to be released
+--------------------------
+- Bug #4: Fatal error for constructor in LoggerAppenderRollingFile (Michael Aichler)
+- Bug #5: LoggerAppenderRollingFile unable to open file and append logs (Michael Aichler)
+- Bug #7: Change copyright notices to conform to the Source Header and Copyright Notice Policy (Curt Arnold)
+- Bug #9: log4php.dtd should be reviewed (Christian Grobmeier)
+- Bug #11: trailing "\n" (Hiroaki Kawai)
+- Bug #13: LoggerPropertyConfigurator: Only variables should be assigned by reference (Michael Aichler)
+- Bug #14: LoggerPropertySetter: warnings about is_a() and non-static method (Michael Aichler)
+- Bug #15: Logger: warnings about is_a() (Michael Aichler)
+- Bug #22: log4php.dtd invalid (Christian Grobmeier)
+- Bug #24: LoggerAppenderRollingFile unable to rollover (Dennis Korbar)
+- Bug #25: Allow to set environment variables in LoggerOptionConverter (Christian Hammers, Knut Urdalen)
+- Bug #28: LoggerAppenderConsole doesn't write to STDERR (Michael Kuenzli, Knut Urdalen)
+- Enh #29: Load classes through autoload instead of explicitly include them (Knut Urdalen)
+- Enh: Initial port to PHP 5 (Knut Urdalen)
+- Enh: Established unit test suite (Knut Urdalen)
+- Enh: Added a range of examples (Knut Urdalen)
