@@ -20,9 +20,6 @@
  * @subpackage appenders
  */
 
-/** @ignore */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
 /**
  * A NullAppender merely exists, it never outputs a message to any device.  
  *

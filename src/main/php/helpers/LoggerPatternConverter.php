@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * Array for fast space padding
  * Used by {@link LoggerPatternConverter::spacePad()}.  
  */

@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
-/**
  * Abstract superclass of the other appenders in the package.
  *  
  * This class provides the code for common functionality, such as

@@ -20,11 +20,6 @@
  * @subpackage helpers
  */
 
-/**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
- 
 define('LOG4PHP_LOGGER_TRANSFORM_CDATA_START',          '<![CDATA[');
 define('LOG4PHP_LOGGER_TRANSFORM_CDATA_END',            ']]>');
 define('LOG4PHP_LOGGER_TRANSFORM_CDATA_PSEUDO_END',     ']]&gt;');

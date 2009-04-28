@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * The default Renderer renders objects by type casting
  *
  * @author  Marco Vassura

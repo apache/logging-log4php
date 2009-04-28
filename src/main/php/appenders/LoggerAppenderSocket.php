@@ -20,11 +20,6 @@
  * @subpackage appenders
  */
 
-/**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
 define('LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_PORT',       4446);
 define('LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_TIMEOUT',    30);
 

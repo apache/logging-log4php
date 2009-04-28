@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * LoggerAppenderEcho uses {@link PHP_MANUAL#echo echo} function to output events. 
  * 
  * <p>This appender requires a layout.</p>  

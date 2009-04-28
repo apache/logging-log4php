@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * Log events using php {@link PHP_MANUAL#syslog} function.
  *
  * Levels are mapped as follows:

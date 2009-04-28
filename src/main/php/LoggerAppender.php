@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
- 
-/**
  * Abstract class that defines output logs strategies.
  *
  * @author  Marco Vassura

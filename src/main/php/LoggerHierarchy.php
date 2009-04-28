@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__)); 
-
-/**
  * This class is specialized in retrieving loggers by name and also maintaining 
  * the logger hierarchy.
  *

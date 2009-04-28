@@ -20,11 +20,6 @@
  * @subpackage xml
  */
 
-/**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE',    1000);
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE',      1010);
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE',        1020);

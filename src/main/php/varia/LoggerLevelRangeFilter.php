@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * This is a very simple filter based on level matching, which can be
  * used to reject messages with priorities outside a certain range.
  *  

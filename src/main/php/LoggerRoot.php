@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
-/**
  * The root logger.
  *
  * @author  Marco Vassura

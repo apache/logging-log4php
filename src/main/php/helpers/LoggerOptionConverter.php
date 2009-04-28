@@ -20,11 +20,6 @@
  * @subpackage helpers
  */
 
-/**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
 define('LOG4PHP_OPTION_CONVERTER_DELIM_START',      '${');
 define('LOG4PHP_OPTION_CONVERTER_DELIM_STOP',       '}');
 define('LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN',  2);

@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * LoggerAppenderRollingFile extends LoggerAppenderFile to backup the log files 
  * when they reach a certain size.
  *

@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * This is a very simple filter based on level matching.
  *
  * <p>The filter admits two options <b><var>LevelToMatch</var></b> and

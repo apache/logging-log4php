@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * Appends log events to mail using php function {@link PHP_MANUAL#mail}.
  *
  * <p>Parameters are {@link $from}, {@link $to}, {@link $subject}.</p>

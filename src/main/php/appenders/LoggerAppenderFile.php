@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * FileAppender appends log events to a file.
  *
  * Parameters are ({@link $fileName} but option name is <b>file</b>), 

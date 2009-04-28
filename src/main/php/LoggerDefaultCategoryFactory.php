@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
-/**
  * Creates instances of {@link Logger} with a given name.
  *
  * @author  Marco Vassura

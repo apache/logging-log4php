@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * General purpose Object property setter. Clients repeatedly invokes
  * {@link setProperty()} in order to invoke setters
  * on the Object specified in the constructor.

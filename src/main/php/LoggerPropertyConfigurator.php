@@ -19,11 +19,6 @@
  * @package log4php
  */
 
-/**
- * @ignore
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX',      "log4php.category.");
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX',        "log4php.logger.");
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX',       "log4php.factory");

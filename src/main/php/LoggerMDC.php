@@ -19,11 +19,6 @@
  * @package log4php
  */
 
-/**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__)); 
- 
 define('LOGGER_MDC_HT_SIZE', 7);
 
 /**

@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * When location information is not available the constant
  * <i>NA</i> is returned. Current value of this string
  * constant is <b>?</b>.  

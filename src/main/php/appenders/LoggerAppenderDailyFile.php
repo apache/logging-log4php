@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * LoggerAppenderDailyFile appends log events to a file ne.
  *
  * A formatted version of the date pattern is used as to create the file name

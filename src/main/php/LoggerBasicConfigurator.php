@@ -20,11 +20,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
-/**
  * Use this class to quickly configure the package.
  *
  * <p>For file based configuration see {@link LoggerPropertyConfigurator}. 

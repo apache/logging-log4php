@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
-/**
  * This is a very simple filter based on string matching.
  * 
  * <p>The filter admits two options {@link $stringToMatch} and

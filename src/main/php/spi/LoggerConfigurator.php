@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__)); 
-
-/**
  * Special level value signifying inherited behaviour. The current
  * value of this string constant is <b>inherited</b>. 
  * {@link LOG4PHP_LOGGER_CONFIGURATOR_NULL} is a synonym.  

@@ -274,7 +274,7 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
         /**
          * @ignore
          */
-        define('LOG4PHP_CONFIGURATOR_CLASS', LOG4PHP_DIR . '/xml/LoggerDOMConfigurator');
+        define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerDOMConfigurator');
     } else {
         /**
          * Holds the configurator class name.
@@ -293,7 +293,7 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
          *
          * @var string
          */
-        define('LOG4PHP_CONFIGURATOR_CLASS', LOG4PHP_DIR . '/LoggerPropertyConfigurator');
+        define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerPropertyConfigurator');
     }
 }
 

@@ -21,11 +21,6 @@
  */
 
 /**
- * @ignore
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
-/**
  * Extend and implement this abstract class to create new instances of 
  * {@link Logger} or a sub-class of {@link Logger}.
  *

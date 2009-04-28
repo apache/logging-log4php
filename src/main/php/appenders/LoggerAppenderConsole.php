@@ -20,9 +20,6 @@
  * @subpackage appenders
  */
 
-/** @ignore */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__) . '/..');
-
 /**
  * ConsoleAppender appends log events to STDOUT or STDERR using a layout specified by the user. 
  * 
