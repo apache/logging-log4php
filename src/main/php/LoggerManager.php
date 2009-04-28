@@ -316,17 +316,7 @@ if (!LOG4PHP_DEFAULT_INIT_OVERRIDE) {
  */
 function LoggerManagerDefaultInit()
 {
-    $configuratorClass = basename(LOG4PHP_CONFIGURATOR_CLASS);
-    if (!class_exists($configuratorClass)) {
-        include_once(LOG4PHP_CONFIGURATOR_CLASS . ".php");
-    }
-    if (class_exists($configuratorClass)) {
-        
-        return call_user_func(array($configuratorClass, 'configure'), LOG4PHP_CONFIGURATION);         
-
-    } else {
-        LoggerLog::warn("LoggerManagerDefaultInit() Configurator '{$configuratorClass}' doesnt exists");
-        return false;
-    }
+    $configuratorClass = basename(LOG4PHP_CONFIGURATOR_CLASS);	
+    return call_user_func(array($configuratorClass, 'configure'), LOG4PHP_CONFIGURATION);
 }
 

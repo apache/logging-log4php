@@ -383,8 +383,6 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
                 "]."
             );
             
-            if (!class_exists($factoryClassName))
-                @include_once("{$factoryFqcn}.php");
             if (class_exists($factoryClassName)) {
                 $loggerFactory = new $factoryClassName();
             } else {

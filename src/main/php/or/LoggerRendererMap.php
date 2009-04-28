@@ -172,9 +172,6 @@ class LoggerRendererMap {
     public function rendererExists($class)
     {
         $class = basename($class);
-        if (!class_exists($class)) {
-            include_once(LOG4PHP_DIR ."/or/{$class}.php");
-        }
         return class_exists($class);
     }
 }

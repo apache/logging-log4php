@@ -291,14 +291,7 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
 
                 $filterName = basename($this->subst(@$attribs['CLASS']));
                 if (!empty($filterName)) {
-                    if (!class_exists($filterName)) {
-                        @include_once(LOG4PHP_DIR . "/varia/{$filterName}.php");
-                    }
-                    if (class_exists($filterName)) {
-                        $this->filter = new $filterName();
-                    } else {
-                        LoggerLog::warn("LoggerDOMConfigurator::tagOpen() FILTER. class '$filterName' doesnt exist");
-                    }
+                    $this->filter = new $filterName();
                     $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE;
                 } else {
                     LoggerLog::warn("LoggerDOMConfigurator::tagOpen() FILTER filter name cannot be empty");
@@ -336,8 +329,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                         $this->logger =& $this->repository->getLogger($loggerName);
                     } else {
                         $className = basename($class);
-                        if (!class_exists($className))  
-                            @include_once("{$class}.php");
                         if (!class_exists($className)) {
                             LoggerLog::warn(
                                 "LoggerDOMConfigurator::tagOpen() LOGGER. ".

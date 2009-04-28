@@ -181,9 +181,6 @@ class LoggerOptionConverter {
 
         LoggerLog::debug("LoggerOptionConverter::toLevel():class=[{$clazz}]:pri=[{$levelName}]");
 
-        if (!class_exists($clazz))
-            @include_once("{$clazz}.php");
-
         $clazz = basename($clazz);
 
         if (class_exists($clazz)) {
