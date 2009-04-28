@@ -147,9 +147,9 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
             rename($file, $target);
         }
         
-        $this->setFile($fileName, false);
         unset($this->fp);
         $this->activateOptions();
+        $this->setFile($fileName, false);
     }
     
     function setFileName($fileName)
