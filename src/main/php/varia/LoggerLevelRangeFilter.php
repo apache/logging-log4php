@@ -28,13 +28,13 @@
  * and <b><var>AcceptOnMatch</var></b>.</p>
  *
  * <p>If the level of the {@link LoggerLoggingEvent} is not between Min and Max
- * (inclusive), then {@link LOG4PHP_LOGGER_FILTER_DENY} is returned.</p>
+ * (inclusive), then {@link LoggerFilter::DENY} is returned.</p>
  *  
  * <p>If the Logging event level is within the specified range, then if
  * <b><var>AcceptOnMatch</var></b> is <i>true</i>, 
- * {@link LOG4PHP_LOGGER_FILTER_ACCEPT} is returned, and if
+ * {@link LoggerFilter::ACCEPT} is returned, and if
  * <b><var>AcceptOnMatch</var></b> is <i>false</i>, 
- * {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} is returned.</p>
+ * {@link LoggerFilter::NEUTRAL} is returned.</p>
  *  
  * <p>If <b><var>LevelMin</var></b> is not defined, then there is no
  * minimum acceptable level (i.e. a level is never rejected for
@@ -134,7 +134,7 @@ class LoggerLevelRangeFilter extends LoggerFilter {
         if($this->levelMin !== null) {
             if ($level->isGreaterOrEqual($this->levelMin) == false) {
                 // level of event is less than minimum
-                return LOG4PHP_LOGGER_FILTER_DENY;
+                return LoggerFilter::DENY;
             }
         }
 
@@ -144,17 +144,17 @@ class LoggerLevelRangeFilter extends LoggerFilter {
                 // Alas, there is no Level.isGreater method. and using
                 // a combo of isGreaterOrEqual && !Equal seems worse than
                 // checking the int values of the level objects..
-                return LOG4PHP_LOGGER_FILTER_DENY;
+                return LoggerFilter::DENY;
             }
         }
 
         if ($this->getAcceptOnMatch()) {
             // this filter set up to bypass later filters and always return
             // accept if level in range
-            return  LOG4PHP_LOGGER_FILTER_ACCEPT;
+            return  LoggerFilter::ACCEPT;
         } else {
             // event is ok for this filter; allow later filters to have a look..
-            return LOG4PHP_LOGGER_FILTER_NEUTRAL;
+            return LoggerFilter::NEUTRAL;
         }
     }
 }

@@ -20,9 +20,6 @@
  * @subpackage appenders
  */
 
-define('LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_PORT',       4446);
-define('LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_TIMEOUT',    30);
-
 /**
  * Serialize events and send them to a network socket.
  *
@@ -52,7 +49,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @var integer the network port.
      */
-    var $port           = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_PORT;
+    var $port = 4446;
     
     /**
      * @var boolean get event's location info.
@@ -62,7 +59,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     /**
      * @var integer connection timeout
      */
-    var $timeout        = LOG4PHP_LOGGER_APPENDER_SOCKET_DEFAULT_TIMEOUT;
+    var $timeout = 30;
     
     /**
      * @var boolean output events via {@link LoggerXmlLayout}

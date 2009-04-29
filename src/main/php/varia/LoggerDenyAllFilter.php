@@ -37,14 +37,14 @@
 class LoggerDenyAllFilter extends LoggerFilter {
 
   /**
-   * Always returns the integer constant {@link LOG4PHP_LOGGER_FILTER_DENY}
+   * Always returns the integer constant {@link LoggerFilter::DENY}
    * regardless of the {@link LoggerLoggingEvent} parameter.
    * 
    * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to filter.
-   * @return LOG4PHP_LOGGER_FILTER_DENY Always returns {@link LOG4PHP_LOGGER_FILTER_DENY}
+   * @return LoggerFilter::DENY Always returns {@link LoggerFilter::DENY}
    */
   function decide($event)
   {
-    return LOG4PHP_LOGGER_FILTER_DENY;
+    return LoggerFilter::DENY;
   }
 }

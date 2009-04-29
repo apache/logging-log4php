@@ -21,24 +21,6 @@
  */
 
 /**
- * The log event must be logged immediately without consulting with
- * the remaining filters, if any, in the chain.  
- */
-define('LOG4PHP_LOGGER_FILTER_ACCEPT',  1);
-
-/**
- * This filter is neutral with respect to the log event. The
- * remaining filters, if any, should be consulted for a final decision.
- */
-define('LOG4PHP_LOGGER_FILTER_NEUTRAL', 0);
-
-/**
- * The log event must be dropped immediately without consulting
- *  with the remaining filters, if any, in the chain.  
- */
-define('LOG4PHP_LOGGER_FILTER_DENY',    -1);
-
-/**
  * Users should extend this class to implement customized logging
  * event filtering. Note that {@link LoggerCategory} and {@link LoggerAppenderSkeleton}, 
  * the parent class of all standard
@@ -52,19 +34,19 @@ define('LOG4PHP_LOGGER_FILTER_DENY',    -1);
  * in the order of their addition to the chain.
  * 
  * <p>The {@link decide()} method must return one
- * of the integer constants {@link LOG4PHP_LOG4PHP_LOGGER_FILTER_DENY}, 
- * {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} or {@link LOG4PHP_LOGGER_FILTER_ACCEPT}.
+ * of the integer constants {@link LoggerFilter::DENY}, 
+ * {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::ACCEPT}.
  * 
- * <p>If the value {@link LOG4PHP_LOGGER_FILTER_DENY} is returned, then the log event is
+ * <p>If the value {@link LoggerFilter::DENY} is returned, then the log event is
  * dropped immediately without consulting with the remaining
  * filters. 
  * 
- * <p>If the value {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} is returned, then the next filter
+ * <p>If the value {@link LoggerFilter::NEUTRAL} is returned, then the next filter
  * in the chain is consulted. If there are no more filters in the
  * chain, then the log event is logged. Thus, in the presence of no
  * filters, the default behaviour is to log all logging events.
  * 
- * <p>If the value {@link LOG4PHP_LOGGER_FILTER_ACCEPT} is returned, then the log
+ * <p>If the value {@link LoggerFilter::ACCEPT} is returned, then the log
  * event is logged without consulting the remaining filters. 
  * 
  * <p>The philosophy of log4php filters is largely inspired from the
@@ -76,6 +58,24 @@ define('LOG4PHP_LOGGER_FILTER_DENY',    -1);
  * @subpackage spi
  */
 class LoggerFilter {
+
+	/**
+	 * The log event must be logged immediately without consulting with
+	 * the remaining filters, if any, in the chain.  
+	 */
+	const ACCEPT = 1;
+	
+	/**
+	 * This filter is neutral with respect to the log event. The
+	 * remaining filters, if any, should be consulted for a final decision.
+	 */
+	const NEUTRAL = 0;
+	
+	/**
+	 * The log event must be dropped immediately without consulting
+	 * with the remaining filters, if any, in the chain.  
+	 */
+	const DENY = -1;
 
     /**
      * @var LoggerFilter Points to the next {@link LoggerFilter} in the filter chain.
@@ -93,18 +93,18 @@ class LoggerFilter {
 
     /**   
      * Decide what to do.  
-     * <p>If the decision is {@link LOG4PHP_LOGGER_FILTER_DENY}, then the event will be
-     * dropped. If the decision is {@link LOG4PHP_LOGGER_FILTER_NEUTRAL}, then the next
-     * filter, if any, will be invoked. If the decision is {@link LOG4PHP_LOGGER_FILTER_ACCEPT} then
+     * <p>If the decision is {@link LoggerFilter::DENY}, then the event will be
+     * dropped. If the decision is {@link LoggerFilter::NEUTRAL}, then the next
+     * filter, if any, will be invoked. If the decision is {@link LoggerFilter::ACCEPT} then
      * the event will be logged without consulting with other filters in
      * the chain.
      *
      * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to decide upon.
-     * @return integer {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} or {@link LOG4PHP_LOGGER_FILTER_DENY}|{@link LOG4PHP_LOGGER_FILTER_ACCEPT}
+     * @return integer {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::DENY}|{@link LoggerFilter::ACCEPT}
      */
     public function decide($event)
     {
-        return LOG4PHP_LOGGER_FILTER_NEUTRAL;
+        return self::NEUTRAL;
     }
 
         public function getNext() {

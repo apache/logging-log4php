@@ -235,9 +235,9 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
     
         while($f !== null) {
             switch ($f->decide($event)) {
-                case LOG4PHP_LOGGER_FILTER_DENY: return;
-                case LOG4PHP_LOGGER_FILTER_ACCEPT: return $this->append($event);
-                case LOG4PHP_LOGGER_FILTER_NEUTRAL: $f = $f->getNext();
+                case LoggerFilter::DENY: return;
+                case LoggerFilter::ACCEPT: return $this->append($event);
+                case LoggerFilter::NEUTRAL: $f = $f->getNext();
             }
         }
         $this->append($event);    

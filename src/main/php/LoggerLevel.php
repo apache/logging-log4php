@@ -19,14 +19,6 @@
  * @package log4php
  */
 
-define('LOG4PHP_LEVEL_OFF_INT',     2147483647); 
-define('LOG4PHP_LEVEL_FATAL_INT',        50000);
-define('LOG4PHP_LEVEL_ERROR_INT',        40000);
-define('LOG4PHP_LEVEL_WARN_INT',         30000);
-define('LOG4PHP_LEVEL_INFO_INT',         20000);
-define('LOG4PHP_LEVEL_DEBUG_INT',        10000);
-define('LOG4PHP_LEVEL_ALL_INT',    -2147483647);
-
 /**
  * Defines the minimum set of levels recognized by the system, that is
  * <i>OFF</i>, <i>FATAL</i>, <i>ERROR</i>,
@@ -42,6 +34,14 @@ define('LOG4PHP_LEVEL_ALL_INT',    -2147483647);
  * @since 0.5
  */
 class LoggerLevel {
+	
+	const OFF = 2147483647;
+	const FATAL = 50000;
+	const ERROR = 40000;
+	const WARN = 30000;
+	const INFO = 20000;
+	const DEBUG = 10000;
+	const ALL = -2147483647;
 
     /**
      * @var integer
@@ -95,7 +95,7 @@ class LoggerLevel {
     public static function getLevelOff()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_OFF_INT, 'OFF', 0);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::OFF, 'OFF', 0);
         return $level;
     }
 
@@ -107,7 +107,7 @@ class LoggerLevel {
     public static function getLevelFatal()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_FATAL_INT, 'FATAL', 0);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::FATAL, 'FATAL', 0);
         return $level;
     }
     
@@ -119,7 +119,7 @@ class LoggerLevel {
     public static function getLevelError()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_ERROR_INT, 'ERROR', 3);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::ERROR, 'ERROR', 3);
         return $level;
     }
     
@@ -131,7 +131,7 @@ class LoggerLevel {
     public static function getLevelWarn()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_WARN_INT, 'WARN', 4);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::WARN, 'WARN', 4);
         return $level;
     }
 
@@ -143,7 +143,7 @@ class LoggerLevel {
     public static function getLevelInfo()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_INFO_INT, 'INFO', 6);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::INFO, 'INFO', 6);
         return $level;
     }
 
@@ -155,7 +155,7 @@ class LoggerLevel {
     public static function getLevelDebug()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_DEBUG_INT, 'DEBUG', 7);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::DEBUG, 'DEBUG', 7);
         return $level;
     }
 
@@ -167,7 +167,7 @@ class LoggerLevel {
     public static function getLevelAll()
     {
         static $level;
-        if (!isset($level)) $level = new LoggerLevel(LOG4PHP_LEVEL_ALL_INT, 'ALL', 7);
+        if (!isset($level)) $level = new LoggerLevel(LoggerLevel::ALL, 'ALL', 7);
         return $level;
     }
     
@@ -231,13 +231,13 @@ class LoggerLevel {
         } else {
             if (is_int($arg)) {
                 switch($arg) {
-                    case LOG4PHP_LEVEL_ALL_INT:     return self::getLevelAll();
-                    case LOG4PHP_LEVEL_DEBUG_INT:   return self::getLevelDebug();
-                    case LOG4PHP_LEVEL_INFO_INT:    return self::getLevelInfo();
-                    case LOG4PHP_LEVEL_WARN_INT:    return self::getLevelWarn();
-                    case LOG4PHP_LEVEL_ERROR_INT:   return self::getLevelError();
-                    case LOG4PHP_LEVEL_FATAL_INT:   return self::getLevelFatal();
-                    case LOG4PHP_LEVEL_OFF_INT:     return self::getLevelOff();
+                    case self::ALL:     return self::getLevelAll();
+                    case self::DEBUG:   return self::getLevelDebug();
+                    case self::INFO:    return self::getLevelInfo();
+                    case self::WARN:    return self::getLevelWarn();
+                    case self::ERROR:   return self::getLevelError();
+                    case self::FATAL:   return self::getLevelFatal();
+                    case self::OFF:     return self::getLevelOff();
                     default:                        return $defaultLevel;
                 }
             } else {

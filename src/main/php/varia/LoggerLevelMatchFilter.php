@@ -27,10 +27,10 @@
  * <b><var>AcceptOnMatch</var></b>. If there is an exact match between the value
  * of the <b><var>LevelToMatch</var></b> option and the level of the 
  * {@link LoggerLoggingEvent}, then the {@link decide()} method returns 
- * {@link LOG4PHP_LOGGER_FILTER_ACCEPT} in case the <b><var>AcceptOnMatch</var></b> 
+ * {@link LoggerFilter::ACCEPT} in case the <b><var>AcceptOnMatch</var></b> 
  * option value is set to <i>true</i>, if it is <i>false</i> then 
- * {@link LOG4PHP_LOGGER_FILTER_DENY} is returned. If there is no match, 
- * {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} is returned.</p>
+ * {@link LoggerFilter::DENY} is returned. If there is no match, 
+ * {@link LoggerFilter::NEUTRAL} is returned.</p>
  *
  * @author  Marco Vassura
  * @version $Revision$
@@ -85,11 +85,11 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     /**
      * Return the decision of this filter.
      * 
-     * Returns {@link LOG4PHP_LOGGER_FILTER_NEUTRAL} if the <b><var>LevelToMatch</var></b>
+     * Returns {@link LoggerFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
      * option is not set or if there is not match.  Otherwise, if there is a
-     * match, then the returned decision is {@link LOG4PHP_LOGGER_FILTER_ACCEPT} if the
+     * match, then the returned decision is {@link LoggerFilter::ACCEPT} if the
      * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
-     * returned decision is {@link LOG4PHP_LOGGER_FILTER_DENY} if the
+     * returned decision is {@link LoggerFilter::DENY} if the
      * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
      *
      * @param LoggerLoggingEvent $event
@@ -98,14 +98,14 @@ class LoggerLevelMatchFilter extends LoggerFilter {
     function decide($event)
     {
         if($this->levelToMatch === null)
-            return LOG4PHP_LOGGER_FILTER_NEUTRAL;
+            return LoggerFilter::NEUTRAL;
         
         if ($this->levelToMatch->equals($event->getLevel())) {  
             return $this->getAcceptOnMatch() ? 
-                LOG4PHP_LOGGER_FILTER_ACCEPT : 
-                LOG4PHP_LOGGER_FILTER_DENY;
+                LoggerFilter::ACCEPT : 
+                LoggerFilter::DENY;
         } else {
-            return LOG4PHP_LOGGER_FILTER_NEUTRAL;
+            return LoggerFilter::NEUTRAL;
         }
     }
 }
