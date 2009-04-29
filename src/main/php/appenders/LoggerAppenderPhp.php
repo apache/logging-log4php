@@ -35,9 +35,12 @@
  */ 
 class LoggerAppenderPhp extends LoggerAppenderSkeleton {
 
+	public function __construct($name) {
+		parent::__construct($name);
+		$this->requiresLayout = true;
+	}
     
     public function activateOptions() {
-        $this->layout = LoggerLayout::factory('LoggerLayoutTTCC');
         $this->closed = false;
     }
 
