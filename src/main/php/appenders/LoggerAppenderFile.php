@@ -55,6 +55,14 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     public function activateOptions() {
         $fileName = $this->getFile();
         LoggerLog::debug("LoggerAppenderFile::activateOptions() opening file '{$fileName}'");
+
+		if(!is_file($fileName)) {
+			$dir = dirname($fileName);
+			if(!is_dir($dir)) {
+				mkdir($dir, 0777, true);
+			}
+		}
+
         $this->fp = fopen($fileName, ($this->getAppend()? 'a':'w'));
         if ($this->fp) {
 			if(flock($this->fp, LOCK_EX)) {

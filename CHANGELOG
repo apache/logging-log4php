@@ -8,6 +8,7 @@ Version 2.0 to be released
 - Bug #7: Change copyright notices to conform to the Source Header and Copyright Notice Policy (Curt Arnold)
 - Bug #9: log4php.dtd should be reviewed (Christian Grobmeier)
 - Bug #11: trailing "\n" (Hiroaki Kawai)
+- Bug #12: LoggerAppenderFile does not create missing directories (Knut Urdalen)
 - Bug #13: LoggerPropertyConfigurator: Only variables should be assigned by reference (Michael Aichler)
 - Bug #14: LoggerPropertySetter: warnings about is_a() and non-static method (Michael Aichler)
 - Bug #15: Logger: warnings about is_a() (Michael Aichler)
