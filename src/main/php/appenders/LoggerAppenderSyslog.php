@@ -77,6 +77,11 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
      */
     private $_overridePriority;
 
+	public function __construct($name) {
+		parent::__construct($name);
+		$this->requiresLayout = true;
+	}
+
         /**
      * Set the ident of the syslog message.
      *
@@ -147,8 +152,12 @@ class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
         openlog($this->_ident, $this->_option, $this->_facility);
         
         $level   = $event->getLevel();
-        $message = $event->getRenderedMessage();
-        
+		if($this->layout === null) {
+			$message = $event->getRenderedMessage();
+		} else {
+			$message = $this->layout->format($event); 
+		}
+
         // If the priority of a syslog message can be overridden by a value defined in the properties-file,
         // use that value, else use the one that is defined in the code.
         if($this->_overridePriority){

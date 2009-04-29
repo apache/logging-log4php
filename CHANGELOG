@@ -12,6 +12,7 @@ Version 2.0 to be released
 - Bug #13: LoggerPropertyConfigurator: Only variables should be assigned by reference (Michael Aichler)
 - Bug #14: LoggerPropertySetter: warnings about is_a() and non-static method (Michael Aichler)
 - Bug #15: Logger: warnings about is_a() (Michael Aichler)
+- Bug #16: Patch for LoggerAppenderSyslog to use Layouts (Gary Richardson)
 - Bug #20: Custom layout for LoggerAppenderPhp (Corin Lawson)
 - Bug #22: log4php.dtd invalid (Christian Grobmeier)
 - Bug #24: LoggerAppenderRollingFile unable to rollover (Dennis Korbar)
