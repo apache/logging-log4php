@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/server.properties');
+define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/server.properties');
 require_once LOG4PHP_DIR.'/LoggerManager.php';
 
 require_once 'Net/Server.php';

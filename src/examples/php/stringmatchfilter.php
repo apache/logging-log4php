@@ -17,7 +17,7 @@
  */
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATOR_CLASS', LOG4PHP_DIR.'/xml/LoggerDOMConfigurator');
-define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/stringmatchfilter.xml');
+define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/stringmatchfilter.xml');
 
 require_once LOG4PHP_DIR.'/LoggerManager.php';
 $logger = LoggerManager::getRootLogger();

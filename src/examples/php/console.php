@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/console.properties');
+define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/console.properties');
 
 require_once LOG4PHP_DIR.'/LoggerManager.php';
 $logger = LoggerManager::getRootLogger();
