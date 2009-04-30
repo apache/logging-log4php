@@ -310,6 +310,10 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
         $this->finalize();
         return array_keys(get_object_vars($this)); 
     }
+
+	public function __destruct() {
+		$this->finalize();
+	}
     
     /**
      * Perform actions after object de-serialization.
