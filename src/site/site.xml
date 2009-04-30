@@ -50,6 +50,7 @@
         <menu name="Community">
                 <item name="Mailing Lists" href="/mail-lists.html"/>
                 <item name="Issue Tracking" href="/issue-tracking.html"/>
+                <item name="Wiki" href="http://wiki.apache.org/logging/Log4PHP"/>
         </menu>
         
         <menu name="Development">
