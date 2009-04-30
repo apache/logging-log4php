@@ -8,5 +8,21 @@
 	<testsuite name="log4php">
 		<directory>.</directory>
 	</testsuite>
+	
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../../main/php</directory>
+			<exclude>
+				<file>../../main/php/appenders/LoggerAppenderAdodb.php</file>
+				<file>../../main/php/appenders/LoggerAppenderDb.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+	
+	<logging>
+		<log type="coverage-html" target="../../../target/test/report" charset="UTF-8"
+			yui="true" highlight="false"
+			lowUpperBound="35" highLowerBound="70"/>
+	</logging>
 
 </phpunit>
