@@ -25,8 +25,6 @@
  * This class provides the code for common functionality, such as
  * support for threshold filtering and support for general filters.
  *
- * @author  Marco Vassura
- * @author  Sergio Strampelli 
  * @version $Revision$
  * @package log4php
  * @abstract

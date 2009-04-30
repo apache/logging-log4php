@@ -36,7 +36,6 @@
  * to the provision node. Other descendants of the same ancestor add
  * themselves to the previously created provision node.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

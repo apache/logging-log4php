@@ -50,7 +50,6 @@
  * @log4j-author Simon Kitching
  * @log4j-author based on code by Ceki G&uuml;lc&uuml; 
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

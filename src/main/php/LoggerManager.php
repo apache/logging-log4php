@@ -34,13 +34,15 @@ spl_autoload_register(array('LoggerManager', 'autoload'));
 /**
  * Use the LoggerManager to get Logger instances.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @see Logger
  * @todo create a configurator selector  
  */
 class LoggerManager {
+	/** Private to prevent instantiation */
+	private __construct() {
+	}
 
 	private static $_classes = array(
 		'Logger' => '/Logger.php',

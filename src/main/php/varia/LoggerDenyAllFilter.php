@@ -28,7 +28,6 @@
  * filtering behaviour to a "deny all unless instructed otherwise"
  * behaviour.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

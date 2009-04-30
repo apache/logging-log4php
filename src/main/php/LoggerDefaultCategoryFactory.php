@@ -22,7 +22,6 @@
 /**
  * Creates instances of {@link Logger} with a given name.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @since 0.5 

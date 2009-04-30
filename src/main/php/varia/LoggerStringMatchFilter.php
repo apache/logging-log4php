@@ -32,7 +32,6 @@
  * {@link LoggerFilter::DENY} is returned. If there is no match, {@link LoggerFilter::NEUTRAL}
  * is returned.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage varia

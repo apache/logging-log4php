@@ -26,7 +26,6 @@
  * to output messages.</p>
  * <p>You need to recode methods to output messages in a different way.</p> 
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

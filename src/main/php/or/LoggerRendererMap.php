@@ -23,7 +23,6 @@
 /**
  * Map class objects to an {@link LoggerObjectRenderer}.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage or

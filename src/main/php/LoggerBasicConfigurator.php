@@ -25,7 +25,6 @@
  * <p>For file based configuration see {@link LoggerPropertyConfigurator}. 
  * <p>For XML based configuration see {@link LoggerDOMConfigurator}.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

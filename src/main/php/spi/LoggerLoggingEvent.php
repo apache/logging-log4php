@@ -23,7 +23,6 @@
 /**
  * The internal representation of logging event.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage spi 

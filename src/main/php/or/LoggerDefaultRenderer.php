@@ -23,7 +23,6 @@
 /**
  * The default Renderer renders objects by type casting
  *
- * @author  Marco Vassura
  * @package log4php
  * @subpackage or
  * @since 0.3

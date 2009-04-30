@@ -23,7 +23,6 @@
 /**
  * A NullAppender merely exists, it never outputs a message to any device.  
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

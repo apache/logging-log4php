@@ -52,7 +52,6 @@
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains. 
  * 
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage spi

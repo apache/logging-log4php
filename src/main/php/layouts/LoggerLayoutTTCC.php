@@ -63,7 +63,6 @@ define ('LOG4PHP_LOGGER_LAYOUT_RELATIVE_TIME_DATE_FORMAT', 'RELATIVE');
  * - {@link $microSecondsPrinting} (true|false) enable/disable micro seconds reporting in timestamp.
  * - {@link $dateFormat} (string) set date format. See php {@link PHP_MANUAL#date} function for details.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

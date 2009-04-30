@@ -17,7 +17,6 @@
  * 
  * @category   log4php
  * @package log4php
- * @author     Marco Vassura
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
@@ -26,7 +25,6 @@
 /**
  * This class has been deprecated and replaced by the Logger subclass.
  *
- * @author       Marco Vassura
  * @version      $Revision$
  * @package log4php
  * @see Logger

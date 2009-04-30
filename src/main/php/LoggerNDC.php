@@ -84,7 +84,6 @@ $GLOBALS['log4php.LoggerNDC.maxDepth'] = LOGGER_NDC_HT_SIZE;
  * request will have a different NDC tag.</p>
  *
  *  
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php 
  * @since 0.3

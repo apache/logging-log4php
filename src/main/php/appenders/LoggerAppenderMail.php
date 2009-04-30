@@ -26,7 +26,6 @@
  * <p>Parameters are {@link $from}, {@link $to}, {@link $subject}.</p>
  * <p>This appender requires a layout.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

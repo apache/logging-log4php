@@ -37,7 +37,6 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  *
  * <p><b><i>The MDC is managed on a per thread basis</i></b>.
  * 
- * @author  Marco Vassura
  * @version $Revision$
  * @since 0.3
  * @package log4php

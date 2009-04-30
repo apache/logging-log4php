@@ -66,7 +66,6 @@ define('LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE',       'd M Y H:i:s,u');
  * <p>It is this class that parses conversion patterns and creates
  * a chained list of {@link LoggerPatternConverter} converters.</p>
  * 
- * @author  Marco Vassura
  * @version $Revision$ 
  * @package log4php
  * @subpackage helpers

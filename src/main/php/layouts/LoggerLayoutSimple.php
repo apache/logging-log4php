@@ -39,7 +39,6 @@ if (!defined('LOG4PHP_LINE_SEP')) {
  * For example, 
  * <samp> INFO - "A message" </samp>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

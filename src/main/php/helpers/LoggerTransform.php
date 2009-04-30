@@ -32,7 +32,6 @@ define('LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END',
 /**
  * Utility class for transforming strings.
  *
- * @author  Marco Vassura
  * @package log4php
  * @subpackage helpers
  * @since 0.7

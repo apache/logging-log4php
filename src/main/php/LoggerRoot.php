@@ -22,7 +22,6 @@
 /**
  * The root logger.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @see Logger

@@ -35,7 +35,6 @@ define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS',          'http://logging.apache.o
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

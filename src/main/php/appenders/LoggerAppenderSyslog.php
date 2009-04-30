@@ -30,7 +30,6 @@
  * - <b>WARN  &gt; level &gt;= INFO</b> to LOG_INFO
  * - <b>INFO  &gt; level &gt;= DEBUG</b> to LOG_DEBUG
  *
- * @author VxR <vxr@vxr.it>
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -21,7 +21,6 @@
 /**
  * Extend this abstract class to create your own log layout format.
  *  
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @abstract

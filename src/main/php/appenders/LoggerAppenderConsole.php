@@ -28,8 +28,6 @@
  * On web scripts this appender has no effects.</p>
  * <p>This appender requires a layout.</p>  
  *
- * @author  Marco Vassura
- * @author Knut Urdalen <knut.urdalen@gmail.com>
  * @version $Revision$
  * @package log4php
  * @subpackage appender

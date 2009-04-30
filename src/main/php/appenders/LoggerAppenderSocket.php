@@ -26,7 +26,6 @@
  * Parameters are {@link $remoteHost}, {@link $port}, {@link $timeout}, 
  * {@link $locationInfo}, {@link $useXml} and {@link $log4jNamespace}.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

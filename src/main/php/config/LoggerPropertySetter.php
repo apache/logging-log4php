@@ -40,7 +40,6 @@
  * </code>
  * if such methods exist.
  *  
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage config

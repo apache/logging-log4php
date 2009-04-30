@@ -22,7 +22,6 @@
 /**
  * Abstract class that defines output logs strategies.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  */

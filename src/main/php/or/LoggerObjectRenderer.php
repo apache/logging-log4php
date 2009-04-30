@@ -23,7 +23,6 @@
 /**
  * Subclass this abstract class in order to render objects as strings.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage or

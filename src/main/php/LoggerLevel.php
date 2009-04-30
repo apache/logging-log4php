@@ -28,7 +28,6 @@
  * <p>The <i>LoggerLevel</i> class may be subclassed to define a larger
  * level set.</p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @since 0.5

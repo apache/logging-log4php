@@ -39,7 +39,6 @@ if (!defined('LOG4PHP_LINE_SEP')) {
  *
  * Parameters are: {@link $title}, {@link $locationInfo}.
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

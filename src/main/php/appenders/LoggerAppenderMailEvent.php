@@ -31,8 +31,6 @@
  * {@link $subject} (optional).</p>
  * <p>A layout is required.</p>
  *
- * @author  Domenico Lordi <lordi@interfree.it>
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

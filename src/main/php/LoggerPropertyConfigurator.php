@@ -81,7 +81,6 @@ define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME',   "root");
  * </code>
  * </p>
  *
- * @author  Marco Vassura
  * @version $Revision$
  * @package log4php
  * @since 0.5 

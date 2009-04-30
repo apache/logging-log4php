@@ -26,8 +26,6 @@
  * Parameters are ({@link $fileName} but option name is <b>file</b>), 
  * {@link $append}.
  *
- * @author  Marco Vassura
- * @author Knut Urdalen <knut.urdalen@gmail.com>
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -24,7 +24,6 @@
  * This class encapsulates the information obtained when parsing
  * formatting modifiers in conversion modifiers.
  * 
- * @author  Marco Vassura
  * @package log4php
  * @subpackage spi
  * @since 0.3

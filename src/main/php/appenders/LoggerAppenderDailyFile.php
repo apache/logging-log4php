@@ -29,8 +29,6 @@
  * parameter should include a '%s' identifier and should always be set 
  * before {@link $file} param.</p>
  *
- * @author Abel Gonzalez <agonzalez@lpsz.org>
- * @author Knut Urdalen <knut.urdalen@gmail.com>
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
