@@ -125,8 +125,7 @@ class LoggerManager {
      * @static
      * @return boolean
      */
-    public static function exists($name)
-    {
+    public static function exists($name) {
         return self::getLoggerRepository()->exists($name);
     }
 
@@ -137,8 +136,7 @@ class LoggerManager {
      * @see Logger
      * @return array
      */
-    public static function getCurrentLoggers()
-    {
+    public static function getCurrentLoggers() {
         return self::getLoggerRepository()->getCurrentLoggers();
     }
     
@@ -149,8 +147,7 @@ class LoggerManager {
      * @return object
      * @see LoggerRoot
      */
-    public static function getRootLogger()
-    {
+    public static function getRootLogger() {
         return self::getLoggerRepository()->getRootLogger();
     }
     
@@ -162,8 +159,7 @@ class LoggerManager {
      * @static
      * @return Logger
      */
-    public static function getLogger($name, $factory = null)
-    {
+    public static function getLogger($name, $factory = null)  {
         return self::getLoggerRepository()->getLogger($name, $factory);
     }
     
@@ -173,8 +169,7 @@ class LoggerManager {
      * @static
      * @return LoggerHierarchy
      */
-    public static function getLoggerRepository()
-    {
+    public static function getLoggerRepository() {
         return LoggerHierarchy::singleton();    
     }
     
@@ -185,17 +180,17 @@ class LoggerManager {
      * @static
      * @return boolean 
      */
-    public static function resetConfiguration()
-    {
+    public static function resetConfiguration() {
         return self::getLoggerRepository()->resetConfiguration();    
     }
     
     /**
      * Does nothing.
      * @static
+     * 
+     * TODO: remove this method?
      */
-    public static function setRepositorySelector($selector, $guard)
-    {
+    public static function setRepositorySelector($selector, $guard) {
         return;
     }
     
@@ -203,8 +198,7 @@ class LoggerManager {
      * Safely close all appenders.
      * @static
      */
-    public static function shutdown()
-    {
+    public static function shutdown() {
         return self::getLoggerRepository()->shutdown();    
     }
 }
@@ -316,8 +310,7 @@ if (!LOG4PHP_DEFAULT_INIT_OVERRIDE) {
  *
  * @return boolean
  */
-function LoggerManagerDefaultInit()
-{
+function LoggerManagerDefaultInit() {
     $configuratorClass = basename(LOG4PHP_CONFIGURATOR_CLASS);	
     return call_user_func(array($configuratorClass, 'configure'), LOG4PHP_CONFIGURATION);
 }
