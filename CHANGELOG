@@ -3,6 +3,7 @@ log4php Change Log
 
 Version 2.0 to be released
 --------------------------
+- Bug #1: removed all @author tags. All contributors are named (with task) in the changelog file (Christian Grobmeier)
 - Bug #4: Fatal error for constructor in LoggerAppenderRollingFile (Michael Aichler)
 - Bug #5: LoggerAppenderRollingFile unable to open file and append logs (Michael Aichler)
 - Bug #7: Change copyright notices to conform to the Source Header and Copyright Notice Policy (Curt Arnold)
