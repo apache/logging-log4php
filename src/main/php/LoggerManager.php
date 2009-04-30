@@ -41,7 +41,7 @@ spl_autoload_register(array('LoggerManager', 'autoload'));
  */
 class LoggerManager {
 	/** Private to prevent instantiation */
-	private __construct() {
+	private function __construct() {
 	}
 
 	private static $_classes = array(
