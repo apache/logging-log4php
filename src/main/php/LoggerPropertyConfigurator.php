@@ -1,11 +1,11 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.	See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.	 You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
  *	   http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,22 +19,22 @@
  * @package log4php
  */
 
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX',		"log4php.category.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX',		"log4php.logger.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX',		"log4php.factory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX',	"log4php.additivity.");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX', "log4php.category.");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX', "log4php.logger.");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX', "log4php.factory");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX', "log4php.additivity.");
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_CATEGORY_PREFIX', "log4php.rootCategory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX',	"log4php.rootLogger");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_APPENDER_PREFIX',		"log4php.appender.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX',		"log4php.renderer.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX',		"log4php.threshold");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX', "log4php.rootLogger");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_APPENDER_PREFIX', "log4php.appender.");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX', "log4php.renderer.");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX', "log4php.threshold");
 
 /** 
  * Key for specifying the {@link LoggerFactory}.  
  */
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY',	"log4php.loggerFactory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY',		"log4php.debug");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME',	"root");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY', "log4php.loggerFactory");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY', "log4php.debug");
+define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME', "root");
 
 
 

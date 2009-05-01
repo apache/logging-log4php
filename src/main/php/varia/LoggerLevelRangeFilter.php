@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,19 +23,19 @@
 /**
  * This is a very simple filter based on level matching, which can be
  * used to reject messages with priorities outside a certain range.
- *  
+ *	
  * <p>The filter admits three options <b><var>LevelMin</var></b>, <b><var>LevelMax</var></b>
  * and <b><var>AcceptOnMatch</var></b>.</p>
  *
  * <p>If the level of the {@link LoggerLoggingEvent} is not between Min and Max
  * (inclusive), then {@link LoggerFilter::DENY} is returned.</p>
- *  
+ *	
  * <p>If the Logging event level is within the specified range, then if
  * <b><var>AcceptOnMatch</var></b> is <i>true</i>, 
  * {@link LoggerFilter::ACCEPT} is returned, and if
  * <b><var>AcceptOnMatch</var></b> is <i>false</i>, 
  * {@link LoggerFilter::NEUTRAL} is returned.</p>
- *  
+ *	
  * <p>If <b><var>LevelMin</var></b> is not defined, then there is no
  * minimum acceptable level (i.e. a level is never rejected for
  * being too "low"/unimportant).  If <b><var>LevelMax</var></b> is not
@@ -56,104 +56,97 @@
  * @since 0.6
  */
 class LoggerLevelRangeFilter extends LoggerFilter {
+
+	/**
+	 * @var boolean
+	 */
+	var $acceptOnMatch = true;
+
+	/**
+	 * @var LoggerLevel
+	 */
+	var $levelMin;
   
-    /**
-     * @var boolean
-     */
-    var $acceptOnMatch = true;
+	/**
+	 * @var LoggerLevel
+	 */
+	var $levelMax;
 
-    /**
-     * @var LoggerLevel
-     */
-    var $levelMin;
-  
-    /**
-     * @var LoggerLevel
-     */
-    var $levelMax;
+	/**
+	 * @return boolean
+	 */
+	function getAcceptOnMatch() {
+		return $this->acceptOnMatch;
+	}
+	
+	/**
+	 * @param boolean $acceptOnMatch
+	 */
+	function setAcceptOnMatch($acceptOnMatch) {
+		$this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
+	}
+	
+	/**
+	 * @return LoggerLevel
+	 */
+	function getLevelMin() {
+		return $this->levelMin;
+	}
+	
+	/**
+	 * @param string $l the level min to match
+	 */
+	function setLevelMin($l) {
+		$this->levelMin = LoggerOptionConverter::toLevel($l, null);
+	}
 
-    /**
-     * @return boolean
-     */
-    function getAcceptOnMatch()
-    {
-        return $this->acceptOnMatch;
-    }
-    
-    /**
-     * @param boolean $acceptOnMatch
-     */
-    function setAcceptOnMatch($acceptOnMatch)
-    {
-        $this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
-    }
-    
-    /**
-     * @return LoggerLevel
-     */
-    function getLevelMin()
-    {
-        return $this->levelMin;
-    }
-    
-    /**
-     * @param string $l the level min to match
-     */
-    function setLevelMin($l)
-    {
-        $this->levelMin = LoggerOptionConverter::toLevel($l, null);
-    }
+	/**
+	 * @return LoggerLevel
+	 */
+	function getLevelMax() {
+		return $this->levelMax;
+	}
+	
+	/**
+	 * @param string $l the level max to match
+	 */
+	function setLevelMax($l) {
+		$this->levelMax = LoggerOptionConverter::toLevel($l, null);
+	}
 
-    /**
-     * @return LoggerLevel
-     */
-    function getLevelMax()
-    {
-        return $this->levelMax;
-    }
-    
-    /**
-     * @param string $l the level max to match
-     */
-    function setLevelMax($l)
-    {
-        $this->levelMax = LoggerOptionConverter::toLevel($l, null);
-    }
+	/**
+	 * Return the decision of this filter.
+	 *
+	 * @param LoggerLoggingEvent $event
+	 * @return integer
+	 */
+	function decide($event) {
+		$level = $event->getLevel();
+		
+		if($this->levelMin !== null) {
+			if($level->isGreaterOrEqual($this->levelMin) == false) {
+				// level of event is less than minimum
+				return LoggerFilter::DENY;
+			}
+		}
 
-    /**
-     * Return the decision of this filter.
-     *
-     * @param LoggerLoggingEvent $event
-     * @return integer
-     */
-    function decide($event)
-    {
-        $level = $event->getLevel();
-        
-        if($this->levelMin !== null) {
-            if ($level->isGreaterOrEqual($this->levelMin) == false) {
-                // level of event is less than minimum
-                return LoggerFilter::DENY;
-            }
-        }
+		if($this->levelMax !== null) {
+			if($level->toInt() > $this->levelMax->toInt()) {
+				// level of event is greater than maximum
+				// Alas, there is no Level.isGreater method. and using
+				// a combo of isGreaterOrEqual && !Equal seems worse than
+				// checking the int values of the level objects..
+				return LoggerFilter::DENY;
+			}
+		}
 
-        if($this->levelMax !== null) {
-            if ($level->toInt() > $this->levelMax->toInt()) {
-                // level of event is greater than maximum
-                // Alas, there is no Level.isGreater method. and using
-                // a combo of isGreaterOrEqual && !Equal seems worse than
-                // checking the int values of the level objects..
-                return LoggerFilter::DENY;
-            }
-        }
-
-        if ($this->getAcceptOnMatch()) {
-            // this filter set up to bypass later filters and always return
-            // accept if level in range
-            return  LoggerFilter::ACCEPT;
-        } else {
-            // event is ok for this filter; allow later filters to have a look..
-            return LoggerFilter::NEUTRAL;
-        }
-    }
+		if($this->getAcceptOnMatch()) {
+			// this filter set up to bypass later filters and always return
+			// accept if level in range
+			return LoggerFilter::ACCEPT;
+		} else {
+			// event is ok for this filter; allow later filters to have a look..
+			return LoggerFilter::NEUTRAL;
+		}
+	}
 }

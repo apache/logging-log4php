@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,63 +38,58 @@
  * @since 0.3
  */
 class LoggerStringMatchFilter extends LoggerFilter {
-  
-    /**
-     * @var boolean
-     */
-    var $acceptOnMatch = true;
 
-    /**
-     * @var string
-     */
-    var $stringToMatch = null;
-  
-    /**
-     * @return boolean
-     */
-    function getAcceptOnMatch()
-    {
-        return $this->acceptOnMatch;
-    }
-    
-    /**
-     * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
-     */
-    function setAcceptOnMatch($acceptOnMatch)
-    {
-        $this->acceptOnMatch = is_bool($acceptOnMatch) ? 
-            $acceptOnMatch : 
-            (bool)(strtolower($acceptOnMatch) == 'true');
-    }
-    
-    /**
-     * @return string
-     */
-    function getStringToMatch()
-    {
-        return $this->stringToMatch;
-    }
-    
-    /**
-     * @param string $s the string to match
-     */
-    function setStringToMatch($s)
-    {
-        $this->stringToMatch = $s;
-    }
+	/**
+	 * @var boolean
+	 */
+	var $acceptOnMatch = true;
 
-    /**
-     * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
-     */
-    function decide($event)
-    {
-        $msg = $event->getRenderedMessage();
-        
-        if($msg === null or  $this->stringToMatch === null)
-            return LoggerFilter::NEUTRAL;
-        if( strpos($msg, $this->stringToMatch) !== false ) {
-            return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY ; 
-        }
-        return LoggerFilter::NEUTRAL;        
-    }
+	/**
+	 * @var string
+	 */
+	var $stringToMatch = null;
+  
+	/**
+	 * @return boolean
+	 */
+	function getAcceptOnMatch() {
+		return $this->acceptOnMatch;
+	}
+	
+	/**
+	 * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
+	 */
+	function setAcceptOnMatch($acceptOnMatch) {
+		$this->acceptOnMatch = is_bool($acceptOnMatch) ? $acceptOnMatch : (bool)(strtolower($acceptOnMatch) == 'true');
+	}
+	
+	/**
+	 * @return string
+	 */
+	function getStringToMatch() {
+		return $this->stringToMatch;
+	}
+	
+	/**
+	 * @param string $s the string to match
+	 */
+	function setStringToMatch($s) {
+		$this->stringToMatch = $s;
+	}
+
+	/**
+	 * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
+	 */
+	function decide($event) {
+		$msg = $event->getRenderedMessage();
+		
+		if($msg === null or	 $this->stringToMatch === null) {
+			return LoggerFilter::NEUTRAL;
+		}
+		
+		if(strpos($msg, $this->stringToMatch) !== false ) {
+			return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY ; 
+		}
+		return LoggerFilter::NEUTRAL;		 
+	}
 }

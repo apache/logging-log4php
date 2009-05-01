@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,72 +39,66 @@
  */
 class LoggerLevelMatchFilter extends LoggerFilter {
   
-    /**
-     * @var boolean
-     */
-    var $acceptOnMatch = true;
+	/**
+	 * @var boolean
+	 */
+	var $acceptOnMatch = true;
 
-    /**
-     * @var LoggerLevel
-     */
-    var $levelToMatch;
+	/**
+	 * @var LoggerLevel
+	 */
+	var $levelToMatch;
   
-    /**
-     * @return boolean
-     */
-    function getAcceptOnMatch()
-    {
-        return $this->acceptOnMatch;
-    }
-    
-    /**
-     * @param boolean $acceptOnMatch
-     */
-    function setAcceptOnMatch($acceptOnMatch)
-    {
-        $this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
-    }
-    
-    /**
-     * @return LoggerLevel
-     */
-    function getLevelToMatch()
-    {
-        return $this->levelToMatch;
-    }
-    
-    /**
-     * @param string $l the level to match
-     */
-    function setLevelToMatch($l)
-    {
-        $this->levelToMatch = LoggerOptionConverter::toLevel($l, null);
-    }
+	/**
+	 * @return boolean
+	 */
+	function getAcceptOnMatch() {
+		return $this->acceptOnMatch;
+	}
+	
+	/**
+	 * @param boolean $acceptOnMatch
+	 */
+	function setAcceptOnMatch($acceptOnMatch) {
+		$this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
+	}
+	
+	/**
+	 * @return LoggerLevel
+	 */
+	function getLevelToMatch() {
+		return $this->levelToMatch;
+	}
+	
+	/**
+	 * @param string $l the level to match
+	 */
+	function setLevelToMatch($l) {
+		$this->levelToMatch = LoggerOptionConverter::toLevel($l, null);
+	}
 
-    /**
-     * Return the decision of this filter.
-     * 
-     * Returns {@link LoggerFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
-     * option is not set or if there is not match.  Otherwise, if there is a
-     * match, then the returned decision is {@link LoggerFilter::ACCEPT} if the
-     * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
-     * returned decision is {@link LoggerFilter::DENY} if the
-     * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
-     *
-     * @param LoggerLoggingEvent $event
-     * @return integer
-     */
-    function decide($event)
-    {
-        if($this->levelToMatch === null)
-            return LoggerFilter::NEUTRAL;
-        
-        if ($this->levelToMatch->equals($event->getLevel())) {  
-            return $this->getAcceptOnMatch() ? 
-                LoggerFilter::ACCEPT : 
-                LoggerFilter::DENY;
-        } else {
-            return LoggerFilter::NEUTRAL;
-        }
-    }
+	/**
+	 * Return the decision of this filter.
+	 * 
+	 * Returns {@link LoggerFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
+	 * option is not set or if there is not match.	Otherwise, if there is a
+	 * match, then the returned decision is {@link LoggerFilter::ACCEPT} if the
+	 * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
+	 * returned decision is {@link LoggerFilter::DENY} if the
+	 * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
+	 *
+	 * @param LoggerLoggingEvent $event
+	 * @return integer
+	 */
+	function decide($event) {
+		if($this->levelToMatch === null) {
+			return LoggerFilter::NEUTRAL;
+		}
+		
+		if($this->levelToMatch->equals($event->getLevel())) {	
+			return $this->getAcceptOnMatch() ? LoggerFilter::ACCEPT : LoggerFilter::DENY;
+		} else {
+			return LoggerFilter::NEUTRAL;
+		}
+	}
 }
