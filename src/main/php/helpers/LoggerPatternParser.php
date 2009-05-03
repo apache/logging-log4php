@@ -20,20 +20,6 @@
  * @subpackage helpers
  */
 
-if (!defined('LOG4PHP_LINE_SEP')) {
-    if (substr(php_uname(), 0, 7) == "Windows") {
-        /**
-         * @ignore
-         */
-        define('LOG4PHP_LINE_SEP', "\r\n");
-    } else {
-        /**
-         * @ignore
-         */
-        define('LOG4PHP_LINE_SEP', "\n");
-    }
-}
-
 define('LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR',         '%');
 
 define('LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE',       0);
@@ -197,7 +183,7 @@ class LoggerPatternParser {
                                 break;
                             case 'n':
                                 // LoggerLog::debug("LoggerPatternParser::parse() next char is 'n'");                            
-                                $this->currentLiteral .= LOG4PHP_LINE_SEP;
+                                $this->currentLiteral .= PHP_EOL;
                                 $this->i++; // move pointer
                                 break;
                             default:

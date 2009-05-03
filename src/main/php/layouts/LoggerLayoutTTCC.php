@@ -20,20 +20,6 @@
  * @subpackage layouts
  */
 
-if (!defined('LOG4PHP_LINE_SEP')) {
-    if (substr(php_uname(), 0, 7) == "Windows") { 
-        /**
-         * @ignore
-         */
-        define('LOG4PHP_LINE_SEP', "\r\n");
-    } else {
-        /**
-         * @ignore
-         */
-        define('LOG4PHP_LINE_SEP', "\n");
-    }
-}
-
 /**
  * String constant designating no time information. Current value of
  * this constant is <b>NULL</b>.
@@ -224,7 +210,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         }
         
         $format .= '- '.$event->getRenderedMessage();
-        $format .= LOG4PHP_LINE_SEP;
+        $format .= PHP_EOL;
         
         return $format;
     }

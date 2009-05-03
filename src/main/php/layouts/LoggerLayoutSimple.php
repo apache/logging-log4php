@@ -20,17 +20,6 @@
  * @subpackage layouts
  */
 
-if (!defined('LOG4PHP_LINE_SEP')) {
-    if (substr(php_uname(), 0, 7) == "Windows") { 
-        define('LOG4PHP_LINE_SEP', "\r\n");
-    } else {
-        /**
-         * @ignore
-         */
-        define('LOG4PHP_LINE_SEP', "\n");
-    }
-}
-
 /**
  * A simple layout.
  *
@@ -70,6 +59,6 @@ class LoggerLayoutSimple extends LoggerLayout {
     function format($event)
     {
         $level = $event->getLevel();
-        return $level->toString() . ' - ' . $event->getRenderedMessage(). LOG4PHP_LINE_SEP;
+        return $level->toString() . ' - ' . $event->getRenderedMessage(). PHP_EOL;
     }
 }
