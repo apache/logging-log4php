@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,7 +60,7 @@ class LoggerFilter {
 
 	/**
 	 * The log event must be logged immediately without consulting with
-	 * the remaining filters, if any, in the chain.  
+	 * the remaining filters, if any, in the chain.	 
 	 */
 	const ACCEPT = 1;
 	
@@ -76,38 +76,36 @@ class LoggerFilter {
 	 */
 	const DENY = -1;
 
-    /**
-     * @var LoggerFilter Points to the next {@link LoggerFilter} in the filter chain.
-     */
-    protected $next;
+	/**
+	 * @var LoggerFilter Points to the next {@link LoggerFilter} in the filter chain.
+	 */
+	protected $next;
 
-    /**
-     * Usually filters options become active when set. We provide a
-     * default do-nothing implementation for convenience.
-    */
-    public function activateOptions()
-    {
-        return;
-    }
+	/**
+	 * Usually filters options become active when set. We provide a
+	 * default do-nothing implementation for convenience.
+	*/
+	public function activateOptions() {
+		return;
+	}
 
-    /**   
-     * Decide what to do.  
-     * <p>If the decision is {@link LoggerFilter::DENY}, then the event will be
-     * dropped. If the decision is {@link LoggerFilter::NEUTRAL}, then the next
-     * filter, if any, will be invoked. If the decision is {@link LoggerFilter::ACCEPT} then
-     * the event will be logged without consulting with other filters in
-     * the chain.
-     *
-     * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to decide upon.
-     * @return integer {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::DENY}|{@link LoggerFilter::ACCEPT}
-     */
-    public function decide($event)
-    {
-        return self::NEUTRAL;
-    }
+	/**	  
+	 * Decide what to do.  
+	 * <p>If the decision is {@link LoggerFilter::DENY}, then the event will be
+	 * dropped. If the decision is {@link LoggerFilter::NEUTRAL}, then the next
+	 * filter, if any, will be invoked. If the decision is {@link LoggerFilter::ACCEPT} then
+	 * the event will be logged without consulting with other filters in
+	 * the chain.
+	 *
+	 * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to decide upon.
+	 * @return integer {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::DENY}|{@link LoggerFilter::ACCEPT}
+	 */
+	public function decide($event) {
+		return self::NEUTRAL;
+	}
 
-        public function getNext() {
-                return $this->next;
-        }
+	public function getNext() {
+		return $this->next;
+	}
 
 }
