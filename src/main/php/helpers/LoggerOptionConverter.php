@@ -179,7 +179,7 @@ class LoggerOptionConverter {
 
 		if(class_exists($clazz)) {
 			$result = @call_user_func(array($clazz, 'toLevel'), $levelName, $defaultValue);
-			if(!is_a($result, 'loggerlevel')) {
+			if(!$result instanceof LoggerLevel) {
 				LoggerLog::debug("LoggerOptionConverter::toLevel():class=[{$clazz}] cannot call toLevel(). Returning default.");			
 				$result = $defaultValue;
 			}
