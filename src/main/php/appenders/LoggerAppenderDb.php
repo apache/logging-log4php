@@ -98,7 +98,6 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
         $this->db = DB::connect($this->dsn);
 
         if (DB::isError($this->db)) {
-            LoggerLog::debug("LoggerAppenderDb::activateOptions() DB Connect Error [".$this->db->getMessage()."]");            
             $this->db = null;
             $this->closed = true;
             $this->canAppend = false;
@@ -112,12 +111,9 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
             $tableInfo = $this->db->tableInfo($this->table, $mode = null);
             if (DB::isError($tableInfo) and $this->getCreateTable()) {
                 $query = "CREATE TABLE {$this->table} (timestamp varchar(32),logger varchar(32),level varchar(32),message varchar(64),thread varchar(32),file varchar(64),line varchar(4) );";
-
-                LoggerLog::debug("LoggerAppenderDb::activateOptions() creating table '{$this->table}'... using sql='$query'");
                          
                 $result = $this->db->query($query);
                 if (DB::isError($result)) {
-                    LoggerLog::debug("LoggerAppenderDb::activateOptions() error while creating '{$this->table}'. Error is ".$result->getMessage());
                     $this->closed = true;
                     $this->canAppend = false;
                     return;
@@ -129,14 +125,9 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
 
     }
     
-    function append($event)
-    {
+    function append($event) {
         if ($this->canAppend) {
-
             $query = $this->layout->format($event);
-
-            LoggerLog::debug("LoggerAppenderDb::append() query='$query'");
-
             $this->db->query($query);
         }
     }

@@ -81,19 +81,15 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
      * Create a socket connection using defined parameters
      */
     public function activateOptions() {
-        LoggerLog::debug("LoggerAppenderSocket::activateOptions() creating a socket...");        
         $errno = 0;
         $errstr = '';
         $this->sp = @fsockopen($this->getRemoteHost(), $this->getPort(), $errno, $errstr, $this->getTimeout());
         if ($errno) {
-            LoggerLog::debug("LoggerAppenderSocket::activateOptions() socket error [$errno] $errstr");
             $this->closed = true;
         } else {
-            LoggerLog::debug("LoggerAppenderSocket::activateOptions() socket created [".$this->sp."]");
             if ($this->getUseXml()) {
                 $this->xmlLayout = LoggerLayout::factory('LoggerXmlLayout');
                 if ($this->xmlLayout === null) {
-                    LoggerLog::debug("LoggerAppenderSocket::activateOptions() useXml is true but layout is null");
                     $this->setUseXml(false);
                 } else {
                     $this->xmlLayout->setLocationInfo($this->getLocationInfo());
@@ -210,9 +206,6 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
      */
     public function append($event) {
         if ($this->sp) {
-        
-            LoggerLog::debug("LoggerAppenderSocket::append()");
-            
             if ($this->getLocationInfo())
                 $event->getLocationInformation();
         

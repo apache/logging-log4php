@@ -66,9 +66,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
             $this->target = self::STDOUT;
         } elseif ($v == self::STDERR || strtoupper($v) == 'STDERR') {
             $this->target = self::STDERR;
-        } else {
-            LoggerLog::debug("Invalid target. Using '".self::STDOUT."' by default.");        
-        }
+        } 
     }
 
     public function getTarget() {

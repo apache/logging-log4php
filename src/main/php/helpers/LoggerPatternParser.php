@@ -92,8 +92,6 @@ class LoggerPatternParser {
      */
     function LoggerPatternParser($pattern)
     {
-        LoggerLog::debug("LoggerPatternParser::LoggerPatternParser() pattern='$pattern'");
-    
         $this->pattern = $pattern;
         $this->patternLength =  strlen($pattern);
         $this->formattingInfo = new LoggerFormattingInfo();
@@ -105,8 +103,6 @@ class LoggerPatternParser {
      */
     function addToList($pc)
     {
-        // LoggerLog::debug("LoggerPatternParser::addToList()");
-    
         if($this->head == null) {
             $this->head = $pc;
             $this->tail =& $this->head;
@@ -144,11 +140,8 @@ class LoggerPatternParser {
             if (is_numeric($opt)) {
                 $r = (int)$opt;
                 if($r <= 0) {
-                    LoggerLog::warn("Precision option ({$opt}) isn't a positive integer.");
                     $r = 0;
                 }
-            } else {
-                LoggerLog::warn("Category option \"{$opt}\" not a decimal integer.");
             }
         }
         return $r;
@@ -156,8 +149,6 @@ class LoggerPatternParser {
 
     function parse()
     {
-        LoggerLog::debug("LoggerPatternParser::parse()");
-    
         $c = '';
         $this->i = 0;
         $this->currentLiteral = '';
@@ -189,7 +180,6 @@ class LoggerPatternParser {
                             default:
                                 if(strlen($this->currentLiteral) != 0) {
                                     $this->addToList(new LoggerLiteralPatternConverter($this->currentLiteral));
-                                    LoggerLog::debug("LoggerPatternParser::parse() Parsed LITERAL converter: \"{$this->currentLiteral}\".");
                                 }
                                 $this->currentLiteral = $c;
                                 $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE;
@@ -236,7 +226,6 @@ class LoggerPatternParser {
                         $this->formattingInfo->max = ord($c) - ord('0');
                             $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE;
                     } else {
-                          LoggerLog::warn("LoggerPatternParser::parse() Error occured in position {$this->i}. Was expecting digit, instead got char \"{$c}\".");
                           $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
                     }
                         break;
@@ -261,18 +250,14 @@ class LoggerPatternParser {
 
     function finalizeConverter($c)
     {
-        LoggerLog::debug("LoggerPatternParser::finalizeConverter() with char '$c'");    
-
         $pc = null;
         switch($c) {
             case 'c':
                 $pc = new LoggerCategoryPatternConverter($this->formattingInfo, $this->extractPrecisionOption());
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() CATEGORY converter.");
                 $this->currentLiteral = '';
                 break;
             case 'C':
                 $pc = new LoggerClassNamePatternConverter($this->formattingInfo, $this->extractPrecisionOption());
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() CLASSNAME converter.");
                 $this->currentLiteral = '';
                 break;
             case 'd':
@@ -293,28 +278,24 @@ class LoggerPatternParser {
                     if ($df == null) {
                         $df = LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
                     }
-                    }
+                }
                 $pc = new LoggerDatePatternConverter($this->formattingInfo, $df);
                 $this->currentLiteral = '';
                 break;
             case 'F':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() File name converter.");
                 $this->currentLiteral = '';
                 break;
             case 'l':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() Location converter.");
                 $this->currentLiteral = '';
                 break;
             case 'L':
                 $pc = new LoggerLocationPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() LINE NUMBER converter.");
                 $this->currentLiteral = '';
                 break;
             case 'm':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() MESSAGE converter.");
                 $this->currentLiteral = '';
                 break;
             case 'M':
@@ -327,12 +308,10 @@ class LoggerPatternParser {
                 break;
             case 'r':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() RELATIVE TIME converter.");
                 $this->currentLiteral = '';
                 break;
             case 't':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() THREAD converter.");
                 $this->currentLiteral = '';
                 break;
             case 'u':
@@ -340,28 +319,23 @@ class LoggerPatternParser {
                         $cNext = $this->pattern{$this->i};
                     if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
                             $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
-                        LoggerLog::debug("LoggerPatternParser::finalizeConverter() USER converter [{$cNext}].");
                         $this->currentLiteral = '';
                             $this->i++;
                         } else {
-                        LoggerLog::warn("LoggerPatternParser::finalizeConverter() Unexpected char '{$cNext}' at position {$this->i}.");
                     }
                 }
                 break;
             case 'x':
                 $pc = new LoggerBasicPatternConverter($this->formattingInfo, LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() NDC converter.");
                 $this->currentLiteral = '';
                 break;
 
             case 'X':
                 $xOpt = $this->extractOption();
                 $pc = new LoggerMDCPatternConverter($this->formattingInfo, $xOpt);
-                LoggerLog::debug("LoggerPatternParser::finalizeConverter() MDC converter.");
                 $this->currentLiteral = '';
                 break;
             default:
-                LoggerLog::warn("LoggerPatternParser::finalizeConverter() Unexpected char [$c] at position {$this->i} in conversion pattern.");
                 $pc = new LoggerLiteralPatternConverter($this->currentLiteral);
                 $this->currentLiteral = '';
         }

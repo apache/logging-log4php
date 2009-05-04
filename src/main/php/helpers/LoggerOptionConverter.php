@@ -63,8 +63,6 @@ class LoggerOptionConverter {
 	* @static
 	*/
 	public static function getSystemProperty($key, $def) {
-		LoggerLog::debug("LoggerOptionConverter::getSystemProperty():key=[{$key}]:def=[{$def}].");
-
 		if(defined($key)) {
 			return (string)constant($key);
 		} else if(isset($_SERVER[$key])) {
@@ -173,19 +171,14 @@ class LoggerOptionConverter {
 				return null;
 		}
 
-		LoggerLog::debug("LoggerOptionConverter::toLevel():class=[{$clazz}]:pri=[{$levelName}]");
-
 		$clazz = basename($clazz);
 
 		if(class_exists($clazz)) {
 			$result = @call_user_func(array($clazz, 'toLevel'), $levelName, $defaultValue);
 			if(!$result instanceof LoggerLevel) {
-				LoggerLog::debug("LoggerOptionConverter::toLevel():class=[{$clazz}] cannot call toLevel(). Returning default.");			
 				$result = $defaultValue;
 			}
-		} else {
-			LoggerLog::warn("LoggerOptionConverter::toLevel() class '{$clazz}' doesnt exists.");
-		}
+		} 
 		return $result;
 	}
 
@@ -215,9 +208,7 @@ class LoggerOptionConverter {
 		}
 		if(is_numeric($s)) {
 			return (float)$s * $multiplier;
-		} else {
-			LoggerLog::warn("LoggerOptionConverter::toFileSize() [{$s}] is not in proper form.");
-		}
+		} 
 		return $default;
 	}
 
@@ -276,33 +267,24 @@ class LoggerOptionConverter {
 	 * @static
 	 */
 	public static function substVars($val, $props = null) {
-		LoggerLog::debug("LoggerOptionConverter::substVars():val=[{$val}]");
-		
 		$sbuf = '';
 		$i = 0;
 		while(true) {
 			$j = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_START, $i);
 			if($j === false) {
-				LoggerLog::debug("LoggerOptionConverter::substVars() no more variables");
-					// no more variables
+				// no more variables
 				if($i == 0) { // this is a simple string
-					LoggerLog::debug("LoggerOptionConverter::substVars() simple string");
 					return $val;
 				} else { // add the tail string which contails no variables and return the result.
 					$sbuf .= substr($val, $i);
-					LoggerLog::debug("LoggerOptionConverter::substVars():sbuf=[{$sbuf}]. Returning sbuf");					  
 					return $sbuf;
 				}
 			} else {
 			
 				$sbuf .= substr($val, $i, $j-$i);
-				LoggerLog::debug("LoggerOptionConverter::substVars():sbuf=[{$sbuf}]:i={$i}:j={$j}.");
 				$k = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_STOP, $j);
 				if($k === false) {
-					LoggerLog::warn(
-						"LoggerOptionConverter::substVars() " .
-						"'{$val}' has no closing brace. Opening brace at position {$j}."
-					);
+					// LoggerOptionConverter::substVars() has no closing brace. Opening brace
 					return '';
 				} else {
 					$j += LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN;

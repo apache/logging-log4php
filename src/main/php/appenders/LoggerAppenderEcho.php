@@ -55,10 +55,7 @@ class LoggerAppenderEcho extends LoggerAppenderSkeleton {
         $this->closed = true;    
     }
 
-    function append($event)
-    {
-        LoggerLog::debug("LoggerAppenderEcho::append()");
-        
+    function append($event) {
         if ($this->layout !== null) {
             if ($this->firstAppend) {
                 echo $this->layout->getHeader();

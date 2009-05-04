@@ -314,7 +314,6 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 		$properties = @parse_ini_file($url);
 		if($properties === false || count($properties) == 0) {
 			// as of PHP 5.2.7 parse_ini_file() returns FALSE instead of an empty array
-			LoggerLog::warn("LoggerPropertyConfigurator::doConfigure() cannot load '$url' configuration.");
 			return false;
 		}
 		return $this->doConfigureProperties($properties, $repository);
@@ -342,8 +341,6 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 		$this->configureLoggerFactory($properties);
 		$this->parseCatsAndRenderers($properties, $hierarchy);
 
-		LoggerLog::debug("LoggerPropertyConfigurator::doConfigureProperties() Finished configuring.");
-		
 		return true;
 	}
 
@@ -368,28 +365,14 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 		$factoryFqcn = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY];
 		if(!empty($factoryFqcn)) {
 			$factoryClassName = basename($factoryFqcn);
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::configureLoggerFactory() Trying to load factory [" .
-				$factoryClassName . 
-				"]."
-			);
 			
 			if(class_exists($factoryClassName)) {
 				$loggerFactory = new $factoryClassName();
 			} else {
-				LoggerLog::debug(
-					"LoggerPropertyConfigurator::configureLoggerFactory() Unable to load factory [" .
-					$factoryClassName . 
-					"]. Using default."
-				);
+				// LoggerPropertyConfigurator::configureLoggerFactory() Unable to load factory
 				$loggerFactory = $this->loggerFactory;
 			}
 
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::configureLoggerFactory() ".
-				"Setting properties for category factory [" . get_class($loggerFactory) . "]."
-			);
-			
 			LoggerPropertySetter::setPropertiesByObject($loggerFactory, $props, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX . ".");
 		}
 	}
@@ -408,10 +391,10 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 		}
 
 		if(empty($value)) {
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::configureRootCategory() ".
-				"Could not find root logger information. Is this OK?"
-			);
+//			LoggerLog::debug(
+//				"LoggerPropertyConfigurator::configureRootCategory() ".
+//				"Could not find root logger information. Is this OK?"
+//			);
 		} else {
 			$root = $hierarchy->getRootLogger();
 			// synchronized(root) {
@@ -468,17 +451,10 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 					LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX . $loggerName,
 										$props
 				 );
-		LoggerLog::debug(
-			"LoggerPropertyConfigurator::parseAdditivityForLogger() ".
-			"Handling " . LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX . $loggerName . "=[{$value}]"
-		);
+		
 		// touch additivity only if necessary
 		if(!empty($value)) {
 			$additivity = LoggerOptionConverter::toBoolean($value, true);
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseAdditivityForLogger() ".
-				"Setting additivity for [{$loggerName}] to [{$additivity}]"
-			);
 			$cat->setAdditivity($additivity);
 		}
 	}
@@ -494,10 +470,6 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	 * @return Logger
 	 */
 	public function parseCategory($props, &$logger, $optionKey, $loggerName, $value) {
-		LoggerLog::debug(
-			"LoggerPropertyConfigurator::parseCategory() ".
-			"Parsing for [{$loggerName}] with value=[{$value}]."
-		);
 		
 		// We must skip over ',' but not white space
 		$st = explode(',', $value);
@@ -511,20 +483,17 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 				return;
 			}
 			$levelStr = current($st);
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseCategory() ".
-				"Level token is [$levelStr]."
-			);
-
+			
 			// If the level value is inherited, set category level value to
 			// null. We also check that the user has not specified inherited for the
 			// root category.
 			if('INHERITED' == strtoupper($levelStr) || 'NULL' == strtoupper($levelStr)) {
 				if($loggerName == LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME) {
-					LoggerLog::warn(
-						"LoggerPropertyConfigurator::parseCategory() ".
-						"The root logger cannot be set to null."
-					);
+//					TODO: throw exception?
+//					LoggerLog::warn(
+//						"LoggerPropertyConfigurator::parseCategory() ".
+//						"The root logger cannot be set to null."
+//					);
 				} else {
 					$logger->setLevel(null);
 				}
@@ -540,10 +509,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 			if(empty($appenderName)) {
 				continue;
 			}
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseCategory() ".
-				"Parsing appender named [{$appenderName}]."
-			);
+			
 			$appender =& $this->parseAppender($props, $appenderName);
 			if($appender !== null) {
 					$logger->addAppender($appender);
@@ -559,10 +525,6 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	function &parseAppender($props, $appenderName) {
 		$appender = LoggerAppender::singleton($appenderName);
 		if($appender !== null) {
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseAppender() ".
-				"Appender [{$appenderName}] was already parsed."
-			);
 			return $appender;
 		}
 		// Appender was not previously initialized.
@@ -572,62 +534,30 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 		if(!empty($appenderClass)) {
 			$appender = LoggerAppender::singleton($appenderName, $appenderClass);
 			if($appender === null) {
-				LoggerLog::warn(
-					"LoggerPropertyConfigurator::parseAppender() ".
-					"Could not instantiate appender named [$appenderName]."
-				);
 				return null;
 			}
 		} else {
-			LoggerLog::warn(
-				"LoggerPropertyConfigurator::parseAppender() ".
-				"Could not instantiate appender named [$appenderName] with null className."
-			);
 			return null;
 		}
 		
 		$appender->setName($appenderName);
 		if($appender->requiresLayout() ) {
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseAppender() ".
-				"Parsing layout section for [$appenderName]."
-			);
 			$layoutClass = @$props[$layoutPrefix];
 			$layoutClass = LoggerOptionConverter::substVars($layoutClass, $props);
 			if(empty($layoutClass)) {
-				LoggerLog::warn(
-					"LoggerPropertyConfigurator::parseAppender() ".
-					"layout class is empty in '$layoutPrefix'. Using Simple layout"
-				);
 				$layout = LoggerLayout::factory('LoggerLayoutSimple');
 			} else {
 				$layout = LoggerLayout::factory($layoutClass);
 				if($layout === null) {
-					LoggerLog::warn(
-					"LoggerPropertyConfigurator::parseAppender() ".
-					"cannot create layout '$layoutClass'. Using Simple layout"
-					);
 					$layout = LoggerLayout::factory('LoggerLayoutSimple');
 				}
 			}
 			
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseAppender() ".
-				"Parsing layout options for [$appenderName]."
-			);
 			LoggerPropertySetter::setPropertiesByObject($layout, $props, $layoutPrefix . ".");				  
-			LoggerLog::debug(
-				"LoggerPropertyConfigurator::parseAppender() ".
-				"End Parsing layout options for [$appenderName]."
-			);
 			$appender->setLayout($layout);
 			
 		}
 		LoggerPropertySetter::setPropertiesByObject($appender, $props, $prefix . ".");
-		LoggerLog::debug(
-			"LoggerPropertyConfigurator::parseAppender() ".		   
-			"Parsed [{$appenderName}] options."
-		);
 		return $appender;		 
 	}
 

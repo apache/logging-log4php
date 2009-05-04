@@ -73,7 +73,6 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
 
         if (!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
                         $subject = $this->subject;
-            LoggerLog::debug("LoggerAppenderMail::close() sending mail from=[{$from}] to=[{$to}] subject=[{$subject}]");
             mail(
                 $to, $subject, 
                 $this->layout->getHeader() . $this->body . $this->layout->getFooter(),

@@ -52,7 +52,6 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
 
     public function activateOptions() {
         $fileName = $this->getFile();
-        LoggerLog::debug("LoggerAppenderFile::activateOptions() opening file '{$fileName}'");
 
 		if(!is_file($fileName)) {
 			$dir = dirname($fileName);
@@ -153,7 +152,6 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
 
     public function append($event) {
         if ($this->fp and $this->layout !== null) {
-            LoggerLog::debug("LoggerAppenderFile::append()");
             fwrite($this->fp, $this->layout->format($event));
         } 
     }

@@ -50,9 +50,7 @@ class LoggerAppenderNull extends LoggerAppenderSkeleton {
      * 
      * @param LoggerLoggingEvent $event
      */
-    protected function append($event)
-    {
-        LoggerLog::debug("LoggerAppenderNull::append()");
+    protected function append($event) {
     }
 }
 

@@ -150,7 +150,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
     {
         $this->fileName = $fileName;
         $this->expandedFileName = realpath($fileName);
-        LoggerLog::debug("LoggerAppenderRollingFile::setFileName():filename=[{$fileName}]:expandedFileName=[{$this->expandedFileName}]");  
     }
 
 
@@ -212,7 +211,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
         }
         
         if ($maxFileSize === null) {
-            LoggerLog::debug("LoggerAppenderRollingFile::setMaxFileSize():value=[$value] wrong declaration");
         } else {
             $this->maxFileSize = abs($maxFileSize);
         }

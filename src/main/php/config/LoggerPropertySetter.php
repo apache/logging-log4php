@@ -87,8 +87,6 @@ class LoggerPropertySetter {
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 */
 	function setProperties($properties, $prefix) {
-		LoggerLog::debug("LoggerOptionConverter::setProperties():prefix=[{$prefix}]");
-
 		$len = strlen($prefix);
 		while(list($key,) = each($properties)) {
 			if(strpos($key, $prefix) === 0) {
@@ -122,8 +120,6 @@ class LoggerPropertySetter {
 	 * @param string $value	  String value of the property
 	 */
 	function setProperty($name, $value) {
-		LoggerLog::debug("LoggerOptionConverter::setProperty():name=[{$name}]:value=[{$value}]");
-
 		if($value === null) {
 			return;
 		}
@@ -131,22 +127,16 @@ class LoggerPropertySetter {
 		$method = "set" . ucfirst($name);
 		
 		if(!method_exists($this->obj, $method)) {
-			LoggerLog::warn(
-				"LoggerOptionConverter::setProperty() No such setter method for [{$name}] property in " .
-						get_class($this->obj) . "." 
-			);
+			// no such setter method
+			return;
 		} else {
 			return call_user_func(array(&$this->obj, $method), $value);
 		} 
 	}
   
 	function activate() {
-		LoggerLog::debug("LoggerOptionConverter::activate()");
-	
 		if(method_exists($this->obj, 'activateoptions')) {
 			return call_user_func(array(&$this->obj, 'activateoptions'));
-		} else {
-			LoggerLog::debug("LoggerOptionConverter::activate() Nothing to activate.");
-		}
+		} 
 	}
 }

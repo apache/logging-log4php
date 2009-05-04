@@ -49,7 +49,6 @@ class LoggerAppenderPhp extends LoggerAppenderSkeleton {
 
     public function append($event) {
         if ($this->layout !== null) {
-            LoggerLog::debug("LoggerAppenderPhp::append()");
             $level = $event->getLevel();
             if ($level->isGreaterOrEqual(LoggerLevel::getLevelError())) {
                 trigger_error($this->layout->format($event), E_USER_ERROR);

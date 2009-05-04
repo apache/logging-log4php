@@ -235,8 +235,6 @@ class LoggerPatternLayout extends LoggerLayout {
      */
     function format($event)
     {
-        LoggerLog::debug("LoggerPatternLayout::format()");    
-    
         // Reset working stringbuffer
         $this->sbuf = '';
         $c = $this->head;

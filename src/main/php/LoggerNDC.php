@@ -101,7 +101,6 @@ class LoggerNDC {
 	 * @static	
 	 */
 	public static function clear() {
-		LoggerLog::debug("LoggerNDC::clear()");
 		$GLOBALS['log4php.LoggerNDC.ht'] = array();
 	}
 
@@ -111,7 +110,6 @@ class LoggerNDC {
 	 * @return array
 	 */
 	public static function get() {
-		LoggerLog::debug("LoggerNDC::get()");
 		return $GLOBALS['log4php.LoggerNDC.ht'];
 	}
   
@@ -123,7 +121,6 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function getDepth() {
-		LoggerLog::debug("LoggerNDC::getDepth()");
 		return count($GLOBALS['log4php.LoggerNDC.ht']);	  
 	}
 
@@ -138,7 +135,6 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function pop() {
-		LoggerLog::debug("LoggerNDC::pop()");
 		if(count($GLOBALS['log4php.LoggerNDC.ht']) > 0) {
 			return array_pop($GLOBALS['log4php.LoggerNDC.ht']);
 		} else {
@@ -156,7 +152,6 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function peek(){
-		LoggerLog::debug("LoggerNDC::peek()");
 		if(count($GLOBALS['log4php.LoggerNDC.ht']) > 0) {
 			return end($GLOBALS['log4php.LoggerNDC.ht']);
 		} else {
@@ -174,7 +169,6 @@ class LoggerNDC {
 	 * @static	
 	 */
 	public static function push($message) {
-		LoggerLog::debug("LoggerNDC::push()");
 		array_push($GLOBALS['log4php.LoggerNDC.ht'], (string)$message);
 	}
 
@@ -183,7 +177,6 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function remove() {
-		LoggerLog::debug("LoggerNDC::remove()");
 		LoggerNDC::clear();
 	}
 
@@ -203,8 +196,6 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function setMaxDepth($maxDepth) {
-		LoggerLog::debug("LoggerNDC::setMaxDepth() maxDepth='$maxDepth'");
-	
 		$maxDepth = (int)$maxDepth;
 		if($maxDepth <= LOGGER_NDC_HT_SIZE) {
 			if(LoggerNDC::getDepth() > $maxDepth) {

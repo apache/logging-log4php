@@ -58,10 +58,8 @@ class LoggerRendererMap {
 	 * @static
 	 */
 	public static function addRenderer($repository, $renderedClassName, $renderingClassName) {
-		LoggerLog::debug("LoggerRendererMap::addRenderer() Rendering class: [{$renderingClassName}], Rendered class: [{$renderedClassName}].");
 		$renderer = LoggerObjectRenderer::factory($renderingClassName);
 		if($renderer == null) {
-			LoggerLog::warn("LoggerRendererMap::addRenderer() Could not instantiate renderer [{$renderingClassName}].");
 			return;
 		} else {
 			$repository->setRenderer($renderedClassName, $renderer);

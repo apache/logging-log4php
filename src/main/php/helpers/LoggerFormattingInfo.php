@@ -46,6 +46,7 @@ class LoggerFormattingInfo {
 	}
 
 	function dump() {
-		LoggerLog::debug("LoggerFormattingInfo::dump() min={$this->min}, max={$this->max}, leftAlign={$this->leftAlign}");
+		// TODO: other option to dump?
+		// LoggerLog::debug("LoggerFormattingInfo::dump() min={$this->min}, max={$this->max}, leftAlign={$this->leftAlign}");
 	}
 }

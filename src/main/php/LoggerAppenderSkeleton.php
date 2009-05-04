@@ -133,9 +133,6 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
 		if($this->closed) {
 			return;
 		}
-
-		LoggerLog::debug("LoggerAppenderSkeleton::finalize():name=[{$this->name}].");
-
 		$this->close();
 	}
 	
@@ -210,15 +207,11 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
 	 * @param LoggerLoggingEvent $event
 	 */
 	public function doAppend($event) {
-		LoggerLog::debug("LoggerAppenderSkeleton::doAppend()"); 
-
 		if($this->closed) {
-			LoggerLog::debug("LoggerAppenderSkeleton::doAppend() Attempted to append to closed appender named [{$this->name}].");
 			return;
 		}
 		
 		if(!$this->isAsSevereAsThreshold($event->getLevel())) {
-			LoggerLog::debug("LoggerAppenderSkeleton::doAppend() event level is less severe than threshold.");
 			return;
 		}
 
@@ -249,7 +242,7 @@ abstract class LoggerAppenderSkeleton extends LoggerAppender {
 		if($errorHandler == null) {
 			// We do not throw exception here since the cause is probably a
 			// bad config file.
-			LoggerLog::warn("You have tried to set a null error-handler.");
+			//LoggerLog::warn("You have tried to set a null error-handler.");
 		} else {
 			$this->errorHandler = $errorHandler;
 		}

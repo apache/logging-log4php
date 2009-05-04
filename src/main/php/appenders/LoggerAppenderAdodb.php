@@ -121,7 +121,6 @@ class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
     {        
         $this->db = &ADONewConnection($this->type);
         if (! $this->db->PConnect($this->host, $this->user, $this->password, $this->database)) {
-          LoggerLog::debug("LoggerAppenderAdodb::activateOptions() DB Connect Error [".$this->db->ErrorMsg()."]");            
           $this->db = null;
           $this->closed = true;
           $this->canAppend = false;
@@ -137,11 +136,9 @@ class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
         if ($dbrs == false and $this->getCreateTable()) {
             $query = "CREATE TABLE {$this->table} (timestamp varchar(32),logger varchar(32),level varchar(32),message varchar(64),thread varchar(32),file varchar(64),line varchar(4) );";
 
-            LoggerLog::debug("LoggerAppenderAdodb::activateOptions() creating table '{$this->table}'... using sql='$query'");
                      
             $result = $this->db->Execute($query);
             if (! $result) {
-                LoggerLog::debug("LoggerAppenderAdodb::activateOptions() error while creating '{$this->table}'. Error is ".$this->db->ErrorMsg());
                 $this->canAppend = false;
                 return;
             }
@@ -149,14 +146,9 @@ class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
         $this->canAppend = true;
     }
     
-    function append($event)
-    {
+    function append($event) {
         if ($this->canAppend) {
-
             $query = $this->layout->format($event);
-
-            LoggerLog::debug("LoggerAppenderAdodb::append() query='$query'");
-
             $this->db->Execute($query);
         }
     }

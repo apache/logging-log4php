@@ -184,10 +184,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
             $errorCode = xml_get_error_code($parser);
             $errorStr = xml_error_string($errorCode);
             $errorLine = xml_get_current_line_number($parser);
-            LoggerLog::warn(
-                "LoggerDOMConfigurator::parse() ".
-                "Parsing error [{$errorCode}] {$errorStr}, line {$errorLine}"
-            );
             $this->repository->resetConfiguration();
         } else {
             xml_parser_free($parser);
@@ -209,8 +205,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
             case 'CONFIGURATION' :
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':CONFIGURATION':
             
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() CONFIGURATION");
-
                 if (isset($attribs['THRESHOLD'])) {
                 
                     $this->repository->setThreshold(
@@ -220,6 +214,8 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                         )
                     );
                 }
+                /*
+                 * TODO: Remove due to LOG4PHP-34
                 if (isset($attribs['DEBUG'])) {
                     $debug = LoggerOptionConverter::toBoolean($this->subst($attribs['DEBUG']), LoggerLog::internalDebugging());
                     $this->repository->debug = $debug;
@@ -227,6 +223,7 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                     LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LOG4PHP:CONFIGURATION. Internal Debug turned ".($debug ? 'on':'off'));
                     
                 }
+                */
                 break;
                 
             case 'APPENDER' :
@@ -238,12 +235,7 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 $name  = $this->subst(@$attribs['NAME']);
                 $class = $this->subst(@$attribs['CLASS']);
                 
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen():tag=[$tag]:name=[$name]:class=[$class]");
-                
                 $this->appender =& LoggerAppender::singleton($name, $class);
-                if ($this->appender === null) {
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() APPENDER cannot instantiate appender '$name'");
-                }
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE;
                 break;
                 
@@ -251,12 +243,8 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
             case 'APPENDER-REF' :
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER_REF':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER-REF':
-            
-            
                 if (isset($attribs['REF']) and !empty($attribs['REF'])) {
                     $appenderName = $this->subst($attribs['REF']);
-                    
-                    LoggerLog::debug("LoggerDOMConfigurator::tagOpen() APPENDER-REF ref='$appenderName'");        
                     
                     $appender =& LoggerAppender::singleton($appenderName);
                     if ($appender !== null) {
@@ -266,19 +254,12 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                                 $this->logger->addAppender($appender);
                                 break;
                         }
-                    } else {
-                        LoggerLog::warn("LoggerDOMConfigurator::tagOpen() APPENDER-REF ref '$appenderName' points to a null appender");
                     }
-                } else {
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() APPENDER-REF ref not set or empty");            
-                }
+                } 
                 break;
                 
             case 'FILTER' :
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':FILTER':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() FILTER");
-                            
                 unset($this->filter);
                 $this->filter = null;
 
@@ -286,22 +267,13 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 if (!empty($filterName)) {
                     $this->filter = new $filterName();
                     $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE;
-                } else {
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() FILTER filter name cannot be empty");
-                }
+                } 
                 break;
                 
             case 'LAYOUT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LAYOUT':
-            
                 $class = @$attribs['CLASS'];
-
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LAYOUT class='{$class}'");
-
                 $this->layout = LoggerLayout::factory($this->subst($class));
-                if ($this->layout === null)
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() LAYOUT unable to instanciate class='{$class}'");
-                
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE;
                 break;
             
@@ -315,27 +287,29 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 
                 $loggerName = $this->subst(@$attribs['NAME']);
                 if (!empty($loggerName)) {
-                    LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LOGGER. name='$loggerName'");        
-                    
                     $class = $this->subst(@$attribs['CLASS']);
                     if (empty($class)) {
                         $this->logger =& $this->repository->getLogger($loggerName);
                     } else {
                         $className = basename($class);
                         if (!class_exists($className)) {
-                            LoggerLog::warn(
+                        	// TODO throw exception?
+                            /*LoggerLog::warn(
                                 "LoggerDOMConfigurator::tagOpen() LOGGER. ".
                                 "cannot find '$className'."
-                            );                        
+                            );*/                        
                         } else {
                         
                             if (in_array('getlogger', get_class_methods($className))) {
                                 $this->logger =& call_user_func(array($className, 'getlogger'), $loggerName);
                             } else {
+                            	// TODO throw exception?
+                            	/*
                                 LoggerLog::warn(
                                     "LoggerDOMConfigurator::tagOpen() LOGGER. ".
                                     "class '$className' doesnt implement 'getLogger()' method."
-                                );                        
+                                );
+                                */                        
                             }
                         }
                     }    
@@ -343,9 +317,7 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                         $additivity = LoggerOptionConverter::toBoolean($this->subst($attribs['ADDITIVITY']), true);     
                         $this->logger->setAdditivity($additivity);
                     }
-                } else {
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() LOGGER. Attribute 'name' is not set or is empty.");
-                }
+                } 
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE;;
                 break;
             
@@ -355,14 +327,12 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':PRIORITY':
             
                 if (!isset($attribs['VALUE'])) {
-                    LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LEVEL value not set");
+                    // LoggerDOMConfigurator::tagOpen() LEVEL value not set
                     break;
                 }
                     
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LEVEL value={$attribs['VALUE']}");
-                
                 if ($this->logger === null) { 
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() LEVEL. parent logger is null");
+                    // LoggerDOMConfigurator::tagOpen() LEVEL. parent logger is null
                     break;
                 }
         
@@ -374,7 +344,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                                 $this->logger->getLevel()
                             )
                         );
-                        LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LEVEL root level is now '{$attribs['VALUE']}' ");                
                         break;
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE:
                         $this->logger->setLevel(
@@ -385,27 +354,18 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                         );
                         break;
                     default:
-                        LoggerLog::warn("LoggerDOMConfigurator::tagOpen() LEVEL state '{$this->state}' not allowed here");
+                        //LoggerLog::warn("LoggerDOMConfigurator::tagOpen() LEVEL state '{$this->state}' not allowed here");
                 }
                 break;
             
             case 'PARAM':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':PARAM':
-
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() PARAM");
-                
                 if (!isset($attribs['NAME'])) {
-                    LoggerLog::warn(
-                        "LoggerDOMConfigurator::tagOpen() PARAM. ".
-                        "attribute 'name' not defined."
-                    );
+                    // LoggerDOMConfigurator::tagOpen() PARAM attribute 'name' not defined.
                     break;
                 }
                 if (!isset($attribs['VALUE'])) {
-                    LoggerLog::warn(
-                        "LoggerDOMConfigurator::tagOpen() PARAM. ".
-                        "attribute 'value' not defined."
-                    );
+                    // LoggerDOMConfigurator::tagOpen() PARAM. attribute 'value' not defined.
                     break;
                 }
                     
@@ -413,35 +373,20 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE:
                         if ($this->appender !== null) {
                             $this->setter($this->appender, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
-                        } else {
-                            LoggerLog::warn(
-                                "LoggerDOMConfigurator::tagOpen() PARAM. ".
-                                " trying to set property to a null appender."
-                            );
                         }
                         break;
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE:
                         if ($this->layout !== null) {
                             $this->setter($this->layout, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));                
-                        } else {
-                            LoggerLog::warn(
-                                "LoggerDOMConfigurator::tagOpen() PARAM. ".
-                                " trying to set property to a null layout."
-                            );
                         }
                         break;
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE:
                         if ($this->filter !== null) {
                             $this->setter($this->filter, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
-                        } else {
-                            LoggerLog::warn(
-                                "LoggerDOMConfigurator::tagOpen() PARAM. ".
-                                " trying to set property to a null filter."
-                            );
                         }
                         break;
                     default:
-                        LoggerLog::warn("LoggerDOMConfigurator::tagOpen() PARAM state '{$this->state}' not allowed here");
+                        //LoggerLog::warn("LoggerDOMConfigurator::tagOpen() PARAM state '{$this->state}' not allowed here");
                 }
                 break;
             
@@ -451,32 +396,22 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 $renderedClass   = $this->subst(@$attribs['RENDEREDCLASS']);
                 $renderingClass  = $this->subst(@$attribs['RENDERINGCLASS']);
         
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() RENDERER renderedClass='$renderedClass' renderingClass='$renderingClass'");
-        
                 if (!empty($renderedClass) and !empty($renderingClass)) {
                     $renderer = LoggerObjectRenderer::factory($renderingClass);
                     if ($renderer === null) {
-                        LoggerLog::warn("LoggerDOMConfigurator::tagOpen() RENDERER cannot instantiate '$renderingClass'");
+                        // LoggerDOMConfigurator::tagOpen() RENDERER cannot instantiate '$renderingClass'
                     } else { 
                         $this->repository->setRenderer($renderedClass, $renderer);
                     }
-                } else {
-                    LoggerLog::warn("LoggerDOMConfigurator::tagOpen() RENDERER renderedClass or renderingClass is empty");        
                 }
                 break;
             
             case 'ROOT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagOpen() ROOT");
-                
                 $this->logger =& LoggerManager::getRootLogger();
-                
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE;
                 break;
-                
         }
-         
     }
 
 
@@ -490,23 +425,13 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
         
             case 'CONFIGURATION' : 
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':CONFIGURATION':
-          
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() CONFIGURATION");
                 break;
                 
             case 'APPENDER' :
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() APPENDER");
-                
                 if ($this->appender !== null) {
                     if ($this->appender->requiresLayout() and $this->appender->getLayout() === null) {
                         $appenderName = $this->appender->getName();
-                        LoggerLog::warn(
-                            "LoggerDOMConfigurator::tagClose() APPENDER. ".
-                            "'$appenderName' requires a layout that is not defined. ".
-                            "Using a simple layout"
-                        );
                         $this->appender->setLayout(LoggerLayout::factory('LoggerLayoutSimple'));
                     }                    
                     $this->appender->activateOptions();
@@ -516,9 +441,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 
             case 'FILTER' :
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':FILTER':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() FILTER");
-                            
                 if ($this->filter !== null) {
                     $this->filter->activateOptions();
                     $this->appender->addFilter($this->filter);
@@ -529,9 +451,6 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 
             case 'LAYOUT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LAYOUT':
-
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() LAYOUT");
-
                 if ($this->appender !== null and $this->layout !== null and $this->appender->requiresLayout()) {
                     $this->layout->activateOptions();
                     $this->appender->setLayout($this->layout);
@@ -542,17 +461,11 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
             
             case 'LOGGER':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LOGGER':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() LOGGER");        
-
                 array_pop($this->state);
                 break;
             
             case 'ROOT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
-            
-                LoggerLog::debug("LoggerDOMConfigurator::tagClose() ROOT");
-
                 array_pop($this->state);
                 break;
         }
@@ -565,16 +478,14 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
      */
     function setter(&$object, $name, $value)
     {
+    	// TODO: check if this can be replaced with LoggerPropertySetter
         if (empty($name)) {
-            LoggerLog::debug("LoggerDOMConfigurator::setter() 'name' param cannot be empty");        
             return false;
         }
         $methodName = 'set'.ucfirst($name);
         if (method_exists($object, $methodName)) {
-            LoggerLog::debug("LoggerDOMConfigurator::setter() Calling ".get_class($object)."::{$methodName}({$value})");
             return call_user_func(array(&$object, $methodName), $value);
         } else {
-            LoggerLog::warn("LoggerDOMConfigurator::setter() ".get_class($object)."::{$methodName}() does not exists");
             return false;
         }
     }

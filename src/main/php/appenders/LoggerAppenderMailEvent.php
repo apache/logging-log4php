@@ -141,17 +141,9 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
             $smtpPort = $prevSmtpPort;
         } 
         
-        LoggerLog::debug(
-            "LoggerAppenderMailEvent::append()" . 
-            ":from=[{$from}]:to=[{$to}]:smtpHost=[{$smtpHost}]:smtpPort=[{$smtpPort}]"
-        ); 
-        
-        if (!@mail( $to, $this->getSubject(), 
+        @mail( $to, $this->getSubject(), 
             $this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), 
-            "From: {$from}\r\n"
-        )) {
-            LoggerLog::debug("LoggerAppenderMailEvent::append() mail error");
-        }
+            "From: {$from}\r\n");
             
         ini_set('SMTP',         $prevSmtpHost);
         ini_set('smtp_port',    $prevSmtpPort);

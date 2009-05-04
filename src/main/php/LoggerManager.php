@@ -54,7 +54,7 @@ class LoggerManager {
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLayout' => '/LoggerLayout.php',
 		'LoggerLevel' => '/LoggerLevel.php',
-		'LoggerLog' => '/LoggerLog.php',
+		// 'LoggerLog' => '/LoggerLog.php',
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
 		'LoggerPropertyConfigurator' => '/LoggerPropertyConfigurator.php',
@@ -294,8 +294,9 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
 }
 
 if (!LOG4PHP_DEFAULT_INIT_OVERRIDE) {
-	if (!LoggerManagerDefaultInit())
-		LoggerLog::warn("LOG4PHP main() Default Init failed.");
+	if (!LoggerManagerDefaultInit()) {
+//		LoggerLog::warn("LOG4PHP main() Default Init failed.");
+	}
 }
 
 /**

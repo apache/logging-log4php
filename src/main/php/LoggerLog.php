@@ -25,7 +25,7 @@
  * <p>It uses php {@link PHP_MANUAL#trigger_error trigger_error()} function
  * to output messages.</p>
  * <p>You need to recode methods to output messages in a different way.</p> 
- *
+ * @deprecated
  * @version $Revision$
  * @package log4php
  */

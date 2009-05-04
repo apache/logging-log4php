@@ -76,19 +76,14 @@ class LoggerMDC {
 	 * @static
 	 */
 	public static function get($key) {
-		LoggerLog::debug("LoggerMDC::get() key='$key'");
-	
 		if(!empty($key)) {
 			if(strpos($key, 'server.') === 0) {
 				$varName = substr($key, 7);
-				LoggerLog::debug("LoggerMDC::get() a _SERVER[$varName] is requested.");
 				return @$_SERVER[$varName];
 			} else if(strpos($key, 'env.') === 0) {
 				$varName = substr($key, 4);
-				LoggerLog::debug("LoggerMDC::get() a _ENV[$varName] is requested.");
 				return @$_ENV[$varName];
 			} else if (isset($GLOBALS['log4php.LoggerMDC.ht'][$key])) {
-				LoggerLog::debug("LoggerMDC::get() a user key is requested.");
 				return $GLOBALS['log4php.LoggerMDC.ht'][$key];
 			}
 		}
