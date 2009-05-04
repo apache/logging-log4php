@@ -48,7 +48,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
 	 * @var string
 	 */
 	var $stringToMatch = null;
-  
+
 	/**
 	 * @return boolean
 	 */
@@ -83,13 +83,13 @@ class LoggerStringMatchFilter extends LoggerFilter {
 	function decide($event) {
 		$msg = $event->getRenderedMessage();
 		
-		if($msg === null or	 $this->stringToMatch === null) {
+		if($msg === null or $this->stringToMatch === null) {
 			return LoggerFilter::NEUTRAL;
 		}
 		
 		if(strpos($msg, $this->stringToMatch) !== false ) {
-			return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY ; 
+			return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY;
 		}
-		return LoggerFilter::NEUTRAL;		 
+		return LoggerFilter::NEUTRAL;
 	}
 }

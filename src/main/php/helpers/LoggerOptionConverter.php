@@ -168,7 +168,7 @@ class LoggerOptionConverter {
 
 		// This is degenerate case but you never know.
 		if("NULL" == strtoupper($levelName)) {
-				return null;
+			return null;
 		}
 
 		$clazz = basename($clazz);
