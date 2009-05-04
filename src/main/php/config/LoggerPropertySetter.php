@@ -73,6 +73,7 @@ class LoggerPropertySetter {
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 * @static
 	 */
+	 // TODO: check, if this is really useful
 	public static function setPropertiesByObject(&$obj, $properties, $prefix) {
 		$pSetter = new LoggerPropertySetter($obj);
 		return $pSetter->setProperties($properties, $prefix);
@@ -86,6 +87,7 @@ class LoggerPropertySetter {
 	 * @param array $properties An array containing keys and values.
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 */
+	 // TODO: check, if this is really useful
 	function setProperties($properties, $prefix) {
 		$len = strlen($prefix);
 		while(list($key,) = each($properties)) {
