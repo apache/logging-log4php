@@ -328,12 +328,14 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	 * @param LoggerHierarchy &$hierarchy
 	 */
 	function doConfigureProperties($properties, &$hierarchy) {
+		/*
 		$value = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY];
 		
 		if(!empty($value)) {
 			LoggerLog::internalDebugging(LoggerOptionConverter::toBoolean($value, LoggerLog::internalDebugging()));
 		}
-
+		*/
+		
 		$thresholdStr = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX];
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
 		
