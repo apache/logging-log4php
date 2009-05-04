@@ -68,15 +68,6 @@ class LoggerRoot extends Logger {
 			$this->level = $level;
 		}	 
 	}
- 
-	/**
-	 * Please use setLevel() instead.
-	 * @param LoggerLevel $level
-	 * @deprecated
-	 */
-	public function setPriority($level) {
-		$this->setLevel($level); 
-	}
 	
 	/**
 	 * Always returns false.

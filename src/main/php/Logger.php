@@ -472,14 +472,6 @@ class Logger {
 	public function setAdditivity($additive) {
 		$this->additive = (bool)$additive;
 	}
-	
-	/**
-	 * @deprecated Please use {@link setLevel()} instead.
-	 * @see setLevel()
-	 */
-	public function setPriority($priority) {
-		$this->setLevel($priority);
-	} 
 
 	/**
 	 * Only the Hierarchy class can set the hierarchy of a
