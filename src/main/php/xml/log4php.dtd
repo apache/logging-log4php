@@ -44,14 +44,10 @@ element. -->
 <!-- cannot be set to null. The "null" value for the threshold attribute -->
 <!-- simply means don't touch the threshold field, the threshold field   --> 
 <!-- keeps its old value.                                                -->
-<!-- [log4php] -->
-<!-- the "null" value in debug means "turn off debugging" -->
-<!-- [/log4php] -->
      
 <!ATTLIST log4php:configuration
   xmlns:log4php            CDATA #FIXED "http://logging.apache.org/log4php"
   threshold                (all|debug|info|warn|error|fatal|off|null) "null"
-  debug                    (true|false|null)  "null"
 >
 
 <!-- renderer elements allow the user to customize the conversion of  -->
