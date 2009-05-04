@@ -72,10 +72,10 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * @param string date format
      * @see dateFormat
      */
-    public function __construct($dateFormat = '')
-    {
-        if (!empty($dateFormat))
+    public function __construct($dateFormat = '') {
+        if (!empty($dateFormat)) {
             $this->dateFormat = $dateFormat;
+        }
         return;
     }
 
@@ -87,9 +87,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * The <b>ThreadPrinting</b> option specifies whether the name of the
      * current thread is part of log output or not. This is true by default.
      */
-    public function setThreadPrinting($threadPrinting)
-    {
-        
+    public function setThreadPrinting($threadPrinting) {
         $this->threadPrinting = is_bool($threadPrinting) ? 
             $threadPrinting : 
             (bool)(strtolower($threadPrinting) == 'true'); 
@@ -106,8 +104,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * The <b>CategoryPrefixing</b> option specifies whether {@link Category}
      * name is part of log output or not. This is true by default.
      */
-    public function setCategoryPrefixing($categoryPrefixing)
-    {
+    public function setCategoryPrefixing($categoryPrefixing) {
         $this->categoryPrefixing = is_bool($categoryPrefixing) ?
             $categoryPrefixing :
             (bool)(strtolower($categoryPrefixing) == 'true');
@@ -134,8 +131,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>ContextPrinting</b> option.
      */
-    public function getContextPrinting()
-    {
+    public function getContextPrinting() {
         return $this->contextPrinting;
     }
     
@@ -153,22 +149,19 @@ class LoggerLayoutTTCC extends LoggerLayout {
     /**
      * @return boolean Returns value of the <b>MicroSecondsPrinting</b> option.
      */
-    public function getMicroSecondsPrinting()
-    {
+    public function getMicroSecondsPrinting() {
         return $this->microSecondsPrinting;
     }
     
     
-    public function setDateFormat($dateFormat)
-    {
+    public function setDateFormat($dateFormat) {
         $this->dateFormat = $dateFormat;
     }
     
     /**
      * @return string
      */
-    public function getDateFormat()
-    {
+    public function getDateFormat() {
         return $this->dateFormat;
     }
 
@@ -180,8 +173,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    public function format($event)
-    {
+    public function format($event) {
         $timeStamp = (float)$event->getTimeStamp();
         $format = strftime($this->dateFormat, (int)$timeStamp);
         
@@ -192,9 +184,10 @@ class LoggerLayoutTTCC extends LoggerLayout {
             
         $format .= ' ';
         
-        if ($this->threadPrinting)
+        if ($this->threadPrinting) {
             $format .= '['.getmypid().'] ';
-       
+        }
+        
         $level = $event->getLevel();
         $format .= $level->toString().' ';
         
@@ -215,8 +208,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         return $format;
     }
 
-    public function ignoresThrowable()
-    {
+    public function ignoresThrowable() {
         return true;
     }
 }
