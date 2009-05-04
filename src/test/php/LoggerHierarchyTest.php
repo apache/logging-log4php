@@ -52,15 +52,15 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 		$appender = new LoggerAppenderConsole('A1');
 		$root->addAppender($appender);
 		$logger = $this->hierarchy->getLogger('test');
-		self::assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+		self::assertEquals(count($this->hierarchy->getCurrentLoggers()), 1);
 		$this->hierarchy->resetConfiguration();
 		self::assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'DEBUG');
 		self::assertEquals($this->hierarchy->getThreshold()->levelStr, 'ALL');
-		self::assertEquals(sizeof($this->hierarchy->getCurrentLoggers()), 1);
+		self::assertEquals(count($this->hierarchy->getCurrentLoggers()), 1);
 		foreach($this->hierarchy->getCurrentLoggers() as $l) {
 			self::assertEquals($l->getLevel(), null);
 			self::assertTrue($l->getAdditivity());
-			self::assertEquals(sizeof($l->getAllAppenders()), 0);
+			self::assertEquals(count($l->getAllAppenders()), 0);
 		}
 	}
 

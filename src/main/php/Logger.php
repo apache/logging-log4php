@@ -106,7 +106,7 @@ class Logger {
 	 * @param LoggerLoggingEvent $event 
 	 */
 	public function callAppenders($event) {
-		if(sizeof($this->aai) > 0) {
+		if(count($this->aai) > 0) {
 			foreach(array_keys($this->aai) as $appenderName) {
 				$this->aai[$appenderName]->doAppend($event);
 			}
@@ -443,7 +443,7 @@ class Logger {
 	 */
 	public function removeAllAppenders() {
 		$appenderNames = array_keys($this->aai);
-		$enumAppenders = sizeof($appenderNames);
+		$enumAppenders = count($appenderNames);
 		for($i = 0; $i < $enumAppenders; $i++) {
 			$this->removeAppender($appenderNames[$i]); 
 		}

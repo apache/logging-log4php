@@ -479,7 +479,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 
 		if(!(empty($value) || @$value[0] == ',')) {
 			// just to be on the safe side...
-			if(sizeof($st) == 0) {
+			if(count($st) == 0) {
 				return;
 			}
 			$levelStr = current($st);

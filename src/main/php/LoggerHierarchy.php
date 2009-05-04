@@ -197,7 +197,7 @@ class LoggerHierarchy {
 			} else {
 				$this->ht[$name]->setParent($this->root);
 			} 
-			if(sizeof($nodes) > 0) {
+			if(count($nodes) > 0) {
 				// find parent node
 				foreach($nodes as $node) {
 					$parentNode = "$firstNode.$node";
@@ -273,7 +273,7 @@ class LoggerHierarchy {
 		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->shutDown();
 		$loggers = $this->getCurrentLoggers();
-		$enumLoggers = sizeof($loggers);
+		$enumLoggers = count($loggers);
 		for($i = 0; $i < $enumLoggers; $i++) {
 			$loggers[$i]->setLevel(null);
 			$loggers[$i]->setAdditivity(true);
@@ -328,7 +328,7 @@ class LoggerHierarchy {
 	public function shutdown() {
 		$this->root->removeAllAppenders();
 		$cats = $this->getCurrentLoggers();
-		$enumCats = sizeof($cats);		  
+		$enumCats = count($cats);		  
 		if($enumCats > 0) {
 			for($i = 0; $i < $enumCats; $i++) {
 				$cats[$i]->removeAllAppenders();
