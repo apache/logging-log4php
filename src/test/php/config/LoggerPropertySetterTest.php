@@ -43,7 +43,7 @@ class Simple {
     }
 }
 
-class LoggerManagerTest extends PHPUnit_Framework_TestCase {
+class LoggerPropertySetterTest extends PHPUnit_Framework_TestCase {
 	
 	public function testSimpleSet() {
 		$s = new Simple();
