@@ -201,14 +201,6 @@ class LoggerPatternLayout extends LoggerLayout {
         return $this->pattern;
     }
     
-    /**
-     * Does not do anything as options become effective
-     */
-    function activateOptions()
-    {
-        // nothing to do.
-    }
-    
     function ignoresThrowable() 
     { 
         return true; 

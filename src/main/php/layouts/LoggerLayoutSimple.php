@@ -40,10 +40,6 @@ class LoggerLayoutSimple extends LoggerLayout {
         return;
     }
 
-    function activateOptions() {
-        return;
-    }
-
     /**
      * Returns the log statement in a format consisting of the
      * <b>level</b>, followed by " - " and then the

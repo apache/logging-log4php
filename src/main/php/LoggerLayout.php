@@ -42,9 +42,12 @@ abstract class LoggerLayout {
 	}
 
 	/**
-	 * Override this method
+	 * Activates options for this layout.
+	 * Override this method if you have options to be activated.
 	 */
-	abstract function activateOptions();
+	public function activateOptions() {
+		return true;
+	}
 
 	/**
 	 * Override this method to create your own layout format.

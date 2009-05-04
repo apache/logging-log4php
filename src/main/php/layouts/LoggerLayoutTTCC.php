@@ -79,10 +79,6 @@ class LoggerLayoutTTCC extends LoggerLayout {
         return;
     }
 
-    public function activateOptions() {
-        return;
-    }
-
     /**
      * The <b>ThreadPrinting</b> option specifies whether the name of the
      * current thread is part of log output or not. This is true by default.

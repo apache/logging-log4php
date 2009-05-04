@@ -116,14 +116,6 @@ class LoggerLayoutHtml extends LoggerLayout {
     }
     
     /**
-     * No options to activate.
-     */
-    function activateOptions()
-    {
-        return true;
-    }
-    
-    /**
      * @param LoggerLoggingEvent $event
      * @return string
      */
