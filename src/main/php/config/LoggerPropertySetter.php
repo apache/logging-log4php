@@ -81,6 +81,12 @@ class LoggerPropertySetter {
 	/**
 	 * Set the properites for the object that match the
 	 * <code>prefix</code> passed as parameter.
+	 * 
+	 * Example:
+	 * 
+	 * $arr['xxxname'] = 'Joe';
+ 	 * $arr['xxxmale'] = true;
+	 * and prefix xxx causes setName and setMale.	
 	 *
 	 * @param array $properties An array containing keys and values.
 	 * @param string $prefix Only keys having the specified prefix will be set.
