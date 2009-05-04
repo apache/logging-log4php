@@ -148,14 +148,7 @@ class LoggerHierarchy {
 	public function fireAddAppenderEvent($logger, $appender) {
 		return;
 	}
-	
-	/**
-	 * @deprecated Please use {@link getCurrentLoggers()} instead.
-	 */
-	public function getCurrentCategories() {
-		return $this->getCurrentLoggers();
-	}
-	
+		
 	/**
 	 * Returns all the currently defined categories in this hierarchy as an array.
 	 * @return array
@@ -245,13 +238,6 @@ class LoggerHierarchy {
 	}
 	
 	/**
-	 * @deprecated Deprecated with no replacement.
-	 */
-	public function overrideAsNeeded($override) {
-		return;
-	} 
-	
-	/**
 	 * Reset all values contained in this hierarchy instance to their
 	 * default. 
 	 *
@@ -281,13 +267,6 @@ class LoggerHierarchy {
 			$loggers[$i]->removeAllAppenders();
 		}
 		$this->rendererMap->clear();
-	}
-	  
-	/**
-	 * @deprecated Deprecated with no replacement.
-	 */
-	public function setDisableOverride($override) {
-		return;
 	}
 	
 	/**

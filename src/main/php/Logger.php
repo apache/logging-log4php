@@ -149,17 +149,6 @@ class Logger {
 	}
 	
 	/**
-	 * Deprecated. Please use LoggerManager::exists() instead.
-	 *
-	 * @param string $name
-	 * @see LoggerManager::exists()
-	 * @deprecated
-	 */
-	public function exists($name) {
-		return LoggerManager::exists($name);
-	}
-	
-	/**
 	 * Log a message object with the FATAL level including the caller.
 	 *
 	 * @param mixed $message message
@@ -215,39 +204,7 @@ class Logger {
 	public function getAppender($name) {
 		return $this->aai[$name];
 	}
-	
-	/**
-	 * Please use the {@link getEffectiveLevel()} method instead.
-	 * @deprecated
-	 */
-	public function getChainedPriority() {
-		return $this->getEffectiveLevel();
-	} 
- 
-	/**
-	 * Please use {@link LoggerManager::getCurrentLoggers()} instead.
-	 * @deprecated
-	 */
-	public function getCurrentCategories() {
-		return LoggerManager::getCurrentLoggers();
-	} 
- 
-	/**
-	 * Please use {@link LoggerManager::getLoggerRepository()} instead.
-	 * @deprecated 
-	 */
-	public function getDefaultHierarchy() {
-		return LoggerManager::getLoggerRepository();
-	} 
- 
-	/**
-	 * @deprecated Use {@link getLoggerRepository()}
-	 * @return LoggerHierarchy 
-	 */
-	public function getHierarchy() {
-		return $this->getLoggerRepository();
-	} 
-
+  
 	/**
 	 * Starting from this category, search the category hierarchy for a non-null level and return it.
 	 * @see LoggerLevel
@@ -312,14 +269,6 @@ class Logger {
 	public function getParent() {
 		return $this->parent;
 	}	   
-
-	/**
-	 * Please use getLevel() instead.
-	 * @deprecated
-	 */
-	public function getPriority() {
-		return $this->getLevel();
-	}
 		  
 	/**
 	 * Return the inherited ResourceBundle for this category.
@@ -503,15 +452,7 @@ class Logger {
 	 */
 	public function setResourceBundle($bundle) {
 		return;
-	} 
-		   
-	/**
-	 * @deprecated use {@link LoggerManager::shutdown()} instead.
-	 * @see LoggerManager::shutdown()
-	 */
-	public function shutdown() {
-		LoggerManager::shutdown();
-	} 
+	}
 
 	/**
 	 * Log a message with the WARN level.
