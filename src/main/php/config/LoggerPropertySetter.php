@@ -27,17 +27,19 @@
  *	
  * Usage:
  * <code>
- * $ps = new LoggerPropertySetter($anObject);
- * $ps->set("name", "Joe");
- * $ps->set("age", 32);
- * $ps->set("isMale", true);
+ * $s = new Simple();
+ * $ps = new LoggerPropertySetter($s);
+ * $ps->setProperty("name", "Joe");
+ * $ps->setProperty("male", true);
  * </code>
+ * 
  * will cause the invocations 
+ * 
  * <code>
- * $anObject->setName("Joe");
- * $anObject->setAge(32);
- * $anObject->setMale(true)
+ * $s->setName("Joe");
+ * $s->setMale(true)
  * </code>
+ * 
  * if such methods exist.
  *	
  * @version $Revision$
@@ -46,12 +48,8 @@
  * @since 0.5
  */
 class LoggerPropertySetter {
-
-	/**
-	 * @var object the target object
-	 * @access private
-	 */
-	var $obj;
+	/** the target object */
+	private $obj;
   
 	/**
 	 * Create a new LoggerPropertySetter for the specified Object. 
@@ -59,7 +57,7 @@ class LoggerPropertySetter {
 	 * one or more times.
 	 * @param object &$obj the object for which to set properties
 	 */
-	function LoggerPropertySetter(&$obj) {
+	public function LoggerPropertySetter(&$obj) {
 		$this->obj =& $obj;
 	}
   
@@ -88,7 +86,7 @@ class LoggerPropertySetter {
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 */
 	 // TODO: check, if this is really useful
-	function setProperties($properties, $prefix) {
+	public function setProperties($properties, $prefix) {
 		$len = strlen($prefix);
 		while(list($key,) = each($properties)) {
 			if(strpos($key, $prefix) === 0) {
@@ -121,7 +119,7 @@ class LoggerPropertySetter {
 	 * @param string $name	  name of the property
 	 * @param string $value	  String value of the property
 	 */
-	function setProperty($name, $value) {
+	public function setProperty($name, $value) {
 		if($value === null) {
 			return;
 		}
@@ -136,7 +134,7 @@ class LoggerPropertySetter {
 		} 
 	}
   
-	function activate() {
+	public function activate() {
 		if(method_exists($this->obj, 'activateoptions')) {
 			return call_user_func(array(&$this->obj, 'activateoptions'));
 		} 
