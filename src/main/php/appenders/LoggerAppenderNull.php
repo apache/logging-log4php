@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@
  */
 
 /**
- * A NullAppender merely exists, it never outputs a message to any device.  
+ * A NullAppender merely exists, it never outputs a message to any device.	
  *
  * @version $Revision$
  * @package log4php
@@ -29,28 +29,23 @@
  */
 class LoggerAppenderNull extends LoggerAppenderSkeleton {
 
-    /**
-     * @access private
-     */
-    protected $requiresLayout = false;
-    
-    public function activateOptions()
-    { 
-        $this->closed = false;
-    }
-    
-    public function close()
-    {
-        $this->closed = true;
-    }
-    
-    /**
-     * Do nothing. 
-     * How I Love it !! :)
-     * 
-     * @param LoggerLoggingEvent $event
-     */
-    protected function append($event) {
-    }
+	protected $requiresLayout = false;
+	
+	public function activateOptions() {
+		$this->closed = false;
+	}
+	
+	public function close() {
+		$this->closed = true;
+	}
+	
+	/**
+	 * Do nothing. 
+	 * How I Love it !! :)
+	 * 
+	 * @param LoggerLoggingEvent $event
+	 */
+	protected function append($event) {
+	}
 }
 

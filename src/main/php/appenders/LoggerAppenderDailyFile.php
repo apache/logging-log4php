@@ -1,13 +1,13 @@
 <?php
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,47 +32,46 @@
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
- */                      
+ */
 class LoggerAppenderDailyFile extends LoggerAppenderFile {
 
-    /**
-     * Format date. 
-     * It follows the {@link PHP_MANUAL#date()} formatting rules and <b>should always be set before {@link $file} param</b>.
-     * @var string
-     */
-    public $datePattern = "Ymd";
-    
-    /**
-    * Sets date format for the file name.
-    * @param string $format a regular date() string format
-    */
-    public function setDatePattern($format) {
-        $this->datePattern = $format;
-    }
-    
-    /**
-    * @return string returns date format for the filename
-    */
-    public function getDatePattern() {
-        return $this->datePattern;
-    }
-    
-    /**
-    * The File property takes a string value which should be the name of the file to append to.
-    * Sets and opens the file where the log output will go.
-    *
-    * @see LoggerAppenderFile::setFile()
-    */
-    public function setFile() {
-        $numargs = func_num_args();
-        $args    = func_get_args();
-        
-        if ($numargs == 1 and is_string($args[0])) {
-            parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())) );
-        } elseif ($numargs == 2 and is_string($args[0]) and is_bool($args[1])) {
-            parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())), $args[1] );
-        }
-    } 
+	/**
+	 * Format date. 
+	 * It follows the {@link PHP_MANUAL#date()} formatting rules and <b>should always be set before {@link $file} param</b>.
+	 * @var string
+	 */
+	public $datePattern = "Ymd";
+	
+	/**
+	* Sets date format for the file name.
+	* @param string $format a regular date() string format
+	*/
+	public function setDatePattern($format) {
+		$this->datePattern = $format;
+	}
+	
+	/**
+	* @return string returns date format for the filename
+	*/
+	public function getDatePattern() {
+		return $this->datePattern;
+	}
+	
+	/**
+	* The File property takes a string value which should be the name of the file to append to.
+	* Sets and opens the file where the log output will go.
+	*
+	* @see LoggerAppenderFile::setFile()
+	*/
+	public function setFile() {
+		$numargs = func_num_args();
+		$args = func_get_args();
+		
+		if($numargs == 1 and is_string($args[0])) {
+			parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())) );
+		} else if ($numargs == 2 and is_string($args[0]) and is_bool($args[1])) {
+			parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())), $args[1] );
+		}
+	} 
 
 }
-
