@@ -20,11 +20,6 @@
  * @subpackage helpers
  */
 
-define('LOG4PHP_OPTION_CONVERTER_DELIM_START', '${');
-define('LOG4PHP_OPTION_CONVERTER_DELIM_STOP', '}');
-define('LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN', 2);
-define('LOG4PHP_OPTION_CONVERTER_DELIM_STOP_LEN', 1);
-
 /**
  * A convenience class to convert property values to specific types.
  *
@@ -35,6 +30,11 @@ define('LOG4PHP_OPTION_CONVERTER_DELIM_STOP_LEN', 1);
  * @since 0.5
  */
 class LoggerOptionConverter {
+
+	const DELIM_START = '${';
+	const DELIM_STOP = '}';
+	const DELIM_START_LEN = 2;
+	const DELIM_STOP_LEN = 1;
 
 	/** 
 	 * @param array $l
@@ -270,7 +270,7 @@ class LoggerOptionConverter {
 		$sbuf = '';
 		$i = 0;
 		while(true) {
-			$j = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_START, $i);
+			$j = strpos($val, self::DELIM_START, $i);
 			if($j === false) {
 				// no more variables
 				if($i == 0) { // this is a simple string
@@ -282,12 +282,12 @@ class LoggerOptionConverter {
 			} else {
 			
 				$sbuf .= substr($val, $i, $j-$i);
-				$k = strpos($val, LOG4PHP_OPTION_CONVERTER_DELIM_STOP, $j);
+				$k = strpos($val, self::DELIM_STOP, $j);
 				if($k === false) {
 					// LoggerOptionConverter::substVars() has no closing brace. Opening brace
 					return '';
 				} else {
-					$j += LOG4PHP_OPTION_CONVERTER_DELIM_START_LEN;
+					$j += self::START_LEN;
 					$key = substr($val, $j, $k - $j);
 					// first try in System properties
 					$replacement = LoggerOptionConverter::getSystemProperty($key, null);
@@ -305,7 +305,7 @@ class LoggerOptionConverter {
 						$recursiveReplacement = LoggerOptionConverter::substVars($replacement, $props);
 						$sbuf .= $recursiveReplacement;
 					}
-					$i = $k + LOG4PHP_OPTION_CONVERTER_DELIM_STOP_LEN;
+					$i = $k + self::DELIM_STOP_LEN;
 				}
 			}
 		}
