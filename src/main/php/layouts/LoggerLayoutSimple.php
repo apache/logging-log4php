@@ -33,17 +33,14 @@
  * @subpackage layouts
  */  
 class LoggerLayoutSimple extends LoggerLayout {
-    
     /**
      * Constructor
      */
-    function LoggerLayoutSimple()
-    {
+    function LoggerLayoutSimple() {
         return;
     }
 
-    function activateOptions() 
-    {
+    function activateOptions() {
         return;
     }
 
@@ -56,8 +53,7 @@ class LoggerLayoutSimple extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
-    {
+    function format($event) {
         $level = $event->getLevel();
         return $level->toString() . ' - ' . $event->getRenderedMessage(). PHP_EOL;
     }
