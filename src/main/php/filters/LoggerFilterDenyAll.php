@@ -17,36 +17,32 @@
  *
  *
  * @package log4php
- * @subpackage or
+ * @subpackage filters
  */
 
 /**
- * Subclass this abstract class in order to render objects as strings.
+ * This filter drops all logging events. 
+ * 
+ * <p>You can add this filter to the end of a filter chain to
+ * switch from the default "accept all unless instructed otherwise"
+ * filtering behaviour to a "deny all unless instructed otherwise"
+ * behaviour.</p>
  *
  * @version $Revision$
  * @package log4php
- * @subpackage or
- * @abstract
+ * @subpackage varia
  * @since 0.3
  */
-abstract class LoggerObjectRenderer {
+class LoggerFilterDenyAll extends LoggerFilter {
 
 	/**
-	 * @param string $class classname
-	 * @return LoggerObjectRenderer create LoggerObjectRenderer instances
+	 * Always returns the integer constant {@link LoggerFilter::DENY}
+	 * regardless of the {@link LoggerLoggingEvent} parameter.
+	 * 
+	 * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to filter.
+	 * @return LoggerFilter::DENY Always returns {@link LoggerFilter::DENY}
 	 */
-	public static function factory($class) {
-		if(!empty($class)) {
-			$class = basename($class);
-			return new $class();
-		}
-		return null;
+	public function decide($event) {
+		return LoggerFilter::DENY;
 	}
-
-	/**
-	 * Render the entity passed as parameter as a String.
-	 * @param mixed $o entity to render
-	 * @return string
-	 */
-	abstract public function doRender($o);
 }

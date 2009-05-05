@@ -27,7 +27,7 @@
  * @subpackage or
  * @since 0.3
  */
-class LoggerDefaultRenderer extends LoggerObjectRenderer {
+class LoggerRendererDefault extends LoggerRendererObject {
 
 	/**
 	 * Render objects by type casting

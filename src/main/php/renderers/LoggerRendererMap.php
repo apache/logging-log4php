@@ -21,7 +21,7 @@
  */
 
 /**
- * Map class objects to an {@link LoggerObjectRenderer}.
+ * Map class objects to an {@link LoggerRendererObject}.
  *
  * @version $Revision$
  * @package log4php
@@ -45,7 +45,7 @@ class LoggerRendererMap {
 	 */
 	public function __construct() {
 		$this->map = array();
-		$this->defaultRenderer = new LoggerDefaultRenderer();
+		$this->defaultRenderer = new LoggerRendererDefault();
 	}
 
 	/**
@@ -58,7 +58,7 @@ class LoggerRendererMap {
 	 * @static
 	 */
 	public static function addRenderer($repository, $renderedClassName, $renderingClassName) {
-		$renderer = LoggerObjectRenderer::factory($renderingClassName);
+		$renderer = LoggerRendererObject::factory($renderingClassName);
 		if($renderer == null) {
 			return;
 		} else {
@@ -72,7 +72,7 @@ class LoggerRendererMap {
 	 * <var>o</var> parameter. 
 	 *
 	 * This is accomplished by calling the {@link getByObject()} 
-	 * method if <var>o</var> is object or using {@link LoggerDefaultRenderer}. 
+	 * method if <var>o</var> is object or using {@link LoggerRendererDefault}. 
 	 * Once a renderer is found, it is applied on the object <var>o</var> and 
 	 * the result is returned as a string.
 	 *
@@ -116,7 +116,7 @@ class LoggerRendererMap {
 	 * renderers could be found, then the default renderer is returned.
 	 *
 	 * @param string $class
-	 * @return LoggerObjectRenderer
+	 * @return LoggerRendererObject
 	 */
 	public function getByClassName($class) {
 		$r = null;
@@ -129,7 +129,7 @@ class LoggerRendererMap {
 	}
 
 	/**
-	 * @return LoggerDefaultRenderer
+	 * @return LoggerRendererDefault
 	 */
 	public function getDefaultRenderer() {
 		return $this->defaultRenderer;
@@ -141,9 +141,9 @@ class LoggerRendererMap {
 	}
 
 	/**
-	 * Register a {@link LoggerObjectRenderer} for <var>clazz</var>.
+	 * Register a {@link LoggerRendererObject} for <var>clazz</var>.
 	 * @param string $class
-	 * @param LoggerObjectRenderer $or
+	 * @param LoggerRendererObject $or
 	 */
 	public function put($class, $or) {
 		$this->map[strtolower($class)] = $or;

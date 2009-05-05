@@ -17,7 +17,7 @@
  *
  *
  * @package log4php
- * @subpackage varia
+ * @subpackage filters
  */
 
 /**
@@ -55,7 +55,7 @@
  * @subpackage varia
  * @since 0.6
  */
-class LoggerLevelRangeFilter extends LoggerFilter {
+class LoggerFilterLevelRange extends LoggerFilter {
 
 	/**
 	 * @var boolean

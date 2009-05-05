@@ -17,7 +17,7 @@
  *
  *
  * @package log4php
- * @subpackage varia
+ * @subpackage filters
  */
 
 /**
@@ -37,7 +37,7 @@
  * @subpackage varia
  * @since 0.3
  */
-class LoggerStringMatchFilter extends LoggerFilter {
+class LoggerFilterStringMatch extends LoggerFilter {
 
 	/**
 	 * @var boolean
