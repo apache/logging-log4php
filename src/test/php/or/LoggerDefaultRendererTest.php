@@ -33,7 +33,7 @@ class LoggerDefaultRendererTest extends PHPUnit_Framework_TestCase {
 
 	public function testDoRender() {
 		$class = new DefaultRendererMockObject();
-		$renderer = new LoggerDefaultRenderer();
+		$renderer = new LoggerRendererDefault();
 		self::assertEquals(var_export($class, true), $renderer->doRender($class));
 	}
 

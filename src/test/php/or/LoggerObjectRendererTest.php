@@ -26,8 +26,8 @@
 class LoggerObjectRendererTest extends PHPUnit_Framework_TestCase {
 
 	public function testFactory() {
-		$renderer = LoggerObjectRenderer::factory('LoggerDefaultRenderer');
-		self::assertType('LoggerDefaultRenderer', $renderer);
+		$renderer = LoggerRendererObject::factory('LoggerRendererDefault');
+		self::assertType('LoggerRendererDefault', $renderer);
 	}
 
 }
