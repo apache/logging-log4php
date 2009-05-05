@@ -71,7 +71,7 @@ define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS', 'HTTP://LOGGING.APACHE.ORG/LOG4P
  * @subpackage xml
  * @since 0.4 
  */
-class LoggerDOMConfigurator implements LoggerConfigurator {
+class LoggerConfiguratorXml implements LoggerConfigurator {
 
     /**
      * @var LoggerHierarchy
@@ -397,7 +397,7 @@ class LoggerDOMConfigurator implements LoggerConfigurator {
                 $renderingClass  = $this->subst(@$attribs['RENDERINGCLASS']);
         
                 if (!empty($renderedClass) and !empty($renderingClass)) {
-                    $renderer = LoggerObjectRenderer::factory($renderingClass);
+                    $renderer = LoggerRendererObject::factory($renderingClass);
                     if ($renderer === null) {
                         // LoggerDOMConfigurator::tagOpen() RENDERER cannot instantiate '$renderingClass'
                     } else { 

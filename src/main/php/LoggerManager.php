@@ -58,6 +58,7 @@ class LoggerManager {
 		'LoggerNDC' => '/LoggerNDC.php',
 		'LoggerConfiguratorPhp' => '/configurators/LoggerConfiguratorPhp.php',
 		'LoggerPropertyConfigurator' => '/LoggerPropertyConfigurator.php',
+		'LoggerConfiguratorXml' => '/configurators/LoggerConfiguratorXml.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
@@ -95,16 +96,15 @@ class LoggerManager {
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
-		'LoggerConfigurator' => '/spi/LoggerConfigurator.php',
-		'LoggerFactory' => '/spi/LoggerFactory.php',
+		'LoggerConfigurator' => '/LoggerConfigurator.php',
+		'LoggerFactory' => '/LoggerFactory.php',
 		'LoggerFilter' => '/LoggerFilter.php',
-		'LoggerLocationInfo' => '/spi/LoggerLocationInfo.php',
-		'LoggerLoggingEvent' => '/spi/LoggerLoggingEvent.php',
+		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
+		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
 		'LoggerFilterDenyAll' => '/filters/LoggerDenyAllFilter.php',
 		'LoggerFilterLevelMatch' => '/filters/LoggerLevelMatchFilter.php',
 		'LoggerFilterLevelRange' => '/filters/LoggerLevelRangeFilter.php',
 		'LoggerFilterStringMatch' => '/filters/LoggerStringMatchFilter.php',
-		'LoggerDOMConfigurator' => '/xml/LoggerDOMConfigurator.php',
 	);
 
 	/**

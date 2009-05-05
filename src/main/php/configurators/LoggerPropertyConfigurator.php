@@ -225,7 +225,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	 * 
 	 * <p>You can customize the way message objects of a given type are
 	 * converted to String before being logged. This is done by
-	 * specifying a {@link LoggerObjectRenderer}
+	 * specifying a {@link LoggerRendererObject}
 	 * for the object type would like to customize.</p>
 	 * 
 	 * <p>The syntax is:
