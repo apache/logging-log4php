@@ -21,7 +21,7 @@
   threshold="all" debug="false">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutTTCC"/>
-        <filter class="LoggerStringMatchFilter">
+        <filter class="LoggerFilterStringMatch">
             <param name="StringToMatch" value="match" />
             <param name="AcceptOnMatch" value="false" />
         </filter>

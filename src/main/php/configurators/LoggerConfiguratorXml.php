@@ -17,7 +17,7 @@
  *
  *
  * @package log4php
- * @subpackage xml
+ * @subpackage configurators
  */
 
 define('LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE',    1000);
@@ -106,8 +106,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
     /**
      * Constructor
      */
-    function LoggerDOMConfigurator()
-    {
+    public function __construct() {
         $this->state    = array();
         $this->logger   = null;
         $this->appender = null;
@@ -125,7 +124,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @static
      */
     public static function configure($url = '') {
-        $configurator = new LoggerDOMConfigurator();
+        $configurator = new self();
         $repository =& LoggerManager::getLoggerRepository();
         return $configurator->doConfigure($url, $repository);
     }

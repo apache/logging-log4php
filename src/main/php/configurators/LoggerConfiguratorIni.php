@@ -17,6 +17,7 @@
  *
  * 
  * @package log4php
+ * @subpackage configurators
  */
 
 define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX', "log4php.category.");
@@ -47,8 +48,8 @@ define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME', "root");
  * files. You can enable log4php internal logging by defining the
  * <b>log4php.debug</b> variable.</p>
  *
- * <p>The <i>LoggerPropertyConfigurator</i> does not handle the
- * advanced configuration features supported by the {@link LoggerDOMConfigurator} 
+ * <p>The <i>LoggerConfiguratorIni</i> does not handle the
+ * advanced configuration features supported by the {@link LoggerConfiguratorXml} 
  * such as support for {@link LoggerFilter}, 
    custom {@link LoggerErrorHandlers}, nested appenders such as the 
    {@link Logger AsyncAppender}, 
@@ -83,9 +84,10 @@ define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME', "root");
  *
  * @version $Revision$
  * @package log4php
+ * @subpackage configurators
  * @since 0.5 
  */
-class LoggerPropertyConfigurator implements LoggerConfigurator {
+class LoggerConfiguratorIni implements LoggerConfigurator {
 
 	/**
 	 * @var LoggerFactory
@@ -95,7 +97,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	/**
 	 * Constructor
 	 */
-	public function LoggerPropertyConfigurator() {
+	public function __construct() {
 		$this->loggerFactory = new LoggerDefaultCategoryFactory();
 	}
 	
@@ -110,7 +112,7 @@ class LoggerPropertyConfigurator implements LoggerConfigurator {
 	 * @static
 	 */
 	public static function configure($url = '') {
-		$configurator = new LoggerPropertyConfigurator();
+		$configurator = new self();
 		$repository = LoggerManager::getLoggerRepository();
 		return $configurator->doConfigure($url, $repository);
 	}

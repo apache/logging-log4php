@@ -21,7 +21,7 @@
   threshold="all" debug="false">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutTTCC"/>
-        <filter class="LoggerLevelMatchFilter">
+        <filter class="LoggerFilterLevelMatch">
             <param name="LevelToMatch" value="DEBUG" />
             <param name="AcceptOnMatch" value="false" />
         </filter>

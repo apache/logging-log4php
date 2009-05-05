@@ -22,8 +22,8 @@
 /**
  * Use this class to quickly configure the package.
  *
- * <p>For file based configuration see {@link LoggerPropertyConfigurator}. 
- * <p>For XML based configuration see {@link LoggerDOMConfigurator}.
+ * <p>For file based configuration see {@link LoggerConfiguratorIni}. 
+ * <p>For XML based configuration see {@link LoggerConfiguratorXml}.
  *
  * @version $Revision$
  * @package log4php

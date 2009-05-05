@@ -46,20 +46,20 @@ class LoggerManager {
 
 	private static $_classes = array(
 		'Logger' => '/Logger.php',
-		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
-		'LoggerBasicConfigurator' => '/LoggerBasicConfigurator.php',
 		'LoggerDefaultCategoryFactory' => '/LoggerDefaultCategoryFactory.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLayout' => '/LoggerLayout.php',
 		'LoggerLevel' => '/LoggerLevel.php',
-		// 'LoggerLog' => '/LoggerLog.php',
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
+		'LoggerConfigurator' => '/LoggerConfigurator.php',
+		'LoggerConfiguratorBasic' => '/configurators/LoggerConfiguratorBasic.php',
+		'LoggerConfiguratorIni' => '/configurators/LoggerConfiguratorIni.php',
 		'LoggerConfiguratorPhp' => '/configurators/LoggerConfiguratorPhp.php',
-		'LoggerPropertyConfigurator' => '/LoggerPropertyConfigurator.php',
 		'LoggerConfiguratorXml' => '/configurators/LoggerConfiguratorXml.php',
 		'LoggerRoot' => '/LoggerRoot.php',
+		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
@@ -96,15 +96,14 @@ class LoggerManager {
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
-		'LoggerConfigurator' => '/LoggerConfigurator.php',
 		'LoggerFactory' => '/LoggerFactory.php',
-		'LoggerFilter' => '/LoggerFilter.php',
 		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
 		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
-		'LoggerFilterDenyAll' => '/filters/LoggerDenyAllFilter.php',
-		'LoggerFilterLevelMatch' => '/filters/LoggerLevelMatchFilter.php',
-		'LoggerFilterLevelRange' => '/filters/LoggerLevelRangeFilter.php',
-		'LoggerFilterStringMatch' => '/filters/LoggerStringMatchFilter.php',
+		'LoggerFilter' => '/LoggerFilter.php',
+		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
+		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
+		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
+		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php',
 	);
 
 	/**
@@ -270,7 +269,7 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
 		/**
 		 * @ignore
 		 */
-		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerDOMConfigurator');
+		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorXml');
 	} else {
 		/**
 		 * Holds the configurator class name.
@@ -279,9 +278,9 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
 		 * .php extension) of the configurator class that init procedure will use.</p>
 		 * <p>If not set by user, log4php tries to set it automatically.</p>
 		 * <p>If {@link LOG4PHP_CONFIGURATION} has '.xml' extension set the 
-		 * constants to '{@link LOG4PHP_DIR}/xml/{@link LoggerDOMConfigurator}'.</p>
+		 * constants to '{@link LOG4PHP_DIR}/xml/{@link LoggerConfiguratorXml}'.</p>
 		 * <p>Otherwise set the constants to 
-		 * '{@link LOG4PHP_DIR}/{@link LoggerPropertyConfigurator}'.</p>
+		 * '{@link LOG4PHP_DIR}/{@link LoggerConfiguratorIni}'.</p>
 		 *
 		 * <p><b>Security Note</b>: classfile pointed by this constant will be brutally
 		 * included with a:
@@ -289,7 +288,7 @@ if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
 		 *
 		 * @var string
 		 */
-		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerPropertyConfigurator');
+		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorIni');
 	}
 }
 

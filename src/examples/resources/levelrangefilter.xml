@@ -21,7 +21,7 @@
   threshold="all" debug="false">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutTTCC"/>
-        <filter class="LoggerLevelRangeFilter">
+        <filter class="LoggerFilterLevelRange">
             <param name="LevelMin" value="ERROR" />
                         <param name="LevelMax" value="FATAL" />
             <param name="AcceptOnMatch" value="false" />
