@@ -56,6 +56,7 @@ class LoggerManager {
 		// 'LoggerLog' => '/LoggerLog.php',
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
+		'LoggerConfiguratorPhp' => '/configurators/LoggerConfiguratorPhp.php',
 		'LoggerPropertyConfigurator' => '/LoggerPropertyConfigurator.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
