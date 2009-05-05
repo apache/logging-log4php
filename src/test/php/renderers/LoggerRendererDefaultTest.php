@@ -17,17 +17,24 @@
  * 
  * @category   tests   
  * @package    log4php
- * @subpackage or
+ * @subpackage renderers
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerObjectRendererTest extends PHPUnit_Framework_TestCase {
+class DefaultRendererMockObject {
+	private $a;
+	protected $b;
+	public $c;
+}
 
-	public function testFactory() {
-		$renderer = LoggerRendererObject::factory('LoggerRendererDefault');
-		self::assertType('LoggerRendererDefault', $renderer);
+class LoggerRendererDefaultTest extends PHPUnit_Framework_TestCase {
+
+	public function testDoRender() {
+		$class = new DefaultRendererMockObject();
+		$renderer = new LoggerRendererDefault();
+		self::assertEquals(var_export($class, true), $renderer->doRender($class));
 	}
 
 }
