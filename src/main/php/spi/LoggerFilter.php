@@ -22,7 +22,7 @@
 
 /**
  * Users should extend this class to implement customized logging
- * event filtering. Note that {@link LoggerCategory} and {@link LoggerAppenderSkeleton}, 
+ * event filtering. Note that {@link LoggerCategory} and {@link LoggerAppender}, 
  * the parent class of all standard
  * appenders, have built-in filtering rules. It is suggested that you
  * first use and understand the built-in rules before rushing to write

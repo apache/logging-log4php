@@ -35,7 +35,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
+class LoggerAppenderMailEvent extends LoggerAppender {
 
 	/**
 	 * @var string 'from' field
@@ -72,8 +72,8 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
 	 *
 	 * @param string $name appender name
 	 */
-	function LoggerAppenderMailEvent($name) {
-		$this->LoggerAppenderSkeleton($name);
+	public function __construct($name) {
+		parent::__construct($name);
 	}
 
 	function activateOptions() {

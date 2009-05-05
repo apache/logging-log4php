@@ -42,8 +42,8 @@
  * defined, then there is no maximum acceptable level (ie a
  * level is never rejected for being too "high"/important).</p>
  *
- * <p>Refer to the {@link LoggerAppenderSkeleton::setThreshold()} method
- * available to <b>all</b> appenders extending {@link LoggerAppenderSkeleton} 
+ * <p>Refer to the {@link LoggerAppender::setThreshold()} method
+ * available to <b>all</b> appenders extending {@link LoggerAppender} 
  * for a more convenient way to filter out events by level.</p>
  *
  * @log4j-class org.apache.log4j.varia.LevelRangeFilter

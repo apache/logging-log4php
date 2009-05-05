@@ -30,7 +30,7 @@
  * @package log4php
  * @subpackage appenders
  */ 
-class LoggerAppenderSocket extends LoggerAppenderSkeleton {
+class LoggerAppenderSocket extends LoggerAppender {
 
 	/**
 	 * @var mixed socket connection resource

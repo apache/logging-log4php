@@ -32,7 +32,7 @@
  * @package log4php
  * @subpackage appenders
  */ 
-class LoggerAppenderPhp extends LoggerAppenderSkeleton {
+class LoggerAppenderPhp extends LoggerAppender {
 
 	public function __construct($name) {
 		parent::__construct($name);

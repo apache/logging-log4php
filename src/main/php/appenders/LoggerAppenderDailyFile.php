@@ -33,7 +33,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderDailyFile extends LoggerAppenderFile {
+class LoggerAppenderDailyFile extends LoggerAppender {
 
 	/**
 	 * Format date. 

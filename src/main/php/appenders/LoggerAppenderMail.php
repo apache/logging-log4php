@@ -30,7 +30,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderMail extends LoggerAppenderSkeleton {
+class LoggerAppenderMail extends LoggerAppender {
 
 	/**
 	 * @var string 'from' field

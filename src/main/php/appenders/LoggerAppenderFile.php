@@ -30,7 +30,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderFile extends LoggerAppenderSkeleton {
+class LoggerAppenderFile extends LoggerAppender {
 
 	/**
 	 * @var boolean if {@link $file} exists, appends events.

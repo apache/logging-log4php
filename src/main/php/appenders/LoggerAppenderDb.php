@@ -34,7 +34,7 @@ require_once('DB.php');
  * @subpackage appenders
  * @since 0.3
  */
-class LoggerAppenderDb extends LoggerAppenderSkeleton {
+class LoggerAppenderDb extends LoggerAppender {
 
     /**
      * Create the log table if it does not exists (optional).
@@ -82,9 +82,9 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderDb($name)
+    function __construct($name)
     {
-        $this->LoggerAppenderSkeleton($name);
+        parent::__construct($name);
     }
 
     /**

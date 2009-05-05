@@ -32,7 +32,7 @@
  * @package log4php
  * @subpackage appender
  */
-class LoggerAppenderConsole extends LoggerAppenderSkeleton {
+class LoggerAppenderConsole extends LoggerAppender {
 
 	const STDOUT = 'php://stdout';
 	const STDERR = 'php://stderr';

@@ -34,7 +34,7 @@ require_once(ADODB_DIR . '/adodb.inc.php');
  * @subpackage appenders
  * @since 0.9
  */
-class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
+class LoggerAppenderAdodb extends LoggerAppender {
 
     /**
      * Create the log table if it does not exists (optional).
@@ -106,9 +106,9 @@ class LoggerAppenderAdodb extends LoggerAppenderSkeleton {
      *
      * @param string $name appender name
      */
-    function LoggerAppenderDb($name)
+    function __construct($name)
     {
-        $this->LoggerAppenderSkeleton($name);
+        parent::__construct($name);
     }
 
     /**

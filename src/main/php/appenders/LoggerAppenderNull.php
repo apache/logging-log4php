@@ -27,7 +27,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderNull extends LoggerAppenderSkeleton {
+class LoggerAppenderNull extends LoggerAppender {
 
 	protected $requiresLayout = false;
 	

@@ -34,7 +34,7 @@
  * @package log4php
  * @subpackage appenders
  */ 
-class LoggerAppenderSyslog extends LoggerAppenderSkeleton {
+class LoggerAppenderSyslog extends LoggerAppender {
 	
 	/**
 	 * The ident string is added to each message. Typically the name of your application.

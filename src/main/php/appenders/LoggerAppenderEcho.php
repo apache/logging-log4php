@@ -29,7 +29,7 @@
  * @package log4php
  * @subpackage appenders
  */
-class LoggerAppenderEcho extends LoggerAppenderSkeleton {
+class LoggerAppenderEcho extends LoggerAppender {
 
 	/**
 	 * @access private 

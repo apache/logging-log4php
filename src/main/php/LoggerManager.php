@@ -47,7 +47,6 @@ class LoggerManager {
 	private static $_classes = array(
 		'Logger' => '/Logger.php',
 		'LoggerAppender' => '/LoggerAppender.php',
-		'LoggerAppenderSkeleton' => '/LoggerAppenderSkeleton.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerBasicConfigurator' => '/LoggerBasicConfigurator.php',
 		'LoggerDefaultCategoryFactory' => '/LoggerDefaultCategoryFactory.php',
