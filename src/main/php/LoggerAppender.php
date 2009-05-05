@@ -80,21 +80,6 @@ abstract class LoggerAppender {
 		$this->clearFilters();
 	}
 
-    /**
-	 * Add a filter to the end of the filter list.
-	 *
-	 * @param LoggerFilter $newFilter add a new LoggerFilter
-	 */
-	public function addFilter($newFilter) {
-		if($this->headFilter === null) {
-			$this->headFilter = $newFilter;
-			$this->tailFilter = $this->headFilter;
-		} else {
-			$this->tailFilter->next = $newFilter;
-			$this->tailFilter = $this->tailFilter->next;
-		}
-	}
-
 	/**
 	 * Factory
 	 *
@@ -136,22 +121,20 @@ abstract class LoggerAppender {
 		return null;		
 	}
 
-	
-		/**
-	 * Derived appenders should override this method if option structure
-	 * requires it.
-	 */
-	abstract public function activateOptions();	   
-	
 	/**
-	 * Subclasses of {@link LoggerAppender} should implement 
-	 * this method to perform actual logging.
+	 * Add a filter to the end of the filter list.
 	 *
-	 * @param LoggerLoggingEvent $event
-	 * @see doAppend()
-	 * @abstract
+	 * @param LoggerFilter $newFilter add a new LoggerFilter
 	 */
-	abstract protected function append($event); 
+	public function addFilter($newFilter) {
+		if($this->headFilter === null) {
+			$this->headFilter = $newFilter;
+			$this->tailFilter = $this->headFilter;
+		} else {
+			$this->tailFilter->next = $newFilter;
+			$this->tailFilter = $this->tailFilter->next;
+		}
+	}
 	
 	/**
 	 * Clear the list of filters by removing all the filters in it.
@@ -164,18 +147,6 @@ abstract class LoggerAppender {
 		$this->tailFilter = null;
 	}
 
-	/**
-	 * Finalize this appender by calling the derived class' <i>close()</i> method.
-	 */
-	public function finalize()  {
-		// An appender might be closed then garbage collected. There is no
-		// point in closing twice.
-		if($this->closed) {
-			return;
-		}
-		$this->close();
-	}
-			   
 	/**
 	 * Return the first filter in the filter chain for this Appender. 
 	 * The return value may be <i>null</i> if no is filter is set.
@@ -196,15 +167,7 @@ abstract class LoggerAppender {
 	
 	
 	/**
-	 * Release any resources allocated.
-	 * Subclasses of {@link LoggerAppender} should implement 
-	 * this method to perform proper closing procedures.
-	 * @abstract
-	 */
-	abstract public function close();
-
-	/**
-	 * 	 * This method performs threshold checks and invokes filters before
+	 * This method performs threshold checks and invokes filters before
 	 * delegating actual logging to the subclasses specific <i>append()</i> method.
 	 * @see LoggerAppender::doAppend()
 	 * @param LoggerLoggingEvent $event
@@ -229,15 +192,6 @@ abstract class LoggerAppender {
 		$this->append($event);	  
 	}	 
 
-	/**
-	 * Get the name of this appender.
-	 * @see LoggerAppender::getName()
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-	
 	/**
 	 * Do not use this method.
 	 * @see LoggerAppender::setErrorHandler()
@@ -282,18 +236,6 @@ abstract class LoggerAppender {
 		return $this->layout;
 	}
 	
-/**
-	 * Set the name of this appender.
-	 *
-	 * The name is used by other components to identify this appender.
-	 *
-	 * 
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->name = $name;	
-	}
-
 	/**
 	 * Configurators call this method to determine if the appender
 	 * requires a layout. 
@@ -317,6 +259,27 @@ abstract class LoggerAppender {
 	}
 	
 	/**
+	 * Get the name of this appender.
+	 * @see LoggerAppender::getName()
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
+	
+/**
+	 * Set the name of this appender.
+	 *
+	 * The name is used by other components to identify this appender.
+	 *
+	 * 
+	 * @param string $name
+	 */
+	public function setName($name) {
+		$this->name = $name;	
+	}
+	
+	/**
 	 * Returns this appenders threshold level. 
 	 * See the {@link setThreshold()} method for the meaning of this option.
 	 * @return LoggerLevel
@@ -324,7 +287,6 @@ abstract class LoggerAppender {
 	public function getThreshold() { 
 		return $this->threshold;
 	}
-	
 	
 	/**
 	 * Set the threshold level of this appender.
@@ -354,7 +316,43 @@ abstract class LoggerAppender {
 		}
 		return $priority->isGreaterOrEqual($this->getThreshold());
 	}
+
+	/**
+	 * Derived appenders should override this method if option structure
+	 * requires it.
+	 */
+	abstract public function activateOptions();	   
 	
+	/**
+	 * Subclasses of {@link LoggerAppender} should implement 
+	 * this method to perform actual logging.
+	 *
+	 * @param LoggerLoggingEvent $event
+	 * @see doAppend()
+	 * @abstract
+	 */
+	abstract protected function append($event); 
+
+	/**
+	 * Release any resources allocated.
+	 * Subclasses of {@link LoggerAppender} should implement 
+	 * this method to perform proper closing procedures.
+	 * @abstract
+	 */
+	abstract public function close();
+
+	/**
+	 * Finalize this appender by calling the derived class' <i>close()</i> method.
+	 */
+	public function finalize()  {
+		// An appender might be closed then garbage collected. There is no
+		// point in closing twice.
+		if($this->closed) {
+			return;
+		}
+		$this->close();
+	}
+		
 	/**
 	 * Perform actions before object serialization.
 	 *
