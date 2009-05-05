@@ -28,7 +28,7 @@
  * @version $Revision$
  * @package log4php
  */
-class LoggerBasicConfigurator implements LoggerConfigurator {
+class LoggerConfiguratorBasic implements LoggerConfigurator {
 
 	/**
 	 * Add a {@link LoggerAppenderConsole} that uses 

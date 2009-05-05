@@ -22,14 +22,14 @@
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerBasicConfiguratorTest extends PHPUnit_Framework_TestCase {
+class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {
-		LoggerBasicConfigurator::configure();
+		LoggerConfiguratorBasic::configure();
 	}
         
 	protected function tearDown() {
-		LoggerBasicConfigurator::resetConfiguration();
+		LoggerConfiguratorBasic::resetConfiguration();
 	}
         
 	public function testConfigure() {
@@ -47,7 +47,7 @@ class LoggerBasicConfiguratorTest extends PHPUnit_Framework_TestCase {
 		//$root = LoggerManager::getRootLogger();
 		$hierarchy = LoggerHierarchy::singleton();
 		var_dump(count($hierarchy->getCurrentLoggers()));
-		LoggerBasicConfigurator::resetConfiguration();
+		LoggerConfiguratorBasic::resetConfiguration();
 		var_dump(count($hierarchy->getCurrentLoggers()));
         /*
         $logger = LoggerManager::getLogger('A1');
