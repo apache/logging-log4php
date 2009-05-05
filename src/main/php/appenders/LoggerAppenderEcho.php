@@ -30,31 +30,27 @@
  * @subpackage appenders
  */
 class LoggerAppenderEcho extends LoggerAppender {
-
-	/**
-	 * @access private 
-	 */
-	var $requiresLayout = true;
-
-	/**
-	 * @var boolean used internally to mark first append 
-	 * @access private 
-	 */
-	var $firstAppend	= true;
+	/** boolean used internally to mark first append */
+	private $firstAppend = true;
 	
-	function activateOptions() {
-		$this->closed = false;
-		return;
+	public function __construct($name) {
+	    parent::__construct($name);
+	    $this->requiresLayout = true;
+	    $this->firstAppend = true;
 	}
 	
-	function close() {
+	public function activateOptions() {
+		$this->closed = false;
+	}
+	
+	public function close() {
 		if(!$this->firstAppend) {
 			echo $this->layout->getFooter();
 		}
 		$this->closed = true;	 
 	}
 
-	function append($event) {
+	public function append($event) {
 		if($this->layout !== null) {
 			if($this->firstAppend) {
 				echo $this->layout->getHeader();
