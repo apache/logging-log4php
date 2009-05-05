@@ -36,10 +36,10 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		ob_start();
 		$appender->append($event);
 		$v = ob_get_contents();
-		
 		ob_end_clean();
+		
 		$e = "ERROR - testmessage\n";
-		self::assertEquals( $v, $e);
+		self::assertEquals($v, $e);
     }
     
 }
