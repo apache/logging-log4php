@@ -87,7 +87,6 @@ class LoggerManager {
 		'LoggerClassNamePatternConverter' => '/helpers/LoggerPatternConverter.php',
 		'LoggerCategoryPatternConverter' => '/helpers/LoggerPatternConverter.php',
 		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
-		'LoggerTransform' => '/helpers/LoggerTransform.php',
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
 		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
