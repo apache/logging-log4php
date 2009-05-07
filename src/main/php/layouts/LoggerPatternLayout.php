@@ -189,7 +189,7 @@ class LoggerPatternLayout extends LoggerLayout {
     function setConversionPattern($conversionPattern)
     {
         $this->pattern = $conversionPattern;
-        $patternParser = $this->createPatternParser($this->pattern);
+        $patternParser = new LoggerPatternParser($this->pattern);
         $this->head = $patternParser->parse();
     }
     
@@ -204,19 +204,6 @@ class LoggerPatternLayout extends LoggerLayout {
     function ignoresThrowable() 
     { 
         return true; 
-    }
-    
-    /**
-     * Returns LoggerPatternParser used to parse the conversion string. Subclasses
-     * may override this to return a subclass of PatternParser which recognize
-     * custom conversion characters.
-     *
-     * @param string $pattern
-     * @return LoggerPatternParser
-     */
-    function createPatternParser($pattern)
-    {
-        return new LoggerPatternParser($pattern);
     }
     
     /**
