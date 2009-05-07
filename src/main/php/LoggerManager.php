@@ -61,6 +61,7 @@ class LoggerManager {
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
+		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
 		'LoggerAppenderDb' => '/appenders/LoggerAppenderDb.php',
