@@ -24,6 +24,7 @@ Version 2.0 to be released
 - Bug #28: LoggerAppenderConsole doesn't write to STDERR (Michael Kuenzli, Knut Urdalen)
 - Bug #33: Appenders is not properly closed upon destruction (Knut Urdalen)
 - Enh #29: Load classes through autoload instead of explicitly include them (Knut Urdalen)
+- Enh #30: Implement LoggerAppenderPDO (Christian Grobmeier)
 - Enh #31: Removing unnecessary use of LOG4PHP_DIR (Knut Urdalen)
 - Enh #34: Remove all internal debugging (Christian Grobmeier)
 - Enh #35: Replace LOG4PHP_LINE_SEP with PHP_EOL (Knut Urdalen)
