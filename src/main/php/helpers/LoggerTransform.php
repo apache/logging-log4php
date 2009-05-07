@@ -61,28 +61,5 @@ class LoggerTransform {
 		return htmlspecialchars($input, ENT_NOQUOTES);
 	}
 
-	/**
-	 * Ensures that embeded CDEnd strings (]]&gt;) are handled properly
-	 * within message, NDC and throwable tag text.
-	 *
-	 * @param string $buf	String holding the XML data to this point.	The
-	 *						initial CDStart (<![CDATA[) and final CDEnd (]]>) 
-	 *						of the CDATA section are the responsibility of 
-	 *						the calling method.
-	 * @param string &str	The String that is inserted into an existing 
-	 *						CDATA Section within buf.
-	 * @static  
-	 */
-	function appendEscapingCDATA(&$buf, $str) {
-		if(empty($str)) {
-			return;
-		}
 	
-		$rStr = str_replace(
-			LOG4PHP_LOGGER_TRANSFORM_CDATA_END,
-			LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END,
-			$str
-		);
-		$buf .= $rStr;
-	}
 }

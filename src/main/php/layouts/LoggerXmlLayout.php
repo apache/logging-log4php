@@ -111,13 +111,13 @@ class LoggerXmlLayout extends LoggerLayout {
 
         $buf = "<{$this->_namespacePrefix}:event logger=\"{$loggerName}\" level=\"{$levelStr}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">\r\n";
         $buf .= "<{$this->_namespacePrefix}:message><![CDATA["; 
-        LoggerTransform::appendEscapingCDATA($buf, $event->getRenderedMessage()); 
+        $this->appendEscapingCDATA($buf, $event->getRenderedMessage()); 
         $buf .= "]]></{$this->_namespacePrefix}:message>\r\n";        
 
         $ndc = $event->getNDC();
         if($ndc != null) {
             $buf .= "<{$this->_namespacePrefix}:NDC><![CDATA[";
-            LoggerTransform::appendEscapingCDATA($buf, $ndc);
+            $this->appendEscapingCDATA($buf, $ndc);
             $buf .= "]]></{$this->_namespacePrefix}:NDC>\r\n";       
         }
 
@@ -192,5 +192,30 @@ class LoggerXmlLayout extends LoggerLayout {
     {
         $this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
     }
+    
+    /**
+	 * Ensures that embeded CDEnd strings (]]&gt;) are handled properly
+	 * within message, NDC and throwable tag text.
+	 *
+	 * @param string $buf	String holding the XML data to this point.	The
+	 *						initial CDStart (<![CDATA[) and final CDEnd (]]>) 
+	 *						of the CDATA section are the responsibility of 
+	 *						the calling method.
+	 * @param string &str	The String that is inserted into an existing 
+	 *						CDATA Section within buf.
+	 * @static  
+	 */
+	private function appendEscapingCDATA(&$buf, $str) {
+		if(empty($str)) {
+			return;
+		}
+	
+		$rStr = str_replace(
+			LOG4PHP_LOGGER_TRANSFORM_CDATA_END,
+			LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END,
+			$str
+		);
+		$buf .= $rStr;
+	}
 }
 
