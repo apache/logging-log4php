@@ -24,21 +24,52 @@
  */
 
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
-        
-	public function testSetTarget() { 
-		self::markTestIncomplete();
+     
+    public function testSimpleStdOutLogging() {
+    	$layout = new LoggerLayoutSimple();
+    	
+    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
+    									new Logger('mycategory'), 
+    									LoggerLevel::getLevelWarn(),
+    									"my message");
+    	
+    	$appender = new LoggerAppenderConsole("mylogger"); 
+		$appender->setTarget('STDOUT');
+		$appender->setLayout($layout);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
     }
-
-	public function testGetTarget() {
-		self::markTestIncomplete();
-    }
-
-	public function testActivateOptions() { 
-		self::markTestIncomplete();
-    }
-
-	public function testClose() {
-		self::markTestIncomplete();
-    }
+     
+    public function testSimpleStdErrLogging() {
+    	$layout = new LoggerLayoutSimple();
+    	
+    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
+    									new Logger('mycategory'), 
+    									LoggerLevel::getLevelWarn(),
+    									"my message");
+    	
+    	$appender = new LoggerAppenderConsole("mylogger"); 
+		$appender->setTarget('STDERR');
+		$appender->setLayout($layout);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
+    }    
     
+    
+    public function testSimpleDefaultLogging() {
+    	$layout = new LoggerLayoutSimple();
+    	
+    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
+    									new Logger('mycategory'), 
+    									LoggerLevel::getLevelWarn(),
+    									"my message");
+    	
+    	$appender = new LoggerAppenderConsole("mylogger"); 
+		$appender->setLayout($layout);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
+    }
 }

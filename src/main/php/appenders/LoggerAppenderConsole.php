@@ -42,7 +42,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 	 * Default is STDOUT
 	 * @var string	  
 	 */
-	protected $target = self::STDOUT;
+	private $target = self::STDOUT;
 	
 	/**
 	 * @var boolean
@@ -69,12 +69,8 @@ class LoggerAppenderConsole extends LoggerAppender {
 		} 
 	}
 
-	public function getTarget() {
-		return $this->target;
-	}
-
 	public function activateOptions() {
-		$this->fp = fopen($this->getTarget(), 'w');
+		$this->fp = fopen($this->target, 'w');
 		if($this->fp !== false && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->getHeader());
 		}
@@ -92,7 +88,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 		$this->closed = true;
 	}
 
-	protected function append($event) {
+	public function append($event) {
 		if ($this->fp && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->format($event));
 		} 
