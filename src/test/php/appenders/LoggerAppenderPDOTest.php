@@ -26,6 +26,11 @@
 class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         
 	public function testSimpleLogging() {
+		
+		if(!extension_loaded('pdo_sqlite')) {
+			self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
+		}
+		
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$dbname = 'appenders/pdotest.sqlite';
