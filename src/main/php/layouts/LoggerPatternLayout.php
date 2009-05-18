@@ -172,8 +172,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * {@link LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_LAYOUT_PATTERN}.
      * The default pattern just produces the application supplied message.
      */
-    function LoggerPatternLayout($pattern = null)
-    {
+    function LoggerPatternLayout($pattern = null) {
         if ($pattern === null) {    
             $this->LoggerPatternLayout(LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN);
         } else {
@@ -186,8 +185,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * controls formatting and consists of a mix of literal content and
      * conversion specifiers.
      */
-    function setConversionPattern($conversionPattern)
-    {
+    function setConversionPattern($conversionPattern) {
         $this->pattern = $conversionPattern;
         $patternParser = new LoggerPatternParser($this->pattern);
         $this->head = $patternParser->parse();
@@ -196,13 +194,11 @@ class LoggerPatternLayout extends LoggerLayout {
     /**
      * @return string Returns the value of the <b>ConversionPattern</b> option.
      */
-    function getConversionPattern()
-    {
+    function getConversionPattern() {
         return $this->pattern;
     }
     
-    function ignoresThrowable() 
-    { 
+    function ignoresThrowable() { 
         return true; 
     }
     
@@ -212,8 +208,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
-    {
+    function format($event) {
         // Reset working stringbuffer
         $this->sbuf = '';
         $c = $this->head;
@@ -223,5 +218,4 @@ class LoggerPatternLayout extends LoggerLayout {
         }
         return $this->sbuf;
     }
-    
 }
