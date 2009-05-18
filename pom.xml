@@ -228,7 +228,11 @@
         <configuration>
                 <issueLinkTemplate>%URL%/browse/%ISSUE%</issueLinkTemplate>
         </configuration>
-      </plugin>      
+      </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+      </plugin>
     </plugins>
   </reporting>
  <distributionManagement>
