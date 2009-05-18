@@ -30,6 +30,7 @@ require_once(ADODB_DIR . '/adodb.inc.php');
  * {@link $database}, {@link $createTable}, {@link $table} and {@link $sql}.</p>
  * <p>See examples in test directory.</p>
  *
+ * @deprecated Use LoggerAppenderPDO instead
  * @package log4php
  * @subpackage appenders
  * @since 0.9
