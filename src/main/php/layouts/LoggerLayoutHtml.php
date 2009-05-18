@@ -56,8 +56,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * Constructor
      */
-    function LoggerLayoutHtml()
-    {
+    function LoggerLayoutHtml() {
         return;
     }
     
@@ -72,8 +71,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * or a {@link LoggerAppenderMailEvent} then make sure to set the
      * <b>LocationInfo</b> option of that appender as well.
      */
-    function setLocationInfo($flag)
-    {
+    function setLocationInfo($flag) {
         if (is_bool($flag)) {
             $this->locationInfo = $flag;
         } else {
@@ -84,8 +82,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * Returns the current value of the <b>LocationInfo</b> option.
      */
-    function getLocationInfo()
-    {
+    function getLocationInfo() {
         return $this->locationInfo;
     }
     
@@ -94,24 +91,21 @@ class LoggerLayoutHtml extends LoggerLayout {
      * document title of the generated HTML document.
      * Defaults to 'Log4php Log Messages'.
      */
-    function setTitle($title)
-    {
+    function setTitle($title) {
         $this->title = $title;
     }
 
     /**
      * @return string Returns the current value of the <b>Title</b> option.
      */
-    function getTitle()
-    {
+    function getTitle() {
         return $this->title;
     }
     
     /**
      * @return string Returns the content type output by this layout, i.e "text/html".
      */
-    function getContentType()
-    {
+    function getContentType() {
         return "text/html";
     }
     
@@ -119,8 +113,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event)
-    {
+    function format($event) {
         $sbuf = PHP_EOL . "<tr>" . PHP_EOL;
     
         $sbuf .= "<td>";
@@ -180,8 +173,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns appropriate HTML headers.
      */
-    function getHeader()
-    {
+    function getHeader() {
         $sbuf = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
         $sbuf .= "<html>" . PHP_EOL;
         $sbuf .= "<head>" . PHP_EOL;
@@ -214,8 +206,7 @@ class LoggerLayoutHtml extends LoggerLayout {
     /**
      * @return string Returns the appropriate HTML footers.
      */
-    function getFooter()
-    {
+    function getFooter() {
         $sbuf = "</table>" . PHP_EOL;
         $sbuf .= "<br>" . PHP_EOL;
         $sbuf .= "</body></html>";
