@@ -26,7 +26,7 @@
  * Returns the log statement in a format consisting of the
  * <b>level</b>, followed by " - " and then the <b>message</b>. 
  * For example, 
- * <samp> INFO - "A message" </samp>
+ * <samp> INFO - A message </samp>
  *
  * @version $Revision$
  * @package log4php
@@ -36,8 +36,7 @@ class LoggerLayoutSimple extends LoggerLayout {
     /**
      * Constructor
      */
-    function LoggerLayoutSimple() {
-        return;
+    public function __construct() {
     }
 
     /**
@@ -49,7 +48,7 @@ class LoggerLayoutSimple extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event) {
+    public function format($event) {
         $level = $event->getLevel();
         return $level->toString() . ' - ' . $event->getRenderedMessage(). PHP_EOL;
     }
