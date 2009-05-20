@@ -26,7 +26,7 @@
 class LoggerLayoutSimpleTest extends PHPUnit_Framework_TestCase {
         
 	public function testSimpleLayout() {
-		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		$event = new LoggerLoggingEvent("LoggerLayoutSimpleTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$layout = new LoggerLayoutSimple();
 		$v = $layout->format($event);
