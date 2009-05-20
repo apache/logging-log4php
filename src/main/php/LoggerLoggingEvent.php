@@ -307,6 +307,16 @@ class LoggerLoggingEvent {
 	}
 	
 	/**
+	 * Calculates the time of this event.
+	 * @return the time after event starttime when this event has occured
+	 */
+	public function getTime() {
+        $eventTime = (float)$this->getTimeStamp();
+        $eventStartTime = (float)LoggerLoggingEvent::getStartTime();
+        return number_format(($eventTime - $eventStartTime) * 1000, 0, '', '');
+    }
+	
+	/**
 	 * @return mixed
 	 */
 	public function getThreadName() {

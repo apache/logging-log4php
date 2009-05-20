@@ -117,10 +117,7 @@ class LoggerLayoutHtml extends LoggerLayout {
         $sbuf = PHP_EOL . "<tr>" . PHP_EOL;
     
         $sbuf .= "<td>";
-        
-        $eventTime = (float)$event->getTimeStamp();
-        $eventStartTime = (float)LoggerLoggingEvent::getStartTime();
-        $sbuf .= number_format(($eventTime - $eventStartTime) * 1000, 0, '', '');
+        $sbuf .= $event->getTime();
         $sbuf .= "</td>" . PHP_EOL;
     
         $sbuf .= "<td title=\"" . $event->getThreadName() . " thread\">";
