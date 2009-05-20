@@ -25,21 +25,56 @@
 
 class LoggerLayoutHtmlTest extends PHPUnit_Framework_TestCase {
         
-	public function testSimpleLayout() {
+	public function XtestErrorLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutHtmlTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$layout = new LoggerLayoutHtml();
 		$v = $layout->format($event);
 
-		$e = PHP_EOL."<tr>
-<td>".$event->getTime()."</td>
-<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>
-<td title=\"Level\">ERROR</td>
-<td title=\"TEST category\">TEST</td>
-<td title=\"Message\">testmessage</td>
-</tr>".PHP_EOL;
+		$e = PHP_EOL."<tr>".PHP_EOL.
+			"<td>".$event->getTime()."</td>".PHP_EOL.
+			"<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
+			"<td title=\"Level\">ERROR</td>".PHP_EOL.
+			"<td title=\"TEST category\">TEST</td>".PHP_EOL.
+			"<td title=\"Message\">testmessage</td>".PHP_EOL.
+			"</tr>".PHP_EOL;
 		
 		self::assertEquals($v, $e);
     }
     
+    public function testWarnLayout() {
+		$event = new LoggerLoggingEvent("LoggerLayoutHtmlTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
+
+		$layout = new LoggerLayoutHtml();
+		$v = $layout->format($event);
+
+		$e = PHP_EOL."<tr>".PHP_EOL.
+			"<td>".$event->getTime()."</td>".PHP_EOL.
+			"<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
+			"<td title=\"Level\"><font color=\"#993300\"><strong>WARN</strong></font></td>".PHP_EOL.
+			"<td title=\"TEST category\">TEST</td>".PHP_EOL.
+			"<td title=\"Message\">testmessage</td>".PHP_EOL.
+			"</tr>".PHP_EOL;
+		
+		self::assertEquals($v, $e);
+    }
+    
+    public function testContentType() {
+        $layout = new LoggerLayoutHtml();
+        $v = $layout->getContentType();
+        $e = "text/html";
+        self::assertEquals($v, $e);
+    }
+    
+    public function testTitle() {
+        $layout = new LoggerLayoutHtml();
+        $v = $layout->getTitle();
+        $e = "Log4php Log Messages";
+        self::assertEquals($v, $e);
+        
+        $layout->setTitle("test");
+        $v = $layout->getTitle();
+        $e = "test";
+        self::assertEquals($v, $e);
+    }
 }
