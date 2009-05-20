@@ -43,19 +43,25 @@ class LoggerLevel {
 	const ALL = -2147483647;
 
 	/**
+	 * TODO: check if still necessary or to be refactored 
 	 * @var integer
 	 */
-	public $level;
+	private $level;
   
+  	/**
+   	 * Contains a list of instantiated levels 
+   	 */
+  	private static $levelMap;
+  	
 	/**
 	 * @var string
 	 */
-	public $levelStr;
+	private $levelStr;
   
 	/**
 	 * @var integer
 	 */
-	public $syslogEquivalent;
+	private $syslogEquivalent;
 
 	/**
 	 * Constructor
@@ -64,7 +70,7 @@ class LoggerLevel {
 	 * @param string $levelStr
 	 * @param integer $syslogEquivalent
 	 */
-	public function __construct($level, $levelStr, $syslogEquivalent) {
+	private function __construct($level, $levelStr, $syslogEquivalent) {
 		$this->level = $level;
 		$this->levelStr = $levelStr;
 		$this->syslogEquivalent = $syslogEquivalent;
@@ -78,7 +84,9 @@ class LoggerLevel {
 	 */
 	public function equals($o) {
 		if($o instanceof LoggerLevel) {
-			return($this->level == $o->level);
+			if($this->level == $o->level) {
+			    return true;
+			}
 		} else {
 			return false;
 		}
@@ -90,11 +98,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelOff() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::OFF, 'OFF', 0);
+		if(!isset(self::$levelMap[LoggerLevel::OFF])) {
+			self::$levelMap[LoggerLevel::OFF] = new LoggerLevel(LoggerLevel::OFF, 'OFF', 0);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::OFF];
 	}
 
 	/**
@@ -103,11 +110,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelFatal() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::FATAL, 'FATAL', 0);
+		if(!isset(self::$levelMap[LoggerLevel::FATAL])) {
+			self::$levelMap[LoggerLevel::FATAL] = new LoggerLevel(LoggerLevel::FATAL, 'FATAL', 0);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::FATAL];
 	}
 	
 	/**
@@ -116,11 +122,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelError() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::ERROR, 'ERROR', 3);
+		if(!isset(self::$levelMap[LoggerLevel::ERROR])) {
+			self::$levelMap[LoggerLevel::ERROR] = new LoggerLevel(LoggerLevel::ERROR, 'ERROR', 3);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::ERROR];
 	}
 	
 	/**
@@ -129,11 +134,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelWarn() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::WARN, 'WARN', 4);
+		if(!isset(self::$levelMap[LoggerLevel::WARN])) {
+			self::$levelMap[LoggerLevel::WARN] = new LoggerLevel(LoggerLevel::WARN, 'WARN', 4);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::WARN];
 	}
 
 	/**
@@ -142,11 +146,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelInfo() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::INFO, 'INFO', 6);
+		if(!isset(self::$levelMap[LoggerLevel::INFO])) {
+			self::$levelMap[LoggerLevel::INFO] = new LoggerLevel(LoggerLevel::INFO, 'INFO', 6);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::INFO];
 	}
 
 	/**
@@ -155,11 +158,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelDebug() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::DEBUG, 'DEBUG', 7);
+		if(!isset(self::$levelMap[LoggerLevel::DEBUG])) {
+			self::$levelMap[LoggerLevel::DEBUG] = new LoggerLevel(LoggerLevel::DEBUG, 'DEBUG', 7);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::DEBUG];
 	}
 
 	/**
@@ -168,11 +170,10 @@ class LoggerLevel {
 	 * @return LoggerLevel
 	 */
 	public static function getLevelAll() {
-		static $level;
-		if(!isset($level)) {
-			$level = new LoggerLevel(LoggerLevel::ALL, 'ALL', 7);
+		if(!isset(self::$levelMap[LoggerLevel::ALL])) {
+			self::$levelMap[LoggerLevel::ALL] = new LoggerLevel(LoggerLevel::ALL, 'ALL', 7);
 		}
-		return $level;
+		return self::$levelMap[LoggerLevel::ALL];
 	}
 	
 	/**
