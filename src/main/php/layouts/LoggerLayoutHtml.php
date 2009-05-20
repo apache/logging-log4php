@@ -132,7 +132,7 @@ class LoggerLayoutHtml extends LoggerLayout {
           $sbuf .= "<font color=\"#339933\">";
           $sbuf .= $level->toString();
           $sbuf .= "</font>";
-        }elseif($level->equals(LoggerLevel::getLevelWarn())) {
+        } else if ($level->equals(LoggerLevel::getLevelWarn())) {
           $sbuf .= "<font color=\"#993300\"><strong>";
           $sbuf .= $level->toString();
           $sbuf .= "</strong></font>";
@@ -163,7 +163,6 @@ class LoggerLayoutHtml extends LoggerLayout {
             $sbuf .= "NDC: " . htmlentities($event->getNDC(), ENT_QUOTES);
             $sbuf .= "</td></tr>" . PHP_EOL;
         }
-
         return $sbuf;
     }
 
