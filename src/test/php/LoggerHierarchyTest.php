@@ -31,7 +31,7 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testIfLevelIsInitiallyLevelDebug() {
-		self::assertEquals('DEBUG', $this->hierarchy->getRootLogger()->getLevel()->levelStr);
+		self::assertEquals('DEBUG', $this->hierarchy->getRootLogger()->getLevel()->toString());
 	}
 
 	public function testIfNameIsRoot() {
@@ -54,8 +54,8 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 		$logger = $this->hierarchy->getLogger('test');
 		self::assertEquals(count($this->hierarchy->getCurrentLoggers()), 1);
 		$this->hierarchy->resetConfiguration();
-		self::assertEquals($this->hierarchy->getRootLogger()->getLevel()->levelStr, 'DEBUG');
-		self::assertEquals($this->hierarchy->getThreshold()->levelStr, 'ALL');
+		self::assertEquals($this->hierarchy->getRootLogger()->getLevel()->toString(), 'DEBUG');
+		self::assertEquals($this->hierarchy->getThreshold()->toString(), 'ALL');
 		self::assertEquals(count($this->hierarchy->getCurrentLoggers()), 1);
 		foreach($this->hierarchy->getCurrentLoggers() as $l) {
 			self::assertEquals($l->getLevel(), null);

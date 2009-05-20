@@ -234,7 +234,7 @@ class LoggerHierarchy {
 	 * @return boolean
 	 */
 	public function isDisabled($level) {
-		return ($this->threshold->level > $level->level);
+		return ($this->threshold->toInt() > $level->toInt());
 	}
 	
 	/**

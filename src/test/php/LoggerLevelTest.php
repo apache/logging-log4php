@@ -29,9 +29,9 @@ class LoggerLevelTest extends PHPUnit_Framework_TestCase {
         
 	protected function doTestLevel($o, $code, $str, $syslog) {
 		self::assertTrue( $o instanceof LoggerLevel );
-		self::assertEquals( $o->level, $code);
-		self::assertEquals( $o->levelStr, $str);
-		self::assertEquals( $o->syslogEquivalent, $syslog);
+		self::assertEquals( $o->toInt(), $code);
+		self::assertEquals( $o->toString(), $str);
+		self::assertEquals( $o->getSyslogEquivalent(), $syslog);
 	}
 
 	public function testLevelOff() {

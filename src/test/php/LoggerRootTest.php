@@ -31,7 +31,7 @@ class LoggerRootTest extends PHPUnit_Framework_TestCase {
 	}
         
 	public function testIfLevelIsInitiallyLevelAll() {
-		self::assertEquals($this->loggerRoot->getLevel()->levelStr, 'ALL');
+		self::assertEquals($this->loggerRoot->getLevel()->toString(), 'ALL');
 	}
 
 	public function testIfNameIsRoot() {
