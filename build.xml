@@ -21,8 +21,6 @@
 	<property name="svnsite.url" value="${svnrepo.url}/incubator/log4php/site"/>
 	<available property="svn-available" file="target/site-deploy/.svn"/>	
 
-    <!--  Use Maven 2 to build or manually place ant-contrib (http://ant-contrib.sf.net) on path -->
-    <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" />
         
     <target name="compile-file">
                 <exec executable="php" failonerror="true">
@@ -32,6 +30,7 @@
         </target>
         
         <target name="compile">
+                <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" />
                 <foreach target="compile-file" param="src.php">
                         <path>
                                 <fileset dir="." includes="src/main/php/**/*.php"/>
@@ -40,6 +39,7 @@
         </target>
 
         <target name="test-compile">
+                <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" />
                 <foreach target="compile-file" param="src.php">
                         <path>
                                 <fileset dir="." includes="src/test/php/**/*.php"/>
@@ -61,6 +61,7 @@
             <!-- TODO: change dir to "target", needs changes in some tests -->
             <mkdir dir="target"/>
             <exec executable="phpunit" failonerror="true" dir="src/test/php"/>
+            <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" />
             <foreach target="php-file" param="src.php">
                  <path>
                       <fileset dir="." includes="src/examples/php/**/*.php" excludes="**/server.php"/>
@@ -124,6 +125,7 @@
 		<exec executable="bash" dir="target/site-deploy" failonerror="true">
 			<arg line='-c "svn add --force *"'/>
 		</exec>
+        <taskdef name="foreach" classname="net.sf.antcontrib.logic.ForEach" />
                 <foreach target="mime=html" param="src.html">
                         <path>
                                 <fileset dir="target/site-deploy" includes="**/*.html"/>
