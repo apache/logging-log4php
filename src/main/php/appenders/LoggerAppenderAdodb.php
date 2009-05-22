@@ -128,7 +128,7 @@ class LoggerAppenderAdodb extends LoggerAppender {
           return;
         }
         
-        $this->layout = LoggerLayout::factory('LoggerPatternLayout');
+        $this->layout = LoggerLayout::factory('LoggerLayoutPattern');
         $this->layout->setConversionPattern($this->getSql());
     
         // test if log table exists
