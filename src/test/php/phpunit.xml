@@ -14,7 +14,6 @@
 			<directory suffix=".php">../../main/php</directory>
 			<exclude>
 				<file>../../main/php/appenders/LoggerAppenderAdodb.php</file>
-				<file>../../main/php/appenders/LoggerAppenderDb.php</file>
 			</exclude>
 		</whitelist>
 	</filter>
