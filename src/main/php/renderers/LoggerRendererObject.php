@@ -30,19 +30,6 @@
  * @since 0.3
  */
 abstract class LoggerRendererObject {
-
-	/**
-	 * @param string $class classname
-	 * @return LoggerRendererObject create LoggerRendererObject instances
-	 */
-	public static function factory($class) {
-		if(!empty($class)) {
-			$class = basename($class);
-			return new $class();
-		}
-		return null;
-	}
-
 	/**
 	 * Render the entity passed as parameter as a String.
 	 * @param mixed $o entity to render

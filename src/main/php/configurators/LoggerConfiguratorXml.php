@@ -396,7 +396,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 $renderingClass  = $this->subst(@$attribs['RENDERINGCLASS']);
         
                 if (!empty($renderedClass) and !empty($renderingClass)) {
-                    $renderer = LoggerRendererObject::factory($renderingClass);
+                    $renderer = LoggerReflectionUtils::createObject($renderingClass);
                     if ($renderer === null) {
                         // LoggerDOMConfigurator::tagOpen() RENDERER cannot instantiate '$renderingClass'
                     } else { 

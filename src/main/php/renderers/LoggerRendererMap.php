@@ -58,7 +58,7 @@ class LoggerRendererMap {
 	 * @static
 	 */
 	public static function addRenderer($repository, $renderedClassName, $renderingClassName) {
-		$renderer = LoggerRendererObject::factory($renderingClassName);
+		$renderer = LoggerReflectionUtils::createObject($renderingClassName);
 		if($renderer == null) {
 			return;
 		} else {
