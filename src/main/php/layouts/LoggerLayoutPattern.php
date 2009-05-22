@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -19,13 +19,6 @@
  * @package log4php
  * @subpackage layouts
  */
-
-/**
- * Default conversion Pattern
- */
-define('LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN', '%m%n');
-
-define('LOG4PHP_LOGGER_PATTERN_LAYOUT_TTCC_CONVERSION_PATTERN',    '%r [%t] %p %c %x - %m%n');
 
 /**
  * A flexible layout configurable with pattern string.
@@ -149,73 +142,61 @@ define('LOG4PHP_LOGGER_PATTERN_LAYOUT_TTCC_CONVERSION_PATTERN',    '%r [%t] %p %
  * @since 0.3 
  */
 class LoggerLayoutPattern extends LoggerLayout {
+	/** Default conversion Pattern */
+	const DEFAULT_CONVERSION_PATTERN = '%m%n';
 
-  /**
-   * @var string output buffer appended to when format() is invoked
-   */
-  var $sbuf;
+	/** Default conversion TTCC Pattern */
+	const TTCC_CONVERSION_PATTERN = '%r [%t] %p %c %x - %m%n';
 
-  /**
-   * @var string
-   */
-  var $pattern;
+	/** @var string output buffer appended to when format() is invoked */
+	private $sbuf;
 
-  /**
-   * @var LoggerPatternConverter head chain
-   */   
-  var $head;
+	/** @var string */
+	private $pattern;
 
-  var $timezone;
+	/** @var LoggerPatternConverter head chain */
+	private $head;
 
-    /**
-     * Constructs a PatternLayout using the 
-     * {@link LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_LAYOUT_PATTERN}.
-     * The default pattern just produces the application supplied message.
-     */
-    function LoggerLayoutPattern($pattern = null) {
-        if ($pattern === null) {    
-            $this->LoggerLayoutPattern(LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN);
-        } else {
-            $this->pattern = $pattern;
-        }                
-    }
-    
-    /**
-     * Set the <b>ConversionPattern</b> option. This is the string which
-     * controls formatting and consists of a mix of literal content and
-     * conversion specifiers.
-     */
-    function setConversionPattern($conversionPattern) {
-        $this->pattern = $conversionPattern;
-        $patternParser = new LoggerPatternParser($this->pattern);
-        $this->head = $patternParser->parse();
-    }
-    
-    /**
-     * @return string Returns the value of the <b>ConversionPattern</b> option.
-     */
-    function getConversionPattern() {
-        return $this->pattern;
-    }
-    
-    function ignoresThrowable() { 
-        return true; 
-    }
-    
-    /**
-     * Produces a formatted string as specified by the conversion pattern.
-     *
-     * @param LoggerLoggingEvent $event
-     * @return string
-     */
-    function format(LoggerLoggingEvent $event) {
-        // Reset working stringbuffer
-        $this->sbuf = '';
-        $c = $this->head;
-        while($c !== null) {
-            $c->format($this->sbuf, $event);
-            $c = $c->next;
-        }
-        return $this->sbuf;
-    }
+	private $timezone;
+
+	/**
+	 * Constructs a PatternLayout using the 
+	 * {@link DEFAULT_LAYOUT_PATTERN}.
+	 * The default pattern just produces the application supplied message.
+	 */
+	public function __construct($pattern = null) {
+		if ($pattern === null) {
+			$this->pattern = self :: DEFAULT_CONVERSION_PATTERN;
+		} else {
+			$this->pattern = $pattern;
+		}
+	}
+
+	/**
+	 * Set the <b>ConversionPattern</b> option. This is the string which
+	 * controls formatting and consists of a mix of literal content and
+	 * conversion specifiers.
+	 */
+	public function setConversionPattern($conversionPattern) {
+		$this->pattern = $conversionPattern;
+		$patternParser = new LoggerPatternParser($this->pattern);
+		$this->head = $patternParser->parse();
+	}
+
+	/**
+	 * Produces a formatted string as specified by the conversion pattern.
+	 *
+	 * @param LoggerLoggingEvent $event
+	 * @return string
+	 */
+	public function format(LoggerLoggingEvent $event) {
+		// Reset working stringbuffer
+		$this->sbuf = '';
+		$c = $this->head;
+		while ($c !== null) {
+			$c->format($this->sbuf, $event);
+			$c = $c->next;
+		}
+		return $this->sbuf;
+	}
 }
