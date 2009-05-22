@@ -115,16 +115,16 @@ class LoggerLayoutXml extends LoggerLayout {
         $level      = $event->getLevel();
         $levelStr   = $level->toString();
 
-        $buf = "<{$this->_namespacePrefix}:event logger=\"{$loggerName}\" level=\"{$levelStr}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">\r\n";
+        $buf = "<{$this->_namespacePrefix}:event logger=\"{$loggerName}\" level=\"{$levelStr}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">".PHP_EOL;
         $buf .= "<{$this->_namespacePrefix}:message><![CDATA["; 
         $this->appendEscapingCDATA($buf, $event->getRenderedMessage()); 
-        $buf .= "]]></{$this->_namespacePrefix}:message>\r\n";        
+        $buf .= "]]></{$this->_namespacePrefix}:message>".PHP_EOL;        
 
         $ndc = $event->getNDC();
         if($ndc != null) {
             $buf .= "<{$this->_namespacePrefix}:NDC><![CDATA[";
             $this->appendEscapingCDATA($buf, $ndc);
-            $buf .= "]]></{$this->_namespacePrefix}:NDC>\r\n";       
+            $buf .= "]]></{$this->_namespacePrefix}:NDC>".PHP_EOL;       
         }
 
         if ($this->getLocationInfo()) {
@@ -134,11 +134,11 @@ class LoggerLayoutXml extends LoggerLayout {
                     "file=\"" .  htmlentities($locationInfo->getFileName(), ENT_QUOTES) . "\" ".
                     "line=\"" .  $locationInfo->getLineNumber() . "\" ".
                     "method=\"" . $locationInfo->getMethodName() . "\" ";
-            $buf .= "/>\r\n";
+            $buf .= "/>".PHP_EOL;
 
         }
 
-        $buf .= "</{$this->_namespacePrefix}:event>\r\n\r\n";
+        $buf .= "</{$this->_namespacePrefix}:event>".PHP_EOL.PHP_EOL;
         
         return $buf;
 
