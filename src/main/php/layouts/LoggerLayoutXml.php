@@ -39,7 +39,7 @@ define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS',          'http://logging.apache.o
  * @package log4php
  * @subpackage layouts
  */
-class LoggerXmlLayout extends LoggerLayout {
+class LoggerLayoutXml extends LoggerLayout {
 
     /**
      * The <b>LocationInfo</b> option takes a boolean value. By default,

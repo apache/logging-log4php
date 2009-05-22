@@ -91,7 +91,7 @@ class LoggerManager {
 		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
 		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
 		'LoggerPatternLayout' => '/layouts/LoggerPatternLayout.php',
-		'LoggerXmlLayout' => '/layouts/LoggerXmlLayout.php',
+		'LoggerLayoutXml' => '/layouts/LoggerLayoutXml.php',
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
