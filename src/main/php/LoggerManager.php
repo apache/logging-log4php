@@ -53,6 +53,7 @@ class LoggerManager {
 		'LoggerLevel' => '/LoggerLevel.php',
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
+		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
 		'LoggerConfigurator' => '/LoggerConfigurator.php',
 		'LoggerConfiguratorBasic' => '/configurators/LoggerConfiguratorBasic.php',
 		'LoggerConfiguratorIni' => '/configurators/LoggerConfiguratorIni.php',
