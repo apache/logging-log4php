@@ -76,9 +76,8 @@ class LoggerHierarchy {
 	 */
 	protected function __construct(LoggerRoot $root) {
 		$this->root = $root;
-		// Enable all level levels by default.
-		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->root->setHierarchy($this);
+		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->rendererMap = new LoggerRendererMap();
 		$this->defaultFactory = new LoggerDefaultCategoryFactory();		   
 	}
@@ -138,7 +137,7 @@ class LoggerHierarchy {
 	 * @return Logger
 	 * @todo merge with {@link getLogger()}
 	 */
-	public function getLoggerByFactory($name, $factory) {
+	private function getLoggerByFactory($name, $factory) {
 		if(!isset($this->ht[$name])) {
 			$this->ht[$name] = $factory->makeNewLoggerInstance($name);
 			$this->ht[$name]->setHierarchy($this);
