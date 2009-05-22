@@ -477,7 +477,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      */
     function setter(&$object, $name, $value)
     {
-    	// TODO: check if this can be replaced with LoggerPropertySetter
+    	// TODO: check if this can be replaced with LoggerReflectionUtils
         if (empty($name)) {
             return false;
         }

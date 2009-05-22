@@ -377,7 +377,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				$loggerFactory = $this->loggerFactory;
 			}
 
-			LoggerPropertySetter::setPropertiesByObject($loggerFactory, $props, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX . ".");
+			LoggerReflectionUtils::setPropertiesByObject($loggerFactory, $props, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX . ".");
 		}
 	}
 	
@@ -557,11 +557,11 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				}
 			}
 			
-			LoggerPropertySetter::setPropertiesByObject($layout, $props, $layoutPrefix . ".");				  
+			LoggerReflectionUtils::setPropertiesByObject($layout, $props, $layoutPrefix . ".");				  
 			$appender->setLayout($layout);
 			
 		}
-		LoggerPropertySetter::setPropertiesByObject($appender, $props, $prefix . ".");
+		LoggerReflectionUtils::setPropertiesByObject($appender, $props, $prefix . ".");
 		return $appender;		 
 	}
 

@@ -22,11 +22,64 @@
  * @link       http://logging.apache.org/log4php
  */
 
+
+class Simple {
+    private $name;
+    private $male;
+   
+    public function getName() {
+        return $this->name;
+    }
+    
+    public function isMale() {
+        return $this->male;
+    }
+    
+    public function setName($name) {
+        $this->name = $name;
+    }
+    
+    public function setMale($male) {
+        $this->male = $male;
+    }
+}
 /**
  * Tests the LoggerReflectionUtils class
  */
 class LoggerReflectionUtilsTest extends PHPUnit_Framework_TestCase {
 
+	public function testSimpleSet() {
+		$s = new Simple();
+		$ps = new LoggerReflectionUtils($s);
+ 		$ps->setProperty("name", "Joe");
+ 		$ps->setProperty("male", true);
+ 		
+ 		$this->assertEquals($s->isMale(), true);
+ 		$this->assertEquals($s->getName(), 'Joe');
+	}
+	
+	public function testSimpleArraySet() {
+		$arr['xxxname'] = 'Joe';
+		$arr['xxxmale'] = true;
+		
+		$s = new Simple();
+		$ps = new LoggerReflectionUtils($s);
+ 		$ps->setProperties($arr, "xxx");
+ 		
+ 		$this->assertEquals($s->getName(), 'Joe');
+ 		$this->assertEquals($s->isMale(), true);
+	}
+	
+	public function testStaticArraySet() {
+		$arr['xxxname'] = 'Joe';
+		$arr['xxxmale'] = true;
+		
+		$s = new Simple();
+		LoggerReflectionUtils::setPropertiesByObject($s,$arr,"xxx");
+		
+ 		$this->assertEquals($s->getName(), 'Joe');
+ 		$this->assertEquals($s->isMale(), true);
+	}
 	public function testCreateObject() {
 		$object = LoggerReflectionUtils::createObject('LoggerLayoutSimple');
 		$name = get_class($object);

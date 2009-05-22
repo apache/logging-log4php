@@ -74,7 +74,6 @@ class LoggerManager {
 		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
 		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
 		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
-		'LoggerPropertySetter' => '/config/LoggerPropertySetter.php',
 		'LoggerFormattingInfo' => '/helpers/LoggerFormattingInfo.php',
 		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
 		'LoggerPatternConverter' => '/helpers/LoggerPatternConverter.php',
