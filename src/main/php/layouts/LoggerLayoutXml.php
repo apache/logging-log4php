@@ -26,6 +26,15 @@ define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS',            'http://jakarta.apache.o
 define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX',   'log4php');
 define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS',          'http://logging.apache.org/log4php/');
 
+define('LOG4PHP_LOGGER_TRANSFORM_CDATA_START', '<![CDATA[');
+define('LOG4PHP_LOGGER_TRANSFORM_CDATA_END', ']]>');
+define('LOG4PHP_LOGGER_TRANSFORM_CDATA_PSEUDO_END', ']]&gt;');
+define('LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END',
+	LOG4PHP_LOGGER_TRANSFORM_CDATA_END .
+	LOG4PHP_LOGGER_TRANSFORM_CDATA_PSEUDO_END .
+	LOG4PHP_LOGGER_TRANSFORM_CDATA_START 
+);
+
 /**
  * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
  * 
