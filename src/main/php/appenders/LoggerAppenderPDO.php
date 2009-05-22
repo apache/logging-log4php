@@ -113,7 +113,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 						 ") VALUES ('%d','%c','%p','%m','%t','%F','%L')";
         }
         
-		$this->layout = LoggerLayout::factory('LoggerLayoutPattern');
+		$this->layout = LoggerReflectionUtils::createObject('LoggerLayoutPattern');
         $this->layout->setConversionPattern($this->sql);
         $this->canAppend = true;
         return true;

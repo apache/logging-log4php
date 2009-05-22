@@ -91,9 +91,9 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 							$layoutClass = 'LoggerLayoutSimple';
 						}
 						
-						$layout = LoggerLayout::factory($layoutClass);
+						$layout = LoggerReflectionUtils::createObject($layoutClass);
 						if($layout === null) {
-							$layout = LoggerLayout::factory('LoggerLayoutSimple');
+							$layout = LoggerReflectionUtils::createObject('LoggerLayoutSimple');
 						}
 						
 						if($layout instanceof LoggerLayoutPattern) {

@@ -549,11 +549,11 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			$layoutClass = @$props[$layoutPrefix];
 			$layoutClass = LoggerOptionConverter::substVars($layoutClass, $props);
 			if(empty($layoutClass)) {
-				$layout = LoggerLayout::factory('LoggerLayoutSimple');
+				$layout = LoggerReflectionUtils::createObject('LoggerLayoutSimple');
 			} else {
-				$layout = LoggerLayout::factory($layoutClass);
+				$layout = LoggerReflectionUtils::createObject($layoutClass);
 				if($layout === null) {
-					$layout = LoggerLayout::factory('LoggerLayoutSimple');
+					$layout = LoggerReflectionUtils::createObject('LoggerLayoutSimple');
 				}
 			}
 			

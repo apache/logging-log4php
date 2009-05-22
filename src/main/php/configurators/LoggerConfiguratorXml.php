@@ -272,7 +272,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
             case 'LAYOUT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LAYOUT':
                 $class = @$attribs['CLASS'];
-                $this->layout = LoggerLayout::factory($this->subst($class));
+                $this->layout = LoggerReflectionUtils::createObject($this->subst($class));
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE;
                 break;
             
@@ -431,7 +431,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 if ($this->appender !== null) {
                     if ($this->appender->requiresLayout() and $this->appender->getLayout() === null) {
                         $appenderName = $this->appender->getName();
-                        $this->appender->setLayout(LoggerLayout::factory('LoggerLayoutSimple'));
+                        $this->appender->setLayout(LoggerReflectionUtils::createObject('LoggerLayoutSimple'));
                     }                    
                     $this->appender->activateOptions();
                 }        

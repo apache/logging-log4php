@@ -88,7 +88,7 @@ class LoggerAppenderSocket extends LoggerAppender {
 			$this->closed = true;
 		} else {
 			if($this->getUseXml()) {
-				$this->xmlLayout = LoggerLayout::factory('LoggerXmlLayout');
+				$this->xmlLayout = LoggerReflectionUtils::createObject('LoggerXmlLayout');
 				if($this->xmlLayout === null) {
 					$this->setUseXml(false);
 				} else {
