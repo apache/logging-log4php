@@ -25,7 +25,7 @@
 
 class LoggerLayoutHtmlTest extends PHPUnit_Framework_TestCase {
         
-	public function XtestErrorLayout() {
+	public function testErrorLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutHtmlTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$layout = new LoggerLayoutHtml();
