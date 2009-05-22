@@ -28,6 +28,7 @@ Version 2.0 to be released
 - Enh #31: Removing unnecessary use of LOG4PHP_DIR (Knut Urdalen)
 - Enh #34: Remove all internal debugging (Christian Grobmeier)
 - Enh #35: Replace LOG4PHP_LINE_SEP with PHP_EOL (Knut Urdalen)
+- Enh #37: removed LoggerAppenderDB in favour to LoggerAppenderPDO (Christian Grobmeier)
 - Enh #38: Replace is_a() with instanceof (Knut Urdalen)
 - Enh #39: Remove deprecated methods (Knut Urdalen)
 - Enh #40: Merge LoggerAppender and LoggerAppenderSkeleton (Christian Grobmeier)
