@@ -172,9 +172,9 @@ class LoggerLayoutPattern extends LoggerLayout {
      * {@link LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_LAYOUT_PATTERN}.
      * The default pattern just produces the application supplied message.
      */
-    function LoggerPatternLayout($pattern = null) {
+    function LoggerLayoutPattern($pattern = null) {
         if ($pattern === null) {    
-            $this->LoggerPatternLayout(LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN);
+            $this->LoggerLayoutPattern(LOG4PHP_LOGGER_PATTERN_LAYOUT_DEFAULT_CONVERSION_PATTERN);
         } else {
             $this->pattern = $pattern;
         }                

@@ -96,7 +96,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 							$layout = LoggerLayout::factory('LoggerLayoutSimple');
 						}
 						
-						if($layout instanceof LoggerPatternLayout) {
+						if($layout instanceof LoggerLayoutPattern) {
 							$layout->setConversionPattern($appenderProperties['layout']['conversionPattern']);
 						}
 						
