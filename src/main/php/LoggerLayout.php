@@ -26,21 +26,6 @@
  * @abstract
  */
 abstract class LoggerLayout {
-
-	/**
-	 * Creates LoggerLayout instances with the given class name.
-	 *
-	 * @param string $class
-	 * @return LoggerLayout
-	 */
-	public static function factory($class) {
-		if(!empty($class)) {
-			$class = basename($class);
-			return new $class();
-		}
-		return null;
-	}
-
 	/**
 	 * Activates options for this layout.
 	 * Override this method if you have options to be activated.
