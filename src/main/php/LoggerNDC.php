@@ -110,6 +110,9 @@ class LoggerNDC {
 	 * @return array
 	 */
 	public static function get() {
+		if(!array_key_exists('log4php.LoggerNDC.ht', $GLOBALS)) {
+			LoggerNDC::clear();
+		}
 		return $GLOBALS['log4php.LoggerNDC.ht'];
 	}
   
