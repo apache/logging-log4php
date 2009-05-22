@@ -39,49 +39,29 @@
  * @version $Revision$
  * @package log4php
  */
+ /*
+  * TODO:
+  * - addHierarchyEventListener($listener) not supported
+  * - emitNoAppenderWarning($cat) not supported
+  * - fireAddAppenderEvent not supported
+  */
 class LoggerHierarchy {
-
-	/**
-	 * @var object currently unused
-	 */
+	/** Default Factory  */
 	protected $defaultFactory;
 	
-	/**
-	 * @var boolean activate internal logging
-	 * @see LoggerLog
-	 */
-	public $debug = false;
-
-	/**
-	 * @var array hierarchy tree. saves here all loggers
-	 */
+	/** array hierarchy tree. saves here all loggers */
 	protected $ht = array();
 	
-	/**
-	 * @var LoggerRoot
-	 */
+	/** The root Logger */
 	protected $root = null;
 	
-	/**
-	 * @var LoggerRendererMap
-	 */
+	/** LoggerRendererMap */
 	protected $rendererMap;
 
-	/**
-	 * @var LoggerLevel main level threshold
-	 */
+	/** LoggerLevel main level threshold */
 	protected $threshold;
 	
-	/**
-	 * @var boolean currently unused
-	 */
-	protected $emittedNoAppenderWarning		  = false;
-
-	/**
-	 * @var boolean currently unused
-	 */
-	protected $emittedNoResourceBundleWarning = false;
-	
+	/* TODO: In log4j is this class not a singleton. Why is it in log4php? */
 	public static function singleton() {
 		static $instance;
 		if(!isset($instance)) {
@@ -94,21 +74,13 @@ class LoggerHierarchy {
 	 * Create a new logger hierarchy.
 	 * @param object $root the root logger
 	 */
-	protected function __construct($root) {
+	protected function __construct(LoggerRoot $root) {
 		$this->root = $root;
 		// Enable all level levels by default.
 		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->root->setHierarchy($this);
 		$this->rendererMap = new LoggerRendererMap();
 		$this->defaultFactory = new LoggerDefaultCategoryFactory();		   
-	}
-	 
-	/**
-	 * Add a HierarchyEventListener event to the repository. 
-	 * Not Yet Impl.
-	 */
-	public function addHierarchyEventListener($listener) {
-		return;
 	}
 	 
 	/**
@@ -127,10 +99,6 @@ class LoggerHierarchy {
 		$this->ht = array();
 	}
 	  
-	public function emitNoAppenderWarning($cat) {
-		return;
-	}
-	
 	/**
 	 * Check if the named logger exists in the hierarchy.
 	 * @param string $name
@@ -140,15 +108,6 @@ class LoggerHierarchy {
 		return isset($this->ht[$name]);
 	}
 
-	/**
-	 * Not Implemented.
-	 * @param Logger $logger
-	 * @param LoggerAppender $appender
-	 */
-	public function fireAddAppenderEvent($logger, $appender) {
-		return;
-	}
-		
 	/**
 	 * Returns all the currently defined categories in this hierarchy as an array.
 	 * @return array
@@ -233,7 +192,7 @@ class LoggerHierarchy {
 	 * for level object passed as parameter and false otherwise.
 	 * @return boolean
 	 */
-	public function isDisabled($level) {
+	public function isDisabled(LoggerLevel $level) {
 		return ($this->threshold->toInt() > $level->toInt());
 	}
 	
@@ -284,7 +243,7 @@ class LoggerHierarchy {
 	 *
 	 * @param LoggerLevel $l
 	 */
-	public function setThreshold($l) {
+	public function setThreshold(LoggerLevel $l) {
 		if($l !== null) {
 			$this->threshold = $l;
 		}
@@ -314,5 +273,4 @@ class LoggerHierarchy {
 			}
 		}
 	}
- 
 } 
