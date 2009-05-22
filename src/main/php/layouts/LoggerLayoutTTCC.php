@@ -169,7 +169,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    public function format($event) {
+    public function format(LoggerLoggingEvent $event) {
         $timeStamp = (float)$event->getTimeStamp();
         $format = strftime($this->dateFormat, (int)$timeStamp);
         

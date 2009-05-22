@@ -112,7 +112,7 @@ class LoggerLayoutHtml extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    public function format($event) {
+    public function format(LoggerLoggingEvent $event) {
         $sbuf = PHP_EOL . "<tr>" . PHP_EOL;
     
         $sbuf .= "<td>";

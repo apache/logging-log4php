@@ -208,7 +208,7 @@ class LoggerPatternLayout extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format($event) {
+    function format(LoggerLoggingEvent $event) {
         // Reset working stringbuffer
         $this->sbuf = '';
         $c = $this->head;

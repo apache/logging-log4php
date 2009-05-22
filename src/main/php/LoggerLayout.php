@@ -55,7 +55,7 @@ abstract class LoggerLayout {
 	 * @param LoggerLoggingEvent
 	 * @return string
 	 */
-	public function format($event) {
+	public function format(LoggerLoggingEvent $event) {
 		return $event->getRenderedMessage();
 	} 
 	
