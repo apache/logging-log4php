@@ -148,7 +148,7 @@ define('LOG4PHP_LOGGER_PATTERN_LAYOUT_TTCC_CONVERSION_PATTERN',    '%r [%t] %p %
  * @subpackage layouts
  * @since 0.3 
  */
-class LoggerPatternLayout extends LoggerLayout {
+class LoggerLayoutPattern extends LoggerLayout {
 
   /**
    * @var string output buffer appended to when format() is invoked
