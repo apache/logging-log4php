@@ -64,7 +64,6 @@ class LoggerManager {
 		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
-		'LoggerAppenderDb' => '/appenders/LoggerAppenderDb.php',
 		'LoggerAppenderEcho' => '/appenders/LoggerAppenderEcho.php',
 		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
 		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
