@@ -83,7 +83,7 @@ class LoggerHierarchy {
 	 * Create a new logger hierarchy.
 	 * @param object $root the root logger
 	 */
-	protected function __construct(LoggerRoot $root) {
+	public function __construct(LoggerRoot $root) {
 		$this->root = $root;
 		$this->root->setHierarchy($this);
 		$this->setThreshold(LoggerLevel::getLevelAll());
@@ -152,11 +152,16 @@ class LoggerHierarchy {
 			$this->ht[$name]->setHierarchy($this);
 			$nodes = explode('.', $name);
 			$firstNode = array_shift($nodes);
+			
+			// if name is not a first node but another first node is their
 			if($firstNode != $name and isset($this->ht[$firstNode])) {
 				$this->ht[$name]->setParent($this->ht[$firstNode]);
 			} else {
+				// if there is no father, set root logger as father
 				$this->ht[$name]->setParent($this->root);
 			} 
+			
+			// if there are more nodes than one
 			if(count($nodes) > 0) {
 				// find parent node
 				foreach($nodes as $node) {
