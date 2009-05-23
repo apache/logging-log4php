@@ -36,18 +36,7 @@ class LoggerOptionConverter {
 	const DELIM_START_LEN = 2;
 	const DELIM_STOP_LEN = 1;
 
-	/** 
-	 * @param array $l
-	 * @param array $r
-	 * @return array
-	 *
-	 * @static
-	 */
-	public static function concatanateArrays($l, $r) {
-		return array_merge($l, $r);
-	}
-
-	/**
+   /**
 	* Read a predefined var.
 	*
 	* It returns a value referenced by <var>$key</var> using this search criteria:
