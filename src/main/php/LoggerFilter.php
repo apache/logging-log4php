@@ -56,7 +56,7 @@
  * @package log4php
  * @subpackage spi
  */
-class LoggerFilter {
+abstract class LoggerFilter {
 
 	/**
 	 * The log event must be logged immediately without consulting with
@@ -86,7 +86,6 @@ class LoggerFilter {
 	 * default do-nothing implementation for convenience.
 	*/
 	public function activateOptions() {
-		return;
 	}
 
 	/**	  
