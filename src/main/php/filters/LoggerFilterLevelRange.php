@@ -97,7 +97,11 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	 * @param string $l the level min to match
 	 */
 	function setLevelMin($l) {
-		$this->levelMin = LoggerOptionConverter::toLevel($l, null);
+		if(is_a($l, 'LoggerLevel')) {
+		    $this->levelMin = $l;
+		} else {
+			$this->levelMin = LoggerOptionConverter::toLevel($l, null);
+		}
 	}
 
 	/**
@@ -111,7 +115,11 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	 * @param string $l the level max to match
 	 */
 	function setLevelMax($l) {
-		$this->levelMax = LoggerOptionConverter::toLevel($l, null);
+		if(is_a($l, 'LoggerLevel')) {
+		    $this->levelMax = $l;
+		} else {
+			$this->levelMax = LoggerOptionConverter::toLevel($l, null);
+		}
 	}
 
 	/**
