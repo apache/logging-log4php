@@ -27,11 +27,11 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 	private $hierarchy;
         
 	protected function setUp() {
-		$this->hierarchy = LoggerHierarchy::singleton();
+		$this->hierarchy = new LoggerHierarchy(new LoggerRoot());;
 	}
 	
-	public function testIfLevelIsInitiallyLevelDebug() {
-		self::assertEquals('DEBUG', $this->hierarchy->getRootLogger()->getLevel()->toString());
+	public function testIfLevelIsInitiallyLevelAllg() {
+		self::assertEquals('ALL', $this->hierarchy->getRootLogger()->getLevel()->toString());
 	}
 
 	public function testIfNameIsRoot() {
@@ -63,5 +63,5 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 			self::assertEquals(count($l->getAllAppenders()), 0);
 		}
 	}
-
+	
 }
