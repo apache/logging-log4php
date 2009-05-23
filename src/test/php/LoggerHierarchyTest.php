@@ -86,4 +86,26 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 		$p = $p->getParent();
 		self::assertEquals('de', $p->getName());
 	}
+	
+	public function testExists() {
+		$hierarchy = $this->hierarchy;
+		$logger = $hierarchy->getLogger("de");
+		
+		self::assertTrue($hierarchy->exists("de"));
+		
+		$logger = $hierarchy->getLogger("de.blub");
+		self::assertTrue($hierarchy->exists("de.blub"));
+		self::assertTrue($hierarchy->exists("de"));
+		
+		$logger = $hierarchy->getLogger("de.de");
+		self::assertTrue($hierarchy->exists("de.de"));
+	}
+	
+	public function testClear() {
+		$hierarchy = $this->hierarchy;
+		$logger = $hierarchy->getLogger("de");
+		self::assertTrue($hierarchy->exists("de"));
+		$hierarchy->clear();
+		self::assertFalse($hierarchy->exists("de"));
+	}
 }
