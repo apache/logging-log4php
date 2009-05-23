@@ -371,17 +371,17 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 switch (end($this->state)) {
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE:
                         if ($this->appender !== null) {
-                            $this->setter($this->appender, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
+                            LoggerReflectionUtils::setter($this->appender, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
                         }
                         break;
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE:
                         if ($this->layout !== null) {
-                            $this->setter($this->layout, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));                
+                            LoggerReflectionUtils::setter($this->layout, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));                
                         }
                         break;
                     case LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE:
                         if ($this->filter !== null) {
-                            $this->setter($this->filter, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
+                            LoggerReflectionUtils::setter($this->filter, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
                         }
                         break;
                     default:
@@ -467,25 +467,6 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
                 array_pop($this->state);
                 break;
-        }
-    }
-    
-    /**
-     * @param object $object
-     * @param string $name
-     * @param mixed $value
-     */
-    function setter(&$object, $name, $value)
-    {
-    	// TODO: check if this can be replaced with LoggerReflectionUtils
-        if (empty($name)) {
-            return false;
-        }
-        $methodName = 'set'.ucfirst($name);
-        if (method_exists($object, $methodName)) {
-            return call_user_func(array(&$object, $methodName), $value);
-        } else {
-            return false;
         }
     }
     

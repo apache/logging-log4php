@@ -134,6 +134,25 @@ class LoggerReflectionUtils {
 		}
 		return null;
 	}
+	
+	/**
+     * @param object $object
+     * @param string $name
+     * @param mixed $value
+     */
+    function setter(&$object, $name, $value) {
+    	// TODO: check if this can be replaced with LoggerReflectionUtils
+        if (empty($name)) {
+            return false;
+        }
+        $methodName = 'set'.ucfirst($name);
+        if (method_exists($object, $methodName)) {
+            return call_user_func(array(&$object, $methodName), $value);
+        } else {
+            return false;
+        }
+    }
+	
 }
  
  ?>
