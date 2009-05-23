@@ -307,11 +307,7 @@ class Logger {
 	 * @return boolean
 	 */
 	public function isDebugEnabled() {
-		$debugLevel = LoggerLevel::getLevelDebug(); 
-		if($this->repository->isDisabled($debugLevel)) {
-			return false;
-		}
-		return ($debugLevel->isGreaterOrEqual($this->getEffectiveLevel()));
+		return $this->isEnabledFor(LoggerLevel::getLevelDebug());
 	}		
 
 	/**
@@ -333,11 +329,7 @@ class Logger {
 	 * @see LoggerLevel
 	 */
 	public function isInfoEnabled() {
-		$infoLevel = LoggerLevel::getLevelInfo();
-		if($this->repository->isDisabled($infoLevel)) {
-			return false;
-		}
-		return ($infoLevel->isGreaterOrEqual($this->getEffectiveLevel()));
+		return $this->isEnabledFor(LoggerLevel::getLevelInfo());
 	} 
 
 	/**
