@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -23,55 +23,51 @@
  */
 
 /**
- * This class has been deprecated and replaced by the Logger subclass.
+ * This is the central class in the log4j package. Most logging operations, 
+ * except configuration, are done through this class. 
+ *
+ * In log4j this class replaces the Category class. There is no need to 
+ * port deprecated classes; log4php Logger class doesn't extend Category.
  *
  * @version		 $Revision$
  * @package log4php
- * @see Logger
  */
+ /*
+  * TODO:
+  * Localization: setResourceBundle($bundle) : not supported
+  * Localization: l7dlog($priority, $key, $params, $t) : not supported
+  */
 class Logger {
-
 	/**
 	 * Additivity is set to true by default, that is children inherit the 
 	 * appenders of their ancestors by default.
 	 * @var boolean
 	 */
-	protected $additive = true;
+	private $additive = true;
 	
-	/**
-	 * @var string fully qualified class name
-	 */
-	protected $fqcn = 'LoggerCategory';
+	/** @var string fully qualified class name */
+	private $fqcn = 'Logger';
 
-	/**
-	 * @var LoggerLevel The assigned level of this category.
-	 */
-	var $level = null;
+	/** @var LoggerLevel The assigned level of this category. */
+	private $level = null;
 	
-	/**
-	 * @var string name of this category.
-	 */
-	protected $name = '';
+	/** @var string name of this category. */
+	private $name = '';
 	
-	/**
-	 * @var Logger The parent of this category.
-	 */
-	protected $parent = null;
+	/** @var Logger The parent of this category. Null if this is the root logger*/
+	private $parent = null;
 
-	/**
-	 * @var LoggerHierarchy the object repository
-	 */
-	var $repository = null; 
+	/** @var LoggerHierarchy the object repository */
+	private $repository = null; 
 
 	/**
 	 * @var array collection of appenders
 	 * @see LoggerAppender
 	 */
-	var $aai = array();
+	private $aai = array();
 
 	/**
 	 * Constructor.
-	 *
 	 * @param  string  $name  Category name	  
 	 */
 	public function __construct($name) {
@@ -220,14 +216,6 @@ class Logger {
 	}
   
 	/**
-	 * Retrieve a category with named as the name parameter.
-	 * @return Logger
-	 */
-	public function getInstance($name) {
-		return LoggerManager::getLogger($name);
-	}
-
-	/**
 	 * Returns the assigned Level, if any, for this Category.
 	 * @return LoggerLevel or null 
 	 */
@@ -237,6 +225,7 @@ class Logger {
 	
 	/**
 	 * Get a Logger by name (Delegate to {@link LoggerManager})
+	 * 
 	 * @param string $name logger name
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
 	 * @return Logger
@@ -365,13 +354,6 @@ class Logger {
 	} 
 
 	/**
-	 * Log a localized and parameterized message.
-	 */
-	public function l7dlog($priority, $key, $params, $t) {
-		return;
-	} 
-
-	/**
 	 * This generic form is intended to be used by wrappers.
 	 *
 	 * @param LoggerLevel $priority a valid level
@@ -441,18 +423,12 @@ class Logger {
 		$this->level = $level;
 	}
 	
-	public function setParent($logger) {
-		if($logger instanceof Logger) {
-			$this->parent = $logger;
-		}
-	} 
-
 	/**
-	 * Set the resource bundle to be used with localized logging methods 
+	 * Sets the parent logger of this logger
 	 */
-	public function setResourceBundle($bundle) {
-		return;
-	}
+	public function setParent(Logger $logger) {
+			$this->parent = $logger;
+	} 
 
 	/**
 	 * Log a message with the WARN level.

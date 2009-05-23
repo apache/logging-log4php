@@ -38,7 +38,6 @@ class LoggerRoot extends Logger {
 	 */
 	protected $parent = null;
 	
-
 	/**
 	 * Constructor
 	 *
@@ -56,7 +55,7 @@ class LoggerRoot extends Logger {
 	 * @return LoggerLevel the level
 	 */
 	public function getChainedLevel() {
-		return $this->level;
+		return parent::getLevel();
 	} 
 	
 	/**
@@ -65,7 +64,7 @@ class LoggerRoot extends Logger {
 	 */
 	public function setLevel($level) {
 		if($level != null) {
-			$this->level = $level;
+			parent::setLevel($level);
 		}	 
 	}
 	

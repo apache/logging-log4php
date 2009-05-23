@@ -133,20 +133,9 @@ class LoggerHierarchy {
 	 */
 	public function getLogger($name, $factory = null) {
 		if($factory === null) {
-			return $this->getLoggerByFactory($name, $this->defaultFactory);
-		} else {
-			return $this->getLoggerByFactory($name, $factory);
+			$factory = $this->defaultFactory;
 		}
-	} 
-	
-	/**
-	 * Return a new logger instance named as the first parameter using the default factory.
-	 * 
-	 * @param string $name logger name
-	 * @return Logger
-	 * @todo merge with {@link getLogger()}
-	 */
-	private function getLoggerByFactory($name, $factory) {
+		
 		if(!isset($this->ht[$name])) {
 			$this->ht[$name] = $factory->makeNewLoggerInstance($name);
 			$this->ht[$name]->setHierarchy($this);
@@ -174,7 +163,7 @@ class LoggerHierarchy {
 			}
 		}			 
 		return $this->ht[$name];
-	}
+	} 
 	
 	/**
 	 * @return LoggerRendererMap Get the renderer map for this hierarchy.
@@ -235,7 +224,6 @@ class LoggerHierarchy {
 		for($i = 0; $i < $enumLoggers; $i++) {
 			$loggers[$i]->setLevel(null);
 			$loggers[$i]->setAdditivity(true);
-			$loggers[$i]->setResourceBundle(null);
 			$loggers[$i]->removeAllAppenders();
 		}
 		$this->rendererMap->clear();
