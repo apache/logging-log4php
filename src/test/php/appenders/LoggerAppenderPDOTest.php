@@ -49,7 +49,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		$db = $appender->getDatabaseHandle();
 		$q = "select * from log4php_log";	
 		$error = "";
-		if($result = $db->query($q, SQLITE_BOTH, $error)) {
+		if($result = $db->query($q)) {
 			while($row = $result->fetch()) {
     			self::assertEquals($row['1'], 'TEST');
     			self::assertEquals($row['2'], 'ERROR');
