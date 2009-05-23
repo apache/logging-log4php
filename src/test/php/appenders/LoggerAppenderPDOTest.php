@@ -35,36 +35,36 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 
 		$dbname = 'appenders/pdotest.sqlite';
 		$dsn = 'sqlite:'.$dbname;
-		try {
-			$database = new PDO($dsn);
-			$database = null;
-			
-			$appender = new LoggerAppenderPDO("myname");
-			$appender->setDSN($dsn);
-			$appender->setCreateTable(true);
-			$appender->activateOptions();
-			$appender->append($event);
-			
-			
-			$db = $appender->getDatabaseHandle();
-			$q = "select * from log4php_log";	
-			$error = "";
-			if($result = $db->query($q, SQLITE_BOTH, $error)) {
-				while($row = $result->fetch()) {
-	    			self::assertEquals($row['1'], 'TEST');
-	    			self::assertEquals($row['2'], 'ERROR');
-	    			self::assertEquals($row['3'], 'testmessage');
-	  			}
-			} else {
-				// todo propagate exception to phpunit
-			   self::assertTrue(false);
-			}
-			$appender->close();
-		} catch(Exception $e) {
+
+		$database = new PDO($dsn);
+		$database = null;
+		
+		$appender = new LoggerAppenderPDO("myname");
+		$appender->setDSN($dsn);
+		$appender->setCreateTable(true);
+		$appender->activateOptions();
+		$appender->append($event);
+		
+		
+		$db = $appender->getDatabaseHandle();
+		$q = "select * from log4php_log";	
+		$error = "";
+		if($result = $db->query($q, SQLITE_BOTH, $error)) {
+			while($row = $result->fetch()) {
+    			self::assertEquals($row['1'], 'TEST');
+    			self::assertEquals($row['2'], 'ERROR');
+    			self::assertEquals($row['3'], 'testmessage');
+  			}
+		} else {
 			// todo propagate exception to phpunit
-			self::assertTrue(false);
+		   self::assertTrue(false);
 		}
-		unlink($dbname);
+		$appender->close();
+		
+    }
+    
+    public function tearDown() {
+        unlink('appenders/pdotest.sqlite');
     }
     
 }
