@@ -25,6 +25,12 @@
 
 class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
      
+    protected function setUp() {
+        if(file_exists('../../../target/phpunit/TEST.txt')) {
+	        unlink('../../../target/phpunit/TEST.txt');
+        }
+    }
+    
     public function testSimpleLogging() {
     	$layout = new LoggerLayoutSimple();
     	
@@ -34,15 +40,19 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
     									"my message");
     	
     	$appender = new LoggerAppenderFile("mylogger"); 
-		$appender->setFileName('appenders/TEST.txt');
+		$appender->setFileName('../../../target/phpunit/TEST.txt');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
-		
-		// TODO assertions
-		// TODO deleted file after test
-		// TODO created file in target folder 
+
+		$v = file_get_contents('../../../target/phpunit/TEST.txt');		
+		$e = "WARN - my message".PHP_EOL;
+		self::assertEquals($e, $v);
     }
      
+    protected function tearDown() {
+        unlink('../../../target/phpunit/TEST.txt');
+        rmdir('../../../target/phpunit');
+    }
 }
