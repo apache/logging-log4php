@@ -81,6 +81,21 @@ abstract class LoggerAppender {
 	}
 
 	/**
+	 * Factory
+	 *
+	 * @param string $name appender name
+	 * @param string $class create an instance of this appender class
+	 * @return LoggerAppender
+	 */
+	public static function factory($name, $class) {
+		$class = basename($class);
+		if(!empty($class)) {
+			return new $class($name);
+		}
+		return null;
+	}
+
+	/**
 	 * Singleton
 	 *
 	 * @param string $name appender name
