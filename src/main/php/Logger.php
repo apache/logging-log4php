@@ -35,6 +35,8 @@
  /*
   * TODO:
   * Localization: setResourceBundle($bundle) : not supported
+  * Localization: getResourceBundle: not supported
+  * Localization: getResourceBundleString($key): not supported
   * Localization: l7dlog($priority, $key, $params, $t) : not supported
   */
 class Logger {
@@ -230,7 +232,8 @@ class Logger {
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
 	 * @return Logger
 	 * @static 
-	 */	   
+	 */
+	 // TODO: remove method? confusing design	   
 	public function getLogger($name, $factory = null) {
 		return LoggerManager::getLogger($name, $factory);
 	}
@@ -260,23 +263,10 @@ class Logger {
 	}	   
 		  
 	/**
-	 * Return the inherited ResourceBundle for this category.
-	 */
-	public function getResourceBundle() {
-		return;
-	} 
-
-	/**
-	 * Returns the string resource corresponding to key in this category's inherited resource bundle.
-	 */
-	public function getResourceBundleString($key) {
-		return;
-	} 
-
-	/**
 	 * Return the root of the default category hierarchy.
 	 * @return LoggerRoot
 	 */
+	 // TODO: remove method? confusing design
 	public function getRoot() {
 		return LoggerManager::getRootLogger();
 	} 
@@ -286,7 +276,8 @@ class Logger {
 	 * @return LoggerRoot
 	 * @static 
 	 */	   
-	public function getRootLogger() {
+	 // TODO: remove method? confusing design
+	public static function getRootLogger() {
 		return LoggerManager::getRootLogger();	  
 	}
 
@@ -405,8 +396,7 @@ class Logger {
 	}
 
 	/**
-	 * Only the Hierarchy class can set the hierarchy of a
-	 * category.
+	 * Only the Hierarchy class can set the hierarchy of a category.
 	 *
 	 * @param LoggerHierarchy $repository
 	 */
@@ -427,7 +417,7 @@ class Logger {
 	 * Sets the parent logger of this logger
 	 */
 	public function setParent(Logger $logger) {
-			$this->parent = $logger;
+		$this->parent = $logger;
 	} 
 
 	/**
@@ -445,5 +435,4 @@ class Logger {
 			$this->forcedLog($this->fqcn, $caller, $warnLevel, $message);
 		}
 	}
-
 }
