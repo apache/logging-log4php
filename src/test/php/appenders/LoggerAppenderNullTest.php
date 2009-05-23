@@ -24,13 +24,14 @@
  */
 
 class LoggerAppenderNullTest extends PHPUnit_Framework_TestCase {
-
+	/**
+	 * The Null appender does nothing - nothing to assert.
+	 * Just here for the sake of completness and a good testing ratio :-)
+	 */
 	public function testActivateOptions() { 
-		self::markTestIncomplete();
+		$appender = new LoggerAppenderNull("TEST");
+		$appender->activateOptions();
+		$appender->append(null);
+		$appender->close();
     }
-    
-    public function testClose() {
-		self::markTestIncomplete();
-    }
-        
 }

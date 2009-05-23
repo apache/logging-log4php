@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -31,6 +31,10 @@ class LoggerAppenderNull extends LoggerAppender {
 
 	protected $requiresLayout = false;
 	
+	public function __construct($name) {
+	    parent::__construct($name);
+	}
+	
 	public function activateOptions() {
 		$this->closed = false;
 	}
@@ -41,11 +45,10 @@ class LoggerAppenderNull extends LoggerAppender {
 	
 	/**
 	 * Do nothing. 
-	 * How I Love it !! :)
-	 * 
+	 * 	 
 	 * @param LoggerLoggingEvent $event
 	 */
-	protected function append($event) {
+	public function append($event) {
 	}
 }
 
