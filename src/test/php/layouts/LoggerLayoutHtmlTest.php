@@ -77,4 +77,16 @@ class LoggerLayoutHtmlTest extends PHPUnit_Framework_TestCase {
         $e = "test";
         self::assertEquals($v, $e);
     }
+    
+     public function testHeader() {
+        $layout = new LoggerLayoutHtml();
+        $v = $layout->getHeader();
+        self::assertTrue(strpos($v, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">") === 0);
+    }
+    
+    public function testFooter() {
+        $layout = new LoggerLayoutHtml();
+        $v = $layout->getFooter();
+        self::assertTrue(strpos($v, "</table>") === 0);
+    }
 }
