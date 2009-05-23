@@ -340,10 +340,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function log($priority, $message, $caller = null) {
-		if($this->repository->isDisabled($priority)) {
-			return;
-		}
-		if($priority->isGreaterOrEqual($this->getEffectiveLevel())) {
+		if($this->isEnabledFor($priority)) {
 			$this->forcedLog($this->fqcn, $caller, $priority, $message);
 		}
 	}
