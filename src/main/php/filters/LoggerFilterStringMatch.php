@@ -42,45 +42,31 @@ class LoggerFilterStringMatch extends LoggerFilter {
 	/**
 	 * @var boolean
 	 */
-	var $acceptOnMatch = true;
+	private $acceptOnMatch = true;
 
 	/**
 	 * @var string
 	 */
-	var $stringToMatch = null;
+	private $stringToMatch = null;
 
-	/**
-	 * @return boolean
-	 */
-	function getAcceptOnMatch() {
-		return $this->acceptOnMatch;
-	}
-	
 	/**
 	 * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
 	 */
-	function setAcceptOnMatch($acceptOnMatch) {
+	public function setAcceptOnMatch($acceptOnMatch) {
 		$this->acceptOnMatch = is_bool($acceptOnMatch) ? $acceptOnMatch : (bool)(strtolower($acceptOnMatch) == 'true');
-	}
-	
-	/**
-	 * @return string
-	 */
-	function getStringToMatch() {
-		return $this->stringToMatch;
 	}
 	
 	/**
 	 * @param string $s the string to match
 	 */
-	function setStringToMatch($s) {
+	public function setStringToMatch($s) {
 		$this->stringToMatch = $s;
 	}
 
 	/**
 	 * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
 	 */
-	function decide($event) {
+	public function decide($event) {
 		$msg = $event->getRenderedMessage();
 		
 		if($msg === null or $this->stringToMatch === null) {
