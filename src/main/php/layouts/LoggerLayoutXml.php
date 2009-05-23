@@ -20,21 +20,6 @@
  * @subpackage layouts
  */
 
-define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS_PREFIX',     'log4j');
-define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS',            'http://jakarta.apache.org/log4j/');
-
-define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX',   'log4php');
-define('LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS',          'http://logging.apache.org/log4php/');
-
-define('LOG4PHP_LOGGER_TRANSFORM_CDATA_START', '<![CDATA[');
-define('LOG4PHP_LOGGER_TRANSFORM_CDATA_END', ']]>');
-define('LOG4PHP_LOGGER_TRANSFORM_CDATA_PSEUDO_END', ']]&gt;');
-define('LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END',
-	LOG4PHP_LOGGER_TRANSFORM_CDATA_END .
-	LOG4PHP_LOGGER_TRANSFORM_CDATA_PSEUDO_END .
-	LOG4PHP_LOGGER_TRANSFORM_CDATA_START 
-);
-
 /**
  * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
  * 
@@ -49,6 +34,17 @@ define('LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END',
  * @subpackage layouts
  */
 class LoggerLayoutXml extends LoggerLayout {
+	const LOG4J_NS_PREFIX ='log4j';
+	const LOG4J_NS = 'http://jakarta.apache.org/log4j/';
+	
+	const LOG4PHP_NS_PREFIX = 'log4php';
+	const LOG4PHP_NS = 'http://logging.apache.org/log4php/';
+	
+	const CDATA_START = '<![CDATA[';
+	const CDATA_END = ']]>';
+	const CDATA_PSEUDO_END = ']]&gt;';
+
+	const CDATA_EMBEDDED_END = ']]>]]&gt;<![CDATA[';
 
     /**
      * The <b>LocationInfo</b> option takes a boolean value. By default,
@@ -58,43 +54,43 @@ class LoggerLayoutXml extends LoggerLayout {
      * origin of the log statement will be output.
      * @var boolean
      */
-    var $locationInfo = true;
+    private $locationInfo = true;
   
     /**
      * @var boolean set the elements namespace
      */
-    var $log4jNamespace = false;
+    private $log4jNamespace = false;
     
     
     /**
      * @var string namespace
      * @private
      */
-    var $_namespace = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS;
+    private $_namespace = self::LOG4PHP_NS;
     
     /**
      * @var string namespace prefix
      * @private
      */
-    var $_namespacePrefix = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX;
+    private $_namespacePrefix = self::LOG4PHP_NS_PREFIX;
      
     /** 
      * No options to activate. 
      */
-    function activateOptions() {
+    public function activateOptions() {
         if ($this->getLog4jNamespace()) {
-            $this->_namespace        = LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS;
-            $this->_namespacePrefix  = LOG4PHP_LOGGER_XML_LAYOUT_LOG4J_NS_PREFIX;
+            $this->_namespace        = self::LOG4J_NS;
+            $this->_namespacePrefix  = self::LOG4J_NS_PREFIX;
         } else {
-            $this->_namespace        = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS;
-            $this->_namespacePrefix  = LOG4PHP_LOGGER_XML_LAYOUT_LOG4PHP_NS_PREFIX;
+            $this->_namespace        = self::LOG4PHP_NS;
+            $this->_namespacePrefix  = self::LOG4PHP_NS_PREFIX;
         }     
     }
     
     /**
      * @return string
      */
-    function getHeader() {
+    public function getHeader() {
         return "<{$this->_namespacePrefix}:eventSet ".
                     "xmlns:{$this->_namespacePrefix}=\"{$this->_namespace}\" ".
                     "version=\"0.3\" ".
@@ -108,7 +104,7 @@ class LoggerLayoutXml extends LoggerLayout {
      * @param LoggerLoggingEvent $event
      * @return string
      */
-    function format(LoggerLoggingEvent $event) {
+    public function format(LoggerLoggingEvent $event) {
         $loggerName = $event->getLoggerName();
         $timeStamp  = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
         $thread     = $event->getThreadName();
@@ -147,34 +143,17 @@ class LoggerLayoutXml extends LoggerLayout {
     /**
      * @return string
      */
-    function getFooter() {
-
+    public function getFooter() {
         return "</{$this->_namespacePrefix}:eventSet>\r\n";
     }
     
     /**
      * @return boolean
      */
-    function getLocationInfo() {
+    public function getLocationInfo() {
         return $this->locationInfo;
     }
   
-    /**
-     * @return boolean
-     */
-    function getLog4jNamespace() {
-        return $this->log4jNamespace;
-    }
-
-    /**
-     * The XMLLayout prints and does not ignore exceptions. Hence the
-     * return value <b>false</b>.
-     * @return boolean
-     */
-    function ignoresThrowable() {
-        return false;
-    }
-    
     /**
      * The {@link $locationInfo} option takes a boolean value. By default,
      * it is set to false which means there will be no location
@@ -211,8 +190,8 @@ class LoggerLayoutXml extends LoggerLayout {
 		}
 	
 		$rStr = str_replace(
-			LOG4PHP_LOGGER_TRANSFORM_CDATA_END,
-			LOG4PHP_LOGGER_TRANSFORM_CDATA_EMBEDDED_END,
+			self::CDATA_END,
+			self::CDATA_EMBEDDED_END,
 			$str
 		);
 		$buf .= $rStr;
