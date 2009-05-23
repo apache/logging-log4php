@@ -86,4 +86,26 @@ class LoggerFilterStringMatchTest extends PHPUnit_Framework_TestCase {
 		$result = $filter->decide($eventWarn2);
 		self::assertEquals($result, LoggerFilter::NEUTRAL);
 	}
+	
+	public function testDecideNullMessage() {
+		$filter = new LoggerFilterStringMatch();
+		$filter->setAcceptOnMatch("false");
+		$filter->setStringToMatch("testmessage");
+		
+		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), null);
+		
+		$result = $filter->decide($event);
+		self::assertEquals($result, LoggerFilter::NEUTRAL);
+	}
+	
+	public function testDecideNullMatch() {
+		$filter = new LoggerFilterStringMatch();
+		$filter->setAcceptOnMatch("false");
+		$filter->setStringToMatch(null);
+		
+		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		
+		$result = $filter->decide($event);
+		self::assertEquals($result, LoggerFilter::NEUTRAL);
+	}
 }
