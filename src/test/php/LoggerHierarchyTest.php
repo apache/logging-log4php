@@ -64,4 +64,26 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 	
+	public function testSettingParents() {
+		$hierarchy = $this->hierarchy;
+		$loggerDE = $hierarchy->getLogger("de");
+		$root = $loggerDE->getParent();
+		self::assertEquals('root', $root->getName());
+		
+		$loggerDEBLUB = $hierarchy->getLogger("de.blub");
+		self::assertEquals('de.blub', $loggerDEBLUB->getName());
+		$p = $loggerDEBLUB->getParent();
+		self::assertEquals('de', $p->getName());
+		
+		$loggerDEBLA = $hierarchy->getLogger("de.bla");
+		$p = $loggerDEBLA->getParent();
+		self::assertEquals('de', $p->getName());
+		
+		$logger3 = $hierarchy->getLogger("de.bla.third");
+		$p = $logger3->getParent();
+		self::assertEquals('de.bla', $p->getName());
+		
+		$p = $p->getParent();
+		self::assertEquals('de', $p->getName());
+	}
 }
