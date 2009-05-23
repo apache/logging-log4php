@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -21,8 +21,17 @@
 
 /**
  * This class is specialized in retrieving loggers by name and also maintaining 
- * the logger hierarchy.
- *
+ * the logger hierarchy. The logger hierarchy is dealing with the several Log-Levels
+ * Logger can have. From log4j website:
+ * 
+ * "A logger is said to be an ancestor of another logger if its name followed 
+ * by a dot is a prefix of the descendant logger name. A logger is said to be
+ * a parent of a child logger if there are no ancestors between itself and the 
+ * descendant logger."
+ * 
+ * Child Loggers do inherit their Log-Levels from their Ancestors. They can
+ * increase their Log-Level compared to their Ancestors, but they cannot decrease it.
+ * 
  * <p>The casual user does not have to deal with this class directly.</p>
  *
  * <p>The structure of the logger hierarchy is maintained by the
