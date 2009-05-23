@@ -121,15 +121,30 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function debug($message, $caller = null) {
-		$debugLevel = LoggerLevel::getLevelDebug();
-		if($this->repository->isDisabled($debugLevel)) {
-			return;
-		}
-		if($debugLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $debugLevel, $message);
-		}
+		$this->logLevel($message, LoggerLevel::getLevelDebug(), $caller);
 	} 
 
+
+	/**
+	 * Log a message object with the INFO Level.
+	 *
+	 * @param mixed $message message
+	 * @param mixed $caller caller object or caller string id
+	 */
+	public function info($message, $caller = null) {
+		$this->logLevel($message, LoggerLevel::getLevelInfo(), $caller);
+	}
+
+	/**
+	 * Log a message with the WARN level.
+	 *
+	 * @param mixed $message message
+	 * @param mixed $caller caller object or caller string id
+	 */
+	public function warn($message, $caller = null) {
+		$this->logLevel($message, LoggerLevel::getLevelWarn(), $caller);
+	}
+	
 	/**
 	 * Log a message object with the ERROR level including the caller.
 	 *
@@ -137,13 +152,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function error($message, $caller = null) {
-		$errorLevel = LoggerLevel::getLevelError();
-		if($this->repository->isDisabled($errorLevel)) {
-			return;
-		}
-		if($errorLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $errorLevel, $message);
-		}
+		$this->logLevel($message, LoggerLevel::getLevelError(), $caller);
 	}
 	
 	/**
@@ -153,12 +162,15 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function fatal($message, $caller = null) {
-		$fatalLevel = LoggerLevel::getLevelFatal();
-		if($this->repository->isDisabled($fatalLevel)) {
+		$this->logLevel($message, LoggerLevel::getLevelFatal(), $caller);
+	}
+	
+	private function logLevel($message, $level, $caller = null) {
+	    if($this->repository->isDisabled($level)) {
 			return;
 		}
-		if($fatalLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $fatalLevel, $message);
+		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
+			$this->forcedLog($this->fqcn, $caller, $level, $message);
 		}
 	}
 	
@@ -282,22 +294,6 @@ class Logger {
 	}
 
 	/**
-	 * Log a message object with the INFO Level.
-	 *
-	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
-	 */
-	public function info($message, $caller = null) {
-		$infoLevel = LoggerLevel::getLevelInfo();
-		if($this->repository->isDisabled($infoLevel)) {
-			return;
-		}
-		if($infoLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $infoLevel, $message);
-		}
-	}
-	 
-	/**
 	 * Is the appender passed as parameter attached to this category?
 	 *
 	 * @param LoggerAppender $appender
@@ -419,20 +415,4 @@ class Logger {
 	public function setParent(Logger $logger) {
 		$this->parent = $logger;
 	} 
-
-	/**
-	 * Log a message with the WARN level.
-	 *
-	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
-	 */
-	public function warn($message, $caller = null) {
-		$warnLevel = LoggerLevel::getLevelWarn();
-		if($this->repository->isDisabled($warnLevel)) {
-			return;
-		}
-		if($warnLevel->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $warnLevel, $message);
-		}
-	}
 }
