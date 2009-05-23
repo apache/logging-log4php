@@ -60,43 +60,29 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	/**
 	 * @var boolean
 	 */
-	var $acceptOnMatch = true;
+	private $acceptOnMatch = true;
 
 	/**
 	 * @var LoggerLevel
 	 */
-	var $levelMin;
+	private $levelMin;
   
 	/**
 	 * @var LoggerLevel
 	 */
-	var $levelMax;
+	private $levelMax;
 
-	/**
-	 * @return boolean
-	 */
-	function getAcceptOnMatch() {
-		return $this->acceptOnMatch;
-	}
-	
 	/**
 	 * @param boolean $acceptOnMatch
 	 */
-	function setAcceptOnMatch($acceptOnMatch) {
+	public function setAcceptOnMatch($acceptOnMatch) {
 		$this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
-	}
-	
-	/**
-	 * @return LoggerLevel
-	 */
-	function getLevelMin() {
-		return $this->levelMin;
 	}
 	
 	/**
 	 * @param string $l the level min to match
 	 */
-	function setLevelMin($l) {
+	public function setLevelMin($l) {
 		if(is_a($l, 'LoggerLevel')) {
 		    $this->levelMin = $l;
 		} else {
@@ -105,16 +91,9 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	}
 
 	/**
-	 * @return LoggerLevel
-	 */
-	function getLevelMax() {
-		return $this->levelMax;
-	}
-	
-	/**
 	 * @param string $l the level max to match
 	 */
-	function setLevelMax($l) {
+	public function setLevelMax($l) {
 		if(is_a($l, 'LoggerLevel')) {
 		    $this->levelMax = $l;
 		} else {
@@ -128,7 +107,7 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	 * @param LoggerLoggingEvent $event
 	 * @return integer
 	 */
-	function decide($event) {
+	public function decide(LoggerLoggingEvent $event) {
 		$level = $event->getLevel();
 		
 		if($this->levelMin !== null) {
@@ -148,7 +127,7 @@ class LoggerFilterLevelRange extends LoggerFilter {
 			}
 		}
 
-		if($this->getAcceptOnMatch()) {
+		if($this->acceptOnMatch) {
 			// this filter set up to bypass later filters and always return
 			// accept if level in range
 			return LoggerFilter::ACCEPT;
