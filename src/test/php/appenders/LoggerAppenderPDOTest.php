@@ -34,12 +34,13 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$dbname = 'appenders/pdotest.sqlite';
+		$dsn = 'sqlite:'.$dbname;
 		try {
-			$database = new SQLiteDatabase($dbname);
+			$database = new PDO($dsn);
 			$database = null;
 			
 			$appender = new LoggerAppenderPDO("myname");
-			$appender->setDSN('sqlite:'.$dbname);
+			$appender->setDSN($dsn);
 			$appender->setCreateTable(true);
 			$appender->activateOptions();
 			$appender->append($event);
