@@ -37,9 +37,6 @@ class LoggerAppenderPDO extends LoggerAppender {
     /** Database password */
     private $password = '';
     
-    /** Name of the database to connect to */
-    private $database;
-	
 	/** DSN string for enabling a connection */    
     private $dsn;
     
@@ -70,18 +67,17 @@ class LoggerAppenderPDO extends LoggerAppender {
      * Based on defined options, this method connects to db defined in {@link $dsn}
      * and creates a {@link $table} table if {@link $createTable} is true.
      * @return boolean true if all ok.
+     * @throws a PDOException if the attempt to connect to the requested database fails.
      */
     public function activateOptions() {
-    	$this->db = new PDO($this->dsn,$this->password,$this->password);
-		
-		if($this->db == null) {
-			$this->db = null;
-			$this->closed = true;
-			$this->canAppend = false;
-			return;
-			// TODO throw exception instead?
-		}
-		
+    	if($this->user === null) {
+	    	$this->db = new PDO($this->dsn);
+    	} else if($this->password === null) {
+    	    $this->db = new PDO($this->dsn, $this->user);
+    	} else {
+    	    $this->db = new PDO($this->dsn,$this->user,$this->password);
+    	}
+    	
         // test if log table exists
         $result = $this->db->query('select * from ' . $this->table . ' where 1 = 0');
         if ($result == false and $this->createTable) {
@@ -152,16 +148,16 @@ class LoggerAppenderPDO extends LoggerAppender {
      * Sets the username for this connection. 
      * Defaults to ''
      */
-    function setUser($newUser) {
-        $this->user = $newUser;
+    function setUser($user) {
+        $this->user = $user;
     }
     
     /**
      * Sets the password for this connection. 
      * Defaults to ''
      */
-    public function setPassword($newPassword) {
-        $this->password = $newPassword;
+    public function setPassword($password) {
+        $this->password = $password;
     }
     
     /**
