@@ -214,10 +214,9 @@ class LoggerOptionConverter {
 	 */
 	public static function findAndSubst($key, $props) {
 		$value = @$props[$key];
-		if(empty($value)) {
-			return null;
+		if(!empty($value)) {
+			return LoggerOptionConverter::substVars($value, $props);
 		}
-		return LoggerOptionConverter::substVars($value, $props);
 	}
 
 	/**
