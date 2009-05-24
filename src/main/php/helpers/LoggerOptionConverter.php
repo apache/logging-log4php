@@ -254,6 +254,7 @@ class LoggerOptionConverter {
 	 *
 	 * @static
 	 */
+	 // TODO: this method doesn't work correctly with key = true, it needs key = "true" which is odd
 	public static function substVars($val, $props = null) {
 		$sbuf = '';
 		$i = 0;
