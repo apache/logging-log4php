@@ -23,6 +23,12 @@ return array(
         'level' => 'WARN',
         'appenders' => array('default'),
      ),
+     'loggers' => array(
+           'mylogger' => array(
+               'level' => 'INFO',
+               'appenders' => array('default'),
+           ),
+ 	 ),
      'appenders' => array(
          'default' => array(
              'class' => 'LoggerAppenderEcho',
