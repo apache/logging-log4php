@@ -21,8 +21,11 @@
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSimple"/>
     </appender>
+    <logger name="mylogger">
+        <level value="info"/> 
+    </logger>
     <root>
-        <level value="WARN" />
+         <level value="WARN" />
         <appender_ref ref="default" />
     </root>
 </log4php:configuration>

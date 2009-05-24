@@ -42,5 +42,8 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue(is_a($appender, 'LoggerAppenderEcho'));
 		$layout = $appender->getLayout();
 		self::assertTrue(is_a($layout, 'LoggerLayoutSimple'));
+		
+		$logger = $hierarchy->getLogger('mylogger');
+		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 	}
 }
