@@ -42,6 +42,9 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue(is_a($appender, 'LoggerAppenderEcho'));
 		$layout = $appender->getLayout();
 		self::assertTrue(is_a($layout, 'LoggerLayoutSimple'));
+		
+		$logger = $hierarchy->getLogger('mylogger');
+		self::assertFalse($logger->getAdditivity());
 	}
 	
 	public function testConfigureWithRootCategory() {
