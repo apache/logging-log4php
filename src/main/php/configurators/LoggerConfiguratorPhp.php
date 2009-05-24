@@ -71,7 +71,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 		
 		// set threshold
 		if(isset($config['threshold'])) {
-			$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
+			$hierarchy->setThreshold(LoggerOptionConverter::toLevel($config['threshold'], LoggerLevel::getLevelAll()));
 		}
 		
 		// parse and create appenders
