@@ -37,7 +37,10 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		LoggerConfiguratorIni::configure('configurators/test1.properties');
 		$hierarchy = LoggerManager::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
-		
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
+		$appender = $root->getAppender("default");
+		self::assertTrue(is_a($appender, 'LoggerAppenderEcho'));
+		$layout = $appender->getLayout();
+		self::assertTrue(is_a($layout, 'LoggerLayoutSimple'));
 	}
 }
