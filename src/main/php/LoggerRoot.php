@@ -74,7 +74,7 @@ class LoggerRoot extends Logger {
 	 * @param Logger $parent
 	 * @return boolean
 	 */
-	public function setParent($parent) {
+	public function setParent(Logger $parent) {
 		return false;
 	}
 

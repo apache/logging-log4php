@@ -43,7 +43,9 @@ class LoggerRootTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetParent() {
-		$this->loggerRoot->setParent('dummy');
+		$hierarchy = new LoggerHierarchy(new LoggerRoot());
+		$l = $hierarchy->getLogger('dummy');
+		$this->loggerRoot->setParent($l);
 		$this->testIfParentIsNull();
 	}
 

@@ -27,7 +27,7 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 	private $hierarchy;
         
 	protected function setUp() {
-		$this->hierarchy = new LoggerHierarchy(new LoggerRoot());;
+		$this->hierarchy = new LoggerHierarchy(new LoggerRoot());
 	}
 	
 	public function testIfLevelIsInitiallyLevelAllg() {
@@ -43,7 +43,8 @@ class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetParent() {
-		$this->hierarchy->getRootLogger()->setParent('dummy');
+		$l = $this->hierarchy->getLogger('dummy');
+		$this->hierarchy->getRootLogger()->setParent($l);
 		$this->testIfParentIsNull();
 	}
         
