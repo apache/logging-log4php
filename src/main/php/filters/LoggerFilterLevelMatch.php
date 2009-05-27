@@ -62,7 +62,7 @@ class LoggerFilterLevelMatch extends LoggerFilter {
 	 * @param string $l the level to match
 	 */
 	public function setLevelToMatch($l) {
-		if(is_a($l, 'LoggerLevel')) {
+		if($l instanceof LoggerLevel) {
 		    $this->levelToMatch = $l;
 		} else {
 			$this->levelToMatch = LoggerOptionConverter::toLevel($l, null);
