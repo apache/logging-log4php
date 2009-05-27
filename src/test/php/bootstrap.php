@@ -22,6 +22,10 @@
  * @link       http://logging.apache.org/log4php
  */
 
+error_reporting(E_ALL | E_STRICT); 
+
+date_default_timezone_set('Europe/London');
+
 if(!defined('LOG4PHP_DIR')) {
     define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 }
