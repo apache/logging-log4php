@@ -99,7 +99,7 @@ abstract class LoggerFilter {
 	 * @param LoggerLoggingEvent $event The {@link LoggerLoggingEvent} to decide upon.
 	 * @return integer {@link LoggerFilter::NEUTRAL} or {@link LoggerFilter::DENY}|{@link LoggerFilter::ACCEPT}
 	 */
-	public function decide($event) {
+	public function decide(LoggerLoggingEvent $event) {
 		return self::NEUTRAL;
 	}
 

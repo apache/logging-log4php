@@ -66,7 +66,7 @@ class LoggerFilterStringMatch extends LoggerFilter {
 	/**
 	 * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
 	 */
-	public function decide($event) {
+	public function decide(LoggerLoggingEvent $event) {
 		$msg = $event->getRenderedMessage();
 		
 		if($msg === null or $this->stringToMatch === null) {
