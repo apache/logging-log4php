@@ -39,7 +39,7 @@ class LoggerLoggingEventTestCaseLayout extends LoggerLayout {
 		return;
 	}
         
-	public function format($event) {
+	public function format(LoggerLoggingEvent $event) {
 		LoggerLoggingEventTest::$locationInfo = $event->getLocationInformation();
 	}
 }
