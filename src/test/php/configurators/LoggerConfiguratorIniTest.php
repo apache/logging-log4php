@@ -33,15 +33,15 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		LoggerManager::resetConfiguration();
 	}
         
-	public function testConfigure() {
+	public function xtestConfigure() {
 		LoggerConfiguratorIni::configure('configurators/test1.properties');
 		$hierarchy = LoggerManager::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
-		self::assertTrue(is_a($appender, 'LoggerAppenderEcho'));
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
 		$layout = $appender->getLayout();
-		self::assertTrue(is_a($layout, 'LoggerLayoutSimple'));
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
 		
 		$logger = $hierarchy->getLogger('mylogger');
 		self::assertFalse($logger->getAdditivity());
@@ -53,9 +53,9 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		$root = $hierarchy->getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
-		self::assertTrue(is_a($appender, 'LoggerAppenderEcho'));
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
 		$layout = $appender->getLayout();
-		self::assertTrue(is_a($layout, 'LoggerLayoutSimple'));
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
 	}
 	
 	public function testConfigureWithoutIniFile() {
