@@ -82,6 +82,10 @@ log4php-{version}
                         Include the '<a href="apidocs/log4php/LoggerManager.html"><code>LoggerManager.php</code></a>' 
                         class file in your php scripts.
                     </li>
+                    <li>
+                    	Since log4php makes use of date functions, it is recommended that you have set:
+                    	date_default_timezone_set(); somewhere within your application.
+                    </li>
                 </ol>
                 <p>
                     Once the '<a href="apidocs/log4php/LoggerManager.html">LoggerManager</a>' is included,
@@ -95,6 +99,10 @@ log4php-{version}
                 <p>Here is how to use <code>log4php</code> in user PHP code:</p>
                 <pre>
 &lt;?php
+
+// Setting default timezone
+date_default_timezone_set('Europe/London');
+
 /*
     Set LOG4PHP_* constants here 
 */
