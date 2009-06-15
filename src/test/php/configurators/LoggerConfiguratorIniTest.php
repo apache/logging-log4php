@@ -29,11 +29,11 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		
 	}
 	
-	protected function tearDown() {
+	protected function xtearDown() {
 		LoggerManager::resetConfiguration();
 	}
         
-	public function xtestConfigure() {
+	public function testConfigure() {
 		LoggerConfiguratorIni::configure('configurators/test1.properties');
 		$hierarchy = LoggerManager::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
@@ -45,6 +45,11 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		
 		$logger = $hierarchy->getLogger('mylogger');
 		self::assertFalse($logger->getAdditivity());
+		
+		$logger2 = $hierarchy->getLogger('mylogger');
+		$logger2->setAdditivity(true);
+		self::assertTrue($logger2->getAdditivity());
+		self::assertTrue($logger->getAdditivity());
 	}
 	
 	public function testConfigureWithRootCategory() {

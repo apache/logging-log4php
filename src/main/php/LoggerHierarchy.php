@@ -131,7 +131,7 @@ class LoggerHierarchy {
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null	  
 	 * @return Logger
 	 */
-	public function getLogger($name, $factory = null) {
+	public function &getLogger($name, $factory = null) {
 		if($factory === null) {
 			$factory = $this->defaultFactory;
 		}
@@ -149,19 +149,21 @@ class LoggerHierarchy {
 				// if there is no father, set root logger as father
 				$this->ht[$name]->setParent($this->root);
 			} 
-			
+		
 			// if there are more nodes than one
 			if(count($nodes) > 0) {
 				// find parent node
 				foreach($nodes as $node) {
 					$parentNode = "$firstNode.$node";
 					if(isset($this->ht[$parentNode]) and $parentNode != $name) {
+		
 						$this->ht[$name]->setParent($this->ht[$parentNode]);
 					}
 					$firstNode .= ".$node";
 				}
 			}
-		}			 
+		}		
+		
 		return $this->ht[$name];
 	} 
 	

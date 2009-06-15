@@ -112,7 +112,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @static
 	 */
 	public static function configure($url = '') {
-		$configurator = new self();
+		$configurator = new LoggerConfiguratorIni();
 		$repository = LoggerManager::getLoggerRepository();
 		return $configurator->doConfigure($url, $repository);
 	}
@@ -338,6 +338,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		}
 		*/
 		
+		
 		$thresholdStr = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX];
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
 		
@@ -428,7 +429,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				} else if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
 					$loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX));
 				}
-				$logger =& $hierarchy->getLogger($loggerName, $this->loggerFactory);
+				
+				$logger = $hierarchy->getLogger($loggerName, $this->loggerFactory);
 					// synchronized(logger) {
 					$this->parseCategory($props, $logger, $key, $loggerName, $value);
 					$this->parseAdditivityForLogger($props, $logger, $loggerName);
