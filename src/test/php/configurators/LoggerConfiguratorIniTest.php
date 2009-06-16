@@ -29,7 +29,7 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		
 	}
 	
-	protected function xtearDown() {
+	protected function tearDown() {
 		LoggerManager::resetConfiguration();
 	}
         
