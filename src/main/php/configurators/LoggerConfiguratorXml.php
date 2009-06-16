@@ -124,8 +124,8 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @static
      */
     public static function configure($url = '') {
-        $configurator = new self();
-        $repository =& LoggerManager::getLoggerRepository();
+    	$configurator = new self(); 
+        $repository = LoggerManager::getLoggerRepository();
         return $configurator->doConfigure($url, $repository);
     }
     
@@ -234,7 +234,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 $name  = $this->subst(@$attribs['NAME']);
                 $class = $this->subst(@$attribs['CLASS']);
                 
-                $this->appender =& LoggerAppender::singleton($name, $class);
+                $this->appender = LoggerAppender::singleton($name, $class);
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE;
                 break;
                 
@@ -245,7 +245,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 if (isset($attribs['REF']) and !empty($attribs['REF'])) {
                     $appenderName = $this->subst($attribs['REF']);
                     
-                    $appender =& LoggerAppender::singleton($appenderName);
+                    $appender = LoggerAppender::singleton($appenderName);
                     if ($appender !== null) {
                         switch (end($this->state)) {
                             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE:
@@ -278,7 +278,6 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
             
             case 'LOGGER':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LOGGER':
-            
                 // $this->logger is assigned by reference.
                 // Only '$this->logger=null;' destroys referenced object
                 unset($this->logger);
@@ -407,7 +406,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
             
             case 'ROOT':
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
-                $this->logger =& LoggerManager::getRootLogger();
+                $this->logger = LoggerManager::getRootLogger();
                 $this->state[] = LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE;
                 break;
         }
