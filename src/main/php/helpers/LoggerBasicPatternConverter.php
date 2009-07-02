@@ -48,26 +48,27 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 	 */
 	function convert($event) {
 		switch($this->type) {
-			case LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER:
 				$timeStamp = $event->getTimeStamp();
 				$startTime = LoggerLoggingEvent::getStartTime();
 				return (string)(int)($timeStamp * 1000 - $startTime * 1000);
 				
-			case LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER:
 				return $event->getThreadName();
 
-			case LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER:
 				$level = $event->getLevel();
 				return $level->toString();
 
-			case LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER:
 				return $event->getNDC();
 
-			case LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER:
 				return $event->getRenderedMessage();
 				
 			default: 
 				return '';
 		}
+		echo "OK";
 	}
 }

@@ -49,13 +49,13 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 	function convert($event) {
 		$locationInfo = $event->getLocationInformation();
 		switch($this->type) {
-			case LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER:
 				return $locationInfo->getFullInfo();
-			case LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER:
 				return $locationInfo->getMethodName();
-			case LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER:
 				return $locationInfo->getLineNumber();
-			case LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER:
+			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER:
 				return $locationInfo->getFileName();
 			default: 
 				return '';
