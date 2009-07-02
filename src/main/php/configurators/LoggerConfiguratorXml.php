@@ -44,18 +44,18 @@
  * @since 0.4 
  */
 class LoggerConfiguratorXml implements LoggerConfigurator {
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE = 1000;
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE = 1010;
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE = 1020;
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE = 1030;
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE = 1040;
+	const APPENDER_STATE = 1000;
+	const LAYOUT_STATE = 1010;
+	const ROOT_STATE = 1020;
+	const LOGGER_STATE = 1030;
+	const FILTER_STATE = 1040;
 	
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_DEFAULT_FILENAME = './log4php.xml';
+	const DEFAULT_FILENAME = './log4php.xml';
 	
 	/**
 	 * @var string the default configuration document
 	 */
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_DEFAULT_CONFIGURATION = 
+	const DEFAULT_CONFIGURATION = 
 	'<?xml version="1.0" ?>
 	<log4php:configuration threshold="all">
 	    <appender name="A1" class="LoggerAppenderEcho">
@@ -70,7 +70,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
 	/**
 	 * @var string the elements namespace
 	 */
-	const LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS = 'HTTP://LOGGING.APACHE.ORG/LOG4PHP/'; 
+	const XMLNS = 'HTTP://LOGGING.APACHE.ORG/LOG4PHP/'; 
 
     /**
      * @var LoggerHierarchy
@@ -161,7 +161,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      */
     function doConfigureDefault(&$repository)
     {
-        return $this->doConfigureByString(self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_DEFAULT_CONFIGURATION, $repository);
+        return $this->doConfigureByString(self::DEFAULT_CONFIGURATION, $repository);
     }
     
     /**
@@ -201,7 +201,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
         switch ($tag) {
         
             case 'CONFIGURATION' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':CONFIGURATION':
+            case self::XMLNS.':CONFIGURATION':
             
                 if (isset($attribs['THRESHOLD'])) {
                 
@@ -225,7 +225,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
                 
             case 'APPENDER' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER':
+            case self::XMLNS.':APPENDER':
             
                 unset($this->appender);
                 $this->appender = null;
@@ -234,21 +234,21 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 $class = $this->subst(@$attribs['CLASS']);
                 
                 $this->appender = LoggerAppender::singleton($name, $class);
-                $this->state[] = self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE;
+                $this->state[] = self::APPENDER_STATE;
                 break;
                 
             case 'APPENDER_REF' :
             case 'APPENDER-REF' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER_REF':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER-REF':
+            case self::XMLNS.':APPENDER_REF':
+            case self::XMLNS.':APPENDER-REF':
                 if (isset($attribs['REF']) and !empty($attribs['REF'])) {
                     $appenderName = $this->subst($attribs['REF']);
                     
                     $appender = LoggerAppender::singleton($appenderName);
                     if ($appender !== null) {
                         switch (end($this->state)) {
-                            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE:
-                            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE:                
+                            case self::LOGGER_STATE:
+                            case self::ROOT_STATE:                
                                 $this->logger->addAppender($appender);
                                 break;
                         }
@@ -257,26 +257,26 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
                 
             case 'FILTER' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':FILTER':
+            case self::XMLNS.':FILTER':
                 unset($this->filter);
                 $this->filter = null;
 
                 $filterName = basename($this->subst(@$attribs['CLASS']));
                 if (!empty($filterName)) {
                     $this->filter = new $filterName();
-                    $this->state[] = self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE;
+                    $this->state[] = self::FILTER_STATE;
                 } 
                 break;
                 
             case 'LAYOUT':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LAYOUT':
+            case self::XMLNS.':LAYOUT':
                 $class = @$attribs['CLASS'];
                 $this->layout = LoggerReflectionUtils::createObject($this->subst($class));
-                $this->state[] = self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE;
+                $this->state[] = self::LAYOUT_STATE;
                 break;
             
             case 'LOGGER':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LOGGER':
+            case self::XMLNS.':LOGGER':
                 // $this->logger is assigned by reference.
                 // Only '$this->logger=null;' destroys referenced object
                 unset($this->logger);
@@ -315,13 +315,13 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                         $this->logger->setAdditivity($additivity);
                     }
                 } 
-                $this->state[] = self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE;;
+                $this->state[] = self::LOGGER_STATE;;
                 break;
             
             case 'LEVEL':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LEVEL':
+            case self::XMLNS.':LEVEL':
             case 'PRIORITY':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':PRIORITY':
+            case self::XMLNS.':PRIORITY':
             
                 if (!isset($attribs['VALUE'])) {
                     // LoggerDOMConfigurator::tagOpen() LEVEL value not set
@@ -334,7 +334,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 }
         
                 switch (end($this->state)) {
-                    case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE:
+                    case self::ROOT_STATE:
                         $this->logger->setLevel(
                             LoggerOptionConverter::toLevel(
                                 $this->subst($attribs['VALUE']), 
@@ -342,7 +342,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                             )
                         );
                         break;
-                    case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_LOGGER_STATE:
+                    case self::LOGGER_STATE:
                         $this->logger->setLevel(
                             LoggerOptionConverter::toLevel(
                                 $this->subst($attribs['VALUE']), 
@@ -356,7 +356,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
             
             case 'PARAM':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':PARAM':
+            case self::XMLNS.':PARAM':
                 if (!isset($attribs['NAME'])) {
                     // LoggerDOMConfigurator::tagOpen() PARAM attribute 'name' not defined.
                     break;
@@ -367,17 +367,17 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 }
                     
                 switch (end($this->state)) {
-                    case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_APPENDER_STATE:
+                    case self::APPENDER_STATE:
                         if ($this->appender !== null) {
                             LoggerReflectionUtils::setter($this->appender, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
                         }
                         break;
-                    case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_LAYOUT_STATE:
+                    case self::LAYOUT_STATE:
                         if ($this->layout !== null) {
                             LoggerReflectionUtils::setter($this->layout, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));                
                         }
                         break;
-                    case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_FILTER_STATE:
+                    case self::FILTER_STATE:
                         if ($this->filter !== null) {
                             LoggerReflectionUtils::setter($this->filter, $this->subst($attribs['NAME']), $this->subst($attribs['VALUE']));
                         }
@@ -388,7 +388,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
             
             case 'RENDERER':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':RENDERER':
+            case self::XMLNS.':RENDERER':
 
                 $renderedClass   = $this->subst(@$attribs['RENDEREDCLASS']);
                 $renderingClass  = $this->subst(@$attribs['RENDERINGCLASS']);
@@ -404,9 +404,9 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
             
             case 'ROOT':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
+            case self::XMLNS.':ROOT':
                 $this->logger = LoggerManager::getRootLogger();
-                $this->state[] = self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_ROOT_STATE;
+                $this->state[] = self::ROOT_STATE;
                 break;
         }
     }
@@ -421,11 +421,11 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
         switch ($tag) {
         
             case 'CONFIGURATION' : 
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':CONFIGURATION':
+            case self::XMLNS.':CONFIGURATION':
                 break;
                 
             case 'APPENDER' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER':
+            case self::XMLNS.':APPENDER':
                 if ($this->appender !== null) {
                     if ($this->appender->requiresLayout() and $this->appender->getLayout() === null) {
                         $appenderName = $this->appender->getName();
@@ -437,7 +437,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
                 
             case 'FILTER' :
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':FILTER':
+            case self::XMLNS.':FILTER':
                 if ($this->filter !== null) {
                     $this->filter->activateOptions();
                     $this->appender->addFilter($this->filter);
@@ -447,7 +447,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
                 
             case 'LAYOUT':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LAYOUT':
+            case self::XMLNS.':LAYOUT':
                 if ($this->appender !== null and $this->layout !== null and $this->appender->requiresLayout()) {
                     $this->layout->activateOptions();
                     $this->appender->setLayout($this->layout);
@@ -457,12 +457,12 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 break;
             
             case 'LOGGER':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':LOGGER':
+            case self::XMLNS.':LOGGER':
                 array_pop($this->state);
                 break;
             
             case 'ROOT':
-            case self::LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':ROOT':
+            case self::XMLNS.':ROOT':
                 array_pop($this->state);
                 break;
         }
