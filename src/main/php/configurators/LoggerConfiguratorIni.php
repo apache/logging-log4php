@@ -20,25 +20,6 @@
  * @subpackage configurators
  */
 
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX', "log4php.category.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX', "log4php.logger.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX', "log4php.factory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX', "log4php.additivity.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_CATEGORY_PREFIX', "log4php.rootCategory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX', "log4php.rootLogger");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_APPENDER_PREFIX', "log4php.appender.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX', "log4php.renderer.");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX', "log4php.threshold");
-
-/** 
- * Key for specifying the {@link LoggerFactory}.  
- */
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY', "log4php.loggerFactory");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY', "log4php.debug");
-define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME', "root");
-
-
-
 /**
  * Allows the configuration of log4php from an external file.
  * 
@@ -88,11 +69,26 @@ define('LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME', "root");
  * @since 0.5 
  */
 class LoggerConfiguratorIni implements LoggerConfigurator {
-
+ 	const CATEGORY_PREFIX = "log4php.category.";
+ 	const LOGGER_PREFIX = "log4php.logger.";
+	const FACTORY_PREFIX = "log4php.factory";
+	const ADDITIVITY_PREFIX = "log4php.additivity.";
+	const ROOT_CATEGORY_PREFIX = "log4php.rootCategory";
+	const ROOT_LOGGER_PREFIX = "log4php.rootLogger";
+	const APPENDER_PREFIX = "log4php.appender.";
+	const RENDERER_PREFIX = "log4php.renderer.";
+	const THRESHOLD_PREFIX = "log4php.threshold";
+	
+	/** 
+	 * Key for specifying the {@link LoggerFactory}.  
+	 */
+	const LOGGER_FACTORY_KEY = "log4php.loggerFactory";
+	const LOGGER_DEBUG_KEY = "log4php.debug";
+	const INTERNAL_ROOT_NAME = "root";
 	/**
 	 * @var LoggerFactory
 	 */
-	var $loggerFactory = null;
+	private $loggerFactory = null;
 	
 	/**
 	 * Constructor
@@ -331,7 +327,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	function doConfigureProperties($properties, &$hierarchy) {
 		/*
-		$value = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_DEBUG_KEY];
+		$value = @$properties[LOGGER_DEBUG_KEY];
 		
 		if(!empty($value)) {
 			LoggerLog::internalDebugging(LoggerOptionConverter::toBoolean($value, LoggerLog::internalDebugging()));
@@ -339,7 +335,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		*/
 		
 		
-		$thresholdStr = @$properties[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_THRESHOLD_PREFIX];
+		$thresholdStr = @$properties[self::THRESHOLD_PREFIX];
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
 		
 		$this->configureRootCategory($properties, $hierarchy);
@@ -356,7 +352,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	/**
 	 * Check the provided <b>Properties</b> object for a
 	 * {@link LoggerFactory} entry specified by 
-	 * {@link LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY}.
+	 * {@link LOGGER_FACTORY_KEY}.
 	 *	
 	 * If such an entry exists, an attempt is made to create an instance using 
 	 * the default constructor.	 
@@ -367,7 +363,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param array $props array of properties
 	 */
 	function configureLoggerFactory($props) {
-		$factoryFqcn = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_FACTORY_KEY];
+		$factoryFqcn = @$props[self::LOGGER_FACTORY_KEY];
 		if(!empty($factoryFqcn)) {
 			$factoryClassName = basename($factoryFqcn);
 			
@@ -378,7 +374,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				$loggerFactory = $this->loggerFactory;
 			}
 
-			LoggerReflectionUtils::setPropertiesByObject($loggerFactory, $props, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_FACTORY_PREFIX . ".");
+			LoggerReflectionUtils::setPropertiesByObject($loggerFactory, $props, self::FACTORY_PREFIX . ".");
 		}
 	}
 	
@@ -387,12 +383,12 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param LoggerHierarchy &$hierarchy
 	 */
 	function configureRootCategory($props, &$hierarchy) {
-		$effectivePrefix = LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX;
-		$value = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_LOGGER_PREFIX];
+		$effectivePrefix = self::ROOT_LOGGER_PREFIX;
+		$value = @$props[self::ROOT_LOGGER_PREFIX];
 
 		if(empty($value)) {
-			$value = @$props[LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_CATEGORY_PREFIX];
-			$effectivePrefix = LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ROOT_CATEGORY_PREFIX;
+			$value = @$props[self::ROOT_CATEGORY_PREFIX];
+			$effectivePrefix = self::ROOT_CATEGORY_PREFIX;
 		}
 
 		if(empty($value)) {
@@ -407,7 +403,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				$props, 
 				$root, 
 				$effectivePrefix, 
-				LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME, 
+				self::INTERNAL_ROOT_NAME, 
 				$value
 			);
 			// }
@@ -422,12 +418,12 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	function parseCatsAndRenderers($props, &$hierarchy) {
 		while(list($key,$value) = each($props)) {
-			if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0 or 
-				strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
-				if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0) {
-					$loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX));
-				} else if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
-					$loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX));
+			if(strpos($key, self::CATEGORY_PREFIX) === 0 or 
+				strpos($key, self::LOGGER_PREFIX) === 0) {
+				if(strpos($key, self::CATEGORY_PREFIX) === 0) {
+					$loggerName = substr($key, strlen(self::CATEGORY_PREFIX));
+				} else if(strpos($key, self::LOGGER_PREFIX) === 0) {
+					$loggerName = substr($key, strlen(self::LOGGER_PREFIX));
 				}
 				
 				$logger = $hierarchy->getLogger($loggerName, $this->loggerFactory);
@@ -435,8 +431,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 					$this->parseCategory($props, $logger, $key, $loggerName, $value);
 					$this->parseAdditivityForLogger($props, $logger, $loggerName);
 					// }
-			} else if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX) === 0) {
-				$renderedClass = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_RENDERER_PREFIX));
+			} else if(strpos($key, self::RENDERER_PREFIX) === 0) {
+				$renderedClass = substr($key, strlen(self::RENDERER_PREFIX));
 				$renderingClass = $value;
 				if(method_exists($hierarchy, 'addrenderer')) { // ?
 					LoggerRendererMap::addRenderer($hierarchy, $renderedClass, $renderingClass);
@@ -454,7 +450,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	function parseAdditivityForLogger($props, &$cat, $loggerName) {
 		$value = LoggerOptionConverter::findAndSubst(
-					LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_ADDITIVITY_PREFIX . $loggerName,
+					self::ADDITIVITY_PREFIX . $loggerName,
 										$props
 				 );
 		
@@ -494,7 +490,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			// null. We also check that the user has not specified inherited for the
 			// root category.
 			if('INHERITED' == strtoupper($levelStr) || 'NULL' == strtoupper($levelStr)) {
-				if($loggerName == LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_INTERNAL_ROOT_NAME) {
+				if($loggerName == self::INTERNAL_ROOT_NAME) {
 //					TODO: throw exception?
 //					LoggerLog::warn(
 //						"LoggerPropertyConfigurator::parseCategory() ".
@@ -534,7 +530,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			return $appender;
 		}
 		// Appender was not previously initialized.
-		$prefix = LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_APPENDER_PREFIX . $appenderName;
+		$prefix = self::APPENDER_PREFIX . $appenderName;
 		$layoutPrefix = $prefix . ".layout";
 		$appenderClass = @$props[$prefix];
 		if(!empty($appenderClass)) {
