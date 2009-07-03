@@ -19,18 +19,11 @@
  * @package log4php
  */
 
-define('LOGGER_NDC_HT_SIZE', 7);
 
 /**
  * This is the global repository of NDC stack
  */
 $GLOBALS['log4php.LoggerNDC.ht'] = array();
-
-/**
- * This is the max depth of NDC stack
- */
-$GLOBALS['log4php.LoggerNDC.maxDepth'] = LOGGER_NDC_HT_SIZE;
-
 
 /**
  * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -89,7 +82,7 @@ $GLOBALS['log4php.LoggerNDC.maxDepth'] = LOGGER_NDC_HT_SIZE;
  * @since 0.3
  */
 class LoggerNDC {
-
+	const HT_SIZE = 7;
 	/**
 	 * Clear any nested diagnostic information if any. This method is
 	 * useful in cases where the same thread can be potentially used
@@ -200,11 +193,10 @@ class LoggerNDC {
 	 */
 	public static function setMaxDepth($maxDepth) {
 		$maxDepth = (int)$maxDepth;
-		if($maxDepth <= LOGGER_NDC_HT_SIZE) {
+		if($maxDepth <= self::HT_SIZE) {
 			if(LoggerNDC::getDepth() > $maxDepth) {
 				$GLOBALS['log4php.LoggerNDC.ht'] = array_slice($GLOBALS['log4php.LoggerNDC.ht'], $maxDepth);
 			}
-			$GLOBALS['log4php.LoggerNDC.maxDepth'] = $maxDepth;			   
 		}
 	}
 
