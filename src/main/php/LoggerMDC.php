@@ -19,8 +19,6 @@
  * @package log4php
  */
 
-define('LOGGER_MDC_HT_SIZE', 7);
-
 /**
  * This is the global repository of user mappings
  */
@@ -42,6 +40,7 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  * @package log4php
  */
 class LoggerMDC {
+  	const HT_SIZE = 7;
   
 	/**
 	 * Put a context value as identified with the key parameter into the current thread's
@@ -50,14 +49,14 @@ class LoggerMDC {
 	 * <p>If the current thread does not have a context map it is
 	 *	created as a side effect.</p>
 	 *
-	 * <p>Note that you cannot put more than {@link LOGGER_MDC_HT_SIZE} keys.</p>
+	 * <p>Note that you cannot put more than {@link self::HT_SIZE} keys.</p>
 	 *
 	 * @param string $key the key
 	 * @param string $value the value
 	 * @static
 	 */
 	public static function put($key, $value) {
-		if(count($GLOBALS['log4php.LoggerMDC.ht']) < LOGGER_MDC_HT_SIZE) {
+		if(count($GLOBALS['log4php.LoggerMDC.ht']) < self::HT_SIZE) {
 			$GLOBALS['log4php.LoggerMDC.ht'][$key] = $value;
 		}
 	}
