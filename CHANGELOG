@@ -26,6 +26,7 @@ Version 2.0 to be released
 - Enh #29: Load classes through autoload instead of explicitly include them (Knut Urdalen)
 - Enh #30: Implement LoggerAppenderPDO (Christian Grobmeier)
 - Enh #31: Removing unnecessary use of LOG4PHP_DIR (Knut Urdalen)
+- Enh #32: Refactor from using define to class contants (Knut Urdalen, Christian Grobmeier)
 - Enh #34: Remove all internal debugging (Christian Grobmeier)
 - Enh #35: Replace LOG4PHP_LINE_SEP with PHP_EOL (Knut Urdalen)
 - Enh #37: removed LoggerAppenderDB in favour to LoggerAppenderPDO (Christian Grobmeier)
