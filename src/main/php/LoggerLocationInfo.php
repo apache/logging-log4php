@@ -21,13 +21,6 @@
  */
 
 /**
- * When location information is not available the constant
- * <i>NA</i> is returned. Current value of this string
- * constant is <b>?</b>.  
- */
-define('LOG4PHP_LOGGER_LOCATION_INFO_NA', 'NA');
-
-/**
  * The internal representation of caller location information.
  *
  * @version $Revision$
@@ -36,7 +29,13 @@ define('LOG4PHP_LOGGER_LOCATION_INFO_NA', 'NA');
  * @since 0.3
  */
 class LoggerLocationInfo {
-
+	/**
+	 * When location information is not available the constant
+	 * <i>NA</i> is returned. Current value of this string
+	 * constant is <b>?</b>.  
+	 */
+	const LOCATION_INFO_NA = 'NA';
+	
 	/**
 	* @var string Caller's line number.
 	*/
@@ -78,7 +77,7 @@ class LoggerLocationInfo {
 	}
 
 	public function getClassName() {
-		return ($this->className === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->className; 
+		return ($this->className === null) ? self::LOCATION_INFO_NA : $this->className; 
 	}
 
 	/**
@@ -86,7 +85,7 @@ class LoggerLocationInfo {
 	 *	<p>This information is not always available.
 	 */
 	public function getFileName() {
-		return ($this->fileName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->fileName; 
+		return ($this->fileName === null) ? self::LOCATION_INFO_NA : $this->fileName; 
 	}
 
 	/**
@@ -94,21 +93,21 @@ class LoggerLocationInfo {
 	 *	<p>This information is not always available.
 	 */
 	public function getLineNumber() {
-		return ($this->lineNumber === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->lineNumber; 
+		return ($this->lineNumber === null) ? self::LOCATION_INFO_NA : $this->lineNumber; 
 	}
 
 	/**
 	 *	Returns the method name of the caller.
 	 */
 	public function getMethodName() {
-		return ($this->methodName === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->methodName; 
+		return ($this->methodName === null) ? self::LOCATION_INFO_NA : $this->methodName; 
 	}
 
 	/**
 	 *	Returns the full information of the caller.
 	 */
 	public function getFullInfo() {
-		return ($this->fullInfo === null) ? LOG4PHP_LOGGER_LOCATION_INFO_NA : $this->fullInfo;
+		return ($this->fullInfo === null) ? self::LOCATION_INFO_NA : $this->fullInfo;
 	}
 
 }
