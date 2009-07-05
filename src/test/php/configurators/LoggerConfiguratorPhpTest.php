@@ -37,11 +37,12 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
 		LoggerConfiguratorPhp::configure('configurators/test1.php');
 		$hierarchy = LoggerManager::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
-// TODO: wrong level in phpUnderControl?		
-//		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
+		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
 		self::assertTrue($appender instanceof LoggerAppenderEcho);
 		$layout = $appender->getLayout();
 		self::assertTrue($layout instanceof LoggerLayoutSimple);
+		$logger = $hierarchy->getLogger('mylogger');
+		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 	}
 }
