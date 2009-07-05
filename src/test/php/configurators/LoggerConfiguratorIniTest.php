@@ -44,6 +44,7 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue($layout instanceof LoggerLayoutSimple);
 		
 		$logger = $hierarchy->getLogger('mylogger');
+		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 		self::assertFalse($logger->getAdditivity());
 		
 		$logger2 = $hierarchy->getLogger('mylogger');
