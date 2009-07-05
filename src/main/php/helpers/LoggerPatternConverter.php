@@ -52,18 +52,18 @@ class LoggerPatternConverter {
 	/**
 	 * @var LoggerPatternConverter next converter in converter chain
 	 */
-	var $next = null;
+	public $next = null;
 	
-	var $min = -1;
-	var $max = 0x7FFFFFFF;
-	var $leftAlign = false;
+	public $min = -1;
+	public $max = 0x7FFFFFFF;
+	public $leftAlign = false;
 
 	/**
 	 * Constructor 
 	 *
 	 * @param LoggerFormattingInfo $fi
 	 */
-	function LoggerPatternConverter($fi = null) {  
+	public function __construct($fi = null) {  
 		if($fi !== null) {
 			$this->min = $fi->min;
 			$this->max = $fi->max;
@@ -77,7 +77,7 @@ class LoggerPatternConverter {
 	 *
 	 * @param LoggerLoggingEvent $event
 	 */
-	function convert($event) {}
+	public function convert($event) {}
 
 	/**
 	 * A template method for formatting in a converter specific way.
@@ -85,7 +85,7 @@ class LoggerPatternConverter {
 	 * @param string &$sbuf string buffer
 	 * @param LoggerLoggingEvent $e
 	 */
-	function format(&$sbuf, $e) {
+	public function format(&$sbuf, $e) {
 		$s = $this->convert($e);
 		
 		if($s == null or empty($s)) {
@@ -120,7 +120,7 @@ class LoggerPatternConverter {
 	 *
 	 * @todo reimplement using PHP string functions
 	 */
-	function spacePad(&$sbuf, $length) {
+	public function spacePad(&$sbuf, $length) {
 		while($length >= 32) {
 		  $sbuf .= $GLOBALS['log4php.LoggerPatternConverter.spaces'][5];
 		  $length -= 32;

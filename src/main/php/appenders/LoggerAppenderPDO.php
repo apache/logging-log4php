@@ -57,7 +57,7 @@ class LoggerAppenderPDO extends LoggerAppender {
      * This apender doesn't require a layout.
      * @param string $name appender name
      */
-    function __construct($name) {
+    public function __construct($name) {
         parent::__construct($name);
         $this->requiresLayout = false;
     }
@@ -148,7 +148,7 @@ class LoggerAppenderPDO extends LoggerAppender {
      * Sets the username for this connection. 
      * Defaults to ''
      */
-    function setUser($user) {
+    public function setUser($user) {
         $this->user = $user;
     }
     

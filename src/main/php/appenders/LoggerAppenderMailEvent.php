@@ -40,32 +40,32 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	/**
 	 * @var string 'from' field
 	 */
-	var $from = null;
+	private $from = null;
 
 	/**
 	 * @var integer 'from' field
 	 */
-	var $port = 25;
+	private $port = 25;
 
 	/**
 	 * @var string hostname. 
 	 */
-	var $smtpHost = null;
+	private $smtpHost = null;
 
 	/**
 	 * @var string 'subject' field
 	 */
-	var $subject = '';
+	private $subject = '';
 
 	/**
 	 * @var string 'to' field
 	 */
-	var $to = null;
+	private $to = null;
 	
 	/**
 	 * @access private
 	 */
-	var $requiresLayout = true;
+	private $requiresLayout = true;
 
 	/**
 	 * Constructor.
@@ -76,70 +76,35 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		parent::__construct($name);
 	}
 
-	function activateOptions() {
+	public function activateOptions() {
 		$this->closed = false;
 	}
 	
-	function close() {
+	public function close() {
 		$this->closed = true;
 	}
 
-	/**
-	 * @return string
-	 */
-	function getFrom() {
-		return $this->from;
-	}
-	
-	/**
-	 * @return integer
-	 */
-	function getPort() {
-		return $this->port;
-	}
-	
-	/**
-	 * @return string
-	 */
-	function getSmtpHost() {
-		return $this->smtpHost;
-	}
-	
-	/**
-	 * @return string
-	 */
-	function getSubject() {
-		return $this->subject;
-	}
-
-	/**
-	 * @return string
-	 */
-	function getTo() {
-		return $this->to;
-	}
-
-	function setFrom($from) {
+	public function setFrom($from) {
 		$this->from = $from;
 	}
 	
-	function setPort($port) {
+	public function setPort($port) {
 		$this->port = (int)$port;
 	}
 	
-	function setSmtpHost($smtpHost) {
+	public function setSmtpHost($smtpHost) {
 		$this->smtpHost = $smtpHost;
 	}
 	
-	function setSubject($subject) {
+	public function setSubject($subject) {
 		$this->subject = $subject;
 	}
 	
-	function setTo($to) {
+	public function setTo($to) {
 		$this->to = $to;
 	}
 
-	function append($event) {
+	public function append($event) {
 		$from = $this->getFrom();
 		$to = $this->getTo();
 		if(empty($from) or empty($to)) {

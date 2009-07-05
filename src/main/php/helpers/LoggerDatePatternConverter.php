@@ -29,7 +29,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var string
 	 */
-	var $df;
+	private $df;
 	
 	/**
 	 * Constructor
@@ -37,8 +37,8 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
 	 * @param string $formattingInfo
 	 * @param string $df
 	 */
-	function LoggerDatePatternConverter($formattingInfo, $df) {
-		$this->LoggerPatternConverter($formattingInfo);
+	public function __construct($formattingInfo, $df) {
+		parent::__construct($formattingInfo);
 		$this->df = $df;
 	}
 
@@ -46,7 +46,7 @@ class LoggerDatePatternConverter extends LoggerPatternConverter {
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function convert($event) {
+	public function convert($event) {
 		$timeStamp = $event->getTimeStamp();
 		$usecs = round(($timeStamp - (int)$timeStamp) * 1000);
 		$this->df = preg_replace('/((?<!\\\\)(?:\\\\{2})*)u/', '${1}' . sprintf('%03d', $usecs), $this->df);

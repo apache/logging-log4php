@@ -35,23 +35,23 @@ class LoggerAppenderMail extends LoggerAppender {
 	/**
 	 * @var string 'from' field
 	 */
-	var $from = null;
+	private $from = null;
 
 	/**
 	 * @var string 'subject' field
 	 */
-	var $subject = 'Log4php Report';
+	private $subject = 'Log4php Report';
 	
 	/**
 	 * @var string 'to' field
 	 */
-	var $to = null;
+	private $to = null;
 
 	/**
 	 * @var string used to create mail body
 	 * @access private
 	 */
-	var $body = '';
+	private $body = '';
 	
 	/**
 	 * Constructor.
@@ -82,40 +82,19 @@ class LoggerAppenderMail extends LoggerAppender {
 		$this->closed = true;
 	}
 	
-	/**
-	 * @return string
-	 */
-	function getFrom() {
-		return $this->from;
-	}
-	
-	/**
-	 * @return string
-	 */
-	function getSubject() {
-		return $this->subject;
-	}
-
-	/**
-	 * @return string
-	 */
-	function getTo() {
-		return $this->to;
-	}
-	
-	function setSubject($subject) {
+	public function setSubject($subject) {
 		$this->subject = $subject;
 	}
 	
-	function setTo($to) {
+	public function setTo($to) {
 		$this->to = $to;
 	}
 
-	function setFrom($from) {
+	public function setFrom($from) {
 		$this->from = $from;
 	}  
 
-	function append($event) {
+	public function append($event) {
 		if($this->layout !== null) {
 			$this->body .= $this->layout->format($event);
 		}

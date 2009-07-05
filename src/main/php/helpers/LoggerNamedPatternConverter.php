@@ -30,7 +30,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var integer
 	 */
-	var $precision;
+	private $precision;
 
 	/**
 	 * Constructor
@@ -38,8 +38,8 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 	 * @param string $formattingInfo
 	 * @param integer $precision
 	 */
-	function LoggerNamedPatternConverter($formattingInfo, $precision) {
-	  $this->LoggerPatternConverter($formattingInfo);
+	public function __construct($formattingInfo, $precision) {
+	  parent::__construct($formattingInfo);
 	  $this->precision =  $precision;
 	}
 
@@ -48,7 +48,7 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 	 * @return string
 	 * @abstract
 	 */
-	function getFullyQualifiedName($event) {
+	public function getFullyQualifiedName($event) {
 		// abstract
 		return;
 	}

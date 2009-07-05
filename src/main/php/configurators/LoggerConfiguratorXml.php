@@ -75,32 +75,32 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
     /**
      * @var LoggerHierarchy
      */
-    var $repository;
+    private $repository;
     
     /**
      * @var array state stack 
      */
-    var $state;
+    private $state;
 
     /**
      * @var Logger parsed Logger  
      */
-    var $logger;
+    private $logger;
     
     /**
      * @var LoggerAppender parsed LoggerAppender 
      */
-    var $appender;
+    private $appender;
     
     /**
      * @var LoggerFilter parsed LoggerFilter 
      */
-    var $filter;
+    private $filter;
     
     /**
      * @var LoggerLayout parsed LoggerLayout 
      */
-    var $layout;
+    private $layout;
     
     /**
      * Constructor
@@ -137,7 +137,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @param string $url
      * @param LoggerHierarchy &$repository
      */
-    function doConfigure($url = '', &$repository)
+    private function doConfigure($url = '', &$repository)
     {
         $xmlData = '';
         if (!empty($url))
@@ -151,7 +151,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @param string $xmlData
      * @param LoggerHierarchy &$repository
      */
-    function doConfigureByString($xmlData, &$repository)
+    private function doConfigureByString($xmlData, &$repository)
     {
         return $this->parse($xmlData, $repository);
     }
@@ -159,7 +159,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
     /**
      * @param LoggerHierarchy &$repository
      */
-    function doConfigureDefault(&$repository)
+    private function doConfigureDefault(&$repository)
     {
         return $this->doConfigureByString(self::DEFAULT_CONFIGURATION, $repository);
     }
@@ -167,7 +167,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
     /**
      * @param string $xmlData
      */
-    function parse($xmlData, &$repository)
+    private function parse($xmlData, &$repository)
     {
         // LoggerManager::resetConfiguration();
         $this->repository =& $repository;
@@ -196,7 +196,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      *
      * @todo In 'LOGGER' case find a better way to detect 'getLogger()' method
      */
-    function tagOpen($parser, $tag, $attribs)
+    private function tagOpen($parser, $tag, $attribs)
     {
         switch ($tag) {
         
@@ -406,7 +406,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @param mixed $parser
      * @param string $tag
      */
-    function tagClose($parser, $tag)
+    private function tagClose($parser, $tag)
     {
         switch ($tag) {
         
@@ -458,7 +458,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
         }
     }
     
-    function subst($value)
+    private function subst($value)
     {
         return LoggerOptionConverter::substVars($value);
     }

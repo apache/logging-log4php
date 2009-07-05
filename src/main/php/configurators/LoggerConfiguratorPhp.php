@@ -65,7 +65,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 		return $configurator->doConfigure($url, $hierarchy);
 	}
 	
-	public function doConfigure($url, &$hierarchy) {
+	private function doConfigure($url, &$hierarchy) {
 		
 		$config = require $url;
 		

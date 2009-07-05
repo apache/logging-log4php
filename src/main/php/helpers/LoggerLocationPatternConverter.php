@@ -29,7 +29,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var integer
 	 */
-	var $type;
+	private $type;
 
 	/**
 	 * Constructor
@@ -37,8 +37,8 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 	 * @param string $formattingInfo
 	 * @param integer $type
 	 */
-	function LoggerLocationPatternConverter($formattingInfo, $type) {
-	  $this->LoggerPatternConverter($formattingInfo);
+	public function __construct($formattingInfo, $type) {
+	  parent::__construct($formattingInfo);
 	  $this->type = $type;
 	}
 
@@ -46,7 +46,7 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function convert($event) {
+	public function convert($event) {
 		$locationInfo = $event->getLocationInformation();
 		switch($this->type) {
 			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER:

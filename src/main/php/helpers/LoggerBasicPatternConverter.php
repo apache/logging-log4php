@@ -29,7 +29,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var integer
 	 */
-	var $type;
+	private $type;
 
 	/**
 	 * Constructor
@@ -37,8 +37,8 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 	 * @param string $formattingInfo
 	 * @param integer $type
 	 */
-	function LoggerBasicPatternConverter($formattingInfo, $type) {
-	  $this->LoggerPatternConverter($formattingInfo);
+	public function __construct($formattingInfo, $type) {
+	  parent::__construct($formattingInfo);
 	  $this->type = $type;
 	}
 
@@ -46,7 +46,7 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function convert($event) {
+	public function convert($event) {
 		switch($this->type) {
 			case LoggerPatternParser::LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER:
 				$timeStamp = $event->getTimeStamp();
@@ -69,6 +69,5 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 			default: 
 				return '';
 		}
-		echo "OK";
 	}
 }

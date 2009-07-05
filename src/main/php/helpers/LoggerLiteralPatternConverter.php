@@ -29,14 +29,14 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var string
 	 */
-	var $literal;
+	private $literal;
 
 	/**
 	 * Constructor
 	 *
 	 * @param string $value
 	 */
-	function LoggerLiteralPatternConverter($value) {
+	public function __construct($value) {
 		$this->literal = $value;
 	}
 
@@ -44,7 +44,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
 	 * @param string &$sbuf
 	 * @param LoggerLoggingEvent $event
 	 */
-	function format(&$sbuf, $event) {
+	public function format(&$sbuf, $event) {
 		$sbuf .= $this->literal;
 	}
 
@@ -52,7 +52,7 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function convert($event) {
+	public function convert($event) {
 		return $this->literal;
 	}
 }

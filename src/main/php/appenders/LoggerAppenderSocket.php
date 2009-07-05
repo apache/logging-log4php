@@ -36,46 +36,46 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 * @var mixed socket connection resource
 	 * @access private
 	 */
-	var $sp = false;
+	private $sp = false;
 	
 	/**
 	 * Target host. On how to define remote hostaname see 
 	 * {@link PHP_MANUAL#fsockopen}
 	 * @var string 
 	 */
-	var $remoteHost = '';
+	private $remoteHost = '';
 	
 	/**
 	 * @var integer the network port.
 	 */
-	var $port = 4446;
+	private $port = 4446;
 	
 	/**
 	 * @var boolean get event's location info.
 	 */
-	var $locationInfo = false;
+	private $locationInfo = false;
 	
 	/**
 	 * @var integer connection timeout
 	 */
-	var $timeout = 30;
+	private $timeout = 30;
 	
 	/**
 	 * @var boolean output events via {@link LoggerXmlLayout}
 	 */
-	var $useXml = false;
+	private $useXml = false;
 	
 	/**
 	 * @var boolean forward this option to {@link LoggerXmlLayout}. 
 	 *				Ignored if {@link $useXml} is <i>false</i>.
 	 */
-	var $log4jNamespace = false;
+	private $log4jNamespace = false;
 
 	/**
 	 * @var LoggerXmlLayout
 	 * @access private
 	 */
-	var $xmlLayout = null;
+	private $xmlLayout = null;
 	
 	/**
 	 * Create a socket connection using defined parameters

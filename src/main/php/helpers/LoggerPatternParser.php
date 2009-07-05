@@ -60,37 +60,37 @@ class LoggerPatternParser {
 	const LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ABSOLUTE = 'H:i:s';
 	const LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE = 'd M Y H:i:s,u';
 
-	var $state;
-	var $currentLiteral;
-	var $patternLength;
-	var $i;
+	private $state;
+	private $currentLiteral;
+	private $patternLength;
+	private $i;
 	
 	/**
 	 * @var LoggerPatternConverter
 	 */
-	var $head = null;
+	private $head = null;
 	 
 	/**
 	 * @var LoggerPatternConverter
 	 */
-	var $tail = null;
+	private $tail = null;
 	
 	/**
 	 * @var LoggerFormattingInfo
 	 */
-	var $formattingInfo;
+	private $formattingInfo;
 	
 	/**
 	 * @var string pattern to parse
 	 */
-	var $pattern;
+	private $pattern;
 
 	/**
 	 * Constructor 
 	 *
 	 * @param string $pattern
 	 */
-	function LoggerPatternParser($pattern) {
+	public function __construct($pattern) {
 		$this->pattern = $pattern;
 		$this->patternLength =	strlen($pattern);
 		$this->formattingInfo = new LoggerFormattingInfo();
@@ -100,7 +100,7 @@ class LoggerPatternParser {
 	/**
 	 * @param LoggerPatternConverter $pc
 	 */
-	function addToList($pc) {
+	public function addToList($pc) {
 		if($this->head == null) {
 			$this->head = $pc;
 			$this->tail =& $this->head;
@@ -113,7 +113,7 @@ class LoggerPatternParser {
 	/**
 	 * @return string
 	 */
-	function extractOption() {
+	public function extractOption() {
 		if(($this->i < $this->patternLength) and ($this->pattern{$this->i} == '{')) {
 			$end = strpos($this->pattern, '}' , $this->i);
 			if($end !== false) {
@@ -129,7 +129,7 @@ class LoggerPatternParser {
 	 * The option is expected to be in decimal and positive. In case of
 	 * error, zero is returned.	 
 	 */
-	function extractPrecisionOption() {
+	public function extractPrecisionOption() {
 		$opt = $this->extractOption();
 		$r = 0;
 		if($opt !== null) {
@@ -143,7 +143,7 @@ class LoggerPatternParser {
 		return $r;
 	}
 
-	function parse() {
+	public function parse() {
 		$c = '';
 		$this->i = 0;
 		$this->currentLiteral = '';
@@ -243,7 +243,7 @@ class LoggerPatternParser {
 		return $this->head;
 	}
 
-	function finalizeConverter($c) {
+	public function finalizeConverter($c) {
 		$pc = null;
 		switch($c) {
 			case 'c':
@@ -334,7 +334,7 @@ class LoggerPatternParser {
 		$this->addConverter($pc);
 	}
 
-	function addConverter($pc) {
+	public function addConverter($pc) {
 		$this->currentLiteral = '';
 		// Add the pattern converter to the list.
 		$this->addToList($pc);

@@ -32,15 +32,15 @@ class LoggerClassNamePatternConverter extends LoggerNamedPatternConverter {
 	 * @param string $formattingInfo
 	 * @param integer $precision
 	 */
-	function LoggerClassNamePatternConverter($formattingInfo, $precision) {
-		$this->LoggerNamedPatternConverter($formattingInfo, $precision);
+	public function __construct($formattingInfo, $precision) {
+		parent::__construct($formattingInfo, $precision);
 	}
 
 	/**
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function getFullyQualifiedName($event) {
+	public function getFullyQualifiedName($event) {
 		return $event->fqcn;
 	}
 }

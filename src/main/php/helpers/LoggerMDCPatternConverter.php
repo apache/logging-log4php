@@ -29,7 +29,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @var string
 	 */
-	var $key;
+	private $key;
 
 	/**
 	 * Constructor
@@ -37,8 +37,8 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
 	 * @param string $formattingInfo
 	 * @param string $key
 	 */
-	function LoggerMDCPatternConverter($formattingInfo, $key) {
-		$this->LoggerPatternConverter($formattingInfo);
+	public function __construct($formattingInfo, $key) {
+		parent::__construct($formattingInfo);
 		$this->key = $key;
 	}
 
@@ -46,7 +46,7 @@ class LoggerMDCPatternConverter extends LoggerPatternConverter {
 	 * @param LoggerLoggingEvent $event
 	 * @return string
 	 */
-	function convert($event) {
+	public function convert($event) {
 		return $event->getMDC($this->key);
 	}
 }

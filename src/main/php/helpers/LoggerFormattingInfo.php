@@ -30,22 +30,22 @@
  */
 class LoggerFormattingInfo {
 
-	var $min = -1;
-	var $max = 0x7FFFFFFF;
-	var $leftAlign = false;
+	public $min = -1;
+	public $max = 0x7FFFFFFF;
+	public $leftAlign = false;
 
 	/**
 	 * Constructor
 	 */
-	function LoggerFormattingInfo() {}
+	public function __construct() {}
 	
-	function reset() {
+	public function reset() {
 		$this->min = -1;
 		$this->max = 0x7FFFFFFF;
 		$this->leftAlign = false;	  
 	}
 
-	function dump() {
+	public function dump() {
 		// TODO: other option to dump?
 		// LoggerLog::debug("LoggerFormattingInfo::dump() min={$this->min}, max={$this->max}, leftAlign={$this->leftAlign}");
 	}
