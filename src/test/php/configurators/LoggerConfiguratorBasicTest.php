@@ -42,32 +42,16 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testResetConfiguration() {
-		self::markTestIncomplete();
-                
-		$this->testConfigure();
-		//$root = LoggerManager::getRootLogger();
-		$hierarchy = LoggerHierarchy::singleton();
-		var_dump(count($hierarchy->getCurrentLoggers()));
+		$root = LoggerManager::getRootLogger();
+		$appender = $root->getAppender('A1');
+		self::assertType('LoggerAppenderConsole', $appender);
+		$layout = $appender->getLayout();
+		self::assertType('LoggerLayoutTTCC', $layout);
+
 		LoggerConfiguratorBasic::resetConfiguration();
-		var_dump(count($hierarchy->getCurrentLoggers()));
-        /*
-        $logger = LoggerManager::getLogger('A1');
-
-        $layout = $logger->getLayout();
-        var_dump($layout);
-        
-        var_dump($logger->getName());
-        */
-        //$appender = LoggerManager::getRootLogger()->getAppender('A1');
-        //var_dump($appender);   
+		$hierarchy = LoggerHierarchy::singleton();
+		
+		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
+		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
 	}
-
-	/*public function testRootLogger() {
-            $root = LoggerManager::getRootLogger();
-            $a = $root->getAppender('A1');
-            self::assertType('LoggerAppenderConsole', $a);
-            $l = $a->getLayout();
-            self::assertType('LoggerLayoutTTCC', $l);
-    }*/
-
 }
