@@ -212,16 +212,6 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                         )
                     );
                 }
-                /*
-                 * TODO: Remove due to LOG4PHP-34
-                if (isset($attribs['DEBUG'])) {
-                    $debug = LoggerOptionConverter::toBoolean($this->subst($attribs['DEBUG']), LoggerLog::internalDebugging());
-                    $this->repository->debug = $debug;
-                    LoggerLog::internalDebugging($debug);
-                    LoggerLog::debug("LoggerDOMConfigurator::tagOpen() LOG4PHP:CONFIGURATION. Internal Debug turned ".($debug ? 'on':'off'));
-                    
-                }
-                */
                 break;
                 
             case 'APPENDER' :
@@ -286,7 +276,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 if (!empty($loggerName)) {
                     $class = $this->subst(@$attribs['CLASS']);
                     if (empty($class)) {
-                        $this->logger =& $this->repository->getLogger($loggerName);
+                        $this->logger = $this->repository->getLogger($loggerName);
                     } else {
                         $className = basename($class);
                         if (!class_exists($className)) {
@@ -298,7 +288,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                         } else {
                         
                             if (in_array('getlogger', get_class_methods($className))) {
-                                $this->logger =& call_user_func(array($className, 'getlogger'), $loggerName);
+                                $this->logger = call_user_func(array($className, 'getlogger'), $loggerName);
                             } else {
                             	// TODO throw exception?
                             	/*

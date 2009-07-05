@@ -131,7 +131,7 @@ class LoggerHierarchy {
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null	  
 	 * @return Logger
 	 */
-	public function &getLogger($name, $factory = null) {
+	public function getLogger($name, $factory = null) {
 		if($factory === null) {
 			$factory = $this->defaultFactory;
 		}
