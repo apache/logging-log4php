@@ -33,12 +33,12 @@ class LoggerRendererMap {
 	/**
 	 * @var array
 	 */
-	var $map;
+	private $map;
 
 	/**
 	 * @var LoggerDefaultRenderer
 	 */
-	var $defaultRenderer;
+	private $defaultRenderer;
 
 	/**
 	 * Constructor

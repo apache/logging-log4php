@@ -358,7 +358,7 @@ abstract class LoggerAppender {
 	 *
 	 * Call {@link finalize()} to properly close the appender.
 	 */
-	function __sleep() {
+	public function __sleep() {
 		$this->finalize();
 		return array_keys(get_object_vars($this)); 
 	}
@@ -372,7 +372,7 @@ abstract class LoggerAppender {
 	 *
 	 * Call {@link activateOptions()} to properly setup the appender.
 	 */
-	function __wakeup() {
+	public function __wakeup() {
 		$this->activateOptions();
 	}
 }

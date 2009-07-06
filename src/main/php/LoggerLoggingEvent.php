@@ -34,12 +34,12 @@ class LoggerLoggingEvent {
 	/** 
 	* @var string Fully Qualified Class Name of the calling category class.
 	*/
-	var $fqcn;
+	private $fqcn;
 	
 	/**
 	* @var Logger reference
 	*/
-	var $logger = null;
+	private $logger = null;
 	
 	/** 
 	* The category (logger) name.
@@ -48,7 +48,7 @@ class LoggerLoggingEvent {
 	* Use the {@link getLoggerName()} method instead.
 	* @deprecated 
 	*/
-	var $categoryName;
+	private $categoryName;
 	
 	/** 
 	* Level of logging event.
@@ -63,7 +63,7 @@ class LoggerLoggingEvent {
 	/** 
 	 * @var string The nested diagnostic context (NDC) of logging event. 
 	 */
-	var $ndc;
+	private $ndc;
 	
 	/** 
 	 * Have we tried to do an NDC lookup? If we did, there is no need
@@ -72,7 +72,7 @@ class LoggerLoggingEvent {
 	 * (incorrect) NDC. See also writeObject method.
 	 * @var boolean
 	 */
-	var $ndcLookupRequired = true;
+	private $ndcLookupRequired = true;
 	
 	/** 
 	 * Have we tried to do an MDC lookup? If we did, there is no need
@@ -80,26 +80,26 @@ class LoggerLoggingEvent {
 	 * serialized. See also the getMDC and getMDCCopy methods.
 	 * @var boolean	 
 	 */
-	var $mdcCopyLookupRequired = true;
+	private $mdcCopyLookupRequired = true;
 	
 	/** 
 	 * @var mixed The application supplied message of logging event. 
 	 */
-	var $message;
+	private $message;
 	
 	/** 
 	 * The application supplied message rendered through the log4php
 	 * objet rendering mechanism. At present renderedMessage == message.
 	 * @var string
 	 */
-	var $renderedMessage = null;
+	private $renderedMessage = null;
 	
 	/** 
 	 * The name of thread in which this logging event was generated.
 	 * log4php saves here the process id via {@link PHP_MANUAL#getmypid getmypid()} 
 	 * @var mixed
 	 */
-	var $threadName = null;
+	private $threadName = null;
 	
 	/** 
 	* The number of seconds elapsed from 1/1/1970 until logging event
@@ -111,7 +111,7 @@ class LoggerLoggingEvent {
 	/** 
 	* @var LoggerLocationInfo Location information for the caller. 
 	*/
-	var $locationInfo = null;
+	private $locationInfo = null;
 	
 	/**
 	* Instantiate a LoggingEvent from the supplied parameters.

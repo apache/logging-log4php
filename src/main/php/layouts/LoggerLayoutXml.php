@@ -161,14 +161,14 @@ class LoggerLayoutXml extends LoggerLayout {
      * true, then the file name and line number of the statement at the
      * origin of the log statement will be output.
      */
-    function setLocationInfo($flag) {
+    public function setLocationInfo($flag) {
         $this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
     }
   
     /**
      * @param boolean
      */
-    function setLog4jNamespace($flag) {
+    public function setLog4jNamespace($flag) {
         $this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
     }
     

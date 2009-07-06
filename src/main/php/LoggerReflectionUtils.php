@@ -140,7 +140,7 @@ class LoggerReflectionUtils {
      * @param string $name
      * @param mixed $value
      */
-    function setter(&$object, $name, $value) {
+    public function setter(&$object, $name, $value) {
         if (empty($name)) {
             return false;
         }
@@ -153,5 +153,3 @@ class LoggerReflectionUtils {
     }
 	
 }
- 
- ?>
