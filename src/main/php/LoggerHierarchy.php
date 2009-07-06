@@ -88,7 +88,6 @@ class LoggerHierarchy {
 		$this->root->setHierarchy($this);
 		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->rendererMap = new LoggerRendererMap();
-		$this->defaultFactory = new LoggerDefaultCategoryFactory();		   
 	}
 	 
 	/**
@@ -131,13 +130,9 @@ class LoggerHierarchy {
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null	  
 	 * @return Logger
 	 */
-	public function getLogger($name, $factory = null) {
-		if($factory === null) {
-			$factory = $this->defaultFactory;
-		}
-		
+	public function getLogger($name) {
 		if(!isset($this->ht[$name])) {
-			$this->ht[$name] = $factory->makeNewLoggerInstance($name);
+			$this->ht[$name] = new Logger($name);;
 			$this->ht[$name]->setHierarchy($this);
 			$nodes = explode('.', $name);
 			$firstNode = array_shift($nodes);

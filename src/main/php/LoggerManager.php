@@ -47,8 +47,6 @@ class LoggerManager {
 	private static $_classes = array(
 		'Logger' => '/Logger.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
-		'LoggerDefaultCategoryFactory' => '/LoggerDefaultCategoryFactory.php',
-		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLayout' => '/LoggerLayout.php',
 		'LoggerLevel' => '/LoggerLevel.php',
 		'LoggerMDC' => '/LoggerMDC.php',
@@ -102,7 +100,6 @@ class LoggerManager {
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
-		'LoggerFactory' => '/LoggerFactory.php',
 		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
 		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
 		'LoggerFilter' => '/LoggerFilter.php',

@@ -274,32 +274,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 
                 $loggerName = $this->subst(@$attribs['NAME']);
                 if (!empty($loggerName)) {
-                    $class = $this->subst(@$attribs['CLASS']);
-                    if (empty($class)) {
-                        $this->logger = $this->repository->getLogger($loggerName);
-                    } else {
-                        $className = basename($class);
-                        if (!class_exists($className)) {
-                        	// TODO throw exception?
-                            /*LoggerLog::warn(
-                                "LoggerDOMConfigurator::tagOpen() LOGGER. ".
-                                "cannot find '$className'."
-                            );*/                        
-                        } else {
-                        
-                            if (in_array('getlogger', get_class_methods($className))) {
-                                $this->logger = call_user_func(array($className, 'getlogger'), $loggerName);
-                            } else {
-                            	// TODO throw exception?
-                            	/*
-                                LoggerLog::warn(
-                                    "LoggerDOMConfigurator::tagOpen() LOGGER. ".
-                                    "class '$className' doesnt implement 'getLogger()' method."
-                                );
-                                */                        
-                            }
-                        }
-                    }    
+                    $this->logger = $this->repository->getLogger($loggerName);
                     if ($this->logger !== null and isset($attribs['ADDITIVITY'])) {
                         $additivity = LoggerOptionConverter::toBoolean($this->subst($attribs['ADDITIVITY']), true);     
                         $this->logger->setAdditivity($additivity);

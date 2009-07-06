@@ -85,16 +85,11 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	const LOGGER_FACTORY_KEY = "log4php.loggerFactory";
 	const LOGGER_DEBUG_KEY = "log4php.debug";
 	const INTERNAL_ROOT_NAME = "root";
-	/**
-	 * @var LoggerFactory
-	 */
-	private $loggerFactory = null;
 	
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->loggerFactory = new LoggerDefaultCategoryFactory();
 	}
 	
 	/**
@@ -339,7 +334,6 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
 		
 		$this->configureRootCategory($properties, $hierarchy);
-		$this->configureLoggerFactory($properties);
 		$this->parseCatsAndRenderers($properties, $hierarchy);
 
 		return true;
@@ -348,35 +342,6 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	// --------------------------------------------------------------------------
 	// Internal stuff
 	// --------------------------------------------------------------------------
-
-	/**
-	 * Check the provided <b>Properties</b> object for a
-	 * {@link LoggerFactory} entry specified by 
-	 * {@link LOGGER_FACTORY_KEY}.
-	 *	
-	 * If such an entry exists, an attempt is made to create an instance using 
-	 * the default constructor.	 
-	 * This instance is used for subsequent Category creations
-	 * within this configurator.
-	 *
-	 * @see parseCatsAndRenderers()
-	 * @param array $props array of properties
-	 */
-	private function configureLoggerFactory($props) {
-		$factoryFqcn = @$props[self::LOGGER_FACTORY_KEY];
-		if(!empty($factoryFqcn)) {
-			$factoryClassName = basename($factoryFqcn);
-			
-			if(class_exists($factoryClassName)) {
-				$loggerFactory = new $factoryClassName();
-			} else {
-				// LoggerPropertyConfigurator::configureLoggerFactory() Unable to load factory
-				$loggerFactory = $this->loggerFactory;
-			}
-
-			LoggerReflectionUtils::setPropertiesByObject($loggerFactory, $props, self::FACTORY_PREFIX . ".");
-		}
-	}
 	
 	/**
 	 * @param array $props array of properties
@@ -426,7 +391,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 					$loggerName = substr($key, strlen(self::LOGGER_PREFIX));
 				}
 				
-				$logger = $hierarchy->getLogger($loggerName, $this->loggerFactory);
+				$logger = $hierarchy->getLogger($loggerName);
 					// synchronized(logger) {
 					$this->parseCategory($props, $logger, $key, $loggerName, $value);
 					$this->parseAdditivityForLogger($props, $logger, $loggerName);
