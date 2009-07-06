@@ -35,6 +35,7 @@ Version 2.0 to be released
 - Enh #39: Remove deprecated methods (Knut Urdalen)
 - Enh #40: Merge LoggerAppender and LoggerAppenderSkeleton (Christian Grobmeier)
 - Enh #44: PEAR package (Knut Urdalen)
+- Enh #52: Use of custom factorys is discouraged - clean up (Christian Grobmeier)
 - Enh: Initial port to PHP 5 (Knut Urdalen)
 - Enh: Established new unit test suite (Knut Urdalen)
 - Enh: Added a range of examples (Knut Urdalen)
