@@ -19,6 +19,7 @@ Version 2.0 to be released
 - Bug #19: Logger location info is invalid in log outputs of Logger's subclasses (Yomei Komiya)
 - Bug #20: Custom layout for LoggerAppenderPhp (Corin Lawson)
 - Bug #22: log4php.dtd invalid (Christian Grobmeier)
+- Enh #23: Mixed PHP4 and PHP5 syntax (Christian Grobmeier)
 - Bug #24: LoggerAppenderRollingFile unable to rollover (Dennis Korbar)
 - Bug #25: Allow to set environment variables in LoggerOptionConverter (Christian Hammers, Knut Urdalen)
 - Bug #28: LoggerAppenderConsole doesn't write to STDERR (Michael Kuenzli, Knut Urdalen)
