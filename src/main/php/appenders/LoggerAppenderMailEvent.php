@@ -65,7 +65,7 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	/**
 	 * @access private
 	 */
-	private $requiresLayout = true;
+	protected $requiresLayout = true;
 
 	/**
 	 * Constructor.
