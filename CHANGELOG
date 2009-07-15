@@ -1,45 +1,7 @@
 log4php Change Log
 ==================
 
-Version 2.0 to be released
---------------------------
-- Bug #1: removed all @author tags. All contributors are named (with task) in the changelog file (Christian Grobmeier)
-- Bug #4: Fatal error for constructor in LoggerAppenderRollingFile (Michael Aichler)
-- Bug #5: LoggerAppenderRollingFile unable to open file and append logs (Michael Aichler)
-- Bug #7: Change copyright notices to conform to the Source Header and Copyright Notice Policy (Curt Arnold)
-- Bug #9: log4php.dtd should be reviewed (Christian Grobmeier)
-- Bug #11: trailing "\n" (Hiroaki Kawai)
-- Bug #12: LoggerAppenderFile does not create missing directories (Knut Urdalen)
-- Bug #13: LoggerPropertyConfigurator: Only variables should be assigned by reference (Michael Aichler)
-- Bug #14: LoggerPropertySetter: warnings about is_a() and non-static method (Michael Aichler)
-- Bug #15: Logger: warnings about is_a() (Michael Aichler)
-- Bug #16: Patch for LoggerAppenderSyslog to use Layouts (Gary Richardson)
-- Bug #17: %l Pattern layout raises a protected property access error (Yomei Komiya)
-- Bug #18: Date pattern %d conversion is invalid (Yomei Komiya)
-- Bug #19: Logger location info is invalid in log outputs of Logger's subclasses (Yomei Komiya)
-- Bug #20: Custom layout for LoggerAppenderPhp (Corin Lawson)
-- Bug #22: log4php.dtd invalid (Christian Grobmeier)
-- Enh #23: Mixed PHP4 and PHP5 syntax (Christian Grobmeier)
-- Bug #24: LoggerAppenderRollingFile unable to rollover (Dennis Korbar)
-- Bug #25: Allow to set environment variables in LoggerOptionConverter (Christian Hammers, Knut Urdalen)
-- Bug #28: LoggerAppenderConsole doesn't write to STDERR (Michael Kuenzli, Knut Urdalen)
-- Bug #33: Appenders is not properly closed upon destruction (Knut Urdalen)
-- Enh #29: Load classes through autoload instead of explicitly include them (Knut Urdalen)
-- Enh #30: Implement LoggerAppenderPDO (Christian Grobmeier)
-- Enh #31: Removing unnecessary use of LOG4PHP_DIR (Knut Urdalen)
-- Enh #32: Refactor from using define to class contants (Knut Urdalen, Christian Grobmeier)
-- Enh #34: Remove all internal debugging (Christian Grobmeier)
-- Enh #35: Replace LOG4PHP_LINE_SEP with PHP_EOL (Knut Urdalen)
-- Enh #37: removed LoggerAppenderDB in favour to LoggerAppenderPDO (Christian Grobmeier)
-- Enh #38: Replace is_a() with instanceof (Knut Urdalen)
-- Enh #39: Remove deprecated methods (Knut Urdalen)
-- Enh #40: Merge LoggerAppender and LoggerAppenderSkeleton (Christian Grobmeier)
-- Enh #44: PEAR package (Knut Urdalen)
-- Enh #52: Use of custom factorys is discouraged - clean up (Christian Grobmeier)
-- Enh: Initial port to PHP 5 (Knut Urdalen)
-- Enh: Established new unit test suite (Knut Urdalen)
-- Enh: Added a range of examples (Knut Urdalen)
-- Enh: Created common ReflectionUtils class and moved factory calls to there (Christian Grobmeier)
+--> NOTE: please use changes.xml as new change log <--
 
 Version 0.9 December 10th, 2003
 -------------------------------
