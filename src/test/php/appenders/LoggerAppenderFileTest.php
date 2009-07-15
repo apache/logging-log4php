@@ -26,8 +26,8 @@
 class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
      
     protected function setUp() {
-        if(file_exists('../../../target/phpunit/TEST.txt')) {
-	        unlink('../../../target/phpunit/TEST.txt');
+        if(file_exists('../../../target/temp/phpunit/TEST.txt')) {
+	        unlink('../../../target/temp/phpunit/TEST.txt');
         }
     }
     
@@ -40,19 +40,19 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
     									"my message");
     	
     	$appender = new LoggerAppenderFile("mylogger"); 
-		$appender->setFileName('../../../target/phpunit/TEST.txt');
+		$appender->setFileName('../../../target/temp/phpunit/TEST.txt');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
 
-		$v = file_get_contents('../../../target/phpunit/TEST.txt');		
+		$v = file_get_contents('../../../target/temp/phpunit/TEST.txt');		
 		$e = "WARN - my message".PHP_EOL;
 		self::assertEquals($e, $v);
     }
      
     protected function tearDown() {
-        unlink('../../../target/phpunit/TEST.txt');
-        rmdir('../../../target/phpunit');
+        unlink('../../../target/temp/phpunit/TEST.txt');
+        rmdir('../../../target/temp/phpunit');
     }
 }
