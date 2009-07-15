@@ -14,13 +14,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- *
- * @package log4php
  */
  
  /**
   * Provides methods for reflective use on php objects
+  * @package log4php
   */
 class LoggerReflectionUtils {
 		/** the target object */
