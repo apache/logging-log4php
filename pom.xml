@@ -121,8 +121,7 @@
                         | PHPUnit must be installed for this execution 
                         +-->      
 					<execution>
-					<!-- once LOG4PHP-55 is resolved: <phase>test</phase>  -->
-                        <phase>never</phase>
+                        <phase>test</phase>
                         <id>test</id>
                         <configuration>
                             
