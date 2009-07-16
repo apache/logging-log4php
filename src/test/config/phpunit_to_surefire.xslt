@@ -32,7 +32,7 @@
 	<xsl:template match="testsuite">
 		<xsl:if test="testcase">
 			<xsl:variable name="outputName" select="./@name" />
-			<xsl:result-document href="file:///{$outputDir}/{$outputName}.xml" method="xml">
+			<xsl:result-document href="{$outputDir}/{$outputName}.xml" method="xml">
 				<xsl:copy-of select="." />
 			</xsl:result-document>
 		</xsl:if>
