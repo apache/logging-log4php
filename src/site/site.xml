@@ -27,16 +27,14 @@
     <href>http://incubator.apache.org/</href>
   </bannerRight>
   <body>
-    <breadcrumbs>
-      <item name="Apache" href="http://www.apache.org/"/>
-      <item name="Incubator" href="http://incubator.apache.org/"/>
-      <item name="log4php" href="http://incubator.apache.org:80/log4php/"/>
-    </breadcrumbs>
+        <breadcrumbs>
+          <item name="Apache" href="http://www.apache.org/"/>
+          <item name="Incubator" href="http://incubator.apache.org/"/>
+          <item name="log4php" href="http://incubator.apache.org:80/log4php/"/>
+        </breadcrumbs>
   
         <menu name="Get log4php">
            <item name="Download" href="/download.html"/>
-           <item name="Changes" href="/changes-report.html"/>
-           <item name="License" href="/license.html"/>
         </menu>
 
         <menu name="About log4php">
@@ -45,7 +43,6 @@
            <item name="Usage" href="/usage.html"/>
            <item name="Roadmap" href="/roadmap.html"/>
            <item name="PHPDoc" href="/apidocs/index.html"/>
-           <item name="PHPUnit" href="/surefire-report.html"/>
         </menu>
 
         <menu name="Community">
@@ -55,16 +52,14 @@
             <item name="Blog" href="http://blogs.apache.org/log4php/"/>
         </menu>
         
-        <menu name="Development">
-                <item name="Repository" href="/source-repository.html"/>
+        <menu ref="reports"/>
+        
+        <menu name="Apache">
+        	<item name="Home" href="http://www.apache.org"/>	
+        	<item name="Sponsorship" href="http://www.apache.org/foundation/sponsorship.html"/>
+        	<item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
+        	<item name="Conferences" href="http://www.apachecon.com"/>
         </menu>
-
-	<menu name="Apache">
-		<item name="Home" href="http://www.apache.org"/>	
-		<item name="Sponsorship" href="http://www.apache.org/foundation/sponsorship.html"/>
-		<item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
-		<item name="Conferences" href="http://www.apachecon.com"/>
-	</menu>
 
   </body>
 </project>
