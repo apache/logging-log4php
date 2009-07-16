@@ -33,7 +33,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
-		$dbname = 'appenders/pdotest.sqlite';
+		$dbname = '../../../target/pdotest.sqlite';
 		$dsn = 'sqlite:'.$dbname;
 
 		$database = new PDO($dsn);
@@ -64,7 +64,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
     }
     
     public function tearDown() {
-        unlink('appenders/pdotest.sqlite');
+    	unlink('../../../target/pdotest.sqlite');
     }
     
 }
