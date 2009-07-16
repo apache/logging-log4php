@@ -66,6 +66,50 @@
 		<name>Apache Software Foundation</name>
 		<url>http://www.apache.org</url>
 	</organization>
+	
+  <developers>
+    <developer>
+      <name>Alvero Carrasco</name>
+      <email>alvero at apache.org</email>
+    </developer>
+    <developer>
+      <name>Knut Urdalen</name>
+      <email>kurdalen at apache.org</email>
+    </developer>
+    <developer>
+      <name>Christian Grobmeier</name>
+      <email>grobmeier at apache.org</email>
+    </developer>
+    <developer>
+      <name>Gavin McDonald </name>
+      <email>gmcdonald at apache.org</email>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Marco Vassura</name>
+    </contributor>
+    <contributor>
+      <name>Sergio Strampelli</name>
+    </contributor>
+    <contributor>
+      <name>Abel Gonzalez</name>
+    </contributor>
+    <contributor>
+      <name>Domenico Lordi</name>
+    </contributor>
+    <contributor>
+      <name>Ilker Kiris</name>
+    </contributor>
+    <contributor>
+      <name>Blake Watters</name>
+    </contributor>
+    <contributor>
+      <name>Simon Wiest</name>
+    </contributor>
+  </contributors>
+	
 	<properties>
 		<surefire.reports>target/surefire-reports</surefire.reports>
 	</properties>
@@ -179,9 +223,8 @@
 						<reports>
 							<report>scm</report>
 							<report>dependencies</report>
-							<report>issue-tracking</report>
-							<report>mailing-list</report>
 							<report>license</report>
+							<report>project-team</report>
 						</reports>
 					</reportSet>
 				</reportSets>
