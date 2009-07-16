@@ -54,6 +54,7 @@
         
         <menu name="General Information">
             <item name="Volunteering" href="/volunteering.html"/>
+            <item name="Contributing Patches" href="/contributingpatches.html"/>            
         </menu>
         
         <menu ref="reports"/>
