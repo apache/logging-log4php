@@ -52,6 +52,10 @@
             <item name="Blog" href="http://blogs.apache.org/log4php/"/>
         </menu>
         
+        <menu name="General Information">
+            <item name="Volunteering" href="/volunteering.html"/>
+        </menu>
+        
         <menu ref="reports"/>
         
         <menu name="Apache">
