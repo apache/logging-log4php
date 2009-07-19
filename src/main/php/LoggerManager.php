@@ -44,6 +44,7 @@ class LoggerManager {
 
 	private static $_classes = array(
 		'Logger' => '/Logger.php',
+		'LoggerException' => '/LoggerException.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLayout' => '/LoggerLayout.php',
 		'LoggerLevel' => '/LoggerLevel.php',
