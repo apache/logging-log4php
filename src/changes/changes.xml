@@ -55,6 +55,7 @@
 		<action type="update" issue="LOG4PHP-38">Replace is_a() with instanceof (Knut Urdalen)</action>
 		<action type="update" issue="LOG4PHP-39">Remove deprecated methods (Knut Urdalen)</action>
 		<action type="update" issue="LOG4PHP-40">Merge LoggerAppender and LoggerAppenderSkeleton (Christian Grobmeier)</action>
+		<action type="update" issue="LOG4PHP-43">Remove size restriction of MDC table in LoggerMDC (Knut Urdalen)</action>
 		<action type="update" issue="LOG4PHP-44">PEAR package (Knut Urdalen)</action>
 		<action type="update" issue="LOG4PHP-52">Use of custom factorys is discouraged - clean up (Christian Grobmeier)</action>
 		<action type="fix" issue="LOG4PHP-54">PHPDoc is wrong due to class movements - clean up (Christian Grobmeier)</action>

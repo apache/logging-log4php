@@ -38,8 +38,6 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  * @package log4php
  */
 class LoggerMDC {
-  	const HT_SIZE = 7;
-  
 	/**
 	 * Put a context value as identified with the key parameter into the current thread's
 	 *	context map.
@@ -54,9 +52,7 @@ class LoggerMDC {
 	 * @static
 	 */
 	public static function put($key, $value) {
-		if(count($GLOBALS['log4php.LoggerMDC.ht']) < self::HT_SIZE) {
-			$GLOBALS['log4php.LoggerMDC.ht'][$key] = $value;
-		}
+		$GLOBALS['log4php.LoggerMDC.ht'][$key] = $value;
 	}
   
 	/**
