@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage helpers
  */
 
 /**
  * Array for fast space padding
  * Used by {@link LoggerPatternConverter::spacePad()}.	
+ * 
+ * @package log4php
+ * @subpackage helpers
  */
 $GLOBALS['log4php.LoggerPatternConverter.spaces'] = array(
 	" ", // 1 space

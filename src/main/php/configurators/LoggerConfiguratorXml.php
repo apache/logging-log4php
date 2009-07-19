@@ -15,9 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage configurators
  */
 
 /**
@@ -40,7 +37,7 @@
  *
  * @version $Revision$
  * @package log4php
- * @subpackage xml
+ * @subpackage configurators
  * @since 0.4 
  */
 class LoggerConfiguratorXml implements LoggerConfigurator {

@@ -15,9 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage renderers
  */
 
 /**
@@ -25,7 +22,7 @@
  *
  * @version $Revision$
  * @package log4php
- * @subpackage or
+ * @subpackage renderers
  * @abstract
  * @since 0.3
  */

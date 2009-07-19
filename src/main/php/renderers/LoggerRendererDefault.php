@@ -15,16 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage or
  */
 
 /**
  * The default Renderer renders objects by type casting
  *
  * @package log4php
- * @subpackage or
+ * @subpackage renderers
  * @since 0.3
  */
 class LoggerRendererDefault extends LoggerRendererObject {

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -15,11 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @category   log4php
- * @package log4php
- * @license	   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version	   SVN: $Id$
- * @link	   http://logging.apache.org/log4php
  */
 
 /**
@@ -29,8 +24,11 @@
  * In log4j this class replaces the Category class. There is no need to 
  * port deprecated classes; log4php Logger class doesn't extend Category.
  *
- * @version		 $Revision$
+ * @category   log4php
  * @package log4php
+ * @license	   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version	   SVN: $Id$
+ * @link	   http://logging.apache.org/log4php
  */
  /*
   * TODO:

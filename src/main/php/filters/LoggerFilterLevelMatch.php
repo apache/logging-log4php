@@ -15,9 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage filters
  */
 
 /**
@@ -34,7 +31,7 @@
  *
  * @version $Revision$
  * @package log4php
- * @subpackage varia
+ * @subpackage filters
  * @since 0.6
  */
 class LoggerFilterLevelMatch extends LoggerFilter {

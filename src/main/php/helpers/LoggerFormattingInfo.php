@@ -15,9 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage helpers
  */
 
 /**
@@ -25,7 +22,7 @@
  * formatting modifiers in conversion modifiers.
  * 
  * @package log4php
- * @subpackage spi
+ * @subpackage helpers
  * @since 0.3
  */
 class LoggerFormattingInfo {

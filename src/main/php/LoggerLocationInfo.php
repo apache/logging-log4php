@@ -15,9 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage spi
  */
 
 /**
@@ -25,7 +22,6 @@
  *
  * @version $Revision$
  * @package log4php
- * @subpackage spi
  * @since 0.3
  */
 class LoggerLocationInfo {
