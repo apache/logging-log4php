@@ -57,8 +57,8 @@ class Logger {
 	/** @var Logger The parent of this category. Null if this is the root logger*/
 	private $parent = null;
 
-	/** @var LoggerHierarchy the object repository */
-	private $repository = null; 
+//	/** @var LoggerHierarchy the object repository */
+//	private $repository = null; 
 
 	/**
 	 * @var array collection of appenders
@@ -164,9 +164,9 @@ class Logger {
 	}
 	
 	private function logLevel($message, $level, $caller = null) {
-	    if($this->repository->isDisabled($level)) {
-			return;
-		}
+//	    if($this->repository->isDisabled($level)) {
+//			return;
+//		}
 		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
 			$this->forcedLog($this->fqcn, $caller, $level, $message);
 		}
@@ -235,26 +235,26 @@ class Logger {
 		return $this->level;
 	}
 	
-	/**
-	 * Get a Logger by name (Delegate to {@link LoggerManager})
-	 * 
-	 * @param string $name logger name
-	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
-	 * @return Logger
-	 * @static 
-	 */
-	 // TODO: remove method? confusing design	   
-	public function getLogger($name) {
-		return LoggerManager::getLogger($name);
-	}
-	
-	/**
-	 * Return the the repository where this Category is attached.
-	 * @return LoggerHierarchy
-	 */
-	public function getLoggerRepository() {
-		return $this->repository;
-	} 
+//	/**
+//	 * Get a Logger by name (Delegate to {@link LoggerManager})
+//	 * 
+//	 * @param string $name logger name
+//	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
+//	 * @return Logger
+//	 * @static 
+//	 */
+//	 // TODO: remove method? confusing design	   
+//	public function getLogger($name) {
+//		return LoggerManager::getLogger($name);
+//	}
+//	
+//	/**
+//	 * Return the the repository where this Category is attached.
+//	 * @return LoggerHierarchy
+//	 */
+//	public function getLoggerRepository() {
+//		return $this->repository;
+//	} 
 
 	/**
 	 * Return the category name.
@@ -272,24 +272,24 @@ class Logger {
 		return $this->parent;
 	}	   
 		  
-	/**
-	 * Return the root of the default category hierarchy.
-	 * @return LoggerRoot
-	 */
-	 // TODO: remove method? confusing design
-	public function getRoot() {
-		return LoggerManager::getRootLogger();
-	} 
+//	/**
+//	 * Return the root of the default category hierarchy.
+//	 * @return LoggerRoot
+//	 */
+//	 // TODO: remove method? confusing design
+//	public function getRoot() {
+//		return LoggerManager::getRootLogger();
+//	} 
 
-	/**
-	 * get the Root Logger (Delegate to {@link LoggerManager})
-	 * @return LoggerRoot
-	 * @static 
-	 */	   
-	 // TODO: remove method? confusing design
-	public static function getRootLogger() {
-		return LoggerManager::getRootLogger();	  
-	}
+//	/**
+//	 * get the Root Logger (Delegate to {@link LoggerManager})
+//	 * @return LoggerRoot
+//	 * @static 
+//	 */	   
+//	 // TODO: remove method? confusing design
+//	public static function getRootLogger() {
+//		return LoggerManager::getRootLogger();	  
+//	}
 
 	/**
 	 * Is the appender passed as parameter attached to this category?
@@ -315,9 +315,9 @@ class Logger {
 	 * @return boolean
 	 */
 	public function isEnabledFor($level) {
-		if($this->repository->isDisabled($level)) {
-			return false;
-		}
+//		if($this->repository->isDisabled($level)) {
+//			return false;
+//		}
 		return (bool)($level->isGreaterOrEqual($this->getEffectiveLevel()));
 	} 
 
@@ -383,8 +383,9 @@ class Logger {
 	 *
 	 * @param LoggerHierarchy $repository
 	 */
+	 // TODO: remove method?
 	public function setHierarchy($repository) {
-		$this->repository = $repository;
+//		$this->repository = $repository;
 	}
 
 	/**
