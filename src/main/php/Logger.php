@@ -244,8 +244,8 @@ class Logger {
 	 * @static 
 	 */
 	 // TODO: remove method? confusing design	   
-	public function getLogger($name, $factory = null) {
-		return LoggerManager::getLogger($name, $factory);
+	public function getLogger($name) {
+		return LoggerManager::getLogger($name);
 	}
 	
 	/**
