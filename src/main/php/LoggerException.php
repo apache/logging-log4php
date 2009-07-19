@@ -24,5 +24,4 @@
  * @package log4php
  */
 class LoggerException extends Exception {
-	
 }
