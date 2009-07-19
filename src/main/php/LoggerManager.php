@@ -160,8 +160,8 @@ class LoggerManager {
 	 * @static
 	 * @return Logger
 	 */
-	public static function getLogger($name, $factory = null)  {
-		return self::getLoggerRepository()->getLogger($name, $factory);
+	public static function getLogger($name)  {
+		return self::getLoggerRepository()->getLogger($name);
 	}
 	
 	/**
