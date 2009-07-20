@@ -31,11 +31,6 @@ abstract class LoggerAppender {
 	protected $closed = false;
 	
 	/**
-	 * @var object unused
-	 */
-	protected $errorHandler;
-		   
-	/**
 	 * The first filter in the filter chain
 	 * @var LoggerFilter
 	 */
@@ -189,30 +184,6 @@ abstract class LoggerAppender {
 		}
 		$this->append($event);	  
 	}	 
-
-	/**
-	 * Do not use this method.
-	 * @see LoggerAppender::setErrorHandler()
-	 * @param object $errorHandler
-	 */
-	public function setErrorHandler($errorHandler) {
-		if($errorHandler == null) {
-			// We do not throw exception here since the cause is probably a
-			// bad config file.
-			//LoggerLog::warn("You have tried to set a null error-handler.");
-		} else {
-			$this->errorHandler = $errorHandler;
-		}
-	} 
-	
-	/**
-	 * Do not use this method.
-	 * @see LoggerAppender::getErrorHandler()
-	 * @return object Returns the ErrorHandler for this appender.
-	 */
-	public function getErrorHandler() {
-		return $this->errorHandler;
-	} 
 
 	/**
 	 * Set the Layout for this appender.
