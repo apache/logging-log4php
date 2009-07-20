@@ -1,0 +1,87 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Quickstart
+ ------
+ ------
+ ------
+
+Apache Log4php Quickstart
+
+  First, please {{{install.html}install Log4PHP}}.
+
+  Then create an configuration file which can be a standard property file (.ini), an XML file
+  or an PHP array. Log4PHP makes it possible to log several packages with different configurations.
+  In the examples directory are several examples available.
+  
+  Here is an simple property configuration:
+
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutSimple
+
+log4php.additivity.mylogger= "false"
+log4php.logger.mylogger = INFO, default
+log4php.rootLogger = WARN, default
++--  
+
+  This configures the so called root logger at WARN level with the default appender. An additional
+  Logger named "mylogger" is configured at INFO level.
+  
+  Once you have created such a file, you need to define it's location by setting a constant:
+  
++--
+  define('LOG4PHP_CONFIGURATION', 'resources/myconfig.properties');
++--
+
+  Log4PHP will look up the configuration file and prepare the framework for logging.
+  
+  Since log4php makes use of date functions, it is recommended that you have set:
+  date_default_timezone_set(); somewhere within your application.
+  
++-- 
+  date_default_timezone_set('Europe/London');
++--
+  
+  You are now able to do logging in your application. Let's take a look at this class:
+
++--
+class MyClass {
+    private $logger;
+    
+    public function __construct() {
+        $this-&gt;logger = LoggerManager::getLogger('mylogger');
+        $this-&gt;logger-&gt;info('Hello!');
+    }
+}
++--
+
+  The code above uses the 'mylogger' Logger we defined in our properties file. If you would use
+  a name which hasn't been defined in your config file, the root logger is used.
+  
+  We recommend to separate your application logically. Maybe you would like to have database logic
+  logged another way than template logic. In that way you could use 'database' as a loggers name
+  in the configuration file. Since Log4PHP uses property inheritance, subpackages of 'database' package
+  can be configured their own way. However, we would like to recommend a name like: 
+  'database.entities.Myclass'. This way you can configure logging not only at package level but also
+  on class name level.
+
+
+  Last but not least, please shutdown all loggers, appenders and whatever with:
+
++--
+LoggerManager::shutdown();
++--
+

@@ -15,10 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/echo.properties');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
-$logger = LoggerManager::getRootLogger();
+require_once dirname(__FILE__).'/../../main/php/LoggerManager.php';
+$logger = LoggerManager::getLogger('echo-example');
 $logger->debug("Hello World!");
 ?>
