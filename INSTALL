@@ -20,46 +20,31 @@
 1. Before starting installing this package check if the following external
    programs are installed:
    
-   a. PHP (version 4.2.x or above). 
-      For logging location infos (see src/log4php/spi/LoggerLocationInfo.php)
-      for details) a PHP version >= 4.3.0 must be installed
+   a. PHP (version 5.2.x or above). 
    
-2. Extract the tarball to a dir (ex: {YOUR_PATH}).
+2. Extract the tarball / zipfile to a dir (ex: {YOUR_PATH}).
 
    If you want to include log4php under an include_path dir 
    consider step (a).
 
-   If you want to include log4php wherever You want consider 
+   If you want to include log4php wherever you want consider 
    step (b).
 
    a. Create a log4php dir under an include_path.
-      Copy '{YOUR_PATH}/src/log4php' under an '{an_include_path}/log4php'. 
+      Copy '{YOUR_PATH}/src/main/php' under an '{an_include_path}/log4php'. 
 
-      define LOG4PHP_DIR as follow (recommended):
+      Include the LoggerManager class:
    
-         define('LOG4PHP_DIR', 'log4php');
-
-      or use directly:
-
          require_once('log4php/LoggerManager.php');
 
-      LOG4PHP_DIR will be set automatically to '{an_include_path}/log4php' 
-      (with path expansion).
-
-   b. Copy '{YOUR_PATH}/src/log4php' to the dir where You want log4php will 
+   b. Copy '{YOUR_PATH}/src/main/php' to the dir where you want log4php to  
       reside (ex: {MY_LOG4PHP_PATH}).
-      Define the constant 'LOG4PHP_DIR' to '{MY_LOG4PHP_PATH}' and use
-   
-         require_once( LOG4PHP_DIR . '/LoggerManager.php' );
-
-      or directly:
+      
+      Include the LoggerManager class:
 
          require_once( '{MY_LOG4PHP_PATH}/LoggerManager.php' );
 
-      and LOG4PHP_DIR will be set automatically with
-      '{MY_LOG4PHP_PATH}' (with path expansion).
-      
-3. That's all!
+3. That's all! For more details on using Log4PHP please see the HTML docs in the site folder.
 
 ------------------------------------------------------------------------------
  $Revision$
