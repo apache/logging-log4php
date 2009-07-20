@@ -132,9 +132,9 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * set to "1".
      *
      * @param string $url
-     * @param LoggerHierarchy &$repository
+     * @param LoggerHierarchy $repository
      */
-    private function doConfigure($url = '', &$repository)
+    private function doConfigure($url = '', LoggerHierarchy $repository)
     {
         $xmlData = '';
         if (!empty($url))
@@ -146,17 +146,17 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * Configure the given <b>repository</b> using the configuration written in <b>xmlData</b>.
      * Do not call this method directly. Use {@link doConfigure()} instead.
      * @param string $xmlData
-     * @param LoggerHierarchy &$repository
+     * @param LoggerHierarchy $repository
      */
-    private function doConfigureByString($xmlData, &$repository)
+    private function doConfigureByString($xmlData, LoggerHierarchy $repository)
     {
         return $this->parse($xmlData, $repository);
     }
     
     /**
-     * @param LoggerHierarchy &$repository
+     * @param LoggerHierarchy $repository
      */
-    private function doConfigureDefault(&$repository)
+    private function doConfigureDefault(LoggerHierarchy $repository)
     {
         return $this->doConfigureByString(self::DEFAULT_CONFIGURATION, $repository);
     }
@@ -164,10 +164,10 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
     /**
      * @param string $xmlData
      */
-    private function parse($xmlData, &$repository)
+    private function parse($xmlData, LoggerHierarchy $repository)
     {
         // LoggerManager::resetConfiguration();
-        $this->repository =& $repository;
+        $this->repository = $repository;
 
         $parser = xml_parser_create_ns();
     

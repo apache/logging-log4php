@@ -177,7 +177,7 @@ class LoggerLayoutXml extends LoggerLayout {
 	 *						initial CDStart (<![CDATA[) and final CDEnd (]]>) 
 	 *						of the CDATA section are the responsibility of 
 	 *						the calling method.
-	 * @param string &str	The String that is inserted into an existing 
+	 * @param string str	The String that is inserted into an existing 
 	 *						CDATA Section within buf.
 	 * @static  
 	 */

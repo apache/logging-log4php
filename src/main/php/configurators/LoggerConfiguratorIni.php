@@ -298,9 +298,9 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * 
 	 * @param string $url The name of the configuration file where the
 	 *					  configuration information is stored.
-	 * @param LoggerHierarchy &$repository the repository to apply the configuration
+	 * @param LoggerHierarchy $repository the repository to apply the configuration
 	 */
-	private function doConfigure($url, &$repository) {
+	private function doConfigure($url, LoggerHierarchy $repository) {
 		$properties = @parse_ini_file($url);
 		if($properties === false || count($properties) == 0) {
 			// as of PHP 5.2.7 parse_ini_file() returns FALSE instead of an empty array
@@ -315,9 +315,9 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 *
 	 * @see doConfigure().
 	 * @param array $properties
-	 * @param LoggerHierarchy &$hierarchy
+	 * @param LoggerHierarchy $hierarchy
 	 */
-	private function doConfigureProperties($properties, &$hierarchy) {
+	private function doConfigureProperties($properties, LoggerHierarchy $hierarchy) {
 		/*
 		$value = @$properties[LOGGER_DEBUG_KEY];
 		
@@ -342,9 +342,9 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	
 	/**
 	 * @param array $props array of properties
-	 * @param LoggerHierarchy &$hierarchy
+	 * @param LoggerHierarchy $hierarchy
 	 */
-	private function configureRootCategory($props, &$hierarchy) {
+	private function configureRootCategory($props, LoggerHierarchy $hierarchy) {
 		$effectivePrefix = self::ROOT_LOGGER_PREFIX;
 		$value = @$props[self::ROOT_LOGGER_PREFIX];
 
@@ -376,9 +376,9 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * Parse non-root elements, such non-root categories and renderers.
 	 *
 	 * @param array $props array of properties
-	 * @param LoggerHierarchy &$hierarchy
+	 * @param LoggerHierarchy $hierarchy
 	 */
-	private function parseCatsAndRenderers($props, &$hierarchy) {
+	private function parseCatsAndRenderers($props, LoggerHierarchy $hierarchy) {
 		while(list($key,$value) = each($props)) {
 			if(strpos($key, self::CATEGORY_PREFIX) === 0 or 
 				strpos($key, self::LOGGER_PREFIX) === 0) {
@@ -407,10 +407,10 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * Parse the additivity option for a non-root category.
 	 *
 	 * @param array $props array of properties
-	 * @param Logger &$cat
+	 * @param Logger $cat
 	 * @param string $loggerName
 	 */
-	private function parseAdditivityForLogger($props, &$cat, $loggerName) {
+	private function parseAdditivityForLogger($props, Logger $cat, $loggerName) {
 		$value = LoggerOptionConverter::findAndSubst(
 					self::ADDITIVITY_PREFIX . $loggerName,
 										$props
@@ -427,13 +427,13 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * This method must work for the root category as well.
 	 *
 	 * @param array $props array of properties
-	 * @param Logger &$logger
+	 * @param Logger $logger
 	 * @param string $optionKey
 	 * @param string $loggerName
 	 * @param string $value
 	 * @return Logger
 	 */
-	private function parseCategory($props, &$logger, $optionKey, $loggerName, $value) {
+	private function parseCategory($props, Logger $logger, $optionKey, $loggerName, $value) {
 		
 		// We must skip over ',' but not white space
 		$st = explode(',', $value);
@@ -474,7 +474,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				continue;
 			}
 			
-			$appender =& $this->parseAppender($props, $appenderName);
+			$appender = $this->parseAppender($props, $appenderName);
 			if($appender !== null) {
 					$logger->addAppender($appender);
 			}
@@ -486,7 +486,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param string $appenderName
 	 * @return LoggerAppender
 	 */
-	private function &parseAppender($props, $appenderName) {
+	private function parseAppender($props, $appenderName) {
 		$appender = LoggerAppender::singleton($appenderName);
 		if($appender !== null) {
 			return $appender;

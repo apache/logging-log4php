@@ -31,8 +31,8 @@ class LoggerReflectionUtils {
 	 * one or more times.
 	 * @param object &$obj the object for which to set properties
 	 */
-	public function __construct(&$obj) {
-		$this->obj =& $obj;
+	public function __construct($obj) {
+		$this->obj = $obj;
 	}
   
 	/**
@@ -40,13 +40,13 @@ class LoggerReflectionUtils {
 	 * go. The <code>properties</code> are parsed relative to a
 	 * <code>prefix</code>.
 	 *
-	 * @param object &$obj The object to configure.
+	 * @param object $obj The object to configure.
 	 * @param array $properties An array containing keys and values.
 	 * @param string $prefix Only keys having the specified prefix will be set.
 	 * @static
 	 */
 	 // TODO: check, if this is really useful
-	public static function setPropertiesByObject(&$obj, $properties, $prefix) {
+	public static function setPropertiesByObject($obj, $properties, $prefix) {
 		$pSetter = new LoggerReflectionUtils($obj);
 		return $pSetter->setProperties($properties, $prefix);
 	}
@@ -110,13 +110,13 @@ class LoggerReflectionUtils {
 			// no such setter method
 			return;
 		} else {
-			return call_user_func(array(&$this->obj, $method), $value);
+			return call_user_func(array($this->obj, $method), $value);
 		} 
 	}
   
 	public function activate() {
 		if(method_exists($this->obj, 'activateoptions')) {
-			return call_user_func(array(&$this->obj, 'activateoptions'));
+			return call_user_func(array($this->obj, 'activateoptions'));
 		} 
 	}
 	
@@ -139,13 +139,13 @@ class LoggerReflectionUtils {
      * @param string $name
      * @param mixed $value
      */
-    public function setter(&$object, $name, $value) {
+    public function setter($object, $name, $value) {
         if (empty($name)) {
             return false;
         }
         $methodName = 'set'.ucfirst($name);
         if (method_exists($object, $methodName)) {
-            return call_user_func(array(&$object, $methodName), $value);
+            return call_user_func(array($object, $methodName), $value);
         } else {
             return false;
         }

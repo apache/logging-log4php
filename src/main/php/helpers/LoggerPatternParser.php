@@ -100,10 +100,10 @@ class LoggerPatternParser {
 	public function addToList($pc) {
 		if($this->head == null) {
 			$this->head = $pc;
-			$this->tail =& $this->head;
+			$this->tail = $this->head;
 		} else {
 			$this->tail->next = $pc;
-			$this->tail =& $this->tail->next;
+			$this->tail = $this->tail->next;
 		}
 	}
 

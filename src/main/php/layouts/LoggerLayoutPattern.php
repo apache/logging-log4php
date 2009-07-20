@@ -39,7 +39,7 @@
  * 
  * Then the statements
  * <code> 
- *  $root =& LoggerManager::getRoot();
+ *  $root = LoggerManager::getRoot();
  *  $root->debug("Message 1");
  *  $root->warn("Message 2");
  * </code>
@@ -145,9 +145,6 @@ class LoggerLayoutPattern extends LoggerLayout {
 	/** Default conversion TTCC Pattern */
 	const TTCC_CONVERSION_PATTERN = '%r [%t] %p %c %x - %m%n';
 
-	/** @var string output buffer appended to when format() is invoked */
-	private $sbuf;
-
 	/** @var string */
 	private $pattern;
 
@@ -187,13 +184,12 @@ class LoggerLayoutPattern extends LoggerLayout {
 	 * @return string
 	 */
 	public function format(LoggerLoggingEvent $event) {
-		// Reset working stringbuffer
-		$this->sbuf = '';
+		$sbuf = '';
 		$c = $this->head;
 		while ($c !== null) {
-			$c->format($this->sbuf, $event);
+			$c->format(&$sbuf, $event);
 			$c = $c->next;
 		}
-		return $this->sbuf;
+		return $sbuf;
 	}
 }

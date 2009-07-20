@@ -38,10 +38,10 @@ class LoggerLiteralPatternConverter extends LoggerPatternConverter {
 	}
 
 	/**
-	 * @param string &$sbuf
+	 * @param string $sbuf
 	 * @param LoggerLoggingEvent $event
 	 */
-	public function format(&$sbuf, $event) {
+	public function format($sbuf, $event) {
 		$sbuf .= $this->literal;
 	}
 

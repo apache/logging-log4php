@@ -82,10 +82,10 @@ class LoggerPatternConverter {
 	/**
 	 * A template method for formatting in a converter specific way.
 	 *
-	 * @param string &$sbuf string buffer
+	 * @param string $sbuf string buffer
 	 * @param LoggerLoggingEvent $e
 	 */
-	public function format(&$sbuf, $e) {
+	public function format($sbuf, $e) {
 		$s = $this->convert($e);
 		
 		if($s == null or empty($s)) {
@@ -115,12 +115,12 @@ class LoggerPatternConverter {
 	/**
 	 * Fast space padding method.
 	 *
-	 * @param string	&$sbuf	   string buffer
+	 * @param string	$sbuf	   string buffer
 	 * @param integer	$length	   pad length
 	 *
 	 * @todo reimplement using PHP string functions
 	 */
-	public function spacePad(&$sbuf, $length) {
+	public function spacePad($sbuf, $length) {
 		while($length >= 32) {
 		  $sbuf .= $GLOBALS['log4php.LoggerPatternConverter.spaces'][5];
 		  $length -= 32;
