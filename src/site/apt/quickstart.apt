@@ -62,8 +62,8 @@ class MyClass {
     private $logger;
     
     public function __construct() {
-        $this-&gt;logger = LoggerManager::getLogger('mylogger');
-        $this-&gt;logger-&gt;info('Hello!');
+        $this->logger = LoggerManager::getLogger('mylogger');
+        $this->logger->info('Hello!');
     }
 }
 +--
