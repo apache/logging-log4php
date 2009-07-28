@@ -85,7 +85,7 @@ class LoggerPatternConverter {
 	 * @param string $sbuf string buffer
 	 * @param LoggerLoggingEvent $e
 	 */
-	public function format($sbuf, $e) {
+	public function format(&$sbuf, $e) {
 		$s = $this->convert($e);
 		
 		if($s == null or empty($s)) {

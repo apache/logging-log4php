@@ -187,7 +187,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 		$sbuf = '';
 		$c = $this->head;
 		while ($c !== null) {
-			$c->format(&$sbuf, $event);
+			$c->format($sbuf, $event);
 			$c = $c->next;
 		}
 		return $sbuf;
