@@ -235,19 +235,19 @@ class Logger {
 		return $this->level;
 	}
 	
-//	/**
-//	 * Get a Logger by name (Delegate to {@link LoggerManager})
-//	 * 
-//	 * @param string $name logger name
-//	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
-//	 * @return Logger
-//	 * @static 
-//	 */
-//	 // TODO: remove method? confusing design	   
-//	public function getLogger($name) {
-//		return LoggerManager::getLogger($name);
-//	}
-//	
+	/**
+	 * Get a Logger by name (Delegate to {@link LoggerManager})
+	 * 
+	 * @param string $name logger name
+	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
+	 * @return Logger
+	 * @static 
+	 */
+	 // TODO: remove method? confusing design	   
+	public function getLogger($name) {
+		return LoggerManager::getLogger($name);
+	}
+
 //	/**
 //	 * Return the the repository where this Category is attached.
 //	 * @return LoggerHierarchy
@@ -281,15 +281,15 @@ class Logger {
 //		return LoggerManager::getRootLogger();
 //	} 
 
-//	/**
-//	 * get the Root Logger (Delegate to {@link LoggerManager})
-//	 * @return LoggerRoot
-//	 * @static 
-//	 */	   
-//	 // TODO: remove method? confusing design
-//	public static function getRootLogger() {
-//		return LoggerManager::getRootLogger();	  
-//	}
+	/**
+	 * get the Root Logger (Delegate to {@link LoggerManager})
+	 * @return LoggerRoot
+	 * @static 
+	 */	   
+	 // TODO: remove method? confusing design
+	public static function getRootLogger() {
+		return LoggerManager::getRootLogger();	  
+	}
 
 	/**
 	 * Is the appender passed as parameter attached to this category?
