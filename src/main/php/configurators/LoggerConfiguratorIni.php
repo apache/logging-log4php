@@ -302,9 +302,9 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	private function doConfigure($url, LoggerHierarchy $repository) {
 		$properties = @parse_ini_file($url);
-		if($properties === false || count($properties) == 0) {
-			// as of PHP 5.2.7 parse_ini_file() returns FALSE instead of an empty array
-			return false;
+		if ($properties === false || count($properties) == 0) {
+			$error = error_get_last();
+		    throw new LoggerException("LoggerConfiguratorIni: ".$error['message']);
 		}
 		return $this->doConfigureProperties($properties, $repository);
 	}

@@ -65,10 +65,24 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testConfigureWithoutIniFile() {
-		self::assertFalse(LoggerConfiguratorIni::configure());
+	    $catchedException = null;
+	    try {
+	       LoggerConfiguratorIni::configure();
+	       self::assertTrue(false);
+	    } catch (LoggerException $e) {
+	    	$catchedException = $e;
+	    }
+		self::assertNotNull($catchedException);
 	}
 	
 	public function testConfigureWithEmptyIniFile() {
-		self::assertFalse(LoggerConfiguratorIni::configure('configurators/test2.properties'));
+		$catchedException = null;
+	    try {
+	       LoggerConfiguratorIni::configure('configurators/test2.properties');
+	       self::assertTrue(false);
+	    } catch (LoggerException $e) {
+	    	$catchedException = $e;
+	    }
+		self::assertNotNull($catchedException);
 	}
 }
