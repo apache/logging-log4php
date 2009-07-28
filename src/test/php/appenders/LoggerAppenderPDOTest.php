@@ -63,8 +63,23 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		
     }
     
+    public function testException() {
+        $dsn = 'doenotexist';
+        $appender = new LoggerAppenderPDO("myname");
+        $appender->setDSN($dsn);
+        $appender->setCreateTable(true);
+        
+        $catchedException = null;
+        try {
+            $appender->activateOptions();
+        } catch (LoggerException $e) {
+            $catchedException = $e;
+        }
+        self::assertNotNull($catchedException);
+    }
+    
     public function tearDown() {
-    	unlink('../../../target/pdotest.sqlite');
+    	@unlink('../../../target/pdotest.sqlite');
     }
     
 }

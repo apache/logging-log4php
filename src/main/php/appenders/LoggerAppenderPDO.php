@@ -70,32 +70,39 @@ class LoggerAppenderPDO extends LoggerAppender {
      * @throws a PDOException if the attempt to connect to the requested database fails.
      */
     public function activateOptions() {
-    	if($this->user === null) {
-	    	$this->db = new PDO($this->dsn);
-    	} else if($this->password === null) {
-    	    $this->db = new PDO($this->dsn, $this->user);
-    	} else {
-    	    $this->db = new PDO($this->dsn,$this->user,$this->password);
-    	}
+        try {
+        	if($this->user === null) {
+	           	$this->db = new PDO($this->dsn);
+    	   } else if($this->password === null) {
+    	       $this->db = new PDO($this->dsn, $this->user);
+    	   } else {
+    	       $this->db = new PDO($this->dsn,$this->user,$this->password);
+    	   }
+    	   $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     	
-        // test if log table exists
-        $result = $this->db->query('select * from ' . $this->table . ' where 1 = 0');
-        if ($result == false and $this->createTable) {
-        	// TODO mysql syntax?
-            $query = "CREATE TABLE {$this->table} (	 timestamp varchar(32)," .
+            // test if log table exists
+            try {
+                $result = $this->db->query('select * from ' . $this->table . ' where 1 = 0');
+            } catch (PDOException $e) {
+                // It could be something else but a "no such table" is the most likely
+                $result = false;
+            }
+            
+            // create table if necessary
+            if ($result == false and $this->createTable) {
+        	   // TODO mysql syntax?
+                $query = "CREATE TABLE {$this->table} (	 timestamp varchar(32)," .
             										"logger varchar(32)," .
             										"level varchar(32)," .
             										"message varchar(64)," .
             										"thread varchar(32)," .
             										"file varchar(64)," .
             										"line varchar(4) );";
-
-            $result = $this->db->query($query);
-            if (!$result) {
-                $this->canAppend = false;
-                return;
-                // TODO throw exception?
+                $result = $this->db->query($query);
             }
+        } catch (PDOException $e) {
+            $this->canAppend = false;
+            throw new LoggerException($e);
         }
         
         if($this->sql == '' || $this->sql == null) {
@@ -122,7 +129,11 @@ class LoggerAppenderPDO extends LoggerAppender {
     public function append($event) {
         if ($this->canAppend) {
             $query = $this->layout->format($event);
-            $this->db->exec($query);
+            try {
+                $this->db->exec($query);
+            } catch (Exception $e) {
+                throw new LoggerException($e);
+            }
         }
     }
     
