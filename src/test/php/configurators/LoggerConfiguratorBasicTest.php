@@ -26,7 +26,7 @@
 class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {
-		LoggerConfiguratorBasic::configure();
+	    LoggerConfiguratorBasic::configure();
 	}
         
 	protected function tearDown() {
@@ -47,10 +47,18 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 		self::assertType('LoggerAppenderConsole', $appender);
 		$layout = $appender->getLayout();
 		self::assertType('LoggerLayoutTTCC', $layout);
-
+		
+		// As PHPUnit runs all tests in one run, there might be some loggers left over
+		// from previous runs. ResetConfiguration() only clears the appenders, it does
+		// not remove the categories!
 		LoggerConfiguratorBasic::resetConfiguration();
 		$hierarchy = LoggerHierarchy::singleton();
-		
+        foreach ($hierarchy->getCurrentLoggers() as $logger) {
+            self::assertEquals(0, count($logger->getAllAppenders()));
+        }		
+
+        // This on the other hand really removes the categories:
+        $hierarchy->clear(); 
 		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
 		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
 	}
