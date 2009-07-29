@@ -45,6 +45,7 @@
           <!-- <item name="Usage" href="/usage.html"/> -->
            <item name="Roadmap" href="/roadmap.html"/>
            <item name="PHPDoc" href="/apidocs/index.html"/>
+           <item name="Code Coverage" href="/coverage-report/index.html"/>
         </menu>
 
         <menu name="Community">

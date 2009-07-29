@@ -115,6 +115,7 @@
 	
 	<properties>
 		<surefire.reports>target/surefire-reports</surefire.reports>
+		<coverage.report>target/site/coverage-report</coverage.report>
 	</properties>
 
 	<build>
@@ -183,6 +184,23 @@
                                     style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
                                     <param name="outputDir" expression="${surefire.reports}" />
                                 </xslt>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    
+                    <!-- This execution depends on XDebug -->
+                    <execution>
+                        <phase>pre-site</phase>
+                        <id>codecoverage</id>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${coverage.report}" />
+                                <exec executable="phpunit" dir="src/test/php">
+                                    <arg line=" --report ../../../${coverage.report} ." />
+                                </exec>
                             </tasks>
                         </configuration>
                         <goals>
