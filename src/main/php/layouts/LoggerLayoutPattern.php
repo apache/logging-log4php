@@ -39,7 +39,7 @@
  * 
  * Then the statements
  * <code> 
- *  $root = LoggerManager::getRoot();
+ *  $root = Logger::getRoot();
  *  $root->debug("Message 1");
  *  $root->warn("Message 2");
  * </code>

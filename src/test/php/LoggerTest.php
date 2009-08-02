@@ -22,29 +22,29 @@
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerManagerTest extends PHPUnit_Framework_TestCase {
+class LoggerTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetCurrentLoggers() {
-		//var_dump(LoggerManager::getCurrentLoggers());
+		//var_dump(Logger::getCurrentLoggers());
 		self::markTestIncomplete();
 	}
 	
 	public function testLoggerExist() {
-//		$l = LoggerManager::getRootLogger();
+//		$l = Logger::getRootLogger();
 //		self::assertEquals($l->getName(), 'root');
 //		$l->debug('test');
-//		self::assertTrue(LoggerManager::exists('root'));
+//		self::assertTrue(Logger::exists('root'));
 		self::markTestIncomplete();
 	}
 	
 	public function testCanGetRootLogger() {
-		$l = LoggerManager::getRootLogger();
+		$l = Logger::getRootLogger();
 		self::assertEquals($l->getName(), 'root');
 
 	}
 	
 	public function testCanGetASpecificLogger() {
-		$l = LoggerManager::getLogger('test');
+		$l = Logger::getLogger('test');
 		self::assertEquals($l->getName(), 'test');
 
 	}

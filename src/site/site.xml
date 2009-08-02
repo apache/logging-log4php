@@ -41,6 +41,7 @@
            <item name="What is it?" href="/index.html"/>
            <item name="Who uses it?" href="/showcase.html"/>
            <item name="Install" href="/install.html"/>
+           <item name="Upgrading" href="/upgrading.html"/>
            <item name="Quick start" href="/quickstart.html"/>
           <!-- <item name="Usage" href="/usage.html"/> -->
            <item name="Roadmap" href="/roadmap.html"/>

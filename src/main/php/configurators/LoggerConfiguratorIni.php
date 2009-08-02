@@ -101,7 +101,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	public static function configure($url = '') {
 		$configurator = new LoggerConfiguratorIni();
-		$repository = LoggerManager::getLoggerRepository();
+		$repository = Logger::getLoggerRepository();
 		return $configurator->doConfigure($url, $repository);
 	}
 
@@ -113,7 +113,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 *
 	 * <b>The existing configuration is not cleared nor reset.</b> 
 	 * If you require a different behavior, then call 
-	 * {@link  LoggerManager::resetConfiguration()} 
+	 * {@link  Logger::resetConfiguration()} 
 	 * method before calling {@link doConfigure()}.
 	 * 
 	 * <p>The configuration file consists of statements in the format

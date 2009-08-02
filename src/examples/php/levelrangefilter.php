@@ -18,8 +18,8 @@
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/levelrangefilter.xml');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
-$logger = LoggerManager::getRootLogger();
+require_once LOG4PHP_DIR.'/Logger.php';
+$logger = Logger::getRootLogger();
 $logger->debug("This is a debug message");
 $logger->info("This is an info message");
 $logger->warn("This is a warning");

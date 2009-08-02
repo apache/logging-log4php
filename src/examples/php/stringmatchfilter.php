@@ -18,8 +18,8 @@
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/stringmatchfilter.xml');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
-$logger = LoggerManager::getRootLogger();
+require_once LOG4PHP_DIR.'/Logger.php';
+$logger = Logger::getRootLogger();
 $logger->debug("Some text to match that will be rejected");
 $logger->info("Some other text that will be accepted");
 ?>

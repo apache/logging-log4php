@@ -58,7 +58,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 	
 	public static function configure($url = '') {
 		$configurator = new self();
-		$hierarchy = LoggerManager::getLoggerRepository();
+		$hierarchy = Logger::getLoggerRepository();
 		return $configurator->doConfigure($url, $hierarchy);
 	}
 	

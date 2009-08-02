@@ -30,12 +30,12 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		LoggerManager::resetConfiguration();
+		Logger::resetConfiguration();
 	}
         
 	public function testConfigure() {
 		LoggerConfiguratorXml::configure('configurators/test1.xml');
-		$hierarchy = LoggerManager::getLoggerRepository();
+		$hierarchy = Logger::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");

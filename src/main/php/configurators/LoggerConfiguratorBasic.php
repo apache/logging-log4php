@@ -36,7 +36,7 @@ class LoggerConfiguratorBasic implements LoggerConfigurator {
 	 * @param string $url not used here
 	 */
 	public static function configure($url = null) {
-		$root = LoggerManager::getRootLogger();
+		$root = Logger::getRootLogger();
 		$appender = new LoggerAppenderConsole('A1');
 		$appender->setLayout( new LoggerLayoutTTCC() );
 		$root->addAppender($appender);
@@ -46,13 +46,13 @@ class LoggerConfiguratorBasic implements LoggerConfigurator {
 	 * Reset the default hierarchy to its default. 
 	 * It is equivalent to
 	 * <code>
-	 * LoggerManager::resetConfiguration();
+	 * Logger::resetConfiguration();
 	 * </code>
 	 *
 	 * @see LoggerHierarchy::resetConfiguration()
 	 * @static
 	 */
 	public static function resetConfiguration() {
-		LoggerManager::resetConfiguration();
+		Logger::resetConfiguration();
 	}
 }

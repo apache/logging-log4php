@@ -30,12 +30,12 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
-		LoggerManager::resetConfiguration();
+		Logger::resetConfiguration();
 	}
         
 	public function testConfigure() {
 		LoggerConfiguratorIni::configure('configurators/test1.properties');
-		$hierarchy = LoggerManager::getLoggerRepository();
+		$hierarchy = Logger::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
@@ -55,7 +55,7 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	
 	public function testConfigureWithRootCategory() {
 		LoggerConfiguratorIni::configure('configurators/test3.properties');
-		$hierarchy = LoggerManager::getLoggerRepository();
+		$hierarchy = Logger::getLoggerRepository();
 		$root = $hierarchy->getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");

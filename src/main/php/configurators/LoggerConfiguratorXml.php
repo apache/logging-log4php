@@ -121,7 +121,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      */
     public static function configure($url = '') {
     	$configurator = new self(); 
-        $repository = LoggerManager::getLoggerRepository();
+        $repository = Logger::getLoggerRepository();
         return $configurator->doConfigure($url, $repository);
     }
     
@@ -166,7 +166,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      */
     private function parse($xmlData, LoggerHierarchy $repository)
     {
-        // LoggerManager::resetConfiguration();
+        // Logger::resetConfiguration();
         $this->repository = $repository;
 
         $parser = xml_parser_create_ns();
@@ -367,7 +367,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
             
             case 'ROOT':
             case self::XMLNS.':ROOT':
-                $this->logger = LoggerManager::getRootLogger();
+                $this->logger = Logger::getRootLogger();
                 $this->state[] = self::ROOT_STATE;
                 break;
         }

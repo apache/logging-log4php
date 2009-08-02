@@ -83,7 +83,8 @@ class LoggerHierarchy {
 	 */
 	public function __construct(LoggerRoot $root) {
 		$this->root = $root;
-		$this->root->setHierarchy($this);
+		// TODO: isn't necessary, access via singleton?'
+//		$this->root->setHierarchy($this);
 		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->rendererMap = new LoggerRendererMap();
 	}
@@ -131,7 +132,8 @@ class LoggerHierarchy {
 	public function getLogger($name) {
 		if(!isset($this->ht[$name])) {
 			$this->ht[$name] = new Logger($name);;
-			$this->ht[$name]->setHierarchy($this);
+			// TODO: isn't necessary, access via singleton?
+			// $this->ht[$name]->setHierarchy($this);
 			$nodes = explode('.', $name);
 			$firstNode = array_shift($nodes);
 			

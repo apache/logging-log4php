@@ -18,9 +18,9 @@
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/mdc.properties');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
+require_once LOG4PHP_DIR.'/Logger.php';
 
-$logger = LoggerManager::getRootLogger();
+$logger = Logger::getRootLogger();
 
 LoggerNDC::push('Context Message');
 

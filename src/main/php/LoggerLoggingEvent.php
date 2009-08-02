@@ -263,7 +263,7 @@ class LoggerLoggingEvent {
 				if($this->logger !== null) {
 					$repository = $this->logger->getLoggerRepository();
 				} else {
-					$repository = LoggerManager::getLoggerRepository();
+					$repository = Logger::getLoggerRepository();
 				}
 				if(method_exists($repository, 'getRendererMap')) {
 					$rendererMap = $repository->getRendererMap();

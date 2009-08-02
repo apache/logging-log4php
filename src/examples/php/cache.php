@@ -18,7 +18,7 @@
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/cache.properties');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
+require_once LOG4PHP_DIR.'/Logger.php';
 
 $cache = '../../../target/examples/hierarchy.cache';
 
@@ -27,7 +27,7 @@ if(!file_exists($cache)) {
 	if(!is_dir($dir)) {
 		mkdir($dir, 0777, true);
 	}
-	$hierarchy = LoggerManager::getLoggerRepository();
+	$hierarchy = Logger::getLoggerRepository();
 	file_put_contents($cache, serialize($hierarchy));
 }
 $hierarchy = unserialize(file_get_contents($cache));

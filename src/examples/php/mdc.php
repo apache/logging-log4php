@@ -18,10 +18,10 @@
 define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/mdc.properties');
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
+require_once LOG4PHP_DIR.'/Logger.php';
 
 LoggerMDC::put('username', 'knut');
 
-$logger = LoggerManager::getRootLogger();
+$logger = Logger::getRootLogger();
 $logger->debug("Testing MDC");
 ?>

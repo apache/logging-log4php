@@ -17,7 +17,7 @@
  */
 define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/echo.properties');
 
-require_once dirname(__FILE__).'/../../main/php/LoggerManager.php';
-$logger = LoggerManager::getLogger('echo-example');
+require_once dirname(__FILE__).'/../../main/php/Logger.php';
+$logger = Logger::getLogger('echo-example');
 $logger->debug("Hello World!");
 ?>

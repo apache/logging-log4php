@@ -34,7 +34,7 @@ if(!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
     define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
 }
 
-require_once LOG4PHP_DIR.'/LoggerManager.php';
+require_once LOG4PHP_DIR.'/Logger.php';
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Framework/TestSuite.php';

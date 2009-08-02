@@ -34,7 +34,7 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 	}
         
 	public function testConfigure() {
-		$root = LoggerManager::getRootLogger();
+		$root = Logger::getRootLogger();
 		$appender = $root->getAppender('A1');
 		self::assertType('LoggerAppenderConsole', $appender);
 		$layout = $appender->getLayout();
@@ -42,7 +42,7 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testResetConfiguration() {
-		$root = LoggerManager::getRootLogger();
+		$root = Logger::getRootLogger();
 		$appender = $root->getAppender('A1');
 		self::assertType('LoggerAppenderConsole', $appender);
 		$layout = $appender->getLayout();

@@ -32,6 +32,9 @@ spl_autoload_register(array('LoggerManager', 'autoload'));
 /**
  * Use the LoggerManager to get Logger instances.
  *
+ * TODO: remove before releasing 2.0
+ * 
+ * @deprecated
  * @version $Revision$
  * @package log4php
  * @see Logger

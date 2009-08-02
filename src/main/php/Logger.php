@@ -18,6 +18,18 @@
  */
 
 /**
+ * LOG4PHP_DIR points to the log4php root directory.
+ *
+ * If not defined it will be set automatically when the first package classfile 
+ * is included
+ * 
+ * @var string 
+ */
+if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
+
+spl_autoload_register(array('Logger', 'autoload'));
+
+/**
  * This is the central class in the log4j package. Most logging operations, 
  * except configuration, are done through this class. 
  *
@@ -57,8 +69,82 @@ class Logger {
 	/** @var Logger The parent of this category. Null if this is the root logger*/
 	private $parent = null;
 
-//	/** @var LoggerHierarchy the object repository */
-//	private $repository = null; 
+	private static $_classes = array(
+		'Logger' => '/Logger.php',
+		'LoggerException' => '/LoggerException.php',
+		'LoggerHierarchy' => '/LoggerHierarchy.php',
+		'LoggerLayout' => '/LoggerLayout.php',
+		'LoggerLevel' => '/LoggerLevel.php',
+		'LoggerMDC' => '/LoggerMDC.php',
+		'LoggerNDC' => '/LoggerNDC.php',
+		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
+		'LoggerConfigurator' => '/LoggerConfigurator.php',
+		'LoggerConfiguratorBasic' => '/configurators/LoggerConfiguratorBasic.php',
+		'LoggerConfiguratorIni' => '/configurators/LoggerConfiguratorIni.php',
+		'LoggerConfiguratorPhp' => '/configurators/LoggerConfiguratorPhp.php',
+		'LoggerConfiguratorXml' => '/configurators/LoggerConfiguratorXml.php',
+		'LoggerRoot' => '/LoggerRoot.php',
+		'LoggerAppender' => '/LoggerAppender.php',
+		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
+		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
+		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
+		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
+		'LoggerAppenderEcho' => '/appenders/LoggerAppenderEcho.php',
+		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
+		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
+		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
+		'LoggerAppenderNull' => '/appenders/LoggerAppenderNull.php',
+		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
+		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
+		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
+		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
+		'LoggerFormattingInfo' => '/helpers/LoggerFormattingInfo.php',
+		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
+		'LoggerPatternConverter' => '/helpers/LoggerPatternConverter.php',
+		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',
+		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
+		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
+		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
+		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
+		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
+		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
+		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
+		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',
+		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
+		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
+		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
+		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
+		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
+		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
+		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
+		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
+		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
+		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
+		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
+		'LoggerLayoutPattern' => '/layouts/LoggerLayoutPattern.php',
+		'LoggerLayoutXml' => '/layouts/LoggerLayoutXml.php',
+		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
+		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
+		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
+		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
+		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
+		'LoggerFilter' => '/LoggerFilter.php',
+		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
+		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
+		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
+		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php',
+	);
+
+	/**
+	 * Class autoloader
+	 * This method is provided to be invoked within an __autoload() magic method.
+	 * @param string class name
+	 */
+	public static function autoload($className) {
+		if(isset(self::$_classes[$className])) {
+			include LOG4PHP_DIR.self::$_classes[$className];
+		}
+	}
 
 	/**
 	 * @var array collection of appenders
@@ -236,18 +322,35 @@ class Logger {
 	}
 	
 	/**
-	 * Get a Logger by name (Delegate to {@link LoggerManager})
+	 * Get a Logger by name (Delegate to {@link Logger})
 	 * 
 	 * @param string $name logger name
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
 	 * @return Logger
 	 * @static 
 	 */
-	 // TODO: remove method? confusing design	   
-	public function getLogger($name) {
-		return LoggerManager::getLogger($name);
+	public static function getLogger($name) {
+		return LoggerHierarchy::singleton()->getLogger($name);
+	}
+	
+	/**
+	 * Destroy loggers object tree.
+	 * 
+	 * @static
+	 * @return boolean 
+	 */
+	public static function resetConfiguration() {
+		return LoggerHierarchy::singleton()->resetConfiguration();	 
 	}
 
+	/**
+	 * Safely close all appenders.
+	 * @static
+	 */
+	public static function shutdown() {
+		return LoggerHierarchy::singleton()->shutdown();	   
+	}
+	
 //	/**
 //	 * Return the the repository where this Category is attached.
 //	 * @return LoggerHierarchy
@@ -278,19 +381,49 @@ class Logger {
 //	 */
 //	 // TODO: remove method? confusing design
 //	public function getRoot() {
-//		return LoggerManager::getRootLogger();
+//		return Logger::getRootLogger();
 //	} 
 
 	/**
-	 * get the Root Logger (Delegate to {@link LoggerManager})
+	 * get the Root Logger (Delegate to {@link Logger})
 	 * @return LoggerRoot
 	 * @static 
 	 */	   
-	 // TODO: remove method? confusing design
 	public static function getRootLogger() {
-		return LoggerManager::getRootLogger();	  
+		return LoggerHierarchy::singleton()->getRootLogger();	  
+	}
+	
+	/**
+	 * check if a given logger exists.
+	 * 
+	 * @param string $name logger name 
+	 * @static
+	 * @return boolean
+	 */
+	public static function exists($name) {
+		return LoggerHierarchy::singleton()->exists($name);
+	}
+	
+	/**
+	 * Returns the LoggerHierarchy.
+	 * 
+	 * @static
+	 * @return LoggerHierarchy
+	 */
+	public static function getLoggerRepository() {
+		return LoggerHierarchy::singleton();	
 	}
 
+	/**
+	 * Returns an array this whole Logger instances.
+	 * 
+	 * @static
+	 * @see Logger
+	 * @return array
+	 */
+	public static function getCurrentLoggers() {
+		return LoggerHierarchy::singleton()->getCurrentLoggers();
+	}
 	/**
 	 * Is the appender passed as parameter attached to this category?
 	 *
@@ -384,9 +517,9 @@ class Logger {
 	 * @param LoggerHierarchy $repository
 	 */
 	 // TODO: remove method?
-	public function setHierarchy($repository) {
+//	public function setHierarchy($repository) {
 //		$this->repository = $repository;
-	}
+//	}
 
 	/**
 	 * Set the level of this Category.
@@ -403,4 +536,118 @@ class Logger {
 	public function setParent(Logger $logger) {
 		$this->parent = $logger;
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+if (!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
+	if (isset($_ENV['log4php.defaultInitOverride'])) {
+		/**
+		 * @ignore
+		 */
+		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', 
+			LoggerOptionConverter::toBoolean($_ENV['log4php.defaultInitOverride'], false)
+		);
+	} elseif (isset($GLOBALS['log4php.defaultInitOverride'])) {
+		/**
+		 * @ignore
+		 */
+		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', 
+			LoggerOptionConverter::toBoolean($GLOBALS['log4php.defaultInitOverride'], false)
+		);
+	} else {
+		/**
+		 * Controls init execution
+		 *
+		 * With this constant users can skip the default init procedure that is
+		 * called when this file is included.
+		 *
+		 * <p>If it is not user defined, log4php tries to autoconfigure using (in order):</p>
+		 *
+		 * - the <code>$_ENV['log4php.defaultInitOverride']</code> variable.
+		 * - the <code>$GLOBALS['log4php.defaultInitOverride']</code> global variable.
+		 * - defaults to <i>false</i>
+		 *
+		 * @var boolean
+		 */
+		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', false);
+	}
+}
+
+if (!defined('LOG4PHP_CONFIGURATION')) {
+	if (isset($_ENV['log4php.configuration'])) {
+		/**
+		 * @ignore
+		 */
+		define('LOG4PHP_CONFIGURATION', trim($_ENV['log4php.configuration']));
+	} else {
+		/**
+		 * Configuration file.
+		 *
+		 * <p>This constant tells configurator classes where the configuration
+		 * file is located.</p>
+		 * <p>If not set by user, log4php tries to set it automatically using 
+		 * (in order):</p>
+		 *
+		 * - the <code>$_ENV['log4php.configuration']</code> enviroment variable.
+		 * - defaults to 'log4php.properties'.
+		 *
+		 * @var string
+		 */
+		define('LOG4PHP_CONFIGURATION', 'log4php.properties');
+	}
+}
+
+if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
+	if ( strtolower(substr( LOG4PHP_CONFIGURATION, -4 )) == '.xml') { 
+		/**
+		 * @ignore
+		 */
+		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorXml');
+	} else {
+		/**
+		 * Holds the configurator class name.
+		 *
+		 * <p>This constant is set with the fullname (path included but non the 
+		 * .php extension) of the configurator class that init procedure will use.</p>
+		 * <p>If not set by user, log4php tries to set it automatically.</p>
+		 * <p>If {@link LOG4PHP_CONFIGURATION} has '.xml' extension set the 
+		 * constants to '{@link LOG4PHP_DIR}/xml/{@link LoggerConfiguratorXml}'.</p>
+		 * <p>Otherwise set the constants to 
+		 * '{@link LOG4PHP_DIR}/{@link LoggerConfiguratorIni}'.</p>
+		 *
+		 * <p><b>Security Note</b>: classfile pointed by this constant will be brutally
+		 * included with a:
+		 * <code>@include_once(LOG4PHP_CONFIGURATOR_CLASS . ".php");</code></p>
+		 *
+		 * @var string
+		 */
+		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorIni');
+	}
+}
+
+if (!LOG4PHP_DEFAULT_INIT_OVERRIDE) {
+	if (!LoggerDefaultInit()) {
+//		LoggerLog::warn("LOG4PHP main() Default Init failed.");
+	}
+}
+
+/**
+ * Default init procedure.
+ *
+ * <p>This procedure tries to configure the {@link LoggerHierarchy} using the
+ * configurator class defined via {@link LOG4PHP_CONFIGURATOR_CLASS} that tries
+ * to load the configurator file defined in {@link LOG4PHP_CONFIGURATION}.
+ * If something goes wrong a warn is raised.</p>
+ * <p>Users can skip this procedure using {@link LOG4PHP_DEFAULT_INIT_OVERRIDE}
+ * constant.</p> 
+ *
+ * @return boolean
+ */
+function LoggerDefaultInit() {
+	$configuratorClass = basename(LOG4PHP_CONFIGURATOR_CLASS);	
+	return call_user_func(array($configuratorClass, 'configure'), LOG4PHP_CONFIGURATION);
 }
