@@ -24,17 +24,21 @@
 
 class LoggerTest extends PHPUnit_Framework_TestCase {
 	
-	public function testGetCurrentLoggers() {
-		//var_dump(Logger::getCurrentLoggers());
-		self::markTestIncomplete();
+	protected function setUp() {
+		Logger::clear();
+		Logger::resetConfiguration();
+	}
+	
+	protected function tearDown() {
+		Logger::clear();
+		Logger::resetConfiguration();
 	}
 	
 	public function testLoggerExist() {
-//		$l = Logger::getRootLogger();
-//		self::assertEquals($l->getName(), 'root');
-//		$l->debug('test');
-//		self::assertTrue(Logger::exists('root'));
-		self::markTestIncomplete();
+		$l = Logger::getLogger('test');
+		self::assertEquals($l->getName(), 'test');
+		$l->debug('test');
+		self::assertTrue(Logger::exists('test'));
 	}
 	
 	public function testCanGetRootLogger() {
@@ -46,6 +50,40 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	public function testCanGetASpecificLogger() {
 		$l = Logger::getLogger('test');
 		self::assertEquals($l->getName(), 'test');
-
+	}
+	
+	public function testCanLogToAllLevels() {
+		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		
+		$logger = Logger::getLogger('mylogger');
+		ob_start();
+		$logger->info('this is an info');
+		$logger->warn('this is a warning');
+		$logger->error('this is an error');
+		$logger->debug('this is a debug message');
+		$logger->fatal('this is a fatal message');
+		
+		$v = ob_get_contents();
+		ob_end_clean();
+		
+		$e = 'INFO - this is an info'.PHP_EOL;
+		$e .= 'WARN - this is a warning'.PHP_EOL;
+		$e .= 'ERROR - this is an error'.PHP_EOL;
+		$e .= 'DEBUG - this is a debug message'.PHP_EOL;
+		$e .= 'FATAL - this is a fatal message'.PHP_EOL;
+		
+		self::assertEquals($v, $e);
+	}
+	
+	public function testGetCurrentLoggers() {
+		Logger::clear();
+		Logger::resetConfiguration();
+		
+		self::assertEquals(0, count(Logger::getCurrentLoggers()));
+		
+		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		self::assertEquals(1, count(Logger::getCurrentLoggers()));
+		$list = Logger::getCurrentLoggers();
+		self::assertEquals('mylogger', $list[0]->getName());
 	}
 }

@@ -333,7 +333,17 @@ class Logger {
 	}
 	
 	/**
-	 * Destroy loggers object tree.
+	 * Clears all logger definitions
+	 * 
+	 * @static
+	 * @return boolean 
+	 */
+	public static function clear() {
+		return LoggerHierarchy::singleton()->clear();	 
+	}
+	
+	/**
+	 * Destroy configurations for logger definitions
 	 * 
 	 * @static
 	 * @return boolean 
