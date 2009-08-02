@@ -70,7 +70,6 @@ class Logger {
 	private $parent = null;
 
 	private static $_classes = array(
-		'Logger' => '/Logger.php',
 		'LoggerException' => '/LoggerException.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLayout' => '/LoggerLayout.php',
