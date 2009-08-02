@@ -44,7 +44,6 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	public function testCanGetRootLogger() {
 		$l = Logger::getRootLogger();
 		self::assertEquals($l->getName(), 'root');
-
 	}
 	
 	public function testCanGetASpecificLogger() {
@@ -73,6 +72,20 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 		$e .= 'FATAL - this is a fatal message'.PHP_EOL;
 		
 		self::assertEquals($v, $e);
+	}
+	
+	public function testIsEnabledFor() {
+		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		
+		$logger = Logger::getLogger('mylogger');
+		
+		self::assertTrue($logger->isDebugEnabled());
+		self::assertTrue($logger->isInfoEnabled());
+		
+		$logger = Logger::getRootLogger();
+		
+		self::assertFalse($logger->isDebugEnabled());
+		self::assertFalse($logger->isInfoEnabled());
 	}
 	
 	public function testGetCurrentLoggers() {
