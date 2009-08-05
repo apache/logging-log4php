@@ -248,6 +248,7 @@
 							<report>license</report>
 							<report>project-team</report>
 							<report>issue-tracking</report>
+							<report>mailing-list</report>
 						</reports>
 					</reportSet>
 				</reportSets>
