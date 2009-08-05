@@ -39,20 +39,7 @@ class LoggerConfiguratorBasic implements LoggerConfigurator {
 		$root = Logger::getRootLogger();
 		$appender = new LoggerAppenderConsole('A1');
 		$appender->setLayout( new LoggerLayoutTTCC() );
+		$appender->activateOptions();
 		$root->addAppender($appender);
-	}
-
-	/**
-	 * Reset the default hierarchy to its default. 
-	 * It is equivalent to
-	 * <code>
-	 * Logger::resetConfiguration();
-	 * </code>
-	 *
-	 * @see LoggerHierarchy::resetConfiguration()
-	 * @static
-	 */
-	public static function resetConfiguration() {
-		Logger::resetConfiguration();
 	}
 }

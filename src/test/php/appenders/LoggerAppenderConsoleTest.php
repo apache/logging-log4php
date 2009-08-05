@@ -34,11 +34,18 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
     									"my message");
     	
     	$appender = new LoggerAppenderConsole("mylogger"); 
-		$appender->setTarget('STDOUT');
+    	$appender->setTarget('STDOUT');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
+		
+		ob_start();
 		$appender->append($event);
+		$v = ob_get_contents();
+		ob_end_clean();
+		
 		$appender->close();
+		
+		//echo $v;
     }
      
     public function testSimpleStdErrLogging() {

@@ -51,7 +51,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 	 * @var mixed the resource used to open stdout/stderr
 	 * @access private	   
 	 */
-	protected $fp = false;
+	protected $fp = null;
 
 	/**
 	 * Set console target.
@@ -68,25 +68,25 @@ class LoggerAppenderConsole extends LoggerAppender {
 
 	public function activateOptions() {
 		$this->fp = fopen($this->target, 'w');
-		if($this->fp !== false && $this->layout !== null) {
+		if(is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->getHeader());
 		}
-		$this->closed = (bool)($this->fp === false);
+		$this->closed = (bool)is_resource($this->fp);
 	}
 	
 	/**
 	 * @see LoggerAppender::close()
 	 */
 	public function close() {
-		if ($this->fp && $this->layout !== null) {
+		if (is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->getFooter());
-						fclose($this->fp);
+			fclose($this->fp);
 		}		 
 		$this->closed = true;
 	}
 
 	public function append($event) {
-		if ($this->fp && $this->layout !== null) {
+		if (is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->format($event));
 		} 
 	}

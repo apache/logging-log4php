@@ -60,6 +60,7 @@
 		<action type="update" issue="LOG4PHP-52">Use of custom factorys is discouraged - clean up (Christian Grobmeier)</action>
 		<action type="update" issue="LOG4PHP-53">Removed references were appropriate (Christian Grobmeier)</action>
 		<action type="fix" issue="LOG4PHP-54">PHPDoc is wrong due to class movements - clean up (Christian Grobmeier)</action>
+		<action type="fix" issue="LOG4PHP-59">LoggerAppenderConsole is initialized wrong (Christian Grobmeier, Christian Hammers)</action>
 		<action type="update" issue="LOG4PHP-60">Improved quickstart.apt (Christian Hammers)</action>
 		<action type="update" issue="LOG4PHP-62">Does not print warning if ini file is corrupt (Christian Hammers)</action>
 		<action type="update" issue="LOG4PHP-63">PDOAppender should throw LoggerException on database problems (Christian Hammers)</action>
