@@ -249,9 +249,6 @@ class Logger {
 	}
 	
 	private function logLevel($message, $level, $caller = null) {
-//	    if($this->repository->isDisabled($level)) {
-//			return;
-//		}
 		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
 			$this->forcedLog($this->fqcn, $caller, $level, $message);
 		}
@@ -270,7 +267,6 @@ class Logger {
 	 * @see LoggerLoggingEvent			
 	 */
 	public function forcedLog($fqcn, $caller, $level, $message) {
-		// $fqcn = is_object($caller) ? get_class($caller) : (string)$caller;
 		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message));
 	} 
 
@@ -360,14 +356,6 @@ class Logger {
 		return LoggerHierarchy::singleton()->shutdown();	   
 	}
 	
-//	/**
-//	 * Return the the repository where this Category is attached.
-//	 * @return LoggerHierarchy
-//	 */
-//	public function getLoggerRepository() {
-//		return $this->repository;
-//	} 
-
 	/**
 	 * Return the category name.
 	 * @return string
@@ -384,15 +372,6 @@ class Logger {
 		return $this->parent;
 	}	   
 		  
-//	/**
-//	 * Return the root of the default category hierarchy.
-//	 * @return LoggerRoot
-//	 */
-//	 // TODO: remove method? confusing design
-//	public function getRoot() {
-//		return Logger::getRootLogger();
-//	} 
-
 	/**
 	 * get the Root Logger (Delegate to {@link Logger})
 	 * @return LoggerRoot
@@ -457,9 +436,6 @@ class Logger {
 	 * @return boolean
 	 */
 	public function isEnabledFor($level) {
-//		if($this->repository->isDisabled($level)) {
-//			return false;
-//		}
 		return (bool)($level->isGreaterOrEqual($this->getEffectiveLevel()));
 	} 
 
@@ -519,16 +495,6 @@ class Logger {
 	public function setAdditivity($additive) {
 		$this->additive = (bool)$additive;
 	}
-
-	/**
-	 * Only the Hierarchy class can set the hierarchy of a category.
-	 *
-	 * @param LoggerHierarchy $repository
-	 */
-	 // TODO: remove method?
-//	public function setHierarchy($repository) {
-//		$this->repository = $repository;
-//	}
 
 	/**
 	 * Set the level of this Category.
