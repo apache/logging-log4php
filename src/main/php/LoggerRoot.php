@@ -25,24 +25,14 @@
  * @see Logger
  */
 class LoggerRoot extends Logger {
-
-	/**
-	 * @var string name of logger 
-	 */
-	protected $name = 'root';
-
-	/**
-	 * @var object must be null for LoggerRoot
-	 */
-	protected $parent = null;
-	
 	/**
 	 * Constructor
 	 *
 	 * @param integer $level initial log level
 	 */
 	public function __construct($level = null) {
-		parent::__construct($this->name);
+		parent::__construct('root');
+
 		if($level == null) {
 			$level = LoggerLevel::getLevelAll();
 		}

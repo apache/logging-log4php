@@ -65,6 +65,7 @@
 		<action type="update" issue="LOG4PHP-62">Does not print warning if ini file is corrupt (Christian Hammers)</action>
 		<action type="update" issue="LOG4PHP-63">PDOAppender should throw LoggerException on database problems (Christian Hammers)</action>
 		<action type="fix" issue="LOG4PHP-64">Remove deprecated call-by-reference in LoggerLayoutPattern (Christian Hammers)</action>
+		<action type="fix" issue="LOG4PHP-65">Mixing protected and private in Logger and the inheriting LoggerRoot (Christian Grobmeier)</action>
 		<action type="fix" issue="LOG4PHP-66">LoggerConfiguratorBasicTest fails in "mvn test" but not in phpunit (Christian Hammers)</action>
 		<action type="fix" issue="LOG4PHP-67">Refactoring: Use Logger instead of LoggerManager (Christian Hammers)</action>
 		<action type="update">Initial port to PHP 5 (Knut Urdalen)</action>
