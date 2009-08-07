@@ -71,7 +71,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 		if(is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->getHeader());
 		}
-		$this->closed = (bool)is_resource($this->fp);
+		$this->closed = (bool)is_resource($this->fp) === false; 
 	}
 	
 	/**
