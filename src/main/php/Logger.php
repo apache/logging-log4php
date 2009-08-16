@@ -333,6 +333,9 @@ class Logger {
 	 * @static 
 	 */
 	public static function getLogger($name) {
+		if(!self::isInitialized()) {
+			self::initialize();
+		}
 		return self::getHierarchy()->getLogger($name);
 	}
 	
@@ -520,118 +523,84 @@ class Logger {
 	public function setParent(Logger $logger) {
 		$this->parent = $logger;
 	} 
-}
-
-
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-// ---------------------------------------------------------------------------
-
-if (!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
-	if (isset($_ENV['log4php.defaultInitOverride'])) {
-		/**
-		 * @ignore
-		 */
-		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', 
-			LoggerOptionConverter::toBoolean($_ENV['log4php.defaultInitOverride'], false)
-		);
-	} elseif (isset($GLOBALS['log4php.defaultInitOverride'])) {
-		/**
-		 * @ignore
-		 */
-		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', 
-			LoggerOptionConverter::toBoolean($GLOBALS['log4php.defaultInitOverride'], false)
-		);
-	} else {
-		/**
-		 * Controls init execution
-		 *
-		 * With this constant users can skip the default init procedure that is
-		 * called when this file is included.
-		 *
-		 * <p>If it is not user defined, log4php tries to autoconfigure using (in order):</p>
-		 *
-		 * - the <code>$_ENV['log4php.defaultInitOverride']</code> variable.
-		 * - the <code>$GLOBALS['log4php.defaultInitOverride']</code> global variable.
-		 * - defaults to <i>false</i>
-		 *
-		 * @var boolean
-		 */
-		define('LOG4PHP_DEFAULT_INIT_OVERRIDE', false);
+	
+	/** the configurator class name */
+	private static $configurationClass = 'LoggerConfiguratorBasic';
+	/** the path to the configuration file */
+	private static $configurationFile = null;
+	
+	/**
+	 * Configures Log4PHP.
+	 * This method needs to be called before the first logging event
+	 * has occured. If this methode is never called, the standard configuration
+	 * takes place (@see LoggerConfiguratorBasic).
+	 * If only the configuration file is given, the configurator class will
+	 * be the XML Configurator or the INI Configurator, if no .xml ending
+	 * could be determined.
+	 * 
+	 * If a custom configurator should be used, the configuration file
+	 * is either null or the path to file the custom configurator uses.
+	 * Make sure the configurator is already or can be loaded by PHP when necessary.
+	 * 
+	 * @param String $configurationFile the configuration file
+	 * @param String $configurationClass the configurator class
+	 */
+	public static function configure($configurationFile = null, 
+									 $configurationClass = null ) {
+		if($configurationClass === null && $configurationFile === null) {
+			self::$configurationClass = 'LoggerConfiguratorBasic';
+			return;
+		}
+									 	
+		if($configurationClass !== null) {
+			self::$configurationFile = $configurationFile;
+			self::$configurationClass = $configurationClass;
+			return;
+		}
+		
+		if (strtolower(substr( $configurationFile, -4 )) == '.xml') {
+			self::$configurationFile = $configurationFile;
+			self::$configurationClass = 'LoggerConfiguratorXml';
+		} else {
+			self::$configurationFile = $configurationFile;
+			self::$configurationClass = 'LoggerConfiguratorIni';
+		}
 	}
-}
-
-if (!defined('LOG4PHP_CONFIGURATION')) {
-	if (isset($_ENV['log4php.configuration'])) {
-		/**
-		 * @ignore
-		 */
-		define('LOG4PHP_CONFIGURATION', trim($_ENV['log4php.configuration']));
-	} else {
-		/**
-		 * Configuration file.
-		 *
-		 * <p>This constant tells configurator classes where the configuration
-		 * file is located.</p>
-		 * <p>If not set by user, log4php tries to set it automatically using 
-		 * (in order):</p>
-		 *
-		 * - the <code>$_ENV['log4php.configuration']</code> enviroment variable.
-		 * - defaults to 'log4php.properties'.
-		 *
-		 * @var string
-		 */
-		define('LOG4PHP_CONFIGURATION', 'log4php.properties');
+	
+	/**
+	 * Returns the current configurator
+	 * @return the configurator
+	 */
+	public static function getConfigurationClass() {
+		return self::$configurationClass;
 	}
-}
-
-if (!defined('LOG4PHP_CONFIGURATOR_CLASS')) {
-	if ( strtolower(substr( LOG4PHP_CONFIGURATION, -4 )) == '.xml') { 
-		/**
-		 * @ignore
-		 */
-		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorXml');
-	} else {
-		/**
-		 * Holds the configurator class name.
-		 *
-		 * <p>This constant is set with the fullname (path included but non the 
-		 * .php extension) of the configurator class that init procedure will use.</p>
-		 * <p>If not set by user, log4php tries to set it automatically.</p>
-		 * <p>If {@link LOG4PHP_CONFIGURATION} has '.xml' extension set the 
-		 * constants to '{@link LOG4PHP_DIR}/xml/{@link LoggerConfiguratorXml}'.</p>
-		 * <p>Otherwise set the constants to 
-		 * '{@link LOG4PHP_DIR}/{@link LoggerConfiguratorIni}'.</p>
-		 *
-		 * <p><b>Security Note</b>: classfile pointed by this constant will be brutally
-		 * included with a:
-		 * <code>@include_once(LOG4PHP_CONFIGURATOR_CLASS . ".php");</code></p>
-		 *
-		 * @var string
-		 */
-		define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorIni');
+	
+	/**
+	 * Returns the current configuration file
+	 * @return the configuration file
+	 */
+	public static function getConfigurationFile() {
+		return self::$configurationFile;
 	}
-}
-
-if (!LOG4PHP_DEFAULT_INIT_OVERRIDE) {
-	if (!LoggerDefaultInit()) {
-//		LoggerLog::warn("LOG4PHP main() Default Init failed.");
+	
+	private static $initialized = false;
+	
+	/**
+	 * Returns, true, if the log4php framework is already initialized
+	 */
+	private static function isInitialized() {
+		return self::$initialized;
 	}
-}
-
-/**
- * Default init procedure.
- *
- * <p>This procedure tries to configure the {@link LoggerHierarchy} using the
- * configurator class defined via {@link LOG4PHP_CONFIGURATOR_CLASS} that tries
- * to load the configurator file defined in {@link LOG4PHP_CONFIGURATION}.
- * If something goes wrong a warn is raised.</p>
- * <p>Users can skip this procedure using {@link LOG4PHP_DEFAULT_INIT_OVERRIDE}
- * constant.</p> 
- *
- * @return boolean
- */
-function LoggerDefaultInit() {
-	$configuratorClass = basename(LOG4PHP_CONFIGURATOR_CLASS);	
-	return call_user_func(array($configuratorClass, 'configure'), LOG4PHP_CONFIGURATION);
+	
+	/**
+	 * Initializes the log4php framework.
+	 * TODO: clean up
+	 * @return boolean
+	 */
+	public static function initialize() {
+		$configuratorClass = basename(self::$configurationClass);	
+		$result =  call_user_func(array($configuratorClass, 'configure'), self::$configurationFile);
+		self::$initialized = true;
+		return $result;
+	}
 }

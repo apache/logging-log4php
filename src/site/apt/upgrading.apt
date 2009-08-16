@@ -29,3 +29,5 @@ Upgrading from previous versions to 2.0
   
   * LoggerHierarchy is not a singleton anymore by default. 
   
+  * Log4PHP logs to std out by default
+  

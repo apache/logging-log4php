@@ -99,4 +99,27 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 		$list = Logger::getCurrentLoggers();
 		self::assertEquals('mylogger', $list[0]->getName());
 	}
+	
+	public function testConfigure() {
+		Logger::configure();
+		self::assertEquals('LoggerConfiguratorBasic', Logger::getConfigurationClass());
+		self::assertEquals(null, Logger::getConfigurationFile());
+		
+		Logger::configure(null, 'MyLoggerClass');
+		self::assertEquals('MyLoggerClass', Logger::getConfigurationClass());
+		self::assertEquals(null, Logger::getConfigurationFile());
+		
+		Logger::configure('log4php.xml');
+		self::assertEquals('LoggerConfiguratorXml', Logger::getConfigurationClass());
+		self::assertEquals('log4php.xml', Logger::getConfigurationFile());
+		
+		Logger::configure('log4php.xml');
+		self::assertEquals('LoggerConfiguratorXml', Logger::getConfigurationClass());
+		self::assertEquals('log4php.xml', Logger::getConfigurationFile());
+		
+		Logger::configure('log4php.properties');
+		self::assertEquals('LoggerConfiguratorIni', Logger::getConfigurationClass());
+		self::assertEquals('log4php.properties', Logger::getConfigurationFile());
+		
+	}
 }
