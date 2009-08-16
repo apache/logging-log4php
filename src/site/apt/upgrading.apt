@@ -27,3 +27,5 @@ Upgrading from previous versions to 2.0
   
   * The LoggerManager class has been removed. Use Logger instead.
   
+  * LoggerHierarchy is not a singleton anymore by default. 
+  
