@@ -69,7 +69,7 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetLocationInformation() {
-		$hierarchy = LoggerHierarchy :: singleton();
+		$hierarchy = Logger::getHierarchy();
 		$root = $hierarchy->getRootLogger();
 
 		$a = new LoggerLoggingEventTestCaseAppender('A1');

@@ -68,15 +68,6 @@ class LoggerHierarchy {
 	/** LoggerLevel main level threshold */
 	protected $threshold;
 	
-	/* TODO: In log4j is this class not a singleton. Why is it in log4php? */
-	public static function singleton() {
-		static $instance;
-		if(!isset($instance)) {
-			$instance = new LoggerHierarchy(new LoggerRoot());
-		}
-		return $instance;
-	}
-	
 	/**
 	 * Create a new logger hierarchy.
 	 * @param object $root the root logger

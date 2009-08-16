@@ -159,6 +159,14 @@ class Logger {
 		$this->name = $name;
 	}
 	
+	private static $hierarchy;
+	
+	public static function getHierarchy() {
+		if(!isset(self::$hierarchy)) {
+			self::$hierarchy = new LoggerHierarchy(new LoggerRoot());
+		}
+		return self::$hierarchy;
+	}
 	/**
 	 * Add a new Appender to the list of appenders of this Category instance.
 	 *
@@ -325,7 +333,7 @@ class Logger {
 	 * @static 
 	 */
 	public static function getLogger($name) {
-		return LoggerHierarchy::singleton()->getLogger($name);
+		return self::getHierarchy()->getLogger($name);
 	}
 	
 	/**
@@ -335,7 +343,7 @@ class Logger {
 	 * @return boolean 
 	 */
 	public static function clear() {
-		return LoggerHierarchy::singleton()->clear();	 
+		return self::getHierarchy()->clear();	 
 	}
 	
 	/**
@@ -345,7 +353,7 @@ class Logger {
 	 * @return boolean 
 	 */
 	public static function resetConfiguration() {
-		return LoggerHierarchy::singleton()->resetConfiguration();	 
+		return self::getHierarchy()->resetConfiguration();	 
 	}
 
 	/**
@@ -353,7 +361,7 @@ class Logger {
 	 * @static
 	 */
 	public static function shutdown() {
-		return LoggerHierarchy::singleton()->shutdown();	   
+		return self::getHierarchy()->shutdown();	   
 	}
 	
 	/**
@@ -378,7 +386,7 @@ class Logger {
 	 * @static 
 	 */	   
 	public static function getRootLogger() {
-		return LoggerHierarchy::singleton()->getRootLogger();	  
+		return self::getHierarchy()->getRootLogger();	  
 	}
 	
 	/**
@@ -389,7 +397,7 @@ class Logger {
 	 * @return boolean
 	 */
 	public static function exists($name) {
-		return LoggerHierarchy::singleton()->exists($name);
+		return self::getHierarchy()->exists($name);
 	}
 	
 	/**
@@ -397,9 +405,10 @@ class Logger {
 	 * 
 	 * @static
 	 * @return LoggerHierarchy
+	 * @deprecated
 	 */
 	public static function getLoggerRepository() {
-		return LoggerHierarchy::singleton();	
+		return self::getHierarchy();	
 	}
 
 	/**
@@ -410,7 +419,7 @@ class Logger {
 	 * @return array
 	 */
 	public static function getCurrentLoggers() {
-		return LoggerHierarchy::singleton()->getCurrentLoggers();
+		return self::getHierarchy()->getCurrentLoggers();
 	}
 	/**
 	 * Is the appender passed as parameter attached to this category?
