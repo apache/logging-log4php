@@ -35,8 +35,8 @@ class LoggerConfiguratorBasic implements LoggerConfigurator {
 	 * 
 	 * @param string $url not used here
 	 */
-	public static function configure($url = null) {
-		$root = Logger::getRootLogger();
+	public function configure(LoggerHierarchy $hierarchy, $url = null) {
+		$root = $hierarchy->getRootLogger();
 		$appender = new LoggerAppenderConsole('A1');
 		$appender->setLayout( new LoggerLayoutTTCC() );
 		$appender->activateOptions();

@@ -119,10 +119,8 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
      * @param string $url
      * @static
      */
-    public static function configure($url = '') {
-    	$configurator = new self(); 
-        $repository = Logger::getLoggerRepository();
-        return $configurator->doConfigure($url, $repository);
+    public function configure(LoggerHierarchy $hierarchy, $url = '') {
+        return $this->doConfigure($url, $hierarchy);
     }
     
     /**

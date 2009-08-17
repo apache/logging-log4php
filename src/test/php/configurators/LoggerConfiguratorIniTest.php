@@ -34,29 +34,27 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	}
         
 	public function testConfigure() {
-		LoggerConfiguratorIni::configure('configurators/test1.properties');
-		$hierarchy = Logger::getLoggerRepository();
-		$root = $hierarchy->getRootLogger();
+		Logger::configure('configurators/test1.properties');
+		$root = Logger::getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
 		self::assertTrue($appender instanceof LoggerAppenderEcho);
 		$layout = $appender->getLayout();
 		self::assertTrue($layout instanceof LoggerLayoutSimple);
 		
-		$logger = $hierarchy->getLogger('mylogger');
+		$logger = Logger::getLogger('mylogger');
 		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 		self::assertFalse($logger->getAdditivity());
 		
-		$logger2 = $hierarchy->getLogger('mylogger');
+		$logger2 = Logger::getLogger('mylogger');
 		$logger2->setAdditivity(true);
 		self::assertTrue($logger2->getAdditivity());
 		self::assertTrue($logger->getAdditivity());
 	}
 	
 	public function testConfigureWithRootCategory() {
-		LoggerConfiguratorIni::configure('configurators/test3.properties');
-		$hierarchy = Logger::getLoggerRepository();
-		$root = $hierarchy->getRootLogger();
+		Logger::configure('configurators/test3.properties');
+		$root = Logger::getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
 		self::assertTrue($appender instanceof LoggerAppenderEcho);
@@ -67,7 +65,8 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	public function testConfigureWithoutIniFile() {
 	    $catchedException = null;
 	    try {
-	       LoggerConfiguratorIni::configure();
+	       Logger::configure(null,'LoggerConfiguratorIni');
+	       Logger::initialize();
 	       self::assertTrue(false);
 	    } catch (LoggerException $e) {
 	    	$catchedException = $e;
@@ -78,7 +77,8 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	public function testConfigureWithEmptyIniFile() {
 		$catchedException = null;
 	    try {
-	       LoggerConfiguratorIni::configure('configurators/test2.properties');
+	       Logger::configure('configurators/test2.properties');
+	       Logger::initialize();
 	       self::assertTrue(false);
 	    } catch (LoggerException $e) {
 	    	$catchedException = $e;

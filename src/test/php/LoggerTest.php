@@ -52,7 +52,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testCanLogToAllLevels() {
-		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		Logger::configure('LoggerTest.properties');
 		
 		$logger = Logger::getLogger('mylogger');
 		ob_start();
@@ -75,7 +75,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testIsEnabledFor() {
-		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		Logger::configure('LoggerTest.properties');
 		
 		$logger = Logger::getLogger('mylogger');
 		
@@ -94,13 +94,15 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 		
 		self::assertEquals(0, count(Logger::getCurrentLoggers()));
 		
-		LoggerConfiguratorIni::configure('LoggerTest.properties');
+		Logger::configure('LoggerTest.properties');
+		Logger::initialize();
 		self::assertEquals(1, count(Logger::getCurrentLoggers()));
 		$list = Logger::getCurrentLoggers();
 		self::assertEquals('mylogger', $list[0]->getName());
 	}
 	
 	public function testConfigure() {
+		Logger::resetConfiguration();
 		Logger::configure();
 		self::assertEquals('LoggerConfiguratorBasic', Logger::getConfigurationClass());
 		self::assertEquals(null, Logger::getConfigurationFile());

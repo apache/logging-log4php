@@ -161,6 +161,14 @@ class Logger {
 	
 	private static $hierarchy;
 	
+	/**
+	 * Returns the hierarchy used by this Logger.
+	 * Caution: do not use this hierarchy unless you have called initialize().
+	 * To get Loggers, use the Logger::getLogger and Logger::getRootLogger methods
+	 * instead of operating on on the hierarchy directly.
+	 * 
+	 * @deprecated - will be moved to private
+	 */
 	public static function getHierarchy() {
 		if(!isset(self::$hierarchy)) {
 			self::$hierarchy = new LoggerHierarchy(new LoggerRoot());
@@ -356,7 +364,11 @@ class Logger {
 	 * @return boolean 
 	 */
 	public static function resetConfiguration() {
-		return self::getHierarchy()->resetConfiguration();	 
+		$result = self::getHierarchy()->resetConfiguration();
+		self::$initialized = false;
+		self::$configurationClass = 'LoggerConfiguratorBasic';
+		self::$configurationFile = null;
+		return $result;	 
 	}
 
 	/**
@@ -389,6 +401,9 @@ class Logger {
 	 * @static 
 	 */	   
 	public static function getRootLogger() {
+		if(!self::isInitialized()) {
+			self::initialize();
+		}
 		return self::getHierarchy()->getRootLogger();	  
 	}
 	
@@ -594,13 +609,12 @@ class Logger {
 	
 	/**
 	 * Initializes the log4php framework.
-	 * TODO: clean up
 	 * @return boolean
 	 */
 	public static function initialize() {
-		$configuratorClass = basename(self::$configurationClass);	
-		$result =  call_user_func(array($configuratorClass, 'configure'), self::$configurationFile);
 		self::$initialized = true;
+		$instance = LoggerReflectionUtils::createObject(self::$configurationClass);
+		$result = $instance->configure(self::getHierarchy(), self::$configurationFile);
 		return $result;
 	}
 }

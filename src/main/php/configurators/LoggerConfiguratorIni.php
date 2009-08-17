@@ -99,10 +99,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @return boolean configuration result
 	 * @static
 	 */
-	public static function configure($url = '') {
-		$configurator = new LoggerConfiguratorIni();
-		$repository = Logger::getLoggerRepository();
-		return $configurator->doConfigure($url, $repository);
+	public function configure(LoggerHierarchy $hierarchy, $url = '') {
+		return $this->doConfigure($url, $hierarchy);
 	}
 
 	/**

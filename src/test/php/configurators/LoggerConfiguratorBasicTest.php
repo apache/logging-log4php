@@ -26,7 +26,6 @@
 class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {
-	    LoggerConfiguratorBasic::configure();
 	}
         
 	protected function tearDown() {
@@ -65,14 +64,12 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 		// from previous runs. ResetConfiguration() only clears the appenders, it does
 		// not remove the categories!
 		Logger::resetConfiguration();
-		$hierarchy = Logger::getHierarchy();
-        foreach ($hierarchy->getCurrentLoggers() as $logger) {
+        foreach (Logger::getCurrentLoggers() as $logger) {
             self::assertEquals(0, count($logger->getAllAppenders()));
         }		
 
         // This on the other hand really removes the categories:
-        $hierarchy->clear(); 
-		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
-		self::assertEquals(0, count($hierarchy->getCurrentLoggers()));
+        Logger::clear(); 
+		self::assertEquals(0, count(Logger::getCurrentLoggers()));
 	}
 }

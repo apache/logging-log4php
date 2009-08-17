@@ -47,6 +47,6 @@ interface LoggerConfigurator {
 	 *
 	 * @param string $url The URL to parse
 	 */
-	public static function configure($url = null);
+	public function configure(LoggerHierarchy $hierarchy, $url = null);
 	
 }

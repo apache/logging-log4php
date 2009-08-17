@@ -34,15 +34,14 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testConfigure() {
-		LoggerConfiguratorPhp::configure('configurators/test1.php');
-		$hierarchy = Logger::getLoggerRepository();
-		$root = $hierarchy->getRootLogger();
+		Logger::configure('configurators/test1.php','LoggerConfiguratorPhp');
+		$root = Logger::getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
 		self::assertTrue($appender instanceof LoggerAppenderEcho);
 		$layout = $appender->getLayout();
 		self::assertTrue($layout instanceof LoggerLayoutSimple);
-		$logger = $hierarchy->getLogger('mylogger');
+		$logger = Logger::getLogger('mylogger');
 		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 	}
 }
