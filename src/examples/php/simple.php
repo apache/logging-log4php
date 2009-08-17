@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-
-require_once LOG4PHP_DIR.'/Logger.php';
+require_once dirname(__FILE__).'/../../main/php/Logger.php';
 
 class Log4phpTest {
 
@@ -40,5 +38,4 @@ Log4phpTestFunction();
 
 // Safely close all appenders with...
 Logger::shutdown();
-
 ?>

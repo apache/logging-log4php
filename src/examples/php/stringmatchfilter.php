@@ -15,10 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/stringmatchfilter.xml');
+require_once dirname(__FILE__).'/../../main/php/Logger.php';
 
-require_once LOG4PHP_DIR.'/Logger.php';
+Logger::configure(dirname(__FILE__).'/../resources/stringmatchfilter.xml');
 $logger = Logger::getRootLogger();
 $logger->debug("Some text to match that will be rejected");
 $logger->info("Some other text that will be accepted");

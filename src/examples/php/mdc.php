@@ -15,13 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-define('LOG4PHP_CONFIGURATION', dirname(__FILE__).'/../resources/mdc.properties');
+require_once dirname(__FILE__).'/../../main/php/Logger.php';
 
-require_once LOG4PHP_DIR.'/Logger.php';
-
+Logger::configure(dirname(__FILE__).'/../resources/mdc.properties');
 LoggerMDC::put('username', 'knut');
-
 $logger = Logger::getRootLogger();
 $logger->debug("Testing MDC");
 ?>
