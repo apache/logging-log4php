@@ -50,25 +50,6 @@ spl_autoload_register(array('Logger', 'autoload'));
   * Localization: l7dlog($priority, $key, $params, $t) : not supported
   */
 class Logger {
-	/**
-	 * Additivity is set to true by default, that is children inherit the 
-	 * appenders of their ancestors by default.
-	 * @var boolean
-	 */
-	private $additive = true;
-	
-	/** @var string fully qualified class name */
-	private $fqcn = 'Logger';
-
-	/** @var LoggerLevel The assigned level of this category. */
-	private $level = null;
-	
-	/** @var string name of this category. */
-	private $name = '';
-	
-	/** @var Logger The parent of this category. Null if this is the root logger*/
-	private $parent = null;
-
 	private static $_classes = array(
 		'LoggerException' => '/LoggerException.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
@@ -146,11 +127,42 @@ class Logger {
 	}
 
 	/**
+	 * Additivity is set to true by default, that is children inherit the 
+	 * appenders of their ancestors by default.
+	 * @var boolean
+	 */
+	private $additive = true;
+	
+	/** @var string fully qualified class name */
+	private $fqcn = 'Logger';
+
+	/** @var LoggerLevel The assigned level of this category. */
+	private $level = null;
+	
+	/** @var string name of this category. */
+	private $name = '';
+	
+	/** @var Logger The parent of this category. Null if this is the root logger*/
+	private $parent = null;
+	
+	/**
 	 * @var array collection of appenders
 	 * @see LoggerAppender
 	 */
 	private $aai = array();
 
+	/** the hierarchy used by log4php */
+	private static $hierarchy;
+	
+	/** the configurator class name */
+	private static $configurationClass = 'LoggerConfiguratorBasic';
+	
+	/** the path to the configuration file */
+	private static $configurationFile = null;
+	
+	/** inidicates if log4php has already been initialized */
+	private static $initialized = false;
+	
 	/**
 	 * Constructor.
 	 * @param  string  $name  Category name	  
@@ -159,7 +171,21 @@ class Logger {
 		$this->name = $name;
 	}
 	
-	private static $hierarchy;
+	/**
+	 * Return the category name.
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	} 
+
+	/**
+	 * Returns the parent of this category.
+	 * @return Logger
+	 */
+	public function getParent() {
+		return $this->parent;
+	}	  
 	
 	/**
 	 * Returns the hierarchy used by this Logger.
@@ -175,44 +201,8 @@ class Logger {
 		}
 		return self::$hierarchy;
 	}
-	/**
-	 * Add a new Appender to the list of appenders of this Category instance.
-	 *
-	 * @param LoggerAppender $newAppender
-	 */
-	public function addAppender($newAppender) {
-		$appenderName = $newAppender->getName();
-		$this->aai[$appenderName] = $newAppender;
-	} 
-			
-	/**
-	 * If assertion parameter is false, then logs msg as an error statement.
-	 *
-	 * @param bool $assertion
-	 * @param string $msg message to log
-	 */
-	public function assertLog($assertion = true, $msg = '') {
-		if($assertion == false) {
-			$this->error($msg);
-		}
-	} 
-
-	/**
-	 * Call the appenders in the hierarchy starting at this.
-	 *
-	 * @param LoggerLoggingEvent $event 
-	 */
-	public function callAppenders($event) {
-		if(count($this->aai) > 0) {
-			foreach(array_keys($this->aai) as $appenderName) {
-				$this->aai[$appenderName]->doAppend($event);
-			}
-		}
-		if($this->parent != null and $this->getAdditivity()) {
-			$this->parent->callAppenders($event);
-		}
-	}
 	
+	/* Logging methods */
 	/**
 	 * Log a message object with the DEBUG level including the caller.
 	 *
@@ -264,12 +254,6 @@ class Logger {
 		$this->logLevel($message, LoggerLevel::getLevelFatal(), $caller);
 	}
 	
-	private function logLevel($message, $level, $caller = null) {
-		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $level, $message);
-		}
-	}
-	
 	/**
 	 * This method creates a new logging event and logs the event without further checks.
 	 *
@@ -285,170 +269,9 @@ class Logger {
 	public function forcedLog($fqcn, $caller, $level, $message) {
 		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message));
 	} 
-
-	/**
-	 * Get the additivity flag for this Category instance.
-	 * @return boolean
-	 */
-	public function getAdditivity() {
-		return $this->additive;
-	}
- 
-	/**
-	 * Get the appenders contained in this category as an array.
-	 * @return array collection of appenders
-	 */
-	public function getAllAppenders() {
-		return array_values($this->aai);
-	}
 	
-	/**
-	 * Look for the appender named as name.
-	 * @return LoggerAppender
-	 */
-	public function getAppender($name) {
-		return $this->aai[$name];
-	}
-  
-	/**
-	 * Starting from this category, search the category hierarchy for a non-null level and return it.
-	 * @see LoggerLevel
-	 * @return LoggerLevel or null
-	 */
-	public function getEffectiveLevel() {
-		for($c = $this; $c != null; $c = $c->parent) {
-			if($c->getLevel() !== null) {
-				return $c->getLevel();
-			}
-		}
-		return null;
-	}
-  
-	/**
-	 * Returns the assigned Level, if any, for this Category.
-	 * @return LoggerLevel or null 
-	 */
-	public function getLevel() {
-		return $this->level;
-	}
 	
-	/**
-	 * Get a Logger by name (Delegate to {@link Logger})
-	 * 
-	 * @param string $name logger name
-	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
-	 * @return Logger
-	 * @static 
-	 */
-	public static function getLogger($name) {
-		if(!self::isInitialized()) {
-			self::initialize();
-		}
-		return self::getHierarchy()->getLogger($name);
-	}
-	
-	/**
-	 * Clears all logger definitions
-	 * 
-	 * @static
-	 * @return boolean 
-	 */
-	public static function clear() {
-		return self::getHierarchy()->clear();	 
-	}
-	
-	/**
-	 * Destroy configurations for logger definitions
-	 * 
-	 * @static
-	 * @return boolean 
-	 */
-	public static function resetConfiguration() {
-		$result = self::getHierarchy()->resetConfiguration();
-		self::$initialized = false;
-		self::$configurationClass = 'LoggerConfiguratorBasic';
-		self::$configurationFile = null;
-		return $result;	 
-	}
-
-	/**
-	 * Safely close all appenders.
-	 * @static
-	 */
-	public static function shutdown() {
-		return self::getHierarchy()->shutdown();	   
-	}
-	
-	/**
-	 * Return the category name.
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	} 
-
-	/**
-	 * Returns the parent of this category.
-	 * @return Logger
-	 */
-	public function getParent() {
-		return $this->parent;
-	}	   
-		  
-	/**
-	 * get the Root Logger (Delegate to {@link Logger})
-	 * @return LoggerRoot
-	 * @static 
-	 */	   
-	public static function getRootLogger() {
-		if(!self::isInitialized()) {
-			self::initialize();
-		}
-		return self::getHierarchy()->getRootLogger();	  
-	}
-	
-	/**
-	 * check if a given logger exists.
-	 * 
-	 * @param string $name logger name 
-	 * @static
-	 * @return boolean
-	 */
-	public static function exists($name) {
-		return self::getHierarchy()->exists($name);
-	}
-	
-	/**
-	 * Returns the LoggerHierarchy.
-	 * 
-	 * @static
-	 * @return LoggerHierarchy
-	 * @deprecated
-	 */
-	public static function getLoggerRepository() {
-		return self::getHierarchy();	
-	}
-
-	/**
-	 * Returns an array this whole Logger instances.
-	 * 
-	 * @static
-	 * @see Logger
-	 * @return array
-	 */
-	public static function getCurrentLoggers() {
-		return self::getHierarchy()->getCurrentLoggers();
-	}
-	/**
-	 * Is the appender passed as parameter attached to this category?
-	 *
-	 * @param LoggerAppender $appender
-	 */
-	public function isAttached($appender) {
-		return isset($this->aai[$appender->getName()]);
-	} 
-		   
-	/**
+		/**
 	 * Check whether this category is enabled for the DEBUG Level.
 	 * @return boolean
 	 */
@@ -487,7 +310,66 @@ class Logger {
 			$this->forcedLog($this->fqcn, $caller, $priority, $message);
 		}
 	}
-
+	
+	/**
+	 * If assertion parameter is false, then logs msg as an error statement.
+	 *
+	 * @param bool $assertion
+	 * @param string $msg message to log
+	 */
+	public function assertLog($assertion = true, $msg = '') {
+		if($assertion == false) {
+			$this->error($msg);
+		}
+	}
+	 
+	private function logLevel($message, $level, $caller = null) {
+		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
+			$this->forcedLog($this->fqcn, $caller, $level, $message);
+		}
+	} 
+	
+	/* Factory methods */ 
+	
+	/**
+	 * Get a Logger by name (Delegate to {@link Logger})
+	 * 
+	 * @param string $name logger name
+	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
+	 * @return Logger
+	 * @static 
+	 */
+	public static function getLogger($name) {
+		if(!self::isInitialized()) {
+			self::initialize();
+		}
+		return self::getHierarchy()->getLogger($name);
+	}
+	
+	/**
+	 * get the Root Logger (Delegate to {@link Logger})
+	 * @return LoggerRoot
+	 * @static 
+	 */	   
+	public static function getRootLogger() {
+		if(!self::isInitialized()) {
+			self::initialize();
+		}
+		return self::getHierarchy()->getRootLogger();	  
+	}
+	
+	/* Configuration methods */
+	
+	/**
+	 * Add a new Appender to the list of appenders of this Category instance.
+	 *
+	 * @param LoggerAppender $newAppender
+	 */
+	public function addAppender($newAppender) {
+		$appenderName = $newAppender->getName();
+		$this->aai[$appenderName] = $newAppender;
+	}
+	
 	/**
 	 * Remove all previously added appenders from this Category instance.
 	 */
@@ -513,16 +395,69 @@ class Logger {
 			unset($this->aai[$appender]);
 		}
 	} 
-
+			
 	/**
-	 * Set the additivity flag for this Category instance.
+	 * Call the appenders in the hierarchy starting at this.
 	 *
-	 * @param boolean $additive
+	 * @param LoggerLoggingEvent $event 
 	 */
-	public function setAdditivity($additive) {
-		$this->additive = (bool)$additive;
+	public function callAppenders($event) {
+		if(count($this->aai) > 0) {
+			foreach(array_keys($this->aai) as $appenderName) {
+				$this->aai[$appenderName]->doAppend($event);
+			}
+		}
+		if($this->parent != null and $this->getAdditivity()) {
+			$this->parent->callAppenders($event);
+		}
 	}
-
+	
+	/**
+	 * Get the appenders contained in this category as an array.
+	 * @return array collection of appenders
+	 */
+	public function getAllAppenders() {
+		return array_values($this->aai);
+	}
+	
+	/**
+	 * Look for the appender named as name.
+	 * @return LoggerAppender
+	 */
+	public function getAppender($name) {
+		return $this->aai[$name];
+	}
+	
+	/**
+	 * Get the additivity flag for this Category instance.
+	 * @return boolean
+	 */
+	public function getAdditivity() {
+		return $this->additive;
+	}
+ 
+	/**
+	 * Starting from this category, search the category hierarchy for a non-null level and return it.
+	 * @see LoggerLevel
+	 * @return LoggerLevel or null
+	 */
+	public function getEffectiveLevel() {
+		for($c = $this; $c != null; $c = $c->parent) {
+			if($c->getLevel() !== null) {
+				return $c->getLevel();
+			}
+		}
+		return null;
+	}
+  
+	/**
+	 * Returns the assigned Level, if any, for this Category.
+	 * @return LoggerLevel or null 
+	 */
+	public function getLevel() {
+		return $this->level;
+	}
+	
 	/**
 	 * Set the level of this Category.
 	 *
@@ -533,16 +468,83 @@ class Logger {
 	}
 	
 	/**
+	 * Clears all logger definitions
+	 * 
+	 * @static
+	 * @return boolean 
+	 */
+	public static function clear() {
+		return self::getHierarchy()->clear();	 
+	}
+	
+	/**
+	 * Destroy configurations for logger definitions
+	 * 
+	 * @static
+	 * @return boolean 
+	 */
+	public static function resetConfiguration() {
+		$result = self::getHierarchy()->resetConfiguration();
+		self::$initialized = false;
+		self::$configurationClass = 'LoggerConfiguratorBasic';
+		self::$configurationFile = null;
+		return $result;	 
+	}
+
+	/**
+	 * Safely close all appenders.
+	 * @static
+	 */
+	public static function shutdown() {
+		return self::getHierarchy()->shutdown();	   
+	}
+	
+	/**
+	 * check if a given logger exists.
+	 * 
+	 * @param string $name logger name 
+	 * @static
+	 * @return boolean
+	 */
+	public static function exists($name) {
+		return self::getHierarchy()->exists($name);
+	}
+	
+	/**
+	 * Returns an array this whole Logger instances.
+	 * 
+	 * @static
+	 * @see Logger
+	 * @return array
+	 */
+	public static function getCurrentLoggers() {
+		return self::getHierarchy()->getCurrentLoggers();
+	}
+	
+	/**
+	 * Is the appender passed as parameter attached to this category?
+	 *
+	 * @param LoggerAppender $appender
+	 */
+	public function isAttached($appender) {
+		return isset($this->aai[$appender->getName()]);
+	} 
+		   
+	/**
+	 * Set the additivity flag for this Category instance.
+	 *
+	 * @param boolean $additive
+	 */
+	public function setAdditivity($additive) {
+		$this->additive = (bool)$additive;
+	}
+
+	/**
 	 * Sets the parent logger of this logger
 	 */
 	public function setParent(Logger $logger) {
 		$this->parent = $logger;
 	} 
-	
-	/** the configurator class name */
-	private static $configurationClass = 'LoggerConfiguratorBasic';
-	/** the path to the configuration file */
-	private static $configurationFile = null;
 	
 	/**
 	 * Configures Log4PHP.
@@ -597,8 +599,6 @@ class Logger {
 	public static function getConfigurationFile() {
 		return self::$configurationFile;
 	}
-	
-	private static $initialized = false;
 	
 	/**
 	 * Returns, true, if the log4php framework is already initialized
