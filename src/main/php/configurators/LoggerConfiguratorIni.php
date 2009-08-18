@@ -88,20 +88,6 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	public function __construct() {
 	}
-	
-	/**
-	 * Configure the default repository using the resource pointed by <b>url</b>.
-	 * <b>Url</b> is any valid resurce as defined in {@link PHP_MANUAL#file} function.
-	 * Note that the resource will be search with <i>use_include_path</i> parameter 
-	 * set to "1".
-	 *
-	 * @param string $url
-	 * @return boolean configuration result
-	 * @static
-	 */
-	public function configure(LoggerHierarchy $hierarchy, $url = '') {
-		return $this->doConfigure($url, $hierarchy);
-	}
 
 	/**
 	 * Read configuration from a file.
@@ -298,15 +284,14 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 *					  configuration information is stored.
 	 * @param LoggerHierarchy $repository the repository to apply the configuration
 	 */
-	private function doConfigure($url, LoggerHierarchy $repository) {
+	public function configure(LoggerHierarchy $hierarchy, $url = '') {
 		$properties = @parse_ini_file($url);
 		if ($properties === false || count($properties) == 0) {
 			$error = error_get_last();
 		    throw new LoggerException("LoggerConfiguratorIni: ".$error['message']);
 		}
-		return $this->doConfigureProperties($properties, $repository);
+		return $this->doConfigureProperties($properties, $hierarchy);
 	}
-
 
 	/**
 	 * Read configuration options from <b>properties</b>.
@@ -316,28 +301,13 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param LoggerHierarchy $hierarchy
 	 */
 	private function doConfigureProperties($properties, LoggerHierarchy $hierarchy) {
-		/*
-		$value = @$properties[LOGGER_DEBUG_KEY];
-		
-		if(!empty($value)) {
-			LoggerLog::internalDebugging(LoggerOptionConverter::toBoolean($value, LoggerLog::internalDebugging()));
-		}
-		*/
-		
-		
 		$thresholdStr = @$properties[self::THRESHOLD_PREFIX];
 		$hierarchy->setThreshold(LoggerOptionConverter::toLevel($thresholdStr, LoggerLevel::getLevelAll()));
-		
 		$this->configureRootCategory($properties, $hierarchy);
 		$this->parseCatsAndRenderers($properties, $hierarchy);
-
 		return true;
 	}
 
-	// --------------------------------------------------------------------------
-	// Internal stuff
-	// --------------------------------------------------------------------------
-	
 	/**
 	 * @param array $props array of properties
 	 * @param LoggerHierarchy $hierarchy
@@ -352,21 +322,10 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		}
 
 		if(empty($value)) {
-//			LoggerLog::debug(
-//				"LoggerPropertyConfigurator::configureRootCategory() ".
-//				"Could not find root logger information. Is this OK?"
-//			);
+			// TODO "Could not find root logger information. Is this OK?"
 		} else {
 			$root = $hierarchy->getRootLogger();
-			// synchronized(root) {
-				$this->parseCategory(
-				$props, 
-				$root, 
-				$effectivePrefix, 
-				self::INTERNAL_ROOT_NAME, 
-				$value
-			);
-			// }
+			$this->parseCategory($props, $root, $effectivePrefix, self::INTERNAL_ROOT_NAME,	$value);
 		}
 	}
 
@@ -387,10 +346,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				}
 				
 				$logger = $hierarchy->getLogger($loggerName);
-					// synchronized(logger) {
-					$this->parseCategory($props, $logger, $key, $loggerName, $value);
-					$this->parseAdditivityForLogger($props, $logger, $loggerName);
-					// }
+				$this->parseCategory($props, $logger, $key, $loggerName, $value);
+				$this->parseAdditivityForLogger($props, $logger, $loggerName);
 			} else if(strpos($key, self::RENDERER_PREFIX) === 0) {
 				$renderedClass = substr($key, strlen(self::RENDERER_PREFIX));
 				$renderingClass = $value;
@@ -409,10 +366,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param string $loggerName
 	 */
 	private function parseAdditivityForLogger($props, Logger $cat, $loggerName) {
-		$value = LoggerOptionConverter::findAndSubst(
-					self::ADDITIVITY_PREFIX . $loggerName,
-										$props
-				 );
+		$value = LoggerOptionConverter::findAndSubst(self::ADDITIVITY_PREFIX . $loggerName, $props);
 		
 		// touch additivity only if necessary
 		if(!empty($value)) {
@@ -432,7 +386,6 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @return Logger
 	 */
 	private function parseCategory($props, Logger $logger, $optionKey, $loggerName, $value) {
-		
 		// We must skip over ',' but not white space
 		$st = explode(',', $value);
 
@@ -451,11 +404,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			// root category.
 			if('INHERITED' == strtoupper($levelStr) || 'NULL' == strtoupper($levelStr)) {
 				if($loggerName == self::INTERNAL_ROOT_NAME) {
-//					TODO: throw exception?
-//					LoggerLog::warn(
-//						"LoggerPropertyConfigurator::parseCategory() ".
-//						"The root logger cannot be set to null."
-//					);
+					// TODO: throw exception?	"The root logger cannot be set to null."
 				} else {
 					$logger->setLevel(null);
 				}
@@ -522,5 +471,4 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		LoggerReflectionUtils::setPropertiesByObject($appender, $props, $prefix . ".");
 		return $appender;		 
 	}
-
 }
