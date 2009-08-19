@@ -15,36 +15,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- * @package log4php
- * @subpackage appenders
  */
 
 /**
- * A NullAppender merely exists, it never outputs a message to any device.	
+ * Pool implmentation for LoggerAppender instances
  *
- * @version $Revision$
+ * @version $Revision: 795727 $
  * @package log4php
- * @subpackage appenders
  */
-class LoggerAppenderNull extends LoggerAppender {
-
-	protected $requiresLayout = false;
-	
-	public function activateOptions() {
-		$this->closed = false;
-	}
-	
-	public function close() {
-		$this->closed = true;
-	}
+class LoggerAppenderPool {
+	/* Appender Pool */
+	public static $appenderPool =  null;
 	
 	/**
-	 * Do nothing. 
 	 * 
-	 * @param LoggerLoggingEvent $event
+	 *
+	 * @param string $name 
+	 * @param string $class 
+	 * @return LoggerAppender
 	 */
-	public function append($event) {
+	public static function getAppenderFromPool($name, $class = '') {
+		if(isset(self::$appenderPool[$name])) {
+			return self::$appenderPool[$name];
+		}
+		
+		if(empty($class)) {
+			return null;
+		}
+		
+		$appender = LoggerReflectionUtils::createObject($class);
+		$appender->setName($name);
+		if($appender !== null) { 
+			self::$appenderPool[$name] = $appender;
+			return self::$appenderPool[$name];
+		}
+		return null;		
 	}
 }
-

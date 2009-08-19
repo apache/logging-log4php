@@ -68,50 +68,9 @@ abstract class LoggerAppender {
 	 *
 	 * @param string $name appender name
 	 */
-	public function __construct($name) {
+	public function __construct($name = '') {
 		$this->name = $name;
 		$this->clearFilters();
-	}
-
-	/**
-	 * Factory
-	 *
-	 * @param string $name appender name
-	 * @param string $class create an instance of this appender class
-	 * @return LoggerAppender
-	 */
-	public static function factory($name, $class) {
-		$class = basename($class);
-		if(!empty($class)) {
-			return new $class($name);
-		}
-		return null;
-	}
-
-	/**
-	 * Singleton
-	 *
-	 * @param string $name appender name
-	 * @param string $class create or get a reference instance of this class
-	 * @return LoggerAppender 
-	 */
-	public static function singleton($name, $class = '') {
-		static $instances;
-		
-		if(!empty($name)) {
-			if(!isset($instances[$name])) {
-				if(!empty($class)) {
-					$appender = self::factory($name, $class);
-					if($appender !== null) { 
-						$instances[$name] = $appender;
-						return $instances[$name];
-					}
-				}
-				return null;
-			}
-			return $instances[$name];				 
-		}		 
-		return null;		
 	}
 
 	/**

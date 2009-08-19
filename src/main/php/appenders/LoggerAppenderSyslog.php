@@ -73,7 +73,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 */
 	private $_overridePriority;
 
-	public function __construct($name) {
+	public function __construct($name = '') {
 		parent::__construct($name);
 		$this->requiresLayout = true;
 	}

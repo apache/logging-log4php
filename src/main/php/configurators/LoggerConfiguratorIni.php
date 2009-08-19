@@ -413,8 +413,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			}
 		}
 
-		// Begin by removing all existing appenders.
-		$logger->removeAllAppenders();
+		// TODO: removing should be done by the logger, if necessary and wanted 
+		// $logger->removeAllAppenders();
 		while($appenderName = next($st)) {
 			$appenderName = trim($appenderName);
 			if(empty($appenderName)) {
@@ -434,25 +434,19 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @return LoggerAppender
 	 */
 	private function parseAppender($props, $appenderName) {
-		$appender = LoggerAppender::singleton($appenderName);
-		if($appender !== null) {
-			return $appender;
-		}
-		// Appender was not previously initialized.
+		$appender = LoggerAppenderPool::getAppenderFromPool($appenderName);
 		$prefix = self::APPENDER_PREFIX . $appenderName;
-		$layoutPrefix = $prefix . ".layout";
-		$appenderClass = @$props[$prefix];
-		if(!empty($appenderClass)) {
-			$appender = LoggerAppender::singleton($appenderName, $appenderClass);
+		if($appender === null) {
+			// Appender was not previously initialized.
+			$appenderClass = @$props[$prefix];
+			$appender = LoggerAppenderPool::getAppenderFromPool($appenderName, $appenderClass);
 			if($appender === null) {
 				return null;
 			}
-		} else {
-			return null;
 		}
 		
-		$appender->setName($appenderName);
 		if($appender->requiresLayout() ) {
+			$layoutPrefix = $prefix . ".layout";
 			$layoutClass = @$props[$layoutPrefix];
 			$layoutClass = LoggerOptionConverter::substVars($layoutClass, $props);
 			if(empty($layoutClass)) {

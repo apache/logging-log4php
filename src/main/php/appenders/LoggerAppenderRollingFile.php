@@ -70,15 +70,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	private $expandedFileName = null;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param string $name appender name
-	 */
-	public function __construct($name) {
-		parent::__construct($name);
-	}
-	
-	/**
 	 * Returns the value of the MaxBackupIndex option.
 	 * @return integer 
 	 */

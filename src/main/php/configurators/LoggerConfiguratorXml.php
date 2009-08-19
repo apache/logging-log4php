@@ -218,7 +218,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 $name  = $this->subst(@$attribs['NAME']);
                 $class = $this->subst(@$attribs['CLASS']);
                 
-                $this->appender = LoggerAppender::singleton($name, $class);
+                $this->appender = LoggerAppenderPool::getAppenderFromPool($name, $class);
                 $this->state[] = self::APPENDER_STATE;
                 break;
                 
@@ -229,7 +229,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 if (isset($attribs['REF']) and !empty($attribs['REF'])) {
                     $appenderName = $this->subst($attribs['REF']);
                     
-                    $appender = LoggerAppender::singleton($appenderName);
+                    $appender = LoggerAppenderPool::getAppenderFromPool($appenderName);
                     if ($appender !== null) {
                         switch (end($this->state)) {
                             case self::LOGGER_STATE:

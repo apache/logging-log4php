@@ -45,7 +45,7 @@ class LoggerAppenderFile extends LoggerAppender {
 	 */
 	protected $fp = false;
 	
-	public function __construct($name) {
+	public function __construct($name = '') {
 		parent::__construct($name);
 		$this->requiresLayout = true;
 	}

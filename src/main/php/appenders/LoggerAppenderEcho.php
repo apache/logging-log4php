@@ -33,7 +33,7 @@ class LoggerAppenderEcho extends LoggerAppender {
 	/** boolean used internally to mark first append */
 	private $firstAppend = true;
 	
-	public function __construct($name) {
+	public function __construct($name = '') {
 	    parent::__construct($name);
 	    $this->requiresLayout = true;
 	    $this->firstAppend = true;

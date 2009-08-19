@@ -58,7 +58,7 @@ class LoggerAppenderMail extends LoggerAppender {
 	 *
 	 * @param string $name appender name
 	 */
-	public function __construct($name) {
+	public function __construct($name = '') {
 		parent::__construct($name);
 				$this->requiresLayout = true;
 	}

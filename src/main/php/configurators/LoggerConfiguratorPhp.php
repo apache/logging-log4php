@@ -74,7 +74,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 			
 			foreach($config['appenders'] as $appenderName => $appenderProperties) {
 				
-				$appender = LoggerAppender::singleton($appenderName, $appenderProperties['class']);
+				$appender = LoggerAppenderPool::getAppenderFromPool($appenderName, $appenderProperties['class']);
 				
 				if($appender->requiresLayout()) {
 					
@@ -114,7 +114,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 				$rootLogger->setLevel(LoggerOptionConverter::toLevel($config['rootLogger']['level'], LoggerLevel::getLevelDebug()));
 				if(isset($config['rootLogger']['appenders'])) {
 					foreach($config['rootLogger']['appenders'] as $appenderName) {
-						$appender = LoggerAppender::singleton($appenderName);
+						$appender = LoggerAppenderPool::getAppenderFromPool($appenderName);
 						if($appender !== null) {
 							$rootLogger->addAppender($appender);
 						}
@@ -133,7 +133,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 						$logger->setLevel(LoggerOptionConverter::toLevel($loggerProperties['level'], LoggerLevel::getLevelDebug()));
 						if(isset($loggerProperties['appenders'])) {
 							foreach($loggerProperties['appenders'] as $appenderName) {
-								$appender = LoggerAppender::singleton($appenderName);
+								$appender = LoggerAppenderPool::getAppenderFromPool($appenderName);
 								if($appender !== null) {
 									$logger->addAppender($appender);
 								}
