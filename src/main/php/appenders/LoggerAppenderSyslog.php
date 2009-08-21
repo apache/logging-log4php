@@ -78,6 +78,10 @@ class LoggerAppenderSyslog extends LoggerAppender {
 		$this->requiresLayout = true;
 	}
 
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	/**
 	 * Set the ident of the syslog message.
 	 *
@@ -133,12 +137,13 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	}
 
 	public function close() {
-		closelog();
-		$this->closed = true;
+		if($this->closed != true) {
+			closelog();
+			$this->closed = true;
+		}
 	}
 
 	public function append($event) {
-
 		if($this->_option == NULL){
 			$this->_option = LOG_PID | LOG_CONS;
 		}

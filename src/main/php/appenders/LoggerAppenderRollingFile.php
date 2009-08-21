@@ -69,6 +69,10 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 */
 	private $expandedFileName = null;
 
+	public function __destruct() {
+       parent::__destruct();
+   	}
+   	
 	/**
 	 * Returns the value of the MaxBackupIndex option.
 	 * @return integer 

@@ -61,7 +61,11 @@ class LoggerAppenderPDO extends LoggerAppender {
         parent::__construct($name);
         $this->requiresLayout = false;
     }
-
+    
+	public function __destruct() {
+       $this->close();
+   	}
+   	
     /**
      * Setup db connection.
      * Based on defined options, this method connects to db defined in {@link $dsn}
@@ -141,10 +145,12 @@ class LoggerAppenderPDO extends LoggerAppender {
      * Closes the connection to the logging database
      */
     public function close() {
-        if ($this->db !== null) {
-            $db = null;
-        }
-        $this->closed = true;
+    	if($this->closed != true) {
+        	if ($this->db !== null) {
+            	$db = null;
+        	}
+        	$this->closed = true;
+    	}
     }
     
     /**

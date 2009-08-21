@@ -31,6 +31,10 @@ class LoggerAppenderNull extends LoggerAppender {
 
 	protected $requiresLayout = false;
 	
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	public function activateOptions() {
 		$this->closed = false;
 	}

@@ -74,6 +74,10 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 */
 	private $xmlLayout = null;
 	
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	/**
 	 * Create a socket connection using defined parameters
 	 */
@@ -99,8 +103,10 @@ class LoggerAppenderSocket extends LoggerAppender {
 	}
 	
 	public function close() {
-		fclose($this->sp);
-		$this->closed = true;
+		if($this->closed != true) {
+			fclose($this->sp);
+			$this->closed = true;
+		}
 	}
 
 	/**

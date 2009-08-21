@@ -60,26 +60,32 @@ class LoggerAppenderMail extends LoggerAppender {
 	 */
 	public function __construct($name = '') {
 		parent::__construct($name);
-				$this->requiresLayout = true;
+		$this->requiresLayout = true;
 	}
+
+	public function __destruct() {
+       $this->close();
+   	}
 
 	public function activateOptions() {
 		$this->closed = false;
 	}
 	
 	public function close() {
-		$from = $this->from;
-		$to = $this->to;
-
-		if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-						$subject = $this->subject;
-			mail(
-				$to, $subject, 
-				$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
-				"From: {$from}\r\n"
-			);
+		if($this->closed != true) {
+			$from = $this->from;
+			$to = $this->to;
+	
+			if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
+							$subject = $this->subject;
+				mail(
+					$to, $subject, 
+					$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
+					"From: {$from}\r\n"
+				);
+			}
+			$this->closed = true;
 		}
-		$this->closed = true;
 	}
 	
 	public function setSubject($subject) {

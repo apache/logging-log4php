@@ -494,6 +494,9 @@ class Logger {
 
 	/**
 	 * Safely close all appenders.
+	 * This is not longer necessary due the appenders shutdown via
+	 * destructors. 
+	 * @deprecated
 	 * @static
 	 */
 	public static function shutdown() {

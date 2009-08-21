@@ -76,6 +76,10 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		parent::__construct($name);
 	}
 
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	public function activateOptions() {
 		$this->closed = false;
 	}

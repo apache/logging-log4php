@@ -36,6 +36,10 @@ class LoggerAppenderPhp extends LoggerAppender {
 		$this->requiresLayout = true;
 	}
 	
+	public function __destruct() {
+       $this->close();
+   	}
+	
 	public function activateOptions() {
 		$this->closed = false;
 	}

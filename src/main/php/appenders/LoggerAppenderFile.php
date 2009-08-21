@@ -50,6 +50,10 @@ class LoggerAppenderFile extends LoggerAppender {
 		$this->requiresLayout = true;
 	}
 
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	public function activateOptions() {
 		$fileName = $this->getFile();
 
@@ -79,14 +83,16 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	public function close() {
-		if($this->fp and $this->layout !== null) {
-			if(flock($this->fp, LOCK_EX)) {
-				fwrite($this->fp, $this->layout->getFooter());
-				flock($this->fp, LOCK_UN);
+		if($this->closed != true) {
+			if($this->fp and $this->layout !== null) {
+				if(flock($this->fp, LOCK_EX)) {
+					fwrite($this->fp, $this->layout->getFooter());
+					flock($this->fp, LOCK_UN);
+				}
+				fclose($this->fp);
 			}
-			fclose($this->fp);
+			$this->closed = true;
 		}
-		$this->closed = true;
 	}
 
 	public function append($event) {
@@ -146,5 +152,7 @@ class LoggerAppenderFile extends LoggerAppender {
 	 */
 	public function getFileName() {
 		return $this->fileName;
-	} 
+	}
+	
+	 
 }

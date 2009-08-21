@@ -39,13 +39,19 @@ class LoggerAppenderEcho extends LoggerAppender {
 	    $this->firstAppend = true;
 	}
 	
+	public function __destruct() {
+       $this->close();
+   	}
+   	
 	public function activateOptions() {
 		$this->closed = false;
 	}
 	
 	public function close() {
-		if(!$this->firstAppend) {
-			echo $this->layout->getFooter();
+		if($this->closed != true) {
+			if(!$this->firstAppend) {
+				echo $this->layout->getFooter();
+			}
 		}
 		$this->closed = true;	 
 	}
