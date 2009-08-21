@@ -162,22 +162,6 @@ class LoggerAppenderPDO extends LoggerAppender {
     }
    
    	/**
-     * Sets the username for this connection. 
-     * Defaults to ''
-     */
-    public function setUser($user) {
-        $this->user = $user;
-    }
-    
-    /**
-     * Sets the password for this connection. 
-     * Defaults to ''
-     */
-    public function setPassword($password) {
-        $this->password = $password;
-    }
-    
-    /**
      * Sets the SQL string into which the event should be transformed.
      * Defaults to:
      * 
