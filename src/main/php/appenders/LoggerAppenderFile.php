@@ -67,8 +67,9 @@ class LoggerAppenderFile extends LoggerAppender {
 					fseek($this->fp, 0, SEEK_END);
 				}
 				fwrite($this->fp, $this->layout->getHeader());
+				flock($this->fp, LOCK_UN);
 				$this->closed = false;
-			} else { // race condition, unable to lock file
+			} else {
 				// TODO: should we take some action in this case?
 				$this->closed = true;
 			}		 
@@ -79,56 +80,26 @@ class LoggerAppenderFile extends LoggerAppender {
 	
 	public function close() {
 		if($this->fp and $this->layout !== null) {
-			fwrite($this->fp, $this->layout->getFooter());
+			if(flock($this->fp, LOCK_EX)) {
+				fwrite($this->fp, $this->layout->getFooter());
+				flock($this->fp, LOCK_UN);
+			}
+			fclose($this->fp);
 		}
-			
-		$this->closeFile();
 		$this->closed = true;
 	}
 
-	/**
-	 * Closes the previously opened file.
-	 */
-	public function closeFile() {
-		if($this->fp) {
-			fclose($this->fp);
-		}
+	public function append($event) {
+		if($this->fp and $this->layout !== null) {
+			if(flock($this->fp, LOCK_EX)) {
+				fwrite($this->fp, $this->layout->format($event));
+				flock($this->fp, LOCK_UN);
+			} else {
+				$this->closed = true;
+			}
+		} 
 	}
 	
-	/**
-	 * @return boolean
-	 */
-	public function getAppend() {
-		return $this->append;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFile() {
-		return $this->getFileName();
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getFileName() {
-		return $this->fileName;
-	} 
- 
-	/**
-	 * Close any previously opened file and call the parent's reset.
-	 */
-	public function reset() {
-		$this->closeFile();
-		$this->fileName = null;
-		parent::reset();
-	}
-
-	public function setAppend($flag) {
-		$this->append = LoggerOptionConverter::toBoolean($flag, true);		  
-	} 
-  
 	/**
 	 * Sets and opens the file where the log output will go.
 	 *
@@ -148,13 +119,32 @@ class LoggerAppenderFile extends LoggerAppender {
 		}
 	}
 	
+	/**
+	 * @return string
+	 */
+	public function getFile() {
+		return $this->getFileName();
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function getAppend() {
+		return $this->append;
+	}
+
+	public function setAppend($flag) {
+		$this->append = LoggerOptionConverter::toBoolean($flag, true);		  
+	}
+
 	public function setFileName($fileName) {
 		$this->fileName = $fileName;
 	}
-
-	public function append($event) {
-		if($this->fp and $this->layout !== null) {
-			fwrite($this->fp, $this->layout->format($event));
-		} 
-	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFileName() {
+		return $this->fileName;
+	} 
 }
