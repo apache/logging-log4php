@@ -50,10 +50,9 @@ Apache Log4php Quickstart
   You just want logging to stdout?
 
 +--
-  define('LOG4PHP_CONFIGURATOR_CLASS', 'LoggerConfiguratorBasic'); 
-  require_once('log4php/LoggerManager.php');
+  require_once('log4php/Logger.php');
   
-  $logger = LoggerManager::getLogger("main");
+  $logger = Logger::getLogger("main");
   $logger->info("foo");
   $logger->warn("bar");
 +--
@@ -88,19 +87,19 @@ Apache Log4php Quickstart
   framework for logging.
 
 +--
-  define('LOG4PHP_CONFIGURATION', 'log4php.properties');
-  require_once('log4php/LoggerManager.php');
+  require_once('log4php/Logger.php');
+  Logger::configure('log4php.properties');
   
   class MyClass {
      private $logger;
      
      public function __construct() {
-         $this->logger = LoggerManager::getLogger(__CLASS__);
+         $this->logger = Logger::getLogger(__CLASS__);
          $this->logger->debug('currently in constructor');
      }
   } 
   
-  $logger = LoggerManager::getLogger('main');
+  $logger = Logger::getLogger('main');
   $logger->info('below warn and thus not printed');
   
   new MyClass();

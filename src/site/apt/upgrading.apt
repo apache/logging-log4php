@@ -31,3 +31,5 @@ Upgrading from previous versions to 2.0
   
   * Log4PHP logs to std out by default
   
+  * The old constants LOG4PHP_CONFIGURATION and similar are not longer valid. Please use Logger::configure for configuring Log4PHP
+  
