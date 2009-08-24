@@ -112,6 +112,8 @@ class LoggerAppenderFile extends LoggerAppender {
 	 * This is an overloaded method. It can be called with:
 	 * - setFile(string $fileName) to set filename.
 	 * - setFile(string $fileName, boolean $append) to set filename and append.
+	 * 
+	 * TODO: remove overloading. Use only file as alias to filename
 	 */
 	public function setFile() {
 		$numargs = func_num_args();
