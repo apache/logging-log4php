@@ -49,6 +49,10 @@
            <item name="Code Coverage" href="/coverage-report/index.html"/>
         </menu>
 
+		<menu name="User Documentation">
+            <item name="Appender" href="/docs/appenders.html"/>
+        </menu>
+        
         <menu name="Community">
             <item name="Mailing Lists" href="/mail-lists.html"/>
             <item name="Issue Tracking" href="/issue-tracking.html"/>

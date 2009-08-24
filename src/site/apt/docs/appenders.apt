@@ -1,0 +1,257 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Quickstart
+ ------
+ ------
+ ------
+
+Apache Log4php Appenders
+
+* Appenders
+
+  This document describes the parameters used by the several appenders.
+
+  
+** Configuring Appenders  
+
+  An appender can be configured in your configuration file. In the following example
+  an appender with the name myappender is instantiated with the Echo-Appender. 
+  The parameter value is the actual name of the appender class. An appender class
+  is any class extending from the LoggerAppender class. 
+  
++--
+    log4php.appender.myappender = LoggerAppenderEcho
++--
+
+
+** Configuring Appender properties  
+
+  Additional properties can be configured in a property file with just adding them with
+  a dot and their name. For example if you want to populize an attribut called layout,
+  you just need to add the name of the value behind the appenders name, seperated with
+  a dot.
+  
++--
+    log4php.appender.myappender = LoggerAppenderEcho
+    log4php.appender.myappender.layout = LoggerLayoutSimple
++--
+  
+  Dev note: Attributes are populated via reflection.
+
+
+
+* Appenders Documentation
+
+** LoggerAppenderEcho
+
+  The LoggerAppenderEcho Appender writes all logging events via echo. Echo outputs may be buffered.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+
+
+
+** LoggerAppenderConsole
+
+  The LoggerAppenderConsoler Appender writes all logging events to the console, 
+  f. e. php://stdout or php://errout. Defaults to stdout.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ target 			| Sets the target to which this appender should write to (stdout or stderr)
+*-------------------*-----------------------------------------------------*
+
+
+
+** LoggerAppenderFile
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+ 
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file   			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename  			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+
+
+
+** LoggerAppenderDailyFile
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+  The file is rolled over once a day. That means, for each day a new file 
+  is created.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file   			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename  			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+ datePattern		| Sets date format for the file name.
+*-------------------*-----------------------------------------------------*
+
+
+
+** LoggerAppenderRollingFile
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+  The file is beeing rolled over after a specified size has been reached.
+ 
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file   			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename  			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+ MaxBackupIndex  	| Set the maximum number of backup files to keep around (int)
+*-------------------*-----------------------------------------------------*
+ MaxFileSize		| Set the maximum size that the output file is allowed to 
+ 					| reach before being rolled over to backup files.
+ 					| Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB"
+ 					| is interpreted as 10240
+*-------------------*-----------------------------------------------------*
+ MaximumFileSize  	| Alias to MaxFileSize
+*-------------------*-----------------------------------------------------*
+
+
+** LoggerAppenderMail
+
+  The LoggerAppenderMail appends log events to mail using php function. 
+  The appender sends all log events at once after the request has been finsished
+  and the appender is beeing closed.
+  
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ to	 	    		| Sets the recipient of the mail
+*-------------------*-----------------------------------------------------*
+ from	 			| Sets the sender of the mail
+*-------------------*-----------------------------------------------------*
+ subject 			| Sets the subject of the mail
+*-------------------*-----------------------------------------------------*
+
+
+** LoggerAppenderMailEvent
+ 
+  The LoggerAppenderMailEvent appends log events to mail using php function. 
+  The appender sends each log events when it occurs.
+ 
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ to	 	    		| Sets the recipient of the mail
+*-------------------*-----------------------------------------------------*
+ from	 			| Sets the sender of the mail
+*-------------------*-----------------------------------------------------*
+ subject 			| Sets the subject of the mail
+*-------------------*-----------------------------------------------------*
+ smtpHost   		| Sets the mail server (default: ini_get('SMTP');)
+*-------------------*-----------------------------------------------------*
+ port 			    | Sets the port of the mail server (default: 25)
+*-------------------*-----------------------------------------------------*
+
+
+** LoggerAppenderNull
+
+  Ignores all log events. 
+  
+  No additional parameters.
+  
+  
+  
+** LoggerAppenderPDO
+
+  Sends all log events to a database via PDO. The table is beeing created, if necessary
+  and not stated otherwise.
+
+*-------------------*-----------------------------------------------------*
+ user 	    		| Sets the user of this database connection
+*-------------------*-----------------------------------------------------*
+ password 			| Sets the password of this database connection
+*-------------------*-----------------------------------------------------*
+ createTable		| true, if the table should be created if necessary. false otherwise
+*-------------------*-----------------------------------------------------*
+ table      		| Sets the table name (default: log4php_log)
+*-------------------*-----------------------------------------------------*
+ sql 			    | Sets the insert statement for a logging event. Defaults
+ 					| to the correct one - change only if you are sure what you are doing.
+*-------------------*-----------------------------------------------------*
+ dsn        		| Sets the DSN string for this connection
+*-------------------*-----------------------------------------------------*
+  
+    
+  
+** LoggerAppenderPhp
+
+  Log events using the php function: trigger_error
+  
+  No additional parameters.
+
+** LoggerAppenderSocket
+
+  Serializes events and sends them to a network socket.
+
+*-------------------*-----------------------------------------------------*
+ locationInfo  		| Sets the location info for the xml layout (true or false)
+*-------------------*-----------------------------------------------------*
+ log4jNamespace		| Sets the namespace for log4j (true or false)
+*-------------------*-----------------------------------------------------*
+ port       		| Sets the port of the socket.
+*-------------------*-----------------------------------------------------*
+ remoteHost    		| Sets the remote host
+*-------------------*-----------------------------------------------------*
+ timeout		    | Sets the timeout in ms
+*-------------------*-----------------------------------------------------*
+ useXml        		| true, if xml should be transmitted.
+*					| false, if a serialized php object should be transmitted
+*-------------------*-----------------------------------------------------*
+  
+
+
+** LoggerAppenderSyslog
+
+  Log events using php syslog function.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ ident  		    | Set the ident of the syslog message.
+*-------------------*-----------------------------------------------------*
+ priority   		| Set the priority value for the syslog message.
+*-------------------*-----------------------------------------------------*
+ facility      		| Set the facility value for the syslog message
+*-------------------*-----------------------------------------------------*
+ overridePriority   | If the priority of the message to be sent can be 
+ 					| defined by a value in the properties-file, set 
+ 					| parameter value to "true"
+*-------------------*-----------------------------------------------------*
+ option 		    | Set the option value for the syslog message. 
+  					| This value is used as a parameter for php openlog()
+  					| and passed on to the syslog daemon.
+*-------------------*-----------------------------------------------------*
+ 
