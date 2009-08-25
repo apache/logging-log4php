@@ -23,8 +23,89 @@ Apache Log4php Appenders
 * Appenders
 
   This document describes the parameters used by the several appenders.
-
   
+  This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
+  You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
+
+** About Appenders
+
+  The ability to selectively enable or disable logging requests based on their logger
+  is only part of the picture. Log4PHP allows logging requests to print to multiple
+  destinations. In Log4PHP speak, an output destination is called an appender. Currently,
+  appenders exist for the console, files, databases and others (see below).
+
+  More than one appender can be attached to a logger.
+
+  The addAppender method adds an appender to a given logger. Each enabled logging
+  request for a given logger will be forwarded to all the appenders in that
+  logger as well as the appenders higher in the hierarchy. In other words,
+  appenders are inherited additively from the logger hierarchy. For example,
+  if a console appender is added to the root logger, then all enabled logging requests
+  will at least print on the console. If in addition a file appender is added
+  to a logger, say C, then enabled logging requests for C and C's children will print
+  on a file and on the console. 
+  
+  It is possible to override this default behavior so that appender accumulation
+  is no longer additive by setting the additivity flag to false.
+
+  The rules governing appender additivity are summarized below.
+  
++--
+Appender Additivity
+
+  The output of a log statement of logger C will go to all the appenders in C and its 
+  ancestors. This is the meaning of the term "appender additivity".
+
+  However, if an ancestor of logger C, say P, has the additivity flag set to false,
+  then C's output will be directed to all the appenders in C and it's ancestors upto
+  and including P but not the appenders in any of the ancestors of P.
+
+  Loggers have their additivity flag set to true by default.
++-- 
+
+  The table below shows an example:
+
+*----------------*------------*------------*-----------------*------------*
+ Logger Name     | Added      | Additivity | Output          | Comment
+ 			     | Appenders  | Flag       | Targets         |
+*----------------*------------*------------*-----------------*------------*
+ root 	         | A1 	      | not appl   | A1 	         | The root logger is anonymous but can be accessed
+ 			     |			  |			   | 			     | with the Logger::getRootLogger() method. There is no default appender attached to root.
+*----------------*------------*------------*-----------------*------------*
+ x 			     | A-x1, A-x2 |	true 	   | A1, A-x1, A-x2  | Appenders of "x" and root.
+*----------------*------------*------------*-----------------*------------*
+ x.y 		     | none 	  | true 	   | A1, A-x1, A-x2  | Appenders of "x" and root.
+*----------------*------------*------------*-----------------*------------*
+ x.y.z 		     | A-xyz1 	  | true 	   | A1, A-x1, A-x2, | Appenders in "x.y.z", "x" and root.
+                 |            |            | A-xyz1 	     |
+*----------------*------------*------------*-----------------*------------*
+ security 	     | A-sec 	  | false 	   | A-sec 	         | No appender accumulation since the additivity flag is set to false.
+*----------------*------------*------------*-----------------*------------*
+ security.access |none 	      | true 	   | A-sec 	         | Only appenders of "security" because the additivity flag in "security" is set to false.
+*----------------*------------*------------*-----------------*------------*
+
+  More often than not, users wish to customize not only the output destination 
+  but also the output format. This is accomplished by associating a layout
+  with an appender. The layout is responsible for formatting the logging request
+  according to the user's wishes, whereas an appender takes care of sending
+  the formatted output to its destination.
+
+  The PatternLayout, part of the standard log4php distribution, lets the user
+  specify the output format according to conversion patterns similar to the C language
+  printf function.
+
+  For example, the PatternLayout with the conversion pattern 
+  "%r [%t] %-5p %c - %m%n" will output something akin to:
+
++--
+  176 [main] INFO  org.foo.Bar - Located nearest gas station.
++--
+
+  The first field is the number of milliseconds elapsed since the start of the program.
+  The second field is the thread making the log request. The third field is the level
+  of the log statement. The fourth field is the name of the logger associated with
+  the log request. The text after the '-' is the message of the statement.
+
 ** Configuring Appenders  
 
   An appender can be configured in your configuration file. In the following example
