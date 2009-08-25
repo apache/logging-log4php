@@ -50,12 +50,10 @@
         </menu>
 
 		<menu name="User Documentation">
-			<!-- 
-				<item name="Logger Components" href="/docs/logger-components.html"/>
-				<item name="Configurators" href="/docs/configurators.html"/> 
-				-->
-            <item name="Appender" href="/docs/appenders.html"/>
+			<item name="Introduction" href="/docs/introduction.html"/>
+			<item name="Appender" href="/docs/appenders.html"/>
             <!--
+            	<item name="Configurators" href="/docs/configurators.html"/> 
 	            <item name="Appender Threshold" href="/docs/appenders-threshhold.html"/>
 	            <item name="Appender Filter" href="/docs/appenders-filter.html"/>
 	            <item name="Layout" href="/docs/layout.html"/>
