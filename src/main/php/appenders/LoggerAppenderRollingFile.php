@@ -123,16 +123,15 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 				}
 			}
 	
+			$this->close();
+	
 			// Rename fileName to fileName.1
 			$target = $fileName . ".1";
-	
-			$this->closeFile(); // keep windows happy.
-	
 			$file = $fileName;
 			rename($file, $target);
 		}
 		
-		unset($this->fp);
+		//unset($this->fp);
 		$this->activateOptions();
 		$this->setFile($fileName, false);
 	}
