@@ -268,39 +268,4 @@ abstract class LoggerAppender {
 	 * @abstract
 	 */
 	abstract public function close();
-
-	/**
-	 * Finalize this appender by calling the derived class' <i>close()</i> method.
-	 */
-	public function finalize()  {
-		// An appender might be closed then garbage collected. There is no
-		// point in closing twice.
-		if($this->closed) {
-			return;
-		}
-		$this->close();
-	}
-		
-	/**
-	 * Perform actions before object serialization.
-	 *
-	 * Call {@link finalize()} to properly close the appender.
-	 */
-	public function __sleep() {
-		$this->finalize();
-		return array_keys(get_object_vars($this)); 
-	}
-
-	public function __destruct() {
-		$this->finalize();
-	}
-
-/**
-	 * Perform actions after object de-serialization.
-	 *
-	 * Call {@link activateOptions()} to properly setup the appender.
-	 */
-	public function __wakeup() {
-		$this->activateOptions();
-	}
 }
