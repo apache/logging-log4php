@@ -219,6 +219,13 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
                 $class = $this->subst(@$attribs['CLASS']);
                 
                 $this->appender = LoggerAppenderPool::getAppenderFromPool($name, $class);
+                
+                if (isset($attribs['THRESHOLD'])) {
+                    $this->appender->setThreshold(
+                        LoggerOptionConverter::toLevel(
+                            $this->subst($attribs['THRESHOLD']), $this->appender->getThreshold()));
+                }
+                
                 $this->state[] = self::APPENDER_STATE;
                 break;
                 

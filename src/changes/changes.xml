@@ -73,6 +73,7 @@
 		<action type="fix" issue="LOG4PHP-71" by="Christian Grobmeier">Using LoggerAppenderFile logging to the log file in one Apache session blocks every other Apache session that tries to write to the file until the original request has been processed</action>
 		<action type="fix" issue="LOG4PHP-76" by="Dan Hansen">Unable to configure socket appender with attribute useXml = true</action>
 		<action type="fix" issue="LOG4PHP-77" by="Dan Hansen">LoggerReflectionUtils::setter() should be defined as a static method</action>
+		<action type="fix" by="Christian Grobmeier">LoggerXmlConfigurator can now interpret threshold commands at appender level</action>
 		<action type="update" by="Knut Urdalen">Initial port to PHP 5</action>
 		<action type="update" by="Knut Urdalen">Established new unit test suite</action>
 		<action type="update" by="Knut Urdalen">Added a range of examples</action>

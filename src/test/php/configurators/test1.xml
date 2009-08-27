@@ -16,16 +16,19 @@
  limitations under the License.
 
 -->
-<log4php:configuration
-  xmlns:log4php="http://logging.apache.org/log4php/">
-    <appender name="default" class="LoggerAppenderEcho">
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="WARN">
+    <appender threshold="WARN" name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple"/>
+    </appender>
+    <appender threshold="INFO" name="blub" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSimple"/>
     </appender>
     <logger name="mylogger">
         <level value="info"/> 
     </logger>
     <root>
-         <level value="WARN" />
+        <level value="WARN" />
         <appender_ref ref="default" />
+        <appender_ref ref="blub" />
     </root>
 </log4php:configuration>

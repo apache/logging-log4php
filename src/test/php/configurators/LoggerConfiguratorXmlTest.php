@@ -45,4 +45,32 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 		$logger = Logger::getLogger('mylogger');
 		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
 	}
+	
+	public function testThreshold() {
+		Logger::configure('configurators/test1.xml');
+		$root = Logger::getRootLogger();
+		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
+		$appender = $root->getAppender("default");
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
+		$layout = $appender->getLayout();
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
+		$threshold = $appender->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelWarn();
+		self::assertEquals($e,$threshold);
+		
+		$appender = $root->getAppender("blub");
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
+		$layout = $appender->getLayout();
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
+		$threshold = $appender->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelInfo();
+		self::assertEquals($e,$threshold);
+		
+		$threshold = Logger::getHierarchy()->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelWarn();
+		self::assertEquals($e,$threshold);
+	}
 }
