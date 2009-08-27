@@ -72,6 +72,7 @@
 		<action type="fix" issue="LOG4PHP-67">Refactoring: Use Logger instead of LoggerManager (Christian Hammers)</action>
 		<action type="fix" issue="LOG4PHP-71">Using LoggerAppenderFile logging to the log file in one Apache session blocks every other Apache session that tries to write to the file until the original request has been processed (Christian Grobmeier)</action>
 		<action type="fix" issue="LOG4PHP-76" by="Dan Hansen">Unable to configure socket appender with attribute useXml = true</action>
+		<action type="fix" issue="LOG4PHP-77" by="Dan Hansen">LoggerReflectionUtils::setter() should be defined as a static method</action>
 		<action type="update">Initial port to PHP 5 (Knut Urdalen)</action>
 		<action type="update">Established new unit test suite (Knut Urdalen)</action>
 		<action type="update">Added a range of examples (Knut Urdalen)</action>
