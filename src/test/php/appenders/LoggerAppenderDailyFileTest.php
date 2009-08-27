@@ -23,7 +23,7 @@
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
+class LoggerAppenderDailyFileTest extends PHPUnit_Framework_TestCase {
      
     protected function setUp() {
         if(file_exists('../../../target/temp/phpunit/TEST-daily.txt')) {
