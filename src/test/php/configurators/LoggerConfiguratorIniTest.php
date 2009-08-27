@@ -85,4 +85,28 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 	    }
 		self::assertNotNull($catchedException);
 	}
+	
+	public function testThreshold() {
+		Logger::configure('configurators/test4.properties');
+		$root = Logger::getRootLogger();
+		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
+		$appender = $root->getAppender("default");
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
+		$layout = $appender->getLayout();
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
+		$threshold = $appender->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelWarn();
+		self::assertEquals($e,$threshold);
+		
+		$appender = $root->getAppender("blub");
+		self::assertTrue($appender instanceof LoggerAppenderEcho);
+		$layout = $appender->getLayout();
+		self::assertTrue($layout instanceof LoggerLayoutSimple);
+		$threshold = $appender->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelInfo();
+		self::assertEquals($e,$threshold);
+		
+	}
 }
