@@ -28,7 +28,8 @@ class LoggerFilterTest extends PHPUnit_Framework_TestCase {
         
 	public function testDecide() {
 		$filter = new MyFilter();
-		
+		// activateOptions is empty, but should at least throw no exeception
+		$filter->activateOptions();
 		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
 		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
