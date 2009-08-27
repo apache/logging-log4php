@@ -53,6 +53,6 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
      
     protected function tearDown() {
         unlink('../../../target/temp/phpunit/TEST.txt');
-        rmdir('../../../target/temp/phpunit');
+        //rmdir('../../../target/temp/phpunit');
     }
 }
