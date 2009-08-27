@@ -40,7 +40,7 @@ class LoggerAppenderDailyFileTest extends PHPUnit_Framework_TestCase {
     									"my message");
     	
     	$appender = new LoggerAppenderDailyFile("mylogger"); 
-		$appender->setFileName('../../../target/temp/phpunit/TEST-daily.txt');
+		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
 		$appender->append($event);
