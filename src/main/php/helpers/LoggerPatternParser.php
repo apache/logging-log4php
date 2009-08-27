@@ -149,23 +149,19 @@ class LoggerPatternParser {
 
 			switch($this->state) {
 				case self::LITERAL_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LITERAL_STATE'");
 					// In literal state, the last char is always a literal.
 					if($this->i == $this->patternLength) {
 						$this->currentLiteral .= $c;
 						continue;
 					}
 					if($c == self::ESCAPE_CHAR) {
-						// LoggerLog::debug("LoggerPatternParser::parse() char is an escape char");
 						// peek at the next char.
 						switch($this->pattern{$this->i}) {
 							case self::ESCAPE_CHAR:
-								// LoggerLog::debug("LoggerPatternParser::parse() next char is an escape char");
 								$this->currentLiteral .= $c;
 								$this->i++; // move pointer
 								break;
 							case 'n':
-								// LoggerLog::debug("LoggerPatternParser::parse() next char is 'n'");
 								$this->currentLiteral .= PHP_EOL;
 								$this->i++; // move pointer
 								break;
@@ -182,7 +178,6 @@ class LoggerPatternParser {
 					}
 					break;
 				case self::CONVERTER_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::CONVERTER_STATE'");
 						$this->currentLiteral .= $c;
 						switch($c) {
 						case '-':
@@ -201,7 +196,6 @@ class LoggerPatternParser {
 						} // switch
 					break;
 				case self::MIN_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::MIN_STATE'");
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->min = ($this->formattingInfo->min * 10) + (ord($c) - ord('0'));
@@ -212,7 +206,6 @@ class LoggerPatternParser {
 					}
 					break;
 				case self::DOT_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::DOT_STATE'");
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->max = ord($c) - ord('0');
@@ -222,7 +215,6 @@ class LoggerPatternParser {
 					}
 					break;
 				case self::MAX_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::MAX_STATE'");				 
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->max = ($this->formattingInfo->max * 10) + (ord($c) - ord('0'));
@@ -235,7 +227,6 @@ class LoggerPatternParser {
 		} // while
 		if(strlen($this->currentLiteral) != 0) {
 			$this->addToList(new LoggerLiteralPatternConverter($this->currentLiteral));
-			// LoggerLog::debug("LoggerPatternParser::parse() Parsed LITERAL converter: \"{$this->currentLiteral}\".");
 		}
 		return $this->head;
 	}
