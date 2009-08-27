@@ -82,14 +82,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	}
 
 	/**
-	 * Returns the value of the MaxBackupIndex option.
-	 * @return integer 
-	 */
-	private function getMaxBackupIndex() {
-		return $this->maxBackupIndex;
-	}
-
-	/**
 	 * Get the maximum size that the output file is allowed to reach
 	 * before being rolled over to backup files.
 	 * @return integer
