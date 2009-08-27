@@ -24,10 +24,14 @@
  */
 
 class LoggerAppenderDailyFileTest extends PHPUnit_Framework_TestCase {
+    
+    private $t1;
+    private $t2;
      
     protected function setUp() {
-        if(file_exists('../../../target/temp/phpunit/TEST-daily.txt')) {
-	        unlink('../../../target/temp/phpunit/TEST-daily.txt');
+    	$today = date("Ymd");
+        if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$today)) {
+	        unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$today);
         }
     }
     
@@ -40,19 +44,47 @@ class LoggerAppenderDailyFileTest extends PHPUnit_Framework_TestCase {
     									"my message");
     	
     	$appender = new LoggerAppenderDailyFile("mylogger"); 
-		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt');
+		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt.%s');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
 
-		$v = file_get_contents('../../../target/temp/phpunit/TEST-daily.txt');		
+		$this->t1 = date("Ymd");
+		$v = file_get_contents('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1);		
 		$e = "WARN - my message".PHP_EOL;
 		self::assertEquals($e, $v);
     }
      
+    public function testChangedDateFormat() {
+    	$layout = new LoggerLayoutSimple();
+    	
+    	$event = new LoggerLoggingEvent('LoggerAppenderFileTest', 
+    									new Logger('mycategory'), 
+    									LoggerLevel::getLevelWarn(),
+    									"my message");
+    	
+    	$appender = new LoggerAppenderDailyFile("mylogger"); 
+    	$appender->setDatePattern('Y');
+		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt.%s');
+		$appender->setLayout($layout);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
+
+		$this->t2 = date("Y");
+		$v = file_get_contents('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2);		
+		$e = "WARN - my message".PHP_EOL;
+		self::assertEquals($e, $v);
+    } 
+     
     protected function tearDown() {
-        unlink('../../../target/temp/phpunit/TEST-daily.txt');
+    	if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1)) {
+    		unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1);
+    	}
+    	if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2)) {
+    		unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2);
+    	}
         //rmdir('../../../target/temp/phpunit');
     }
 }
