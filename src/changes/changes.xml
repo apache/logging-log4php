@@ -57,6 +57,7 @@
 		<action type="update" issue="LOG4PHP-40" by="Christian Grobmeier">Merge LoggerAppender and LoggerAppenderSkeleton</action>
 		<action type="update" issue="LOG4PHP-43" by="Knut Urdalen">Remove size restriction of MDC table in LoggerMDC</action>
 		<action type="update" issue="LOG4PHP-44" by="Knut Urdalen">PEAR package</action>
+		<action type="update" issue="LOG4PHP-50" by="Christian Grobmeier">Create more File Appender Tests</action>
 		<action type="update" issue="LOG4PHP-52" by="Christian Grobmeier">Use of custom factorys is discouraged - clean up</action>
 		<action type="update" issue="LOG4PHP-53" by="Christian Grobmeier">Removed references were appropriate</action>
 		<action type="fix" issue="LOG4PHP-54" by="Christian Grobmeier">PHPDoc is wrong due to class movements - clean up</action>
