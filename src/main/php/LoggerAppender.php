@@ -235,14 +235,14 @@ abstract class LoggerAppender {
 	 *
 	 *
 	 * If there is no threshold set, then the return value is always <i>true</i>.
-	 * @param LoggerLevel $priority
+	 * @param LoggerLevel $level
 	 * @return boolean true if priority is greater or equal than threshold	
 	 */
-	public function isAsSevereAsThreshold($priority) {
+	public function isAsSevereAsThreshold($level) {
 		if($this->threshold === null) {
 			return true;
 		}
-		return $priority->isGreaterOrEqual($this->getThreshold());
+		return $level->isGreaterOrEqual($this->getThreshold());
 	}
 
 	/**
