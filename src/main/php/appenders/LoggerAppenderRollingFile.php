@@ -165,9 +165,10 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 *
 	 * @param mixed $maxFileSize
 	 * @see setMaxFileSize()
+	 * @deprecated
 	 */
 	public function setMaximumFileSize($maxFileSize) {
-		$this->setMaxFileSize($maxFileSize);
+		return $this->setMaxFileSize($maxFileSize);
 	}
 
 	/**
@@ -181,6 +182,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 * as 10240.
 	 *
 	 * @param mixed $value
+	 * @return the actual file size set
 	 */
 	public function setMaxFileSize($value) {
 		$maxFileSize = null;
@@ -197,10 +199,10 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 				}
 		}
 		
-		if($maxFileSize === null) {
-		} else {
+		if($maxFileSize !== null) {
 			$this->maxFileSize = abs($maxFileSize);
 		}
+		return $this->maxFileSize;
 	}
 
 	/**

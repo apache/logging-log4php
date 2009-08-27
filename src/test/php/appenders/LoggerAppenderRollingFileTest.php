@@ -33,7 +33,45 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
       	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.1')) {
         	unlink('../../../target/temp/phpunit/TEST-rolling.txt.1');
       	}
+      	
+      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.2')) {
+        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.2');
+      	}
     }
+    
+    public function testMaxFileSize() {
+    	$appender = new LoggerAppenderRollingFile("mylogger"); 
+    	
+    	$e = $appender->setMaxFileSize('1KB');
+    	self::assertEquals($e, '1024');
+    	
+    	$e = $appender->setMaxFileSize('2KB');
+    	self::assertEquals($e, '2048');
+    	
+    	$e = $appender->setMaxFileSize('1MB');
+    	self::assertEquals($e, '1048576');
+    	
+    	$e = $appender->setMaxFileSize('3MB');
+    	self::assertEquals($e, '3145728');
+    	
+    	$e = $appender->setMaxFileSize('1GB');
+    	self::assertEquals($e, '1073741824');
+    	
+    	$e = $appender->setMaxFileSize('10000');
+    	self::assertEquals($e, '10000');
+    	
+    	$e = $appender->setMaxFileSize('BLUB');
+    	self::assertEquals($e, '10000');
+    	
+    	$e = $appender->setMaxFileSize('100.5');
+    	self::assertEquals($e, '100');
+    	
+    	$e = $appender->setMaxFileSize('1000.6');
+    	self::assertEquals($e, '1000');
+    	
+    	$e = $appender->setMaxFileSize('1.5MB');
+    	self::assertEquals($e, '1048576');
+    }	
     
     public function testSimpleLogging() {
     	$layout = new LoggerLayoutSimple();
@@ -42,6 +80,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$appender->setFileName('../../../target/temp/phpunit/TEST-rolling.txt');
 		$appender->setLayout($layout);
 		$appender->setMaximumFileSize('1KB');
+		$appender->setMaxBackupIndex(2);
 		$appender->activateOptions();
 		
     	$event = new LoggerLoggingEvent('LoggerAppenderFileTest', 
@@ -79,6 +118,18 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$e = "WARN - my message123".PHP_EOL;
 		foreach($data as $r) {
 			self::assertEquals($e, $r);
+		}
+		
+		$file = '../../../target/temp/phpunit/TEST-rolling.txt.2';
+		$data = file($file);
+		$line = $data[count($data)-1];
+		$e = "WARN - my message123".PHP_EOL;
+		foreach($data as $r) {
+			self::assertEquals($e, $r);
+		}
+		
+		if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.3')) {
+		    self::assertTrue(false);
 		}
     }
      
