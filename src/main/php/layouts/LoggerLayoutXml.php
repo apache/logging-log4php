@@ -162,6 +162,13 @@ class LoggerLayoutXml extends LoggerLayout {
         $this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
     }
   
+	/**
+	 * @return boolean
+	 */
+	 public function getLog4jNamespace() {
+	 	return $this->log4jNamespace;
+	 }
+
     /**
      * @param boolean
      */
