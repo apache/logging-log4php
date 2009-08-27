@@ -32,30 +32,30 @@
  */
 class LoggerPatternParser {
 
-	const LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR = '%';
+	const ESCAPE_CHAR = '%';
 	
-	const LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE = 0;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE = 1;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_MINUS_STATE = 2;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE = 3;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE = 4;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE = 5;
+	const LITERAL_STATE = 0;
+	const CONVERTER_STATE = 1;
+	const MINUS_STATE = 2;
+	const DOT_STATE = 3;
+	const MIN_STATE = 4;
+	const MAX_STATE = 5;
 	
-	const LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER = 1000;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER = 1001;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_CLASS_LOCATION_CONVERTER = 1002;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER = 1003;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER = 1004;
+	const FULL_LOCATION_CONVERTER = 1000;
+	const METHOD_LOCATION_CONVERTER = 1001;
+	const CLASS_LOCATION_CONVERTER = 1002;
+	const FILE_LOCATION_CONVERTER = 1003;
+	const LINE_LOCATION_CONVERTER = 1004;
 	
-	const LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER = 2000;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER = 2001;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER = 2002;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER = 2003;
-	const LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER = 2004;
+	const RELATIVE_TIME_CONVERTER = 2000;
+	const THREAD_CONVERTER = 2001;
+	const LEVEL_CONVERTER = 2002;
+	const NDC_CONVERTER = 2003;
+	const MESSAGE_CONVERTER = 2004;
 	
-	const LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601 = 'Y-m-d H:i:s,u'; 
-	const LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ABSOLUTE = 'H:i:s';
-	const LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE = 'd M Y H:i:s,u';
+	const DATE_FORMAT_ISO8601 = 'Y-m-d H:i:s,u'; 
+	const DATE_FORMAT_ABSOLUTE = 'H:i:s';
+	const DATE_FORMAT_DATE = 'd M Y H:i:s,u';
 
 	private $state;
 	private $currentLiteral;
@@ -91,7 +91,7 @@ class LoggerPatternParser {
 		$this->pattern = $pattern;
 		$this->patternLength =	strlen($pattern);
 		$this->formattingInfo = new LoggerFormattingInfo();
-		$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
+		$this->state = self::LITERAL_STATE;
 	}
 
 	/**
@@ -148,18 +148,18 @@ class LoggerPatternParser {
 			$c = $this->pattern{$this->i++};
 
 			switch($this->state) {
-				case self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE'");
+				case self::LITERAL_STATE:
+					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LITERAL_STATE'");
 					// In literal state, the last char is always a literal.
 					if($this->i == $this->patternLength) {
 						$this->currentLiteral .= $c;
 						continue;
 					}
-					if($c == self::LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR) {
+					if($c == self::ESCAPE_CHAR) {
 						// LoggerLog::debug("LoggerPatternParser::parse() char is an escape char");
 						// peek at the next char.
 						switch($this->pattern{$this->i}) {
-							case self::LOG4PHP_LOGGER_PATTERN_PARSER_ESCAPE_CHAR:
+							case self::ESCAPE_CHAR:
 								// LoggerLog::debug("LoggerPatternParser::parse() next char is an escape char");
 								$this->currentLiteral .= $c;
 								$this->i++; // move pointer
@@ -174,61 +174,61 @@ class LoggerPatternParser {
 									$this->addToList(new LoggerLiteralPatternConverter($this->currentLiteral));
 								}
 								$this->currentLiteral = $c;
-								$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE;
+								$this->state = self::CONVERTER_STATE;
 								$this->formattingInfo->reset();
 						}
 					} else {
 						$this->currentLiteral .= $c;
 					}
 					break;
-				case self::LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LOG4PHP_LOGGER_PATTERN_PARSER_CONVERTER_STATE'");
+				case self::CONVERTER_STATE:
+					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::CONVERTER_STATE'");
 						$this->currentLiteral .= $c;
 						switch($c) {
 						case '-':
 							$this->formattingInfo->leftAlign = true;
 							break;
 						case '.':
-							$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
+							$this->state = self::DOT_STATE;
 								break;
 						default:
 							if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 								$this->formattingInfo->min = ord($c) - ord('0');
-								$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE;
+								$this->state = self::MIN_STATE;
 							} else {
 								$this->finalizeConverter($c);
 							}
 						} // switch
 					break;
-				case self::LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE'");
+				case self::MIN_STATE:
+					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::MIN_STATE'");
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->min = ($this->formattingInfo->min * 10) + (ord($c) - ord('0'));
 					} else if ($c == '.') {
-						$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
+						$this->state = self::DOT_STATE;
 					} else {
 						$this->finalizeConverter($c);
 					}
 					break;
-				case self::LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE'");
+				case self::DOT_STATE:
+					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::DOT_STATE'");
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->max = ord($c) - ord('0');
-						$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE;
+						$this->state = self::MAX_STATE;
 					} else {
-						$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
+						$this->state = self::LITERAL_STATE;
 					}
 					break;
-				case self::LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE:
-					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE'");				 
+				case self::MAX_STATE:
+					// LoggerLog::debug("LoggerPatternParser::parse() state is 'self::MAX_STATE'");				 
 					$this->currentLiteral .= $c;
 					if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
 						$this->formattingInfo->max = ($this->formattingInfo->max * 10) + (ord($c) - ord('0'));
 					} else {
 						$this->finalizeConverter($c);
-						$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
+						$this->state = self::LITERAL_STATE;
 					}
 					break;
 			} // switch
@@ -252,57 +252,57 @@ class LoggerPatternParser {
 				$this->currentLiteral = '';
 				break;
 			case 'd':
-				$dateFormatStr = self::LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601; // ISO8601_DATE_FORMAT;
+				$dateFormatStr = self::DATE_FORMAT_ISO8601; // ISO8601_DATE_FORMAT;
 				$dOpt = $this->extractOption();
 
 				if($dOpt !== null)
 					$dateFormatStr = $dOpt;
 					
 				if($dateFormatStr == 'ISO8601') {
-					$df = self::LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
+					$df = self::DATE_FORMAT_ISO8601;
 				} else if($dateFormatStr == 'ABSOLUTE') {
-					$df = self::LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ABSOLUTE;
+					$df = self::DATE_FORMAT_ABSOLUTE;
 				} else if($dateFormatStr == 'DATE') {
-					$df = self::LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_DATE;
+					$df = self::DATE_FORMAT_DATE;
 				} else {
 					$df = $dateFormatStr;
 					if($df == null) {
-						$df = self::LOG4PHP_LOGGER_PATTERN_PARSER_DATE_FORMAT_ISO8601;
+						$df = self::DATE_FORMAT_ISO8601;
 					}
 				}
 				$pc = new LoggerDatePatternConverter($this->formattingInfo, $df);
 				$this->currentLiteral = '';
 				break;
 			case 'F':
-				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_FILE_LOCATION_CONVERTER);
+				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::FILE_LOCATION_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'l':
-				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_FULL_LOCATION_CONVERTER);
+				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::FULL_LOCATION_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'L':
-				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_LINE_LOCATION_CONVERTER);
+				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::LINE_LOCATION_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'm':
-				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_MESSAGE_CONVERTER);
+				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::MESSAGE_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'M':
-				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_METHOD_LOCATION_CONVERTER);
+				$pc = new LoggerLocationPatternConverter($this->formattingInfo, self::METHOD_LOCATION_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'p':
-				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_LEVEL_CONVERTER);
+				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LEVEL_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'r':
-				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_RELATIVE_TIME_CONVERTER);
+				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::RELATIVE_TIME_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 't':
-				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_THREAD_CONVERTER);
+				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::THREAD_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'u':
@@ -316,7 +316,7 @@ class LoggerPatternParser {
 				}
 				break;
 			case 'x':
-				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::LOG4PHP_LOGGER_PATTERN_PARSER_NDC_CONVERTER);
+				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::NDC_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'X':
@@ -336,7 +336,7 @@ class LoggerPatternParser {
 		// Add the pattern converter to the list.
 		$this->addToList($pc);
 		// Next pattern is assumed to be a literal.
-		$this->state = self::LOG4PHP_LOGGER_PATTERN_PARSER_LITERAL_STATE;
+		$this->state = self::LITERAL_STATE;
 		// Reset formatting info
 		$this->formattingInfo->reset();
 	}
