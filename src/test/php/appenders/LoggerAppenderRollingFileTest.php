@@ -134,12 +134,15 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
     }
      
     protected function tearDown() {
-//      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt')) {
-//        	unlink('../../../target/temp/phpunit/TEST-rolling.txt');
-//      	}
-//      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.1')) {
-//        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.1');
-//      	}
+      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt')) {
+        	unlink('../../../target/temp/phpunit/TEST-rolling.txt');
+      	}
+      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.1')) {
+        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.1');
+      	}
+      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.2')) {
+        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.2');
+      	}
 //        rmdir('../../../target/temp/phpunit');
     }
 }
