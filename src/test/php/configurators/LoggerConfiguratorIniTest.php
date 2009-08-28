@@ -108,5 +108,9 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		$e = LoggerLevel::getLevelInfo();
 		self::assertEquals($e,$threshold);
 		
+		$threshold = Logger::getHierarchy()->getThreshold();
+		self::assertTrue($threshold instanceof LoggerLevel);
+		$e = LoggerLevel::getLevelWarn();
+		self::assertEquals($e,$threshold);
 	}
 }
