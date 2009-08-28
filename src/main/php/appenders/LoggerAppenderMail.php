@@ -32,25 +32,19 @@
  */
 class LoggerAppenderMail extends LoggerAppender {
 
-	/**
-	 * @var string 'from' field
-	 */
+	/** @var string 'from' field */
 	private $from = null;
 
-	/**
-	 * @var string 'subject' field
-	 */
+	/** @var string 'subject' field */
 	private $subject = 'Log4php Report';
 	
-	/**
-	 * @var string 'to' field
-	 */
+	/** @var string 'to' field */
 	private $to = null;
 
-	/**
-	 * @var string used to create mail body
-	 * @access private
-	 */
+	/** @var indiciates if this appender should run in dry mode */
+	private $dry = false;
+
+	/** @var string used to create mail body */
 	private $body = '';
 	
 	/**
@@ -77,12 +71,15 @@ class LoggerAppenderMail extends LoggerAppender {
 			$to = $this->to;
 	
 			if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-							$subject = $this->subject;
-				mail(
-					$to, $subject, 
-					$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
-					"From: {$from}\r\n"
-				);
+				$subject = $this->subject;
+				if(!$this->dry) {
+					mail(
+						$to, $subject, 
+						$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
+						"From: {$from}\r\n");
+				} else {
+				    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->body;
+				}
 			}
 			$this->closed = true;
 		}
@@ -100,6 +97,10 @@ class LoggerAppenderMail extends LoggerAppender {
 		$this->from = $from;
 	}  
 
+	public function setDry($dry) {
+		$this->dry = $dry;
+	}
+	
 	public function append($event) {
 		if($this->layout !== null) {
 			$this->body .= $this->layout->format($event);
