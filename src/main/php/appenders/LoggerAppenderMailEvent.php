@@ -67,6 +67,9 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	 */
 	protected $requiresLayout = true;
 
+	/** @var indiciates if this appender should run in dry mode */
+	private $dry = false;
+	
 	/**
 	 * Constructor.
 	 *
@@ -108,14 +111,18 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		$this->to = $to;
 	}
 
+	public function setDry($dry) {
+		$this->dry = $dry;
+	}
+	
 	public function append($event) {
-		$from = $this->getFrom();
-		$to = $this->getTo();
+		$from = $this->from;
+		$to = $this->to;
 		if(empty($from) or empty($to)) {
 			return;
 		}
 	
-		$smtpHost = $this->getSmtpHost();
+		$smtpHost = $this->smtpHost;
 		$prevSmtpHost = ini_get('SMTP');
 		if(!empty($smtpHost)) {
 			ini_set('SMTP', $smtpHost);
@@ -123,7 +130,7 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 			$smtpHost = $prevSmtpHost;
 		} 
 
-		$smtpPort = $this->getPort();
+		$smtpPort = $this->port;
 		$prevSmtpPort= ini_get('smtp_port');		
 		if($smtpPort > 0 and $smtpPort < 65535) {
 			ini_set('smtp_port', $smtpPort);
@@ -131,9 +138,13 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 			$smtpPort = $prevSmtpPort;
 		} 
 		
-		@mail($to, $this->getSubject(), 
-			$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), 
-			"From: {$from}\r\n");
+		if(!$this->dry) {
+			@mail($to, $this->getSubject(), 
+				$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), 
+				"From: {$from}\r\n");
+		} else {
+		    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->layout->format($event);
+		}
 			
 		ini_set('SMTP', $prevSmtpHost);
 		ini_set('smtp_port', $prevSmtpPort);
