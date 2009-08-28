@@ -45,4 +45,25 @@ class LoggerAppenderSockeetTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($v, $e);
     }
     
+    public function testSocketXml() {
+		$appender = new LoggerAppenderSocket("myname ");
+		
+		$appender->setDry(true);
+		$appender->setUseXml(true);
+		$appender->activateOptions();
+		$event = new LoggerLoggingEvent("LoggerAppenderSocketTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		 
+		ob_start();
+		$appender->append($event);
+		$v = ob_get_contents();
+		ob_end_clean();
+		
+		$layout = new LoggerLayoutXml();
+		$layout->setLog4jNamespace(false);
+		$layout->activateOptions();
+		$a = $layout->format($event);
+		$e = "DRY MODE OF SOCKET APPENDER: ".$a;
+		self::assertEquals($e, $v);
+    }
+    
 }
