@@ -74,6 +74,9 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 */
 	private $xmlLayout = null;
 	
+	/** @var indiciates if this appender should run in dry mode */
+	private $dry = false;
+	
 	public function __destruct() {
        $this->close();
    	}
@@ -84,7 +87,9 @@ class LoggerAppenderSocket extends LoggerAppender {
 	public function activateOptions() {
 		$errno = 0;
 		$errstr = '';
-		$this->sp = @fsockopen($this->getRemoteHost(), $this->getPort(), $errno, $errstr, $this->getTimeout());
+		if(!$this->dry) {
+			$this->sp = @fsockopen($this->getRemoteHost(), $this->getPort(), $errno, $errstr, $this->getTimeout());
+		}
 		if($errno) {
 			$this->closed = true;
 		} else {
@@ -104,11 +109,17 @@ class LoggerAppenderSocket extends LoggerAppender {
 	
 	public function close() {
 		if($this->closed != true) {
-			fclose($this->sp);
+			if(!$this->dry) {
+				fclose($this->sp);
+			}
 			$this->closed = true;
 		}
 	}
 
+	public function setDry($dry) {
+		$this->dry = $dry;
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -209,20 +220,30 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 * @param LoggerLoggingEvent
 	 */
 	public function append($event) {
-		if($this->sp) {
+		if($this->sp || $this->dry) {
 			if($this->getLocationInfo()) {
 				$event->getLocationInformation();
 			}
 		
 			if(!$this->getUseXml()) {
 				$sEvent = serialize($event);
-				fwrite($this->sp, $sEvent, strlen($sEvent));
+				if(!$this->dry) {
+					fwrite($this->sp, $sEvent, strlen($sEvent));
+				} else {
+				    echo "DRY MODE OF SOCKET APPENDER: ".$sEvent;
+				}
 			} else {
-				fwrite($this->sp, $this->xmlLayout->format($event));
+				if(!$this->dry) {
+					fwrite($this->sp, $this->xmlLayout->format($event));
+				} else {
+				    echo "DRY MODE OF SOCKET APPENDER: ".$event;
+				}
 			}			 
 
 			// not sure about it...
-			fflush($this->sp);
+			if(!$this->dry) {
+				fflush($this->sp);
+			}
 		} 
 	}
 }
