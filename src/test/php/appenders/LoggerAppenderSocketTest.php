@@ -23,9 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
+class LoggerAppenderSockeetTest extends PHPUnit_Framework_TestCase {
         
-	public function testSyslog() {
+	public function testSocketSerialized() {
 		$appender = new LoggerAppenderSocket("myname ");
 		
 		$layout = new LoggerLayoutSimple();
