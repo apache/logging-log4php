@@ -236,7 +236,7 @@ class LoggerAppenderSocket extends LoggerAppender {
 				if(!$this->dry) {
 					fwrite($this->sp, $this->xmlLayout->format($event));
 				} else {
-				    echo "DRY MODE OF SOCKET APPENDER: ".$event;
+				    echo "DRY MODE OF SOCKET APPENDER: ".$this->xmlLayout->format($event);
 				}
 			}			 
 

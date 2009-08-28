@@ -102,7 +102,7 @@ class LoggerLayoutXml extends LoggerLayout {
      * @return string
      */
     public function format(LoggerLoggingEvent $event) {
-        $loggerName = $event->getLoggerName();
+    	$loggerName = $event->getLoggerName();
         $timeStamp  = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
         $thread     = $event->getThreadName();
         $level      = $event->getLevel();
