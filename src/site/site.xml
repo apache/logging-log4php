@@ -53,9 +53,10 @@
 			<item name="Introduction" href="/docs/introduction.html"/>
 			<item name="Configuration" href="/docs/configuration.html"/>
 			<item name="Appender" href="/docs/appenders.html"/>
+			<item name="Appender Threshold" href="/docs/appender-threshold.html"/>
             <!--
             	 
-	            <item name="Appender Threshold" href="/docs/appenders-threshhold.html"/>
+	            
 	            <item name="Appender Filter" href="/docs/appenders-filter.html"/>
 	            <item name="Layout" href="/docs/layout.html"/>
 	            <item name="Renderer" href="/docs/renderer.html"/> 
