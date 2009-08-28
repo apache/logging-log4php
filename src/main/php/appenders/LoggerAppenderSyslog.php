@@ -73,6 +73,9 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 */
 	private $_overridePriority;
 
+	/** @var indiciates if this appender should run in dry mode */
+	private $dry = false;
+
 	public function __construct($name = '') {
 		parent::__construct($name);
 		$this->requiresLayout = true;
@@ -82,6 +85,10 @@ class LoggerAppenderSyslog extends LoggerAppender {
        $this->close();
    	}
    	
+   	public function setDry($dry) {
+		$this->dry = $dry;
+	}
+	
 	/**
 	 * Set the ident of the syslog message.
 	 *
@@ -132,7 +139,8 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	}
 	
 	public function activateOptions() {
-		define_syslog_variables();
+		// Deprecated as of 5.3 and removed in 6.0
+		// define_syslog_variables();
 		$this->closed = false;
 	}
 
@@ -148,9 +156,6 @@ class LoggerAppenderSyslog extends LoggerAppender {
 			$this->_option = LOG_PID | LOG_CONS;
 		}
 		
-		// Attach the process ID to the message, use the facility defined in the .properties-file
-		openlog($this->_ident, $this->_option, $this->_facility);
-		
 		$level	 = $event->getLevel();
 		if($this->layout === null) {
 			$message = $event->getRenderedMessage();
@@ -160,21 +165,28 @@ class LoggerAppenderSyslog extends LoggerAppender {
 
 		// If the priority of a syslog message can be overridden by a value defined in the properties-file,
 		// use that value, else use the one that is defined in the code.
-		if($this->_overridePriority){
-						syslog($this->_priority, $message);			   
-		} else {
-			if($level->isGreaterOrEqual(LoggerLevel::getLevelFatal())) {
-				syslog(LOG_ALERT, $message);
-			} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelError())) {
-				syslog(LOG_ERR, $message);		  
-			} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelWarn())) {
-				syslog(LOG_WARNING, $message);
-			} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelInfo())) {
-				syslog(LOG_INFO, $message);
-			} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelDebug())) {
-				syslog(LOG_DEBUG, $message);
+		if(!$this->dry) {
+			// Attach the process ID to the message, use the facility defined in the .properties-file
+			openlog($this->_ident, $this->_option, $this->_facility);
+		
+			if($this->_overridePriority) {
+				syslog($this->_priority, $message);			   
+			} else {
+				if($level->isGreaterOrEqual(LoggerLevel::getLevelFatal())) {
+					syslog(LOG_ALERT, $message);
+				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelError())) {
+					syslog(LOG_ERR, $message);		  
+				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelWarn())) {
+					syslog(LOG_WARNING, $message);
+				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelInfo())) {
+					syslog(LOG_INFO, $message);
+				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelDebug())) {
+					syslog(LOG_DEBUG, $message);
+				}
 			}
+			closelog();
+		} else {
+		      echo "DRY MODE OF SYSLOG APPENDER: ".$message;
 		}
-		closelog();
 	}
 }
