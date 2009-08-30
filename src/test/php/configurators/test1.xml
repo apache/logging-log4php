@@ -22,6 +22,11 @@
     </appender>
     <appender threshold="INFO" name="blub" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSimple"/>
+        <filter class="LoggerFilterLevelRange">
+			<param name="LevelMin" value="debug" />
+			<param name="LevelMax" value="debug" />
+		</filter>
+		<filter class="LoggerFilterDenyAll" />
     </appender>
     <logger name="mylogger">
         <level value="info"/> 

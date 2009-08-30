@@ -68,6 +68,12 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 		$e = LoggerLevel::getLevelInfo();
 		self::assertEquals($e,$threshold);
 		
+		$filter = $appender->getFilter();
+		self::assertTrue($filter instanceof LoggerFilterLevelRange);
+		
+		$filter2 = $filter->getNext();		
+		self::assertTrue($filter2 instanceof LoggerFilterDenyAll);
+		
 		$threshold = Logger::getHierarchy()->getThreshold();
 		self::assertTrue($threshold instanceof LoggerLevel);
 		$e = LoggerLevel::getLevelWarn();
