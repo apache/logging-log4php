@@ -53,7 +53,8 @@
 			<item name="Introduction" href="/docs/introduction.html"/>
 			<item name="Configuration" href="/docs/configuration.html"/>
 			<item name="Appender" href="/docs/appenders.html"/>
-			<item name="Appender Threshold" href="/docs/appender-threshold.html"/>
+			<item name="Threshold" href="/docs/appender-threshold.html"/>
+			<item name="Filter" href="/docs/appender-filter.html"/>
 			<item name="Performance" href="/docs/performance.html"/>
             <!--
             	 
