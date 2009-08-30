@@ -61,17 +61,64 @@ Filtering Messages
 
 ** LoggerFilterDenyAll
   
-  TODO
+  This filters simply denies all logging events.
   
 ** LoggerFilterLevelMatch
   
-  TODO
+  This filter accepts the specified logger level or denys it.
+  
+*-------------------*-----------------------------------------------------*
+ LevelToMatch		| The level to match
+*-------------------*-----------------------------------------------------*
+ AcceptOnMatch		| If true, the matching log level is accepted, denied otherwise
+*-------------------*-----------------------------------------------------*
+
+  Example:
+  
++--
+<filter class="LoggerFilterLevelMatch">
+	<param name="LevelToMatch" value="debug" />
+	<param name="AcceptOnMatch" value="true" />
+</filter>
++--
  
 ** LoggerFilterLevelRange
   
-  TODO
+  
+  This filter logs if the LoggerLevel is within the specified range.
+  
+*-------------------*-----------------------------------------------------*
+ LevelMin			| The minimum level to log
+*-------------------*-----------------------------------------------------*
+ LevelMax			| The maximum level to log
+*-------------------*-----------------------------------------------------*
+
+  Example:
+  
++--
+<filter class="LoggerFilterLevelRange">
+	<param name="LevelMin" value="debug" />
+	<param name="LevelMax" value="debug" />
+</filter>
++--
+ 
   
 ** LoggerFilterStringMatch
+   
+  Logs or denies, if the specified string matches (with the strpos function).
+   
+*-------------------*-----------------------------------------------------*
+ StringToMatch		| The string to match
+*-------------------*-----------------------------------------------------*
+ AcceptOnMatch		| If true, the matching is logged, denied otherwise
+*-------------------*-----------------------------------------------------*
+
+  Example:
   
-  TODO
++--
+<filter class="LoggerFilterStringMatch">
+	<param name="StringToMatch" value="matchingstring" />
+	<param name="AcceptOnMatch" value="true" />
+</filter>
++--
   
