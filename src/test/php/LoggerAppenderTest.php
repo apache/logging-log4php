@@ -120,4 +120,23 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		$a = $appender->getThreshold();
 		self::assertEquals($e, $a);
     }
+    
+     public function testSetFilter() {
+		$appender = new LoggerAppenderEcho("LoggerAppenderTest");
+		
+		$layout = new LoggerLayoutSimple();
+		$appender->setLayout($layout);
+		
+		$filter  = new LoggerFilterDenyAll();
+		$appender->addFilter($filter);
+		
+		$filter2  = new LoggerFilterLevelMatch();
+		$appender->addFilter($filter2);
+		
+		$first = $appender->getFilter();
+		self::assertEquals($first, $filter);
+		
+		$next = $first->getNext();
+		self::assertEquals($next, $filter2);
+    }
 }

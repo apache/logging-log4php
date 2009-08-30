@@ -99,6 +99,25 @@ abstract class LoggerFilter {
 		return self::NEUTRAL;
 	}
 
+	/**
+	 * Adds a new filter to the filter chain this filter is a part of.
+	 * If this filter has already and follow up filter, the param filter
+	 * is passed on until it is the last filter in chain.
+	 * 
+	 * @param $filter - the filter to add to this chain
+	 */
+	public function addNext($filter) {
+		if($this->next !== null) {
+		    $this->next->addNext($filter);
+		} else {
+		    $this->next = $filter;
+		}
+	}
+	
+	/**
+	 * Returns the next filter in this chain
+	 * @return the next filter
+	 */
 	public function getNext() {
 		return $this->next;
 	}

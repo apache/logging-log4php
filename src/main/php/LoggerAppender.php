@@ -34,7 +34,7 @@ abstract class LoggerAppender {
 	 * The first filter in the filter chain
 	 * @var LoggerFilter
 	 */
-	protected $headFilter = null;
+	protected $filter = null;
 			
 	/**
 	 * LoggerLayout for this appender. It can be null if appender has its own layout
@@ -46,12 +46,6 @@ abstract class LoggerAppender {
 	 * @var string Appender name
 	 */
 	protected $name;
-		   
-	/**
-	 * The last filter in the filter chain
-	 * @var LoggerFilter
-	 */
-	protected $tailFilter = null; 
 		   
 	/**
 	 * @var LoggerLevel There is no level threshold filtering by default.
@@ -70,7 +64,6 @@ abstract class LoggerAppender {
 	 */
 	public function __construct($name = '') {
 		$this->name = $name;
-		$this->clearFilters();
 	}
 
 	/**
@@ -79,12 +72,10 @@ abstract class LoggerAppender {
 	 * @param LoggerFilter $newFilter add a new LoggerFilter
 	 */
 	public function addFilter($newFilter) {
-		if($this->headFilter === null) {
-			$this->headFilter = $newFilter;
-			$this->tailFilter = $this->headFilter;
+		if($this->filter === null) {
+			$this->filter = $newFilter;
 		} else {
-			$this->tailFilter->next = $newFilter;
-			$this->tailFilter = $this->tailFilter->next;
+			$this->filter->addNext($newFilter);
 		}
 	}
 	
@@ -93,10 +84,8 @@ abstract class LoggerAppender {
 	 * @abstract
 	 */
 	public function clearFilters() {
-		unset($this->headFilter);
-		unset($this->tailFilter);
-		$this->headFilter = null;
-		$this->tailFilter = null;
+		unset($this->filter);
+		$this->filter = null;
 	}
 
 	/**
@@ -105,7 +94,7 @@ abstract class LoggerAppender {
 	 * @return LoggerFilter
 	 */
 	public function getFilter() {
-		return $this->headFilter;
+		return $this->filter;
 	} 
 	
 	/** 
@@ -114,7 +103,7 @@ abstract class LoggerAppender {
 	 * @return LoggerFilter
 	 */
 	public function getFirstFilter() {
-		return $this->headFilter;
+		return $this->filter;
 	}
 	
 	
