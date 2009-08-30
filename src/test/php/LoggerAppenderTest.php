@@ -138,5 +138,9 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		
 		$next = $first->getNext();
 		self::assertEquals($next, $filter2);
+		
+		$appender->clearFilters();
+		$nullfilter = $appender->getFilter();
+		self::assertNull($nullfilter);
     }
 }
