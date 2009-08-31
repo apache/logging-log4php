@@ -83,13 +83,13 @@ class LoggerRendererMap {
 			if(is_object($o)) {
 				$renderer = $this->getByObject($o);
 				if($renderer !== null) {
-					return $renderer->doRender($o);
+					return $renderer->render($o);
 				} else {
 					return null;
 				}
 			} else {
 				$renderer = $this->defaultRenderer;
-				return $renderer->doRender($o);
+				return $renderer->render($o);
 			}
 		}
 	}
@@ -144,14 +144,5 @@ class LoggerRendererMap {
 	 */
 	private function put($class, $or) {
 		$this->map[strtolower($class)] = $or;
-	}
-	
-	/**
-	 * @param string $class
-	 * @return boolean
-	 */
-	public function rendererExists($class) {
-		$class = basename($class);
-		return class_exists($class);
 	}
 }

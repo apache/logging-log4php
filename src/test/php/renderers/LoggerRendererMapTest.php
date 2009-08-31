@@ -22,43 +22,49 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+class Fruit3 {
+    public $test1 = 'test1';
+    public $test2 = 'test2';
+    public $test3 = 'test3';
+}
+
+class FruitRenderer3 implements LoggerRendererObject {
+    public function render($o) {
+		return $o->test1.','.$o->test2.','.$o->test3;
+	}
+}
 
 class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
-
-	public function testAddRenderer() {
-		$hierarchy = Logger::getHierarchy();
-		//print_r($hierarchy);
-		$hierarchy->getRendererMap()->addRenderer('string', 'LoggerRendererDefault');
-		//print_r($hierarchy);
-		self::markTestIncomplete();
-	}
         
 	public function testFindAndRender() {
-		self::markTestIncomplete();
+		$fruit = new Fruit3();
+		Logger::configure('renderers/test4.properties');
+		Logger::initialize();
+		$hierarchy = Logger::getHierarchy();
+		
+		$map = $hierarchy->getRendererMap();
+		$e = $map->findAndRender($fruit);
+		self::assertEquals('test1,test2,test3', $e);
 	}
         
 	public function testGetByObject() {
-		self::markTestIncomplete();
+		$fruit = new Fruit3();
+		Logger::configure('renderers/test4.properties');
+		Logger::initialize();
+		$hierarchy = Logger::getHierarchy();
+		
+		$map = $hierarchy->getRendererMap();
+		$e = $map->getByObject($fruit);
+		self::assertTrue($e instanceof FruitRenderer3);
 	}
         
 	public function testGetByClassName() {
-		self::markTestIncomplete();
+		Logger::configure('renderers/test4.properties');
+		Logger::initialize();
+		$hierarchy = Logger::getHierarchy();
+		
+		$map = $hierarchy->getRendererMap();
+		$e = $map->getByClassName('Fruit3');
+		self::assertTrue($e instanceof FruitRenderer3);
 	}
-        
-	public function testGetDefaultRenderer() {
-		self::markTestIncomplete();
-	}
-        
-	public function testClear() {
-		self::markTestIncomplete();
-	}
-        
-	public function testPut() {
-		self::markTestIncomplete();
-	}
-        
-	public function testRendererExists() {
-		self::markTestIncomplete();
-	}
-
 }
