@@ -26,11 +26,11 @@
  * @abstract
  * @since 0.3
  */
-abstract class LoggerRendererObject {
+interface LoggerRendererObject {
 	/**
 	 * Render the entity passed as parameter as a String.
 	 * @param mixed $o entity to render
 	 * @return string
 	 */
-	abstract public function doRender($o);
+	public function render($o);
 }

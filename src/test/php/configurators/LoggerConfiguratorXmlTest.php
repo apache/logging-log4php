@@ -28,8 +28,8 @@ class Fruit2 {
     public $test3 = 'test3';
 }
 
-class FruitRenderer2 extends LoggerRendererObject {
-    public function doRender($o) {
+class FruitRenderer2 implements LoggerRendererObject {
+    public function render($o) {
 		return $o->test1.','.$o->test2.','.$o->test3;
 	}
 }

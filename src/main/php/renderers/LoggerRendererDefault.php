@@ -24,7 +24,7 @@
  * @subpackage renderers
  * @since 0.3
  */
-class LoggerRendererDefault extends LoggerRendererObject {
+class LoggerRendererDefault implements LoggerRendererObject {
 
 	/**
 	 * Render objects by type casting
@@ -32,7 +32,7 @@ class LoggerRendererDefault extends LoggerRendererObject {
 	 * @param mixed $o the object to render
 	 * @return string
 	 */
-	public function doRender($o) {
+	public function render($o) {
 		return var_export($o, true);
 	}
 }
