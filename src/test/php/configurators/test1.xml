@@ -17,6 +17,7 @@
 
 -->
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="WARN">
+	<renderer renderedClass="Fruit2" renderingClass="FruitRenderer2" />
     <appender threshold="WARN" name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSimple"/>
     </appender>

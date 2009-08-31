@@ -22,6 +22,17 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+class Fruit2 {
+    public $test1 = 'test1';
+    public $test2 = 'test2';
+    public $test3 = 'test3';
+}
+
+class FruitRenderer2 extends LoggerRendererObject {
+    public function doRender($o) {
+		return $o->test1.','.$o->test2.','.$o->test3;
+	}
+}
 
 class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
         
@@ -78,5 +89,10 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue($threshold instanceof LoggerLevel);
 		$e = LoggerLevel::getLevelWarn();
 		self::assertEquals($e,$threshold);
+		
+		$hierarchy = Logger::getHierarchy();
+		$map = $hierarchy->getRendererMap();
+		$clazz = $map->getByClassName('Fruit2');
+		self::assertTrue($clazz instanceof FruitRenderer2);
 	}
 }

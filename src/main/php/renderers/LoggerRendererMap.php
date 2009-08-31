@@ -54,12 +54,12 @@ class LoggerRendererMap {
 	 * @param string $renderingClassName
 	 * @static
 	 */
-	public static function addRenderer($repository, $renderedClassName, $renderingClassName) {
+	public function addRenderer($renderedClassName, $renderingClassName) {
 		$renderer = LoggerReflectionUtils::createObject($renderingClassName);
 		if($renderer == null) {
 			return;
 		} else {
-			$repository->setRenderer($renderedClassName, $renderer);
+			$this->put($renderedClassName, $renderer);
 		}
 	}
 
@@ -142,7 +142,7 @@ class LoggerRendererMap {
 	 * @param string $class
 	 * @param LoggerRendererObject $or
 	 */
-	public function put($class, $or) {
+	private function put($class, $or) {
 		$this->map[strtolower($class)] = $or;
 	}
 	

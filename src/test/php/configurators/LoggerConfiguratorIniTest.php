@@ -23,6 +23,18 @@
  * @link       http://logging.apache.org/log4php
  */
 
+class Fruit {
+    public $test1 = 'test1';
+    public $test2 = 'test2';
+    public $test3 = 'test3';
+}
+
+class FruitRenderer extends LoggerRendererObject {
+    public function doRender($o) {
+		return $o->test1.','.$o->test2.','.$o->test3;
+	}
+}
+
 class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {
@@ -112,5 +124,14 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue($threshold instanceof LoggerLevel);
 		$e = LoggerLevel::getLevelWarn();
 		self::assertEquals($e,$threshold);
+	}
+	
+	public function testRenderer() {
+		Logger::configure('configurators/test4.properties');
+		Logger::initialize();
+		$hierarchy = Logger::getHierarchy();
+		$map = $hierarchy->getRendererMap();
+		$clazz = $map->getByClassName('Fruit');
+		self::assertTrue($clazz instanceof FruitRenderer);
 	}
 }

@@ -351,9 +351,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 			} else if(strpos($key, self::RENDERER_PREFIX) === 0) {
 				$renderedClass = substr($key, strlen(self::RENDERER_PREFIX));
 				$renderingClass = $value;
-				if(method_exists($hierarchy, 'addrenderer')) { // ?
-					LoggerRendererMap::addRenderer($hierarchy, $renderedClass, $renderingClass);
-				}
+				$hierarchy->getRendererMap()->addRenderer($renderedClass, $renderingClass);
 			}
 		}
 	}

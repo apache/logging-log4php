@@ -28,7 +28,7 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	public function testAddRenderer() {
 		$hierarchy = Logger::getHierarchy();
 		//print_r($hierarchy);
-		LoggerRendererMap::addRenderer($hierarchy, 'string', 'LoggerRendererDefault');
+		$hierarchy->getRendererMap()->addRenderer('string', 'LoggerRendererDefault');
 		//print_r($hierarchy);
 		self::markTestIncomplete();
 	}

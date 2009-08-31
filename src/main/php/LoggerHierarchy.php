@@ -74,21 +74,10 @@ class LoggerHierarchy {
 	 */
 	public function __construct(LoggerRoot $root) {
 		$this->root = $root;
-		// TODO: isn't necessary, access via singleton?'
-//		$this->root->setHierarchy($this);
 		$this->setThreshold(LoggerLevel::getLevelAll());
 		$this->rendererMap = new LoggerRendererMap();
 	}
 	 
-	/**
-	 * Add an object renderer for a specific class.
-	 * @param string $classToRender
-	 * @param LoggerObjectRenderer $or
-	 */
-	public function addRenderer($classToRender, $or) {
-		$this->rendererMap->put($classToRender, $or);
-	} 
-	
 	/**
 	 * This call will clear all logger definitions from the internal hashtable.
 	 */
@@ -215,16 +204,6 @@ class LoggerHierarchy {
 			$loggers[$i]->removeAllAppenders();
 		}
 		$this->rendererMap->clear();
-	}
-	
-	/**
-	 * Used by subclasses to add a renderer to the hierarchy passed as parameter.
-	 * @param string $renderedClass a LoggerRenderer class name
-	 * @param LoggerRenderer $renderer
-	 *
-	 */
-	public function setRenderer($renderedClass, $renderer) {
-		$this->rendererMap->put($renderedClass, $renderer);
 	}
 	
 	/**
