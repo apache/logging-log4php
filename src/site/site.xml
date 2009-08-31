@@ -55,14 +55,8 @@
 			<item name="Appender" href="/docs/appenders.html"/>
 			<item name="Threshold" href="/docs/appender-threshold.html"/>
 			<item name="Filter" href="/docs/appender-filter.html"/>
+			<item name="Renderer" href="/docs/renderer.html"/> 
 			<item name="Performance" href="/docs/performance.html"/>
-            <!--
-            	 
-	            
-	            <item name="Appender Filter" href="/docs/appenders-filter.html"/>
-	            <item name="Layout" href="/docs/layout.html"/>
-	            <item name="Renderer" href="/docs/renderer.html"/> 
-            -->
         </menu>
         
         <menu name="Community">
