@@ -125,14 +125,6 @@ class LoggerRendererMap {
 		return $this->defaultRenderer;
 	}
 
-	/**
-	 * @return LoggerRendererDefault
-	 */
-	public function getDefaultRenderer() {
-		return $this->defaultRenderer;
-	}
-
-
 	public function clear() {
 		$this->map = array();
 	}
