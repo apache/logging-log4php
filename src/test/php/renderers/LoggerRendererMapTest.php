@@ -38,7 +38,7 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
         
 	public function testFindAndRender() {
 		$fruit = new Fruit3();
-		Logger::configure('renderers/test4.properties');
+		Logger::configure(dirname(__FILE__).'/test4.properties');
 		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
