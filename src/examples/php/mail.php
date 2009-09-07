@@ -15,9 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// START SNIPPET: foo
 require_once dirname(__FILE__).'/../../main/php/Logger.php';
 
 Logger::configure(dirname(__FILE__).'/../resources/mail.properties');
 $logger = Logger::getRootLogger();
 $logger->fatal("Some critical message!");
+// END SNIPPET: foo
 ?>

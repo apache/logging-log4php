@@ -236,6 +236,11 @@ Appender Additivity
  subject 			| Sets the subject of the mail
 *-------------------*-----------------------------------------------------*
 
+  Examples:
+  
+%{snippet|id=foo|file=src/examples/php/mail.php}
+  
+%{snippet|id=foo|file=src/examples/resources/mail.properties}
 
 ** LoggerAppenderMailEvent
  
@@ -335,4 +340,10 @@ Appender Additivity
   					| This value is used as a parameter for php openlog()
   					| and passed on to the syslog daemon.
 *-------------------*-----------------------------------------------------*
+
+  Examples: 
+ 
+%{snippet|id=foo|file=src/examples/php/syslog.php}
+
+%{snippet|id=foo|file=src/examples/resources/syslog.properties}
  

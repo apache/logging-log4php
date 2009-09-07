@@ -21,13 +21,15 @@
  * Log events using php {@link PHP_MANUAL#syslog} function.
  *
  * Levels are mapped as follows:
- * - <b>level &gt;= FATAL</b> to LOG_ALERT
- * - <b>FATAL &gt; level &gt;= ERROR</b> to LOG_ERR 
- * - <b>ERROR &gt; level &gt;= WARN</b> to LOG_WARNING
- * - <b>WARN  &gt; level &gt;= INFO</b> to LOG_INFO
- * - <b>INFO  &gt; level &gt;= DEBUG</b> to LOG_DEBUG
+ * - <b>level >= FATAL</b> to LOG_ALERT
+ * - <b>FATAL > level >= ERROR</b> to LOG_ERR 
+ * - <b>ERROR > level >= WARN</b> to LOG_WARNING
+ * - <b>WARN  > level >= INFO</b> to LOG_INFO
+ * - <b>INFO  > level >= DEBUG</b> to LOG_DEBUG
  *
  * @version $Revision$
+ * @example ../../examples/php/syslog.php   An example how to use the LoggerAppenderSyslog class
+ * @example ../../examples/resources/syslog.properties   Configuration example
  * @package log4php
  * @subpackage appenders
  */ 
