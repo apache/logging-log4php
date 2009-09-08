@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
@@ -15,7 +16,9 @@
  limitations under the License.
 
 -->
-<project name="log4php">
+<project name="log4php" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
   <bannerLeft>
     <name>Apache Logging Services Project</name>
     <src>images/ls-logo.jpg</src>
@@ -32,31 +35,30 @@
           <item name="Incubator" href="http://incubator.apache.org/"/>
           <item name="log4php" href="http://incubator.apache.org:80/log4php/"/>
         </breadcrumbs>
-  
-        <menu name="Get log4php">
-           <item name="Download" href="/download.html"/>
-        </menu>
 
         <menu name="About log4php">
            <item name="What is it?" href="/index.html"/>
            <item name="Who uses it?" href="/showcase.html"/>
+        </menu>
+  
+        <menu name="Get log4php">
+           <item name="Download" href="/download.html"/>
            <item name="Install" href="/install.html"/>
            <item name="Upgrading" href="/upgrading.html"/>
-           <item name="Quick start" href="/quickstart.html"/>
-          <!-- <item name="Usage" href="/usage.html"/> -->
-           <item name="Roadmap" href="/roadmap.html"/>
-           <item name="PHPDoc" href="/apidocs/index.html"/>
-           <item name="Code Coverage" href="/coverage-report/index.html"/>
         </menu>
 
 		<menu name="User Documentation">
-			<item name="Introduction" href="/docs/introduction.html"/>
-			<item name="Configuration" href="/docs/configuration.html"/>
-			<item name="Appender" href="/docs/appenders.html"/>
-			<item name="Threshold" href="/docs/appender-threshold.html"/>
-			<item name="Filter" href="/docs/appender-filter.html"/>
-			<item name="Renderer" href="/docs/renderer.html"/> 
-			<item name="Performance" href="/docs/performance.html"/>
+            <item name="Quick start" href="/quickstart.html"/>
+            <item name="Manual" collapse="false" href="/docs/introduction.html">
+			    <item name="Introduction" href="/docs/introduction.html"/>
+			    <item name="Configuration" href="/docs/configuration.html"/>
+			    <item name="Appender" href="/docs/appenders.html"/>
+			    <item name="Threshold" href="/docs/appender-threshold.html"/>
+		  	    <item name="Filter" href="/docs/appender-filter.html"/>
+			    <item name="Renderer" href="/docs/renderer.html"/> 
+			    <item name="Performance" href="/docs/performance.html"/>
+			</item>
+            <item name="PHPDoc" href="/apidocs/index.html"/>
         </menu>
         
         <menu name="Community">
@@ -69,6 +71,8 @@
         <menu name="General Information">
             <item name="Volunteering" href="/volunteering.html"/>
             <item name="Contributing Patches" href="/contributingpatches.html"/>            
+            <item name="Roadmap" href="/roadmap.html"/>
+            <item name="Code Coverage" href="/coverage-report/index.html"/>
         </menu>
         
         <menu ref="reports"/>
