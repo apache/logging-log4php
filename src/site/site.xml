@@ -68,7 +68,7 @@
             <item name="Blog" href="http://blogs.apache.org/log4php/"/>
         </menu>
         
-        <menu name="General Information">
+        <menu name="Developers">
             <item name="Volunteering" href="/volunteering.html"/>
             <item name="Contributing Patches" href="/contributingpatches.html"/>            
             <item name="Roadmap" href="/roadmap.html"/>
