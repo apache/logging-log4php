@@ -23,6 +23,11 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/** Tests the Console Appender.
+ * 
+ * FIXME: Currently clutters the phpunit output as output buffering seems not
+ *        to work for fwrite(STDOUT, ...)
+ */
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
      
     public function testSimpleStdOutLogging() {
@@ -37,17 +42,16 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
     	$appender->setTarget('STDOUT');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
-		
+
 		ob_start();
 		$appender->append($event);
 		$v = ob_get_contents();
 		ob_end_clean();
-		
+
 		$appender->close();
 		
-		//echo $v;
     }
-     
+
     public function testSimpleStdErrLogging() {
     	$layout = new LoggerLayoutSimple();
     	
@@ -63,8 +67,8 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
 		$appender->append($event);
 		$appender->close();
     }    
-    
-    
+
+
     public function testSimpleDefaultLogging() {
     	$layout = new LoggerLayoutSimple();
     	
