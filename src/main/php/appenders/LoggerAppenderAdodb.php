@@ -15,11 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
+/** A docblok to make phpdoc happy */
 require_once(ADODB_DIR . '/adodb.inc.php');
 
 /**

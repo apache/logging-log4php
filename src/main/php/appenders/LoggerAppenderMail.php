@@ -15,17 +15,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
 /**
  * Appends log events to mail using php function {@link PHP_MANUAL#mail}.
  *
- * <p>Parameters are {@link $from}, {@link $to}, {@link $subject}.</p>
- * <p>This appender requires a layout.</p>
+ * The appender sends all log events at once after the request has been
+ * finsished and the appender is beeing closed.
  *
+ * Configurable parameters for this appender:
+ * 
+ * - layout             - Sets the layout class for this appender (required)
+ * - to                 - Sets the recipient of the mail (required)
+ * - from               - Sets the sender of the mail (optional)
+ * - subject            - Sets the subject of the mail (optional)
+ * 
+ * An example:
+ *
+ * {@example ../../examples/resources/appender_mail.properties}
+ * 
+ * {@example ../../examples/php/appender_mail.php}
+ * 
+ * The above will output something like:
+ * <pre>
+ *      Date: Tue,  8 Sep 2009 21:51:04 +0200 (CEST)
+ *      From: someone@example.com
+ *      To: root@localhost
+ *      Subject: Log4php test
+ *      
+ *      Tue Sep  8 21:51:04 2009,120 [5485] FATAL root - Some critical message!
+ *      Tue Sep  8 21:51:06 2009,120 [5485] FATAL root - Some more critical message!
+ * </pre>
+
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

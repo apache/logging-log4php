@@ -15,10 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Log events using php {@link PHP_MANUAL#syslog} function.
+ *
+ * This appender can be configured by changing the following attributes:
+ * 
+ * - layout           - Sets the layout class for this appender
+ * - ident            - Set the ident of the syslog message.
+ * - priority         - Set the priority value for the syslog message.
+ * - facility         - Set the facility value for the syslog message
+ * - overridePriority - If the priority of the message to be sent can be 
+ *                      defined by a value in the properties-file, set 
+ *                      parameter value to "true"
+ * - option           - Set the option value for the syslog message. 
+ *                      This value is used as a parameter for php openlog()
+ *                      and passed on to the syslog daemon.
  *
  * Levels are mapped as follows:
  * - <b>level >= FATAL</b> to LOG_ALERT
@@ -27,9 +41,13 @@
  * - <b>WARN  > level >= INFO</b> to LOG_INFO
  * - <b>INFO  > level >= DEBUG</b> to LOG_DEBUG
  *
+ * An example:
+ * 
+ * {@example ../../examples/php/appender_syslog.php}
+ * 
+ * {@example ../../examples/resources/appender_syslog.properties}
+ * 
  * @version $Revision$
- * @example ../../examples/php/syslog.php   An example how to use the LoggerAppenderSyslog class
- * @example ../../examples/resources/syslog.properties   Configuration example
  * @package log4php
  * @subpackage appenders
  */ 

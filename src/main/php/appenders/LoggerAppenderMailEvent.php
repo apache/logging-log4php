@@ -15,21 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
 /**
- * Log events to an email address. It will be created an email for each event. 
+ * Log every events as a separate email.
+ * 
+ * Configurable parameters for this appender are:
+ * 
+ * - layout             - Sets the layout class for this appender (required)
+ * - to                 - Sets the recipient of the mail (required)
+ * - from               - Sets the sender of the mail (optional)
+ * - subject            - Sets the subject of the mail (optional)
+ * - smtpHost           - Sets the mail server (optional, default is ini_get('SMTP'))
+ * - port               - Sets the port of the mail server (optional, default is 25)
  *
- * <p>Parameters are 
- * {@link $smtpHost} (optional), 
- * {@link $port} (optional), 
- * {@link $from} (optional), 
- * {@link $to}, 
- * {@link $subject} (optional).</p>
- * <p>A layout is required.</p>
+ * An example:
+ * 
+ * {@example ../../examples/resources/appender_mailevent.properties}
+ *
+ * {@example ../../examples/php/appender_mailevent.php}
+ * 
+ * The above will output something like:
+ * <pre>
+ *      Date: Tue,  8 Sep 2009 21:51:04 +0200 (CEST)
+ *      From: someone@example.com
+ *      To: root@localhost
+ *      Subject: Log4php test
+ *
+ *      Tue Sep  8 21:51:04 2009,120 [5485] FATAL root - Some critical message!
+ * </pre>
  *
  * @version $Revision$
  * @package log4php

@@ -15,17 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * LoggerAppenderRollingFile extends LoggerAppenderFile to backup the log files 
  * when they reach a certain size.
  *
- * <p>Parameters are {@link $maxFileSize}, {@link $maxBackupIndex}.</p> 
+ * Parameters are:
+ * 
+ * - layout            - Sets the layout class for this appender
+ * - file              - The target file to write to
+ * - filename          - The target file to write to
+ * - append            - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ * - maxBackupIndex    - Set the maximum number of backup files to keep around (int)
+ * - maxFileSize       - Set the maximum size that the output file is allowed to 
+ *                       reach before being rolled over to backup files.
+ *                       Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB" is interpreted as 10240
+ * - maximumFileSize   - Alias to MaxFileSize
  *
  * <p>Contributors: Sergio Strampelli.</p>
  *
+ * An example:
+ * 
+ * {@example ../../examples/php/appender_socket.php}
+ * 
+ * {@example ../../examples/resources/appender_socket.properties}
+ * 
  * @version $Revision$
+ * @example ../../examples/php/appender_rollingfile.php   An example how to use this class
+ * @example ../../examples/resources/appender_rollingfile.properties   Configuration example
  * @package log4php
  * @subpackage appenders
  */

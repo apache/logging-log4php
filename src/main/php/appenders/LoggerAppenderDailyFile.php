@@ -15,16 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * LoggerAppenderDailyFile appends log events to a file ne.
+ * An Appender that automatically creates a new logfile each day.
  *
- * A formatted version of the date pattern is used as to create the file name
- * using the {@link PHP_MANUAL#sprintf} function.
- * <p>Parameters are {@link $datePattern}, {@link $file}. Note that file 
- * parameter should include a '%s' identifier and should always be set 
- * before {@link $file} param.</p>
+ * The file is rolled over once a day. That means, for each day a new file 
+ * is created. A formatted version of the date pattern is used as to create 
+ * the file name using the {@link PHP_MANUAL#sprintf} function.
+ * 
+ * - layout             - Sets the layout class for this appender
+ * - datePattern        - Sets date format for the file name. Should be set before $file!
+ * - file               - The target file name. Should contain a '%s' which gets substituted by the date.
+ * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ * 
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_dailyfile.properties}
+ * 
+ * An example php file:
+ * 
+ * {@example ../../examples/php/appender_dailyfile.php}
+ *
+ * The above will create a file like: daily_20090908.log
  *
  * @version $Revision$
  * @package log4php

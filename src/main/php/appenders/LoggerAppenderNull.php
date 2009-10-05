@@ -15,14 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
 /**
  * A NullAppender merely exists, it never outputs a message to any device.	
  *
+ * This appender has no configurable parameters.
+ * 
+ * An example:
+ * 
+ * {@example ../../examples/php/appender_null.php}
+ * 
+ * {@example ../../examples/resources/appender_null.properties}
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
