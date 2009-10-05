@@ -24,19 +24,18 @@
  */
 
 class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
-     
+    /** Directory for temporary files.
+     * 
+     * @var string
+     */
+    private $dir;
+    
     protected function setUp() {
-        if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt');
-      	}
-      	
-      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.1')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.1');
-      	}
-      	
-      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.2')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.2');
-      	}
+        $this->dir = dirname(__FILE__) . '/../../../../target/phpunit';
+        @mkdir($this->dir);
+        @unlink($this->dir.'/TEST-rolling.txt');
+      	@unlink($this->dir.'/TEST-rolling.txt.1');
+        @unlink($this->dir.'/TEST-rolling.txt.2');
     }
     
     public function testMaxFileSize() {
@@ -73,16 +72,23 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
     	self::assertEquals($e, '1048576');
     }	
     
+    public function testSetFileName() {
+        $appender = new LoggerAppenderRollingFile("mylogger"); 
+        $appender->setFileName($this->dir.'/../././phpunit/doesnotexist.log');
+        $expandedFileName = self::readAttribute($appender, 'expandedFileName');
+        self::assertEquals(1, preg_match('/\/target\/phpunit\/doesnotexist.log$/', $expandedFileName));
+    }
+    
     public function testSimpleLogging() {
     	$layout = new LoggerLayoutSimple();
     	
     	$appender = new LoggerAppenderRollingFile("mylogger"); 
-		$appender->setFileName('../../../target/temp/phpunit/TEST-rolling.txt');
+		$appender->setFileName($this->dir.'/TEST-rolling.txt');
 		$appender->setLayout($layout);
 		$appender->setMaximumFileSize('1KB');
 		$appender->setMaxBackupIndex(2);
 		$appender->activateOptions();
-		
+        
     	$event = new LoggerLoggingEvent('LoggerAppenderFileTest', 
     									new Logger('mycategory'), 
     									LoggerLevel::getLevelWarn(),
@@ -106,13 +112,13 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		
 		$appender->close();
 		
-		$file = '../../../target/temp/phpunit/TEST-rolling.txt';
+		$file = $this->dir.'/TEST-rolling.txt';
 		$data = file($file);
 		$line = $data[count($data)-1];
 		$e = "WARN - my messageXYZ".PHP_EOL;
 		self::assertEquals($e, $line);
 		
-		$file = '../../../target/temp/phpunit/TEST-rolling.txt.1';
+		$file = $this->dir.'/TEST-rolling.txt.1';
 		$data = file($file);
 		$line = $data[count($data)-1];
 		$e = "WARN - my message123".PHP_EOL;
@@ -120,7 +126,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 			self::assertEquals($e, $r);
 		}
 		
-		$file = '../../../target/temp/phpunit/TEST-rolling.txt.2';
+		$file = $this->dir.'/TEST-rolling.txt.2';
 		$data = file($file);
 		$line = $data[count($data)-1];
 		$e = "WARN - my message123".PHP_EOL;
@@ -128,21 +134,16 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 			self::assertEquals($e, $r);
 		}
 		
-		if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.3')) {
+		if(file_exists($this->dir.'/TEST-rolling.txt.3')) {
 		    self::assertTrue(false);
 		}
     }
      
     protected function tearDown() {
-      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt');
-      	}
-      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.1')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.1');
-      	}
-      	if(file_exists('../../../target/temp/phpunit/TEST-rolling.txt.2')) {
-        	unlink('../../../target/temp/phpunit/TEST-rolling.txt.2');
-      	}
-//        rmdir('../../../target/temp/phpunit');
+      	@unlink($this->dir.'/TEST-rolling.txt');
+      	@unlink($this->dir.'/TEST-rolling.txt.1');
+      	@unlink($this->dir.'/TEST-rolling.txt.2');
+        @rmdir($this->dir);
     }
+    
 }
