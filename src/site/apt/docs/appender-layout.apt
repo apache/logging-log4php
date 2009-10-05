@@ -1,0 +1,124 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Layouts
+ ------
+ ------
+ ------
+
+Apache Log4php Layouts
+
+%{toc|section=1|fromDepth=1|toDepth=2}
+
+* {About Layouts}
+
+  The exact format of log messages can be configured using layouts.
+  These layouts are totally independend of the used appender i.e. the same
+  log message can be written to a log file with PID, file name and line number
+  but at the same time displayed on the console with just a timestamp and the priority.
+  
+  Layouts are a property of appenders just like filters and threshholds are. In the following example
+  a Pattern Layout is used.
+
++---  
+  log4php.appender.default = LoggerAppenderEcho
+  log4php.appender.default.layout = LoggerLayoutPattern
+  log4php.appender.default.layout.ConversionPattern = "%d{ISO8601} [%p] %c: %m (at %F line %L)%n"
++--
+ 
+  A simple $log->info("Hello world!"); would be printed on the console as:
+  
++--
+ 2009-09-14 01:01:53,353 [INFO] root: Hello World! (at /srv/home/james/workspace/log4php/src/examples/php/layout_pattern.php line 6)
++--
+
+  Other layouts could format the log messages as HTML, XML or predefined formats.
+
+
+* {Available Layouts}
+
+  The canonical list of available layouts can be seen in the phpDoc API documentation.
+
+
+** {LoggerLayoutPattern}
+
+  A flexible layout configurable with pattern string.
+  
+%{snippet|id=doxia|file=src/examples/php/layout_pattern.php}
+
+%{snippet|id=doxia|file=src/examples/resources/layout_pattern.properties}
+
++--
+  2009-09-09 00:27:35,787 [INFO] root: Hello World! (at src/examples/php/layout_pattern.php line 6)
+  2009-09-09 00:27:35,787 [DEBUG] root: Second line (at src/examples/php/layout_pattern.php line 7)
++--
+
+** {LoggerLayoutSimple}
+
+  Returns the log statement in a format consisting of the level, followed by " - " and then the message.
+
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/layout_simple.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/layout_simple.properties}
+
++--
+  INFO - Hello World!
++--
+
+** {LoggerLayoutTTCC}
+
+  TTCC layout format consists of time, thread, category and nested diagnostic context information, hence the name.
+
+%{snippet|id=doxia|file=src/examples/php/layout_ttcc.php}
+
+%{snippet|id=doxia|file=src/examples/resources/layout_ttcc.properties}
+
++--
+  02:28 [13714] INFO root - Hello World!
++--
+
+** {LoggerLayoutHTML}
+
+  The LoggerLayoutHTML formats the message as HTML table which looks similar to the following:
+  
+%{snippet|id=doxia|file=src/examples/php/layout_html.php}
+ 
+%{snippet|id=doxia|file=src/examples/resources/layout_html.properties}
+
++--
+    Log session start time Wed Sep 9 00:11:30 2009
+
+    Time Thread Level Category   Message
+    0    8318   INFO  root       Hello World!
++--
+
+** {LoggerLayoutXML}
+
+  The LoggerLayoutXML formats the message as XML fragment:
+
+%{snippet|id=doxia|file=src/examples/php/layout_xml.php}
+
+%{snippet|id=doxia|file=src/examples/resources/layout_xml.properties}
+
++--
+  <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
+    <log4php:event logger="root" level="INFO" thread="18539" timestamp="1252883382822">
+      <log4php:message><![CDATA[Hello World!]]></log4php:message>
+      <log4php:locationInfo class="main" file="/srv/home/james/workspace/log4php/src/examples/php/layout_xml.php" line="6" method="main" />
+    </log4php:event>
+  </log4php:eventSet>
++--
