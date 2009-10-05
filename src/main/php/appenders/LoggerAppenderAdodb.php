@@ -147,7 +147,7 @@ class LoggerAppenderAdodb extends LoggerAppender {
         $this->canAppend = true;
     }
     
-    function append($event) {
+    function append(LoggerLoggingEvent $event) {
         if ($this->canAppend) {
             $query = $this->layout->format($event);
             $this->db->Execute($query);

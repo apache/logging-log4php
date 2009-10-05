@@ -248,7 +248,7 @@ abstract class LoggerAppender {
 	 * @see doAppend()
 	 * @abstract
 	 */
-	abstract protected function append($event); 
+	abstract protected function append(LoggerLoggingEvent $event); 
 
 	/**
 	 * Release any resources allocated.

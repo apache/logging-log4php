@@ -130,7 +130,7 @@ class LoggerAppenderPDO extends LoggerAppender {
      * Appends a new event to the database using the sql format.
      */
      // TODO:should work with prepared statement
-    public function append($event) {
+    public function append(LoggerLoggingEvent $event) {
         if ($this->canAppend) {
             $query = $this->layout->format($event);
             try {
