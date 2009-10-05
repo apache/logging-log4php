@@ -15,14 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * A flexible layout configurable with pattern string.
+ *
+ * <p>Example:</p>
  * 
- * <p>The goal of this class is to {@link format()} a {@link LoggerLoggingEvent} and return the results as a string.
- * The results depend on the conversion pattern. 
- * The conversion pattern is closely related to the conversion pattern of the printf function in C.
+ * {@example ../../examples/php/layout_pattern.php}<br>
+ * 
+ * <p>with the following properties file:</p>
+ * 
+ * {@example ../../examples/resources/layout_pattern.properties}<br>
+ * 
+ * <p>would print the following:</p>
+ * 
+ * <pre>
+ * 2009-09-09 00:27:35,787 [INFO] root: Hello World! (at src/examples/php/layout_pattern.php line 6)
+ * 2009-09-09 00:27:35,787 [DEBUG] root: Second line (at src/examples/php/layout_pattern.php line 7)
+ * </pre>
+ *
+ * <p>The conversion pattern is closely related to the conversion pattern of the printf function in C.
  * A conversion pattern is composed of literal text and format control expressions called conversion specifiers.
  * You are free to insert any literal text within the conversion pattern.</p> 
  *
@@ -31,23 +45,6 @@
  * 
  * <p>The conversion character specifies the type of data, e.g. category, priority, date, thread name. 
  * The format modifiers control such things as field width, padding, left and right justification.</p>
- * 
- * The following is a simple example.
- * 
- * <p>Let the conversion pattern be "%-5p [%t]: %m%n" and assume that the log4php environment 
- * was set to use a LoggerPatternLayout.</p> 
- * 
- * Then the statements
- * <code> 
- *  $root = Logger::getRoot();
- *  $root->debug("Message 1");
- *  $root->warn("Message 2");
- * </code>
- * would yield the output 
- * <pre>
- *  DEBUG [main]: Message 1
- *  WARN  [main]: Message 2
- * </pre>
  * 
  * <p>Note that there is no explicit separator between text and conversion specifiers.</p>
  * 
@@ -132,7 +129,7 @@
  *                                                                However, if category name is longer than 30 chars, 
  *                                                                then truncate from the beginning.  
  * </pre>
- *
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage layouts
@@ -145,10 +142,12 @@ class LoggerLayoutPattern extends LoggerLayout {
 	/** Default conversion TTCC Pattern */
 	const TTCC_CONVERSION_PATTERN = '%r [%t] %p %c %x - %m%n';
 
-	/** @var string */
+	/** The pattern. 
+	 * @var string */
 	private $pattern;
 
-	/** @var LoggerPatternConverter head chain */
+	/** Head of a chain of Converters.
+	 * @var LoggerPatternConverter */
 	private $head;
 
 	private $timezone;

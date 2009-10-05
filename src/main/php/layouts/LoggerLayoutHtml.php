@@ -15,13 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * This layout outputs events in a HTML table.
  *
- * Parameters are: {@link $title}, {@link $locationInfo}.
+ * Configurable parameters for this layout are:
+ * 
+ * - title
+ * - locationInfo
  *
+ * An example for this layout:
+ * 
+ * {@example ../../examples/php/layout_html.php}<br>
+ * 
+ * The corresponding XML file:
+ * 
+ * {@example ../../examples/resources/layout_html.properties}
+ * 
+ * The above will print a HTML table that looks, converted back to plain text, like the following:<br>
+ * <pre>
+ *    Log session start time Wed Sep 9 00:11:30 2009
+ *
+ *    Time Thread Level Category   Message
+ *    0    8318   INFO  root       Hello World!
+ * </pre>
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage layouts

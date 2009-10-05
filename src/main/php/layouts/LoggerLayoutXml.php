@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -25,6 +26,23 @@
  * <p>It does not output a complete well-formed XML file. 
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
+ * 
+ * Example:
+ * 
+ * {@example ../../examples/php/layout_xml.php}<br>
+ * 
+ * {@example ../../examples/resources/layout_xml.properties}<br>
+ *
+ * The above would print:
+ * 
+ * <pre>
+ *   <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
+ *     <log4php:event logger="root" level="INFO" thread="13802" timestamp="1252456226491">
+ *       <log4php:message><![CDATA[Hello World!]]></log4php:message>
+ *       <log4php:locationInfo class="main" file="examples/php/layout_xml.php" line="6" method="main" />
+ *     </log4php:event>
+ *   </log4php:eventSet>
+ * </pre>
  *
  * @version $Revision$
  * @package log4php
@@ -44,11 +62,9 @@ class LoggerLayoutXml extends LoggerLayout {
 	const CDATA_EMBEDDED_END = ']]>]]&gt;<![CDATA[';
 
     /**
-     * The <b>LocationInfo</b> option takes a boolean value. By default,
-     * it is set to false which means there will be no location
-     * information output by this layout. If the the option is set to
-     * true, then the file name and line number of the statement at the
-     * origin of the log statement will be output.
+     * If set to true then the file name and line number of the origin of the
+     * log statement will be output.
+     * 
      * @var boolean
      */
     private $locationInfo = true;
@@ -144,7 +160,9 @@ class LoggerLayoutXml extends LoggerLayout {
         return "</{$this->_namespacePrefix}:eventSet>\r\n";
     }
     
-    /**
+    
+    /** Whether or not file name and line number will be included in the output.
+     * 
      * @return boolean
      */
     public function getLocationInfo() {
