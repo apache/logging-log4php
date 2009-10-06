@@ -68,14 +68,6 @@
  *
  * {@example ../../examples/resources/appender_dailyfile.properties}
  *
- * <p>An example how to use this appender:</p>
- *
- * {@example ../../examples/php/appender_dailyfile.php}
- *
- * <p>And the corresponding ini file:</p>
- *
- * {@example ../../examples/resources/appender_dailyfile.properties}
- *
  * @version $Revision$
  * @package log4php
  * @subpackage configurators
