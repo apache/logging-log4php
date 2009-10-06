@@ -48,7 +48,7 @@ class LoggerAppenderNull extends LoggerAppender {
 	 * 
 	 * @param LoggerLoggingEvent $event
 	 */
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 	}
 }
 

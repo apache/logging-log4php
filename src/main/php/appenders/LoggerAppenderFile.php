@@ -95,7 +95,7 @@ class LoggerAppenderFile extends LoggerAppender {
 		}
 	}
 
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if($this->fp and $this->layout !== null) {
 			if(flock($this->fp, LOCK_EX)) {
 				fwrite($this->fp, $this->layout->format($event));

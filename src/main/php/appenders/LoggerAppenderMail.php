@@ -101,7 +101,7 @@ class LoggerAppenderMail extends LoggerAppender {
 		$this->dry = $dry;
 	}
 	
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if($this->layout !== null) {
 			$this->body .= $this->layout->format($event);
 		}

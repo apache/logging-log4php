@@ -115,7 +115,7 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		$this->dry = $dry;
 	}
 	
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		$from = $this->from;
 		$to = $this->to;
 		if(empty($from) or empty($to)) {

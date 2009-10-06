@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -113,7 +114,7 @@ abstract class LoggerAppender {
 	 * @see LoggerAppender::doAppend()
 	 * @param LoggerLoggingEvent $event
 	 */
-	public function doAppend($event) {
+	public function doAppend(LoggerLoggingEvent $event) {
 		if($this->closed) {
 			return;
 		}
@@ -248,7 +249,7 @@ abstract class LoggerAppender {
 	 * @see doAppend()
 	 * @abstract
 	 */
-	abstract protected function append($event); 
+	abstract protected function append(LoggerLoggingEvent $event); 
 
 	/**
 	 * Release any resources allocated.

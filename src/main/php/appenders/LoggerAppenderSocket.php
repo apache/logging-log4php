@@ -219,7 +219,7 @@ class LoggerAppenderSocket extends LoggerAppender {
 	/**
 	 * @param LoggerLoggingEvent
 	 */
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if($this->sp || $this->dry) {
 			if($this->getLocationInfo()) {
 				$event->getLocationInformation();

@@ -56,7 +56,7 @@ class LoggerAppenderEcho extends LoggerAppender {
 		$this->closed = true;	 
 	}
 
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if($this->layout !== null) {
 			if($this->firstAppend) {
 				echo $this->layout->getHeader();

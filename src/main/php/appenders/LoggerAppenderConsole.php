@@ -91,7 +91,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 		}			 
 	}
 
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if (is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->format($event));
 		} 

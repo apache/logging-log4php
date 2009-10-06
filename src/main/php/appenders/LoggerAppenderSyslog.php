@@ -153,7 +153,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 		}
 	}
 
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		if($this->_option == NULL){
 			$this->_option = LOG_PID | LOG_CONS;
 		}
