@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -140,6 +141,11 @@ class LoggerPatternParser {
 		return $r;
 	}
 
+	
+	/** Parser.
+	 * 
+	 * @return LoggerPatternConverter Returns $this->head.
+	 */
 	public function parse() {
 		$c = '';
 		$this->i = 0;

@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -82,7 +83,7 @@ class LoggerPatternConverter {
 	/**
 	 * A template method for formatting in a converter specific way.
 	 *
-	 * @param string $sbuf string buffer
+	 * @param string &$sbuf string buffer
 	 * @param LoggerLoggingEvent $e
 	 */
 	public function format(&$sbuf, $e) {
