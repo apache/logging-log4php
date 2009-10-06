@@ -15,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * TTCC layout format consists of time, thread, category and nested
- * diagnostic context information, hence the name.
+ * TTCC layout format consists of <b>t</b>ime, <b>t</b>hread, <b>c</b>ategory and nested
+ * diagnostic <b>c</b>ontext information, hence the name.
  * 
  * <p>Each of the four fields can be individually enabled or
  * disabled. The time format depends on the <b>DateFormat</b> used.</p>
@@ -27,12 +28,21 @@
  * <p>If no dateFormat is specified it defaults to '%c'. 
  * See php {@link PHP_MANUAL#date} function for details.</p>
  *
- * Params:
+ * Configurable parameters for this layout are:
  * - {@link $threadPrinting} (true|false) enable/disable pid reporting.
  * - {@link $categoryPrefixing} (true|false) enable/disable logger category reporting.
  * - {@link $contextPrinting} (true|false) enable/disable NDC reporting.
  * - {@link $microSecondsPrinting} (true|false) enable/disable micro seconds reporting in timestamp.
  * - {@link $dateFormat} (string) set date format. See php {@link PHP_MANUAL#date} function for details.
+ *
+ * An example how to use this layout:
+ * 
+ * {@example ../../examples/php/layout_ttcc.php}<br>
+ * 
+ * {@example ../../examples/resources/layout_ttcc.properties}<br>
+ *
+ * The above would print:<br>
+ * <samp>02:28 [13714] INFO root - Hello World!</samp>
  *
  * @version $Revision$
  * @package log4php
