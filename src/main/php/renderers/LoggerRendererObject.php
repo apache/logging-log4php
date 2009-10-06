@@ -19,7 +19,7 @@
  */
 
 /**
- * Subclass this abstract class in order to render objects as strings.
+ * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
  *
  * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
  *

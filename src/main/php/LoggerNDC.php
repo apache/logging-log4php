@@ -39,6 +39,9 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  * <p>This class is similar to the {@link LoggerMDC} class except that it is
  * based on a stack instead of a map.
  *
+ * <p>This class is similar to the {@link LoggerMDC} class except that it is
+ * based on a stack instead of a map.
+ *
  * <p>Interleaved log output can still be meaningful if each log entry
  * from different contexts had a distinctive stamp. This is where NDCs
  * come into play.
