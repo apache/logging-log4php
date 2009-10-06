@@ -15,16 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
 /**
  * FileAppender appends log events to a file.
  *
- * Parameters are ({@link $fileName} but option name is <b>file</b>), 
- * {@link $append}.
+ * Configurable parameters for this appender are:
+ * 
+ * - layout             - Sets the layout class for this appender
+ * - file               - The target file to write to
+ * - filename           - The target file to write to
+ * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ *
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_file.properties}
+ * 
+ * An example php file:
+ * 
+ * {@example ../../examples/php/appender_file.php}
  *
  * @version $Revision$
  * @package log4php

@@ -15,15 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
  * @package log4php
- * @subpackage appenders
  */
 
 /**
  * LoggerAppenderEcho uses {@link PHP_MANUAL#echo echo} function to output events. 
  * 
  * <p>This appender requires a layout.</p>	
+ *
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_echo.properties}
+ * 
+ * An example php file:
+ * 
+ * {@example ../../examples/php/appender_echo.php}
+ * 
+ * The above example would print the following:
+ * <pre>
+ *    Tue Sep  8 22:44:55 2009,812 [6783] DEBUG appender_echo - Hello World!
+ * </pre>
  *
  * @version $Revision$
  * @package log4php

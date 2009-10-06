@@ -15,16 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * ConsoleAppender appends log events to STDOUT or STDERR using a layout specified by the user. 
+ * ConsoleAppender appends log events to STDOUT or STDERR. 
  * 
- * <p>Optional parameter is {@link $target}. The default target is Stdout.</p>
  * <p><b>Note</b>: Use this Appender with command-line php scripts. 
  * On web scripts this appender has no effects.</p>
- * <p>This appender requires a layout.</p>	
  *
+ * Configurable parameters of this appender are:
+ *
+ * - layout     - The layout (required)
+ * - target     - "stdout" or "stderr"
+ * 
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_console.properties}
+ * 
+ * An example php file:
+ * 
+ * {@example ../../examples/php/appender_console.php}
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

@@ -15,15 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Log events using php {@link PHP_MANUAL#trigger_error} function and a {@link LoggerLayoutTTCC} default layout.
  *
+ * This appender has no configurable parameters.
+ *
  * <p>Levels are mapped as follows:</p>
  * - <b>level &lt; WARN</b> mapped to E_USER_NOTICE
  * - <b>WARN &lt;= level &lt; ERROR</b> mapped to E_USER_WARNING
  * - <b>level &gt;= ERROR</b> mapped to E_USER_ERROR  
+ *
+ * An example:
+ * 
+ * {@example ../../examples/php/appender_php.php}
+ * 
+ * {@example ../../examples/resources/appender_php.properties}
  *
  * @version $Revision$
  * @package log4php

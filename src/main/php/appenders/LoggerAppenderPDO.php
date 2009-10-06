@@ -14,42 +14,81 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * @package log4php
  */
 
 /**
- * Appends log events to a db table using PDO
+ * Appends log events to a db table using PDO.
  *
- * <p>This appender uses a table in a database to log events.</p>
- * <p>Parameters are {@link $host}, {@link $user}, {@link $password},
- * {@link $database}, {@link $createTable}, {@link $table} and {@link $sql}.</p>
+ * Configurable parameters of this appender are:
  *
+ * - user            - Sets the user of this database connection
+ * - password        - Sets the password of this database connection
+ * - createTable     - true, if the table should be created if necessary. false otherwise
+ * - table           - Sets the table name (default: log4php_log)
+ * - sql             - Sets the insert statement for a logging event. Defaults
+ *                     to the correct one - change only if you are sure what you are doing.
+ * - dsn             - Sets the DSN string for this connection
+ *
+ * If $sql is set then $table and $sql are used, else $table, $insertSql and $insertPattern.
+ *
+ * An example:
+ *
+ * {@example ../../examples/php/appender_pdo.php}
+ * 
+ * {@example ../../examples/resources/appender_pdo.properties}
+ * 
+ * @version $Revision: 806678 $
  * @package log4php
  * @subpackage appenders
  * @since 2.0
  */
 class LoggerAppenderPDO extends LoggerAppender {
-    /** Create the log table if it does not exists (optional). */
+
+    /** Create the log table if it does not exists (optional).
+     * @var string */
 	private $createTable = true;
     
-    /** Database user name */
+    /** Database user name.
+     * @var string */
     private $user = '';
     
-    /** Database password */
+    /** Database password
+     * @var string */
     private $password = '';
     
-	/** DSN string for enabling a connection */    
+    /** DSN string for enabling a connection.
+     * @var string */
     private $dsn;
     
-    /** A {@link LoggerPatternLayout} string used to format a valid insert query (mandatory) */
+    /** A {@link LoggerPatternLayout} string used to format a valid insert query.
+     * @deprecated Use {@link $insertSql} and {@link $insertPattern} which properly handle quotes in the messages!
+     * @var string */
     private $sql;
     
-    /** Table name to write events. Used only if {@link $createTable} is true. */    
+    /** Can be set to a complete insert statement with ? that are replaced using {@link insertPattern}.
+     * @var string */
+    private $insertSql = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?,?,?,?,?,?,?)";
+
+    /** A comma separated list of {@link LoggerPatternLayout} format strings that replace the "?" in {@link $sql}.
+     * @var string */
+    private $insertPattern = "%d,%c,%p,%m,%t,%F,%L";
+
+    /** Table name to write events. Used only for CREATE TABLE if {@link $createTable} is true.
+     * @var string */
     private $table = 'log4php_log';
     
-    /** The instance */
+    /** The PDO instance.
+     * @var PDO */
     private $db = null;
     
-    /** boolean used to check if all conditions to append are true */
+    /** Prepared statement for the INSERT INTO query.
+     * @var PDOStatement */
+    private $preparedInsert;
+
+    /** Set in activateOptions() and later used in append() to check if all conditions to append are true.
+     * @var boolean */
     private $canAppend = true;
     
     /**
@@ -211,7 +250,9 @@ class LoggerAppenderPDO extends LoggerAppender {
     /**
      * Sometimes databases allow only one connection to themselves in one thread.
      * SQLite has this behaviour. In that case this handle is needed if the database
-     * must be checked for events
+     * must be checked for events.
+     *
+     * @return PDO
      */
     public function getDatabaseHandle() {
         return $this->db;

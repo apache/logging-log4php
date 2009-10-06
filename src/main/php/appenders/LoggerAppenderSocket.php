@@ -15,14 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Serialize events and send them to a network socket.
  *
+ * This appender can be configured by changing the following attributes:
+ * 
+ * - locationInfo       - Sets the location info for the xml layout (true or false)
+ * - log4jNamespace     - Sets the namespace for log4j (true or false)
+ * - port               - Sets the port of the socket.
+ * - remoteHost         - Sets the remote host
+ * - timeout            - Sets the timeout in ms
+ * - useXml             - true, if xml should be transmitted.
+ *                        false, if a serialized php object should be transmitted
+ *
  * Parameters are {@link $remoteHost}, {@link $port}, {@link $timeout}, 
  * {@link $locationInfo}, {@link $useXml} and {@link $log4jNamespace}.
  *
+ * An example:
+ * 
+ * {@example ../../examples/php/appender_socket.php}
+ * 
+ * {@example ../../examples/resources/appender_socket.properties}
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
@@ -216,9 +233,6 @@ class LoggerAppenderSocket extends LoggerAppender {
 		$this->useXml = LoggerOptionConverter::toBoolean($flag, $this->getUseXml());
 	} 
  
-	/**
-	 * @param LoggerLoggingEvent
-	 */
 	public function append(LoggerLoggingEvent $event) {
 		if($this->sp || $this->dry) {
 			if($this->getLocationInfo()) {
