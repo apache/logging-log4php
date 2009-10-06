@@ -34,7 +34,7 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testConfigure() {
-		Logger::configure('configurators/test1.php','LoggerConfiguratorPhp');
+		Logger::configure(dirname(__FILE__).'/test1.php','LoggerConfiguratorPhp');
 		$root = Logger::getRootLogger();
 		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
 		$appender = $root->getAppender("default");
