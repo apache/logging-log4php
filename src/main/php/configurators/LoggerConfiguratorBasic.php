@@ -15,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Use this class to quickly configure the package.
  *
- * <p>For file based configuration see {@link LoggerConfiguratorIni}. 
- * <p>For XML based configuration see {@link LoggerConfiguratorXml}.
+ * An example how to use this configurator:
+ * 
+ * {@example ../../examples/php/configurator_basic.php}
  *
  * @version $Revision$
  * @package log4php

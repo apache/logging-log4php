@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -23,32 +24,13 @@
  * This class allows configuration of log4php through an external file that 
  * deliver a PHP array in return.
  *
- * Example:
- * <code>
- * <?php
- * return array(
- *     'threshold' => 'ALL',
- *     'rootLogger' => array(
- *        'level' => 'INFO',
- *        'appenders' => array('default'),
- *     ),
- *     'loggers' => array(
- *         'dev' => array(
- *             'level' => 'DEBUG',
- *             'appenders' => array('default'),
- *         ),
- *     ),
- *     'appenders' => array(
- *         'default' => array(
- *             'class' => 'LoggerAppenderEcho',
- *             'layout' => array(
- *                 'class' => 'LoggerPatternLayout',
- *                 'conversionPattern' => "%d{Y-m-d H:i:s} %-5p %c %X{username}: %m in %F at %L%n",
- *             ),
- *         ),
- *     ),
- * );
- * </code>
+ * An example for this configurator is:
+ *
+ * {@example ../../examples/php/configurator_php.php}
+ * 
+ * Which includes the following snippet:
+ * 
+ * {@example ../../examples/resources/configurator_php.php}
  *
  * @package log4php
  * @subpackage configurators

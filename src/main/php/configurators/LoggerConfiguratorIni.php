@@ -15,12 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Allows the configuration of log4php from an external file.
  * 
- * See {@link doConfigure()} for the expected format.
+ * <p>This is the most commonly used method of configuring log4php.</p>
  * 
  * <p>It is sometimes useful to see how log4php is reading configuration
  * files. You can enable log4php internal logging by defining the
@@ -29,14 +30,13 @@
  * <p>The <i>LoggerConfiguratorIni</i> does not handle the
  * advanced configuration features supported by the {@link LoggerConfiguratorXml} 
  * such as support for {@link LoggerFilter}, 
-   custom {@link LoggerErrorHandlers}, nested appenders such as the 
-   {@link Logger AsyncAppender}, 
- * etc.
+ * custom {@link LoggerErrorHandlers}, nested appenders such as the {@link Logger AsyncAppender}, 
+ * etc.</p>
  * 
  * <p>All option <i>values</i> admit variable substitution. The
  * syntax of variable substitution is similar to that of Unix
- * shells. The string between an opening <b>&quot;${&quot;</b> and
- * closing <b>&quot;}&quot;</b> is interpreted as a key. The value of
+ * shells. The string between an opening <b>"${"</b> and
+ * closing <b>"}"</b> is interpreted as a key. The value of
  * the substituted variable can be defined as a system property or in
  * the configuration file itself. The value of the key is first
  * searched in the defined constants, in the enviroments variables
@@ -60,10 +60,18 @@
  * </code>
  * </p>
  *
+ * <p>An example how to use this appender:</p>
+ *
+ * {@example ../../examples/php/appender_dailyfile.php}
+ *
+ * <p>And the corresponding ini file:</p>
+ *
+ * {@example ../../examples/resources/appender_dailyfile.properties}
+ *
  * @version $Revision$
  * @package log4php
  * @subpackage configurators
- * @since 0.5 
+ * @since 0.5
  */
 class LoggerConfiguratorIni implements LoggerConfigurator {
  	const CATEGORY_PREFIX = "log4php.category.";

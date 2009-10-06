@@ -15,25 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * Use this class to initialize the log4php environment using expat parser.
+ * Use this class to initialize the log4php environment using XML files.
  *
  * <p>Read the log4php.dtd included in the documentation directory. Note that
  * php parser does not validate the document.</p>
  *
  * <p>Sometimes it is useful to see how log4php is reading configuration
  * files. You can enable log4php internal logging by setting the <var>debug</var> 
- * attribute in the <var>log4php:configuration</var> element. As in
- * <pre>
- * &lt;log4php:configuration <b>debug="true"</b> xmlns:log4php="http://logging.apache.org/log4php/">
- * ...
- * &lt;/log4php:configuration>
- * </pre>
+ * attribute in the <var>log4php:configuration</var> element.</p>
  *
- * <p>There are sample XML files included in the package under <b>tests/</b> 
- * subdirectories.</p>
+ * <p>An example for this configurator:</p>
+ * 
+ * {@example ../../examples/php/configurator_xml.php}<br>
+ * 
+ * <p>The corresponding XML file:</p>
+ * 
+ * {@example ../../examples/resources/configurator_xml.xml}
+ * 
+ * <p>There are more sample XML files included in the package under tests/ subdirectories.</p>
  *
  * @version $Revision$
  * @package log4php
