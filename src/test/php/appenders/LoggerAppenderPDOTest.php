@@ -24,62 +24,122 @@
  */
 
 class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
+    const dsn = 'sqlite:../../../target/pdotest.sqlite';
+    const file = '../../../target/pdotest.sqlite';
         
-	public function testSimpleLogging() {
+    /** To start with an empty database for each single test. */
+    public function setUp() {
+        if (file_exists(self::file)) unlink(self::file);
+    }
+
+    /** Clean up after the last test was run. */
+    public function tearDownAfterClass() {
+        if (file_exists(self::file)) unlink(self::file);
+    }
 		
+    /** Tests new-style logging using prepared statements and the default SQL definition. */
+    public function testSimpleWithDefaults() {
 		if(!extension_loaded('pdo_sqlite')) {
 			self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
 		}
 		
+        // Log event
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+        $appender = new LoggerAppenderPDO("myname");
+        $appender->setDSN(self::dsn);
+        $appender->activateOptions();
+        $appender->append($event);
+        $appender->close();
 
-		$dbname = '../../../target/pdotest.sqlite';
-		$dsn = 'sqlite:'.$dbname;
+        // Test the default pattern %d,%c,%p,%m,%t,%F,%L
+        $db = new PDO(self::dsn);
+        $query = "SELECT * FROM log4php_log";
+        $sth = $db->query($query);
+        $row = $sth->fetch(PDO::FETCH_NUM);
+        self::assertTrue(is_array($row), "No rows found.");
+        self::assertEquals(7, count($row));
+        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d$/', $row[0])); // %d = date
+        self::assertEquals('TEST', $row[1]); // %c = category
+        self::assertEquals('ERROR', $row[2]); // %p = priority
+        self::assertEquals('testmessage', $row[3]); // %m = message
+        self::assertEquals(posix_getpid(), $row[4]); // %t = thread
+        self::assertEquals('NA', $row[5]); // %F = file, NA due to phpunit magic
+        self::assertEquals('NA', $row[6]); // %L = line, NA due to phpunit magic
+    }
 
-		$database = new PDO($dsn);
-		$database = null;
+
+    /** Tests new style prepared statment logging with customized SQL. */
+    public function testCustomizedSql() {
+        if(!extension_loaded('pdo_sqlite')) {
+            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
+        }
 		
+        // Prepare appender
 		$appender = new LoggerAppenderPDO("myname");
-		$appender->setDSN($dsn);
-		$appender->setCreateTable(true);
+        $appender->setDSN(self::dsn);
+        $appender->setTable('unittest2');
+        $appender->setInsertSql("INSERT INTO unittest2 (file, line, thread, timestamp, logger, level, message) VALUES (?,?,?,?,?,?,?)");
+        $appender->setInsertPattern("%F,%L,%t,%d,%c,%p,%m");
 		$appender->activateOptions();
+
+        // Action!
+        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest2", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		$appender->append($event);
 		
+        // Check
+        $db = new PDO(self::dsn);
+        $result = $db->query("SELECT * FROM unittest2");
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        self::assertTrue(is_object($row));
+        self::assertEquals("NA", $row->file); // "NA" due to phpunit magic
+        self::assertEquals("NA", $row->line); // "NA" due to phpunit magic
+        self::assertEquals(posix_getpid(), $row->thread);
+        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d$/', $row->timestamp));
+        self::assertEquals('TEST', $row->logger);
+        self::assertEquals('ERROR', $row->level);
+        self::assertEquals('testmessage', $row->message);
+    }
 		
-		$db = $appender->getDatabaseHandle();
-		$q = "select * from log4php_log";	
-		$error = "";
-		if($result = $db->query($q)) {
-			while($row = $result->fetch()) {
-    			self::assertEquals($row['1'], 'TEST');
-    			self::assertEquals($row['2'], 'ERROR');
-    			self::assertEquals($row['3'], 'testmessage');
-  			}
-		} else {
-			// todo propagate exception to phpunit
-		   self::assertTrue(false);
+    /** Tests old-style logging using the $sql variable. */
+    public function testOldStyle() {
+        if(!extension_loaded('pdo_sqlite')) {
+            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
 		}
-		$appender->close();
 		
+        // Create table with different column order
+        $db = new PDO(self::dsn);
+        $db->exec('CREATE TABLE unittest3 (ts timestamp, level varchar(32), msg varchar(64))');
+
+        // Prepare appender
+        $appender = new LoggerAppenderPDO("myname");
+        $appender->setDSN(self::dsn);
+        $appender->setCreateTable(false);
+        $appender->setSql("INSERT INTO unittest3 (ts, level, msg) VALUES ('%d', '%p', '%m')");
+        $appender->activateOptions();
+
+        // Action!
+        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+        $appender->append($event);
+
+        // Check
+        $db = new PDO(self::dsn);
+        $result = $db->query("SELECT * FROM unittest3");
+        self::assertFalse($result === false);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        self::assertTrue(is_object($row));
+        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d$/', $row->ts));
+        self::assertEquals('ERROR', $row->level);
+        self::assertEquals('testmessage', $row->msg);
     }
     
+    /** Tests if log4php throws an Exception if the appender does not work. 
+     * @expectedException LoggerException
+     */
     public function testException() {
         $dsn = 'doenotexist';
         $appender = new LoggerAppenderPDO("myname");
         $appender->setDSN($dsn);
         $appender->setCreateTable(true);
-        
-        $catchedException = null;
-        try {
             $appender->activateOptions();
-        } catch (LoggerException $e) {
-            $catchedException = $e;
         }
-        self::assertNotNull($catchedException);
-    }
-    
-    public function tearDown() {
-    	@unlink('../../../target/pdotest.sqlite');
-    }
-    
 }

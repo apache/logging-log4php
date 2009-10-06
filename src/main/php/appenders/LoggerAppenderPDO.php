@@ -125,7 +125,7 @@ class LoggerAppenderPDO extends LoggerAppender {
     	
             // test if log table exists
             try {
-                $result = $this->db->query('select * from ' . $this->table . ' where 1 = 0');
+                $result = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE 1 = 0');
             } catch (PDOException $e) {
                 // It could be something else but a "no such table" is the most likely
                 $result = false;
@@ -133,14 +133,15 @@ class LoggerAppenderPDO extends LoggerAppender {
             
             // create table if necessary
             if ($result == false and $this->createTable) {
-        	   // TODO mysql syntax?
-                $query = "CREATE TABLE {$this->table} (	 timestamp varchar(32)," .
-            										"logger varchar(32)," .
+                // The syntax should at least be compatible with MySQL, PostgreSQL, SQLite and Oracle.
+                $query = "CREATE TABLE {$this->table} (".
+                            "timestamp varchar(32)," .
+            				"logger varchar(64)," .
             										"level varchar(32)," .
-            										"message varchar(64)," .
+            				"message varchar(9999)," .
             										"thread varchar(32)," .
-            										"file varchar(64)," .
-            										"line varchar(4) );";
+            				"file varchar(255)," .
+            				"line varchar(6))";
                 $result = $this->db->query($query);
             }
         } catch (PDOException $e) {
@@ -148,37 +149,49 @@ class LoggerAppenderPDO extends LoggerAppender {
             throw new LoggerException($e);
         }
         
-        if($this->sql == '' || $this->sql == null) {
-            $this->sql = "INSERT INTO $this->table ( timestamp, " .
-            										"logger, " .
-            										"level, " .
-            										"message, " .
-            										"thread, " .
-            										"file, " .
-            										"line" .
-						 ") VALUES ('%d','%c','%p','%m','%t','%F','%L')";
-        }
+        $this->layout = new LoggerLayoutPattern();
         
-		$this->layout = LoggerReflectionUtils::createObject('LoggerLayoutPattern');
+        //
+        // Keep compatibility to legacy option $sql which already included the format patterns!
+        //
+        if (empty($this->sql)) {
+            // new style with prepared Statment and $insertSql and $insertPattern
+            // Maybe the tablename has to be substituted.
+            $this->insertSql = preg_replace('/__TABLE__/', $this->table, $this->insertSql);
+            $this->preparedInsert = $this->db->prepare($this->insertSql);
+            $this->layout->setConversionPattern($this->insertPattern);
+        } else {
+            // Old style with format strings in the $sql query should be used.
         $this->layout->setConversionPattern($this->sql);
+        }
+
         $this->canAppend = true;
         return true;
     }
     
     /**
-     * Appends a new event to the database using the sql format.
+     * Appends a new event to the database.
+     * 
+     * @throws LoggerException      If the pattern conversion or the INSERT statement fails.
      */
-     // TODO:should work with prepared statement
     public function append(LoggerLoggingEvent $event) {
-        if ($this->canAppend) {
-            $query = $this->layout->format($event);
+        // TODO: Can't activateOptions() simply throw an Exception if it encounters problems?
+        if ( ! $this->canAppend) return;
+
             try {
+            if (empty($this->sql)) {
+                // new style with prepared statement
+                $params = $this->layout->formatToArray($event);
+                $this->preparedInsert->execute($params);
+            } else {
+                // old style
+                $query = $this->layout->format($event);
                 $this->db->exec($query);
+            }
             } catch (Exception $e) {
                 throw new LoggerException($e);
             }
         }
-    }
     
     /**
      * Closes the connection to the logging database
@@ -226,11 +239,33 @@ class LoggerAppenderPDO extends LoggerAppender {
      * ('%d','%c','%p','%m','%t','%F','%L')
      * 
      * It's not necessary to change this except you have customized logging'
+     *
+     * @deprecated See {@link setInsertSql} and {@link setInsertPattern}.
      */
     public function setSql($sql) {
         $this->sql = $sql;    
     }
     
+    /**
+     * Sets the SQL INSERT string to use with {@link $insertPattern}.
+     *
+     * @param $sql          A complete INSERT INTO query with "?" that gets replaced.
+     */
+    public function setInsertSql($sql) {
+        $this->insertSql = $sql;
+    }
+
+    /**
+     * Sets the {@link LoggerLayoutPattern} format strings for {@link $insertSql}.
+     *
+     * It's not necessary to change this except you have customized logging.
+     *
+     * @param $pattern          Comma separated format strings like "%p,%m,%C"
+     */
+    public function setInsertPattern($pattern) {
+        $this->insertPattern = $pattern;
+    }
+
     /**
      * Sets the tablename to which this appender should log.
      * Defaults to log4php_log
