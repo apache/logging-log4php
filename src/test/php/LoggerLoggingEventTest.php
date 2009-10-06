@@ -27,7 +27,7 @@ class LoggerLoggingEventTestCaseAppender extends LoggerAppenderNull {
         
 	protected $requiresLayout = true;
 
-	public function append($event) {
+	public function append(LoggerLoggingEvent $event) {
 		$this->layout->format($event);
 	}
 
