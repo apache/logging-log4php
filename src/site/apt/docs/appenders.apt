@@ -13,21 +13,23 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache log4php Quickstart
+ Apache log4php Appenders
  ------
  ------
  ------
 
 Apache Log4php Appenders
 
-* Appenders
++ %{toc|section=1|fromDepth=1|toDepth=2}
 
-  This document describes the parameters used by the several appenders.
+* {Appenders}
+
+  This document explains how to configure where logging messages are written to.
   
   This text is based upon the Log4J manual written by Ceki GŸlcŸ in March 2002. 
   You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
 
-** About Appenders
+** {About Appenders}
 
   The ability to selectively enable or disable logging requests based on their logger
   is only part of the picture. Log4PHP allows logging requests to print to multiple
@@ -106,7 +108,7 @@ Appender Additivity
   of the log statement. The fourth field is the name of the logger associated with
   the log request. The text after the '-' is the message of the statement.
 
-** Configuring Appenders  
+** {Configuring Appenders}
 
   An appender can be configured in your configuration file. In the following example
   an appender with the name myappender is instantiated with the Echo-Appender. 
@@ -118,7 +120,7 @@ Appender Additivity
 +--
 
 
-** Configuring Appender properties  
+** {Configuring Appender properties}
 
   Additional properties can be configured in a property file with just adding them with
   a dot and their name. For example if you want to populize an attribut called layout,
@@ -134,9 +136,9 @@ Appender Additivity
 
 
 
-* Appenders Documentation
+* {Appenders Documentation}
 
-** LoggerAppenderEcho
+** {LoggerAppenderEcho}
 
   The LoggerAppenderEcho Appender writes all logging events via echo. Echo outputs may be buffered.
 
@@ -144,9 +146,14 @@ Appender Additivity
  layout 			| Sets the layout class for this appender
 *-------------------*-----------------------------------------------------*
 
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/appender_echo.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_echo.properties}
 
 
-** LoggerAppenderConsole
+** {LoggerAppenderConsole}
 
   The LoggerAppenderConsoler Appender writes all logging events to the console, 
   f. e. php://stdout or php://errout. Defaults to stdout.
@@ -157,9 +164,14 @@ Appender Additivity
  target 			| Sets the target to which this appender should write to (stdout or stderr)
 *-------------------*-----------------------------------------------------*
 
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/appender_console.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_console.properties}
 
 
-** LoggerAppenderFile
+** {LoggerAppenderFile}
 
   The LoggerAppenderDailyFile writes all logging events to a specified file.
  
@@ -173,9 +185,14 @@ Appender Additivity
  append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
 *-------------------*-----------------------------------------------------*
 
+  Examples:
+
+%{snippet|id=doxia|file=src/examples/php/appender_file.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_file.properties}
 
 
-** LoggerAppenderDailyFile
+** {LoggerAppenderDailyFile}
 
   The LoggerAppenderDailyFile writes all logging events to a specified file.
   The file is rolled over once a day. That means, for each day a new file 
@@ -186,41 +203,19 @@ Appender Additivity
 *-------------------*-----------------------------------------------------*
  file   			| The target file to write to
 *-------------------*-----------------------------------------------------*
- filename  			| The target file to write to
-*-------------------*-----------------------------------------------------*
  append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
 *-------------------*-----------------------------------------------------*
  datePattern		| Sets date format for the file name.
 *-------------------*-----------------------------------------------------*
 
+  Examples:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_dailyfile.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_dailyfile.properties}
 
 
-** LoggerAppenderRollingFile
-
-  The LoggerAppenderDailyFile writes all logging events to a specified file.
-  The file is beeing rolled over after a specified size has been reached.
- 
-*-------------------*-----------------------------------------------------*
- layout 			| Sets the layout class for this appender
-*-------------------*-----------------------------------------------------*
- file   			| The target file to write to
-*-------------------*-----------------------------------------------------*
- filename  			| The target file to write to
-*-------------------*-----------------------------------------------------*
- append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
-*-------------------*-----------------------------------------------------*
- MaxBackupIndex  	| Set the maximum number of backup files to keep around (int)
-*-------------------*-----------------------------------------------------*
- MaxFileSize		| Set the maximum size that the output file is allowed to 
- 					| reach before being rolled over to backup files.
- 					| Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB"
- 					| is interpreted as 10240
-*-------------------*-----------------------------------------------------*
- MaximumFileSize  	| Alias to MaxFileSize
-*-------------------*-----------------------------------------------------*
-
-
-** LoggerAppenderMail
+** {LoggerAppenderMail}
 
   The LoggerAppenderMail appends log events to mail using php function. 
   The appender sends all log events at once after the request has been finsished
@@ -238,12 +233,12 @@ Appender Additivity
 
   Examples:
   
-%{snippet|id=foo|file=src/examples/php/mail.php}
+%{snippet|id=doxia|file=src/examples/php/appender_mail.php}
   
-%{snippet|id=foo|file=src/examples/resources/mail.properties}
+%{snippet|id=doxia|file=src/examples/resources/appender_mail.properties}
 
-** LoggerAppenderMailEvent
- 
+** {LoggerAppenderMailEvent}
+
   The LoggerAppenderMailEvent appends log events to mail using php function. 
   The appender sends each log events when it occurs.
  
@@ -262,15 +257,19 @@ Appender Additivity
 *-------------------*-----------------------------------------------------*
 
 
-** LoggerAppenderNull
+** {LoggerAppenderNull}
 
-  Ignores all log events. 
+  Ignores all log events.
   
   No additional parameters.
   
+  Example:
   
-  
-** LoggerAppenderPDO
+%{snippet|id=doxia|file=src/examples/php/appender_null.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_null.properties}
+    
+** {LoggerAppenderPDO}
 
   Sends all log events to a database via PDO. The table is beeing created, if necessary
   and not stated otherwise.
@@ -290,15 +289,103 @@ Appender Additivity
  dsn        		| Sets the DSN string for this connection
 *-------------------*-----------------------------------------------------*
   
-    
+  Example:
   
-** LoggerAppenderPhp
+%{snippet|id=doxia|file=src/examples/php/appender_pdo.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_pdo.properties}
+
+  Note that some fields, like "message" and "file", are limited in size:
+
++--
+
+    mysql> desc log4php_log;
+ +-----------+-------------+------+-----+---------+-------+
+ | Field     | Type        | Null | Key | Default | Extra |
+ +-----------+-------------+------+-----+---------+-------+
+ | timestamp | varchar(32) | YES  |     | NULL    |       |
+ | logger    | varchar(32) | YES  |     | NULL    |       |
+ | level     | varchar(32) | YES  |     | NULL    |       |
+ | message   | varchar(64) | YES  |     | NULL    |       |
+ | thread    | varchar(32) | YES  |     | NULL    |       |
+ | file      | varchar(64) | YES  |     | NULL    |       |
+ | line      | varchar(4)  | YES  |     | NULL    |       |
+ +-----------+-------------+------+-----+---------+-------+
+
+    mysql> SELECT * FROM log4php_log;
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | timestamp               | logger | level | message      | thread | file                                                             | line |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | 2009-09-08 02:31:48,532 | root   | FATAL | Hello World! | 21858  | /srv/home/james/workspace/log4php/src/examples/php/appender_pdo. | 24   |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+
++--   
+  
+** {LoggerAppenderPhp}
 
   Log events using the php function: trigger_error
   
   No additional parameters.
 
-** LoggerAppenderSocket
+  Example:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_php.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_php.properties}
+
+  This prints:
+  
++--
+ Notice: 2009-09-08 02:07:57.223 DEBUG [19675] root: Hello PHP!
+   in /srv/home/james/workspace/log4php/src/main/php/appenders/LoggerAppenderPhp.php on line 59
+
+ Call Stack:
+    0.0005     113808   1. {main}() /srv/home/james/workspace/log4php/src/examples/php/appender_php.php:0
+    0.0254    1237360   2. Logger->debug() /srv/home/james/workspace/log4php/src/examples/php/appender_php.php:21
+    0.0254    1237688   3. Logger->logLevel() /srv/home/james/workspace/log4php/src/main/php/Logger.php:214
+    0.0254    1238072   4. Logger->forcedLog() /srv/home/james/workspace/log4php/src/main/php/Logger.php:329
+    0.0274    1337072   5. Logger->callAppenders() /srv/home/james/workspace/log4php/src/main/php/Logger.php:271
+    0.0274    1337888   6. LoggerAppender->doAppend() /srv/home/james/workspace/log4php/src/main/php/Logger.php:408
+    0.0275    1338144   7. LoggerAppenderPhp->append() /srv/home/james/workspace/log4php/src/main/php/LoggerAppender.php:133
+    0.0357    1341720   8. trigger_error() /srv/home/james/workspace/log4php/src/main/php/appenders/LoggerAppenderPhp.php:59
++--  
+
+
+
+** {LoggerAppenderRollingFile}
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+  The file is beeing rolled over after a specified size has been reached.
+ 
+*-------------------*-----------------------------------------------------*
+ layout             | Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file               | The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename           | The target file to write to
+*-------------------*-----------------------------------------------------*
+ append             | Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+ MaxBackupIndex     | Set the maximum number of backup files to keep around (int)
+*-------------------*-----------------------------------------------------*
+ MaxFileSize        | Set the maximum size that the output file is allowed to 
+                    | reach before being rolled over to backup files.
+                    | Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB"
+                    | is interpreted as 10240
+*-------------------*-----------------------------------------------------*
+ MaximumFileSize    | Alias to MaxFileSize
+*-------------------*-----------------------------------------------------*
+  
+  Examples: 
+ 
+%{snippet|id=doxia|file=src/examples/php/appender_rollingfile.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_rollingfile.properties}
+
+  The resulting filenames are appender_rollingfile.log, appender_rollingfile.log.1,
+  appender_rollingfile.log.2 and so on.
+
+** {LoggerAppenderSocket}
 
   Serializes events and sends them to a network socket.
 
@@ -314,12 +401,26 @@ Appender Additivity
  timeout		    | Sets the timeout in ms
 *-------------------*-----------------------------------------------------*
  useXml        		| true, if xml should be transmitted.
-*					| false, if a serialized php object should be transmitted
+					| false, if a serialized php object should be transmitted
 *-------------------*-----------------------------------------------------*
   
+  Examples: 
+ 
+%{snippet|id=doxia|file=src/examples/php/appender_socket.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_socket.properties}
+
+  The appender can be tested with netcat:
+  
++--
+  # nc -l -p 4242 & php appender_socket.php
+  <log4j:event logger="root" level="FATAL" thread="19179" timestamp="1252367259514">
+  <log4j:message><![CDATA[Hello World!]]></log4j:message>
+  </log4j:event>
++--
 
 
-** LoggerAppenderSyslog
+** {LoggerAppenderSyslog}
 
   Log events using php syslog function.
 
@@ -343,7 +444,7 @@ Appender Additivity
 
   Examples: 
  
-%{snippet|id=foo|file=src/examples/php/syslog.php}
+%{snippet|id=doxia|file=src/examples/php/appender_syslog.php}
 
-%{snippet|id=foo|file=src/examples/resources/syslog.properties}
+%{snippet|id=doxia|file=src/examples/resources/appender_syslog.properties}
  
