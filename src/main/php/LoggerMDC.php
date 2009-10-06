@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -23,15 +24,31 @@
 $GLOBALS['log4php.LoggerMDC.ht'] = array();
 
 /**
- * The LoggerMDC class is similar to the {@link LoggerNDC} class except that it is
- * based on a map instead of a stack. It provides <i>mapped diagnostic contexts</i>.
+ * The LoggerMDC class provides <i>mapped diagnostic contexts</i>.
  * 
- * A <i>Mapped Diagnostic Context</i>, or
+ * <p>A <i>Mapped Diagnostic Context</i>, or
  * MDC in short, is an instrument for distinguishing interleaved log
  * output from different sources. Log output is typically interleaved
  * when a server handles multiple clients near-simultaneously.
  *
+ * <p>This class is similar to the {@link LoggerNDC} class except that 
+ * it is based on a map instead of a stack.
+ * 
  * <p><b><i>The MDC is managed on a per thread basis</i></b>.
+ * 
+ * Example:
+ * 
+ * {@example ../../examples/php/mdc.php}<br>
+ *
+ * With the properties file:
+ * 
+ * {@example ../../examples/resources/mdc.properties}<br>
+ * 
+ * Will result in the following (notice the username "knut" in the output):
+ * 
+ * <pre>
+ * 2009-09-13 18:48:28 DEBUG root knut: Testing MDC in src/examples/php/mdc.php at 23
+ * </pre>
  * 
  * @version $Revision$
  * @since 0.3

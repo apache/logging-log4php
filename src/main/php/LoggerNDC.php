@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 
@@ -24,8 +25,9 @@
 $GLOBALS['log4php.LoggerNDC.ht'] = array();
 
 /**
- * The NDC class implements <i>nested diagnostic contexts</i> as
- * defined by Neil Harrison in the article "Patterns for Logging
+ * The NDC class implements <i>nested diagnostic contexts</i>.
+ * 
+ * NDC was defined by Neil Harrison in the article "Patterns for Logging
  * Diagnostic Messages" part of the book "<i>Pattern Languages of
  * Program Design 3</i>" edited by Martin et al.
  *
@@ -33,6 +35,9 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  * to distinguish interleaved log output from different sources. Log
  * output is typically interleaved when a server handles multiple
  * clients near-simultaneously.
+ *
+ * <p>This class is similar to the {@link LoggerMDC} class except that it is
+ * based on a stack instead of a map.
  *
  * <p>Interleaved log output can still be meaningful if each log entry
  * from different contexts had a distinctive stamp. This is where NDCs
@@ -74,6 +79,22 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  * the same category) can still be distinguished because each client
  * request will have a different NDC tag.</p>
  *
+ * Example:
+ *	
+ * {@example ../../examples/php/ndc.php}<br>
+ *
+ * With the properties file:
+ * 
+ * {@example ../../examples/resources/ndc.properties}<br>
+ * 
+ * Will result in the following (notice the conn and client ids):
+ * 
+ * <pre>
+ * 2009-09-13 19:04:27 DEBUG root conn=1234: just received a new connection in src/examples/php/ndc.php at 23
+ * 2009-09-13 19:04:27 DEBUG root conn=1234 client=ab23: some more messages that can in src/examples/php/ndc.php at 25
+ * 2009-09-13 19:04:27 DEBUG root conn=1234 client=ab23: now related to a client in src/examples/php/ndc.php at 26
+ * 2009-09-13 19:04:27 DEBUG root : back and waiting for new connections in src/examples/php/ndc.php at 29
+ * </pre>
  *	
  * @version $Revision$
  * @package log4php 
