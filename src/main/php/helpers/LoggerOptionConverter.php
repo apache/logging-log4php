@@ -93,13 +93,6 @@ class LoggerOptionConverter {
 		}
 		
 		trigger_error("Could not convert ".var_export($value,1)." to boolean!", E_USER_WARNING);
-		} elseif (is_bool($value)) {
-		    return $value;
-		} elseif (is_int($value)) {
-		    return !($value == 0); // true is everything but 0 like in C 
-		}
-		
-		trigger_error("Could not convert ".var_export($value,1)." to boolean!", E_USER_WARNING);
 		return $default;
 	}
 
@@ -243,6 +236,7 @@ class LoggerOptionConverter {
 		// if(!empty($value)) {
 			return LoggerOptionConverter::substVars($value, $props);
 		// }
+    }
 
 	/**
 	 * Perform variable substitution in string <var>$val</var> from the
