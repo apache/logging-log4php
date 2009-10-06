@@ -110,9 +110,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * name is part of log output or not. This is true by default.
      */
     public function setCategoryPrefixing($categoryPrefixing) {
-        $this->categoryPrefixing = is_bool($categoryPrefixing) ?
-            $categoryPrefixing :
-            (bool)(strtolower($categoryPrefixing) == 'true');
+        $this->categoryPrefixing = LoggerOptionConverter::toBoolean($categoryPrefixing);
     }
 
     /**
@@ -128,9 +126,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
      * This is true by default.
      */
     public function setContextPrinting($contextPrinting) {
-        $this->contextPrinting = is_bool($contextPrinting) ? 
-            $contextPrinting : 
-            (bool)(strtolower($contextPrinting) == 'true'); 
+        $this->contextPrinting = LoggerOptionConverter::toBoolean($contextPrinting); 
     }
 
     /**
