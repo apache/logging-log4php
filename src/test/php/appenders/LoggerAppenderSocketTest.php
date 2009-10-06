@@ -23,7 +23,7 @@
  * @link       http://logging.apache.org/log4php
  */
 
-class LoggerAppenderSockeetTest extends PHPUnit_Framework_TestCase {
+class LoggerAppenderSocketTest extends PHPUnit_Framework_TestCase {
         
 	public function testSocketSerialized() {
 		$appender = new LoggerAppenderSocket("myname ");
@@ -42,7 +42,7 @@ class LoggerAppenderSockeetTest extends PHPUnit_Framework_TestCase {
 		$s = serialize($event);
 		
 		$e = "DRY MODE OF SOCKET APPENDER: ".$s;
-		self::assertEquals($v, $e);
+		self::assertEquals($e, $v);
     }
     
     public function testSocketXml() {
@@ -50,6 +50,7 @@ class LoggerAppenderSockeetTest extends PHPUnit_Framework_TestCase {
 		
 		$appender->setDry(true);
 		$appender->setUseXml(true);
+		$appender->setLocationInfo(true);
 		$appender->activateOptions();
 		$event = new LoggerLoggingEvent("LoggerAppenderSocketTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		 
