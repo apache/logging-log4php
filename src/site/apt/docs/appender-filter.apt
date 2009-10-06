@@ -18,6 +18,8 @@
  ------
  ------
 
+%{toc|section=1|fromDepth=1|toDepth=2}
+
 Filtering Messages
 
   Filtering is a mechanism to configure enhanced logging. For example, filter enable you to
@@ -115,10 +117,8 @@ Filtering Messages
 
   Example:
   
-+--
-<filter class="LoggerFilterStringMatch">
-	<param name="StringToMatch" value="matchingstring" />
-	<param name="AcceptOnMatch" value="true" />
-</filter>
-+--
-  
+%{snippet|id=doxia|file=src/examples/php/filter_stringmatch.php}
+
+%{snippet|id=doxia|file=src/examples/resources/filter_stringmatch.xml}
+
+

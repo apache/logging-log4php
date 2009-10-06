@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -28,6 +29,16 @@
  * the <b>AcceptOnMatch</b> option value is true, if it is false then
  * {@link LoggerFilter::DENY} is returned. If there is no match, {@link LoggerFilter::NEUTRAL}
  * is returned.</p>
+ * 
+ * <p>
+ * An example for this filter:
+ * 
+ * {@example ../../examples/php/filter_stringmatch.php}
+ *
+ * <p>
+ * The corresponding XML file:
+ * 
+ * {@example ../../examples/resources/filter_stringmatch.xml}
  *
  * @version $Revision$
  * @package log4php

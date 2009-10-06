@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -43,9 +44,18 @@
  * available to <b>all</b> appenders extending {@link LoggerAppender} 
  * for a more convenient way to filter out events by level.</p>
  *
- * @log4j-class org.apache.log4j.varia.LevelRangeFilter
- * @log4j-author Simon Kitching
- * @log4j-author based on code by Ceki G&uuml;lc&uuml; 
+ * <p>
+ * An example for this filter:
+ * 
+ * {@example ../../examples/php/filter_levelrange.php}
+ *
+ * <p>
+ * The corresponding XML file:
+ * 
+ * {@example ../../examples/resources/filter_levelrange.xml}
+ *
+ * @author Simon Kitching
+ * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml; 
  *
  * @version $Revision$
  * @package log4php

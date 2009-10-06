@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
@@ -28,7 +29,17 @@
  * option value is set to <i>true</i>, if it is <i>false</i> then 
  * {@link LoggerFilter::DENY} is returned. If there is no match, 
  * {@link LoggerFilter::NEUTRAL} is returned.</p>
+ * 
+ * <p>
+ * An example for this filter:
+ * 
+ * {@example ../../examples/php/filter_levelmatch.php}
  *
+ * <p>
+ * The corresponding XML file:
+ * 
+ * {@example ../../examples/resources/filter_levelmatch.xml}
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage filters
