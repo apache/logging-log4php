@@ -108,8 +108,7 @@ class LoggerReflectionUtils {
 		$method = "set" . ucfirst($name);
 		
 		if(!method_exists($this->obj, $method)) {
-			// no such setter method
-			return;
+			throw new Exception("Error setting log4php property $name to $value: no method $method in class ".get_class($this->obj)."!");
 		} else {
 			return call_user_func(array($this->obj, $method), $value);
 		} 
