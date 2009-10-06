@@ -20,10 +20,31 @@
 
 Apache Log4php Renderer
 
-  Just as importantly, log4php will render the content of the log message according
-  to user specified criteria. For example, if you frequently need to log Oranges,
-  an object type used in your current project, then you can register an OrangeRenderer
-  that will be invoked whenever an orange needs to be logged.
+  Log4php can not only log string messages but also objects which will be converted
+  to strings using either the default renderer or a customized render class. 
+
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/renderer_map.php}
+
+%{snippet|id=doxia|file=src/examples/resources/renderer_map.properties}
+
+  Will output the following (notice how $person shows up in the output):
+
++--
+  DEBUG - Now comes the current MyClass object:
+  DEBUG - Doe, John
++--
+
+  or the following if the default renderer were used:
+  
++--
+  DEBUG - Now comes the current MyClass object:
+  DEBUG - Person::__set_state(array(
+    'firstName' => 'John',
+    'lastName' => 'Doe',
+  ))
++--
 
   Object rendering follows the class hierarchy. For example, assuming oranges are fruits,
   if you register an FruitRenderer, all fruits including oranges will be rendered
@@ -31,40 +52,11 @@ Apache Log4php Renderer
 
   Object renderers have to implement the LoggerRendererObject interface.
   
-  For example, this is a class from your app you want to render in a log message:
-  
-+--
-class Fruit {
-    public $test1 = 'test1';
-    public $test2 = 'test2';
-    public $test3 = 'test3';
-}
-+--
-
-  You'll need to write a FruitRenderer, implementing the LoggerRendererObject interface.
-
-+--
-class FruitRenderer3 implements LoggerRendererObject {
-    public function render($o) {
-		return $o->test1.','.$o->test2.','.$o->test3;
-	}
-}
-+--
-
-  After that, you have to configure it in Log4PHP. This can be done via properties file
-  and via XML file.
-  
-  Via Properties:
-  
-+--
-log4php.renderer.Fruit=FruitRenderer
-+--
-
-  Via XML:
+  The XML configuration would look like this:
 
 +--
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
-	<renderer renderedClass="Fruit2" renderingClass="FruitRenderer2" />
+	<renderer renderedClass="Person" renderingClass="PersonRenderer" />
     <appender threshold="WARN" name="default" class="LoggerAppenderEcho">
     ...
 +--

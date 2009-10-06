@@ -15,11 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * Map class objects to an {@link LoggerRendererObject}.
+ * Log objects using customized renderers that implement {@link LoggerRendererObject}.
  *
+ * Example:
+ * {@example ../../examples/php/renderer_map.php}<br>
+ * {@example ../../examples/resources/renderer_map.properties}<br>
+ * <pre>
+ * DEBUG - Now comes the current MyClass object:
+ * DEBUG - Doe, John
+ * </pre>
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage renderers

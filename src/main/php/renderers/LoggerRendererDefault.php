@@ -15,10 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
- * The default Renderer renders objects by type casting
+ * The default Renderer renders objects by type casting.
+ * 
+ * Example:
+ * 
+ * {@example ../../examples/php/renderer_default.php}<br>
+ * {@example ../../examples/resources/renderer_default.properties}<br>
+ * <pre>
+ * DEBUG - Now comes the current MyClass object:
+ * DEBUG - Person::__set_state(array(
+ *  'firstName' => 'John',
+ *  'lastName' => 'Doe',
+ * ))
+ * </pre>
  *
  * @package log4php
  * @subpackage renderers

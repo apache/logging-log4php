@@ -15,15 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @package log4php
  */
 
 /**
  * Subclass this abstract class in order to render objects as strings.
  *
+ * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
+ *
+ * Example:
+ * {@example ../../examples/php/renderer_map.php}<br>
+ * {@example ../../examples/resources/renderer_map.properties}<br>
+ * <pre>
+ * DEBUG - Now comes the current MyClass object:
+ * DEBUG - Doe, John
+ * </pre>
+ *
  * @version $Revision$
  * @package log4php
  * @subpackage renderers
- * @abstract
  * @since 0.3
  */
 interface LoggerRendererObject {
