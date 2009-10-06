@@ -53,6 +53,7 @@
 			    <item name="Introduction" href="/docs/introduction.html"/>
 			    <item name="Configuration" href="/docs/configuration.html"/>
 			    <item name="Appender" href="/docs/appenders.html"/>
+			    <item name="Layout" href="/docs/appender-layout.html"/>
 			    <item name="Threshold" href="/docs/appender-threshold.html"/>
 		  	    <item name="Filter" href="/docs/appender-filter.html"/>
 			    <item name="Renderer" href="/docs/renderer.html"/> 
