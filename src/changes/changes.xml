@@ -57,6 +57,8 @@
 		<action type="update" issue="LOG4PHP-40" by="Christian Grobmeier">Merge LoggerAppender and LoggerAppenderSkeleton</action>
 		<action type="update" issue="LOG4PHP-43" by="Knut Urdalen">Remove size restriction of MDC table in LoggerMDC</action>
 		<action type="update" issue="LOG4PHP-44" by="Knut Urdalen">PEAR package</action>
+		<action type="fix" issue="LOG4PHP-46" by="Christian Hammers">Use PreparedStatement in PDO-Appender</action>
+		<action type="fix" issue="LOG4PHP-47" by="Christian Hammers">PDO Appender now uses quote() due to PreparedStatements</action>
 		<action type="update" issue="LOG4PHP-50" by="Christian Grobmeier">Create more File Appender Tests</action>
 		<action type="update" issue="LOG4PHP-52" by="Christian Grobmeier">Use of custom factorys is discouraged - clean up</action>
 		<action type="update" issue="LOG4PHP-53" by="Christian Grobmeier">Removed references were appropriate</action>
@@ -74,6 +76,8 @@
 		<action type="fix" issue="LOG4PHP-71" by="Christian Grobmeier">Using LoggerAppenderFile logging to the log file in one Apache session blocks every other Apache session that tries to write to the file until the original request has been processed</action>
 		<action type="fix" issue="LOG4PHP-76" by="Dan Hansen">Unable to configure socket appender with attribute useXml = true</action>
 		<action type="fix" issue="LOG4PHP-77" by="Dan Hansen">LoggerReflectionUtils::setter() should be defined as a static method</action>
+		<action type="fix" issue="LOG4PHP-79" by="Christian Hammers">Increased field sizes in AppenderPDO database tables</action>
+		<action type="fix" issue="LOG4PHP-81" by="Christian Hammers">Boolean values in .properties files are now correctly parsed</action>
 		<action type="fix" by="Christian Grobmeier">LoggerXmlConfigurator can now interpret threshold commands at appender level</action>
 		<action type="update" by="Knut Urdalen">Initial port to PHP 5</action>
 		<action type="update" by="Knut Urdalen">Established new unit test suite</action>
