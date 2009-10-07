@@ -160,6 +160,8 @@
 				                        <arg value="src/main/php"/>
 				                        <arg value="-t"/>
 				                        <arg value="target/site/apidocs"/>
+				                        <arg value="-o"/>
+				                        <arg value="HTML:frames:DOM/default"/>
 				                </exec>
 				            </tasks>
                             
