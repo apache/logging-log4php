@@ -42,9 +42,19 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 		$v = ob_get_contents();
 		ob_end_clean();
 
-		$e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with content: ERROR - testmessage".PHP_EOL;
+		$e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with additional headers 'From: Testsender' and content: ERROR - testmessage".PHP_EOL;
 		self::assertEquals($e, $v);
 		$appender->close();
     }
-    
+
+    /** Check if invalid configurations are rejected. 
+     * @expectedException LoggerException       with empty
+     */
+    public function testEmptyTo() {
+        $appender = new LoggerAppenderMailEvent("myname ");
+        $appender->setLayout(new LoggerLayoutSimple());
+        $appender->setTo(null);
+        $appender->setFrom('info@example.com');
+        $appender->activateOptions();
+    }
 }

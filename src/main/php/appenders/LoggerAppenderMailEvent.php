@@ -52,18 +52,18 @@
  */
 class LoggerAppenderMailEvent extends LoggerAppender {
 
-	/**
-	 * @var string 'from' field
+	/**  'from' field (defaults to 'sendmail_from' from php.ini on win32).
+	 * @var string
 	 */
 	private $from = null;
 
-	/**
-	 * @var integer 'from' field
+	/** Mailserver port (win32 only).
+	 * @var integer 
 	 */
 	private $port = 25;
 
-	/**
-	 * @var string hostname. 
+	/** Mailserver hostname (win32 only).
+	 * @var string   
 	 */
 	private $smtpHost = null;
 
@@ -99,7 +99,19 @@ class LoggerAppenderMailEvent extends LoggerAppender {
    	}
    	
 	public function activateOptions() {
-		$this->closed = false;
+	    if (empty($this->layout)) {
+	        throw new LoggerException("LoggerAppenderMailEvent requires layout!");
+	    }
+	    if (empty($this->to)) {
+            throw new LoggerException("LoggerAppenderMailEvent was initialized with empty 'from' ($this->from) or 'to' ($this->to) Adress!");
+        }
+        
+        $sendmail_from = ini_get('sendmail_from');
+        if (empty($this->from) and empty($sendmail_from)) {
+            throw new LoggerException("LoggerAppenderMailEvent requires 'from' or on win32 at least the ini variable sendmail_from!");
+        }
+        
+        $this->closed = false;
 	}
 	
 	public function close() {
@@ -131,34 +143,32 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	}
 	
 	public function append(LoggerLoggingEvent $event) {
-		$from = $this->from;
-		$to = $this->to;
-		if(empty($from) or empty($to)) {
-			return;
-		}
-	
 		$smtpHost = $this->smtpHost;
 		$prevSmtpHost = ini_get('SMTP');
 		if(!empty($smtpHost)) {
 			ini_set('SMTP', $smtpHost);
-		} else {
-			$smtpHost = $prevSmtpHost;
 		} 
 
 		$smtpPort = $this->port;
 		$prevSmtpPort= ini_get('smtp_port');		
 		if($smtpPort > 0 and $smtpPort < 65535) {
 			ini_set('smtp_port', $smtpPort);
-		} else {
-			$smtpPort = $prevSmtpPort;
-		} 
+		}
+
+		// On unix only sendmail_path, which is PHP_INI_SYSTEM i.e. not changeable here, is used.
+
+		$addHeader = empty($this->from) ? '' : "From: {$this->from}\r\n";
 		
 		if(!$this->dry) {
-			@mail($to, $this->getSubject(), 
+			$result = mail($this->to, $this->subject, 
 				$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), 
-				"From: {$from}\r\n");
+				$addHeader);			
+		    if ($result === false) {
+		        // The error message is only printed to stderr as warning. Any idea how to get it?
+		        throw new LoggerException("Error sending mail to '".$this->to."'!");
+		    }
 		} else {
-		    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->layout->format($event);
+		    echo "DRY MODE OF MAIL APP.: Send mail to: ".$this->to." with additional headers '".trim($addHeader)."' and content: ".$this->layout->format($event);
 		}
 			
 		ini_set('SMTP', $prevSmtpHost);
