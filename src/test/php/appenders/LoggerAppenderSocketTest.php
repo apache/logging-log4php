@@ -67,4 +67,18 @@ class LoggerAppenderSocketTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($e, $v);
     }
     
+    /** Tests Exception due to unreachable remote host.
+     * 
+     * @expectedException LoggerException
+     */
+    public function testSocketProblem() {
+        $appender = new LoggerAppenderSocket("myname ");
+        $appender->setDry(false);
+        $appender->setRemoteHost("does.not.exists");
+        $appender->setPort(1234);
+        $appender->activateOptions();
+        $event = new LoggerLoggingEvent("LoggerAppenderSocketTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+        
+        $appender->append($event);
+    }
 }

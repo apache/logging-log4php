@@ -102,31 +102,28 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 * Create a socket connection using defined parameters
 	 */
 	public function activateOptions() {
-		$errno = 0;
-		$errstr = '';
 		if(!$this->dry) {
 			$this->sp = @fsockopen($this->getRemoteHost(), $this->getPort(), $errno, $errstr, $this->getTimeout());
-		}
-		if($errno) {
-			$this->closed = true;
-		} else {
-			if($this->getUseXml()) {
-				$this->xmlLayout = LoggerReflectionUtils::createObject('LoggerLayoutXml');
-				if($this->xmlLayout === null) {
-					$this->setUseXml(false);
-				} else {
-					$this->xmlLayout->setLocationInfo($this->getLocationInfo());
-					$this->xmlLayout->setLog4jNamespace($this->getLog4jNamespace());
-					$this->xmlLayout->activateOptions();
-				}			 
+			if ($this->sp === false) {
+			    throw new LoggerException("Could not open socket to ".$this->getRemoteHost().":".$this->getPort().": $errstr ($errno)");
 			}
-			$this->closed = false;
 		}
+		if($this->getUseXml()) {
+			$this->xmlLayout = LoggerReflectionUtils::createObject('LoggerLayoutXml');
+			if($this->xmlLayout === null) {
+				$this->setUseXml(false);
+			} else {
+				$this->xmlLayout->setLocationInfo($this->getLocationInfo());
+				$this->xmlLayout->setLog4jNamespace($this->getLog4jNamespace());
+				$this->xmlLayout->activateOptions();
+			}			 
+		}
+        $this->closed = false;
 	}
 	
 	public function close() {
 		if($this->closed != true) {
-			if(!$this->dry) {
+			if(!$this->dry and $this->sp !== false) {
 				fclose($this->sp);
 			}
 			$this->closed = true;
