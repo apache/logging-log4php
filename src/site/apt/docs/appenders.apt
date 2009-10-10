@@ -20,7 +20,7 @@
 
 Apache Log4php Appenders
 
-+ %{toc|section=1|fromDepth=1|toDepth=2}
+%{toc|section=1|fromDepth=1|toDepth=2}
 
 * {Appenders}
 
