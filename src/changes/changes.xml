@@ -80,6 +80,7 @@
      	<action type="fix" issue="LOG4PHP-80" by="Christian Hammers">An exception is now thrown if an unknown property is set via config file</action>
 		<action type="fix" issue="LOG4PHP-81" by="Christian Hammers">Boolean values in .properties files are now correctly parsed</action>
 		<action type="fix" issue="LOG4PHP-82" by="Christian Hammers">Added more examples to the API docs</action>
+		<action type="fix" issue="LOG4PHP-84" by="Christian Hammers">Fixed call of undefined method when using RendererMap</action>
 		<action type="fix" issue="LOG4PHP-86" by="Christian Hammers">LoggerAppenderRollingFile should not fail if the file does not already exist</action>
 		<action type="fix" by="Christian Grobmeier">LoggerXmlConfigurator can now interpret threshold commands at appender level</action>
 		<action type="update" by="Knut Urdalen">Initial port to PHP 5</action>

@@ -49,7 +49,7 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
         
 	public function testGetByObject() {
 		$fruit = new Fruit3();
-		Logger::configure('renderers/test4.properties');
+		Logger::configure(dirname(__FILE__).'/test4.properties');
 		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
@@ -59,12 +59,26 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	}
         
 	public function testGetByClassName() {
-		Logger::configure('renderers/test4.properties');
+		Logger::configure(dirname(__FILE__).'/test4.properties');
 		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
 		$map = $hierarchy->getRendererMap();
 		$e = $map->getByClassName('Fruit3');
 		self::assertTrue($e instanceof FruitRenderer3);
+	}
+	
+	public function testUsage() {
+	    Logger::resetConfiguration();
+        Logger::configure(dirname(__FILE__).'/test4.properties');
+        Logger::initialize();
+        $logger = Logger::getRootLogger();
+ 
+        ob_start();
+        $logger->error(new Fruit3());
+        $v = ob_get_contents();
+        ob_end_clean();
+
+        self::assertEquals("ERROR - test1,test2,test3\n", $v);
 	}
 }
