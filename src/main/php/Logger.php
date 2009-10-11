@@ -196,6 +196,7 @@ class Logger {
 	 * instead of operating on on the hierarchy directly.
 	 * 
 	 * @deprecated - will be moved to private
+	 * @return LoggerHierarchy
 	 */
 	public static function getHierarchy() {
 		if(!isset(self::$hierarchy)) {
