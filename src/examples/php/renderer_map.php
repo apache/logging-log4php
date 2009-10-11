@@ -17,6 +17,6 @@ class PersonRenderer implements LoggerRendererObject {
 $person = new Person();
 
 $logger = Logger::getRootLogger();
-$logger->debug("Now comes the current MyClass object:");
+$logger->debug("Now comes the current Person object:");
 $logger->debug($person);
 // END SNIPPET: doxia
