@@ -149,6 +149,7 @@
 		<mkdir dir="target/pear/log4php"/>
 		<copy file="package.php" todir="target/pear"/>
 		<copy file="package-config.php" todir="target/pear"/>
+        <copy file="src/changes/changes.xml" todir="target/pear"/>
 		<copy file="CHANGELOG" todir="target/pear"/>
 		<copy file="LICENSE" todir="target/pear"/>
 		<copy file="README" todir="target/pear"/>

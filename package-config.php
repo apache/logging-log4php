@@ -46,6 +46,7 @@ $options = array(
 		'examples' => 'doc',
 	),
 	'exceptions' => array(
+	    'changes.xml' =>  'doc',
 		'CHANGELOG' => 'doc',
 		'LICENSE' => 'doc',
 		'README' => 'doc',
@@ -71,6 +72,13 @@ $maintainer[]   =   array(
 	'name' => 'Christian Grobmeier',
 	'email' => 'grobmeier@gmail.com',
 	'active' => 'yes'
+);
+$maintainer[]   =   array(
+    'role' => 'developer',
+    'handle' => 'chammers',
+    'name' => 'Christian Hammers',
+    'email' => 'chammers@apache.org',
+    'active' => 'yes'
 );
 
 $dependency = array();
