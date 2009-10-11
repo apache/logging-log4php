@@ -36,6 +36,10 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
     public function tearDownAfterClass() {
         if (file_exists(self::file)) unlink(self::file);
     }
+
+    public function testPhpinfo() {
+        phpinfo();
+    }
 		
     /** Tests new-style logging using prepared statements and the default SQL definition. */
     public function testSimpleWithDefaults() {
