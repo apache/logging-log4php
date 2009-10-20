@@ -152,7 +152,7 @@
                             <tasks>
                                 <apply executable="php">
                                     <arg value="-l" />
-                                    <fileset dir="." includes="src/main/php/**/*.php"/>
+                                    <fileset dir="." includes="src/**/*.php"/>
                                 </apply>
                             </tasks>        
                         </configuration>
