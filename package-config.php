@@ -21,7 +21,7 @@ $summary = 'log4Php is a PHP port of log4j framework';
 $version = '2.0.0';
 $versionBuild = 'b1';
 $apiVersion = '2.0.0';
-$state = 'beta';
+$state = 'stable';
 $apiStability = 'stable';
 
 $description = <<<EOT
