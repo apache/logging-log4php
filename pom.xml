@@ -140,11 +140,6 @@
 						<artifactId>saxon</artifactId>
 						<version>8.7</version>
 					</dependency>
-					<dependency>  
-					    <groupId>ant-contrib</groupId>
-					    <artifactId>ant-contrib</artifactId>
-					    <version>1.0b3</version>
-					 </dependency> 
 				</dependencies>
 				<executions>
                     <execution>
@@ -155,18 +150,10 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" />
-                                <for param="src.php">  <!-- parallel="false" threadCount="10" -->
-                                    <path>
-                                        <fileset dir="." includes="src/main/php/**/*.php"/>
-                                    </path>
-                                    <sequential>  
-                                        <exec executable="php" failonerror="true">
-                                            <arg value="-l"/>
-                                            <arg value="@{src.php}"/>
-                                        </exec>
-                                    </sequential>  
-                                </for>  
+                                <apply executable="php">
+                                    <arg value="-l" />
+                                    <fileset dir="." includes="src/main/php/**/*.php"/>
+                                </apply>
                             </tasks>        
                         </configuration>
                     </execution>
