@@ -156,7 +156,7 @@
                         <configuration>
                             <tasks>
                                 <taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" />
-                                <for param="src.php" parallel="true" threadCount="10" >
+                                <for param="src.php">  <!-- parallel="false" threadCount="10" -->
                                     <path>
                                         <fileset dir="." includes="src/main/php/**/*.php"/>
                                     </path>
@@ -168,6 +168,42 @@
                                     </sequential>  
                                 </for>  
                             </tasks>        
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pear-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <delete dir="target/pear"/>
+                                <mkdir dir="target/pear/log4php"/>
+                                <copy file="package.php" todir="target/pear"/>
+                                <copy file="package-config.php" todir="target/pear"/>
+                                <copy file="src/changes/changes.xml" todir="target/pear"/>
+                                <copy file="CHANGELOG" todir="target/pear"/>
+                                <copy file="LICENSE" todir="target/pear"/>
+                                <copy file="README" todir="target/pear"/>
+                                <copy todir="target/pear">
+                                    <fileset dir="src">
+                                        <include name="examples/**/*"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="target/pear/log4php">
+                                    <fileset dir="src/main/php">
+                                        <include name="**/*.php"/>
+                                    </fileset>
+                                </copy>
+                                <!-- when using strict standards package.php is getting noisy -->
+                                <exec executable="php" dir="target/pear" output="target/package.php.stdout">
+                                    <arg line="package.php"/>
+                                </exec>
+                                <exec executable="pear" dir="target/pear">
+                                    <arg line="package"/>
+                                </exec>
+                            </tasks>
                         </configuration>
                     </execution>
 				    <!--+
