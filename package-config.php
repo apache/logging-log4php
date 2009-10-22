@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 
+// parse pom.xml to get version in sync
+preg_match("/<version>(.+?)(-SNAPSHOT)?<\/version>/", file_get_contents("../../pom.xml"), $pom_version);
+
 $name = 'log4php';
 $summary = 'log4Php is a PHP port of log4j framework';
-$version = '2.0.0';
+$version = $pom_version[1];
 $versionBuild = 'b1';
 $apiVersion = '2.0.0';
-$state = 'stable';
+$state = empty($pom_version[2]) ? 'stable' : 'snapshot';
 $apiStability = 'stable';
 
 $description = <<<EOT
@@ -30,10 +33,7 @@ logging to files, stdout/err, syslog, socket, configurable output layouts
 and logging levels.
 EOT;
 
-$notes = <<<EOT
-Changes since 0.9:
- - 
-EOT;
+$notes = 'Please see CHANGELOG and changes.xml!';
 
 $options = array(
 	'license' => 'Apache License 2.0',
