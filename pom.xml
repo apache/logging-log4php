@@ -117,6 +117,7 @@
 	<properties>
 		<surefire.reports>target/surefire-reports</surefire.reports>
 		<coverage.report>target/site/coverage-report</coverage.report>
+		<pear.version>2.0</pear.version>
 	</properties>
 
 	<build>
@@ -190,6 +191,14 @@
                                 <exec executable="pear" dir="target/pear">
                                     <arg line="package"/>
                                 </exec>
+                                <!-- Create zip archive with identical contents as the .tgz -->
+                                <!-- The version number of the pear package does never contain -SNAPSHOT. -->
+                                <untar dest="target/zip">
+                                    <gzipresource>
+                                        <file file="target/pear/log4php-${pear.version}.tgz"/>
+                                    </gzipresource>
+                                </untar>
+                                <zip destfile="target/pear/log4php-${pear.version}.zip" basedir="target/zip/" />
                             </tasks>
                         </configuration>
                     </execution>
