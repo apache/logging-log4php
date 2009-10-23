@@ -26,25 +26,15 @@
         <fileSets>
                 <fileSet>
                         <includes>
+                                <include>LICENSE</include>
+                                <include>README</include>
+                                <include>CHANGELOG</include>
                                 <include>package.php</include>
                                 <include>package-config.php</include>
                                 <include>src/changes/changes.xml</include>
-                                <include>CHANGELOG</include>
-                                <include>LICENSE</include>
-                                <include>README</include>
                                 <include>src/**</include>
                         </includes>
                 </fileSet>
         </fileSets>
         
 </assembly>
-
-                                <!-- when using strict standards package.php is getting noisy -->
-<!--                                 
-       <exec executable="php" dir="target/pear" output="target/package.php.stdout">
-           <arg line="package.php"/>
-       </exec>
-       <exec executable="pear" dir="target/pear">
-           <arg line="package"/>
-       </exec>
--->

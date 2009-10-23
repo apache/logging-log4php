@@ -159,6 +159,27 @@
                             </tasks>        
                         </configuration>
                     </execution>
+                    <!-- 
+                    <execution>
+                        <id>pear-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                            	<mkdir dir="target/pear"/>
+                                <exec executable="php" dir="target/pear" output="target/package.php.stdout">
+                                    <arg line="package.php"/>
+                                </exec>
+                                <exec executable="pear" dir="target/pear">
+                                    <arg line="package"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                     -->
+                     
                     <!--+
                         | PHPDoc must be installed for this execution 
                         +--> 
@@ -240,6 +261,8 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+            			<phase>package</phase> <!-- append to the packaging phase. -->
 						<goals>
 							<goal>assembly</goal>
 						</goals>
