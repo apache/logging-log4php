@@ -257,7 +257,7 @@
 						<descriptor>src/assembly/bin.xml</descriptor>
 						<descriptor>src/assembly/pear-assembly.xml</descriptor>
 					</descriptors>
-					<appendAssemblyId>false</appendAssemblyId>
+					<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>
