@@ -33,7 +33,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
     }
 
     /** Clean up after the last test was run. */
-    public function tearDownAfterClass() {
+    public static function tearDownAfterClass() {
         if (file_exists(self::file)) unlink(self::file);
     }
 
