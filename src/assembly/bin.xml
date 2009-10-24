@@ -30,7 +30,6 @@
                                 <include>NOTICE</include>
                                 <include>README</include>
                                 <include>INSTALL</include>
-                                <include>build.xml</include>
                                 <include>pom.xml</include>
                                 <include>src/**</include>
                         </includes>
