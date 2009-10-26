@@ -25,7 +25,7 @@
                 <format>zip</format>
                 <format>tar.gz</format>
         </formats>
-        <baseDirectory>apache-log4php-${project.version}-incubating</baseDirectory>
+        <baseDirectory>apache-log4php-${project.version}</baseDirectory>
         <includeSiteDirectory>true</includeSiteDirectory>
         <fileSets>
                 <fileSet>
@@ -34,6 +34,7 @@
                                 <include>NOTICE</include>
                                 <include>README</include>
                                 <include>INSTALL</include>
+                                <include>CHANGES</include>
                                 <include>pom.xml</include>
                                 <include>src/**</include>
                         </includes>
