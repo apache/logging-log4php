@@ -50,6 +50,7 @@ $options = array(
 		'CHANGELOG' => 'doc',
 		'LICENSE' => 'doc',
 		'README' => 'doc',
+		'NOTICE' => 'doc',
 	),
 );
 
