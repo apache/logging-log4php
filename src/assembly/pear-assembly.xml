@@ -23,7 +23,6 @@
 	<id>pear-package</id>
     <formats>
     	<format>zip</format>
-        <format>tar.gz</format>
     </formats>
         <baseDirectory>apache-log4php-${project.version}-pear-incubating</baseDirectory>
         <includeSiteDirectory>true</includeSiteDirectory>
@@ -33,11 +32,23 @@
                                 <include>LICENSE</include>
                                 <include>README</include>
                                 <include>CHANGELOG</include>
+                                <include>CHANGES</include>
                                 <include>package.php</include>
                                 <include>package-config.php</include>
-                                <include>src/changes/changes.xml</include>
                                 <include>src/**</include>
                         </includes>
                 </fileSet>
         </fileSets>
+        <files>
+			<file>
+              	<outputDirectory>.</outputDirectory>
+              	<destName>package.xml</destName>
+                <source>target/pear/package.xml</source>
+			</file>
+			<file>
+              	<outputDirectory>.</outputDirectory>
+              	<destName>changes.xml</destName>
+                <source>src/changes/changes.xml</source>
+			</file>
+        </files>
 </assembly>
