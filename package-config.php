@@ -70,7 +70,7 @@ $maintainer[]   =   array(
 	'role' => 'lead',
 	'handle' => 'grobmeier',
 	'name' => 'Christian Grobmeier',
-	'email' => 'grobmeier@gmail.com',
+	'email' => 'grobmeier@apache.org',
 	'active' => 'yes'
 );
 $maintainer[]   =   array(
