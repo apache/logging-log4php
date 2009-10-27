@@ -144,7 +144,7 @@
 					</dependency>
 				</dependencies>
 				<executions>
-                    <execution>
+				    <execution>
                         <id>phplint</id>
                         <phase>process-sources</phase>
                         <goals>
@@ -159,18 +159,23 @@
                             </tasks>        
                         </configuration>
                     </execution>
-                    <!-- 
+                     <!-- 
+                     To create a pear package you need the following pear artifacts installed
+                        [exec]   $ sudo pear upgrade PEAR
+     					[exec]   $ sudo pear install XML_Serializer-0.19.2
+     					[exec]   $ sudo pear install - -alldeps PEAR_PackageFileManager2
+                      -->
                     <execution>
                         <id>pear-package</id>
-                        <phase>package</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <tasks>
                             	<mkdir dir="target/pear"/>
-                                <exec executable="php" dir="target/pear" output="target/package.php.stdout">
-                                    <arg line="package.php"/>
+                                <exec executable="php" dir="target/pear" output="package.php.stdout">
+                                    <arg line="../../package.php"/>
                                 </exec>
                                 <exec executable="pear" dir="target/pear">
                                     <arg line="package"/>
@@ -178,7 +183,7 @@
                             </tasks>
                         </configuration>
                     </execution>
-                     -->
+                     
                      
                     <!--+
                         | PHPDoc must be installed for this execution 
@@ -259,14 +264,6 @@
 					</descriptors>
 					<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-            			<goals>
-							<goal>assembly</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.rat</groupId>
