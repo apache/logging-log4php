@@ -231,18 +231,22 @@
 						</configuration>
 					</execution>
 					<!--+
-                        | PHPUnit must be installed for this execution 
+                        | PHPUnit (and XDebug for the coverage report) must be installed for this execution 
                         +-->      
 					<execution>
-                        <phase>test</phase>
                         <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
                             
                             <tasks>
                                 <mkdir dir="${surefire.reports}" />
+                                <mkdir dir="${coverage.report}" />
                                 <exec executable="phpunit" dir="src/test/php">
-                                    <arg
-                                        line=" --log-junit ../../../${surefire.reports}/phpunit-testresults.xml ." />
+                                    <arg line=" --log-junit ../../../${surefire.reports}/phpunit-testresults.xml" />
+                                    <arg line=" --coverage-html ../../../${coverage.report}" />
                                 </exec>
 
                                 <xslt in="${surefire.reports}/phpunit-testresults.xml" out="${surefire.reports}/xslt.info"
@@ -251,26 +255,6 @@
                                 </xslt>
                             </tasks>
                         </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    
-                    <!-- This execution depends on XDebug -->
-                    <execution>
-                        <phase>pre-site</phase>
-                        <id>codecoverage</id>
-                        <configuration>
-                            <tasks>
-                                <mkdir dir="${coverage.report}" />
-                                <exec executable="phpunit" dir="src/test/php">
-                                    <arg line=" --report ../../../${coverage.report} ." />
-                                </exec>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
                     </execution>
 				</executions>
 			</plugin>
