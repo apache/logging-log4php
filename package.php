@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+date_default_timezone_set('Europe/Berlin');
 
 @include 'PEAR/PackageFileManager2.php';
 if(!class_exists('PEAR_PackageFileManager2')) {
