@@ -173,13 +173,33 @@
                         </goals>
                         <configuration>
                             <tasks>
-                            	<mkdir dir="target/pear"/>
-                                <exec executable="php" dir="target/pear" output="package.php.stdout">
+                                <delete dir="target/pear"/>    
+                                <mkdir dir="target/pear/log4php"/>      
+                                <copy file="package.php" todir="target/pear"/>      
+                                <copy file="package-config.php" todir="target/pear"/>   
+                                <copy file="src/changes/changes.xml" todir="target/pear"/>      
+                                <copy file="CHANGELOG" todir="target/pear"/>    
+                                <copy file="LICENSE" todir="target/pear"/>      
+                                <copy file="README" todir="target/pear"/>   
+                                <copy file="NOTICE" todir="target/pear"/>   
+                                <copy todir="target/pear">      
+                                    <fileset dir="src">     
+                                        <include name="examples/**/*"/>     
+                                    </fileset>      
+                                </copy>     
+                                <copy todir="target/pear/log4php">      
+                                    <fileset dir="src/main/php">    
+                                        <include name="**/*.php"/>      
+                                    </fileset>      
+                                </copy>
+                                <exec executable="php" dir="target/pear" output="target/package.php.stdout">
+                                    <arg line="-d error_reporting=6143"/> <!-- E_ALL & ~E_STRICT -->
                                     <arg line="../../package.php"/>
                                 </exec>
                                 <exec executable="pear" dir="target/pear">
                                     <arg line="package"/>
                                 </exec>
+                                <move file="target/pear/log4php-${pear.version}.tgz" todir="target/" />
                             </tasks>
                         </configuration>
                     </execution>
