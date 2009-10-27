@@ -34,7 +34,7 @@
                                 <include>NOTICE</include>
                                 <include>README</include>
                                 <include>INSTALL</include>
-                                <include>CHANGES</include>
+                                <include>CHANGELOG</include>
                                 <include>pom.xml</include>
                                 <include>src/**</include>
                         </includes>
