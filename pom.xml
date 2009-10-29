@@ -167,7 +167,7 @@
                       -->
                     <execution>
                         <id>pear-package</id>
-                        <phase>process-sources</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
@@ -186,7 +186,7 @@
                                     <fileset dir="src">     
                                         <include name="examples/**/*"/>     
                                     </fileset>      
-                                </copy>     
+                                </copy>
                                 <copy todir="target/pear/log4php">      
                                     <fileset dir="src/main/php">    
                                         <include name="**/*.php"/>      
@@ -199,7 +199,7 @@
                                 <exec executable="pear" dir="target/pear">
                                     <arg line="package"/>
                                 </exec>
-                                <move file="target/pear/log4php-${pear.version}.tgz" todir="target/" />
+                                <move file="target/pear/apachelog4php-${pear.version}.tgz" tofile="target/apache-log4php-${pear.version}-pear.tgz" />
                             </tasks>
                         </configuration>
                     </execution>
@@ -264,7 +264,6 @@
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/bin.xml</descriptor>
-						<descriptor>src/assembly/pear-assembly.xml</descriptor>
 					</descriptors>
 					<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
@@ -337,5 +336,5 @@
       <id>logging.site</id>
       <url>file:///${user.dir}/target/site-deploy</url>
     </site>
-  </distributionManagement> 
+  </distributionManagement>
 </project>
