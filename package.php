@@ -62,7 +62,7 @@ $package->setPearinstallerDep($require['pear_installer']);
 
 $package->generateContents();
 
-$package->debugPackageFile();
+// $package->debugPackageFile();
 
 $result = $package->writePackageFile();
 if(PEAR::isError($result)) {

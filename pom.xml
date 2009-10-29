@@ -192,7 +192,7 @@
                                         <include name="**/*.php"/>      
                                     </fileset>      
                                 </copy>
-                                <exec executable="php" dir="target/pear" output="target/package.php.stdout">
+                                <exec executable="php" dir="target/pear">
                                     <arg line="-d error_reporting=6143"/> <!-- E_ALL & ~E_STRICT -->
                                     <arg line="../../package.php"/>
                                 </exec>
