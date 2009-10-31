@@ -17,14 +17,14 @@
  */
 
 // parse pom.xml to get version in sync
-preg_match("/<version>(.+?)(-(\w+))?<\/version>/", file_get_contents("../../pom.xml"), $pom_version);
+preg_match("/<version>(.+?)(-(incubating))?(-SNAPSHOT)?<\/version>/", file_get_contents("../../pom.xml"), $pom_version);
 
 $name = 'Apache_log4php';
 $summary = 'log4php is a PHP port of log4j framework';
 $version = $pom_version[1].(empty($pom_version[3]) ? '' : $pom_version[3]);
 $versionBuild = 'b1';
 $apiVersion = '2.0.0';
-$state = empty($pom_version[3]) ? 'stable' : 'snapshot';
+$state = empty($pom_version[4]) ? 'stable' : 'snapshot';
 $apiStability = 'stable';
 
 $description = <<<EOT
