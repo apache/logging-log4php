@@ -26,7 +26,7 @@
                 <format>tar.gz</format>
         </formats>
         <baseDirectory>apache-log4php-${project.version}</baseDirectory>
-        <includeSiteDirectory>true</includeSiteDirectory>
+        <includeSiteDirectory>false</includeSiteDirectory>
         <fileSets>
                 <fileSet>
                         <includes>
@@ -36,7 +36,10 @@
                                 <include>INSTALL</include>
                                 <include>CHANGELOG</include>
                                 <include>pom.xml</include>
+                                <include>package-config.php</include>
+                                <include>package.php</include>
                                 <include>src/**</include>
+                                <include>target/site/apidocs/**</include>
                         </includes>
                 </fileSet>
         </fileSets>
