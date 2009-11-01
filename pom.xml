@@ -117,8 +117,6 @@
 	<properties>
 		<surefire.reports>target/surefire-reports</surefire.reports>
 		<coverage.report>target/site/coverage-report</coverage.report>
-        <!-- PEAR does not accept a "-" after the version number! -->
-		<pear.version>2.0.0incubating</pear.version>
 	</properties>
 
 	<build>
@@ -199,7 +197,11 @@
                                 <exec executable="pear" dir="target/pear">
                                     <arg line="package"/>
                                 </exec>
-                                <move file="target/pear/Apache_log4php-${pear.version}.tgz" tofile="target/Apache_log4php-${pear.version}-pear.tgz" />
+                                <move tofile="target/Apache_log4php-${version}-pear.tgz">
+                                    <fileset dir="target/pear/">
+                                      <include name="Apache_log4php-*.tgz"/>
+                                    </fileset>
+                                </move>
                             </tasks>
                         </configuration>
                     </execution>
