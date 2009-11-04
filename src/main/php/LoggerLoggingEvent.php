@@ -164,13 +164,16 @@ class LoggerLoggingEvent {
 				// make a downsearch to identify the caller
 				$hop = array_pop($trace);
 				while($hop !== null) {
-					$className = strtolower($hop['class']);
-					if(!empty($className) and ($className == 'logger' or $className == 'loggercategory' or 
-						strtolower(get_parent_class($className)) == 'logger' or
-						strtolower(get_parent_class($className)) == 'loggercategory')) {
-						$locationInfo['line'] = $hop['line'];
-						$locationInfo['file'] = $hop['file'];
-						break;
+					if(isset($hop['class'])) {
+						// we are sometimes in functions = no class available: avoid php warning here
+						$className = strtolower($hop['class']);
+						if(!empty($className) and ($className == 'logger' or $className == 'loggercategory' or 
+							strtolower(get_parent_class($className)) == 'logger' or
+							strtolower(get_parent_class($className)) == 'loggercategory')) {
+							$locationInfo['line'] = $hop['line'];
+							$locationInfo['file'] = $hop['file'];
+							break;
+						}
 					}
 					$prevHop = $hop;
 					$hop = array_pop($trace);
