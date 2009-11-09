@@ -14,12 +14,13 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.apache.log4php</groupId>
 	<artifactId>apache-log4php</artifactId>
 	<packaging>jar</packaging>
-	<version>2.0.0-incubating</version>
+	<version>2.0.0-incubating-SNAPSHOT</version>
 	<name>Apache log4php.</name>
 	<description>Logging framework for PHP.</description>
 	<url>http://incubator.apache.org:80/log4php</url>
@@ -57,9 +58,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php/apache-log4php-2.0.0-incubating</connection>
-		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php/tags/apache-log4php-2.0.0-incubating</developerConnection>
-		<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php/apache-log4php-2.0.0-incubating</url>
+		<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php</connection>
+		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php</developerConnection>
+		<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php</url>
 	</scm>
 	<organization>
 		<name>Apache Software Foundation</name>
@@ -151,7 +152,7 @@
                             <tasks>
                                 <apply executable="php">
                                     <arg value="-l" />
-                                    <fileset dir="." includes="src/**/*.php" />
+                                    <fileset dir="." includes="src/**/*.php"/>
                                 </apply>
                             </tasks>        
                         </configuration>
@@ -170,35 +171,35 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <delete dir="target/pear" />    
-                                <mkdir dir="target/pear/log4php" />      
-                                <copy file="package.php" todir="target/pear" />      
-                                <copy file="package-config.php" todir="target/pear" />   
-                                <copy file="src/changes/changes.xml" todir="target/pear" />      
-                                <copy file="CHANGELOG" todir="target/pear" />    
-                                <copy file="LICENSE" todir="target/pear" />      
-                                <copy file="README" todir="target/pear" />   
-                                <copy file="NOTICE" todir="target/pear" />   
+                                <delete dir="target/pear"/>    
+                                <mkdir dir="target/pear/log4php"/>      
+                                <copy file="package.php" todir="target/pear"/>      
+                                <copy file="package-config.php" todir="target/pear"/>   
+                                <copy file="src/changes/changes.xml" todir="target/pear"/>      
+                                <copy file="CHANGELOG" todir="target/pear"/>    
+                                <copy file="LICENSE" todir="target/pear"/>      
+                                <copy file="README" todir="target/pear"/>   
+                                <copy file="NOTICE" todir="target/pear"/>   
                                 <copy todir="target/pear">      
                                     <fileset dir="src">     
-                                        <include name="examples/**/*" />     
+                                        <include name="examples/**/*"/>     
                                     </fileset>      
                                 </copy>
                                 <copy todir="target/pear/log4php">      
                                     <fileset dir="src/main/php">    
-                                        <include name="**/*.php" />      
+                                        <include name="**/*.php"/>      
                                     </fileset>      
                                 </copy>
                                 <exec executable="php" dir="target/pear">
-                                    <arg line="-d error_reporting=6143" /> <!-- E_ALL & ~E_STRICT -->
-                                    <arg line="../../package.php" />
+                                    <arg line="-d error_reporting=6143"/> <!-- E_ALL & ~E_STRICT -->
+                                    <arg line="../../package.php"/>
                                 </exec>
                                 <exec executable="pear" dir="target/pear">
-                                    <arg line="package" />
+                                    <arg line="package"/>
                                 </exec>
                                 <move tofile="target/Apache_log4php-${version}-pear.tgz">
                                     <fileset dir="target/pear/">
-                                      <include name="Apache_log4php-*.tgz" />
+                                      <include name="Apache_log4php-*.tgz"/>
                                     </fileset>
                                 </move>
                             </tasks>
@@ -218,14 +219,14 @@
 						<configuration>
 					      						
 							<tasks>
-                                <mkdir dir="target/site/apidocs" />
+                                <mkdir dir="target/site/apidocs"/>
 				                <exec executable="phpdoc" failonerror="true">
-				                        <arg value="-d" />
-				                        <arg value="src/main/php" />
-				                        <arg value="-t" />
-				                        <arg value="target/site/apidocs" />
-				                        <arg value="-o" />
-				                        <arg value="HTML:frames:DOM/default" />
+				                        <arg value="-d"/>
+				                        <arg value="src/main/php"/>
+				                        <arg value="-t"/>
+				                        <arg value="target/site/apidocs"/>
+				                        <arg value="-o"/>
+				                        <arg value="HTML:frames:DOM/default"/>
 				                </exec>
 				            </tasks>
                             
@@ -250,7 +251,8 @@
                                     <arg line=" --coverage-html ../../../${coverage.report}" />
                                 </exec>
 
-                                <xslt in="${surefire.reports}/phpunit-testresults.xml" out="${surefire.reports}/xslt.info" style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
+                                <xslt in="${surefire.reports}/phpunit-testresults.xml" out="${surefire.reports}/xslt.info"
+                                    style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
                                     <param name="outputDir" expression="${surefire.reports}" />
                                 </xslt>
                             </tasks>
