@@ -281,6 +281,7 @@
         		<version>2.0-beta-7</version>
         		<configuration>
           			<tagBase>https://svn.apache.org/repos/asf/incubator/log4php/tags</tagBase>
+          			<goals>site assembly:assembly</goals>
         		</configuration>
       		</plugin>
     	</plugins>
@@ -304,12 +305,6 @@
 						</reports>
 					</reportSet>
 				</reportSets>
-			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<goals>site assembly:assembly</goals>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-changes-plugin</artifactId>
