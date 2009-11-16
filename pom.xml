@@ -19,7 +19,7 @@
 	<groupId>org.apache.log4php</groupId>
 	<artifactId>apache-log4php</artifactId>
 	<packaging>jar</packaging>
-	<version>2.0.0-incubating-SNAPSHOT</version>
+	<version>2.0.0-incubating</version>
 	<name>Apache log4php.</name>
 	<description>Logging framework for PHP.</description>
 	<url>http://incubator.apache.org:80/log4php</url>
@@ -57,9 +57,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php/trunk</connection>
-		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php/trunk</developerConnection>
-		<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php/apache-log4php-2.0.0-incubating</url>
+		<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php/tags/apache-log4php-2.0.0-incubating</connection>
+		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php/tags/apache-log4php-2.0.0-incubating</developerConnection>
+		<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php/apache-log4php-2.0.0-incubating/tags/apache-log4php-2.0.0-incubating</url>
 	</scm>
 	<organization>
 		<name>Apache Software Foundation</name>
