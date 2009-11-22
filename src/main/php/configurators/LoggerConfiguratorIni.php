@@ -49,24 +49,13 @@
  * <b>/home/xyz</b>. See {@link LoggerOptionConverter::getSystemProperty()}
  * for details.</p>
  *
- * <p>Please note that boolean values should be quoted otherwise the default 
- * value will be chosen. E.g.:
- * <code>
- * // Does *not* work. Will always result in default value
- * // (which is currently 'true' for this attribute).
- * log4php.appender.A2.append=false
- * // Does work.
- * log4php.appender.A2.append="false"
- * </code>
- * </p>
- *
  * <p>An example how to use this appender:</p>
  *
- * {@example ../../examples/php/appender_dailyfile.php}
+ * {@example ../../examples/php/appender_dailyfile.php 19}
  *
  * <p>And the corresponding ini file:</p>
  *
- * {@example ../../examples/resources/appender_dailyfile.properties}
+ * {@example ../../examples/resources/appender_dailyfile.properties 18}
  *
  * @version $Revision$
  * @package log4php
