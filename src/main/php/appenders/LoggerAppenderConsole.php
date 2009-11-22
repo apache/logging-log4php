@@ -29,13 +29,13 @@
  * - layout     - The layout (required)
  * - target     - "stdout" or "stderr"
  * 
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_console.properties}
- * 
  * An example php file:
  * 
- * {@example ../../examples/php/appender_console.php}
+ * {@example ../../examples/php/appender_console.php 19}
+ * 
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_console.properties 18}
  * 
  * @version $Revision$
  * @package log4php

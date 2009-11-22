@@ -23,11 +23,11 @@
  *
  * <p>Example:</p>
  * 
- * {@example ../../examples/php/layout_pattern.php}<br>
+ * {@example ../../examples/php/layout_pattern.php 19}<br>
  * 
  * <p>with the following properties file:</p>
  * 
- * {@example ../../examples/resources/layout_pattern.properties}<br>
+ * {@example ../../examples/resources/layout_pattern.properties 18}<br>
  * 
  * <p>would print the following:</p>
  * 

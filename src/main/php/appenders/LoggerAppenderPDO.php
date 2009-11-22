@@ -35,9 +35,9 @@
  *
  * An example:
  *
- * {@example ../../examples/php/appender_pdo.php}
+ * {@example ../../examples/php/appender_pdo.php 19}
  * 
- * {@example ../../examples/resources/appender_pdo.properties}
+ * {@example ../../examples/resources/appender_pdo.properties 18}
  * 
  * @version $Revision: 806678 $
  * @package log4php

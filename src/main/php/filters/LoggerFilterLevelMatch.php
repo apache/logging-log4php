@@ -33,12 +33,12 @@
  * <p>
  * An example for this filter:
  * 
- * {@example ../../examples/php/filter_levelmatch.php}
+ * {@example ../../examples/php/filter_levelmatch.php 19}
  *
  * <p>
  * The corresponding XML file:
  * 
- * {@example ../../examples/resources/filter_levelmatch.xml}
+ * {@example ../../examples/resources/filter_levelmatch.xml 18}
  * 
  * @version $Revision$
  * @package log4php

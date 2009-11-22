@@ -33,12 +33,12 @@
  * <p>
  * An example for this filter:
  * 
- * {@example ../../examples/php/filter_stringmatch.php}
+ * {@example ../../examples/php/filter_stringmatch.php 19}
  *
  * <p>
  * The corresponding XML file:
  * 
- * {@example ../../examples/resources/filter_stringmatch.xml}
+ * {@example ../../examples/resources/filter_stringmatch.xml 18}
  *
  * @version $Revision$
  * @package log4php

@@ -22,14 +22,14 @@
  * LoggerAppenderEcho uses {@link PHP_MANUAL#echo echo} function to output events. 
  * 
  * <p>This appender requires a layout.</p>	
- *
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_echo.properties}
  * 
  * An example php file:
  * 
- * {@example ../../examples/php/appender_echo.php}
+ * {@example ../../examples/php/appender_echo.php 19}
+ * 
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_echo.properties 18}
  * 
  * The above example would print the following:
  * <pre>

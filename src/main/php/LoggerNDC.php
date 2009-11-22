@@ -84,11 +84,11 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  *
  * Example:
  *	
- * {@example ../../examples/php/ndc.php}<br>
+ * {@example ../../examples/php/ndc.php 19}<br>
  *
  * With the properties file:
  * 
- * {@example ../../examples/resources/ndc.properties}<br>
+ * {@example ../../examples/resources/ndc.properties 18}<br>
  * 
  * Will result in the following (notice the conn and client ids):
  * 

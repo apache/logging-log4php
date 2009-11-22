@@ -37,9 +37,9 @@
  *
  * An example how to use this layout:
  * 
- * {@example ../../examples/php/layout_ttcc.php}<br>
+ * {@example ../../examples/php/layout_ttcc.php 19}<br>
  * 
- * {@example ../../examples/resources/layout_ttcc.properties}<br>
+ * {@example ../../examples/resources/layout_ttcc.properties 18}<br>
  *
  * The above would print:<br>
  * <samp>02:28 [13714] INFO root - Hello World!</samp>

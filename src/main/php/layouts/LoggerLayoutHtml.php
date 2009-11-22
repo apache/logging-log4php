@@ -28,11 +28,11 @@
  *
  * An example for this layout:
  * 
- * {@example ../../examples/php/layout_html.php}<br>
+ * {@example ../../examples/php/layout_html.php 19}<br>
  * 
  * The corresponding XML file:
  * 
- * {@example ../../examples/resources/layout_html.properties}
+ * {@example ../../examples/resources/layout_html.properties 18}
  * 
  * The above will print a HTML table that looks, converted back to plain text, like the following:<br>
  * <pre>

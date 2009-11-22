@@ -23,8 +23,8 @@
  * 
  * Example:
  * 
- * {@example ../../examples/php/renderer_default.php}<br>
- * {@example ../../examples/resources/renderer_default.properties}<br>
+ * {@example ../../examples/php/renderer_default.php 19}<br>
+ * {@example ../../examples/resources/renderer_default.properties 18}<br>
  * <pre>
  * DEBUG - Now comes the current MyClass object:
  * DEBUG - Person::__set_state(array(

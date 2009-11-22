@@ -28,14 +28,14 @@
  * - filename           - The target file to write to
  * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
  *
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_file.properties}
- * 
  * An example php file:
  * 
- * {@example ../../examples/php/appender_file.php}
+ * {@example ../../examples/php/appender_file.php 19}
  *
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_file.properties 18}
+ * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders

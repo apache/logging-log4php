@@ -25,9 +25,9 @@
  * 
  * An example:
  * 
- * {@example ../../examples/php/appender_null.php}
+ * {@example ../../examples/php/appender_null.php 19}
  * 
- * {@example ../../examples/resources/appender_null.properties}
+ * {@example ../../examples/resources/appender_null.properties 18}
  * 
  * @version $Revision$
  * @package log4php

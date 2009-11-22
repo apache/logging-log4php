@@ -43,9 +43,9 @@
  *
  * An example:
  *
- * {@example ../../examples/php/appender_syslog.php}
+ * {@example ../../examples/php/appender_syslog.php 19}
  *
- * {@example ../../examples/resources/appender_syslog.properties}
+ * {@example ../../examples/resources/appender_syslog.properties 18}
  *
  * @version $Revision$
  * @package log4php

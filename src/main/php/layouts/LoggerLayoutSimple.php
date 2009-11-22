@@ -26,9 +26,9 @@
  *
  * For example the following php and properties files
  * 
- * {@example ../../examples/php/layout_simple.php}<br>
+ * {@example ../../examples/php/layout_simple.php 19}<br>
  * 
- * {@example ../../examples/resources/layout_simple.properties}<br>
+ * {@example ../../examples/resources/layout_simple.properties 18}<br>
  *
  * would result in:
  * 

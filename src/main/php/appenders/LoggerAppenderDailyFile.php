@@ -30,13 +30,13 @@
  * - file               - The target file name. Should contain a '%s' which gets substituted by the date.
  * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
  * 
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_dailyfile.properties}
- * 
  * An example php file:
  * 
- * {@example ../../examples/php/appender_dailyfile.php}
+ * {@example ../../examples/php/appender_dailyfile.php 19}
+ *  
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_dailyfile.properties 18}
  *
  * The above will create a file like: daily_20090908.log
  *

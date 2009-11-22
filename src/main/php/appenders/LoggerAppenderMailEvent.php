@@ -32,9 +32,10 @@
  *
  * An example:
  * 
- * {@example ../../examples/resources/appender_mailevent.properties}
+ * {@example ../../examples/php/appender_mailevent.php 19}
+ *  
+ * {@example ../../examples/resources/appender_mailevent.properties 18}
  *
- * {@example ../../examples/php/appender_mailevent.php}
  * 
  * The above will output something like:
  * <pre>

@@ -29,12 +29,12 @@
  * <p>
  * An example for this filter:
  * 
- * {@example ../../examples/php/filter_denyall.php}
+ * {@example ../../examples/php/filter_denyall.php 19}
  *
  * <p>
  * The corresponding XML file:
  * 
- * {@example ../../examples/resources/filter_denyall.xml}
+ * {@example ../../examples/resources/filter_denyall.xml 18}
  *
  * @version $Revision$
  * @package log4php

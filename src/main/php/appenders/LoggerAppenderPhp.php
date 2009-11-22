@@ -30,9 +30,9 @@
  *
  * An example:
  * 
- * {@example ../../examples/php/appender_php.php}
+ * {@example ../../examples/php/appender_php.php 19}
  * 
- * {@example ../../examples/resources/appender_php.properties}
+ * {@example ../../examples/resources/appender_php.properties 18}
  *
  * @version $Revision$
  * @package log4php

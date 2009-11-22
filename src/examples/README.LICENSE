@@ -1,6 +1,0 @@
-The files in this directory do not carry the Apache Licese header as they
-* are just snippets which are supposed to be included into the phpdoc and
-  .apt site documentation files where the headers would look ugly
-* have no degree of creativity and are thus not protected by copyright law
-* are examples of what the endusers are expected to write in their programs
-  and they certainly do not want us to claim copyright on that :)

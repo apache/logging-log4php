@@ -23,7 +23,7 @@
  *
  * An example how to use this configurator:
  * 
- * {@example ../../examples/php/configurator_basic.php}
+ * {@example ../../examples/php/configurator_basic.php 19}
  *
  * @version $Revision$
  * @package log4php

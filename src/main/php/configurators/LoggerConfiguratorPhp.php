@@ -26,11 +26,11 @@
  *
  * An example for this configurator is:
  *
- * {@example ../../examples/php/configurator_php.php}
+ * {@example ../../examples/php/configurator_php.php 19}
  * 
  * Which includes the following snippet:
  * 
- * {@example ../../examples/resources/configurator_php.php}
+ * {@example ../../examples/resources/configurator_php.php 18}
  *
  * @package log4php
  * @subpackage configurators

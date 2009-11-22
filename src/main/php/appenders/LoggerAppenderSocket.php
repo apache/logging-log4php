@@ -36,9 +36,9 @@
  *
  * An example:
  * 
- * {@example ../../examples/php/appender_socket.php}
+ * {@example ../../examples/php/appender_socket.php 19}
  * 
- * {@example ../../examples/resources/appender_socket.properties}
+ * {@example ../../examples/resources/appender_socket.properties 18}
  * 
  * @version $Revision$
  * @package log4php

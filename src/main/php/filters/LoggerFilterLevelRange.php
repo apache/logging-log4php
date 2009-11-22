@@ -47,12 +47,12 @@
  * <p>
  * An example for this filter:
  * 
- * {@example ../../examples/php/filter_levelrange.php}
+ * {@example ../../examples/php/filter_levelrange.php 19}
  *
  * <p>
  * The corresponding XML file:
  * 
- * {@example ../../examples/resources/filter_levelrange.xml}
+ * {@example ../../examples/resources/filter_levelrange.xml 18}
  *
  * @author Simon Kitching
  * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml; 

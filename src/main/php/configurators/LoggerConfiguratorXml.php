@@ -30,11 +30,11 @@
  *
  * <p>An example for this configurator:</p>
  * 
- * {@example ../../examples/php/configurator_xml.php}<br>
+ * {@example ../../examples/php/configurator_xml.php 19}<br>
  * 
  * <p>The corresponding XML file:</p>
  * 
- * {@example ../../examples/resources/configurator_xml.xml}
+ * {@example ../../examples/resources/configurator_xml.xml 18}
  * 
  * <p>There are more sample XML files included in the package under tests/ subdirectories.</p>
  *

@@ -29,9 +29,9 @@
  * 
  * Example:
  * 
- * {@example ../../examples/php/layout_xml.php}<br>
+ * {@example ../../examples/php/layout_xml.php 19}<br>
  * 
- * {@example ../../examples/resources/layout_xml.properties}<br>
+ * {@example ../../examples/resources/layout_xml.properties 18}<br>
  *
  * The above would print:
  * 

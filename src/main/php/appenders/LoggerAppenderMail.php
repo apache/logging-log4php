@@ -32,10 +32,10 @@
  * - subject            - Sets the subject of the mail (optional)
  * 
  * An example:
- *
- * {@example ../../examples/resources/appender_mail.properties}
  * 
- * {@example ../../examples/php/appender_mail.php}
+ * {@example ../../examples/php/appender_mail.php 19}
+ * 
+ * {@example ../../examples/resources/appender_mail.properties 18}
  * 
  * The above will output something like:
  * <pre>

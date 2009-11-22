@@ -24,8 +24,8 @@
  * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
  *
  * Example:
- * {@example ../../examples/php/renderer_map.php}<br>
- * {@example ../../examples/resources/renderer_map.properties}<br>
+ * {@example ../../examples/php/renderer_map.php 19}<br>
+ * {@example ../../examples/resources/renderer_map.properties 18}<br>
  * <pre>
  * DEBUG - Now comes the current MyClass object:
  * DEBUG - Doe, John

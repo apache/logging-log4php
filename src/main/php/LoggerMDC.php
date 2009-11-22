@@ -48,11 +48,11 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  * 
  * Example:
  * 
- * {@example ../../examples/php/mdc.php}<br>
+ * {@example ../../examples/php/mdc.php 19}<br>
  *
  * With the properties file:
  * 
- * {@example ../../examples/resources/mdc.properties}<br>
+ * {@example ../../examples/resources/mdc.properties 18}<br>
  * 
  * Will result in the following (notice the username "knut" in the output):
  * 
