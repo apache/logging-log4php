@@ -25,4 +25,3 @@ $logger->info("This is an info message");
 $logger->warn("This is a warning");
 $logger->error("This is an error");
 $logger->fatal("This is a fatal error");
-// END SNIPPET: doxia

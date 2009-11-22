@@ -21,4 +21,3 @@ Logger::configure(dirname(__FILE__).'/../resources/appender_console.properties')
 
 $logger = Logger::getRootLogger();
 $logger->debug("Hello World!");
-// END SNIPPET: doxia

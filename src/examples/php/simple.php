@@ -34,4 +34,3 @@ function Log4phpTestFunction() {
 
 $test = new Log4phpTest();
 Log4phpTestFunction();
-// END SNIPPET: doxia

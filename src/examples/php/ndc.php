@@ -28,4 +28,3 @@ $logger->debug("now related to a client");
 LoggerNDC::pop();
 LoggerNDC::pop();
 $logger->debug("back and waiting for new connections");
-// END SNIPPET: doxia

@@ -33,4 +33,3 @@ if(!file_exists($cache)) {
 $logger = unserialize(file_get_contents($cache));
 
 $logger->debug('Debug message from cached logger');
-// END SNIPPET: doxia

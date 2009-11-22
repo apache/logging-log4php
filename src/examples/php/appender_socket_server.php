@@ -70,4 +70,3 @@ $server = Net_Server::create('sequential', $host, $port);
 $handler = new Net_Server_Handler_Log();
 $server->setCallbackObject($handler);
 $server->start();
-// END SNIPPET: doxia
