@@ -28,59 +28,55 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  * The NDC class implements <i>nested diagnostic contexts</i>.
  * 
  * NDC was defined by Neil Harrison in the article "Patterns for Logging
- * Diagnostic Messages" part of the book "<i>Pattern Languages of
- * Program Design 3</i>" edited by Martin et al.
+ * Diagnostic Messages" part of the book <i>"Pattern Languages of
+ * Program Design 3"</i> edited by Martin et al.
  *
- * <p>A Nested Diagnostic Context, or NDC in short, is an instrument
+ * A Nested Diagnostic Context, or NDC in short, is an instrument
  * to distinguish interleaved log output from different sources. Log
  * output is typically interleaved when a server handles multiple
  * clients near-simultaneously.
  *
- * <p>This class is similar to the {@link LoggerMDC} class except that it is
+ * This class is similar to the {@link LoggerMDC} class except that it is
  * based on a stack instead of a map.
  *
- * <p>This class is similar to the {@link LoggerMDC} class except that it is
- * based on a stack instead of a map.
- *
- * <p>Interleaved log output can still be meaningful if each log entry
+ * Interleaved log output can still be meaningful if each log entry
  * from different contexts had a distinctive stamp. This is where NDCs
  * come into play.
  *
- * <p><i><b>Note that NDCs are managed on a per thread
- * basis</b></i>. NDC operations such as {@link push()}, {@link pop()}, 
+ * <b>Note that NDCs are managed on a per thread basis</b>. 
+ * 
+ * NDC operations such as {@link push()}, {@link pop()}, 
  * {@link clear()}, {@link getDepth()} and {@link setMaxDepth()}
  * affect the NDC of the <i>current</i> thread only. NDCs of other
  * threads remain unaffected.
  *
- * <p>For example, a servlet can build a per client request NDC
+ * For example, a servlet can build a per client request NDC
  * consisting the clients host name and other information contained in
  * the the request. <i>Cookies</i> are another source of distinctive
  * information. To build an NDC one uses the {@link push()}
- * operation.</p>
+ * operation.
  * 
  * Simply put,
  *
  * - Contexts can be nested.
- * - When entering a context, call 
- *	 <code>LoggerNDC::push()</code>
+ * - When entering a context, call <kbd>LoggerNDC::push()</kbd>
  *	 As a side effect, if there is no nested diagnostic context for the
  *	 current thread, this method will create it.
- * - When leaving a context, call 
- *	 <code>LoggerNDC::pop()</code>
+ * - When leaving a context, call <kbd>LoggerNDC::pop()</kbd>
  * - <b>When exiting a thread make sure to call {@link remove()}</b>
  *	 
- * <p>There is no penalty for forgetting to match each
- * <code>push</code> operation with a corresponding <code>pop</code>,
+ * There is no penalty for forgetting to match each
+ * <kbd>push</kbd> operation with a corresponding <kbd>pop</kbd>,
  * except the obvious mismatch between the real application context
- * and the context set in the NDC.</p>
+ * and the context set in the NDC.
  *
- * <p>If configured to do so, {@link LoggerPatternLayout} and {@link LoggerLayoutTTCC} 
+ * If configured to do so, {@link LoggerPatternLayout} and {@link LoggerLayoutTTCC} 
  * instances automatically retrieve the nested diagnostic
  * context for the current thread without any user intervention.
  * Hence, even if a servlet is serving multiple clients
  * simultaneously, the logs emanating from the same code (belonging to
  * the same category) can still be distinguished because each client
- * request will have a different NDC tag.</p>
+ * request will have a different NDC tag.
  *
  * Example:
  *	

@@ -34,19 +34,9 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  * <p>This class is similar to the {@link LoggerNDC} class except that 
  * it is based on a map instead of a stack.
  * 
- * <p><b><i>The MDC is managed on a per thread basis</i></b>.
- *
- * <p>This class is similar to the {@link LoggerNDC} class except that 
- * it is based on a map instead of a stack.
+ * <p><b>The MDC is managed on a per thread basis</b>.
  * 
- * <p><b><i>The MDC is managed on a per thread basis</i></b>.
- * 
- * <p>This class is similar to the {@link LoggerNDC} class except that 
- * it is based on a map instead of a stack.
- * 
- * <p><b><i>The MDC is managed on a per thread basis</i></b>.
- * 
- * Example:
+ * <p>Example:
  * 
  * {@example ../../examples/php/mdc.php 19}<br>
  *
