@@ -21,7 +21,7 @@
 /**
  * Defines the minimum set of levels recognized by the system, that is
  * <i>OFF</i>, <i>FATAL</i>, <i>ERROR</i>,
- * <i>WARN</i>, <i>INFO</i, <i>DEBUG</i> and
+ * <i>WARN</i>, <i>INFO</i>, <i>DEBUG</i> and
  * <i>ALL</i>.
  *
  * <p>The <i>LoggerLevel</i> class may be subclassed to define a larger
