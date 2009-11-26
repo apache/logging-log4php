@@ -226,6 +226,8 @@
 				                        <arg value="target/site/apidocs" />
 				                        <arg value="-o" />
 				                        <arg value="HTML:frames:DOM/default" />
+				                        <arg value="--title" />
+				                        <arg value="Apache log4php ${version}" />
 				                </exec>
 				            </tasks>
                             
