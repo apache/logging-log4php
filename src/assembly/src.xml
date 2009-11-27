@@ -39,8 +39,11 @@
                                 <include>package-config.php</include>
                                 <include>package.php</include>
                                 <include>src/**</include>
-                                <include>target/site/apidocs/**</include>
                         </includes>
+                </fileSet>
+                <fileSet>
+                	<directory>target/site/apidocs</directory>
+                	<outputDirectory>docs</outputDirectory>
                 </fileSet>
         </fileSets>
 </assembly>
