@@ -186,7 +186,8 @@
                                 </copy>
                                 <copy todir="target/pear/log4php">      
                                     <fileset dir="src/main/php">    
-                                        <include name="**/*.php" />      
+                                        <include name="**/*.php" />
+                                        <include name="**/*.dtd" />
                                     </fileset>      
                                 </copy>
                                 <exec executable="php" dir="target/pear">
