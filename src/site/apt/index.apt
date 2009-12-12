@@ -32,12 +32,10 @@
    
    * Configuration through xml and properties file (same structure as log4j).
 
-   * File, RollingFile, DailyFile, Echo, Console, Mail, PEAR::Db, PHP error, 
-                    Syslog or NT events and Socket appenders.
+   * File, RollingFile, DailyFile, Echo, Console, Mail, PDO, PHP error, Syslog or NT events and Socket appenders.
 
    * Simple, TTCC, Pattern, Html and Xml Layouts.
    
    * Nested (NDC) and Mapped (MDC) Diagnostic Contexts. 
-
-   * Switchable internal debug.
+   
 
