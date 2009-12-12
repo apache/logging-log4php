@@ -22,5 +22,27 @@ Download apache-log4php
 
   Apache log4php is distributed under the {{{http://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
 
+* Version 2.0.0
 
-   No releases have yet been made.
+  Version 2.0.0 is available since 12.12.2009.
+  
+  The following artifacts contain the complete sourcecode and API docs. It is recommended for most users:
+  
+  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz}apache-log4php-2.0.0-incubating-src.tar.gz}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.asc}ASC}}
+  
+  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip}apache-log4php-2.0.0-incubating-src.zip}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.asc}ASC}}
+
+
+  The following artifact is prepared for a pear channel and is recommended to users who want to make Log4PHP available in their own channels:
+  
+  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz}Apache_log4php-2.0.0-incubating-pear.tgz}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.asc}ASC}}
+  
+* Please mind the signatures
+
+  <<Note:>> when downloading from a mirror please check the {{{http://www.apache.org/dev/release-signing#md5}md5sum}}
+  and verify the {{{http://www.apache.org/dev/release-signing#openpgp}OpenPGP}} compatible signature from the main  {{{http://www.apache.org}Apache site}}. 
+  Links are provided above (next to the release download link).
+  This {{{http://www.apache.org/dist/incubator/log4php/KEYS}KEYS}} file contains the public keys used for signing release. 
+  It is recommended that (when possible) a {{{http://www.apache.org/dev/release-signing#web-of-trust}web of trust}}
+  is used to confirm the identity of these keys. 
+  For more information, please see the {{{http://www.apache.org/dev/release.html}Apache Release FAQ}}.
