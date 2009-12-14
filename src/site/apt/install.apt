@@ -26,7 +26,7 @@ Installation
   
   * copy the folder src/main/php into the target location of your application, f. e. $YOURAPP/log4php
   
-  * include/require the class log4php/LoggerManager.php in your applications
+  * include/require the class log4php/Logger.php in your applications
   
   * finished :-)
 
@@ -40,4 +40,4 @@ Installation from repository
   
   * copy the folder src/main/php into the target location of your application, f. e. $YOURAPP/log4php
   
-  * include/require the class log4php/LoggerManager.php in your applications 
+  * include/require the class log4php/Logger.php in your applications 
