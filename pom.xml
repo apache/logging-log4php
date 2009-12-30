@@ -234,7 +234,29 @@
                             
 						</configuration>
 					</execution>
-
+                    <!--+
+                        | PHPUnit (and XDebug for the coverage report) must be installed for this execution 
+                        +-->      
+                         <execution>
+                            <id>test</id>
+                            <phase>test</phase>
+                            <goals>
+                              <goal>run</goal>
+                            </goals>
+                          <configuration>
+                            <tasks>
+                                <mkdir dir="${surefire.reports}" />
+                                <mkdir dir="${coverage.report}" />
+                                <exec executable="phpunit" dir="src/test/php">
+                                    <arg line=" --log-junit ../../../${surefire.reports}/phpunit-testresults.xml" />
+                                    <arg line=" --coverage-html ../../../${coverage.report}" />
+                                </exec>
+                                <xslt in="${surefire.reports}/phpunit-testresults.xml" out="${surefire.reports}/xslt.info" style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
+                                    <param name="outputDir" expression="${surefire.reports}" />
+                                </xslt>
+                            </tasks>
+                        </configuration>
+                    </execution>
 				</executions>
 			</plugin>
 
