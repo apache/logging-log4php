@@ -295,7 +295,7 @@ class LoggerOptionConverter {
 					// LoggerOptionConverter::substVars() has no closing brace. Opening brace
 					return '';
 				} else {
-					$j += self::START_LEN;
+					$j += self::DELIM_START_LEN;
 					$key = substr($val, $j, $k - $j);
 					// first try in System properties
 					$replacement = LoggerOptionConverter::getSystemProperty($key, null);

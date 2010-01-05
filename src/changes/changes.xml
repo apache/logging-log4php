@@ -23,6 +23,9 @@
     <title>Apache log4php.</title>
   </properties>
   <body>
+  	<release version="2.1" description="Stabilizing">
+  		<action type="fix" issue="LOG4PHP-91">LoginOptionConverter.php (used wrong constant name)</action>
+  	</release>
     <release version="2.0" description="PHP 5 compatibility">
 		<action type="fix" issue="LOG4PHP-3">Maven 2.0 build</action>
 		<action type="fix" issue="LOG4PHP-7">Updated source file headers with current ASF notice</action>
