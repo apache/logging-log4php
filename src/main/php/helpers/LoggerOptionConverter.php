@@ -265,8 +265,6 @@ class LoggerOptionConverter {
 	 * <p>A warn is thrown if <var>$val</var> contains a start delimeter "${" 
 	 * which is not balanced by a stop delimeter "}" and an empty string is returned.</p>
 	 * 
-	 * @author Avy Sharell
-	 * 
 	 * @param string $val The string on which variable substitution is performed.
 	 * @param array $props
 	 * @return string
