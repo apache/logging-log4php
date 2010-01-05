@@ -22,6 +22,9 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+define('MY_CONSTANT_CONSTANT', 'DEFINE');
+define('MY_CONSTANT_CONSTANT_OTHER', 'DEFINE_OTHER');
+
 // require_once "src/main/php/helpers/LoggerOptionConverter.php";
 class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
 
@@ -41,5 +44,24 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
         self::assertEquals(false, LoggerOptionConverter::toBoolean("false"));
         self::assertEquals(false, LoggerOptionConverter::toBoolean("off"));
         self::assertEquals(false, LoggerOptionConverter::toBoolean("no"));
+    }
+    
+    
+    public function testSubstituteVars() {
+    	$props['OTHER_CONSTANT'] = "OTHER";
+    	$props['MY_CONSTANT'] = "TEST";
+    	$props['NEXT_CONSTANT'] = "NEXT";
+        
+        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT}.', $props);
+        self::assertEquals('Value of key is TEST.', $result);
+        
+        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT} or ${OTHER_CONSTANT}.', $props);
+        self::assertEquals('Value of key is TEST or OTHER.', $result);
+        
+        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT_CONSTANT}.', $props);
+        self::assertEquals('Value of key is DEFINE.', $result);
+        
+        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT_CONSTANT} or ${MY_CONSTANT_CONSTANT_OTHER}.', $props);
+        self::assertEquals('Value of key is DEFINE or DEFINE_OTHER.', $result);
     }
 }
