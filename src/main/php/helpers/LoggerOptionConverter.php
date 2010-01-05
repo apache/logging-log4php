@@ -247,7 +247,7 @@ class LoggerOptionConverter {
 	 * <p>For example, if the "MY_CONSTANT" contains "value", then
 	 * the call
 	 * <code>
-	 * $s = LoggerOptionConverter::substituteVars("Value of key is ${MY_CONSTANT}.");
+	 * $s = LoggerOptionConverter::substVars("Value of key is ${MY_CONSTANT}.");
 	 * </code>
 	 * will set the variable <i>$s</i> to "Value of key is value.".</p>
 	 * 
