@@ -145,6 +145,14 @@ class LoggerLoggingEvent {
 	}
 
 	/**
+	 * Returns the full qualified classname.
+	 * TODO: PHP does contain namespaces in 5.3. Those should be returned too, 
+	 */
+	 public function getFullQualifiedClassname() {
+		 return $this->fqcn;
+	 }
+	 
+	/**
 	 * Set the location information for this logging event. The collected
 	 * information is cached for future use.
 	 *

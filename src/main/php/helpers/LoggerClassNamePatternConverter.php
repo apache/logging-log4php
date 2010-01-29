@@ -39,7 +39,7 @@ class LoggerClassNamePatternConverter extends LoggerNamedPatternConverter {
 	 * @return string
 	 */
 	public function getFullyQualifiedName($event) {
-		return $event->fqcn;
+		return $event->getFullQualifiedClassname();
 	}
 }
 
