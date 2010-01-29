@@ -74,6 +74,7 @@
             <item name="Contributing Patches" href="/contributingpatches.html"/>            
             <item name="Roadmap" href="/roadmap.html"/>
             <item name="Code Coverage" href="/coverage-report/index.html"/>
+            <item name="Buildbot" href="http://ci.apache.org/projects/log4php"/>
         </menu>
         
         <menu ref="reports"/>
