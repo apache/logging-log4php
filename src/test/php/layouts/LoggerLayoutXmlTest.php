@@ -56,4 +56,23 @@ class LoggerLayoutXmlTest extends PHPUnit_Framework_TestCase {
 		
 		self::assertEquals($v, $e);
     }
+    
+    public function testLog4JNamespaceErrorLayout() {
+		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+
+		$layout = new LoggerLayoutXml();
+		$layout->setLog4jNamespace(true);
+		$layout->activateOptions();
+		
+		$v = $layout->format($event);
+
+		$e = "<log4j:event logger=\"TEST\" level=\"ERROR\" thread=\"".$event->getThreadName().
+			"\" timestamp=\"".number_format((float)($event->getTimeStamp() * 1000), 0, '', '')."\">".PHP_EOL.
+			"<log4j:message><![CDATA[testmessage]]></log4j:message>".PHP_EOL.
+			"<log4j:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
+			"method=\"getLocationInformation\" />".PHP_EOL.
+			"</log4j:event>".PHP_EOL . PHP_EOL;
+
+		self::assertEquals($v, $e);
+    }
 }
