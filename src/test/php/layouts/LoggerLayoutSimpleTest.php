@@ -24,14 +24,14 @@
  */
 
 class LoggerLayoutSimpleTest extends PHPUnit_Framework_TestCase {
-        
+
 	public function testSimpleLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutSimpleTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
 		$layout = new LoggerLayoutSimple();
-		$v = $layout->format($event);
-		$e = "ERROR - testmessage\n";
-		self::assertEquals($v, $e);
-    }
-    
+		$actual = $layout->format($event);
+		$expected = "ERROR - testmessage" . PHP_EOL;
+		self::assertEquals($expected, $actual);
+	}
+
 }

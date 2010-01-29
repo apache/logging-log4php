@@ -43,17 +43,17 @@
 class LoggerAppenderEcho extends LoggerAppender {
 	/** boolean used internally to mark first append */
 	private $firstAppend = true;
-	
+
 	public function __construct($name = '') {
-	    parent::__construct($name);
-	    $this->requiresLayout = true;
-	    $this->firstAppend = true;
+		parent::__construct($name);
+		$this->requiresLayout = true;
+		$this->firstAppend = true;
 	}
 	
 	public function __destruct() {
-       $this->close();
-   	}
-   	
+		$this->close();
+	}
+
 	public function activateOptions() {
 		$this->closed = false;
 	}
@@ -64,7 +64,7 @@ class LoggerAppenderEcho extends LoggerAppender {
 				echo $this->layout->getFooter();
 			}
 		}
-		$this->closed = true;	 
+		$this->closed = true;
 	}
 
 	public function append(LoggerLoggingEvent $event) {

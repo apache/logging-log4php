@@ -79,6 +79,6 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
         $v = ob_get_contents();
         ob_end_clean();
 
-        self::assertEquals("ERROR - test1,test2,test3\n", $v);
+        self::assertEquals("ERROR - test1,test2,test3" . PHP_EOL, $v);
 	}
 }

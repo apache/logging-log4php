@@ -36,7 +36,7 @@ class LoggerLayoutXmlTest extends PHPUnit_Framework_TestCase {
 			"<log4php:message><![CDATA[testmessage]]></log4php:message>".PHP_EOL.
 			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
 			"method=\"getLocationInformation\" />".PHP_EOL.
-			"</log4php:event>\n".PHP_EOL;
+			"</log4php:event>".PHP_EOL . PHP_EOL;
 
 		self::assertEquals($v, $e);
     }
@@ -52,7 +52,7 @@ class LoggerLayoutXmlTest extends PHPUnit_Framework_TestCase {
 			"<log4php:message><![CDATA[testmessage]]></log4php:message>".PHP_EOL.
 			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
 			"method=\"getLocationInformation\" />".PHP_EOL.
-			"</log4php:event>\n".PHP_EOL;
+			"</log4php:event>".PHP_EOL . PHP_EOL;
 		
 		self::assertEquals($v, $e);
     }

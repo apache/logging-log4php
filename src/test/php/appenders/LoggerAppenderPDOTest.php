@@ -29,6 +29,10 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         
     /** To start with an empty database for each single test. */
     public function setUp() {
+        if(!extension_loaded('pdo_sqlite')) {
+            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
+        }
+
         if (file_exists(self::file)) unlink(self::file);
     }
 
@@ -39,12 +43,8 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 
     /** Tests new-style logging using prepared statements and the default SQL definition. */
     public function testSimpleWithDefaults() {
-		if(!extension_loaded('pdo_sqlite')) {
-			self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
-		}
-		
         // Log event
-		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
         $appender = new LoggerAppenderPDO("myname");
         $appender->setDSN(self::dsn);
         $appender->activateOptions();
@@ -62,7 +62,9 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         self::assertEquals('TEST', $row[1]); // %c = category
         self::assertEquals('ERROR', $row[2]); // %p = priority
         self::assertEquals('testmessage', $row[3]); // %m = message
-        self::assertEquals(posix_getpid(), $row[4]); // %t = thread
+        if (function_exists('posix_getpid')) {
+            self::assertEquals(posix_getpid(), $row[4]); // %t = thread
+        }
         self::assertEquals('NA', $row[5]); // %F = file, NA due to phpunit magic
         self::assertEquals('NA', $row[6]); // %L = line, NA due to phpunit magic
     }
@@ -70,22 +72,18 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 
     /** Tests new style prepared statment logging with customized SQL. */
     public function testCustomizedSql() {
-        if(!extension_loaded('pdo_sqlite')) {
-            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
-        }
-		
         // Prepare appender
-		$appender = new LoggerAppenderPDO("myname");
+        $appender = new LoggerAppenderPDO("myname");
         $appender->setDSN(self::dsn);
         $appender->setTable('unittest2');
         $appender->setInsertSql("INSERT INTO unittest2 (file, line, thread, timestamp, logger, level, message) VALUES (?,?,?,?,?,?,?)");
         $appender->setInsertPattern("%F,%L,%t,%d,%c,%p,%m");
-		$appender->activateOptions();
+        $appender->activateOptions();
 
         // Action!
         $event = new LoggerLoggingEvent("LoggerAppenderPDOTest2", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$appender->append($event);
-		
+        $appender->append($event);
+        
         // Check
         $db = new PDO(self::dsn);
         $result = $db->query("SELECT * FROM unittest2");
@@ -93,19 +91,17 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         self::assertTrue(is_object($row));
         self::assertEquals("NA", $row->file); // "NA" due to phpunit magic
         self::assertEquals("NA", $row->line); // "NA" due to phpunit magic
-        self::assertEquals(posix_getpid(), $row->thread);
+        if (function_exists('posix_getpid')) {
+            self::assertEquals(posix_getpid(), $row->thread);
+        }
         self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d$/', $row->timestamp));
         self::assertEquals('TEST', $row->logger);
         self::assertEquals('ERROR', $row->level);
         self::assertEquals('testmessage', $row->message);
     }
-		
+        
     /** Tests old-style logging using the $sql variable. */
     public function testOldStyle() {
-        if(!extension_loaded('pdo_sqlite')) {
-            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
-		}
-		
         // Create table with different column order
         $db = new PDO(self::dsn);
         $db->exec('CREATE TABLE unittest3 (ts timestamp, level varchar(32), msg varchar(64))');
@@ -141,5 +137,5 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         $appender->setDSN($dsn);
         $appender->setCreateTable(true);
             $appender->activateOptions();
-        }
+    }
 }

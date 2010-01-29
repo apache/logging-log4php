@@ -151,7 +151,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		// realpath() fails if the argument does not exist so the filename is separated.
 		$this->expandedFileName = realpath(dirname($fileName));
 		if ($this->expandedFileName === false) throw new Exception("Directory of $fileName does not exist!");
-		$this->expandedFileName .= '/'.basename($fileName);
+		$this->expandedFileName .= DIRECTORY_SEPARATOR . basename($fileName);
 	}
 
 

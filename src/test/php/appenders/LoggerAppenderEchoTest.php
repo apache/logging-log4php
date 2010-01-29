@@ -24,7 +24,7 @@
  */
 
 class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
-        
+
 	public function testEcho() {
 		$appender = new LoggerAppenderEcho("myname ");
 		
@@ -32,14 +32,13 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		$appender->setLayout($layout);
 		$appender->activateOptions();
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		 
+		
+		$expected = "ERROR - testmessage" . PHP_EOL;
 		ob_start();
 		$appender->append($event);
-		$v = ob_get_contents();
-		ob_end_clean();
+		$actual = ob_get_clean();
 		
-		$e = "ERROR - testmessage\n";
-		self::assertEquals($v, $e);
-    }
-    
+		self::assertEquals($expected, $actual);
+	}
+
 }
