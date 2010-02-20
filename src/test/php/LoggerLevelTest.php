@@ -68,6 +68,12 @@ class LoggerLevelTest extends PHPUnit_Framework_TestCase {
 		$this->doTestLevel( LoggerLevel::getLevelDebug(), LoggerLevel::DEBUG, 'DEBUG', 7 );
 		$this->doTestLevel( LoggerLevel::toLevel(LoggerLevel::DEBUG), LoggerLevel::DEBUG, 'DEBUG', 7 );
 		$this->doTestLevel( LoggerLevel::toLevel('DEBUG'), LoggerLevel::DEBUG, 'DEBUG', 7 );
+	}
+    
+    public function testLevelTrace() {
+		$this->doTestLevel( LoggerLevel::getLevelTrace(), LoggerLevel::TRACE, 'TRACE', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel(LoggerLevel::TRACE), LoggerLevel::TRACE, 'TRACE', 7 );
+		$this->doTestLevel( LoggerLevel::toLevel('TRACE'), LoggerLevel::TRACE, 'TRACE', 7 );
     }
 
 	public function testLevelAll() {

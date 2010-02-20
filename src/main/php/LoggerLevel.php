@@ -39,6 +39,7 @@ class LoggerLevel {
 	const WARN = 30000;
 	const INFO = 20000;
 	const DEBUG = 10000;
+	const TRACE = 5000;
 	const ALL = -2147483647;
 
 	/**
@@ -162,6 +163,18 @@ class LoggerLevel {
 		}
 		return self::$levelMap[LoggerLevel::DEBUG];
 	}
+	
+	/**
+	 * Returns a Trace Level
+	 * @static
+	 * @return LoggerLevel
+	 */
+	public static function getLevelTrace() {
+		if(!isset(self::$levelMap[LoggerLevel::TRACE])) {
+			self::$levelMap[LoggerLevel::TRACE] = new LoggerLevel(LoggerLevel::TRACE, 'TRACE', 7);
+		}
+		return self::$levelMap[LoggerLevel::TRACE];
+	}	
 
 	/**
 	 * Returns an All Level
@@ -231,6 +244,7 @@ class LoggerLevel {
 			if(is_int($arg)) {
 				switch($arg) {
 					case self::ALL:	return self::getLevelAll();
+					case self::TRACE: return self::getLevelTrace();
 					case self::DEBUG: return self::getLevelDebug();
 					case self::INFO: return self::getLevelInfo();
 					case self::WARN: return self::getLevelWarn();
@@ -242,6 +256,7 @@ class LoggerLevel {
 			} else {
 				switch(strtoupper($arg)) {
 					case 'ALL':	return self::getLevelAll();
+					case 'TRACE': return self::getLevelTrace();
 					case 'DEBUG': return self::getLevelDebug();
 					case 'INFO': return self::getLevelInfo();
 					case 'WARN': return self::getLevelWarn();

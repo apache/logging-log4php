@@ -55,6 +55,10 @@ class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
 		
 		$logger = Logger::getLogger('mylogger');
 		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
+		
+		$logger = Logger::getLogger('tracer');
+		self::assertEquals(LoggerLevel::getLevelTrace(), $logger->getLevel());
+		
 	}
 	
 	public function testThreshold() {

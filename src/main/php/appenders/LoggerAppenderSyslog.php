@@ -40,6 +40,7 @@
  * - <b>ERROR > level >= WARN</b> to LOG_WARNING
  * - <b>WARN  > level >= INFO</b> to LOG_INFO
  * - <b>INFO  > level >= DEBUG</b> to LOG_DEBUG
+ * - <b>DEBUG > level >= TRACE</b> to LOG_DEBUG
  *
  * An example:
  *
@@ -202,6 +203,8 @@ class LoggerAppenderSyslog extends LoggerAppender {
 					syslog(LOG_INFO, $message);
 				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelDebug())) {
 					syslog(LOG_DEBUG, $message);
+				} else if ($level->isGreaterOrEqual(LoggerLevel::getLevelTrace())) {
+					syslog(LOG_DEBUG, $message);	// No trace level in syslog
 				}
 			}
 			closelog();

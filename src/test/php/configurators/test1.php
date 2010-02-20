@@ -28,6 +28,10 @@ return array(
                'level' => 'INFO',
                'appenders' => array('default'),
            ),
+           'tracer' => array(
+               'level' => 'TRACE',
+               'appenders' => array('default'),
+           ),
  	 ),
      'appenders' => array(
          'default' => array(

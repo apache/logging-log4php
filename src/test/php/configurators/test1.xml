@@ -29,6 +29,9 @@
 		</filter>
 		<filter class="LoggerFilterDenyAll" />
     </appender>
+     <logger name="tracer">
+        <level value="trace"/> 
+    </logger>
     <logger name="mylogger">
         <level value="info"/> 
     </logger>

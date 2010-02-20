@@ -207,6 +207,16 @@ class Logger {
 	
 	/* Logging methods */
 	/**
+	 * Log a message object with the TRACE level including the caller.
+	 *
+	 * @param mixed $message message
+	 * @param mixed $caller caller object or caller string id
+	 */
+	public function trace($message, $caller = null) {
+		$this->logLevel($message, LoggerLevel::getLevelTrace(), $caller);
+	} 		
+	
+	/**
 	 * Log a message object with the DEBUG level including the caller.
 	 *
 	 * @param mixed $message message
