@@ -116,12 +116,12 @@ class LoggerPatternConverter {
 	/**
 	 * Fast space padding method.
 	 *
-	 * @param string	$sbuf	   string buffer
+	 * @param string	&$sbuf	   string buffer
 	 * @param integer	$length	   pad length
 	 *
 	 * @todo reimplement using PHP string functions
 	 */
-	public function spacePad($sbuf, $length) {
+	public function spacePad(&$sbuf, $length) {
 		while($length >= 32) {
 		  $sbuf .= $GLOBALS['log4php.LoggerPatternConverter.spaces'][5];
 		  $length -= 32;
