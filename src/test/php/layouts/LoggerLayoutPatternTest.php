@@ -37,25 +37,13 @@ class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($v, $e);
     }
     
-    public function XtestWarnLayout() {
-    	/*
-Comment in when this has been fixed:
-
-1) testWarnLayout(LoggerLayoutPatternTest)
-Undefined index:  log4php.LoggerPatternConverter.spaces
-/Users/cgrobmeier/Documents/Development/workspace/log4php-trunk/src/main/php/helpers/LoggerPatternConverter.php:131
-/Users/cgrobmeier/Documents/Development/workspace/log4php-trunk/src/main/php/helpers/LoggerPatternConverter.php:104
-/Users/cgrobmeier/Documents/Development/workspace/log4php-trunk/src/main/php/layouts/LoggerPatternLayout.php:216
-/Users/cgrobmeier/Documents/Development/workspace/log4php-trunk/src/test/php/layouts/LoggerLayoutPatternTest.php:45
-
-    	 * 
-    	 */
+    public function testWarnLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
 
 		$layout = new LoggerLayoutPattern();
 		$layout->setConversionPattern("%-5p %c %X{username}: %m in %F at %L%n");
 		$v = $layout->format($event);
-		$e = 'WARN TEST : testmessage in NA at NA'.PHP_EOL;
+		$e = 'WARN  TEST : testmessage in NA at NA'.PHP_EOL;
 		
 		self::assertEquals($v, $e);
     }
