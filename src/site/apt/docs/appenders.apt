@@ -1,0 +1,450 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Appenders
+ ------
+ ------
+ ------
+
+Apache Log4php Appenders
+
+%{toc|section=1|fromDepth=1|toDepth=2}
+
+* {Appenders}
+
+  This document explains how to configure where logging messages are written to.
+  
+  This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
+  You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
+
+** {About Appenders}
+
+  The ability to selectively enable or disable logging requests based on their logger
+  is only part of the picture. Log4PHP allows logging requests to print to multiple
+  destinations. In Log4PHP speak, an output destination is called an appender. Currently,
+  appenders exist for the console, files, databases and others (see below).
+
+  More than one appender can be attached to a logger.
+
+  The addAppender method adds an appender to a given logger. Each enabled logging
+  request for a given logger will be forwarded to all the appenders in that
+  logger as well as the appenders higher in the hierarchy. In other words,
+  appenders are inherited additively from the logger hierarchy. For example,
+  if a console appender is added to the root logger, then all enabled logging requests
+  will at least print on the console. If in addition a file appender is added
+  to a logger, say C, then enabled logging requests for C and C's children will print
+  on a file and on the console. 
+  
+  It is possible to override this default behavior so that appender accumulation
+  is no longer additive by setting the additivity flag to false.
+
+  The rules governing appender additivity are summarized below.
+  
++--
+Appender Additivity
+
+  The output of a log statement of logger C will go to all the appenders in C and its 
+  ancestors. This is the meaning of the term "appender additivity".
+
+  However, if an ancestor of logger C, say P, has the additivity flag set to false,
+  then C's output will be directed to all the appenders in C and it's ancestors upto
+  and including P but not the appenders in any of the ancestors of P.
+
+  Loggers have their additivity flag set to true by default.
++-- 
+
+  The table below shows an example:
+
+*----------------*------------*------------*-----------------*------------*
+ Logger Name     | Added      | Additivity | Output          | Comment
+ 			     | Appenders  | Flag       | Targets         |
+*----------------*------------*------------*-----------------*------------*
+ root 	         | A1 	      | not appl   | A1 	         | The root logger is anonymous but can be accessed
+ 			     |			  |			   | 			     | with the Logger::getRootLogger() method. There is no default appender attached to root.
+*----------------*------------*------------*-----------------*------------*
+ x 			     | A-x1, A-x2 |	true 	   | A1, A-x1, A-x2  | Appenders of "x" and root.
+*----------------*------------*------------*-----------------*------------*
+ x.y 		     | none 	  | true 	   | A1, A-x1, A-x2  | Appenders of "x" and root.
+*----------------*------------*------------*-----------------*------------*
+ x.y.z 		     | A-xyz1 	  | true 	   | A1, A-x1, A-x2, | Appenders in "x.y.z", "x" and root.
+                 |            |            | A-xyz1 	     |
+*----------------*------------*------------*-----------------*------------*
+ security 	     | A-sec 	  | false 	   | A-sec 	         | No appender accumulation since the additivity flag is set to false.
+*----------------*------------*------------*-----------------*------------*
+ security.access |none 	      | true 	   | A-sec 	         | Only appenders of "security" because the additivity flag in "security" is set to false.
+*----------------*------------*------------*-----------------*------------*
+
+  More often than not, users wish to customize not only the output destination 
+  but also the output format. This is accomplished by associating a layout
+  with an appender. The layout is responsible for formatting the logging request
+  according to the user's wishes, whereas an appender takes care of sending
+  the formatted output to its destination.
+
+  The PatternLayout, part of the standard log4php distribution, lets the user
+  specify the output format according to conversion patterns similar to the C language
+  printf function.
+
+  For example, the PatternLayout with the conversion pattern 
+  "%r [%t] %-5p %c - %m%n" will output something akin to:
+
++--
+  176 [main] INFO  org.foo.Bar - Located nearest gas station.
++--
+
+  The first field is the number of milliseconds elapsed since the start of the program.
+  The second field is the thread making the log request. The third field is the level
+  of the log statement. The fourth field is the name of the logger associated with
+  the log request. The text after the '-' is the message of the statement.
+
+** {Configuring Appenders}
+
+  An appender can be configured in your configuration file. In the following example
+  an appender with the name myappender is instantiated with the Echo-Appender. 
+  The parameter value is the actual name of the appender class. An appender class
+  is any class extending from the LoggerAppender class. 
+  
++--
+    log4php.appender.myappender = LoggerAppenderEcho
++--
+
+
+** {Configuring Appender properties}
+
+  Additional properties can be configured in a property file with just adding them with
+  a dot and their name. For example if you want to populize an attribut called layout,
+  you just need to add the name of the value behind the appenders name, seperated with
+  a dot.
+  
++--
+    log4php.appender.myappender = LoggerAppenderEcho
+    log4php.appender.myappender.layout = LoggerLayoutSimple
++--
+  
+  Dev note: Attributes are populated via reflection.
+
+
+
+* {Appenders Documentation}
+
+** {LoggerAppenderEcho}
+
+  The LoggerAppenderEcho Appender writes all logging events via echo. Echo outputs may be buffered.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/appender_echo.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_echo.properties}
+
+
+** {LoggerAppenderConsole}
+
+  The LoggerAppenderConsoler Appender writes all logging events to the console, 
+  f. e. php://stdout or php://errout. Defaults to stdout.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ target 			| Sets the target to which this appender should write to (stdout or stderr)
+*-------------------*-----------------------------------------------------*
+
+  Example:
+
+%{snippet|id=doxia|file=src/examples/php/appender_console.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_console.properties}
+
+
+** {LoggerAppenderFile}
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+ 
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file   			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename  			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+
+  Examples:
+
+%{snippet|id=doxia|file=src/examples/php/appender_file.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_file.properties}
+
+
+** {LoggerAppenderDailyFile}
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+  The file is rolled over once a day. That means, for each day a new file 
+  is created.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file   			| The target file to write to
+*-------------------*-----------------------------------------------------*
+ append  			| Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+ datePattern		| Sets date format for the file name.
+*-------------------*-----------------------------------------------------*
+
+  Examples:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_dailyfile.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_dailyfile.properties}
+
+
+** {LoggerAppenderMail}
+
+  The LoggerAppenderMail appends log events to mail using php function. 
+  The appender sends all log events at once after the request has been finsished
+  and the appender is beeing closed.
+  
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ to	 	    		| Sets the recipient of the mail
+*-------------------*-----------------------------------------------------*
+ from	 			| Sets the sender of the mail
+*-------------------*-----------------------------------------------------*
+ subject 			| Sets the subject of the mail
+*-------------------*-----------------------------------------------------*
+
+  Examples:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_mail.php}
+  
+%{snippet|id=doxia|file=src/examples/resources/appender_mail.properties}
+
+** {LoggerAppenderMailEvent}
+
+  The LoggerAppenderMailEvent appends log events to mail using php function. 
+  The appender sends each log events when it occurs.
+ 
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ to	 	    		| Sets the recipient of the mail
+*-------------------*-----------------------------------------------------*
+ from	 			| Sets the sender of the mail
+*-------------------*-----------------------------------------------------*
+ subject 			| Sets the subject of the mail
+*-------------------*-----------------------------------------------------*
+ smtpHost   		| Sets the mail server (default: ini_get('SMTP');)
+*-------------------*-----------------------------------------------------*
+ port 			    | Sets the port of the mail server (default: 25)
+*-------------------*-----------------------------------------------------*
+
+
+** {LoggerAppenderNull}
+
+  Ignores all log events.
+  
+  No additional parameters.
+  
+  Example:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_null.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_null.properties}
+    
+** {LoggerAppenderPDO}
+
+  Sends all log events to a database via PDO. The table is beeing created, if necessary
+  and not stated otherwise.
+
+*-------------------*-----------------------------------------------------*
+ user 	    		| Sets the user of this database connection
+*-------------------*-----------------------------------------------------*
+ password 			| Sets the password of this database connection
+*-------------------*-----------------------------------------------------*
+ createTable		| true, if the table should be created if necessary. false otherwise
+*-------------------*-----------------------------------------------------*
+ table      		| Sets the table name (default: log4php_log)
+*-------------------*-----------------------------------------------------*
+ sql 			    | Sets the insert statement for a logging event. Defaults
+ 					| to the correct one - change only if you are sure what you are doing.
+*-------------------*-----------------------------------------------------*
+ dsn        		| Sets the DSN string for this connection
+*-------------------*-----------------------------------------------------*
+  
+  Example:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_pdo.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_pdo.properties}
+
+  Note that some fields, like "message" and "file", are limited in size:
+
++--
+
+    mysql> desc log4php_log;
+ +-----------+-------------+------+-----+---------+-------+
+ | Field     | Type        | Null | Key | Default | Extra |
+ +-----------+-------------+------+-----+---------+-------+
+ | timestamp | varchar(32) | YES  |     | NULL    |       |
+ | logger    | varchar(32) | YES  |     | NULL    |       |
+ | level     | varchar(32) | YES  |     | NULL    |       |
+ | message   | varchar(64) | YES  |     | NULL    |       |
+ | thread    | varchar(32) | YES  |     | NULL    |       |
+ | file      | varchar(64) | YES  |     | NULL    |       |
+ | line      | varchar(4)  | YES  |     | NULL    |       |
+ +-----------+-------------+------+-----+---------+-------+
+
+    mysql> SELECT * FROM log4php_log;
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | timestamp               | logger | level | message      | thread | file                                                             | line |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | 2009-09-08 02:31:48,532 | root   | FATAL | Hello World! | 21858  | /srv/home/james/workspace/log4php/src/examples/php/appender_pdo. | 24   |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+
++--   
+  
+** {LoggerAppenderPhp}
+
+  Log events using the php function: trigger_error
+  
+  No additional parameters.
+
+  Example:
+  
+%{snippet|id=doxia|file=src/examples/php/appender_php.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_php.properties}
+
+  This prints:
+  
++--
+ Notice: 2009-09-08 02:07:57.223 DEBUG [19675] root: Hello PHP!
+   in /srv/home/james/workspace/log4php/src/main/php/appenders/LoggerAppenderPhp.php on line 59
+
+ Call Stack:
+    0.0005     113808   1. {main}() /srv/home/james/workspace/log4php/src/examples/php/appender_php.php:0
+    0.0254    1237360   2. Logger->debug() /srv/home/james/workspace/log4php/src/examples/php/appender_php.php:21
+    0.0254    1237688   3. Logger->logLevel() /srv/home/james/workspace/log4php/src/main/php/Logger.php:214
+    0.0254    1238072   4. Logger->forcedLog() /srv/home/james/workspace/log4php/src/main/php/Logger.php:329
+    0.0274    1337072   5. Logger->callAppenders() /srv/home/james/workspace/log4php/src/main/php/Logger.php:271
+    0.0274    1337888   6. LoggerAppender->doAppend() /srv/home/james/workspace/log4php/src/main/php/Logger.php:408
+    0.0275    1338144   7. LoggerAppenderPhp->append() /srv/home/james/workspace/log4php/src/main/php/LoggerAppender.php:133
+    0.0357    1341720   8. trigger_error() /srv/home/james/workspace/log4php/src/main/php/appenders/LoggerAppenderPhp.php:59
++--  
+
+
+
+** {LoggerAppenderRollingFile}
+
+  The LoggerAppenderDailyFile writes all logging events to a specified file.
+  The file is beeing rolled over after a specified size has been reached.
+ 
+*-------------------*-----------------------------------------------------*
+ layout             | Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ file               | The target file to write to
+*-------------------*-----------------------------------------------------*
+ filename           | The target file to write to
+*-------------------*-----------------------------------------------------*
+ append             | Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+*-------------------*-----------------------------------------------------*
+ MaxBackupIndex     | Set the maximum number of backup files to keep around (int)
+*-------------------*-----------------------------------------------------*
+ MaxFileSize        | Set the maximum size that the output file is allowed to 
+                    | reach before being rolled over to backup files.
+                    | Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB"
+                    | is interpreted as 10240
+*-------------------*-----------------------------------------------------*
+ MaximumFileSize    | Alias to MaxFileSize
+*-------------------*-----------------------------------------------------*
+  
+  Examples: 
+ 
+%{snippet|id=doxia|file=src/examples/php/appender_rollingfile.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_rollingfile.properties}
+
+  The resulting filenames are appender_rollingfile.log, appender_rollingfile.log.1,
+  appender_rollingfile.log.2 and so on.
+
+** {LoggerAppenderSocket}
+
+  Serializes events and sends them to a network socket.
+
+*-------------------*-----------------------------------------------------*
+ locationInfo  		| Sets the location info for the xml layout (true or false)
+*-------------------*-----------------------------------------------------*
+ log4jNamespace		| Sets the namespace for log4j (true or false)
+*-------------------*-----------------------------------------------------*
+ port       		| Sets the port of the socket.
+*-------------------*-----------------------------------------------------*
+ remoteHost    		| Sets the remote host
+*-------------------*-----------------------------------------------------*
+ timeout		    | Sets the timeout in ms
+*-------------------*-----------------------------------------------------*
+ useXml        		| true, if xml should be transmitted.
+					| false, if a serialized php object should be transmitted
+*-------------------*-----------------------------------------------------*
+  
+  Examples: 
+ 
+%{snippet|id=doxia|file=src/examples/php/appender_socket.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_socket.properties}
+
+  The appender can be tested with netcat:
+  
++--
+  # nc -l -p 4242 & php appender_socket.php
+  <log4j:event logger="root" level="FATAL" thread="19179" timestamp="1252367259514">
+  <log4j:message><![CDATA[Hello World!]]></log4j:message>
+  </log4j:event>
++--
+
+
+** {LoggerAppenderSyslog}
+
+  Log events using php syslog function.
+
+*-------------------*-----------------------------------------------------*
+ layout 			| Sets the layout class for this appender
+*-------------------*-----------------------------------------------------*
+ ident  		    | Set the ident of the syslog message.
+*-------------------*-----------------------------------------------------*
+ priority   		| Set the priority value for the syslog message.
+*-------------------*-----------------------------------------------------*
+ facility      		| Set the facility value for the syslog message
+*-------------------*-----------------------------------------------------*
+ overridePriority   | If the priority of the message to be sent can be 
+ 					| defined by a value in the properties-file, set 
+ 					| parameter value to "true"
+*-------------------*-----------------------------------------------------*
+ option 		    | Set the option value for the syslog message. 
+  					| This value is used as a parameter for php openlog()
+  					| and passed on to the syslog daemon.
+*-------------------*-----------------------------------------------------*
+
+  Examples: 
+ 
+%{snippet|id=doxia|file=src/examples/php/appender_syslog.php}
+
+%{snippet|id=doxia|file=src/examples/resources/appender_syslog.properties}
+ 

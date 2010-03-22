@@ -1,0 +1,268 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Introduction
+ ------
+ ------
+ ------
+
+Apache Log4php Introduction
+
+  This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
+  You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
+  
+* Loggers, Appenders and Layouts
+
+  Log4j has three main components: loggers, appenders and layouts. 
+  These three types of components work together to enable developers to log 
+  messages according to message type and level, and to control at runtime 
+  how these messages are formatted and where they are reported.
+
+
+* Logger hierarchy
+
+  The first and foremost advantage of any logging API over plain 
+  echo resides in its ability to disable certain log statements while allowing
+  others to print unhindered. This capability assumes that the logging space, 
+  that is, the space of all possible logging statements, is categorized according
+  to some developer-chosen criteria. 
+  
+  Loggers are named entities. Logger names are case-sensitive and they 
+  follow the hierarchical naming rule:
+
++--
+Named Hierarchy
+
+A logger is said to be an ancestor of another logger if its name followed by a dot 
+is a prefix of the descendant logger name. A logger is said to be a parent of a 
+child logger if there are no ancestors between itself and the descendant logger.
++--
+
+  For example, the logger named "com.foo" is a parent of the logger named "com.foo.Bar". 
+  Similarly, "php" is a parent of "php.util" and an ancestor of "php.util.Blub". 
+  
+  The root logger resides at the top of the logger hierarchy. It is exceptional in two ways:
+
+   1. it always exists,
+   2. it cannot be retrieved by name.
+
+  Invoking the class static Logger.getRootLogger method retrieves it. All other loggers 
+  are instantiated and retrieved with the class static Logger.getLogger method. 
+  This method takes the name of the desired logger as a parameter. Some of the 
+  basic methods in the Logger class are listed below.
+
++--  
+class Logger {
+
+  // Creation & retrieval methods (returning a Logger object)
+  public function static getRootLogger();
+  public function static getLogger($name);
+
+  // printing methods:
+  public function debug($message);
+  public function info($message);
+  public function warn($message);
+  public function error($message);
+  public function fatal($message);
+}
++--
+
+  Loggers may be assigned levels. The set of possible levels, that is:
+
+  * DEBUG,
+  * INFO,
+  * WARN,
+  * ERROR and
+  * FATAL
+
+  are defined in the LoggerLevel class. Although we do not encourage you to do so, 
+  you may define your own levels by sub-classing the Level class. 
+  A perhaps better approach will be explained later on.
+
+  If a given logger is not assigned a level, then it inherits one from its closest 
+  ancestor with an assigned level. More formally:
+
++--
+  Level Inheritance
+
+  The inherited level for a given logger C, is equal to the first non-null level 
+  in the logger hierarchy, starting at C and proceeding upwards in the hierarchy 
+  towards the root logger.
++--
+
+  To ensure that all loggers can eventually inherit a level, the root logger 
+  always has an assigned level.
+
+  Below are four tables with various assigned level values and the resulting
+  inherited levels according to the above rule.
+
+
+*-------------------*-------------------*-------------------*
+ Logger name		| Assigned level 	| Inherited level
+*-------------------*-------------------*-------------------*
+ root				| Proot				| Proot
+*-------------------*-------------------*-------------------*
+ X					| none				| Proot
+*-------------------*-------------------*-------------------*
+ X.Y				| none				| Proot
+*-------------------*-------------------*-------------------*
+ X.Y.Z				| none				| Proot
+*-------------------*-------------------*-------------------*
+Example 1
+
+  In example 1 above, only the root logger is assigned a level. 
+  This level value, Proot, is inherited by the other loggers 
+  X, X.Y and X.Y.Z.
+
+*-------------------*-------------------*-------------------*
+ Logger name		| Assigned level 	| Inherited level
+*-------------------*-------------------*-------------------*
+ root				| Proot				| Proot
+*-------------------*-------------------*-------------------*
+ X					| Px				| Px
+*-------------------*-------------------*-------------------*
+ X.Y				| Pxy				| Pxy
+*-------------------*-------------------*-------------------*
+ X.Y.Z				| Pxyz				| Pxyz
+*-------------------*-------------------*-------------------*
+Example 2
+
+  In example 2, all loggers have an assigned level value. There is 
+  no need for level inheritence.
+
+*-------------------*-------------------*-------------------*
+ Logger name		| Assigned level 	| Inherited level
+*-------------------*-------------------*-------------------*
+ root				| Proot				| Proot
+*-------------------*-------------------*-------------------*
+ X					| Px				| Px
+*-------------------*-------------------*-------------------*
+ X.Y				| none				| Px
+*-------------------*-------------------*-------------------*
+ X.Y.Z				| Pxyz				| Pxyz
+*-------------------*-------------------*-------------------*
+Example 3
+
+  In example 3, the loggers root, X and X.Y.Z are assigned the levels Proot, 
+  Px and Pxyz respectively. The logger X.Y inherits its level value from
+  its parent X.
+  
+*-------------------*-------------------*-------------------*
+ Logger name		| Assigned level 	| Inherited level
+*-------------------*-------------------*-------------------*
+ root				| Proot				| Proot
+*-------------------*-------------------*-------------------*
+ X					| Px				| Px
+*-------------------*-------------------*-------------------*
+ X.Y				| none				| Px
+*-------------------*-------------------*-------------------*
+ X.Y.Z				| none				| Px
+*-------------------*-------------------*-------------------*
+Example 4
+
+  In example 4, the loggers root and X and are assigned the levels Proot 
+  and Px respectively. The loggers X.Y and X.Y.Z inherits their level value
+  from their nearest parent X having an assigned level..
+
+  Logging requests are made by invoking one of the printing methods of a logger instance.
+  These printing methods are debug, info, warn, error, fatal and log.
+
+  By definition, the printing method determines the level of a logging request. 
+  For example, if c is a logger instance, then the statement c.info("..")
+  is a logging request of level INFO.
+
+  A logging request is said to be enabled if its level is higher than or equal to
+  the level of its logger. Otherwise, the request is said to be disabled. A logger
+  without an assigned level will inherit one from the hierarchy. 
+  This rule is summarized below.
+
++--
+Basic Selection Rule
+
+A log request of level p in a logger with (either assigned or inherited, 
+whichever is appropriate) level q, is enabled if p >= q.
++--
+
+  This rule is at the heart of log4pho. It assumes that levels are ordered. 
+  For the standard levels, we have:
+  
++--
+   DEBUG < INFO < WARN < ERROR < FATAL.
++--
+  Here is an example of this rule.
+
++--
+   // get a logger instance named "com.foo"
+   $logger = Logger::getLogger("com.foo");
+
+   // Now set its level. Normally you do not need to set the
+   // level of a logger programmatically. This is usually done
+   // in configuration files.
+   $logger->setLevel(LoggerLevel::INFO);
+
+   $barlogger = Logger::getLogger("com.foo.Bar");
+
+   // This request is enabled, because WARN >= INFO.
+   $logger->warn("Low fuel level.");
+
+   // This request is disabled, because DEBUG < INFO.
+   $logger->debug("Starting search for nearest gas station.");
+
+   // The logger instance barlogger, named "com.foo.Bar",
+   // will inherit its level from the logger named
+   // "com.foo" Thus, the following request is enabled
+   // because INFO >= INFO.
+   $barlogger->info("Located nearest gas station.");
+
+   // This request is disabled, because DEBUG < INFO.
+   $barlogger->debug("Exiting gas station search");
++--
+
+  Calling the getLogger method with the same name will always return a 
+  reference to the exact same logger object.
+
+  For example, in
+
++--
+   $x = Logger::getLogger("wombat");
+   $y = Logger::getLogger("wombat");
++--
+
+  x and y refer to exactly the same logger object.
+
+  Thus, it is possible to configure a logger and then to retrieve the same 
+  instance somewhere else in the code without passing around references. 
+  In fundamental contradiction to biological parenthood, where parents 
+  always preceed their children, log4php loggers can be created and 
+  configured in any order. In particular, a "parent" logger will find and 
+  link to its descendants even if it is instantiated after them.
+
+  Configuration of the log4php environment is typically done at application
+  initialization. The preferred way is by reading a configuration file. 
+  This approach will be discussed shortly.
+
+  Log4PHP makes it easy to name loggers by software component. This can be
+  accomplished by statically instantiating a logger in each class, with the
+  logger name equal to the fully qualified name of the class (class namespace with dots). 
+  This is a useful and straightforward method of defining loggers. As the 
+  log output bears the name of the generating logger, this naming strategy makes
+  it easy to identify the origin of a log message. However, this is only one possible, 
+  albeit common, strategy for naming loggers. 
+  Log4PHP does not restrict the possible set of loggers. The developer is free
+  to name the loggers as desired.
+
+  Nevertheless, naming loggers after the class where they are located seems
+  to be the best strategy known so far.
+ 

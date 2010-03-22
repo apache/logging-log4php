@@ -1,0 +1,91 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Performance
+ ------
+ ------
+ ------
+
+Apache Log4php Performance
+
+  This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
+  You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
+
+  One of the often-cited arguments against logging is its computational cost. 
+  This is a legitimate concern as even moderately sized applications can 
+  generate thousands of log requests. While Log4PHP development is has cared
+  about using performant statements. Additionally we have learned from Log4J
+  which has spent much effort in thinking about optimal performance.
+
+  The user should be aware of the following performance issues.
+
+  1. Logging performance when logging is turned off.
+  When logging is turned off entirely or just for a set of levels, 
+  the cost of a log request consists of a method invocation plus an integer
+  comparison. On a 233 MHz Pentium II machine this cost is typically
+  in the 5 to 50 nanosecond range.
+
+  However, The method invocation involves the "hidden" cost of parameter construction.
+
+  For example, for some logger cat, writing,
+
++--
+$logger->debug("Entry number: ".$i." is ".entry[i]);
++--      
+
+  incurs the cost of constructing the message parameter, i.e. converting both integer
+  i and entry[i] to a String, and concatenating intermediate strings, 
+  regardless of whether the message will be logged or not. This cost of parameter
+  construction can be quite high and it depends on the size of the parameters involved.
+
+  To avoid the parameter construction cost write:
+
++--
+if($logger->isDebugEnabled() {
+  $logger->debug("Entry number: ".$i." is ".entry[i]);
+}
++--         
+
+  This will not incur the cost of parameter construction if debugging is disabled. 
+  On the other hand, if the logger is debug-enabled, it will incur twice the cost 
+  of evaluating whether the logger is enabled or not: once in debugEnabled and once in debug. 
+  This is an insignificant overhead because evaluating a logger takes 
+  about 1% of the time it takes to actually log.
+
+  In log4PHP, logging requests are made to instances of the Logger class. 
+  Logger is a class and not an interface. This measurably reduces the cost 
+  of method invocation at the cost of some flexibility.
+
+
+  2. The performance of deciding whether to log or not to log when logging is turned on.
+  This is essentially the performance of walking the logger hierarchy. When logging is turned on,
+  log4PHP still needs to compare the level of the log request with the level of the request logger.
+  However, loggers may not have an assigned level; they can inherit them from the logger hierarchy.
+  Thus, before inheriting a level, the logger may need to search its ancestors.
+
+  There has been a serious effort to make this hierarchy walk to be as fast as possible.
+  For example, child loggers link only to their existing ancestors. In the 
+  examples shown earlier, the logger named com.foo.Bar is linked directly to the root logger,
+  thereby circumventing the nonexistent com or com.foo loggers. This significantly improves
+  the speed of the walk, especially in "sparse" hierarchies.
+
+  The typical cost of walking the hierarchy is typically 3 times slower
+  than when logging is turned off entirely.
+  
+  3. Actually outputting log messages
+  This is the cost of formatting the log output and sending it to its target destination.
+  We have tried to use the best solution available with PHP. Your ideas for improvements are
+  welcome.
+  

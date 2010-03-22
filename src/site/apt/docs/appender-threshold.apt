@@ -1,0 +1,71 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Appender Threshhold
+ ------
+ ------
+ ------
+
+Apache Log4php Appender Threshhold
+
+  A threshold is lets you filter out log events of a specified LoggerLevel on an
+  Appender-Level and on Configuration-Level. This is sometimes an easier option
+  than changing the LoggerLevel of the several components.
+  
+  If you set a threshold, then every LoggerLevel which is greater or equal than 
+  the threshold will be logged. For example, if you set WARN as threshold, then INFO
+  and DEBUG will not be logged, but ERROR and FATAL will.
+  
+* Adding a threshold to Appenders
+  
+  A threshold can be added to an appender in the property file like this:
+  
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutSimple
+log4php.appender.default.threshold = WARN
++--
+
+  In a XML file it looks like this:
+  
++--
+<appender threshold="INFO" name="blub" class="LoggerAppenderEcho">
+	<layout class="LoggerLayoutSimple"/>
+</appender>
++--
+
+* Adding a threshold on Configuration basis
+  
+  If you specify a threshold on configuration basis, it will work for all appenders.
+  A threshold can be added to an appender in the property file like this:
+  
++--
+log4php.threshold = WARN
+log4php.rootLogger = WARN, default, blub
++--
+
+  In a XML file it looks like this:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="WARN">
+    <appender threshold="WARN" name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple"/>
+    </appender>
+    <root>
+        <level value="WARN" />
+        <appender_ref ref="default" />
+    </root>
+</log4php:configuration>
++--

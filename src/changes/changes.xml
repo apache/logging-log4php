@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+-->
+<document 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="http://maven.apache.org/changes/1.0.0">
+  <properties>
+    <title>Apache log4php.</title>
+  </properties>
+  <body>
+  	<release version="2.1" description="Stabilizing">
+  		<action type="update" by="Ivan Habunek">Included new LoggerLayoutPattern tests</action>
+  		<action type="fix" issue="LOG4PHP-103" by="Moritz Schmidt">Exception when using more than one LoggerAppenderFile</action>
+  		<action type="fix" issue="LOG4PHP-102" by="Ivan Habunek">LoggerLayoutPattern fails tests</action>
+  		<action type="update" issue="LOG4PHP-100" by="Moritz Schmidt">Directly assign an array on Logger PHP configuration</action>
+  		<action type="fix" issue="LOG4PHP-91">LoginOptionConverter.php (used wrong constant name)</action>
+  		<action type="update" issue="LOG4PHP-95" by="Ivan Habunek, Christian Grobmeier">Add trace level to Log4PHP</action>
+  		<action type="fix" issue="LOG4PHP-96" by="Tommy Montgomery">Some of the tests don't pass under Windows</action>
+  	</release>
+    <release version="2.0" description="PHP 5 compatibility">
+		<action type="fix" issue="LOG4PHP-3">Maven 2.0 build</action>
+		<action type="fix" issue="LOG4PHP-7">Updated source file headers with current ASF notice</action>
+		<action type="fix">PHP 5 compatibility modification.</action>
+		<action type="fix" issue="LOG4PHP-1" by="Christian Grobmeier">removed all @author tags. All contributors are named (with task) in the changelog file</action>
+        <action type="fix" issue="LOG4PHP-4" by="Michael Aichler">Fatal error for constructor in LoggerAppenderRollingFile</action>
+		<action type="fix" issue="LOG4PHP-5" by="Michael Aichler">LoggerAppenderRollingFile unable to open file and append logs</action>
+		<action type="fix" issue="LOG4PHP-7" by="Curt Arnold">Change copyright notices to conform to the Source Header and Copyright Notice Policy</action>
+		<action type="fix" issue="LOG4PHP-9" by="Christian Grobmeier">log4php.dtd should be reviewed</action>
+		<action type="fix" issue="LOG4PHP-11" by="Hiroaki Kawai">trailing "\n"</action>
+		<action type="fix" issue="LOG4PHP-12" by="Knut Urdalen">LoggerAppenderFile does not create missing directories</action>
+		<action type="fix" issue="LOG4PHP-13" by="Michael Aichler">LoggerPropertyConfigurator: Only variables should be assigned by reference</action>
+		<action type="fix" issue="LOG4PHP-14" by="Michael Aichler">LoggerPropertySetter: warnings about is_a() and non-static method</action>
+		<action type="fix" issue="LOG4PHP-15" by="Michael Aichler">Logger: warnings about is_a()</action>
+		<action type="fix" issue="LOG4PHP-16" by="Gary Richardson">Patch for LoggerAppenderSyslog to use Layouts</action>
+		<action type="fix" issue="LOG4PHP-17" by="Yomei Komiya">%l Pattern layout raises a protected property access error</action>
+		<action type="fix" issue="LOG4PHP-18" by="Yomei Komiya">Date pattern %d conversion is invalid</action>
+		<action type="fix" issue="LOG4PHP-19" by="Yomei Komiya">Logger location info is invalid in log outputs of Logger's subclasses</action>
+		<action type="fix" issue="LOG4PHP-20" by="Corin Lawson">Custom layout for LoggerAppenderPhp</action>
+		<action type="fix" issue="LOG4PHP-22" by="Christian Grobmeier">log4php.dtd invalid</action>
+		<action type="fix" issue="LOG4PHP-23" by="Christian Grobmeier">Mixed PHP4 and PHP5 syntax</action>
+		<action type="fix" issue="LOG4PHP-24" by="Dennis Korbar">LoggerAppenderRollingFile unable to rollover</action>
+		<action type="fix" issue="LOG4PHP-25" by="Christian Hammers, Knut Urdalen">Allow to set environment variables in LoggerOptionConverter</action>
+		<action type="fix" issue="LOG4PHP-28" by="Michael Kuenzli, Knut Urdalen">LoggerAppenderConsole doesn't write to STDERR</action>
+		<action type="fix" issue="LOG4PHP-33" by="Knut Urdalen">Appenders is not properly closed upon destruction</action>
+		<action type="update" issue="LOG4PHP-29" by="Knut Urdalen">Load classes through autoload instead of explicitly include them</action>
+		<action type="update" issue="LOG4PHP-30" by="Christian Grobmeier">Implement LoggerAppenderPDO</action>
+		<action type="update" issue="LOG4PHP-31" by="Knut Urdalen">Removing unnecessary use of LOG4PHP_DIR</action>
+		<action type="update" issue="LOG4PHP-32" by="Knut Urdalen, Christian Grobmeier">Refactor from using define to class contants (Knut Urdalen, Christian Grobmeier)</action>
+		<action type="update" issue="LOG4PHP-34" by="Christian Grobmeier">Remove all internal debugging</action>
+		<action type="update" issue="LOG4PHP-35" by="Knut Urdalen">Replace LOG4PHP_LINE_SEP with PHP_EOL</action>
+		<action type="update" issue="LOG4PHP-37" by="Christian Grobmeier">removed LoggerAppenderDB in favour to LoggerAppenderPDO</action>
+		<action type="update" issue="LOG4PHP-38" by="Knut Urdalen">Replace is_a() with instanceof</action>
+		<action type="update" issue="LOG4PHP-39" by="Knut Urdalen">Remove deprecated methods</action>
+		<action type="update" issue="LOG4PHP-40" by="Christian Grobmeier">Merge LoggerAppender and LoggerAppenderSkeleton</action>
+		<action type="update" issue="LOG4PHP-43" by="Knut Urdalen">Remove size restriction of MDC table in LoggerMDC</action>
+		<action type="update" issue="LOG4PHP-44" by="Knut Urdalen">PEAR package</action>
+		<action type="fix" issue="LOG4PHP-46" by="Christian Hammers">Use PreparedStatement in PDO-Appender</action>
+		<action type="fix" issue="LOG4PHP-47" by="Christian Hammers">PDO Appender now uses quote() due to PreparedStatements</action>
+		<action type="update" issue="LOG4PHP-50" by="Christian Grobmeier">Create more File Appender Tests</action>
+		<action type="update" issue="LOG4PHP-52" by="Christian Grobmeier">Use of custom factorys is discouraged - clean up</action>
+		<action type="update" issue="LOG4PHP-53" by="Christian Grobmeier">Removed references were appropriate</action>
+		<action type="fix" issue="LOG4PHP-54" by="Christian Grobmeier">PHPDoc is wrong due to class movements - clean up</action>
+		<action type="update" issue="LOG4PHP-56" by="Christian Grobmeier">Replace define('LOG4PHP_CONFIGURATION' by static variable</action>
+		<action type="update" issue="LOG4PHP-57" by="Christian Grobmeier">Make use of destructors instead of Logger::shutdown</action>
+        <action type="fix" issue="LOG4PHP-59" by="Christian Grobmeier, Christian Hammers">LoggerAppenderConsole is initialized wrong</action>
+		<action type="update" issue="LOG4PHP-60" by="Christian Hammers">Improved quickstart.apt</action>
+		<action type="update" issue="LOG4PHP-62" by="Christian Hammers">Does not print warning if ini file is corrupt</action>
+		<action type="update" issue="LOG4PHP-63" by="Christian Hammers">PDOAppender should throw LoggerException on database problems</action>
+		<action type="fix" issue="LOG4PHP-64" by="Christian Hammers">Remove deprecated call-by-reference in LoggerLayoutPattern</action>
+		<action type="fix" issue="LOG4PHP-65" by="Christian Grobmeier">Mixing protected and private in Logger and the inheriting LoggerRoot</action>
+		<action type="fix" issue="LOG4PHP-66" by="Christian Hammers">LoggerConfiguratorBasicTest fails in "mvn test" but not in phpunit</action>
+		<action type="fix" issue="LOG4PHP-67" by="Christian Hammers">Refactoring: Use Logger instead of LoggerManager</action>
+		<action type="fix" issue="LOG4PHP-71" by="Christian Grobmeier">Using LoggerAppenderFile logging to the log file in one Apache session blocks every other Apache session that tries to write to the file until the original request has been processed</action>
+		<action type="fix" issue="LOG4PHP-76" by="Dan Hansen">Unable to configure socket appender with attribute useXml = true</action>
+		<action type="fix" issue="LOG4PHP-77" by="Dan Hansen">LoggerReflectionUtils::setter() should be defined as a static method</action>
+		<action type="fix" issue="LOG4PHP-79" by="Christian Hammers">Increased field sizes in AppenderPDO database tables</action>
+     	<action type="fix" issue="LOG4PHP-80" by="Christian Hammers">An exception is now thrown if an unknown property is set via config file</action>
+		<action type="fix" issue="LOG4PHP-81" by="Christian Hammers">Boolean values in .properties files are now correctly parsed</action>
+		<action type="fix" issue="LOG4PHP-82" by="Christian Hammers">Added more examples to the API docs</action>
+		<action type="fix" issue="LOG4PHP-84" by="Christian Hammers">Fixed call of undefined method when using RendererMap</action>
+		<action type="fix" issue="LOG4PHP-86" by="Christian Hammers">LoggerAppenderRollingFile should not fail if the file does not already exist</action>
+		<action type="fix" by="Christian Grobmeier">LoggerXmlConfigurator can now interpret threshold commands at appender level</action>
+		<action type="update" by="Knut Urdalen">Initial port to PHP 5</action>
+		<action type="update" by="Knut Urdalen">Established new unit test suite</action>
+		<action type="update" by="Knut Urdalen">Added a range of examples</action>
+		<action type="update">Created common ReflectionUtils class and moved factory calls to there</action>
+    </release>
+  </body>
+</document>

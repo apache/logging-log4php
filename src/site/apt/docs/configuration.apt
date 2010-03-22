@@ -1,0 +1,224 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Configuration
+ ------
+ ------
+ ------
+
+Apache Log4php Configuration
+
+  This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
+  You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
+
+  Inserting log requests into the application code requires a fair amount of planning and effort.
+  Observation shows that approximately 4 percent of code is dedicated to logging. 
+  Consequently, even moderately sized applications will have thousands of logging 
+  statements embedded within their code. Given their number, it becomes imperative
+  to manage these log statements without the need to modify them manually.
+
+  The Log4PHP environment is fully configurable programmatically. However, it is far more
+  flexible to configure Log4PHP using configuration files. Currently, configuration files 
+  can be written in XML or in properties (key=value) format.
+
+  Let us give a taste of how this is done with the help of an imaginary application MyApp that uses Log4PHP.
+
++--
+ require_once ('log4php/Logger.php');
+ 
+ class MyApp {
+   private $logger;
+
+   public function __construct() {
+        $this->logger = Logger::getLogger('MyApp');
+        $this->logger->debug('Hello!');
+   }
+   
+   public function doSomething() {
+   	 $this->logger->info("Entering application.");
+     $bar = new Bar();
+     $bar->doIt();
+     $this->logger->info("Exiting application.");
+   }
+ }
+
+
+// Set up a simple configuration that logs on the console.
+Logger::configure();
+$myapp = new MyApp();
+$myapp->doSomething();
++--
+
+  MyApp begins by importing related classes. It then defines a logger variable with the name MyApp
+  which happens to be the fully qualified name of the class. Please note, it is not possible in PHP
+  to assign a static member variable on classloading. This is the reason why this example does
+  not look like the corresponding Java example:
+   
++--
+ public class MyApp {
+   static Logger logger = Logger.getLogger(MyApp.class);
++--   
+
+  If you need that statically, you might want to have a static initializer in the class. Let's hope
+  that the PHP team change this sometime.
+
+
+  MyApp uses the Bar class defined in the package com.foo.
+
++--
+class Bar {
+   private $logger;
+
+   public void doIt() {
+     if($logger == null) {
+       $logger = Logger::getLogger('com.foo.Bar');
+     }
+     $logger->debug("Did it again!");
+   }
+}
++--
+
+  The invocation of the Logger::configure method creates
+  a rather simple log4php setup. This method is hardwired to add to the
+  root logger a ConsoleAppender. The output will be formatted using a PatternLayout 
+  set to the pattern "%-4r [%t] %-5p %c %x - %m%n".
+
+  Note that by default, the root logger is assigned to Level.DEBUG.
+
+  The output of MyApp is:
+
++--
+INFO  MyApp  - Entering application.
+DEBUG com.foo.Bar  - Did it again!
+INFO  MyApp  - Exiting application.
++--
+
+
+  As a side note, let me mention that in Log4PHP child loggers link only to their
+  existing ancestors. In particular, the logger named com.foo.Bar is linked directly
+  to the root logger, thereby circumventing the unused com or com.foo loggers.
+  This significantly increases performance and reduces Log4PHP's memory footprint.
+
+  The previous example always outputs the same log information. 
+  Fortunately, it is easy to modify MyApp so that the log output can be controlled
+  at run-time. Here is a slightly modified version.
+
++--
+ require_once ('log4php/Logger.php');
+ 
+ class MyApp {
+   private $logger;
+
+   public function __construct() {
+        $this->logger = Logger::getLogger('MyApp');
+        $this->logger->debug('Hello!');
+   }
+   
+   public function doSomething() {
+   	 $this->logger->info("Entering application.");
+     $bar = new Bar();
+     $bar->doIt();
+     $this->logger->info("Exiting application.");
+   }
+ }
+
+
+// Set up a simple configuration that logs on the console.
+Logger::configure('myconfiguration.properties');
+$myapp = new MyApp();
+$myapp->doSomething();
++--
+
+  This version of MyApp instructs PropertyConfigurator to parse a 
+  configuration file and set up logging accordingly.
+
+  Here is a sample configuration file that results in exactly same output
+  as the previous based example.
+
++--
+# Set root logger level to DEBUG and its only appender to A1.
+log4php.rootLogger=DEBUG, A1
+
+# A1 is set to be a ConsoleAppender.
+log4php.appender.A1=LoggerAppenderConsole
+
+# A1 uses PatternLayout.
+log4php.appender.A1.layout=LoggerLayoutPattern
+log4php.appender.A1.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
++--
+
+  Suppose we are no longer interested in seeing the output of any component 
+  belonging to the com.foo package. The following configuration file 
+  shows one possible way of achieving this.
+
++--
+log4php.rootLogger=DEBUG, A1
+log4php.appender.A1=LoggerAppenderConsole
+log4php.appender.A1.layout=LoggerLayoutPattern
+
+# Print the date in ISO 8601 format
+log4php.appender.A1.layout.ConversionPattern=%d [%t] %-5p %c - %m%n
+
+# Print only messages of level WARN or above in the package com.foo.
+log4php.logger.com.foo=WARN
++--
+
+  The output of MyApp configured with this file is shown below.
+
++--
+2000-09-07 14:07:41,508 [main] INFO  MyApp - Entering application.
+2000-09-07 14:07:41,529 [main] INFO  MyApp - Exiting application.
++--
+
+  As the logger com.foo.Bar does not have an assigned level, it inherits its level
+  from com.foo, which was set to WARN in the configuration file. The log statement
+  from the Bar.doIt method has the level DEBUG, lower than the logger level WARN. 
+  Consequently, doIt() method's log request is suppressed.
+
+  Here is another configuration file that uses multiple appenders.
+
++--
+log4php.rootLogger=debug, stdout, R
+
+log4php.appender.stdout=LoggerAppenderConsole
+log4php.appender.stdout.layout=LoggerLayoutPattern
+
+# Pattern to output the caller's file name and line number.
+log4php.appender.stdout.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n
+
+log4php.appender.R=LoggerAppenderRollingFile
+log4php.appender.R.File=example.log
+
+log4php.appender.R.MaxFileSize=100KB
+# Keep one backup file
+log4php.appender.R.MaxBackupIndex=1
+
+log4php.appender.R.layout=LoggerLayoutPattern
+log4php.appender.R.layout.ConversionPattern=%p %t %c - %m%n
++--
+
+  Calling the enhanced MyApp with the this configuration file will 
+  output the following on the console.
+
++--
+ INFO [main] (MyApp2.php:12) - Entering application.
+DEBUG [main] (Bar.php:8) - Doing it again!
+ INFO [main] (MyApp2.php:15) - Exiting application.
++--
+
+  In addition, as the root logger has been allocated a second appender, 
+  output will also be directed to the example.log file. This file will be rolled
+  over when it reaches 100KB. When roll-over occurs, the old version of example.log
+  is automatically moved to example.log.1.

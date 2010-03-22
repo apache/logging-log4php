@@ -1,0 +1,124 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+ Apache log4php Appender Filter
+ ------
+ ------
+ ------
+
+%{toc|section=1|fromDepth=1|toDepth=2}
+
+Filtering Messages
+
+  Filtering is a mechanism to configure enhanced logging. For example, filter enable you to
+  log debug statements into the one appender and info into the other.
+  Or, if you want to log only certain statements with a defined regex into one specified file,
+  this can also be done with filters.
+  
+  Currently filters are only enabled for the XML configuration.If you need complex features,
+  than you better go with XML instead of property files.
+  
+* Configuring 
+
+  Here is an configuration example:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="WARN">
+    <appender threshold="INFO" name="blub" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple"/>
+        <filter class="LoggerFilterLevelRange">
+			<param name="LevelMin" value="debug" />
+			<param name="LevelMax" value="debug" />
+		</filter>
+		<filter class="LoggerFilterDenyAll" />
+    </appender>
+    <root>
+        <level value="WARN" />
+        <appender_ref ref="blub" />
+    </root>
+</log4php:configuration>
++--
+  
+  This confiuration adds two filters to the appender. One is the LevelRange appender.
+  As you can see, there are more than one filters possible. Log4PHP builds up a so called
+  filter chain. That means, that after the LevelRange filter, the DenyAll-Filter is beeing
+  processed.
+  
+  As the names are suggesting, this configuration would enable logging for the debug level only.
+  All other messages will be denied.
+
+* The filter
+
+** LoggerFilterDenyAll
+  
+  This filters simply denies all logging events.
+  
+** LoggerFilterLevelMatch
+  
+  This filter accepts the specified logger level or denys it.
+  
+*-------------------*-----------------------------------------------------*
+ LevelToMatch		| The level to match
+*-------------------*-----------------------------------------------------*
+ AcceptOnMatch		| If true, the matching log level is accepted, denied otherwise
+*-------------------*-----------------------------------------------------*
+
+  Example:
+  
++--
+<filter class="LoggerFilterLevelMatch">
+	<param name="LevelToMatch" value="debug" />
+	<param name="AcceptOnMatch" value="true" />
+</filter>
++--
+ 
+** LoggerFilterLevelRange
+  
+  
+  This filter logs if the LoggerLevel is within the specified range.
+  
+*-------------------*-----------------------------------------------------*
+ LevelMin			| The minimum level to log
+*-------------------*-----------------------------------------------------*
+ LevelMax			| The maximum level to log
+*-------------------*-----------------------------------------------------*
+
+  Example:
+  
++--
+<filter class="LoggerFilterLevelRange">
+	<param name="LevelMin" value="debug" />
+	<param name="LevelMax" value="debug" />
+</filter>
++--
+ 
+  
+** LoggerFilterStringMatch
+   
+  Logs or denies, if the specified string matches (with the strpos function).
+   
+*-------------------*-----------------------------------------------------*
+ StringToMatch		| The string to match
+*-------------------*-----------------------------------------------------*
+ AcceptOnMatch		| If true, the matching is logged, denied otherwise
+*-------------------*-----------------------------------------------------*
+
+  Example:
+  
+%{snippet|id=doxia|file=src/examples/php/filter_stringmatch.php}
+
+%{snippet|id=doxia|file=src/examples/resources/filter_stringmatch.xml}
+
+
