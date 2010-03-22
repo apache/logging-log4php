@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -31,111 +32,125 @@ class Fruit {
 
 class FruitRenderer implements LoggerRendererObject {
     public function render($o) {
-		return $o->test1.','.$o->test2.','.$o->test3;
-	}
+        return $o->test1 . ',' . $o->test2 . ',' . $o->test3;
+    }
 }
 
 class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
-        
-	protected function setUp() {
-		
-	}
-	
-	protected function tearDown() {
-		Logger::resetConfiguration();
-	}
-        
-	public function testConfigure() {
-		Logger::configure('configurators/test1.properties');
-		$root = Logger::getRootLogger();
-		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
-		$appender = $root->getAppender("default");
-		self::assertTrue($appender instanceof LoggerAppenderEcho);
-		$layout = $appender->getLayout();
-		self::assertTrue($layout instanceof LoggerLayoutSimple);
-		
-		$logger = Logger::getLogger('mylogger');
-		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
-		self::assertFalse($logger->getAdditivity());
-		
-		$logger3 = Logger::getLogger('tracer');
-		self::assertEquals(LoggerLevel::getLevelTrace(), $logger3->getLevel());
-		self::assertFalse($logger3->getAdditivity());
-		
-		$logger2 = Logger::getLogger('mylogger');
-		$logger2->setAdditivity(true);
-		self::assertTrue($logger2->getAdditivity());
-		self::assertTrue($logger->getAdditivity());
-	}
-	
-	public function testConfigureWithRootCategory() {
-		Logger::configure('configurators/test3.properties');
-		$root = Logger::getRootLogger();
-		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
-		$appender = $root->getAppender("default");
-		self::assertTrue($appender instanceof LoggerAppenderEcho);
-		$layout = $appender->getLayout();
-		self::assertTrue($layout instanceof LoggerLayoutSimple);
-	}
-	
-	public function testConfigureWithoutIniFile() {
-	    $catchedException = null;
-	    try {
-	       Logger::configure(null,'LoggerConfiguratorIni');
-	       Logger::initialize();
-	       self::assertTrue(false);
-	    } catch (LoggerException $e) {
-	    	$catchedException = $e;
-	    }
-		self::assertNotNull($catchedException);
-	}
-	
-	public function testConfigureWithEmptyIniFile() {
-		$catchedException = null;
-	    try {
-	       Logger::configure('configurators/test2.properties');
-	       Logger::initialize();
-	       self::assertTrue(false);
-	    } catch (LoggerException $e) {
-	    	$catchedException = $e;
-	    }
-		self::assertNotNull($catchedException);
-	}
-	
-	public function testThreshold() {
-		Logger::configure('configurators/test4.properties');
-		$root = Logger::getRootLogger();
-		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
-		$appender = $root->getAppender("default");
-		self::assertTrue($appender instanceof LoggerAppenderEcho);
-		$layout = $appender->getLayout();
-		self::assertTrue($layout instanceof LoggerLayoutSimple);
-		$threshold = $appender->getThreshold();
-		self::assertTrue($threshold instanceof LoggerLevel);
-		$e = LoggerLevel::getLevelWarn();
-		self::assertEquals($e,$threshold);
-		
-		$appender = $root->getAppender("blub");
-		self::assertTrue($appender instanceof LoggerAppenderEcho);
-		$layout = $appender->getLayout();
-		self::assertTrue($layout instanceof LoggerLayoutSimple);
-		$threshold = $appender->getThreshold();
-		self::assertTrue($threshold instanceof LoggerLevel);
-		$e = LoggerLevel::getLevelInfo();
-		self::assertEquals($e,$threshold);
-		
-		$threshold = Logger::getHierarchy()->getThreshold();
-		self::assertTrue($threshold instanceof LoggerLevel);
-		$e = LoggerLevel::getLevelWarn();
-		self::assertEquals($e,$threshold);
-	}
-	
-	public function testRenderer() {
-		Logger::configure('configurators/test4.properties');
-		Logger::initialize();
-		$hierarchy = Logger::getHierarchy();
-		$map = $hierarchy->getRendererMap();
-		$clazz = $map->getByClassName('Fruit');
-		self::assertTrue($clazz instanceof FruitRenderer);
-	}
+
+    protected function setUp() {
+
+    }
+
+    protected function tearDown() {
+        Logger :: resetConfiguration();
+    }
+
+    public function testConfigure() {
+        Logger :: configure('configurators/test1.properties');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+
+        $logger = Logger :: getLogger('mylogger');
+        self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
+        self :: assertFalse($logger->getAdditivity());
+
+        $logger3 = Logger :: getLogger('tracer');
+        self :: assertEquals(LoggerLevel :: getLevelTrace(), $logger3->getLevel());
+        self :: assertFalse($logger3->getAdditivity());
+
+        $logger2 = Logger :: getLogger('mylogger');
+        $logger2->setAdditivity(true);
+        self :: assertTrue($logger2->getAdditivity());
+        self :: assertTrue($logger->getAdditivity());
+    }
+
+    public function testConfigureWithRootCategory() {
+        Logger :: configure('configurators/test3.properties');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+    }
+
+    public function testConfigureWithoutIniFile() {
+        $catchedException = null;
+        try {
+            Logger :: configure(null, 'LoggerConfiguratorIni');
+            Logger :: initialize();
+            self :: assertTrue(false);
+        } catch (LoggerException $e) {
+            $catchedException = $e;
+        }
+        self :: assertNotNull($catchedException);
+    }
+
+    public function testConfigureWithEmptyIniFile() {
+        $catchedException = null;
+        try {
+            Logger :: configure('configurators/test2.properties');
+            Logger :: initialize();
+            self :: assertTrue(false);
+        } catch (LoggerException $e) {
+            $catchedException = $e;
+        }
+        self :: assertNotNull($catchedException);
+    }
+
+    public function testThreshold() {
+        Logger :: configure('configurators/test4.properties');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        $threshold = $appender->getThreshold();
+        self :: assertTrue($threshold instanceof LoggerLevel);
+        $e = LoggerLevel :: getLevelWarn();
+        self :: assertEquals($e, $threshold);
+
+        $appender = $root->getAppender("blub");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        $threshold = $appender->getThreshold();
+        self :: assertTrue($threshold instanceof LoggerLevel);
+        $e = LoggerLevel :: getLevelInfo();
+        self :: assertEquals($e, $threshold);
+
+        $threshold = Logger :: getHierarchy()->getThreshold();
+        self :: assertTrue($threshold instanceof LoggerLevel);
+        $e = LoggerLevel :: getLevelWarn();
+        self :: assertEquals($e, $threshold);
+    }
+
+    public function testRenderer() {
+        Logger :: configure('configurators/test4.properties');
+        Logger :: initialize();
+        $hierarchy = Logger :: getHierarchy();
+        $map = $hierarchy->getRendererMap();
+        $clazz = $map->getByClassName('Fruit');
+        self :: assertTrue($clazz instanceof FruitRenderer);
+    }
+
+    public function testSeveralLoggers() {
+        Logger :: clear();
+        Logger :: configure('configurators/test5.properties');
+        $l = Logger :: getLogger('test50');
+        $l->warn('muh');
+        $this->assertTrue($l->getAppender('test50') instanceof LoggerAppenderFile);
+        $this->assertTrue($l->getAppender('test50')->getLayout() instanceof LoggerLayoutSimple);
+
+        $l = Logger :: getLogger('test51');
+        $l->warn('mŠh');
+        $this->assertTrue($l->getAppender('test51') instanceof LoggerAppenderFile);
+        $this->assertTrue($l->getAppender('test51')->getLayout() instanceof LoggerLayoutTTCC);
+    }
 }
