@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="update" issue="LOG4PHP-100" by="Moritz Schmidt">Directly assign an array on Logger PHP configuration</action>
   		<action type="fix" issue="LOG4PHP-91">LoginOptionConverter.php (used wrong constant name)</action>
   		<action type="update" issue="LOG4PHP-95" by="Ivan Habunek, Christian Grobmeier">Add trace level to Log4PHP</action>
   		<action type="fix" issue="LOG4PHP-96" by="Tommy Montgomery">Some of the tests don't pass under Windows</action>

@@ -21,8 +21,9 @@
 /**
  * LoggerConfiguratorPhp class
  *
- * This class allows configuration of log4php through an external file that 
- * deliver a PHP array in return.
+ * This class allows configuration of log4php through a PHP array or an external file that
+ * returns a PHP array. If you use the PHP array option, you can simply give an array instead
+ * of an URL parameter.
  *
  * An example for this configurator is:
  *
@@ -43,8 +44,11 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 	}
 	
 	private function doConfigure($url, LoggerHierarchy $hierarchy) {
-		
-		$config = require $url;
+		if (!is_array($url)) {
+ 			$config = require $url;
+ 		} else {
+ 		    $config = $url;
+ 		}
 		
 		// set threshold
 		if(isset($config['threshold'])) {

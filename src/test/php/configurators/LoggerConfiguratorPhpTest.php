@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -24,26 +25,71 @@
  */
 
 class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
-        
-	protected function setUp() {
-		
-	}
-	
-	protected function tearDown() {
-		Logger::resetConfiguration();
-	}
-	
-	public function testConfigure() {
-		Logger::configure(dirname(__FILE__).'/test1.php','LoggerConfiguratorPhp');
-		$root = Logger::getRootLogger();
-		self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
-		$appender = $root->getAppender("default");
-		self::assertTrue($appender instanceof LoggerAppenderEcho);
-		$layout = $appender->getLayout();
-		self::assertTrue($layout instanceof LoggerLayoutSimple);
-		$logger = Logger::getLogger('mylogger');
-		self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
-		$logger = Logger::getLogger('tracer');
-		self::assertEquals(LoggerLevel::getLevelTrace(), $logger->getLevel());
-	}
+
+    protected function setUp() {
+
+    }
+
+    protected function tearDown() {
+        Logger :: resetConfiguration();
+    }
+
+    public function testConfigure() {
+        Logger :: configure(dirname(__FILE__) . '/test1.php', 'LoggerConfiguratorPhp');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        $logger = Logger :: getLogger('mylogger');
+        self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
+        $logger = Logger :: getLogger('tracer');
+        self :: assertEquals(LoggerLevel :: getLevelTrace(), $logger->getLevel());
+    }
+
+    public function testConfigureArray() {
+        Logger :: configure(array (
+            'threshold' => 'ALL',
+            'rootLogger' => array (
+                'level' => 'WARN',
+                'appenders' => array (
+                    'default'
+                ),
+            ),
+            'loggers' => array (
+                'mylogger' => array (
+                    'level' => 'INFO',
+                    'appenders' => array (
+                        'default'
+                    ),
+                ),
+                'tracer' => array (
+                    'level' => 'TRACE',
+                    'appenders' => array (
+                        'default'
+                    ),
+                ),
+            ),
+            'appenders' => array (
+                'default' => array (
+                    'class' => 'LoggerAppenderEcho',
+                    'layout' => array (
+                        'class' => 'LoggerLayoutSimple'
+                    ),
+                ),
+            ),
+            
+        ), 'LoggerConfiguratorPhp');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        $logger = Logger :: getLogger('mylogger');
+        self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
+        $logger = Logger :: getLogger('tracer');
+        self :: assertEquals(LoggerLevel :: getLevelTrace(), $logger->getLevel());
+    }
 }
