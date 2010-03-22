@@ -23,28 +23,74 @@
  * @link       http://logging.apache.org/log4php
  */
 
-// TODO: Should also test complex patterns like: "%d{Y-m-d H:i:s} %-5p %c %X{username}: %m in %F at %L%n"
 class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
-        
+
+	/** Pattern used for testing. */
+	private $pattern = "%d{Y-m-d H:i:s.u} %-5p %c (%C): %m in %F at %L%n";
+	
 	public function testErrorLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 
-		$layout = new LoggerLayoutPattern();
-		$layout->setConversionPattern("%-5p %c %X{username}: %m in %F at %L%n");
-		$v = $layout->format($event);
-		$e = 'ERROR TEST : testmessage in NA at NA'.PHP_EOL;
-
+		$v = $this->formatEvent($event, $this->pattern);
+		$dt = $this->getEventDateTime($event);
+		$e = "$dt ERROR TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
 		self::assertEquals($v, $e);
     }
     
     public function testWarnLayout() {
 		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
 
-		$layout = new LoggerLayoutPattern();
-		$layout->setConversionPattern("%-5p %c %X{username}: %m in %F at %L%n");
-		$v = $layout->format($event);
-		$e = 'WARN  TEST : testmessage in NA at NA'.PHP_EOL;
-		
+		$v = $this->formatEvent($event, $this->pattern);
+		$dt = $this->getEventDateTime($event);
+		$e = "$dt WARN  TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
 		self::assertEquals($v, $e);
     }
+    
+    public function testInfoLayout() {
+		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelInfo(), "testmessage");
+
+		$v = $this->formatEvent($event, $this->pattern);
+		$dt = $this->getEventDateTime($event);
+		$e = "$dt INFO  TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
+		self::assertEquals($v, $e);
+    }
+    
+    public function testDebugLayout() {
+		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
+
+		$v = $this->formatEvent($event, $this->pattern);
+		$dt = $this->getEventDateTime($event);
+		$e = "$dt DEBUG TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
+		self::assertEquals($v, $e);
+    }
+    
+    public function testTraceLayout() {
+		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelTrace(), "testmessage");
+		
+		$v = $this->formatEvent($event, $this->pattern);
+		$dt = $this->getEventDateTime($event);
+		$e = "$dt TRACE TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
+		self::assertEquals($v, $e);
+    }
+    
+    /** 
+     *  Returns the datetime of an event in "Y-m-d H:i:s.u" format. This is required because
+     *  the PHP date() function does not handle the microseconds on windows (returns zeros).  
+     *  
+     *  @see http://www.php.net/manual/en/function.date.php#93752
+     */
+    private function getEventDateTime($event) {
+    	
+		$ts = $event->getTimeStamp();
+		$micros = round(($ts - floor($ts)) * 1000); // microseconds to 3 decimal places
+		$micros = str_pad($micros, 3, '0', STR_PAD_LEFT);
+		return date('Y-m-d H:i:s', $ts).".$micros";
+    }
+    
+	private function formatEvent($event, $pattern) {
+		$layout = new LoggerLayoutPattern();
+		$layout->setConversionPattern($pattern);
+		return $layout->format($event);
+	}
+    
 }

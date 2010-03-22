@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="update" by="Ivan Habunek">Included new LoggerLayoutPattern tests</action>
   		<action type="fix" issue="LOG4PHP-103" by="Moritz Schmidt">Exception when using more than one LoggerAppenderFile</action>
   		<action type="fix" issue="LOG4PHP-102" by="Ivan Habunek">LoggerLayoutPattern fails tests</action>
   		<action type="update" issue="LOG4PHP-100" by="Moritz Schmidt">Directly assign an array on Logger PHP configuration</action>
