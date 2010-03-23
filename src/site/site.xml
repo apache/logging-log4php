@@ -24,16 +24,11 @@
     <src>images/ls-logo.jpg</src>
     <href>http://logging.apache.org/</href>
   </bannerLeft>  
-  <bannerRight>
-    <name>Apache Incubator</name>
-    <src>images/apache-incubator-logo.png</src>
-    <href>http://incubator.apache.org/</href>
-  </bannerRight>
   <body>
         <breadcrumbs>
           <item name="Apache" href="http://www.apache.org/"/>
-          <item name="Incubator" href="http://incubator.apache.org/"/>
-          <item name="log4php" href="http://incubator.apache.org:80/log4php/"/>
+          <item name="Logging" href="http://logging.apache.org"/>
+          <item name="log4php" href="http://logging.apache.org/log4php"/>
         </breadcrumbs>
 
         <menu name="About log4php">

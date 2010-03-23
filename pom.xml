@@ -22,7 +22,7 @@
 	<version>2.0.1-incubating-SNAPSHOT</version>
 	<name>Apache log4php.</name>
 	<description>Logging framework for PHP.</description>
-	<url>http://incubator.apache.org:80/log4php</url>
+	<url>http://logging.apache.org/log4php</url>
 	<issueManagement>
 		<system>JIRA</system>
 		<url>http://issues.apache.org/jira/browse/LOG4PHP</url>
@@ -57,9 +57,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://svn.apache.org/repos/asf/incubator/log4php/trunk</connection>
-		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/log4php/trunk</developerConnection>
-		<url>http://svn.apache.org/viewcvs.cgi/incubator/log4php/trunk</url>
+		<connection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</connection>
+		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</developerConnection>
+		<url>http://svn.apache.org/viewcvs.cgi/logging/log4php/trunk</url>
 	</scm>
 	<organization>
 		<name>Apache Software Foundation</name>

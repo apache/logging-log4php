@@ -34,7 +34,7 @@ Installation from repository
 
   * Make sure you have an SVN client installed on your machine
   
-  * Type: svn co http://svn.apache.org/repos/asf/incubator/log4php/trunk log4php
+  * Type: svn co http://svn.apache.org/viewcvs.cgi/logging/log4php/trunk log4php
   
   * Alternative, use TortoiseSVN or Eclipse and check out the directory above
   
