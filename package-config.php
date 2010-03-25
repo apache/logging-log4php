@@ -87,5 +87,5 @@ $dependency = array();
 $channel = 'pear.php.net';
 $require = array(
 	'php' => '5.2.0',
-	'pear_installer' => '1.8.0',
+	'pear_installer' => '1.7.0',
 );
