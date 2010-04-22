@@ -65,6 +65,12 @@ Apache Log4php Layouts
   2009-09-09 00:27:35,787 [DEBUG] root: Second line (at src/examples/php/layout_pattern.php line 7)
 +--
 
+  Note: you'll need to add a line break to you pattern. This can been done with adding %n to the pattern, like:
+
++--
+  <param name="ConversionPattern" value="%d{d/m/Y H:i:s,u} [%t] [%p] : %m%n" /> 
++--  
+
 ** {LoggerLayoutSimple}
 
   Returns the log statement in a format consisting of the level, followed by " - " and then the message.

@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="update" issue="LOG4PHP-111" by="Ivan Habunek">Documentation: Problem using a custom ConversionPattern</action>
   		<action type="update" issue="LOG4PHP-108" by="Florian Platzer, Christian Grobmeier">Add HTML line break to LoggerAppenderEcho output</action>
   		<action type="update" by="Ivan Habunek">Included new LoggerLayoutPattern tests</action>
   		<action type="fix" issue="LOG4PHP-103" by="Moritz Schmidt">Exception when using more than one LoggerAppenderFile</action>
