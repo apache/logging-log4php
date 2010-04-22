@@ -65,11 +65,11 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 		$v = ob_get_contents();
 		ob_end_clean();
 		
-		$e = 'INFO - this is an info'.PHP_EOL;
-		$e .= 'WARN - this is a warning'.PHP_EOL;
-		$e .= 'ERROR - this is an error'.PHP_EOL;
-		$e .= 'DEBUG - this is a debug message'.PHP_EOL;
-		$e .= 'FATAL - this is a fatal message'.PHP_EOL;
+		$e = 'INFO - this is an info'.PHP_EOL. "<br />";
+		$e .= 'WARN - this is a warning'.PHP_EOL. "<br />";
+		$e .= 'ERROR - this is an error'.PHP_EOL. "<br />";
+		$e .= 'DEBUG - this is a debug message'.PHP_EOL. "<br />";
+		$e .= 'FATAL - this is a fatal message'.PHP_EOL. "<br />";
 		
 		self::assertEquals($v, $e);
 	}

@@ -33,6 +33,23 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		$appender->activateOptions();
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		
+		$expected = "ERROR - testmessage" . PHP_EOL . "<br />";
+		ob_start();
+		$appender->append($event);
+		$actual = ob_get_clean();
+		
+		self::assertEquals($expected, $actual);
+	}
+	
+	public function testEchoNoHtml() {
+		$appender = new LoggerAppenderEcho("myname ");
+		
+		$appender->setHtmlLineBreak(false);
+		$layout = new LoggerLayoutSimple();
+		$appender->setLayout($layout);
+		$appender->activateOptions();
+		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		
 		$expected = "ERROR - testmessage" . PHP_EOL;
 		ob_start();
 		$appender->append($event);

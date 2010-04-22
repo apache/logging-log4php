@@ -153,4 +153,17 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($l->getAppender('test51') instanceof LoggerAppenderFile);
         $this->assertTrue($l->getAppender('test51')->getLayout() instanceof LoggerLayoutTTCC);
     }
+    
+    public function testConfigureNoHtmlBreak() {
+        Logger :: configure('configurators/test6.properties');
+        $root = Logger :: getRootLogger();
+        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $appender = $root->getAppender("default");
+        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        
+        self :: assertFalse($appender->getHtmlLineBreak());
+        
+    }
 }
