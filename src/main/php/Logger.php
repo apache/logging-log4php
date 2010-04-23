@@ -108,7 +108,9 @@ class Logger {
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
+		'LoggerRendererException' => '/renderers/LoggerRendererException.php',
 		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
+		'LoggerThrowableInformation' => '/LoggerThrowableInformation.php',
 		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
 		'LoggerFilter' => '/LoggerFilter.php',
 		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
@@ -280,7 +282,12 @@ class Logger {
 	 * @see LoggerLoggingEvent			
 	 */
 	public function forcedLog($fqcn, $caller, $level, $message) {
-		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message));
+		$throwable = null;
+		if ($caller !== null && $caller instanceof Exception) {
+			$throwable = $caller;							 
+		}
+		
+		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable));
 	} 
 	
 	

@@ -40,13 +40,15 @@ class LoggerLoggingEventTestCaseLayout extends LoggerLayout {
 	}
         
 	public function format(LoggerLoggingEvent $event) {
-		LoggerLoggingEventTest::$locationInfo = $event->getLocationInformation();
+		LoggerLoggingEventTest::$locationInfo  = $event->getLocationInformation();
+        LoggerLoggingEventTest::$throwableInfo = $event->getThrowableInformation();
 	}
 }
 
 class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
         
 	public static $locationInfo;
+    public static $throwableInfo;
 
 	public function testConstructWithLoggerName() {
 		$l = LoggerLevel :: getLevelDebug();
@@ -89,5 +91,43 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($li->getMethodName(), __FUNCTION__);
 
 	}
-
+	
+	public function testGetThrowableInformation1() {
+		$hierarchy = Logger::getHierarchy();
+		$root	   = $hierarchy->getRootLogger();
+		
+		$a = new LoggerLoggingEventTestCaseAppender('A1');
+		$a->setLayout( new LoggerLoggingEventTestCaseLayout() );
+		$root->addAppender($a);
+				
+		$logger = $hierarchy->getLogger('test');
+		$logger->debug('test');
+		$hierarchy->shutdown();
+		
+		$ti = self::$throwableInfo;
+		
+		self::assertEquals($ti, null);				  
+	}
+	
+	public function testGetThrowableInformation2() {
+		$hierarchy = Logger::getHierarchy();
+		$root	   = $hierarchy->getRootLogger();
+		
+		$a = new LoggerLoggingEventTestCaseAppender('A1');
+		$a->setLayout( new LoggerLoggingEventTestCaseLayout() );
+		$root->addAppender($a);
+				
+		$ex		= new Exception('Message1');
+		$logger = $hierarchy->getLogger('test');
+		$logger->debug('test', $ex);
+		$hierarchy->shutdown();
+		
+		$ti = self::$throwableInfo;
+		
+		self::assertTrue($ti instanceof LoggerThrowableInformation);				
+		
+		$expected = array('Message1');
+		$result	   = $ti->getStringRepresentation();
+		self::assertEquals($expected, $result);
+	}
 }
