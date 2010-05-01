@@ -33,9 +33,9 @@
    a. Create a log4php dir under an include_path.
       Copy '{YOUR_PATH}/src/main/php' under an '{an_include_path}/log4php'. 
 
-      Include the LoggerManager class:
+      Include the Logger class:
    
-         require_once('log4php/LoggerManager.php');
+         require_once('log4php/Logger.php');
 
    b. Copy '{YOUR_PATH}/src/main/php' to the dir where you want log4php to  
       reside (ex: {MY_LOG4PHP_PATH}).
