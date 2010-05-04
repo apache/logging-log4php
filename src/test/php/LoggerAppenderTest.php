@@ -40,7 +40,7 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		$appender->doAppend($event);
 		$v = ob_get_contents();
 		ob_end_clean();
-		$e = "FATAL - testmessage" . PHP_EOL. "<br />";
+		$e = "FATAL - testmessage" . PHP_EOL;
 		self::assertEquals($e, $v);
 		
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
@@ -48,7 +48,7 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		$appender->doAppend($event);
 		$v = ob_get_contents();
 		ob_end_clean();
-		$e = "ERROR - testmessage" . PHP_EOL. "<br />";
+		$e = "ERROR - testmessage" . PHP_EOL;
 		self::assertEquals($e, $v);
 		
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
@@ -56,7 +56,7 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		$appender->doAppend($event);
 		$v = ob_get_contents();
 		ob_end_clean();
-		$e = "WARN - testmessage" . PHP_EOL. "<br />";
+		$e = "WARN - testmessage" . PHP_EOL;
 		self::assertEquals($e, $v);
 		
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelInfo(), "testmessage");

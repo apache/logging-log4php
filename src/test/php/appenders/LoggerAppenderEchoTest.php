@@ -22,7 +22,6 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
-
 class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 
 	public function testEcho() {
@@ -33,7 +32,7 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		$appender->activateOptions();
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		
-		$expected = "ERROR - testmessage" . PHP_EOL . "<br />";
+		$expected = "ERROR - testmessage" . PHP_EOL;
 		ob_start();
 		$appender->append($event);
 		$actual = ob_get_clean();
@@ -41,20 +40,31 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($expected, $actual);
 	}
 	
-	public function testEchoNoHtml() {
+	public function testEchoHtml() {
 		$appender = new LoggerAppenderEcho("myname ");
+		$appender->setHtmlLineBreaks(true);
 		
-		$appender->setHtmlLineBreak(false);
 		$layout = new LoggerLayoutSimple();
 		$appender->setLayout($layout);
 		$appender->activateOptions();
+		
+		// Single line message
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		
-		$expected = "ERROR - testmessage" . PHP_EOL;
+		$expected = "ERROR - testmessage<br />" . PHP_EOL;
 		ob_start();
 		$appender->append($event);
 		$actual = ob_get_clean();
+		self::assertEquals($expected, $actual);
 		
+		// Multi-line message
+		$msg = "This message\nis in several lines\r\nto test various line breaks.";
+		$expected = "ERROR - This message<br />\nis in several lines<br />\r\nto test various line breaks.<br />" . PHP_EOL;
+		
+		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), $msg);
+		ob_start();
+		$appender->append($event);
+		$actual = ob_get_clean();
 		self::assertEquals($expected, $actual);
 	}
 
