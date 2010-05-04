@@ -95,9 +95,11 @@
                 	<fileset dir="target/site-deploy" includes="**/*.jnlp"/>
                 </path>
             </foreach>
-      		<fixcrlf srcDir="target/site-deploy" includes="**"/> 
+      		<fixcrlf srcDir="target/site-deploy" includes="**/*.html"/>
+			<fixcrlf srcDir="target/site-deploy" includes="**/*.css"/>
+			<fixcrlf srcDir="target/site-deploy" includes="**/*.js"/>
 		<!--  requires that SVN_EDITOR, VISUAL or EDITOR being set to edit commit description -->
-      <echo>Note:
+      <!--<echo>Note:
 $export SVN_EDITOR=xemacs
 
 or similar must be set so that user is prompted for commit message.</echo>
@@ -107,7 +109,7 @@ or similar must be set so that user is prompted for commit message.</echo>
 			<arg value="-m"/>
 		    <arg value="detailled log message see source svn"/>
 		</exec>
-		
+-->		
 	</target>
 
 </project>
