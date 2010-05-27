@@ -28,14 +28,14 @@ Download apache-log4php
   
   The following artifacts contain the complete sourcecode and API docs. It is recommended for most users:
   
-  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz}apache-log4php-2.0.0-incubating-src.tar.gz}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.asc}ASC}}
+  * {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz}apache-log4php-2.0.0-incubating-src.tar.gz}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.md5}MD5}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.tar.gz.asc}ASC}}
   
-  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip}apache-log4php-2.0.0-incubating-src.zip}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.asc}ASC}}
+  * {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip}apache-log4php-2.0.0-incubating-src.zip}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.md5}MD5}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.asc}ASC}}
 
 
   The following artifact is prepared for a pear channel and is recommended to users who want to make Log4PHP available in their own channels:
   
-  * {{{http://www.apache.org/dyn/closer.cgi/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz}Apache_log4php-2.0.0-incubating-pear.tgz}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.md5}MD5}} {{{http://www.apache.org/dist/incubator/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.asc}ASC}}
+  * {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz}Apache_log4php-2.0.0-incubating-pear.tgz}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.md5}MD5}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.asc}ASC}}
   
 * Please mind the signatures
 
