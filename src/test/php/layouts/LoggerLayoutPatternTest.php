@@ -34,7 +34,7 @@ class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 		$v = $this->formatEvent($event, $this->pattern);
 		$dt = $this->getEventDateTime($event);
 		$e = "$dt ERROR TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
-		self::assertEquals($v, $e);
+		self::assertEquals($e, $v);
     }
     
     public function testWarnLayout() {
@@ -43,7 +43,7 @@ class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 		$v = $this->formatEvent($event, $this->pattern);
 		$dt = $this->getEventDateTime($event);
 		$e = "$dt WARN  TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
-		self::assertEquals($v, $e);
+		self::assertEquals($e, $v);
     }
     
     public function testInfoLayout() {
@@ -52,7 +52,7 @@ class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 		$v = $this->formatEvent($event, $this->pattern);
 		$dt = $this->getEventDateTime($event);
 		$e = "$dt INFO  TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
-		self::assertEquals($v, $e);
+		self::assertEquals($e, $v);
     }
     
     public function testDebugLayout() {
@@ -61,16 +61,27 @@ class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 		$v = $this->formatEvent($event, $this->pattern);
 		$dt = $this->getEventDateTime($event);
 		$e = "$dt DEBUG TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
-		self::assertEquals($v, $e);
+		self::assertEquals($e, $v);
     }
     
     public function testTraceLayout() {
-		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelTrace(), "testmessage");
+		$event = new LoggerLoggingEvent("LoggerLayoutXml2", new Logger("TEST"), LoggerLevel::getLevelTrace(), "testmessage");
 		
 		$v = $this->formatEvent($event, $this->pattern);
 		$dt = $this->getEventDateTime($event);
-		$e = "$dt TRACE TEST (LoggerLayoutXml): testmessage in NA at NA".PHP_EOL;
-		self::assertEquals($v, $e);
+		$e = "$dt TRACE TEST (LoggerLayoutXml2): testmessage in NA at NA".PHP_EOL;
+		self::assertEquals($e, $v);
+    }
+    
+    public function testClassnamePattern() {
+		$event = new LoggerLoggingEvent("LoggerLayoutPatternTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+
+		$v = $this->formatEvent($event, '%C');
+		
+		$dt = $this->getEventDateTime($event);
+		$e = "LoggerLayoutPatternTest";
+	
+		self::assertEquals($e, $v);
     }
     
     /** 

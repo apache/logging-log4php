@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="fix" issue="LOG4PHP-112" by="darja, Christian Grobmeier">Logging ClassName doesn't work</action>
   		<action type="update" issue="LOG4PHP-109" by="Vladimir Gorej">patch for Throwable information associated with logging event</action>
   		<action type="update" issue="LOG4PHP-111" by="Ivan Habunek">Documentation: Problem using a custom ConversionPattern</action>
   		<action type="update" issue="LOG4PHP-108" by="Florian Platzer, Christian Grobmeier, Ivan Habunek">Add HTML line break to LoggerAppenderEcho output</action>

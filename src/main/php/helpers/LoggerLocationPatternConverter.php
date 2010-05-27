@@ -55,6 +55,8 @@ class LoggerLocationPatternConverter extends LoggerPatternConverter {
 				return $locationInfo->getLineNumber();
 			case LoggerPatternParser::FILE_LOCATION_CONVERTER:
 				return $locationInfo->getFileName();
+			case LoggerPatternParser::CLASS_LOCATION_CONVERTER:
+				return $locationInfo->getFullQualifiedClassname();
 			default: 
 				return '';
 		}

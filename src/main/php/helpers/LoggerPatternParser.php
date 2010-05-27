@@ -245,7 +245,7 @@ class LoggerPatternParser {
 				$this->currentLiteral = '';
 				break;
 			case 'C':
-				$pc = new LoggerClassNamePatternConverter($this->formattingInfo, $this->extractPrecisionOption());
+				$pc = new LoggerClassNamePatternConverter($this->formattingInfo, self::CLASS_LOCATION_CONVERTER);
 				$this->currentLiteral = '';
 				break;
 			case 'd':
