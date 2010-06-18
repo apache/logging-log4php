@@ -126,6 +126,7 @@ class LoggerAppenderPDO extends LoggerAppender {
             // test if log table exists
             try {
                 $result = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE 1 = 0');
+                $result->closeCursor(); 
             } catch (PDOException $e) {
                 // It could be something else but a "no such table" is the most likely
                 $result = false;
