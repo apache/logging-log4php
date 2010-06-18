@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="update" issue="LOG4PHP-36" by="Moritz Schmidt">PHP Configurator: set remaining properties to appenders</action>
   		<action type="update" issue="LOG4PHP-110" by="Vladimir Gorej">MongoDB: improved exception handling</action>
   		<action type="fix" issue="LOG4PHP-112" by="darja, Christian Grobmeier">Logging ClassName doesn't work</action>
   		<action type="update" issue="LOG4PHP-109" by="Vladimir Gorej">patch for Throwable information associated with logging event</action>

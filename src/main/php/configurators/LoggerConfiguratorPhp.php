@@ -62,6 +62,9 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 				
 				$appender = LoggerAppenderPool::getAppenderFromPool($appenderName, $appenderProperties['class']);
 				
+				// unset so that the property wont be drawn up again
+				unset($appenderProperties['class']);
+				
 				if($appender->requiresLayout()) {
 					
 					if(isset($appenderProperties['layout'])) {
@@ -83,12 +86,19 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 						
 						$appender->setLayout($layout);
 						
+						// unset so that the property wont be drawn up again
+						unset($appenderProperties['layout']);
 					} else {
 						// TODO: throw exception?
 					}
 					
 				}
-				
+				// set remaining properties and activate appender
+				$setter = new LoggerReflectionUtils($appender);
+				foreach ($appenderProperties as $key => $val) {
+					$setter->setProperty($key, $val);
+ 				}
+				$setter->activate();
 			}
 			
 		}
