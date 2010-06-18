@@ -126,8 +126,7 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 		
 		self::assertTrue($ti instanceof LoggerThrowableInformation);				
 		
-		$expected = array('Message1');
 		$result	   = $ti->getStringRepresentation();
-		self::assertEquals($expected, $result);
+		self::assertType('array', $result);
 	}
 }

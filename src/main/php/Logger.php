@@ -282,10 +282,7 @@ class Logger {
 	 * @see LoggerLoggingEvent			
 	 */
 	public function forcedLog($fqcn, $caller, $level, $message) {
-		$throwable = null;
-		if ($caller !== null && $caller instanceof Exception) {
-			$throwable = $caller;							 
-		}
+		$throwable = ($caller !== null && $caller instanceof Exception) ? $caller : null;
 		
 		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable));
 	} 

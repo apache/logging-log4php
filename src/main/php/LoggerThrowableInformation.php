@@ -38,16 +38,20 @@ class LoggerThrowableInformation {
 	/**
 	 * Create a new instance
 	 * 
-	 * @param $throwable - a throwable either as array or as a exception
+	 * @param $throwable - a throwable as a exception
+	 * @param $logger - Logger reference
 	 */
-	public function __construct($throwable)  {
-		if(is_array($throwable)) {
-		    $this->throwableArray = $throwable;
-		} else if($throwable instanceof Exception) {
-		    $this->throwable = $throwable;
-		} else {
-		    throw new InvalidArgumentException();
-		}
+	public function __construct(Exception $throwable)  {
+		$this->throwable = $throwable;
+	}
+	
+	/**
+	* Return source exception
+	* 
+	* @return Exception
+	*/
+	public function getThrowable() {
+		return $this->throwable;
 	}
 	
 	/**
@@ -56,16 +60,14 @@ class LoggerThrowableInformation {
 	 * @return array 
 	 */
 	public function getStringRepresentation() {
-		if (!is_array($this->throwableArray) && $this->throwable !== null) {
-			$this->throwableArray = array();
-			$ex	= $this->throwable;
-			$this->throwableArray[] = $ex->getMessage();
-			while (method_exists($ex, 'getPrevious')) {
-				$ex	= $ex->getPrevious();
-				if ($ex !== null && $ex instanceof Exception) {
-					$this->throwableArray[] = $ex->getMessage();
-				}
+		if (!is_array($this->throwableArray)) {
+			$renderer = Logger::getHierarchy()->getRendererMap()->getByClassName(get_class($this->throwable));
+			
+			// TODO: why this?
+			if ($renderer instanceof LoggerRendererDefault) {
+				$renderer = new LoggerRendererException();
 			}
+			$this->throwableArray = explode("\n", $renderer->render($this->throwable));
 		}
 		
 		return $this->throwableArray;

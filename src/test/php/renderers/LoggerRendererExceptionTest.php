@@ -34,19 +34,19 @@ class LoggerRendererExceptionTest extends PHPUnit_Framework_TestCase {
         $rendered   = $exRenderer->render($ex3);
         
 		$expected	= 3;        
-		$result		= substr_count($rendered, 'LoggerRendererExceptionTestException: Message');		
+		$result		= substr_count($rendered, 'Throwable(LoggerRendererExceptionTestException): Message');		
 		$this->assertEquals($expected, $result);		
         
         $expected   = 2;        
-        $result     = substr_count($rendered, 'Caused by: LoggerRendererExceptionTestException:');        
+        $result     = substr_count($rendered, 'Caused by: Throwable(LoggerRendererExceptionTestException):');        
         $this->assertEquals($expected, $result);
         
         $expected   = 1;        
-        $result     = substr_count($rendered, 'Caused by: LoggerRendererExceptionTestException: Message2');        
+        $result     = substr_count($rendered, 'Caused by: Throwable(LoggerRendererExceptionTestException): Message2');        
         $this->assertEquals($expected, $result);
 
         $expected   = 1;        
-        $result     = substr_count($rendered, 'Caused by: LoggerRendererExceptionTestException: Message1');        
+        $result     = substr_count($rendered, 'Caused by: Throwable(LoggerRendererExceptionTestException): Message1');        
         $this->assertEquals($expected, $result);                
 	}
 }

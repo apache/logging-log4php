@@ -24,46 +24,22 @@
 
 class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
 	
-	public function testConstructor1() {
-		$rep  = array(
-			'Message1',
-			'Message2',
-			'Message3'
-		);		  
-		$tInfo	  = new LoggerThrowableInformation($rep);
-		
-		$expected = $rep;
-		$result	  = $tInfo->getStringRepresentation();
-		$this->assertEquals($expected, $result);
+	protected static $logger;
+	
+	public static function setUpBeforeClass() {
+		self::$logger = Logger::getLogger('test');
 	}
 	
-	public function testConstructor2() {
-		$ex	   = new LoggerThrowableInformationTestException('Message1');
+	public static function tearDownAfterClass() {
+		self::$logger = null;
+	}
+	
+	public function testConstructor() {
+		$ex = new Exception();
 		$tInfo = new LoggerThrowableInformation($ex);
 		
-		$expected = array('Message1');
 		$result	  = $tInfo->getStringRepresentation();
-		$this->assertEquals($expected, $result);
-	}
-	
-	public function testConstructor3() {
-		$ex		= new LoggerThrowableInformationTestException('Message1');
-		$logger = Logger::getLogger('test');
-		$tInfo	= new LoggerThrowableInformation($ex, $logger);
-		
-		$expected = array('Message1');
-		$result	  = $tInfo->getStringRepresentation();
-		$this->assertEquals($expected, $result);	  
-	}
-	
-	public function testInvalidConstructor() {
-		try {
-			$tInfo = new LoggerThrowableInformation('test');
-		} catch (InvalidArgumentException $ex) {
-			return;
-		}
-		
-		$this->fail('Invalid constructor params should raise Exception');
+		$this->assertType('array', $result);
 	}
 	
 	public function testExceptionChain() {
@@ -72,13 +48,15 @@ class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
 		$ex3 = new LoggerThrowableInformationTestException('Message3', 0, $ex2);
 
 		$tInfo	  = new LoggerThrowableInformation($ex3);
-		$expected = array(
-			'Message3',
-			'Message2',
-			'Message1'
-		);
 		$result	 = $tInfo->getStringRepresentation();
-		$this->assertEquals($expected, $result);
+		$this->assertType('array', $result);
+	}
+	
+	public function testGetThrowable() {
+		$ex = new LoggerThrowableInformationTestException('Message1');		
+		$tInfo = new LoggerThrowableInformation($ex);
+		$result = $tInfo->getThrowable();		
+		$this->assertEquals($ex, $result);
 	}
 }
 

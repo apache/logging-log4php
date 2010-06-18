@@ -28,19 +28,14 @@
 class LoggerRendererException implements LoggerRendererObject {
 
 	public function render($o) {
-		$ex	= $o;
-		$fullTrace = $this->getExceptionAsString($ex);
-		while (method_exists($ex, 'getPrevious')) {
-			$ex	= $ex->getPrevious();
-			if ($ex !== null && $ex instanceof Exception) {
-				$fullTrace .= sprintf('%s%s: %s', PHP_EOL, 'Caused by', $this->getExceptionAsString($ex));
-			}
-		}		
-		return $fullTrace;
-	}
-	
-	protected function getExceptionAsString(Exception $ex) {
-		return sprintf('%s: %s%s%s' ,get_class($ex), $ex->getMessage(), PHP_EOL, $ex->getTraceAsString());		  
+		$strRep  = 'Throwable('.get_class($o).'): '.$o->getMessage().' in '.$o->getFile().' on line '.$o->getLine();
+		$strRep .= PHP_EOL.$o->getTraceAsString();
+		
+		if (method_exists($o, 'getPrevious') && $o->getPrevious() !== null) {
+			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());			
+		}
+		
+		return $strRep;		
 	}
 }
 ?>
