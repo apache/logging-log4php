@@ -88,13 +88,14 @@
 			<name>Christian Hammers</name>
 			<email>chammers at apache.org</email>
 		</developer>
+		<developer>
+			<name>Ivan Habunek</name>
+			<email>ihabunek at apache.org</email>
+		</developer>
 	</developers>
 	<contributors>
 		<contributor>
 			<name>Vladimir Gorej</name>
-		</contributor>
-		<contributor>
-			<name>Ivan Habunek</name>
 		</contributor>
 		<contributor>
 			<name>Moritz Schmidt</name>
