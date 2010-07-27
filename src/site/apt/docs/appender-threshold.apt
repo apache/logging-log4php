@@ -18,7 +18,7 @@
  ------
  ------
 
-Apache Log4php Appender Threshhold
+Apache log4php Appender Threshhold
 
   A threshold is lets you filter out log events of a specified LoggerLevel on an
   Appender-Level and on Configuration-Level. This is sometimes an easier option

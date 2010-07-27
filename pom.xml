@@ -21,8 +21,8 @@
 	<artifactId>apache-log4php</artifactId>
 	<packaging>jar</packaging>
 	<version>2.0.1-incubating-SNAPSHOT</version>
-	<name>Apache log4php.</name>
-	<description>Logging framework for PHP.</description>
+	<name>Apache log4php</name>
+	<description>Logging framework for PHP</description>
 	<url>http://logging.apache.org/log4php</url>
 	<issueManagement>
 		<system>JIRA</system>

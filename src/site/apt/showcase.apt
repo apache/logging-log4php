@@ -13,15 +13,15 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
-Who uses Apache Log4php?
+Who uses Apache log4php?
  ------
  ------
  ------
 
-Who uses Apache Log4php?
+Who uses Apache log4php?
 
   This site shows some of the log4php users. If you think that you should be on this list, please
-  let us know. Send a message to the {{{http://incubator.apache.org/log4php/mail-lists.html}Log4PHP user lists}}.
+  let us know. Send a message to the {{{http://incubator.apache.org/log4php/mail-lists.html}log4php user lists}}.
   
   In alphabetic order:
   
@@ -29,7 +29,7 @@ Who uses Apache Log4php?
   
   * {{{http://sourceforge.net/projects/helpzilla/}Helpzilla}} - interactive solutions for customer care
   
-  * {{{http://www.imento.dk}Imento}} - A danish company which uses Log4PHP in their commercial
+  * {{{http://www.imento.dk}Imento}} - A danish company which uses log4php in their commercial
     MVC framework
   
   * {{{http://www.paloose.org}Paloose}} - a simplified version of Cocoon using PHP

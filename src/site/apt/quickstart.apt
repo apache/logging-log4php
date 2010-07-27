@@ -18,14 +18,14 @@
  ------
  ------
 
-Apache Log4php Quickstart
+Apache log4php Quickstart
 
-  First, please {{{install.html}install Log4PHP}}.
+  First, please {{{install.html}install log4php}}.
 
 
 * Overview
 
-  The log4* framework is quite flexible, e.g. you can have a all log messages of
+  The log4php framework is quite flexible, e.g. you can have a all log messages of
   a certain importance go to one big logfile, all warnings from the database
   classes send via e-mail and all everything, even debug output from some other
   class going to a separate file. The configuration can be done using a standard
@@ -38,7 +38,7 @@ Apache Log4php Quickstart
     Each logger has a name like "main" or "myclass".
     
   * hierarchy - logger names can be separated by dots like "myclass" and "myclass.database"
-    to form some kind of hierarchy. Since Log4PHP uses property inheritance, subpackages of
+    to form some kind of hierarchy. Since log4php uses property inheritance, subpackages of
     "myclass.database" could be configured differently from "myclass" while still inherit
     their ancestors configuration options per default.
   
@@ -83,7 +83,7 @@ Apache Log4php Quickstart
   If you would give one of your loggers a name which hasn't been defined, like
   "main" in the below source, in your config file, the root logger is used.
   Once you have created such a file, you need to define it's location by setting
-  a constant: Log4PHP will look up the configuration file and prepare the
+  a constant: log4php will look up the configuration file and prepare the
   framework for logging.
 
 +--

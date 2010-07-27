@@ -18,7 +18,7 @@
  ------
  ------
 
-Apache Log4php Appenders
+Apache log4php Appenders
 
 %{toc|section=1|fromDepth=1|toDepth=2}
 
@@ -32,8 +32,8 @@ Apache Log4php Appenders
 ** {About Appenders}
 
   The ability to selectively enable or disable logging requests based on their logger
-  is only part of the picture. Log4PHP allows logging requests to print to multiple
-  destinations. In Log4PHP speak, an output destination is called an appender. Currently,
+  is only part of the picture. log4php allows logging requests to print to multiple
+  destinations. In log4php speak, an output destination is called an appender. Currently,
   appenders exist for the console, files, databases and others (see below).
 
   More than one appender can be attached to a logger.

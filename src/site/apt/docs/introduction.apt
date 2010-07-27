@@ -18,14 +18,14 @@
  ------
  ------
 
-Apache Log4php Introduction
+Apache log4php Introduction
 
   This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
   You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
   
 * Loggers, Appenders and Layouts
 
-  Log4j has three main components: loggers, appenders and layouts. 
+  log4php has three main components: loggers, appenders and layouts. 
   These three types of components work together to enable developers to log 
   messages according to message type and level, and to control at runtime 
   how these messages are formatted and where they are reported.
@@ -253,14 +253,14 @@ whichever is appropriate) level q, is enabled if p >= q.
   initialization. The preferred way is by reading a configuration file. 
   This approach will be discussed shortly.
 
-  Log4PHP makes it easy to name loggers by software component. This can be
+  Apache log4php makes it easy to name loggers by software component. This can be
   accomplished by statically instantiating a logger in each class, with the
   logger name equal to the fully qualified name of the class (class namespace with dots). 
   This is a useful and straightforward method of defining loggers. As the 
   log output bears the name of the generating logger, this naming strategy makes
   it easy to identify the origin of a log message. However, this is only one possible, 
   albeit common, strategy for naming loggers. 
-  Log4PHP does not restrict the possible set of loggers. The developer is free
+  log4php does not restrict the possible set of loggers. The developer is free
   to name the loggers as desired.
 
   Nevertheless, naming loggers after the class where they are located seems

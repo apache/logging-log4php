@@ -18,9 +18,9 @@
  ------
  ------
 
-Apache Log4php Renderer
+Apache log4php Renderer
 
-  Log4php can not only log string messages but also objects which will be converted
+  log4php can not only log string messages but also objects which will be converted
   to strings using either the default renderer or a customized render class. 
 
   Example:

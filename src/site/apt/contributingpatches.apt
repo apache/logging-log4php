@@ -74,7 +74,7 @@ Contributing Patches
 
 * Creating A Patch
 
-  The Apache Log4PHP source code repository holds the current source. Currently SVN is beeing used.
+  The Apache log4php source code repository holds the current source. Currently SVN is beeing used.
 
   Please create your patch against the latest revision of the files in the source code 
   repository since this makes the job of applying the patch much easier. 
@@ -95,7 +95,7 @@ Contributing Patches
 
   There are two ways to go to submit a patch:
 
-  * Add the patch as an attachment to a bug report. Log4PHP uses JIRA. Create a new bug
+  * Add the patch as an attachment to a bug report. log4php uses JIRA. Create a new bug
     report if necessary.
     
   * Mail the JIRA issue number to the dev mailing list. The email subject should describe

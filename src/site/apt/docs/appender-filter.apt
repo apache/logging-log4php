@@ -52,7 +52,7 @@ Filtering Messages
 +--
   
   This confiuration adds two filters to the appender. One is the LevelRange appender.
-  As you can see, there are more than one filters possible. Log4PHP builds up a so called
+  As you can see, there are more than one filters possible. log4php builds up a so called
   filter chain. That means, that after the LevelRange filter, the DenyAll-Filter is beeing
   processed.
   

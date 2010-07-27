@@ -18,7 +18,7 @@
  ------
  ------
 
-Apache Log4php Configuration
+Apache log4php Configuration
 
   This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
   You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
@@ -29,11 +29,11 @@ Apache Log4php Configuration
   statements embedded within their code. Given their number, it becomes imperative
   to manage these log statements without the need to modify them manually.
 
-  The Log4PHP environment is fully configurable programmatically. However, it is far more
-  flexible to configure Log4PHP using configuration files. Currently, configuration files 
+  The log4php environment is fully configurable programmatically. However, it is far more
+  flexible to configure log4php using configuration files. Currently, configuration files 
   can be written in XML or in properties (key=value) format.
 
-  Let us give a taste of how this is done with the help of an imaginary application MyApp that uses Log4PHP.
+  Let us give a taste of how this is done with the help of an imaginary application MyApp that uses log4php.
 
 +--
  require_once ('log4php/Logger.php');
@@ -106,10 +106,10 @@ INFO  MyApp  - Exiting application.
 +--
 
 
-  As a side note, let me mention that in Log4PHP child loggers link only to their
+  As a side note, let me mention that in log4php child loggers link only to their
   existing ancestors. In particular, the logger named com.foo.Bar is linked directly
   to the root logger, thereby circumventing the unused com or com.foo loggers.
-  This significantly increases performance and reduces Log4PHP's memory footprint.
+  This significantly increases performance and reduces log4php's memory footprint.
 
   The previous example always outputs the same log information. 
   Fortunately, it is easy to modify MyApp so that the log output can be controlled

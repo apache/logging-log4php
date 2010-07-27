@@ -18,7 +18,7 @@
  ------
  ------
 
-Apache Log4php Usage Example">
+Apache log4php Usage Example">
 
 +--
 <?php 
@@ -41,7 +41,7 @@ define('LOG4PHP_DIR', 'log4php');
 
          Ex: define('LOG4PHP_CONFIGURATOR_CLASS', '/my/path/LoggerMyConfigurator');
 
-          Log4php will try to include '/my/path/LoggerMyConfigurator.php'
+          log4php will try to include '/my/path/LoggerMyConfigurator.php'
           and instantiate a 'LoggerMyConfigurator' class.
 
     2.  If you want to use a configuration file that's not the default,
