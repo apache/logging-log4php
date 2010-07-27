@@ -400,7 +400,7 @@
 					</reportSet>
 				</reportSets>
 				<configuration>
-					<issueLinkTemplate>%URL%/browse/%ISSUE%</issueLinkTemplate>
+					<issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
 				</configuration>
 			</plugin>
 			<plugin>
