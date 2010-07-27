@@ -61,7 +61,7 @@
             <item name="Mailing Lists" href="/mail-lists.html"/>
             <item name="Issue Tracking" href="/issue-tracking.html"/>
             <item name="Wiki" href="http://wiki.apache.org/logging/Log4PHP"/>
-            <item name="Blog" href="http://blogs.apache.org/log4php/"/>
+            <item name="Blog" href="http://blogs.apache.org/logging/"/>
         </menu>
         
         <menu name="Developers">
