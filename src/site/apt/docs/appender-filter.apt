@@ -18,8 +18,6 @@
  ------
  ------
 
-%{toc|section=1|fromDepth=1|toDepth=2}
-
 Filtering Messages
 
   Filtering is a mechanism to configure enhanced logging. For example, filter enable you to
@@ -29,6 +27,8 @@ Filtering Messages
   
   Currently filters are only enabled for the XML configuration.If you need complex features,
   than you better go with XML instead of property files.
+
+%{toc|section=1|fromDepth=1|toDepth=2}
   
 * Configuring 
 
@@ -119,6 +119,19 @@ Filtering Messages
   
 %{snippet|id=doxia|file=src/examples/php/filter_stringmatch.php}
 
-%{snippet|id=doxia|file=src/examples/resources/filter_stringmatch.xml}
-
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="all" debug="false">
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutTTCC"/>
+        <filter class="LoggerFilterStringMatch">
+            <param name="StringToMatch" value="match" />
+            <param name="AcceptOnMatch" value="false" />
+        </filter>
+    </appender>
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="default" />
+    </root>
+</log4php:configuration>
++--
 
