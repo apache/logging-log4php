@@ -283,12 +283,16 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	public function configure(LoggerHierarchy $hierarchy, $url = '') {
 		$properties = @parse_ini_file($url);
-		if ($properties === false || count($properties) == 0) {
+		if ($properties === false) {
 			$error = error_get_last();
-		    throw new LoggerException("LoggerConfiguratorIni: ".$error['message']);
+			throw new LoggerException("LoggerConfiguratorIni: Error parsing configuration file: ".$error['message']);
 		}
+		if  (count($properties) == 0) {
+			trigger_error("LoggerConfiguratorIni: Configuration file is empty.", E_USER_WARNING);
+		}
+		
 		return $this->doConfigureProperties($properties, $hierarchy);
-	}
+	} 
 
 	/**
 	 * Read configuration options from <b>properties</b>.
