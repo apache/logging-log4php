@@ -145,15 +145,11 @@ class LoggerLayoutHtml extends LoggerLayout {
         $level = $event->getLevel();
         
         if ($level->equals(LoggerLevel::getLevelDebug())) {
-          $sbuf .= "<font color=\"#339933\">";
-          $sbuf .= $level->toString();
-          $sbuf .= "</font>";
+          $sbuf .= "<font color=\"#339933\">$level</font>";
         } else if ($level->equals(LoggerLevel::getLevelWarn())) {
-          $sbuf .= "<font color=\"#993300\"><strong>";
-          $sbuf .= $level->toString();
-          $sbuf .= "</strong></font>";
+          $sbuf .= "<font color=\"#993300\"><strong>$level</strong></font>";
         } else {
-          $sbuf .= $level->toString();
+          $sbuf .= $level;
         }
         $sbuf .= "</td>" . PHP_EOL;
     

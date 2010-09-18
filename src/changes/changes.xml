@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="update" by="Ivan Habunek">Added __toString magic method to LoggerLevel.</action>
   		<action type="fix" issue="LOG4PHP-117" by="Maciej Mazur, Ivan Habunek">LoggerConfiguratorIni::configure() and unexptected results from error_get_last()</action>
   		<action type="fix" issue="LOG4PHP-113" by="Ivan Habunek">Milliseconds do not change when using LoggerLayoutPattern</action>
   		<action type="fix" issue="LOG4PHP-115" by="Vaceletm">Instanciate LoggerAppenderPDO by hand throw exception</action>

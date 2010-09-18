@@ -190,7 +190,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
         }
         
         $level = $event->getLevel();
-        $format .= $level->toString().' ';
+        $format .= $level.' ';
         
         if($this->categoryPrefixing) {
             $format .= $event->getLoggerName().' ';

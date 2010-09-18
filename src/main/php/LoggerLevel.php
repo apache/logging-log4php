@@ -213,12 +213,19 @@ class LoggerLevel {
 	}
 
 	/**
-	 * Returns the string representation of this priority.
+	 * Returns the string representation of this level.
 	 * @return string
-	 * @final
 	 */
 	public function toString() {
 		return $this->levelStr;
+	}
+	
+	/**
+	 * Returns the string representation of this level.
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->toString();
 	}
 
 	/**
