@@ -205,6 +205,7 @@ class LoggerHierarchy {
 			$loggers[$i]->removeAllAppenders();
 		}
 		$this->rendererMap->clear();
+		LoggerAppenderPool::clear();
 	}
 	
 	/**

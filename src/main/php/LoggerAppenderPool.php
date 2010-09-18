@@ -26,7 +26,7 @@
  */
 class LoggerAppenderPool {
 	/* Appender Pool */
-	public static $appenderPool =  null;
+	public static $appenderPool =  array();
 	
 	/**
 	 * 
@@ -51,5 +51,10 @@ class LoggerAppenderPool {
 			return self::$appenderPool[$name];
 		}
 		return null;		
+	}
+	
+	public static function clear()
+	{
+		 self::$appenderPool =  array();
 	}
 }
