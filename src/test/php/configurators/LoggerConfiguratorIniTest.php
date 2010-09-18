@@ -91,6 +91,10 @@ class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
         self :: assertNotNull($catchedException);
     }
 
+    /**
+     * @expectedException PHPUnit_Framework_Error 
+     * (needed because configuring with an empty properties file raises an error)
+     */
     public function testConfigureWithEmptyIniFile() {
         $catchedException = null;
         try {
