@@ -259,7 +259,7 @@ class LoggerLoggingEvent {
 	public function getNDC() {
 		if($this->ndcLookupRequired) {
 			$this->ndcLookupRequired = false;
-			$this->ndc = implode(' ', LoggerNDC::get());
+			$this->ndc = LoggerNDC::get();
 		}
 		return $this->ndc;
 	}

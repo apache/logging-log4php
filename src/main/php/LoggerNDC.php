@@ -18,12 +18,6 @@
  * @package log4php
  */
 
-
-/**
- * This is the global repository of NDC stack
- */
-$GLOBALS['log4php.LoggerNDC.ht'] = array();
-
 /**
  * The NDC class implements <i>nested diagnostic contexts</i>.
  * 
@@ -100,7 +94,10 @@ $GLOBALS['log4php.LoggerNDC.ht'] = array();
  * @since 0.3
  */
 class LoggerNDC {
-	const HT_SIZE = 7;
+	
+	/** This is the repository of NDC stack */
+	private static $stack = array();
+	
 	/**
 	 * Clear any nested diagnostic information if any. This method is
 	 * useful in cases where the same thread can be potentially used
@@ -109,10 +106,10 @@ class LoggerNDC {
 	 * <p>This method is equivalent to calling the {@link setMaxDepth()}
 	 * method with a zero <var>maxDepth</var> argument.
 	 *
-	 * @static	
+	 * @static
 	 */
 	public static function clear() {
-		$GLOBALS['log4php.LoggerNDC.ht'] = array();
+		self::$stack = array();
 	}
 
 	/**
@@ -121,10 +118,7 @@ class LoggerNDC {
 	 * @return array
 	 */
 	public static function get() {
-		if(!array_key_exists('log4php.LoggerNDC.ht', $GLOBALS)) {
-			LoggerNDC::clear();
-		}
-		return $GLOBALS['log4php.LoggerNDC.ht'];
+		return implode(' ', self::$stack);
 	}
   
 	/**
@@ -135,7 +129,7 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function getDepth() {
-		return count($GLOBALS['log4php.LoggerNDC.ht']);	  
+		return count(self::$stack);
 	}
 
 	/**
@@ -149,8 +143,8 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function pop() {
-		if(count($GLOBALS['log4php.LoggerNDC.ht']) > 0) {
-			return array_pop($GLOBALS['log4php.LoggerNDC.ht']);
+		if(count(self::$stack) > 0) {
+			return array_pop(self::$stack);
 		} else {
 			return '';
 		}
@@ -166,8 +160,8 @@ class LoggerNDC {
 	 * @static
 	 */
 	public static function peek(){
-		if(count($GLOBALS['log4php.LoggerNDC.ht']) > 0) {
-			return end($GLOBALS['log4php.LoggerNDC.ht']);
+		if(count(self::$stack) > 0) {
+			return end(self::$stack);
 		} else {
 			return '';
 		}
@@ -183,7 +177,7 @@ class LoggerNDC {
 	 * @static	
 	 */
 	public static function push($message) {
-		array_push($GLOBALS['log4php.LoggerNDC.ht'], (string)$message);
+		array_push(self::$stack, (string)$message);
 	}
 
 	/**
@@ -211,11 +205,8 @@ class LoggerNDC {
 	 */
 	public static function setMaxDepth($maxDepth) {
 		$maxDepth = (int)$maxDepth;
-		if($maxDepth <= self::HT_SIZE) {
-			if(LoggerNDC::getDepth() > $maxDepth) {
-				$GLOBALS['log4php.LoggerNDC.ht'] = array_slice($GLOBALS['log4php.LoggerNDC.ht'], $maxDepth);
-			}
+		if(LoggerNDC::getDepth() > $maxDepth) {
+			self::$stack = array_slice(self::$stack, 0, $maxDepth);
 		}
 	}
-
 }
