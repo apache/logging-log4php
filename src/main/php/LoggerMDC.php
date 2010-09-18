@@ -19,11 +19,6 @@
  */
 
 /**
- * This is the global repository of user mappings
- */
-$GLOBALS['log4php.LoggerMDC.ht'] = array();
-
-/**
  * The LoggerMDC class provides <i>mapped diagnostic contexts</i>.
  * 
  * <p>A <i>Mapped Diagnostic Context</i>, or
@@ -55,6 +50,12 @@ $GLOBALS['log4php.LoggerMDC.ht'] = array();
  * @package log4php
  */
 class LoggerMDC {
+	
+	/**
+	 * This is the repository of user mappings
+	 */
+	private static $map = array();
+		
 	/**
 	 * Put a context value as identified with the key parameter into the current thread's
 	 *	context map.
@@ -69,7 +70,7 @@ class LoggerMDC {
 	 * @static
 	 */
 	public static function put($key, $value) {
-		$GLOBALS['log4php.LoggerMDC.ht'][$key] = $value;
+		self::$map[$key] = $value;
 	}
   
 	/**
@@ -81,20 +82,22 @@ class LoggerMDC {
 	 *
 	 * <p>This method has no side effects.</p>
 	 *
-	 * @param string $key
-	 * @return string
+	 * @param string $key the key
+	 * @return string the context or an empty string if no context found
+	 * 	for given key
 	 * @static
 	 */
 	public static function get($key) {
 		if(!empty($key)) {
 			if(strpos($key, 'server.') === 0) {
 				$varName = substr($key, 7);
-				return @$_SERVER[$varName];
+				return isset($_SERVER[$varName]) ? $_SERVER[$varName] : '';
 			} else if(strpos($key, 'env.') === 0) {
 				$varName = substr($key, 4);
-				return @$_ENV[$varName];
-			} else if (isset($GLOBALS['log4php.LoggerMDC.ht'][$key])) {
-				return $GLOBALS['log4php.LoggerMDC.ht'][$key];
+				$value = getenv($varName);
+				return ($value !== false) ? $value : '';
+			} else {
+				return isset(self::$map[$key]) ? self::$map[$key] : '';
 			}
 		}
 		return '';
@@ -103,14 +106,12 @@ class LoggerMDC {
 	/**
 	 * Remove the the context identified by the key parameter. 
 	 *
-	 * It only affects user mappings.
+	 * It only affects user mappings, not $_ENV or $_SERVER.
 	 *
-	 * @param string $key
-	 * @return string
+	 * @param string $key the key to be removed
 	 * @static
 	 */
 	public static function remove($key) {
-		unset($GLOBALS['log4php.LoggerMDC.ht'][$key]);
+		unset(self::$map[$key]);
 	}
-
 }
