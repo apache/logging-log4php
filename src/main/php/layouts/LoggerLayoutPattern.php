@@ -159,7 +159,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 	 */
 	public function __construct($pattern = null) {
 		if ($pattern === null) {
-			$this->pattern = self :: DEFAULT_CONVERSION_PATTERN;
+			$this->setConversionPattern(self::DEFAULT_CONVERSION_PATTERN);
 		} else {
 			$this->pattern = $pattern;
 		}
