@@ -13,19 +13,19 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache log4php
+Volunteering
  ------
  ------
  ------
 
 On Volunteering
 
-  If you want to volunteer and help with developing Log4PHP, you are highly encouraged to read
+  If you want to volunteer and help with developing log4php, you are highly encouraged to read
   {{{http://www.apache.org/foundation/getinvolved.html}Apache getting involved}}. If you have
   questions on that document, we might be able to answer them on the developers mailinglist.
   
   Craig R. McClanahan posted an interesting mail to the Apache Commons mailinglist. I modified
-  the post to fit for Log4PHP:
+  the post to fit for log4php:
 
 
   The best way to contribute is to identify for yourself things that you

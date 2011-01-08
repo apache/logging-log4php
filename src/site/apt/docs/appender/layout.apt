@@ -1,0 +1,307 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Appender Layout
+ ------
+ ------
+ ------
+
+Appender Layout
+
+  More often than not, users wish to customize not only the output destination but also the output format. This is accomplished by associating a layout with an appender. All messages logged by that appender will use the given layout. 
+
+  Layouts are a property of appenders just like filters and threshholds are. Like appenders, layouts themselves can have parameters which determine their behaviour. An example has been provided for each available layout.
+  
+* {Available Layouts}
+
+  The following layouts are included with log4php:
+
+*------------------------------+--------------+
+|| Name                        || Description
+*------------------------------+--------------+
+| {{LoggerLayoutHTML}}         | Outputs events in a HTML table.
+*------------------------------+--------------+
+| {{LoggerLayoutPattern}}      | A flexible layout configurable via a pattern string.
+*------------------------------+--------------+
+| {{LoggerLayoutSimple}}       | A simple, non configurable layout.
+*------------------------------+--------------+
+| {{LoggerLayoutTTCC}}         | Consists of <<T>>ime, <<T>>hread, <<C>>ategory and nested diagnostic <<C>>ontext information
+*------------------------------+--------------+
+| {{LoggerLayoutXml}}          | Formats the message as XML fragment.
+*------------------------------+--------------+
+
+
+** {LoggerLayoutHTML}
+
+  The LoggerLayoutHTML formats the message as HTML table.
+  
+*** Configurable parameters
+
+*-------------------+--------------*----------------------+------------------------+
+|| Parameter        || Required    || Default value       || Description
+*-------------------+--------------*----------------------+------------------------+
+| locationInfo      | No           | false                | If set to true, adds the file name and line number of the statement at the origin of the log statement to the output.
+*-------------------+--------------*----------------------+------------------------+
+| title             | No           | Log4php Log Messages | Sets the \<title\> of the generated HTML document.
+*-------------------+--------------*----------------------+------------------------+
+
+*** Examples
+
+  Configuration via XML file:
+  
++-- 
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutHtml">
+        <param name="locationInfo" value="true" />
+    </layout>
+</appender>
++--
+  
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutHtml
+log4php.appender.default.layout.locationInfo = "true"
++--
+  
+  This configuration will render an HTML document similar to:
+  
++--
+Log session start time Wed Sep 9 00:11:30 2009
+
+Time Thread  Level  Category    File:Line                              Message
+0    8318    INFO   myLogger    /home/ihabunek/log4php/example.php:8   My fitst message.
+1    8318    DEBUG  myLogger    /home/ihabunek/log4php/example.php:9   My second message.
+2    8318    WARN   myLogger    /home/ihabunek/log4php/example.php:10  My third message.
++--
+
+** {LoggerLayoutPattern}
+
+  LoggerLayoutPattern is a flexible layout configurable via a conversion pattern.
+  
+*** Configurable parameters
+
+*-------------------+--------------*----------------------+------------------------+
+|| Parameter        || Required    || Default value       || Description
+*-------------------+--------------*----------------------+------------------------+
+| conversionPattern | No           | %m%n                 | This is the string which controls formatting and consists of a mix of literal content and conversion specifiers. See full specification below.
+*-------------------+--------------*----------------------+------------------------+
+
+*** Conversion pattern
+
+  The conversion pattern is closely related to the conversion pattern of the {{{http://www.cplusplus.com/reference/clibrary/cstdio/printf/}printf}} function in C. It is composed of literal text and format control expressions called conversion specifiers. You are free to insert any literal text within the conversion pattern.
+  
+  Each conversion specifier starts with a percent sign (%) and is followed by optional format modifiers and a conversion character. The recognized conversion specifiers are:
+
+*------------+------------------------------------+
+|| Character || Converts to 
+*------------+------------------------------------+
+| %c         | The category of the logging event.
+*------------+------------------------------------+
+| %C         | The fully qualified class name of the caller issuing the logging request.
+*------------+------------------------------------+
+| %d         | The date of the logging event.
+|            |
+|            | The date conversion specifier may be followed by a date format specifier enclosed between braces. The format specifier follows the PHP {{{http://php.net/manual/en/function.date.php}date}} function. For example: %d\{Y-m-d H:i:s\}
+*------------+------------------------------------+
+| %F         | The file name where the logging request was issued.
+*------------+------------------------------------+
+| %l         | Location information of the caller which generated the logging event.
+*------------+------------------------------------+
+| %L         | The line number from where the logging request was issued.
+*------------+------------------------------------+
+| %m         | The message associated with the logging event.
+*------------+------------------------------------+
+| %n         | A line break. Note that 
+*------------+------------------------------------+
+| %M         | The method or function name where the logging request was issued.
+*------------+------------------------------------+
+| %p         | The priority of the logging event.
+*------------+------------------------------------+
+| %r         | The number of milliseconds elapsed since the start of the application until the creation of the logging event.
+*------------+------------------------------------+
+| %t         | The name of the thread that generated the logging event.
+*------------+------------------------------------+
+| %x         | The NDC (Nested Diagnostic Context) associated with the thread that generated the logging event.
+*------------+------------------------------------+
+| %X         | The MDC (Mapped Diagnostic Context) associated with the thread that generated the logging event.
+*------------+------------------------------------+
+| %%         | A single percent sign.  
+*------------+------------------------------------+
+
+*** Examples
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutPattern">
+        <param name="conversionPattern" value="%d{Y-m-d H:i:s.u} %c %-5p %m%n" />
+    </layout>
+</appender>
++--  
+
+  Configuration via ini file:
+  
++--  
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutPattern
+log4php.appender.default.layout.conversionPattern = "%d{Y-m-d H:i:s.u} %c %-5p %m%n"
++--  
+
+  Example output:
+
++--  
+2011-01-06 16:00:03.582 myLogger INFO  My first message.
+2011-01-06 16:00:03.583 myLogger DEBUG My second message.
+2011-01-06 16:00:03.583 myLogger WARN  My third message.
++--  
+
+
+
+** {LoggerLayoutSimple}
+
+  LoggerLayoutSimple is a basic layout which outputs only the level followed by the message.
+  
+  It is interesting to note that the output of LoggerLayoutSimple is identical to LoggerLayoutPattern with the conversionPattern set to "%p - %m%n".
+  
+  This layout does not have any configurable parameters.
+
+*** Examples
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutSimple" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutSimple
++--
+
+  Sample output:
+
++--
+INFO - My first message.
+DEBUG - My second message.
+WARN - My third message.
++--
+
+** {LoggerLayoutTTCC}
+
+  The TTCC layout format consists of time, thread, category and nested diagnostic context information, hence the name.
+  
+*** Configurable parameters
+
+*---------------------+--------------*-------------------+------------------------+
+|| Parameter          || Required    || Default value    || Description
+*---------------------+--------------*-------------------+------------------------+
+| threadPrinting      | No           | true              | If set to true, the thread ID will be included in output.
+*---------------------+--------------*-------------------+------------------------+
+| categoryPrefixing   | No           | true              | If set to true, the category will be included in output.
+*---------------------+--------------*-------------------+------------------------+
+| contextPrinting     | No           | true              | If set to true, the nested diagnostic will be included in output.
+*---------------------+--------------*-------------------+------------------------+
+| microSecondsPrinting| No           | true              | If set to true, the microseconds will be included in output.
+*---------------------+--------------*-------------------+------------------------+
+| dateFromat          | No           | %c                | Overrides the date format, using the format used in PHP {{{http://php.net/manual/en/function.strftime.php}strftime}} function.
+*---------------------+--------------*-------------------+------------------------+
+
+*** Examples
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutTTCC" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutTTCC
++--
+
+  Sample output:
+
++--
+01/06/11 16:45:33,512 [4596] INFO myLogger - My first message.
+01/06/11 16:45:33,513 [4596] DEBUG myLogger - My second message.
+01/06/11 16:45:33,513 [4596] WARN myLogger - My third message.
++--
+
+
+** {LoggerLayoutXml}
+
+  The LoggerLayoutXml formats the message as a XML fragment.
+  
+  
+*** Configurable parameters
+
+*---------------------+--------------*-------------------+------------------------+
+|| Parameter          || Required    || Default value    || Description
+*---------------------+--------------*-------------------+------------------------+
+| locationInfo        | No           | true              | If set to true then the file name and line number of the origin of the log statement will be included in output.
+*---------------------+--------------*-------------------+------------------------+
+
+*** Examples
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutXml" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutXml
++--
+
+  Sample output:
+
++--
+<log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
+    <log4php:event logger="myLogger" level="INFO" thread="5032" timestamp="1294329322043">
+        <log4php:message><![CDATA[My first message.]]></log4php:message>
+        <log4php:NDC><![CDATA[foo]]></log4php:NDC>
+        <log4php:locationInfo class="main" file="/home/ihabunek/log4php/example.php" line="12" method="main" />
+    </log4php:event>
+
+    <log4php:event logger="myLogger" level="DEBUG" thread="5032" timestamp="1294329322044">
+        <log4php:message><![CDATA[My second message.]]></log4php:message>
+        <log4php:NDC><![CDATA[foo bar]]></log4php:NDC>
+        <log4php:locationInfo class="main" file="/home/ihabunek/log4php/example.php" line="14" method="main" />
+    </log4php:event>
+
+    <log4php:event logger="myLogger" level="WARN" thread="5032" timestamp="1294329322044">
+        <log4php:message><![CDATA[My third message.]]></log4php:message>
+        <log4php:NDC><![CDATA[foo bar baz]]></log4php:NDC>
+        <log4php:locationInfo class="main" file="/home/ihabunek/log4php/example.php" line="16" method="main" />
+    </log4php:event>
+
+</log4php:eventSet>
++--

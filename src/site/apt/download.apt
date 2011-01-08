@@ -13,12 +13,12 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
-Download apache-log4php
+Download
  ------
  ------
  ------
 
-Download apache-log4php
+Download log4php
 
   Apache log4php is distributed under the {{{http://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
 
@@ -33,7 +33,7 @@ Download apache-log4php
   * {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip}apache-log4php-2.0.0-incubating-src.zip}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.md5}MD5}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/apache-log4php-2.0.0-incubating-src.zip.asc}ASC}}
 
 
-  The following artifact is prepared for a pear channel and is recommended to users who want to make Log4PHP available in their own channels:
+  The following artifact is prepared for a pear channel and is recommended to users who want to make log4php available in their own channels:
   
   * {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz}Apache_log4php-2.0.0-incubating-pear.tgz}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.md5}MD5}} {{{http://www.apache.org/dist/logging/log4php/2.0.0/Apache_log4php-2.0.0-incubating-pear.tgz.asc}ASC}}
   

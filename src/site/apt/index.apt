@@ -13,11 +13,13 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache log4php
+What is it?
  ------
  ------
  ------
 
+What is Apache log4php?
+ 
    Apache log4php is a logging framework for PHP at the Apache Software Foundation (ASF), 
    sponsored by the Apache Logging Services project. 
   

@@ -1,0 +1,219 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Loggers
+ ------
+ ------
+ ------
+
+Loggers
+
+  A logger is a component which will take your logging request and log it. Each class in a project can have an individual logger, or they can all use a common logger. Loggers are named entities; it is common to name them after the class which will use it for logging.
+  
+  Creating a logger is done by calling the static getLogger() method on the Logger object and providing the name of the logger. For example, to create a logger named <foo>:
+  
++--
+$logger = Logger::getLogger('foo');
++--  
+  
+  Logging requests are made by invoking one of the printing methods of a logger instance. These logging methods are: trace, debug, info, warn, error and fatal. The printing method determines the level of a logging request. For example, calling the method info() creates a logging request of level INFO. For example:
+
++--  
+$logger->info("This is the message to be logged.");
++--  
+  
+  Loggers by themselves do not define where these messages will be logged. For that you need to assign one or more {{{appender/appender.html}appenders}} to the logger.
+  
+* {Logger threshold}
+
+  A logger can be assigned a threshold level. All logging requests with level lower than this threshold will be ignored.
+  
+  For example, setting logger threshold to INFO means that logging requests with levels TRACE and DEBUG will not be logged by this logger.
+
+  By default loggers do not have a threshold set, which means they will log all events, regardless of the level.
+  
+  
+* Configuring loggers
+
+  Loggers can be individually configured in the configuration file. 
+  
+  The simplest example is to configure the root logger, since all other loggers will inherit its settings, as explained in the {{{loggers.html#Logger_hierarchy}next section}}.
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderConsole" />
+    <root>
+        <level value="debug" />
+        <appender_ref ref="default" />
+    </root>
+</log4php:configuration>
++--
+
+  This configuration adds the <default> appender to the root logger, and sets it's {{{loggers.html#Logger_threshold}threshold level}} to DEBUG.
+
+  It is also possible to configure individual named loggers. For example, let's configure the <foo> logger, used in the example above, and set it's threshold to WARN:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderConsole" />
+    <logger name="foo">
+        <level value="warn" />
+        <appender_ref ref="default" />
+    </logger>
+</log4php:configuration>
++--
+  
+* {Logger hierarchy}
+
+  Loggers follow a parent-child relationship pattern which is implemented by using a naming pattern. A logger is said to be an <ancestor> of another logger if its name followed by a dot is a prefix of the <descendant> logger name. A logger is said to be a <parent> of a <child> logger if there are no ancestors between itself and the descendant logger.
+  
+  For example, the logger named "foo" is a parent of the logger named "foo.bar". Similarly, "org" is a parent of "org.apache" and an ancestor of "org.apache.logging". This naming scheme should be familiar to most developers.
+  
+  The root logger resides at the top of the logger hierarchy. It is exceptional in two ways:
+
+  [[1]] it always exists,
+  
+  [[2]] it cannot be retrieved by name.
+  
+  []
+  
+  Invoking the class static Logger::getRootLogger() method retrieves the root logger. All other loggers are instantiated and retrieved with the Logger::getLogger($name) method. This method takes the name of the desired logger as a parameter.
+  
+* {Logger inheritance}
+  
+  The threshold level and appenders are inherited from the parent to the child loggers.
+  
+  For example examine the following configuration:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderConsole" />
+    <root>
+        <level value="debug" />
+        <appender_ref ref="default" />
+    </root>
+</log4php:configuration>
++--
+  
+  The threshold level of the root logger is set to debug. Also, the root logger is linked to a console appender. Any named logger that is created will inherit these root settings.
+  
++--
+$main = Logger::getLogger('main');
+$main->trace('This will not be logged.');
+$main->info('This will be logged.');
++--
+
+  A logger named <main> is created. Since there is no logger-specific configuration, it will inherit all of it's settings from the root logger: a console appender, and threshold set to DEBUG. Therefore, this code will produce the following output:
+  
++--
+INFO - This will be logged.
++--
+
+** Appender additivity
+
+  Appender additivity is a property of loggers to inherit their parent's appenders. By default all loggers have appender additivity enabled.
+  
+  Let's take the following example:
+
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="A1" class="LoggerAppenderConsole" />
+    <appender name="A2" class="LoggerAppenderConsole" />
+    <root>
+        <appender_ref ref="A1" />
+    </root>
+    <logger name="foo"> 
+        <appender_ref ref="A2" />
+    </logger>
+</log4php:configuration>
++--
+  
+  Since additivity is enabled by default, the logger <foo> will have two linked appenders: A1 which it will inherit from the root logger, and A2 which is defined for it specifically.
+  
+  Therefore, by executing the following code:
+  
++--
+$main = Logger::getLogger('foo');
+$main->info('This will be logged twice.');
++--
+
+  The message will be logged twice - once by A1 and once by A2, producing:
+
++--
+INFO - This will be logged twice.
+INFO - This will be logged twice.
++--
+  
+*** Disabling appender additivity
+  
+  Logger's appender additivity can also be disabled if needed.
+  
+  If we had configured the <foo> logger like this:
+  
++--
+<logger name="foo" additivity="false"> 
+    <appender_ref ref="A2" />
+</logger>
++--
+
+  Then the logger would not have inherited the A1 appender from the root logger, and the message would have been logged only once.
+
+    
+** {A more complex example}
+  
+  In this example we will look at multiple loggers making a hierarchy.
+  
+  Not to make the example too complex, all appenders will log to the console. Of course, this doesn't always have to be the case.
+
+  Let's take the following configuration file:
+  
++--
+<?xml version="1.0" encoding="UTF-8"?>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="A1" class="LoggerAppenderConsole" />
+    <appender name="A2" class="LoggerAppenderConsole" />
+    <appender name="A3" class="LoggerAppenderConsole" />
+    <appender name="A4" class="LoggerAppenderConsole" />
+
+    <root>
+        <appender_ref ref="A1" />
+    </root>
+    <logger name="foo">
+        <appender_ref ref="A2" />
+        <appender_ref ref="A3" />
+    </logger>
+    <logger name="foo.bar" />
+    <logger name="foo.bar.baz" additivity="false">
+        <appender_ref ref="A4" />
+    </logger>
+</log4php:configuration>
++--
+  
+  The table below shows how the configuration is interpreted, and which appenders are inherited:
+
+*----------------+------------+--------------*-----------------+------------+
+|| Logger Name   || Added     || Additivity  || Output         || Comment   |
+||               || Appenders || Flag        || Targets        ||           |
+*----------------+------------+--------------*-----------------+------------+
+| root           | A1         | N/A          | A1              | One appender, named A1, is added to root logger. Any logging requests to root logger will be forwarded only to that one appender.
+*----------------+------------+--------------*-----------------+------------+
+| foo            | A2, A3     | true         | A1, A2, A3      | A logger named <foo> is created and two appenders, named A2 and A3, are added to it. Additionally, because of logger additivity, <foo> inherits the appender A1 from the root logger which is it's parent in the logger hierarchy. Therefore logging requests to this logger will be forwarded to appenders A1, A2 and A3.
+*----------------+------------+--------------*-----------------+------------+
+| foo.bar        | none       | true         | A1, A2, A3      | A logger named <foo.bar> is created. Because it's name starts with <foo.>, it will be created as a child of the <foo> logger. No appenders are added to <foo.bar> but it will inherit it's ancestor's appenders: appenders A2 and A3 from <foo> and A1 from <root>. Logging requests to this logger will be forwarded to appenders A1, A2 and A3.
+*----------------+------------+--------------*-----------------+------------+
+| foo.bar.baz    | A4         | false        | A4              | Finally, logger <foo.bar.baz> is created, and because of it's name it is created as child to <foo.bar>. One appender, A4 is added to it. However, since it's additivity flag is set to false, it will not inherit any appenders from it's ancestors. Logging requests to this logger will be forwarded only to appender A4.
+*----------------+------------+--------------*-----------------+------------+
+
+

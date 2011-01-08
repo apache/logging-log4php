@@ -13,12 +13,12 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache log4php Appender Threshhold
+Appender Threshold
  ------
  ------
  ------
 
-Apache log4php Appender Threshhold
+Appender Threshold
 
   A threshold is lets you filter out log events of a specified LoggerLevel on an
   Appender-Level and on Configuration-Level. This is sometimes an easier option

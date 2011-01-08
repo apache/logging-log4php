@@ -1,0 +1,170 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Appender Filters
+ ------
+ ------
+ ------
+
+Appender Filters
+
+  Filtering is a mechanism which allows the user to configure more precisely which logging events will be logged by an appender, and which will be ignored. Logging events can be filtered based on the level of the logging request, or the message itself.
+  
+  Multiple filters can be defined on any appender; they will form a filter chain. When a logging event is passed onto an appender, the event will first pass through the filter chain. Each filter in the chain will examine the logging event and make a decision to:
+  
+  [[a]] <<ACCEPT>> the logging event - The event will be logged without consulting the remaining filters in the chain.
+  
+  [[b]] <<DENY>> the logging event - The event will be not logged without consulting the remaining filters in the chain.
+  
+  [[c]] Remain <<NEUTRAL>> - No decision is made, therefore the next filter in the chain is consulted. If there are no remaining filters in the chain, the event is logged.
+  
+  []
+  
+* Configuring 
+
+  Currently filters are only configurable in the XML configuration. 
+  
+  Like appenders and layouts, depending on the class used, filters may have configurable parameters which determine their behaviour.
+  
+  Here is a configuration example:
+  
++--
+<?xml version="1.0" encoding="UTF-8"?>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    
+    <appender name="defualt" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple"/>
+
+        <filter class="LoggerFilterStringMatch">
+            <param name="stringToMatch" value="interesting" />
+            <param name="acceptOnMatch" value="true" />
+        </filter>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="debug" />
+            <param name="levelMax" value="error" />
+        </filter>
+</appender>
+    
+    <root>
+        <level value="TRACE" />
+        <appender_ref ref="defualt" />
+    </root>
+</log4php:configuration>
++--
+  
+  In this example, there are two filters defined for the <default> appender.
+  
+  The first filter (LoggerFilterStringMatch) searches for the string "interesting" in the logging event's message. If the string is found, the filter will ACCEPT the logging event, and the event will be logged. If the string is not found, the filter will remain NEUTRAL, and the event will be passed on to the next filter.
+  
+  The second filter (LoggerFilterLevelRange) ACCEPTS all events which have a level between DEBUG and ERROR (in other words, levels DEBUG, INFO, WARN and ERROR).  It DENIES all other events.
+  
+  Therefore, this filter configuration will log events which which have a level between DEBUG and ERROR, except of theose which have the string "interesting" in the message. Those will be logged regardless of their level. 
+
+
+* Filter reference
+
+  The following filters are available in log4php:
+
+*-----------------------------+---------------------------------------+
+|| Name                       || Description
+*-----------------------------+---------------------------------------+
+| {{LoggerFilterDenyAll}}     | Denies all logging events.
+*-----------------------------+---------------------------------------+
+| {{LoggerFilterLevelMatch}}  | Filters based on logging event level.
+*-----------------------------+---------------------------------------+
+| {{LoggerFilterLevelRange}}  | Filters based on logging event level range.
+*-----------------------------+---------------------------------------+
+| {{LoggerFilterStringMatch}} | Filters by searching for a string in the logging event message.
+*-----------------------------+---------------------------------------+
+
+** {LoggerFilterDenyAll}
+  
+  This filters simply denies all logging events. It has no configurable parameters.
+  
+** {LoggerFilterLevelMatch}
+  
+  This filter accepts the specified logger level or denys it.
+
+*** Configurable parameters
+ 
+*---------------------+--------------*----------------+------------------------+
+|| Parameter          || Required    || Default value || Description
+*---------------------+--------------*----------------+------------------------+
+| levelToMatch        | <<Yes>>      | -              | The level to match
+*---------------------+--------------*----------------+------------------------+
+| acceptOnMatch       | No           | true           | If true, the matching log level is accepted, denied otherwise
+*---------------------+--------------*----------------+------------------------+
+
+*** Example
+  
++--
+<filter class="LoggerFilterLevelMatch">
+    <param name="levelToMatch" value="debug" />
+    <param name="acceptOnMatch" value="false" />
+</filter>
++--
+ 
+** {LoggerFilterLevelRange}
+  
+  This filter accepts or denies logging events if their log level is within the specified range.
+
+*** Configurable parameters
+  
+*---------------------+--------------*----------------+------------------------+
+|| Parameter          || Required    || Default value || Description
+*---------------------+--------------*----------------+------------------------+
+| levelMin            | No           | -              | The minimum level to log. If set, levels lower than this will be denied.
+*---------------------+--------------*----------------+------------------------+
+| levelMax            | No           | -              | The maximum level to log. If set, levels higher than this will be denied.
+*---------------------+--------------*----------------+------------------------+
+| acceptOnMatch       | No           | true           | If true, the matching log level is accepted, denied otherwise.
+*---------------------+--------------*----------------+------------------------+
+  
+*** Example
+  
++--
+<filter class="LoggerFilterLevelRange">
+    <param name="levelMax" value="warn" />
+    <param name="acceptOnMatch" value="false" />
+</filter>
++--
+
+  This configuration denies levels greater than WARN.
+ 
+  
+** {LoggerFilterStringMatch}
+   
+  This filter allows or denies logging events if their message contains a given string.
+
+*** Configurable parameters
+
+*---------------------+--------------*----------------+------------------------+
+|| Parameter          || Required    || Default value || Description
+*---------------------+--------------*----------------+------------------------+
+| stringToMatch       | <<Yes>>      | -              | The string to match.
+*---------------------+--------------*----------------+------------------------+
+| acceptOnMatch       | No           | true           | If set to true, the matching events are accepted, denied otherwise.
+*---------------------+--------------*----------------+------------------------+
+
+*** Example
+  
++--
+<filter class="LoggerFilterStringMatch">
+    <param name="StringToMatch" value="not-interesting" />
+    <param name="AcceptOnMatch" value="false" />
+</filter>
++--
+
+  This configuration will deny all events which contain the string "not-interesing" in their message.

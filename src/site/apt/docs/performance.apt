@@ -13,12 +13,12 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
- Apache log4php Performance
+Performance
  ------
  ------
  ------
 
-Apache log4php Performance
+Performance
 
   This text is based upon the Log4J manual written by Ceki Gülcü in March 2002. 
   You can find the original here: http://logging.apache.org/log4j/1.2/manual.html
