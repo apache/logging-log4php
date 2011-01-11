@@ -65,7 +65,7 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetStartTime() {
 		$time = LoggerLoggingEvent :: getStartTime();
-		self::assertType('float', $time);
+		self::assertInternalType('float', $time);
 		$time2 = LoggerLoggingEvent :: getStartTime();
 		self::assertEquals($time, $time2);
 	}
@@ -127,6 +127,6 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue($ti instanceof LoggerThrowableInformation);				
 		
 		$result	   = $ti->getStringRepresentation();
-		self::assertType('array', $result);
+		self::assertInternalType('array', $result);
 	}
 }

@@ -39,7 +39,7 @@ class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
 		$tInfo = new LoggerThrowableInformation($ex);
 		
 		$result	  = $tInfo->getStringRepresentation();
-		$this->assertType('array', $result);
+		$this->assertInternalType('array', $result);
 	}
 	
 	public function testExceptionChain() {
@@ -49,7 +49,7 @@ class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
 
 		$tInfo	  = new LoggerThrowableInformation($ex3);
 		$result	 = $tInfo->getStringRepresentation();
-		$this->assertType('array', $result);
+		$this->assertInternalType('array', $result);
 	}
 	
 	public function testGetThrowable() {

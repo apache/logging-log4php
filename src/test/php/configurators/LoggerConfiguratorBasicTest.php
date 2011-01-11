@@ -35,9 +35,9 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 	public function testConfigure() {
 		$root = Logger::getRootLogger();
 		$appender = $root->getAppender('A1');
-		self::assertType('LoggerAppenderConsole', $appender);
+		self::assertInstanceOf('LoggerAppenderConsole', $appender);
 		$layout = $appender->getLayout();
-		self::assertType('LoggerLayoutTTCC', $layout);
+		self::assertInstanceOf('LoggerLayoutTTCC', $layout);
 		
 		$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
     									new Logger('mycategory'), 
@@ -56,9 +56,9 @@ class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
 	public function testResetConfiguration() {
 		$root = Logger::getRootLogger();
 		$appender = $root->getAppender('A1');
-		self::assertType('LoggerAppenderConsole', $appender);
+		self::assertInstanceOf('LoggerAppenderConsole', $appender);
 		$layout = $appender->getLayout();
-		self::assertType('LoggerLayoutTTCC', $layout);
+		self::assertInstanceOf('LoggerLayoutTTCC', $layout);
 		
 		// As PHPUnit runs all tests in one run, there might be some loggers left over
 		// from previous runs. ResetConfiguration() only clears the appenders, it does
