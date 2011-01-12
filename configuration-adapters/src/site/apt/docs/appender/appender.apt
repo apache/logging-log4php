@@ -1,0 +1,819 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Appenders
+ ------
+ ------
+ ------
+
+Appenders
+
+  Logging requests can be sent to multiple destinations, such as files, databases, syslog and others. Such destinations are called appenders. Appenders are attached to {{{../loggers.html}loggers}} and each logger can have one or more attached appenders.
+  
+* Configuring appenders
+
+  An appender can be configured in the configuration file. The following example shows how to configure an appender which logs to a file:
+  
++--
+<appender name="myAppender" class="LoggerAppenderFile">
+    <layout class="LoggerLayoutSimple" />
+    <param name="file" value="/var/log/my.log" />
+    <param name="append" value="true" />
+</appender>
++--  
+
+  From this configuration you can see that an appender has the following settings:
+
+  * A <<name>> which uniquely identifies it, in this case <myAppender>.
+  
+  * A <<class>> which specifies which appender class will be used to handle the requests. Since we wish to log to a file, <LoggerAppenderFile> is used in this case.
+  
+  * Most appenders have an associated {{{layout.html}layout}}, which governs how the message is formatted.
+  
+  * An appender can have zero or more <<parameters>> which configure it's behaviour. In our example, the <file> parameter governs the path to the file which will be used for logging, and <append> defines that log messages should be appended to the file, instead of truncating it.
+  
+  []
+  
+  The same configuration via an ini file:
+  
++--
+log4php.appender.myAppender = LoggerAppenderFile
+log4php.appender.myAppender.layout = LoggerLayoutSimple
+log4php.appender.myAppender.file = /var/log/my.log
+log4php.appender.myAppender.append = true
++--
+
+* Linking appenders to loggers
+
+  Appenders are linked to loggers in the configuration file. 
+  
+  Example XML configuration:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="primus" class="LoggerAppenderConsole" />
+    <appender name="secundus" class="LoggerAppenderFile">
+        <param name="file" value="/var/log/my.log" />
+    </appender>
+    <logger name="main">
+        <appender_ref ref="primus" />
+        <appender_ref ref="secundus" />
+    </logger>
+</log4php:configuration>
++--
+
+  Equivalent ini configuration:
+
++--
+log4php.appender.primus = LoggerAppenderEcho
+log4php.appender.secundus = LoggerAppenderFile
+log4php.appender.secundus.file = /var/log/my.log
+log4php.logger.main = DEBUG, primus, secundus
++--
+
+  This configuration file defines two appenders: <primus> and <secundus>, and links them to a logger named <main>. 
+
+  Now, when a logging request is issued to the <main> logger:
+  
++--
+$logger = Logger::getLogger('main');
+$logger->info("Log this.");
++--
+
+  The logger will forward this logging requests to all appenders which are linked with it. In our example, the output will be written both to console and to the file.
+
+* {Appender Reference}
+
+  The following appenders are included with log4php.
+
+*------------------------------+--------------+
+|| Name                        || Destination 
+*------------------------------+--------------+
+| {{LoggerAppenderEcho}}       | Console, using the PHP <<echo>> command.
+*------------------------------+--------------+
+| {{LoggerAppenderConsole}}    | STDOUT or STDERR
+*------------------------------+--------------+
+| {{LoggerAppenderFile}}       | A file.
+*------------------------------+--------------+
+| {{LoggerAppenderDailyFile}}  | A file (new file each day).
+*------------------------------+--------------+
+| {{LoggerAppenderRollingFile}}| A file (new file when a specified size has been reached). 
+*------------------------------+--------------+
+| {{LoggerAppenderMail}}       | Sends the log via email. The entire log is sent in one email.
+*------------------------------+--------------+
+| {{LoggerAppenderMailEvent}}  | Sends the log via email. Each log entry is sent in individual emails.
+*------------------------------+--------------+
+| {{LoggerAppenderNull}}       | Ignores all log events.
+*------------------------------+--------------+
+| {{LoggerAppenderPDO}}        | Database.
+*------------------------------+--------------+
+| {{LoggerAppenderPhp}}        | Creates a PHP user-level message using the PHP <<trigger_error>> function.
+*------------------------------+--------------+
+| {{LoggerAppenderSocket}}     | A network socket.
+*------------------------------+--------------+
+| {{LoggerAppenderSyslog}}     | Syslog.
+*------------------------------+--------------+
+
+
+** {LoggerAppenderEcho}
+
+  The LoggerAppenderEcho appender writes logging events using PHP's {{{http://php.net/manual/en/function.echo.php}echo}} function. Echo outputs may be buffered.
+
+*** Configurable parameters
+
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| htmlLineBreaks    | No           | false              | If set to true, a \<br /\> element will be inserted before each line break in the logged message.
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+  
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="htmlLineBreaks" value="true" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.htmlLineBreaks = "true"
++--
+
+** {LoggerAppenderConsole}
+
+  The LoggerAppenderConsoler appender writes logging events to the STDOUT (php://stdout) or STDERR (php://stderr) stream. Defaults to STDOUT.
+
+*** Configurable parameters
+
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| target            | No           | stdout             | Sets the otuput stream to which this appender should write to. Possible values are "stdout" for standard output stream and "stderr" for standard error stream.
+*-------------------+--------------*---------------------------------------------*
+
+*** Examples
+
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderConsole">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="target" value="STDOUT" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.console = LoggerAppenderConsole
+log4php.appender.console.target = STDOUT
+log4php.appender.console.layout = LoggerLayoutTTCC
++--
+
+
+** {LoggerAppenderFile}
+
+  The LoggerAppenderFile writes logging events to a file.
+  
+*** Configurable parameters
+  
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| file              | <<Yes>>      | -                  | Path to the target file.
+*-------------------+--------------*--------------------+------------------------+
+| append            | No           | true               | Defines if the appender should append to the end of the file ("true") or truncate the file before writing ("false").
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderFile">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="file" value="target/examples/file.log" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderFile
+log4php.appender.default.file = target/examples/file.log
+log4php.appender.default.layout = LoggerLayoutTTCC
++--
+
+
+** {LoggerAppenderDailyFile}
+
+  The LoggerAppenderDailyFile writes logging events to a specified file.
+  The file is rolled over once a day. That means, for each day a new file 
+  is created.
+  
+  The path specified in the <file> parameter should contain 
+  the string '%s' which will be substituted with the current date when logging.
+  The <datePattern> parameter determines how the date will be formatted. It
+  follows the formatting rules used by {{{http://php.net/manual/en/function.date.php}PHP's date function}}.
+  
+*** Configurable parameters
+  
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| file              | <<Yes>>      | -                  | Path to the target file. Should contain a '%s' which gets substituted by the date.
+*-------------------+--------------*--------------------+------------------------+
+| append            | No           | true               | Defines if the appender should append to the end of the file ("true") or truncate the file before writing ("false").
+*-------------------+--------------*--------------------+------------------------+
+| datePattern       | No           | Ymd                | Date format for the date in the file path.
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+  
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderDailyFile">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="datePattern" value="Y-m-d" />
+    <param name="file" value="/var/log/daily_%s.log" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderDailyFile
+log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.datePattern = Y-m-d
+log4php.appender.default.file = /var/log/daily_%s.log
++--
+
+  Let's say, for example, that today is May 5th 2010. Using the above configuration, LoggerAppenderDailyFile will log to
+  </var/log/daily_2010-05-05.log>
+
+** {LoggerAppenderRollingFile}
+
+  The LoggerAppenderDailyFile appender writes logging events to a file.
+  The file is rolled over after a specified size has been reached. 
+ 
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| file              | <<Yes>>      | -                  | Path to the target file.
+*-------------------+--------------*--------------------+------------------------+
+| append            | No           | true               | Defines if the appender should append to the end of the file ("true") or truncate the file before writing ("false").
+*-------------------+--------------*--------------------+------------------------+
+| datePattern       | No           | Ymd                | Date format for the date in the file path.
+*-------------------+--------------*--------------------+------------------------+
+| maxBackupIndex    | No           | 1                  | Maximum number of backup files to keep.
+*-------------------+--------------*--------------------+------------------------+
+| maxFileSize       | No           | 10MB               | Maximum allowed file size (in bytes) before rolling over. Suffixes "KB", "MB" and "GB" are allowed. 10KB = 10240 bytes, etc. 
+*-------------------+--------------*--------------------+------------------------+
+  
+*** Examples
+
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderRollingFile">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="file" value="target/examples/appender_rollingfile.log" />
+    <param name="maxFileSize" value="10MB" />
+    <param name="maxBackupIndex" value="3" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderRollingFile
+log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.file = target/examples/appender_rollingfile.log
+log4php.appender.default.maxFileSize = 10MB
+log4php.appender.default.maxBackupIndex = 3
++--
+  
+  The resulting filenames are appender_rollingfile.log, appender_rollingfile.log.1, appender_rollingfile.log.2 and so on.
+  
+** {LoggerAppenderMail}
+
+  The LoggerAppenderMail appends log events via email. 
+  
+  This appender will not send individual emails for each logging requests, but will collect them in a buffer
+  and send them all in a single email once the appender is closed. 
+  
+*** Configurable parameters
+  
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| to                | <<Yes>>      | -                  | Email address to which the log will be sent
+*-------------------+--------------*--------------------+------------------------+
+| from              | <<Yes>>      | -                  | Email address of the sender
+*-------------------+--------------*--------------------+------------------------+
+| subject           | <<Yes>>      | -                  | Subject of the mail
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+  
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderMail">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="from" value="someone@example.com" />
+    <param name="to" value="root@localhost" />
+    <param name="subject" value="log4php test" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderMail
+log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.from = someone@example.com
+log4php.appender.default.to = root@localhost
+log4php.appender.default.subject = log4php test
++--
+  
+
+** {LoggerAppenderMailEvent}
+
+  The LoggerAppenderMailEvent appends log events to mail.
+  
+  This appender is similar to the LoggerAppenderMail appender, except that it 
+  sends each each log event in an individual email message at the time when 
+  it occurs.
+  
+*** Configurable parameters
+ 
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| to                | <<Yes>>      | -                  | Email address to which the log will be sent
+*-------------------+--------------*--------------------+------------------------+
+| from              | <<Yes>>      | -                  | Email address of the sender
+*-------------------+--------------*--------------------+------------------------+
+| subject           | <<Yes>>      | -                  | Subject of the mail
+*-------------------+--------------*--------------------+------------------------+
+| smtpHost          | No           | ini_get('SMTP')    | Used to override the SMTP server used for sending the email. <<Only works on Windows>>
+*-------------------+--------------*--------------------+------------------------+
+| port              | No           | 25                 | Used to override the default SMTP server port. <<Only works on Windows>>
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+  
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderMailEvent">
+    <layout class="LoggerLayoutTTCC" />
+    <param name="from" value="someone@example.com" />
+    <param name="to" value="root@localhost" />
+    <param name="subject" value="log4php test" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderMailEvent
+log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.from = someone@example.com
+log4php.appender.default.to = root@localhost
+log4php.appender.default.subject = log4php test
++--
+
+
+** {LoggerAppenderNull}
+
+  The LoggerAppenderNull appender ignores all log events.
+  
+  This appender does not use a layout and has no configurable parameters.
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderNull" />
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderNull
++--
+    
+** {LoggerAppenderPDO}
+
+  The LoggerAppenderPDO appender logs to a database using the PHP's {{{http://php.net/manual/en/book.pdo.php}PDO extension}}.
+
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| dsn               | <<Yes>>      | -                  | The Data Source Name (DSN) used to connect to the database. 
+*-------------------+--------------*--------------------+------------------------+
+| user              | <<Yes>>      | -                  | Username used to connect to the database.
+*-------------------+--------------*--------------------+------------------------+
+| password          | <<Yes>>      | -                  | Password used to connect to the database.
+*-------------------+--------------*--------------------+------------------------+
+| createTable       | No           | true               | Create the table if it does not exist? ("true" or "false")
+*-------------------+--------------*--------------------+------------------------+
+| table             | No           | log4php_log        | Name of the table to which log entries should be inserted.
+*-------------------+--------------*--------------------+------------------------+
+| insertSql         | No           | <see below>        | SQL query used to insert a log event.
+*-------------------+--------------*--------------------+------------------------+
+| insertPattern     | No           | <see below>        | A comma separated list of <LoggerPatternLayout> format strings used in <insertSql> parameter.
+*-------------------+--------------*--------------------+------------------------+
+
+  Parameters <dsn>, <user> and <password> are used by PDO to connect to the 
+  database which will be used for logging. For available database drivers
+  and corresponding DSN format, please see the {{{http://www.php.net/manual/en/pdo.drivers.php}PDO driver documentation}}.
+  
+*** Advanced configuration  
+  
+  Parameters <insertSql> and <insertPattern> can be used to change how events
+  are inserted into the database. By manipulating them, it is possible to use
+  a custom table structure to suit your needs.
+  
++--
+  WARNING: Change these settings only if you are sure what you are doing.
++--
+
+  By default their values are:
+  
+*--------------+--------+
+| insertSql    | INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)
+*--------------+--------+
+| insertPattern| %d,%c,%p,%m,%t,%F,%L
+*--------------+--------+
+  
+  The string <__TABLE__> in <insertSql> will be replaced with the table name 
+  defined in the <table> parameter. Question marks in the <insertSql>
+  will be replaced by evaluated  <LoggerPatternLayout> format strings defined
+  in <insertPattern>. See LoggerPatternLayout documentation for format
+  string description.
+  
+*** Example 1
+
+  The simplest example is connecting to an SQLite database which does not 
+  require any authentication.
+
+  Configuration via XML file:
+ 
++--
+<appender name="default" class="LoggerAppenderPDO">
+    <param name="dsn" value="sqlite:target/appender_pdo.sqlite" />
+</appender>
++--
+
+  Configuration via ini file:
+ 
++--
+log4php.appender.default = LoggerAppenderPDO
+log4php.appender.default.dsn = "sqlite:target/appender_pdo.sqlite"
++--
+
+  In this example, a database table named log4php_log will automatically be 
+  created the first time the appender is used.
+
+*** Example 2
+
+  A slightly more complex example is connecting to a MySQL database which 
+  requires user credentials to be provided. Additionally, a user-specified 
+  table name is used.
+  
+  Configuration via xml file:
+ 
++--
+<appender name="default" class="LoggerAppenderPDO">
+    <param name="dsn" value="mysql:host=localhost;dbname=test" />
+    <param name="user" value="root" />
+    <param name="password" value="secret" />
+    <param name="table" value="my_log" />
+</appender>
++--
+
+  Configuration via ini file:
+ 
++--
+log4php.appender.default = LoggerAppenderPDO
+log4php.appender.default.dsn = "mysql:host=localhost;dbname=test"
+log4php.appender.default.user = root
+log4php.appender.default.password = secret
+log4php.appender.default.table = my_log
++--
+
+*** Sample output
+  
+  This is some sample output retrieved from a MySQL database.
+  
++--
+    mysql> desc log4php_log;
+ +-----------+-------------+------+-----+---------+-------+
+ | Field     | Type        | Null | Key | Default | Extra |
+ +-----------+-------------+------+-----+---------+-------+
+ | timestamp | varchar(32) | YES  |     | NULL    |       |
+ | logger    | varchar(32) | YES  |     | NULL    |       |
+ | level     | varchar(32) | YES  |     | NULL    |       |
+ | message   | varchar(64) | YES  |     | NULL    |       |
+ | thread    | varchar(32) | YES  |     | NULL    |       |
+ | file      | varchar(64) | YES  |     | NULL    |       |
+ | line      | varchar(4)  | YES  |     | NULL    |       |
+ +-----------+-------------+------+-----+---------+-------+
+
+    mysql> SELECT * FROM log4php_log;
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | timestamp               | logger | level | message      | thread | file                                                             | line |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
+ | 2009-09-08 02:31:48,532 | root   | FATAL | Hello World! | 21858  | /srv/home/james/workspace/log4php/src/examples/php/appender_pdo. | 24   |
+ +-------------------------+--------+-------+--------------+--------+------------------------------------------------------------------+------+
++--   
+  
+** {LoggerAppenderPhp}
+
+  The LoggerAppenderPhp appender logs events by creating a PHP user-level message using the php function {{{http://www.php.net/manual/en/function.trigger-error.php}trigger_error}}.
+  
+  The message type depends on the event's severity level:
+  
+  * <E_USER_NOTICE> is used when the event's level is equal to or less than INFO
+  
+  * <E_USER_WARNING> is used when the event's level is equal to WARN
+  
+  * <E_USER_ERROR> is used when the event's level is equal to or greater than ERROR
+
+  []
+  
+  This appender has no configurable parameters.
+
+*** Example
+
+  Configuration via xml file:
+ 
++--
+<appender name="default" class="LoggerAppenderPhp">
+    <layout class="LoggerLayoutTTCC" />
+</appender>
++--
+
+  Configuration via ini file:
+ 
++--
+log4php.appender.default = LoggerAppenderPhp
+log4php.appender.default.layout = LoggerLayoutTTCC
++--
+
+
+** {LoggerAppenderSocket}
+
+  The LoggerAppenderSocket appender serializes log events and sends them to a network socket.
+
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| remoteHost        | <<Yes>>      | -                  | Target host. On how to define a remote hostname see {{{http://php.net/manual/en/function.fsockopen.php}fsockopen() documentation}}. 
+*-------------------+--------------*--------------------+------------------------+
+| port              | No           | 4446               | Target port of the socket.
+*-------------------+--------------*--------------------+------------------------+
+| timeout           | No           | 30                 | Timeout in ms
+*-------------------+--------------*--------------------+------------------------+
+| useXml            | No           | false              | If set to "true" the appender will sent the event formatted in XML, if set to "false" the appender will send the event as a serialized PHP object.
+*-------------------+--------------*--------------------+------------------------+
+| locationInfo      | No           | false              | Whether location info is included for the XML event format. Ignored if XML format is not used.
+*-------------------+--------------*--------------------+------------------------+
+| log4jNamespace    | No           | false              | In XML format, <log4php> namespace is used by default. If this parameter is set to true, <log4j> namespace will be used instead.  
+*-------------------+--------------*--------------------+------------------------+
+  
+***  Example 1
+
+  In this example, log events are sent to localhost:4242, using serialized 
+  objects format. The host will recieve a serialized LoggerLoggingEvent 
+  object.   
+
+  Configuration via xml file:
+  
++--
+<appender name="default" class="LoggerAppenderSocket">
+    <layout class="LoggerLayoutSimple" />
+    <param name="remoteHost" value="localhost" />
+    <param name="port" value="4242" />
+    <param name="useXml" value="false" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderSocket
+log4php.appender.default.layout = LoggerLayoutSimple
+log4php.appender.default.remoteHost = localhost
+log4php.appender.default.port = 4242
+log4php.appender.default.useXml = false
++--
+
+***  Example 2
+
+  In this example, log events are sent to localhost:4242 in the XML format.
+
+  Configuration via xml file:
+  
++--
+<appender name="default" class="LoggerAppenderSocket">
+    <layout class="LoggerLayoutSimple" />
+    <param name="remoteHost" value="localhost" />
+    <param name="port" value="4242" />
+    <param name="useXml" value="true" />
+    <param name="locationInfo" value="false" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderSocket
+log4php.appender.default.layout = LoggerLayoutSimple
+log4php.appender.default.remoteHost = localhost
+log4php.appender.default.port = 4242
+log4php.appender.default.useXml = true
+log4php.appender.default.locationInfo = true
++--
+
+  Sample data sent to the remote host:
+
++--
+<log4php:event logger="root" level="INFO" thread="5512" timestamp="1273066263159">
+    <log4php:message><![CDATA[Hello World!]]></log4php:message>
+    <log4php:locationInfo class="main" file="D:\Projects\php-devel\org.apache.log4php\src\examples\php\appender_socket.php" line="23" method="main" />
+</log4php:event>
++--
+
+  If <locationInfo> was set to false, the <log4php:locationInfo> would not be present. 
+
+  If <log4jNamespace> was set to true, all elements would be prefixed by <log4j:> instead <log4php:>.
+
+
+** {LoggerAppenderSyslog}
+
+  The LoggerAppenderSyslog logs events to the syslog.
+
+*-------------------+--------------*----------------------+------------------------+
+|| Parameter        || Required    || Default value       || Description
+*-------------------+--------------*----------------------+------------------------+
+| ident             | No           | Log4PHP Syslog-Event | A string which will identify your appender.  
+*-------------------+--------------*----------------------+------------------------+
+| overridePriority  | No           | false                | If set to true, all messages will be sent to the syslog using the priority specified in the <priority> parameter. Otherwise, the pririty will depend on the level of the event being logged. See below. 
+*-------------------+--------------*----------------------+------------------------+
+| priority          | No/Yes       | -                    | The syslog priority to use when overriding priority. This setting is required if <overridePriority> is set to true.
+*-------------------+--------------*----------------------+------------------------+
+| facility          | No           | USER                 | The syslog facility. Identifies the part of the system from which the event originated. See below.
+*-------------------+--------------*----------------------+------------------------+
+| option            | No           | PID \| CONS          | Syslog options. See below.
+*-------------------+--------------*----------------------+------------------------+
+
+*** Priorities
+
+  The <priority> is the syslog equivalent of the log4php level. Here's a list of priorities available in syslog and the equivalent log4php levels.
+  
+*-------------+-----------------------------------+--------------------------+
+|| Priority   || Description                      || Equivalent level
+*-------------+-----------------------------------+--------------------------+
+| EMERG       | System is unusable                | -
+*-------------+-----------------------------------+--------------------------+
+| ALERT       | Action must be taken immediately  | FATAL
+*-------------+-----------------------------------+--------------------------+
+| CRIT        | Critical conditions               | -
+*-------------+-----------------------------------+--------------------------+
+| ERR         | Error conditions                  | ERROR
+*-------------+-----------------------------------+--------------------------+
+| WARNING     | Warning conditions                | WARN
+*-------------+-----------------------------------+--------------------------+
+| NOTICE      | Normal, but significant, condition| -
+*-------------+-----------------------------------+--------------------------+
+| INFO        | Informational message             | INFO
+*-------------+-----------------------------------+--------------------------+
+| DEBUG       | Debug-level message               | DEBUG, TRACE
+*-------------+-----------------------------------+--------------------------+
+
+  This means that messages with level FATAL will be logged using the syslog's
+  ALERT priority; ERROR message will use ERR priority, etc.
+
+  Note that there is no priority below DEBUG, therefore both TRACE and DEBUG 
+  level mesages will be logged using the DEBUG syslog priority. 
+  
+
+*** Facilities
+
+  The <facility> parameter is used to specify what type of program is logging 
+  the message. This allows you to specify (in your machine's syslog 
+  configuration) how messages coming from different facilities will be handled.  
+  
+  The following facilities are available:
+  
+*---------+--------------------------------------------+
+|| Name   || Description
+*---------+--------------------------------------------+
+| KERN    | Kernel messages
+*---------+--------------------------------------------+
+| USER    | Generic user-level messages
+*---------+--------------------------------------------+
+| MAIL    | Mail system
+*---------+--------------------------------------------+
+| DAEMON  | System daemons
+*---------+--------------------------------------------+
+| AUTH    | Security/authorization messages
+*---------+--------------------------------------------+
+| SYSLOG  | Messages generated internally by syslogd
+*---------+--------------------------------------------+
+| LPR     | Line printer subsystem
+*---------+--------------------------------------------+
+| NEWS    | Network news subsystem
+*---------+--------------------------------------------+
+| UUCP    | UUCP subsystem
+*---------+--------------------------------------------+
+| CRON    | Clock daemon
+*---------+--------------------------------------------+
+| AUTHPRIV| Security/authorization messages (private)
+*---------+--------------------------------------------+
+| LOCAL0  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL1  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL2  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL3  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL4  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL5  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL6  | Reserved for local use
+*---------+--------------------------------------------+
+| LOCAL7  | Reserved for local use
+*---------+--------------------------------------------+
+
++--
+  Note: USER is the only available facility under Windows operating systems.
++--
+
+*** Options
+
+  The following additional options may be defined via the <option> parameter:
+
+*---------+--------------------------------------------+
+|| Name || Description
+*---------+--------------------------------------------+
+| CONS    | If there is an error while sending data to the system logger, write directly to the system console
+*---------+--------------------------------------------+
+| NDELAY  | Open the connection to the logger immediately.
+*---------+--------------------------------------------+
+| ODELAY  | Delay opening the connection until the first message is logged (default). 
+*---------+--------------------------------------------+
+| PERROR  | Print log messages also to standard error.
+*---------+--------------------------------------------+
+| PID     | Include the PID with each message.
+*---------+--------------------------------------------+
+
+  Multiple options may be set by separating them with a "|". For exampe "CONS|PID|NODELAY".
+
+*** Examples 
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderSyslog">
+    <layout class="LoggerLayoutSimple" />
+    <param name="ident" value="log4php-test" />
+    <param name="facility" value="LOCAL0" />
+    <param name="options" value="NDELAY|PID" />
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderSyslog
+log4php.appender.default.layout = LoggerLayoutSimple
+log4php.appender.default.ident = log4php-test
+log4php.appender.default.facility = LOCAL0
+log4php.appender.default.options = NDELAY|PID
++--

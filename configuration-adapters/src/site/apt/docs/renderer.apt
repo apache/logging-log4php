@@ -1,0 +1,111 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Renderers
+ ------
+ ------
+ ------
+
+Renderers
+
+  log4php can log more than just string messages. If you try to log an object it will be converted to a string and logged. The component which converts Objects to strings in log4php is called a <<renderer>>.
+  
+* Default renderer  
+  
+  For example, let's say that your application uses a Person object, like this one:
+  
++--
+class Person {
+    public $firstName;
+    public $lastName;    
+    public $age;
+}
++--
+  
+  If you try logging it:
+  
++--
+$person = new Person();
+$person->firstName = 'John';
+$person->lastName = 'Doe';
+$person->age = 37;
+
+$logger = Logger::getLogger('main');
+$logger->info("Here comes the person:");
+$logger->info($person);
++--
+  
+  log4php will render it using the default renderer and you will end up with something like:
+
++--
+INFO - Here comes the person:
+INFO - Person::__set_state(array(
+   'firstName' => 'John',
+   'lastName' => 'Doe',
+   'age' => 37,
+))
++--
+  
+* Creating a custom renderer
+
+  In order to make log4php render our Person object in a more readable format, we need to create a custom renderer class which will convert Person objects to a string suitable for logging. 
+  
+   Let's call our renderer class PersonRenderer.
+  
++-- 
+/** All object renderers must implement the LoggerRendererObject interface. */
+class PersonRenderer implements LoggerRendererObject {
+    public function render($person) {
+        return "{$person->firstName} {$person->lastName} ({$person->age})";
+    }
+}
++--
+  
+  Now we must tell log4php to use PersonRenderer for rendering Person objects. This is done in the configuration file.
+  
+  XML configuration:
+  
++--
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+	<renderer renderedClass="Person" renderingClass="PersonRenderer" />
+    <appender name="defualt" class="LoggerAppenderEcho" />
+    <root>
+        <appender_ref ref="defualt" />
+    </root>
+</log4php:configuration>
++--
+  
+  Equivalent ini file configuration:
+  
++--
+log4php.renderer.Person = PersonRenderer
+log4php.appender.default = LoggerAppenderEcho
+log4php.rootLogger = DEBUG, default
++--
+
+  If we now run the same code as above, we will get the following output:
+  
++--
+INFO - Here comes the person:
+INFO - John Doe (37)
++--
+  
+  Which is much more readable than the default rendering.
+  
+* Class hierarchy
+  
+  Object rendering follows the class hierarchy. 
+  
+  For example, if there is a class named Fruit, and classes Orange, Lemon and Apple all extend Fruit. When you register FruitRenderer as renderer for the Fruit class, all subclasses of Fruit will also be rendered by FruitRenderer. Of course, it is possible to override this by registering OrangeRenderer as renderer for the Orange class.
