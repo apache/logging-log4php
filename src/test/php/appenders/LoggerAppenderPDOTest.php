@@ -138,4 +138,19 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
         $appender->setCreateTable(true);
             $appender->activateOptions();
     }
+    
+	/**
+	 * Check whether close() actually closes the database connection. 
+	 */
+    public function testClose() {
+    	$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+    	
+        $appender = new LoggerAppenderPDO("myname");
+        $appender->setDSN(self::dsn);
+        $appender->activateOptions();
+        $appender->append($event);
+        $appender->close();
+        
+        self::assertNull($appender->getDatabaseHandle());
+    }
 }

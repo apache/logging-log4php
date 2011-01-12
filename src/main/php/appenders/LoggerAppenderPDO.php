@@ -200,7 +200,7 @@ class LoggerAppenderPDO extends LoggerAppender {
     public function close() {
     	if($this->closed != true) {
         	if ($this->db !== null) {
-            	$db = null;
+            	$this->db = null;
         	}
         	$this->closed = true;
     	}

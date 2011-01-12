@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="fix" issue="LOG4PHP-133" by="Dmitry Katemirov,Ivan Habunek">PDO appender doesn't close connections</action>
   		<action type="fix" by="Ivan Habunek">Replaced calls to deprecated PHPUnit method assertTypeOf() with assertInternalType() and assertInstanceOf().</action>
   		<action type="fix" issue="LOG4PHP-104" by="Ivan Habunek">Refactored LoggerNDC and added tests</action>
   		<action type="fix" issue="LOG4PHP-105" by="Ivan Habunek">LoggerMDC needs refactoring + tests</action>
