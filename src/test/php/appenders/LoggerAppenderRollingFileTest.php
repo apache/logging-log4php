@@ -87,7 +87,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$appender = new LoggerAppenderRollingFile("mylogger");
 		$appender->setFileName($this->dir.'/TEST-rolling.txt');
 		$appender->setLayout($layout);
-		$appender->setMaximumFileSize('1KB');
+		$appender->setMaxFileSize('1KB');
 		$appender->setMaxBackupIndex(2);
 		$appender->activateOptions();
 
@@ -95,14 +95,9 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 										new Logger('mycategory'),
 										LoggerLevel::getLevelWarn(),
 										"my message123");
-		$i = 0;
-		$b = true;
-		while($b) {
-			if($i == 1000) {
-				$b = false;
-			}
+		
+		for($i = 0; $i < 1000; $i++) {
 			$appender->append($event);
-			$i++;
 		}
 
 		$event = new LoggerLoggingEvent('LoggerAppenderFileTest',
