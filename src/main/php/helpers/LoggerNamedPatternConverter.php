@@ -37,8 +37,8 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 	 * @param integer $precision
 	 */
 	public function __construct($formattingInfo, $precision) {
-	  parent::__construct($formattingInfo);
-	  $this->precision =  $precision;
+		parent::__construct($formattingInfo);
+		$this->precision = $precision;
 	}
 
 	/**

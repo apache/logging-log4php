@@ -18,14 +18,14 @@
  * @package log4php
  */
  
- /**
-  * Provides methods for reflective use on php objects
-  * @package log4php
-  */
+/**
+ * Provides methods for reflective use on php objects
+ * @package log4php
+ */
 class LoggerReflectionUtils {
 		/** the target object */
 	private $obj;
-  
+	
 	/**
 	 * Create a new LoggerReflectionUtils for the specified Object. 
 	 * This is done in prepartion for invoking {@link setProperty()} 
@@ -35,7 +35,7 @@ class LoggerReflectionUtils {
 	public function __construct($obj) {
 		$this->obj = $obj;
 	}
-  
+	
 	/**
 	 * Set the properties of an object passed as a parameter in one
 	 * go. The <code>properties</code> are parsed relative to a
@@ -51,8 +51,8 @@ class LoggerReflectionUtils {
 		$pSetter = new LoggerReflectionUtils($obj);
 		return $pSetter->setProperties($properties, $prefix);
 	}
-  
-
+	
+	
 	/**
 	 * Set the properites for the object that match the
 	 * <code>prefix</code> passed as parameter.
@@ -98,8 +98,8 @@ class LoggerReflectionUtils {
 	 * to an int using new Integer(value). If the setter expects a boolean,
 	 * the conversion is by new Boolean(value).
 	 *
-	 * @param string $name	  name of the property
-	 * @param string $value	  String value of the property
+	 * @param string $name	name of the property
+	 * @param string $value	String value of the property
 	 */
 	public function setProperty($name, $value) {
 		if($value === null) {
@@ -114,7 +114,7 @@ class LoggerReflectionUtils {
 			return call_user_func(array($this->obj, $method), $value);
 		} 
 	}
-  
+	
 	public function activate() {
 		if(method_exists($this->obj, 'activateoptions')) {
 			return call_user_func(array($this->obj, 'activateoptions'));
@@ -136,20 +136,20 @@ class LoggerReflectionUtils {
 	}
 	
 	/**
-     * @param object $object
-     * @param string $name
-     * @param mixed $value
-     */
-    public static function setter($object, $name, $value) {
-        if (empty($name)) {
-            return false;
-        }
-        $methodName = 'set'.ucfirst($name);
-        if (method_exists($object, $methodName)) {
-            return call_user_func(array($object, $methodName), $value);
-        } else {
-            return false;
-        }
-    }
+	 * @param object $object
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public static function setter($object, $name, $value) {
+		if (empty($name)) {
+			return false;
+		}
+		$methodName = 'set'.ucfirst($name);
+		if (method_exists($object, $methodName)) {
+			return call_user_func(array($object, $methodName), $value);
+		} else {
+			return false;
+		}
+	}
 	
 }

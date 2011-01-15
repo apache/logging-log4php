@@ -49,26 +49,26 @@ class LoggerAppenderConsole extends LoggerAppender {
 	/**
 	 * Can be 'php://stdout' or 'php://stderr'. But it's better to use keywords <b>STDOUT</b> and <b>STDERR</b> (case insensitive). 
 	 * Default is STDOUT
-	 * @var string	  
+	 * @var string
 	 */
 	private $target = self::STDOUT;
 	
 	/**
 	 * @var boolean
-	 * @access private	   
+	 * @access private
 	 */
 	protected $requiresLayout = true;
 
 	/**
 	 * @var mixed the resource used to open stdout/stderr
-	 * @access private	   
+	 * @access private
 	 */
 	protected $fp = null;
 
 	public function __destruct() {
-       $this->close();
-   	}
-   	
+		$this->close();
+	}
+	
 	/**
 	 * Set console target.
 	 * @param mixed $value a constant or a string
@@ -79,7 +79,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 			$this->target = self::STDOUT;
 		} elseif ($v == self::STDERR || strtoupper($v) == 'STDERR') {
 			$this->target = self::STDERR;
-		} 
+		}
 	}
 
 	public function activateOptions() {
@@ -87,7 +87,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 		if(is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->getHeader());
 		}
-		$this->closed = (bool)is_resource($this->fp) === false; 
+		$this->closed = (bool)is_resource($this->fp) === false;
 	}
 	
 	/**
@@ -100,13 +100,13 @@ class LoggerAppenderConsole extends LoggerAppender {
 				fclose($this->fp);
 			}
 			$this->closed = true;
-		}			 
+		}
 	}
 
 	public function append(LoggerLoggingEvent $event) {
 		if (is_resource($this->fp) && $this->layout !== null) {
 			fwrite($this->fp, $this->layout->format($event));
-		} 
+		}
 	}
 }
 

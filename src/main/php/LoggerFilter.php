@@ -69,7 +69,7 @@ abstract class LoggerFilter {
 	
 	/**
 	 * The log event must be dropped immediately without consulting
-	 * with the remaining filters, if any, in the chain.  
+	 * with the remaining filters, if any, in the chain.
 	 */
 	const DENY = -1;
 
@@ -85,8 +85,8 @@ abstract class LoggerFilter {
 	public function activateOptions() {
 	}
 
-	/**	  
-	 * Decide what to do.  
+	/**
+	 * Decide what to do.
 	 * <p>If the decision is {@link LoggerFilter::DENY}, then the event will be
 	 * dropped. If the decision is {@link LoggerFilter::NEUTRAL}, then the next
 	 * filter, if any, will be invoked. If the decision is {@link LoggerFilter::ACCEPT} then
@@ -109,9 +109,9 @@ abstract class LoggerFilter {
 	 */
 	public function addNext($filter) {
 		if($this->next !== null) {
-		    $this->next->addNext($filter);
+			$this->next->addNext($filter);
 		} else {
-		    $this->next = $filter;
+			$this->next = $filter;
 		}
 	}
 	

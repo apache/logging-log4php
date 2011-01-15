@@ -96,23 +96,23 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	}
 
 	public function __destruct() {
-       $this->close();
-   	}
-   	
+		$this->close();
+	}
+	
 	public function activateOptions() {
-	    if (empty($this->layout)) {
-	        throw new LoggerException("LoggerAppenderMailEvent requires layout!");
-	    }
-	    if (empty($this->to)) {
-            throw new LoggerException("LoggerAppenderMailEvent was initialized with empty 'from' ($this->from) or 'to' ($this->to) Adress!");
-        }
-        
-        $sendmail_from = ini_get('sendmail_from');
-        if (empty($this->from) and empty($sendmail_from)) {
-            throw new LoggerException("LoggerAppenderMailEvent requires 'from' or on win32 at least the ini variable sendmail_from!");
-        }
-        
-        $this->closed = false;
+		if (empty($this->layout)) {
+			throw new LoggerException("LoggerAppenderMailEvent requires layout!");
+		}
+		if (empty($this->to)) {
+			throw new LoggerException("LoggerAppenderMailEvent was initialized with empty 'from' ($this->from) or 'to' ($this->to) Adress!");
+		}
+		
+		$sendmail_from = ini_get('sendmail_from');
+		if (empty($this->from) and empty($sendmail_from)) {
+			throw new LoggerException("LoggerAppenderMailEvent requires 'from' or on win32 at least the ini variable sendmail_from!");
+		}
+		
+		$this->closed = false;
 	}
 	
 	public function close() {
@@ -162,14 +162,13 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		
 		if(!$this->dry) {
 			$result = mail($this->to, $this->subject, 
-				$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), 
-				$addHeader);			
-		    if ($result === false) {
-		        // The error message is only printed to stderr as warning. Any idea how to get it?
-		        throw new LoggerException("Error sending mail to '".$this->to."'!");
-		    }
+				$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), $addHeader);			
+			if ($result === false) {
+				// The error message is only printed to stderr as warning. Any idea how to get it?
+				throw new LoggerException("Error sending mail to '".$this->to."'!");
+			}
 		} else {
-		    echo "DRY MODE OF MAIL APP.: Send mail to: ".$this->to." with additional headers '".trim($addHeader)."' and content: ".$this->layout->format($event);
+			echo "DRY MODE OF MAIL APP.: Send mail to: ".$this->to." with additional headers '".trim($addHeader)."' and content: ".$this->layout->format($event);
 		}
 			
 		ini_set('SMTP', $prevSmtpHost);

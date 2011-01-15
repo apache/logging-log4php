@@ -292,7 +292,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 		}
 		
 		return $this->doConfigureProperties($properties, $hierarchy);
-	} 
+	}
 
 	/**
 	 * Read configuration options from <b>properties</b>.
@@ -457,11 +457,11 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 				}
 			}
 			
-			LoggerReflectionUtils::setPropertiesByObject($layout, $props, $layoutPrefix . ".");				  
+			LoggerReflectionUtils::setPropertiesByObject($layout, $props, $layoutPrefix . ".");
 			$appender->setLayout($layout);
 			
 		}
 		LoggerReflectionUtils::setPropertiesByObject($appender, $props, $prefix . ".");
-		return $appender;		 
+		return $appender;
 	}
 }

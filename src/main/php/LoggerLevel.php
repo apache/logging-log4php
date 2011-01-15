@@ -47,17 +47,17 @@ class LoggerLevel {
 	 * @var integer
 	 */
 	private $level;
-  
-  	/**
-   	 * Contains a list of instantiated levels 
-   	 */
-  	private static $levelMap;
-  	
+	
+	/**
+	 * Contains a list of instantiated levels 
+	 */
+	private static $levelMap;
+
 	/**
 	 * @var string
 	 */
 	private $levelStr;
-  
+
 	/**
 	 * @var integer
 	 */
@@ -85,7 +85,7 @@ class LoggerLevel {
 	public function equals($o) {
 		if($o instanceof LoggerLevel) {
 			if($this->level == $o->level) {
-			    return true;
+				return true;
 			}
 		} else {
 			return false;
@@ -200,7 +200,7 @@ class LoggerLevel {
 	/**
 	 * Returns <i>true</i> if this level has a higher or equal
 	 * level than the level passed as argument, <i>false</i>
-	 * otherwise.  
+	 * otherwise.
 	 * 
 	 * <p>You should think twice before overriding the default
 	 * implementation of <i>isGreaterOrEqual</i> method.

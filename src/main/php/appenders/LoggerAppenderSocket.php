@@ -95,9 +95,9 @@ class LoggerAppenderSocket extends LoggerAppender {
 	private $dry = false;
 	
 	public function __destruct() {
-       $this->close();
-   	}
-   	
+		$this->close();
+	}
+	
 	/**
 	 * Create a socket connection using defined parameters
 	 */
@@ -105,7 +105,7 @@ class LoggerAppenderSocket extends LoggerAppender {
 		if(!$this->dry) {
 			$this->sp = @fsockopen($this->getRemoteHost(), $this->getPort(), $errno, $errstr, $this->getTimeout());
 			if ($this->sp === false) {
-			    throw new LoggerException("Could not open socket to ".$this->getRemoteHost().":".$this->getPort().": $errstr ($errno)");
+				throw new LoggerException("Could not open socket to ".$this->getRemoteHost().":".$this->getPort().": $errstr ($errno)");
 			}
 		}
 		if($this->getUseXml()) {
@@ -118,7 +118,7 @@ class LoggerAppenderSocket extends LoggerAppender {
 				$this->xmlLayout->activateOptions();
 			}			 
 		}
-        $this->closed = false;
+		$this->closed = false;
 	}
 	
 	public function close() {
@@ -241,20 +241,20 @@ class LoggerAppenderSocket extends LoggerAppender {
 				if(!$this->dry) {
 					fwrite($this->sp, $sEvent, strlen($sEvent));
 				} else {
-				    echo "DRY MODE OF SOCKET APPENDER: ".$sEvent;
+					echo "DRY MODE OF SOCKET APPENDER: ".$sEvent;
 				}
 			} else {
 				if(!$this->dry) {
 					fwrite($this->sp, $this->xmlLayout->format($event));
 				} else {
-				    echo "DRY MODE OF SOCKET APPENDER: ".$this->xmlLayout->format($event);
+					echo "DRY MODE OF SOCKET APPENDER: ".$this->xmlLayout->format($event);
 				}
-			}			 
+			}
 
 			// not sure about it...
 			if(!$this->dry) {
 				fflush($this->sp);
 			}
-		} 
+		}
 	}
 }

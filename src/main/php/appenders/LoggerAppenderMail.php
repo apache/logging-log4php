@@ -80,8 +80,8 @@ class LoggerAppenderMail extends LoggerAppender {
 	}
 
 	public function __destruct() {
-       $this->close();
-   	}
+		$this->close();
+	}
 
 	public function activateOptions() {
 		$this->closed = false;

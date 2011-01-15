@@ -32,7 +32,7 @@ class LoggerRendererException implements LoggerRendererObject {
 		$strRep .= PHP_EOL.$o->getTraceAsString();
 		
 		if (method_exists($o, 'getPrevious') && $o->getPrevious() !== null) {
-			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());			
+			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());
 		}
 		
 		return $strRep;		

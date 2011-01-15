@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ *	7 http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,12 +42,12 @@ abstract class LoggerAppender {
 	 * @var LoggerLayout
 	 */
 	protected $layout = null; 
-		   
+	
 	/**
 	 * @var string Appender name
 	 */
 	protected $name;
-		   
+	
 	/**
 	 * @var LoggerLevel There is no level threshold filtering by default.
 	 */
@@ -131,7 +131,7 @@ abstract class LoggerAppender {
 				case LoggerFilter::NEUTRAL: $f = $f->getNext();
 			}
 		}
-		$this->append($event);	  
+		$this->append($event);
 	}	 
 
 	/**
@@ -214,9 +214,9 @@ abstract class LoggerAppender {
 	 */
 	public function setThreshold($threshold) {
 		if(is_string($threshold)) {
-		   $this->threshold = LoggerOptionConverter::toLevel($threshold, null);
+			$this->threshold = LoggerOptionConverter::toLevel($threshold, null);
 		} else if($threshold instanceof LoggerLevel) {
-		   $this->threshold = $threshold;
+			$this->threshold = $threshold;
 		}
 	}
 	
@@ -239,7 +239,7 @@ abstract class LoggerAppender {
 	 * Derived appenders should override this method if option structure
 	 * requires it.
 	 */
-	abstract public function activateOptions();	   
+	abstract public function activateOptions();
 	
 	/**
 	 * Subclasses of {@link LoggerAppender} should implement 

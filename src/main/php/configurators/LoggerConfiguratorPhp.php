@@ -47,7 +47,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 		if (!is_array($url)) {
  			$config = require $url;
  		} else {
- 		    $config = $url;
+ 			$config = $url;
  		}
 		
 		// set threshold
@@ -70,7 +70,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 					if(isset($appenderProperties['layout'])) {
 						
 						if(isset($appenderProperties['layout']['class']) and !empty($appenderProperties['layout']['class'])) {
-							$layoutClass = $appenderProperties['layout']['class'];							
+							$layoutClass = $appenderProperties['layout']['class'];
 						} else {
 							$layoutClass = 'LoggerLayoutSimple';
 						}

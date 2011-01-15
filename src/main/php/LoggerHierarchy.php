@@ -85,7 +85,7 @@ class LoggerHierarchy {
 	public function clear() {
 		$this->ht = array();
 	}
-	  
+	
 	/**
 	 * Check if the named logger exists in the hierarchy.
 	 * @param string $name
@@ -107,7 +107,7 @@ class LoggerHierarchy {
 	 * Return a new logger instance named as the first parameter using the default factory.
 	 * 
 	 * @param string $name logger name
-	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null	  
+	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
 	 * @return Logger
 	 */
 	public function getLogger($name) {
@@ -236,7 +236,7 @@ class LoggerHierarchy {
 	public function shutdown() {
 		$this->root->removeAllAppenders();
 		$cats = $this->getCurrentLoggers();
-		$enumCats = count($cats);		  
+		$enumCats = count($cats);
 		if($enumCats > 0) {
 			for($i = 0; $i < $enumCats; $i++) {
 				$cats[$i]->removeAllAppenders();

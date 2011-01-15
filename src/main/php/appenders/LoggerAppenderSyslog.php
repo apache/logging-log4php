@@ -89,7 +89,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 * If it is necessary to define logging priority in the .properties-file,
 	 * set this variable to "true".
 	 *
-	 * @var const int  value indicating whether the priority of the message is defined in the .properties-file
+	 * @var const int value indicating whether the priority of the message is defined in the .properties-file
 	 *				   (or properties-array)
 	 */
 	private $_overridePriority;
@@ -103,10 +103,10 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	}
 
 	public function __destruct() {
-       $this->close();
-   	}
-   	
-   	public function setDry($dry) {
+		$this->close();
+	}
+	
+	public function setDry($dry) {
 		$this->dry = $dry;
 	}
 	
@@ -145,7 +145,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 * @param bool Override priority
 	 */
 	public function setOverridePriority($overridePriority) {
-		$this->_overridePriority = $overridePriority;							
+		$this->_overridePriority = $overridePriority;
 	} 
 	
 	/**
@@ -155,8 +155,8 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 *
 	 * @param string	$option
 	 */
-	public function setOption($option) {	  
-		$this->_option = $option;		
+	public function setOption($option) {
+		$this->_option = $option;
 	}
 	
 	public function activateOptions() {
@@ -209,7 +209,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 			}
 			closelog();
 		} else {
-		      echo "DRY MODE OF SYSLOG APPENDER: ".$message;
+			echo "DRY MODE OF SYSLOG APPENDER: ".$message;
 		}
 	}
 }

@@ -36,12 +36,12 @@
  * The above would print:
  * 
  * <pre>
- *   <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
- *     <log4php:event logger="root" level="INFO" thread="13802" timestamp="1252456226491">
- *       <log4php:message><![CDATA[Hello World!]]></log4php:message>
- *       <log4php:locationInfo class="main" file="examples/php/layout_xml.php" line="6" method="main" />
- *     </log4php:event>
- *   </log4php:eventSet>
+ * <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
+ * 	<log4php:event logger="root" level="INFO" thread="13802" timestamp="1252456226491">
+ * 		<log4php:message><![CDATA[Hello World!]]></log4php:message>
+ * 		<log4php:locationInfo class="main" file="examples/php/layout_xml.php" line="6" method="main" />
+ * 	</log4php:event>
+ * </log4php:eventSet>
  * </pre>
  *
  * @version $Revision$
@@ -61,124 +61,124 @@ class LoggerLayoutXml extends LoggerLayout {
 
 	const CDATA_EMBEDDED_END = ']]>]]&gt;<![CDATA[';
 
-    /**
-     * If set to true then the file name and line number of the origin of the
-     * log statement will be output.
-     * 
-     * @var boolean
-     */
-    private $locationInfo = true;
+	/**
+	 * If set to true then the file name and line number of the origin of the
+	 * log statement will be output.
+	 * 
+	 * @var boolean
+	 */
+	private $locationInfo = true;
   
-    /**
-     * @var boolean set the elements namespace
-     */
-    private $log4jNamespace = false;
-    
-    
-    /**
-     * @var string namespace
-     * @private
-     */
-    private $_namespace = self::LOG4PHP_NS;
-    
-    /**
-     * @var string namespace prefix
-     * @private
-     */
-    private $_namespacePrefix = self::LOG4PHP_NS_PREFIX;
-     
-    /** 
-     * No options to activate. 
-     */
-    public function activateOptions() {
-        if ($this->getLog4jNamespace()) {
-            $this->_namespace        = self::LOG4J_NS;
-            $this->_namespacePrefix  = self::LOG4J_NS_PREFIX;
-        } else {
-            $this->_namespace        = self::LOG4PHP_NS;
-            $this->_namespacePrefix  = self::LOG4PHP_NS_PREFIX;
-        }     
-    }
-    
-    /**
-     * @return string
-     */
-    public function getHeader() {
-        return "<{$this->_namespacePrefix}:eventSet ".
-                    "xmlns:{$this->_namespacePrefix}=\"{$this->_namespace}\" ".
-                    "version=\"0.3\" ".
-                    "includesLocationInfo=\"".($this->getLocationInfo() ? "true" : "false")."\"".
-               ">\r\n";
-    }
+	/**
+	 * @var boolean set the elements namespace
+	 */
+	private $log4jNamespace = false;
+	
+	
+	/**
+	 * @var string namespace
+	 * @private
+	 */
+	private $_namespace = self::LOG4PHP_NS;
+	
+	/**
+	 * @var string namespace prefix
+	 * @private
+	 */
+	private $_namespacePrefix = self::LOG4PHP_NS_PREFIX;
+	 
+	/** 
+	 * No options to activate. 
+	 */
+	public function activateOptions() {
+		if ($this->getLog4jNamespace()) {
+			$this->_namespace        = self::LOG4J_NS;
+			$this->_namespacePrefix  = self::LOG4J_NS_PREFIX;
+		} else {
+			$this->_namespace        = self::LOG4PHP_NS;
+			$this->_namespacePrefix  = self::LOG4PHP_NS_PREFIX;
+		}
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getHeader() {
+		return "<{$this->_namespacePrefix}:eventSet ".
+					"xmlns:{$this->_namespacePrefix}=\"{$this->_namespace}\" ".
+					"version=\"0.3\" ".
+					"includesLocationInfo=\"".($this->getLocationInfo() ? "true" : "false")."\"".
+					">\r\n";
+	}
 
-    /**
-     * Formats a {@link LoggerLoggingEvent} in conformance with the log4php.dtd.
-     *
-     * @param LoggerLoggingEvent $event
-     * @return string
-     */
-    public function format(LoggerLoggingEvent $event) {
-    	$loggerName = $event->getLoggerName();
-        $timeStamp  = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
-        $thread     = $event->getThreadName();
-        $level      = $event->getLevel();
-        $levelStr   = $level->toString();
+	/**
+	 * Formats a {@link LoggerLoggingEvent} in conformance with the log4php.dtd.
+	 *
+	 * @param LoggerLoggingEvent $event
+	 * @return string
+	 */
+	public function format(LoggerLoggingEvent $event) {
+		$loggerName = $event->getLoggerName();
+		$timeStamp  = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
+		$thread     = $event->getThreadName();
+		$level      = $event->getLevel();
+		$levelStr   = $level->toString();
 
-        $buf = "<{$this->_namespacePrefix}:event logger=\"{$loggerName}\" level=\"{$levelStr}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">".PHP_EOL;
-        $buf .= "<{$this->_namespacePrefix}:message><![CDATA["; 
-        $this->appendEscapingCDATA($buf, $event->getRenderedMessage()); 
-        $buf .= "]]></{$this->_namespacePrefix}:message>".PHP_EOL;        
+		$buf = "<{$this->_namespacePrefix}:event logger=\"{$loggerName}\" level=\"{$levelStr}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">".PHP_EOL;
+		$buf .= "<{$this->_namespacePrefix}:message><![CDATA["; 
+		$this->appendEscapingCDATA($buf, $event->getRenderedMessage()); 
+		$buf .= "]]></{$this->_namespacePrefix}:message>".PHP_EOL;
 
-        $ndc = $event->getNDC();
-        if($ndc != null) {
-            $buf .= "<{$this->_namespacePrefix}:NDC><![CDATA[";
-            $this->appendEscapingCDATA($buf, $ndc);
-            $buf .= "]]></{$this->_namespacePrefix}:NDC>".PHP_EOL;       
-        }
+		$ndc = $event->getNDC();
+		if($ndc != null) {
+			$buf .= "<{$this->_namespacePrefix}:NDC><![CDATA[";
+			$this->appendEscapingCDATA($buf, $ndc);
+			$buf .= "]]></{$this->_namespacePrefix}:NDC>".PHP_EOL;
+		}
 
-        if ($this->getLocationInfo()) {
-            $locationInfo = $event->getLocationInformation();
-            $buf .= "<{$this->_namespacePrefix}:locationInfo ". 
-                    "class=\"" . $locationInfo->getClassName() . "\" ".
-                    "file=\"" .  htmlentities($locationInfo->getFileName(), ENT_QUOTES) . "\" ".
-                    "line=\"" .  $locationInfo->getLineNumber() . "\" ".
-                    "method=\"" . $locationInfo->getMethodName() . "\" ";
-            $buf .= "/>".PHP_EOL;
+		if ($this->getLocationInfo()) {
+			$locationInfo = $event->getLocationInformation();
+			$buf .= "<{$this->_namespacePrefix}:locationInfo ". 
+					"class=\"" . $locationInfo->getClassName() . "\" ".
+					"file=\"" .  htmlentities($locationInfo->getFileName(), ENT_QUOTES) . "\" ".
+					"line=\"" .  $locationInfo->getLineNumber() . "\" ".
+					"method=\"" . $locationInfo->getMethodName() . "\" ";
+			$buf .= "/>".PHP_EOL;
 
-        }
+		}
 
-        $buf .= "</{$this->_namespacePrefix}:event>".PHP_EOL.PHP_EOL;
-        
-        return $buf;
+		$buf .= "</{$this->_namespacePrefix}:event>".PHP_EOL.PHP_EOL;
+		
+		return $buf;
 
-    }
-    
-    /**
-     * @return string
-     */
-    public function getFooter() {
-        return "</{$this->_namespacePrefix}:eventSet>\r\n";
-    }
-    
-    
-    /** Whether or not file name and line number will be included in the output.
-     * 
-     * @return boolean
-     */
-    public function getLocationInfo() {
-        return $this->locationInfo;
-    }
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFooter() {
+		return "</{$this->_namespacePrefix}:eventSet>\r\n";
+	}
+	
+	
+	/** Whether or not file name and line number will be included in the output.
+	 * 
+	 * @return boolean
+	 */
+	public function getLocationInfo() {
+		return $this->locationInfo;
+	}
   
-    /**
-     * The {@link $locationInfo} option takes a boolean value. By default,
-     * it is set to false which means there will be no location
-     * information output by this layout. If the the option is set to
-     * true, then the file name and line number of the statement at the
-     * origin of the log statement will be output.
-     */
-    public function setLocationInfo($flag) {
-        $this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
-    }
+	/**
+	 * The {@link $locationInfo} option takes a boolean value. By default,
+	 * it is set to false which means there will be no location
+	 * information output by this layout. If the the option is set to
+	 * true, then the file name and line number of the statement at the
+	 * origin of the log statement will be output.
+	 */
+	public function setLocationInfo($flag) {
+		$this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
+	}
   
 	/**
 	 * @return boolean
@@ -187,14 +187,14 @@ class LoggerLayoutXml extends LoggerLayout {
 	 	return $this->log4jNamespace;
 	 }
 
-    /**
-     * @param boolean
-     */
-    public function setLog4jNamespace($flag) {
-        $this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
-    }
-    
-    /**
+	/**
+	 * @param boolean
+	 */
+	public function setLog4jNamespace($flag) {
+		$this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
+	}
+	
+	/**
 	 * Ensures that embeded CDEnd strings (]]&gt;) are handled properly
 	 * within message, NDC and throwable tag text.
 	 *

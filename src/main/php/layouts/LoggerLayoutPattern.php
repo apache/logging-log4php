@@ -192,28 +192,28 @@ class LoggerLayoutPattern extends LoggerLayout {
 		return $sbuf;
 	}
 	
-    /**
-     * Returns an array with the formatted elements.
-     * 
-     * This method is mainly used for the prepared statements of {@see LoggerAppenderPDO}.
-     * 
-     * It requires {@link $this->pattern} to be a comma separated string of patterns like
-     * e.g. <code>%d,%c,%p,%m,%t,%F,%L</code>.
-     * 
-     * @return array(string)   An array of the converted elements i.e. timestamp, message, filename etc.
-     */
-    public function formatToArray(LoggerLoggingEvent $event) {
-        $results = array();
-        $c = $this->head;
-        while ($c !== null) {
-            if ( ! $c instanceOf LoggerLiteralPatternConverter) {
-                $sbuf = null;
-                $c->format($sbuf, $event);
-                $results[] = $sbuf;
-            }
-            $c = $c->next;
-        }
-        return $results;
-    }      
+	/**
+	 * Returns an array with the formatted elements.
+	 * 
+	 * This method is mainly used for the prepared statements of {@see LoggerAppenderPDO}.
+	 * 
+	 * It requires {@link $this->pattern} to be a comma separated string of patterns like
+	 * e.g. <code>%d,%c,%p,%m,%t,%F,%L</code>.
+	 * 
+	 * @return array(string)   An array of the converted elements i.e. timestamp, message, filename etc.
+	 */
+	public function formatToArray(LoggerLoggingEvent $event) {
+		$results = array();
+		$c = $this->head;
+		while ($c !== null) {
+			if ( ! $c instanceOf LoggerLiteralPatternConverter) {
+				$sbuf = null;
+				$c->format($sbuf, $event);
+				$results[] = $sbuf;
+			}
+			$c = $c->next;
+		}
+		return $results;
+	}
 	
 }

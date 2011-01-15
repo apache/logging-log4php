@@ -91,7 +91,7 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	 */
 	public function setLevelMin($l) {
 		if($l instanceof LoggerLevel) {
-		    $this->levelMin = $l;
+			$this->levelMin = $l;
 		} else {
 			$this->levelMin = LoggerOptionConverter::toLevel($l, null);
 		}
@@ -102,7 +102,7 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	 */
 	public function setLevelMax($l) {
 		if($l instanceof LoggerLevel) {
-		    $this->levelMax = $l;
+			$this->levelMax = $l;
 		} else {
 			$this->levelMax = LoggerOptionConverter::toLevel($l, null);
 		}

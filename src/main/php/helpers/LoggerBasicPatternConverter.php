@@ -36,8 +36,8 @@ class LoggerBasicPatternConverter extends LoggerPatternConverter {
 	 * @param integer $type
 	 */
 	public function __construct($formattingInfo, $type) {
-	  parent::__construct($formattingInfo);
-	  $this->type = $type;
+		parent::__construct($formattingInfo);
+		$this->type = $type;
 	}
 
 	/**

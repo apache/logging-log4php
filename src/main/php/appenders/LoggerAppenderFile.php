@@ -46,10 +46,12 @@ class LoggerAppenderFile extends LoggerAppender {
 	 * @var boolean if {@link $file} exists, appends events.
 	 */
 	private $append = true;
+	
 	/**
 	 * @var string the file name used to append events
 	 */
 	protected $fileName;
+	
 	/**
 	 * @var mixed file resource
 	 */
@@ -61,9 +63,9 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 
 	public function __destruct() {
-       $this->close();
-   	}
-   	
+		$this->close();
+	}
+	
 	public function activateOptions() {
 		$fileName = $this->getFile();
 
@@ -152,7 +154,7 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 
 	public function setAppend($flag) {
-		$this->append = LoggerOptionConverter::toBoolean($flag, true);		  
+		$this->append = LoggerOptionConverter::toBoolean($flag, true);
 	}
 
 	public function setFileName($fileName) {
