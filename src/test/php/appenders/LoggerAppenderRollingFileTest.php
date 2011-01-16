@@ -74,7 +74,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 
 	public function testSetFileName() {
 		$appender = new LoggerAppenderRollingFile("mylogger");
-		$appender->setFileName($this->dir.'/../././phpunit/doesnotexist.log');
+		$appender->setFile($this->dir.'/../././phpunit/doesnotexist.log');
 		$expandedFileName = self::readAttribute($appender, 'expandedFileName');
 		
 		$expectedFilePattern = '/' . implode(preg_quote(DIRECTORY_SEPARATOR, '/'), array('target', 'phpunit', 'doesnotexist\.log')) . '$/';
@@ -85,7 +85,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$layout = new LoggerLayoutSimple();
 
 		$appender = new LoggerAppenderRollingFile("mylogger");
-		$appender->setFileName($this->dir.'/TEST-rolling.txt');
+		$appender->setFile($this->dir.'/TEST-rolling.txt');
 		$appender->setLayout($layout);
 		$appender->setMaxFileSize('1KB');
 		$appender->setMaxBackupIndex(2);

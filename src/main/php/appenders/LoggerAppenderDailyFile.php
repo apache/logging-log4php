@@ -24,11 +24,17 @@
  * The file is rolled over once a day. That means, for each day a new file 
  * is created. A formatted version of the date pattern is used as to create 
  * the file name using the {@link PHP_MANUAL#sprintf} function.
+ *
+ * This appender uses a layout.
  * 
- * - layout             - Sets the layout class for this appender
- * - datePattern        - Sets date format for the file name. Should be set before $file!
- * - file               - The target file name. Should contain a '%s' which gets substituted by the date.
- * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ * Configurable parameters for this appender are:
+ * - datePattern - The date format for the file name. Should be set before 
+ *                 $file. Default value: "Ymd".
+ * - file        - The path to the target log file. The filename should 
+ *                 contain a '%s' which will be substituted by the date.
+ * - append      - Sets if the appender should append to the end of the
+ *                 file or overwrite content ("true" or "false"). Default 
+ *                 value: true.
  * 
  * An example php file:
  * 
@@ -58,35 +64,29 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 	}
 	
 	/**
-	* Sets date format for the file name.
-	* @param string $format a regular date() string format
-	*/
-	public function setDatePattern($format) {
-		$this->datePattern = $format;
+	 * Sets date format for the file name.
+	 * @param string $datePattern a regular date() string format
+	 */
+	public function setDatePattern($datePattern) {
+		$this->datePattern = $datePattern;
 	}
 	
 	/**
-	* @return string returns date format for the filename
-	*/
+	 * @return string returns date format for the filename
+	 */
 	public function getDatePattern() {
 		return $this->datePattern;
 	}
 	
 	/**
-	* The File property takes a string value which should be the name of the file to append to.
-	* Sets and opens the file where the log output will go.
-	*
-	* @see LoggerAppenderFile::setFile()
-	*/
-	public function setFile() {
-		$numargs = func_num_args();
-		$args = func_get_args();
-		
-		if($numargs == 1 and is_string($args[0])) {
-			parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())) );
-		} else if ($numargs == 2 and is_string($args[0]) and is_bool($args[1])) {
-			parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())), $args[1] );
-		}
-	} 
-
+	 * Similar to the parent method, but replaces "%s" in the file name with 
+	 * the current date in format specified by $datePattern. 
+	 *
+	 * @see LoggerAppenderFile::setFile()
+	 */
+	public function setFile($file) {
+		$date = date($this->getDatePattern());
+		$file = sprintf($file, $date);
+		parent::setFile(sprintf($file, $date));
+	}
 }

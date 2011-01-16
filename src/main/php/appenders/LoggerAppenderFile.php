@@ -21,12 +21,12 @@
 /**
  * FileAppender appends log events to a file.
  *
- * Configurable parameters for this appender are:
+ * This appender uses a layout.
  * 
- * - layout             - Sets the layout class for this appender
- * - file               - The target file to write to
- * - filename           - The target file to write to
- * - append             - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ * Configurable parameters for this appender are:
+ * - file      - The target file to write to
+ * - filename  - The target file to write to (deprecated, use "file" instead)
+ * - append    - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
  *
  * An example php file:
  * 
@@ -50,8 +50,8 @@ class LoggerAppenderFile extends LoggerAppender {
 	/**
 	 * @var string the file name used to append events
 	 */
-	protected $fileName;
-	
+	protected $file;
+
 	/**
 	 * @var mixed file resource
 	 */
@@ -119,31 +119,18 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	/**
-	 * Sets and opens the file where the log output will go.
-	 *
-	 * This is an overloaded method. It can be called with:
-	 * - setFile(string $fileName) to set filename.
-	 * - setFile(string $fileName, boolean $append) to set filename and append.
-	 * 
-	 * TODO: remove overloading. Use only file as alias to filename
+	 * Sets the file where the log output will go.
+	 * @param string $file
 	 */
-	public function setFile() {
-		$numargs = func_num_args();
-		$args	 = func_get_args();
-
-		if($numargs == 1 and is_string($args[0])) {
-			$this->setFileName($args[0]);
-		} else if ($numargs >=2 and is_string($args[0]) and is_bool($args[1])) {
-			$this->setFile($args[0]);
-			$this->setAppend($args[1]);
-		}
+	public function setFile($file) {
+		$this->file = $file;
 	}
 	
 	/**
 	 * @return string
 	 */
 	public function getFile() {
-		return $this->getFileName();
+		return $this->file;
 	}
 	
 	/**
@@ -157,15 +144,21 @@ class LoggerAppenderFile extends LoggerAppender {
 		$this->append = LoggerOptionConverter::toBoolean($flag, true);
 	}
 
+	/**
+	 * Sets the file where the log output will go.
+	 * @param string $fileName
+	 * @deprecated Use setFile() instead.
+	 */
 	public function setFileName($fileName) {
-		$this->fileName = $fileName;
+		$this->setFile($fileName);
 	}
 	
 	/**
 	 * @return string
+	 * @deprecated Use getFile() instead.
 	 */
 	public function getFileName() {
-		return $this->fileName;
+		return $this->getFile();
 	}
 	
 	 

@@ -21,18 +21,18 @@
 /**
  * LoggerAppenderRollingFile extends LoggerAppenderFile to backup the log files 
  * when they reach a certain size.
+ * 
+ * This appender uses a layout.
  *
  * Parameters are:
- *
- * - layout            - Sets the layout class for this appender
  * - file              - The target file to write to
- * - filename          - The target file to write to
+ * - filename          - The target file to write to (deprecated, use "file" instead).
  * - append            - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
  * - maxBackupIndex    - Set the maximum number of backup files to keep around (int)
  * - maxFileSize       - Set the maximum size that the output file is allowed to
  *                       reach before being rolled over to backup files.
  *                       Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB" is interpreted as 10240
- * - maximumFileSize   - Alias to MaxFileSize
+ * - maximumFileSize   - Alias to maxFileSize (deprecated, use "maxFileSize" instead)
  *
  * <p>Contributors: Sergio Strampelli.</p>
  *
@@ -145,8 +145,8 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		$this->setFile($fileName, false);
 	}
 	
-	public function setFileName($fileName) {
-		$this->fileName = $fileName;
+	public function setFile($fileName) {
+		$this->file = $fileName;
 		// As LoggerAppenderFile does not create the directory, it has to exist.
 		// realpath() fails if the argument does not exist so the filename is separated.
 		$this->expandedFileName = realpath(dirname($fileName));
@@ -187,7 +187,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	/**
 	 * Set the maximum size that the output file is allowed to reach
 	 * before being rolled over to backup files.
-	 * <p>In configuration files, the <b>MaxFileSize</b> option takes an
+	 * <p>In configuration files, the <b>maxFileSize</b> option takes an
 	 * long integer in the range 0 - 2^63. You can specify the value
 	 * with the suffixes "KB", "MB" or "GB" so that the integer is
 	 * interpreted being expressed respectively in kilobytes, megabytes
@@ -223,8 +223,34 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		parent::append($event);
-		if(ftell($this->fp) > $this->getMaximumFileSize()) {
+		if(ftell($this->fp) > $this->getMaxFileSize()) {
 			$this->rollOver();
 		}
+	}
+	
+	
+	/**
+	 * @return Returns the maximum number of backup files to keep around.
+	 */
+	public function getMaxBackupIndex() {
+		return $this->maxBackupIndex;
+	}
+	
+	/**
+	 * @return Returns the maximum size that the output file is allowed to 
+	 * reach before being rolled over to backup files.
+	 * @deprecated  This method is deprecated. Use getMaxFileSize() instead. 
+	 */
+	public function getMaximumFileSize() {
+		return $this->getMaxFileSize();
+	}
+	
+	
+	/**
+	 * @return Returns the maximum size that the output file is allowed to reach
+	 * before being rolled over to backup files.
+	 */
+	public function getMaxFileSize() {
+		return $this->maxFileSize;
 	}
 }
