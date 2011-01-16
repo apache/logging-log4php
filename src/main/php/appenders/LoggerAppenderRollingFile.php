@@ -103,7 +103,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 * before being rolled over to backup files.
 	 * @return integer
 	 */
-	private function getMaximumFileSize() {
+	public function getMaximumFileSize() {
 		return $this->maxFileSize;
 	}
 
@@ -235,16 +235,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	public function getMaxBackupIndex() {
 		return $this->maxBackupIndex;
 	}
-	
-	/**
-	 * @return Returns the maximum size that the output file is allowed to 
-	 * reach before being rolled over to backup files.
-	 * @deprecated  This method is deprecated. Use getMaxFileSize() instead. 
-	 */
-	public function getMaximumFileSize() {
-		return $this->getMaxFileSize();
-	}
-	
 	
 	/**
 	 * @return Returns the maximum size that the output file is allowed to reach
