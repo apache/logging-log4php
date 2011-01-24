@@ -25,6 +25,11 @@
 
 class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
         
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderSyslog();
+		self::assertTrue($appender->requiresLayout());
+	}
+	
 	public function testSyslog() {
 		$appender = new LoggerAppenderSyslog("myname ");
 		

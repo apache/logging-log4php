@@ -25,6 +25,11 @@
 
 class LoggerAppenderMailTest extends PHPUnit_Framework_TestCase {
         
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderMail(); 
+		self::assertTrue($appender->requiresLayout());
+	}
+	
 	public function testMail() {
 		$appender = new LoggerAppenderMail("myname ");
 		

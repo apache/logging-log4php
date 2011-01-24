@@ -47,6 +47,11 @@
 class LoggerAppenderSocket extends LoggerAppender {
 
 	/**
+	 * This appender does not require a layout.
+	 */
+	protected $requiresLayout = false;
+	
+	/**
 	 * @var mixed socket connection resource
 	 * @access private
 	 */

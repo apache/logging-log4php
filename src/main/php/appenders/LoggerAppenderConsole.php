@@ -54,12 +54,6 @@ class LoggerAppenderConsole extends LoggerAppender {
 	private $target = self::STDOUT;
 	
 	/**
-	 * @var boolean
-	 * @access private
-	 */
-	protected $requiresLayout = true;
-
-	/**
 	 * @var mixed the resource used to open stdout/stderr
 	 * @access private
 	 */

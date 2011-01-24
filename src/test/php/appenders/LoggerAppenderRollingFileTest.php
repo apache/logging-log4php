@@ -37,6 +37,11 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		@unlink($this->dir.'/TEST-rolling.txt.1');
 		@unlink($this->dir.'/TEST-rolling.txt.2');
 	}
+	
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderRollingFile();
+		self::assertTrue($appender->requiresLayout());
+	}
 
 	public function testMaxFileSize() {
 		$appender = new LoggerAppenderRollingFile("mylogger");

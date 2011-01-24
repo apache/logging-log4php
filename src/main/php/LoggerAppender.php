@@ -56,7 +56,7 @@ abstract class LoggerAppender {
 	/**
 	 * @var boolean needs a layout formatting ?
 	 */
-	protected $requiresLayout = false;
+	protected $requiresLayout = true;
 	
 	/**
 	 * Constructor

@@ -78,11 +78,6 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	 */
 	private $to = null;
 	
-	/**
-	 * @access private
-	 */
-	protected $requiresLayout = true;
-
 	/** @var indiciates if this appender should run in dry mode */
 	private $dry = false;
 	

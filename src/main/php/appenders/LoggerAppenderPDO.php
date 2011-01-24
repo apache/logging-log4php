@@ -114,13 +114,17 @@ class LoggerAppenderPDO extends LoggerAppender {
 	private $canAppend = true;
 	
 	/**
+	 * This appender does not require a layout.
+	 */
+	protected $requiresLayout = false;
+	
+	/**
 	 * Constructor.
 	 * This apender doesn't require a layout.
 	 * @param string $name appender name
 	 */
 	public function __construct($name = '') {
 		parent::__construct($name);
-		$this->requiresLayout = false;
 	}
 	
 	public function __destruct() {

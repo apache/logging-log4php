@@ -36,4 +36,9 @@ class LoggerAppenderNullTest extends PHPUnit_Framework_TestCase {
 		$appender->append($event);
 		$appender->close();
     }
+    
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderNull();
+		self::assertFalse($appender->requiresLayout());
+	}
 }

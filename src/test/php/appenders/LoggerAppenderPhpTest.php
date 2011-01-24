@@ -43,6 +43,11 @@ class LoggerAppenderPhpTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 		set_error_handler("errorHandler");
 	}
+	
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderPhp();
+		self::assertTrue($appender->requiresLayout());
+	}
     
 	public function testPhp() {
 		$appender = new LoggerAppenderPhp("TEST");

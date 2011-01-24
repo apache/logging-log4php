@@ -25,6 +25,11 @@
 
 class LoggerAppenderSocketTest extends PHPUnit_Framework_TestCase {
         
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderSocket();
+		self::assertFalse($appender->requiresLayout());
+	}
+	
 	public function testSocketSerialized() {
 		$appender = new LoggerAppenderSocket("myname ");
 		

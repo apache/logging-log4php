@@ -40,6 +40,11 @@ class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($expected, $actual);
 	}
 	
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderEcho(); 
+		self::assertTrue($appender->requiresLayout());
+	}
+	
 	public function testEchoHtml() {
 		$appender = new LoggerAppenderEcho("myname ");
 		$appender->setHtmlLineBreaks(true);

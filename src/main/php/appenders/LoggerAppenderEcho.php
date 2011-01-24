@@ -52,7 +52,6 @@ class LoggerAppenderEcho extends LoggerAppender {
 
 	public function __construct($name = '') {
 		parent::__construct($name);
-		$this->requiresLayout = true;
 		$this->firstAppend = true;
 	}
 	

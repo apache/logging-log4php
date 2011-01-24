@@ -31,6 +31,11 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
         }
     }
     
+	public function testRequiresLayout() {
+		$appender = new LoggerAppenderFile();
+		self::assertTrue($appender->requiresLayout());
+	}
+	
     public function testSimpleLogging() {
     	$layout = new LoggerLayoutSimple();
     	
