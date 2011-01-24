@@ -55,7 +55,6 @@ class LoggerAppenderConsole extends LoggerAppender {
 	
 	/**
 	 * @var mixed the resource used to open stdout/stderr
-	 * @access private
 	 */
 	protected $fp = null;
 

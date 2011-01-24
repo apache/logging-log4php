@@ -53,7 +53,6 @@ class LoggerAppenderSocket extends LoggerAppender {
 	
 	/**
 	 * @var mixed socket connection resource
-	 * @access private
 	 */
 	private $sp = false;
 	
@@ -92,7 +91,6 @@ class LoggerAppenderSocket extends LoggerAppender {
 
 	/**
 	 * @var LoggerXmlLayout
-	 * @access private
 	 */
 	private $xmlLayout = null;
 	

@@ -82,7 +82,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	
 	/**
 	 * @var string the filename expanded
-	 * @access private
 	 */
 	private $expandedFileName = null;
 
