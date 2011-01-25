@@ -15,19 +15,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<log4php:configuration
-  xmlns:log4php="http://logging.apache.org/log4php/"
-  threshold="all" debug="false">
-    <appender name="default" class="LoggerAppenderEcho">
-        <layout class="LoggerLayoutTTCC"/>
-        <filter class="LoggerFilterLevelRange">
-            <param name="LevelMin" value="ERROR" />
-                        <param name="LevelMax" value="FATAL" />
-            <param name="AcceptOnMatch" value="false" />
-        </filter>
-    </appender>
-    <root>
-        <level value="DEBUG" />
-        <appender_ref ref="default" />
-    </root>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/" threshold="all">
+	<appender name="default" class="LoggerAppenderEcho">
+		<layout class="LoggerLayoutTTCC" />
+		<filter class="LoggerFilterLevelRange">
+			<param name="levelMin" value="ERROR" />
+			<param name="levelMax" value="FATAL" />
+			<param name="acceptOnMatch" value="false" />
+		</filter>
+	</appender>
+	<root>
+		<level value="DEBUG" />
+		<appender_ref ref="default" />
+	</root>
 </log4php:configuration>
