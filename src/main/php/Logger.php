@@ -117,6 +117,8 @@ class Logger {
 		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
 		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
 		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php',
+		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
+		'LoggerMongoDBBsonLayout' => '/layouts/LoggerMongoDBBsonLayout.php'
 	);
 
 	/**
