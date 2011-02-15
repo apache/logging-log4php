@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="fix" issue="LOG4PHP-126" by="Peter Chapman, Christian Grobmeier">LoggerConfiguratorPhp does not appear to respect appender file property from config</action>
   		<action type="fix" issue="LOG4PHP-118" by="Craig Marvelley">Additivity cannot be disabled through log4php.properties ini file.</action>
   		<action type="update" issue="LOG4PHP-110" by="Vladimir Gorej, Christian Grobmeier">Added MongoDB appender</action>
   		<action type="fix" issue="LOG4PHP-131" by="Ivan Habunek">File appenders parameters (removed overloading of setFile()).</action>

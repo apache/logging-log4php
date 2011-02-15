@@ -80,6 +80,10 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 							$layout = LoggerReflectionUtils::createObject('LoggerLayoutSimple');
 						}
 						
+						if(isset($appenderProperties['file']) && method_exists($appender, 'setFileName')) { 
+ 						    $appender->setFile($appenderProperties['file'], true); 
+						}
+						
 						if($layout instanceof LoggerLayoutPattern) {
 							$layout->setConversionPattern($appenderProperties['layout']['conversionPattern']);
 						}

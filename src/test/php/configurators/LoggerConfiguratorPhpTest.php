@@ -54,7 +54,7 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
             'rootLogger' => array (
                 'level' => 'WARN',
                 'appenders' => array (
-                    'default'
+                    'default', 'filetest'
                 ),
             ),
             'loggers' => array (
@@ -78,6 +78,13 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
                         'class' => 'LoggerLayoutSimple'
                     ),
                 ),
+                'filetest' => array (
+                    'class' => 'LoggerAppenderFile',
+                    'file' => '../../../target/temp/xy.log',
+                    'layout' => array (
+                        'class' => 'LoggerLayoutSimple'
+                    ),
+                ),
             ),
             
         ), 'LoggerConfiguratorPhp');
@@ -87,6 +94,14 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
         self :: assertTrue($appender instanceof LoggerAppenderEcho);
         $layout = $appender->getLayout();
         self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        
+        $appender = $root->getAppender("filetest");
+        self :: assertTrue($appender instanceof LoggerAppenderFile);
+        $layout = $appender->getLayout();
+        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        $file = $appender->getFile();
+        self :: assertEquals('../../../target/temp/xy.log', $file);
+        
         $logger = Logger :: getLogger('mylogger');
         self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
         $logger = Logger :: getLogger('tracer');
