@@ -366,12 +366,8 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 */
 	private function parseAdditivityForLogger($props, Logger $cat, $loggerName) {
 		$value = LoggerOptionConverter::findAndSubst(self::ADDITIVITY_PREFIX . $loggerName, $props);
-		
-		// touch additivity only if necessary
-		if(!empty($value)) {
-			$additivity = LoggerOptionConverter::toBoolean($value, true);
-			$cat->setAdditivity($additivity);
-		}
+		$additivity = LoggerOptionConverter::toBoolean($value, true);
+		$cat->setAdditivity($additivity);
 	}
 
 	/**
