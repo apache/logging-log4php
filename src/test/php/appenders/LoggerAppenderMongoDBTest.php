@@ -19,7 +19,7 @@
  */
 
 /**
- * Testclass for the default layout.
+ * Testclass for the MongoDB appender.
  * 
  * This class has been originally contributed from Vladimir Gorej 
  * (http://github.com/log4mongo/log4mongo-php).
@@ -35,8 +35,8 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	protected static $event;
 	
 	public static function setUpBeforeClass() {
-		self::$appender         = new LoggerAppenderMongoDB('mongo_appender');
-		self::$event            = new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		self::$appender = new LoggerAppenderMongoDB('mongo_appender');
+		self::$event    = new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 	}
 	
 	public static function tearDownAfterClass() {

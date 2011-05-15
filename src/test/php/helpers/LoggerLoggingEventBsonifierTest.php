@@ -29,29 +29,19 @@
  * @subpackage appenders
  * @since 2.1
  */
-class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
+class LoggerLoggingEventBsonifierTest extends PHPUnit_Framework_TestCase {
 	
 	protected static $logger;
-	protected static $layout;
+	protected static $bsonifier;
 	
 	public static function setUpBeforeClass() {
-		self::$logger    = Logger::getLogger('test.Logger');
-		self::$layout    = new LoggerLayoutBson();
+		self::$logger = Logger::getLogger('test.Logger');
+		self::$bsonifier = new LoggerLoggingEventBsonifier();
 	}	
 	
 	public static function tearDownAfterClass() {
 		self::$logger  = null;
-		self::$layout  = null;
-	}
-	
-	public function testActivateOptions() {
-		$result = self::$layout->activateOptions();
-		$this->assertTrue($result);
-	}
-	
-	public function testgetContentType() {
-		$result = self::$layout->getContentType();
-		$this->assertEquals('application/bson', $result);
+		self::$bsonifier  = null;
 	}
 	
 	public function testFormatSimple() {
@@ -61,7 +51,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			LoggerLevel::getLevelWarn(),
 			'test message'
 		);
-		$bsonifiedEvent = self::$layout->format($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
 		$this->assertEquals('WARN', $bsonifiedEvent['level']);
 		$this->assertEquals('test message', $bsonifiedEvent['message']);
@@ -75,7 +65,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			LoggerLevel::getLevelWarn(),
 			'test message'
 		);
-		$bsonifiedEvent = self::$layout->format($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
 		$this->assertEquals('NA', $bsonifiedEvent['fileName']);		
 		$this->assertEquals('getLocationInformation', $bsonifiedEvent['method']);
@@ -92,12 +82,12 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			microtime(true),
 			new Exception('test exception', 1)
 		);
-		$bsonifiedEvent = self::$layout->format($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
-		$this->assertTrue(array_key_exists('exception', $bsonifiedEvent));
+		$this->assertArrayHasKey('exception', $bsonifiedEvent);
 		$this->assertEquals(1, $bsonifiedEvent['exception']['code']);
 		$this->assertEquals('test exception', $bsonifiedEvent['exception']['message']);
-		$this->assertContains('[internal function]: LoggerMongoDbBsonLayoutTest', $bsonifiedEvent['exception']['stackTrace']);
+		$this->assertContains('[internal function]: LoggerLoggingEventBsonifierTest', $bsonifiedEvent['exception']['stackTrace']);
 	}
 	
 	public function testFormatThrowableInfoWithInnerException() {
@@ -109,13 +99,13 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			microtime(true),
 			new Exception('test exeption', 1, new Exception('test exception inner', 2))
 		);
-		$bsonifiedEvent = self::$layout->format($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 
 		$this->assertTrue(array_key_exists('exception', $bsonifiedEvent));
 		$this->assertTrue(array_key_exists('innerException', $bsonifiedEvent['exception']));
 		$this->assertEquals(2, $bsonifiedEvent['exception']['innerException']['code']);
 		$this->assertEquals('test exception inner', $bsonifiedEvent['exception']['innerException']['message']);
-		$this->assertContains('[internal function]: LoggerMongoDbBsonLayoutTest', $bsonifiedEvent['exception']['stackTrace']);		
+		$this->assertContains('[internal function]: LoggerLoggingEventBsonifierTest', $bsonifiedEvent['exception']['stackTrace']);		
 	}	
 	
 	
@@ -126,7 +116,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			LoggerLevel::getLevelWarn(),
 			'test message'
 		);
-		$bsonifiedEvent = self::$layout->bsonify($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
 		$this->assertEquals('WARN', $bsonifiedEvent['level']);
 		$this->assertEquals('test message', $bsonifiedEvent['message']);
@@ -140,7 +130,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			LoggerLevel::getLevelWarn(),
 			'test message'
 		);
-		$bsonifiedEvent = self::$layout->bsonify($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
 		$this->assertEquals('NA', $bsonifiedEvent['fileName']);		
 		$this->assertEquals('getLocationInformation', $bsonifiedEvent['method']);
@@ -157,12 +147,12 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			microtime(true),
 			new Exception('test exception', 1)
 		);
-		$bsonifiedEvent = self::$layout->bsonify($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		
 		$this->assertTrue(array_key_exists('exception', $bsonifiedEvent));
 		$this->assertEquals(1, $bsonifiedEvent['exception']['code']);
 		$this->assertEquals('test exception', $bsonifiedEvent['exception']['message']);
-		$this->assertContains('[internal function]: LoggerMongoDbBsonLayoutTest', $bsonifiedEvent['exception']['stackTrace']);
+		$this->assertContains('[internal function]: LoggerLoggingEventBsonifierTest', $bsonifiedEvent['exception']['stackTrace']);
 	}
 	
 	public function testBsonifyThrowableInfoWithInnerException() {
@@ -174,13 +164,13 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 			microtime(true),
 			new Exception('test exeption', 1, new Exception('test exception inner', 2))
 		);
-		$bsonifiedEvent = self::$layout->bsonify($event);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 
 		$this->assertTrue(array_key_exists('exception', $bsonifiedEvent));
 		$this->assertTrue(array_key_exists('innerException', $bsonifiedEvent['exception']));
 		$this->assertEquals(2, $bsonifiedEvent['exception']['innerException']['code']);
 		$this->assertEquals('test exception inner', $bsonifiedEvent['exception']['innerException']['message']);
-		$this->assertContains('[internal function]: LoggerMongoDbBsonLayoutTest', $bsonifiedEvent['exception']['stackTrace']);		
+		$this->assertContains('[internal function]: LoggerLoggingEventBsonifierTest', $bsonifiedEvent['exception']['stackTrace']);		
 	}
 
 	public function testIsThreadInteger() {
@@ -190,7 +180,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
                 LoggerLevel::getLevelWarn(),
                 'test message'
         );
-        $bsonifiedEvent = self::$layout->bsonify($event);
+        $bsonifiedEvent = self::$bsonifier->bsonify($event);
 		$this->assertTrue(is_int($bsonifiedEvent['thread']));
 	}
 
@@ -201,7 +191,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
                 LoggerLevel::getLevelWarn(),
                 'test message'
         );
-        $bsonifiedEvent = self::$layout->bsonify($event);
+        $bsonifiedEvent = self::$bsonifier->bsonify($event);
         $this->assertTrue(is_int($bsonifiedEvent['lineNumber']) || $bsonifiedEvent['lineNumber'] == 'NA');
     }
 
@@ -214,7 +204,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
                 microtime(true),
                 new Exception('test exeption', 1, new Exception('test exception inner', 2))
         );
-        $bsonifiedEvent = self::$layout->bsonify($event);
+        $bsonifiedEvent = self::$bsonifier->bsonify($event);
         $this->assertTrue(is_int($bsonifiedEvent['exception']['code']));
     }
 }

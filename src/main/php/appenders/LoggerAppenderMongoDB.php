@@ -21,30 +21,6 @@
 /**
  * Appender for writing to MongoDB.
  * 
- *  Format of log event (for exception):
- *  {
- *  "_id": MongoId
- *  "timestamp": MongoDate,
- *  "level":"ERROR",
- *  "thread":"2556",
- *  "message":"testmessage",
- *  "loggerName":"testLogger",
- *  "fileName":"NA",
- *  "method":"getLocationInformation",
- *  "lineNumber":"NA",
- *  "className":"LoggerLoggingEvent",
- *  "exception":{
- *      "message":"exception2",
- *      "code":0,
- *      "stackTrace":"stackTrace of Exception",
- *      "innerException":{
- *          "message":"exception1",
- *          "code":0,
- *          "stackTrace":"stactTrace of inner Exception"
- *      }
- *  }
- *  } 
- * 
  * This class has been originally contributed from Vladimir Gorej 
  * (http://github.com/log4mongo/log4mongo-php).
  * 
@@ -61,28 +37,31 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	private static $DEFAULT_DB_NAME          = 'log4php_mongodb';
 	private static $DEFAULT_COLLECTION_NAME  = 'logs';		 
 	
-	private $hostname;
-	private $port;
-	private $dbName;
-	private $collectionName;
+	protected $hostname;
+	protected $port;
+	protected $dbName;
+	protected $collectionName;
 	
-	private $connection;
-	private $collection;
+	protected $connection;
+	protected $collection;
+	protected $bsonifier;
 		
-	private $userName;
-	private $password;
+	protected $userName;
+	protected $password;
 	
-	private $canAppend = false;
+	protected $canAppend = false;
+	
+	protected $requiresLayout = false;
 		
 	public function __construct($name = '') {
 		parent::__construct($name);
 		$this->hostname         = self::$DEFAULT_MONGO_URL_PREFIX.self::$DEFAULT_MONGO_HOST;
 		$this->port             = self::$DEFAULT_MONGO_PORT;
 		$this->dbName           = self::$DEFAULT_DB_NAME;
-		$this->collectionName   = self::$DEFAULT_COLLECTION_NAME;		
-		$this->requiresLayout   = false;
-		$this->setLayout(new LoggerLayoutBson());
+		$this->collectionName   = self::$DEFAULT_COLLECTION_NAME;
+		$this->bsonifier        = new LoggerLoggingEventBsonifier();
 	}
+	
 	/**
 	 * Setup db connection.
 	 * Based on defined options, this method connects to db defined in {@link $dbNmae}
@@ -112,24 +91,13 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	}		 
 	
 	/**
-	 * Set the Layout for this appender. Per default the LoggerLayoutBson
-	 * is used as format. It can be overwritten with your own format using this
-	 * setLayout method, even when a layout is not required.
-	 * @see LoggerAppender::setLayout()
-	 * @param LoggerLayout $layout
-	 */
-	public function setLayout($layout) {
-			$this->layout = $layout;
-	} 
-	
-	/**
 	 * Appends a new event to the mongo database.
 	 * 
 	 * @throws LoggerException	If the pattern conversion or the INSERT statement fails.
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		if ($this->canAppend == true && $this->collection != null) {
-			$document = (array) $this->getLayout()->format($event);
+			$document = $this->bsonifier->bsonify($event);
 			$this->collection->insert($document);			
 		}				 
 	}
