@@ -38,7 +38,7 @@ class LoggerAppenderMongoDBLayoutTest extends PHPUnit_Framework_TestCase {
 	
 	public static function setUpBeforeClass() {
 		self::$appender         = new LoggerAppenderMongoDB('mongo_appender');
-		self::$layout           = new LoggerMongoDBBsonLayout();
+		self::$layout           = new LoggerLayoutBson();
 		self::$appender->setLayout(self::$layout);
 		self::$event            = new LoggerLoggingEvent("LoggerAppenderMongoDBLayoutTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 	}

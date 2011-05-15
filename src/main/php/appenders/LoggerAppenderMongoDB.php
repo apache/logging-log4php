@@ -81,7 +81,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		$this->dbName           = self::$DEFAULT_DB_NAME;
 		$this->collectionName   = self::$DEFAULT_COLLECTION_NAME;		
 		$this->requiresLayout   = false;
-		$this->setLayout(new LoggerMongoDBBsonLayout());
+		$this->setLayout(new LoggerLayoutBson());
 	}
 	/**
 	 * Setup db connection.
@@ -112,7 +112,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	}		 
 	
 	/**
-	 * Set the Layout for this appender. Per default the LoggerMongoDBBsonLayout
+	 * Set the Layout for this appender. Per default the LoggerLayoutBson
 	 * is used as format. It can be overwritten with your own format using this
 	 * setLayout method, even when a layout is not required.
 	 * @see LoggerAppender::setLayout()

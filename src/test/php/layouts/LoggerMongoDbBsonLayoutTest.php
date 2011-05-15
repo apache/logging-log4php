@@ -36,7 +36,7 @@ class LoggerMongoDbBsonLayoutTest extends PHPUnit_Framework_TestCase {
 	
 	public static function setUpBeforeClass() {
 		self::$logger    = Logger::getLogger('test.Logger');
-		self::$layout    = new LoggerMongoDBBsonLayout();
+		self::$layout    = new LoggerLayoutBson();
 	}	
 	
 	public static function tearDownAfterClass() {

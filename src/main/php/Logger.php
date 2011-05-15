@@ -75,6 +75,7 @@ class Logger {
 		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
 		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
 		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
+		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
 		'LoggerAppenderNull' => '/appenders/LoggerAppenderNull.php',
 		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
 		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
@@ -100,6 +101,7 @@ class Logger {
 		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
 		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
 		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
+		'LoggerLayoutBson' => '/layouts/LoggerLayoutBson.php',
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
 		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
@@ -116,9 +118,7 @@ class Logger {
 		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
 		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
 		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
-		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php',
-		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
-		'LoggerMongoDBBsonLayout' => '/layouts/LoggerMongoDBBsonLayout.php'
+		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php'
 	);
 
 	/**

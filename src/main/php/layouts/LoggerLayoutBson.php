@@ -42,7 +42,7 @@
  * @subpackage appenders
  * @since 2.1
  */
-class LoggerMongoDBBsonLayout extends LoggerLayout {
+class LoggerLayoutBson extends LoggerLayout {
 	
 	public function __construct() { }
 	
