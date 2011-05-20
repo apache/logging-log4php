@@ -24,6 +24,18 @@
  * @link       http://logging.apache.org/log4php
  */
 
+class TestClass {
+    public $test1 = 'test1';
+    public $test2 = 'test2';
+    public $test3 = 'test3';
+}
+
+class TestRenderer implements LoggerRendererObject {
+	public function render($o) {
+		return "{$o->test1},{$o->test2},{$o->test3}";
+	}
+}
+
 class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
@@ -31,25 +43,28 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function tearDown() {
-        Logger :: resetConfiguration();
+        Logger::resetConfiguration();
     }
 
     public function testConfigure() {
-        Logger :: configure(dirname(__FILE__) . '/test1.php', 'LoggerConfiguratorPhp');
-        $root = Logger :: getRootLogger();
-        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        Logger::configure(dirname(__FILE__) . '/test1.php', 'LoggerConfiguratorPhp');
+        $root = Logger::getRootLogger();
+        self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
         $appender = $root->getAppender("default");
-        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        self::assertTrue($appender instanceof LoggerAppenderEcho);
         $layout = $appender->getLayout();
-        self :: assertTrue($layout instanceof LoggerLayoutSimple);
-        $logger = Logger :: getLogger('mylogger');
-        self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
-        $logger = Logger :: getLogger('tracer');
-        self :: assertEquals(LoggerLevel :: getLevelTrace(), $logger->getLevel());
+        self::assertTrue($layout instanceof LoggerLayoutSimple);
+        $logger = Logger::getLogger('mylogger');
+        self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
+        $logger = Logger::getLogger('tracer');
+        self::assertEquals(LoggerLevel::getLevelTrace(), $logger->getLevel());
     }
 
     public function testConfigureArray() {
-        Logger :: configure(array (
+        Logger::configure(array (
+            'renderers' => array(
+                'TestClass' => 'TestRenderer',
+            ),
             'threshold' => 'ALL',
             'rootLogger' => array (
                 'level' => 'WARN',
@@ -88,23 +103,28 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
             ),
             
         ), 'LoggerConfiguratorPhp');
-        $root = Logger :: getRootLogger();
-        self :: assertEquals(LoggerLevel :: getLevelWarn(), $root->getLevel());
+        $root = Logger::getRootLogger();
+        self::assertEquals(LoggerLevel::getLevelWarn(), $root->getLevel());
         $appender = $root->getAppender("default");
-        self :: assertTrue($appender instanceof LoggerAppenderEcho);
+        self::assertTrue($appender instanceof LoggerAppenderEcho);
         $layout = $appender->getLayout();
-        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        self::assertTrue($layout instanceof LoggerLayoutSimple);
         
         $appender = $root->getAppender("filetest");
-        self :: assertTrue($appender instanceof LoggerAppenderFile);
+        self::assertTrue($appender instanceof LoggerAppenderFile);
         $layout = $appender->getLayout();
-        self :: assertTrue($layout instanceof LoggerLayoutSimple);
+        self::assertTrue($layout instanceof LoggerLayoutSimple);
         $file = $appender->getFile();
-        self :: assertEquals('../../../target/temp/xy.log', $file);
+        self::assertEquals('../../../target/temp/xy.log', $file);
         
-        $logger = Logger :: getLogger('mylogger');
-        self :: assertEquals(LoggerLevel :: getLevelInfo(), $logger->getLevel());
-        $logger = Logger :: getLogger('tracer');
-        self :: assertEquals(LoggerLevel :: getLevelTrace(), $logger->getLevel());
+        $logger = Logger::getLogger('mylogger');
+        self::assertEquals(LoggerLevel::getLevelInfo(), $logger->getLevel());
+        $logger = Logger::getLogger('tracer');
+        self::assertEquals(LoggerLevel::getLevelTrace(), $logger->getLevel());
+
+        $map = Logger::getHierarchy()->getRendererMap();
+        $actual = $map->findAndRender(new TestClass());
+        self::assertEquals('test1,test2,test3', $actual);
+
     }
 }

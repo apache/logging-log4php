@@ -54,6 +54,13 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 		if(isset($config['threshold'])) {
 			$hierarchy->setThreshold(LoggerOptionConverter::toLevel($config['threshold'], LoggerLevel::getLevelAll()));
 		}
+
+		// add renderes
+		if (isset($config['renderers'])) {
+			foreach ($config['renderers'] as $renderedClass => $renderingClass) {
+				$hierarchy->getRendererMap()->addRenderer($renderedClass, $renderingClass);
+			}
+		}
 		
 		// parse and create appenders
 		if(isset($config['appenders'])) {
