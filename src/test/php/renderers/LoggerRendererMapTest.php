@@ -22,10 +22,14 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+
 class Fruit3 {
     public $test1 = 'test1';
     public $test2 = 'test2';
     public $test3 = 'test3';
+}
+
+class Fruit3Descendant extends Fruit3 {
 }
 
 class FruitRenderer3 implements LoggerRendererObject {
@@ -47,6 +51,17 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals('test1,test2,test3', $e);
 	}
         
+	public function testFindAndRenderDescendants() {
+		$fruit = new Fruit3Descendant();
+		Logger::configure(dirname(__FILE__).'/test4.properties');
+		Logger::initialize();
+		$hierarchy = Logger::getHierarchy();
+
+		$map = $hierarchy->getRendererMap();
+		$e = $map->findAndRender($fruit);
+		self::assertEquals('test1,test2,test3', $e);
+	}
+
 	public function testGetByObject() {
 		$fruit = new Fruit3();
 		Logger::configure(dirname(__FILE__).'/test4.properties');
