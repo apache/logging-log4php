@@ -24,6 +24,9 @@
  * 
  * This class has been originally contributed from Vladimir Gorej 
  * (http://github.com/log4mongo/log4mongo-php).
+ * 
+ * @package log4php
+ * @subpackage helpers
  */
 class LoggerLoggingEventBsonifier 
 {
