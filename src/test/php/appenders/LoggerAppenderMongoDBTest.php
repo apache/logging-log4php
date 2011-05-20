@@ -45,6 +45,14 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		self::$event = null;
 	}
 	
+	protected function setUp() {
+		if (extension_loaded('mongo') == false) {
+			$this->markTestSkipped(
+				'The Mongo extension is not available.'
+			);
+		}
+	}
+	
 	public function test__construct() {
 		$appender = new LoggerAppenderMongoDB('mongo_appender');
 		$this->assertTrue($appender instanceof LoggerAppenderMongoDB);
@@ -116,21 +124,21 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	public function testGetUserName() {
 		$expected = 'char0n';
 		self::$appender->setUserName($expected);		
-		$result		= self::$appender->getUserName();
+		$result	= self::$appender->getUserName();
 		$this->assertEquals($expected, $result, 'UserName doesn\'t match expted value');
 	}					 
 	
 	public function testSetPassword() {
 		$expected = 'secret pass';
 		self::$appender->setPassword($expected);		
-		$result		= self::$appender->getPassword();
+		$result	= self::$appender->getPassword();
 		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
 	}
 	
 	public function testGetPassword() {
 		$expected = 'secret pass';
 		self::$appender->setPassword($expected);		
-		$result		= self::$appender->getPassword();
+		$result	= self::$appender->getPassword();
 		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
 	} 
 	
@@ -144,10 +152,10 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		}		
 	}		
 	
-    public function testAppend() {
+	public function testAppend() {
 		self::$appender->append(self::$event);
 	}
-    
+	
 	public function testMongoDB() {
 		self::$appender->activateOptions();		
 		$mongo  = self::$appender->getConnection();
@@ -158,12 +166,12 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		self::$appender->append(self::$event);
 
 		$this->assertNotEquals(null, $collection->findOne(), 'Collection should return one record');
-	}     
+	} 
 
 	public function testMongoDBException() {
-	    self::$appender->activateOptions();		
+		self::$appender->activateOptions();		
 		$mongo	= self::$appender->getConnection();
-		$db			= $mongo->selectDB('log4php_mongodb');
+		$db		= $mongo->selectDB('log4php_mongodb');
 		$db->drop('logs');				
 		$collection = $db->selectCollection('logs');
 			
@@ -177,7 +185,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	public function testMongoDBInnerException() {
 		self::$appender->activateOptions();
 		$mongo	= self::$appender->getConnection();
-		$db			= $mongo->selectDB('log4php_mongodb');
+		$db		= $mongo->selectDB('log4php_mongodb');
 		$db->drop('logs');				
 		$collection = $db->selectCollection('logs');
 				
@@ -188,7 +196,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertNotEquals(null, $collection->findOne(), 'Collection should return one record');
 	}
-    
+	
 	public function testClose() {
 		self::$appender->close();
 	}

@@ -37,11 +37,19 @@ class LoggerLoggingEventBsonifierTest extends PHPUnit_Framework_TestCase {
 	public static function setUpBeforeClass() {
 		self::$logger = Logger::getLogger('test.Logger');
 		self::$bsonifier = new LoggerLoggingEventBsonifier();
-	}	
+	}
 	
 	public static function tearDownAfterClass() {
 		self::$logger  = null;
 		self::$bsonifier  = null;
+	}
+	
+	protected function setUp() {
+		if (extension_loaded('mongo') == false) {
+			$this->markTestSkipped(
+				'The Mongo extension is not available.'
+			);
+		}
 	}
 	
 	public function testFormatSimple() {
@@ -174,38 +182,38 @@ class LoggerLoggingEventBsonifierTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsThreadInteger() {
-        $event = new LoggerLoggingEvent(
-                'testFqcn',
-                self::$logger,
-                LoggerLevel::getLevelWarn(),
-                'test message'
-        );
-        $bsonifiedEvent = self::$bsonifier->bsonify($event);
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			self::$logger,
+			LoggerLevel::getLevelWarn(),
+			'test message'
+		);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
 		$this->assertTrue(is_int($bsonifiedEvent['thread']));
 	}
 
-    public function testIsLocationInfoLineNumberIntegerOrNA() {
-        $event = new LoggerLoggingEvent(
-                'testFqcn',
-                self::$logger,
-                LoggerLevel::getLevelWarn(),
-                'test message'
-        );
-        $bsonifiedEvent = self::$bsonifier->bsonify($event);
-        $this->assertTrue(is_int($bsonifiedEvent['lineNumber']) || $bsonifiedEvent['lineNumber'] == 'NA');
-    }
+	public function testIsLocationInfoLineNumberIntegerOrNA() {
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			self::$logger,
+			LoggerLevel::getLevelWarn(),
+			'test message'
+		);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
+		$this->assertTrue(is_int($bsonifiedEvent['lineNumber']) || $bsonifiedEvent['lineNumber'] == 'NA');
+	}
 
-    public function testIsThrowableInfoExceptionCodeInteger() {
-        $event = new LoggerLoggingEvent(
-                'testFqcn',
-                self::$logger,
-                LoggerLevel::getLevelWarn(),
-                'test message',
-                microtime(true),
-                new Exception('test exeption', 1, new Exception('test exception inner', 2))
-        );
-        $bsonifiedEvent = self::$bsonifier->bsonify($event);
-        $this->assertTrue(is_int($bsonifiedEvent['exception']['code']));
-    }
+	public function testIsThrowableInfoExceptionCodeInteger() {
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			self::$logger,
+			LoggerLevel::getLevelWarn(),
+			'test message',
+			microtime(true),
+			new Exception('test exeption', 1, new Exception('test exception inner', 2))
+		);
+		$bsonifiedEvent = self::$bsonifier->bsonify($event);
+		$this->assertTrue(is_int($bsonifiedEvent['exception']['code']));
+	}
 }
 ?>
