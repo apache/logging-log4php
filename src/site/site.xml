@@ -24,6 +24,13 @@
 		<src>images/ls-logo.jpg</src>
 		<href>http://logging.apache.org/</href>
 	</bannerLeft>  
+	
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-default-skin</artifactId>
+		<version>1.0</version>
+	</skin>
+	
 	<body>
 		<breadcrumbs>
 		  <item name="Apache" href="http://www.apache.org/"/>
