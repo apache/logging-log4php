@@ -24,6 +24,7 @@
   </properties>
   <body>
   	<release version="2.1" description="Stabilizing">
+  		<action type="fix" issue="LOG4PHP-129" by="Ivan Habunek">Log4PHP causes odd errors in the underlying application if used with source having an existing __autoload function</action>
   		<action type="fix" issue="LOG4PHP-122" by="Moritz Schmidt">RendererMap::getByClassName doesnt recognize instances of child classes</action>
   		<action type="fix" issue="LOG4PHP-123" by="Moritz Schmidt, Ivan Habunek">LoggerConfiguratorPhp does not parse renderer configuration</action>
   		<action type="fix" issue="LOG4PHP-110" by="Vladimir Gorej, Ivan Habunek">Adapted MongoDB appender to better fit in log4php codebase.</action>
