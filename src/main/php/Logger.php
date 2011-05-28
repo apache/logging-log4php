@@ -28,6 +28,10 @@
  */
 if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
 
+if (function_exists('__autoload')) {
+	trigger_error("log4php: It looks like your code is using an __autoload() function. log4php uses spl_autoload_register() which will bypass your __autoload() function and may break autoloading.", E_USER_WARNING);
+}
+
 spl_autoload_register(array('Logger', 'autoload'));
 
 /**
