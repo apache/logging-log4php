@@ -22,7 +22,7 @@ Installation
 
   log4php is installed easily: 
 
-  * {{{download.html}download}} the package and unpack it.
+  * {{{./download.html}download}} the package and unpack it.
   
   * copy the folder src/main/php into the target location of your application, f. e. $YOURAPP/log4php
   

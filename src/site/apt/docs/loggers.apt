@@ -34,7 +34,7 @@ $logger = Logger::getLogger('foo');
 $logger->info("This is the message to be logged.");
 +--  
   
-  Loggers by themselves do not define where these messages will be logged. For that you need to assign one or more {{{appender/appender.html}appenders}} to the logger.
+  Loggers by themselves do not define where these messages will be logged. For that you need to assign one or more {{{./appender/appender.html}appenders}} to the logger.
   
 * {Logger threshold}
 
@@ -49,7 +49,7 @@ $logger->info("This is the message to be logged.");
 
   Loggers can be individually configured in the configuration file. 
   
-  The simplest example is to configure the root logger, since all other loggers will inherit its settings, as explained in the {{{loggers.html#Logger_hierarchy}next section}}.
+  The simplest example is to configure the root logger, since all other loggers will inherit its settings, as explained in the {{{./loggers.html#Logger_hierarchy}next section}}.
   
 +--
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
@@ -61,7 +61,7 @@ $logger->info("This is the message to be logged.");
 </log4php:configuration>
 +--
 
-  This configuration adds the <default> appender to the root logger, and sets it's {{{loggers.html#Logger_threshold}threshold level}} to DEBUG.
+  This configuration adds the <default> appender to the root logger, and sets it's {{{./loggers.html#Logger_threshold}threshold level}} to DEBUG.
 
   It is also possible to configure individual named loggers. For example, let's configure the <foo> logger, used in the example above, and set it's threshold to WARN:
   

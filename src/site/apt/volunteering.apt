@@ -41,7 +41,7 @@ On Volunteering
     for the log4php project, and seen any bugs that you can create a
     patch for?
 
-  * Have you checked your favorite package's {{{roadmap.html}roadmap file}} or 
+  * Have you checked your favorite package's {{{./roadmap.html}roadmap file}} or 
     {{{http://wiki.apache.org/logging/Log4PHP/TODO}todo files}}
     for things that have already been thought about, but just are
     not done yet?

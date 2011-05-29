@@ -40,7 +40,7 @@ Appenders
   
   * A <<class>> which specifies which appender class will be used to handle the requests. Since we wish to log to a file, <LoggerAppenderFile> is used in this case.
   
-  * Most appenders have an associated {{{layout.html}layout}}, which governs how the message is formatted.
+  * Most appenders have an associated {{{./layout.html}layout}}, which governs how the message is formatted.
   
   * An appender can have zero or more <<parameters>> which configure it's behaviour. In our example, the <file> parameter governs the path to the file which will be used for logging, and <append> defines that log messages should be appended to the file, instead of truncating it.
   

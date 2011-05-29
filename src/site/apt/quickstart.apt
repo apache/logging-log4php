@@ -20,9 +20,9 @@ Quickstart
 
 Quickstart
 
-  First, please {{{install.html}install log4php}}.
+  First, please {{{./install.html}install log4php}}.
 
-  It would also be wise to read the {{{docs/introduction.html}introduction to log4php}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
+  It would also be wise to read the {{{./docs/introduction.html}introduction to log4php}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
   
 * A trivial example
   
@@ -64,11 +64,11 @@ Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
 
   This configuration file does the following:
   
-  [[1]] Creates an appender called <myAppender> using appender class {{{docs/appender/appender.html#LoggerAppenderFile}LoggerAppenderFile}} which is used for logging to a file.
+  [[1]] Creates an appender called <myAppender> using appender class {{{./docs/appender/appender.html#LoggerAppenderFile}LoggerAppenderFile}} which is used for logging to a file.
 
   [[2]] Sets the <file> parameter, which is required for LoggerAppenderFile, to the path to the file in which events will be logged.
   
-  [[3]] Configures the root {{{docs/loggers.html}logger}} at WARN {{{docs/introduction.html#Levels}level}}. Therefore, logging requests with the level lower than WARN will be ignored.
+  [[3]] Configures the root {{{./docs/loggers.html}logger}} at WARN {{{./docs/introduction.html#Levels}level}}. Therefore, logging requests with the level lower than WARN will be ignored.
 
   [[4]] Links <myAppender> with the root logger so that all events recieved by the root logger will be forwarded to <myAppender> and written into the log file.
   
