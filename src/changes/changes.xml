@@ -22,6 +22,8 @@
 	</properties>
 	<body>
 		<release version="2.1" date="SVN" description="Stabilizing">
+			<action date="2011-06-01" type="fix" issue="LOG4PHP-138" dev="Christian Grobmeier">Permission denied while renaming log file when hundred of users are accessing the application
+</action>
 			<action date="2011-05-28" type="fix" issue="LOG4PHP-140" dev="Ivan Habunek">Fixed incorrect usage of changes.xml</action>
 			<action date="2011-05-28" type="fix" issue="LOG4PHP-129" dev="Ivan Habunek">Log4PHP causes odd errors in the underlying application if used with source having an existing __autoload function</action>
 			<action date="2011-05-20" type="fix" issue="LOG4PHP-122" dev="Ivan Habunek" due-to="Moritz Schmidt" due-to-email="fusselwurm at gmail dot com">RendererMap::getByClassName doesnt recognize instances of child classes</action>

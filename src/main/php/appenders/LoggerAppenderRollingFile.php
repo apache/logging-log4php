@@ -140,8 +140,8 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		}
 		
 		//unset($this->fp);
+		$this->setFile($fileName);
 		$this->activateOptions();
-		$this->setFile($fileName, false);
 	}
 	
 	public function setFile($fileName) {
@@ -222,11 +222,40 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		parent::append($event);
-		if(ftell($this->fp) > $this->getMaxFileSize()) {
-			$this->rollOver();
+		if(ftell($this->fp) > $this->getMaxFileSize()) { 
+			if(flock($this->fp, LOCK_EX)) { 
+				if(ftell($this->fp) > $this->getMaxFileSize()) { 
+					$this->rollOver(); 
+					$this->updateLoggers();
+				}
+			}
 		}
 	}
 	
+	/**
+	 * Iterates through all loggers and updates all appenders with a new file name
+	 */
+	private function updateLoggers() {
+		$appenders = Logger::getRootLogger()->getAllAppenders();
+		$this->updateAppenders($appenders);
+		$loggers = Logger::getAllLoggers();
+		foreach($loggers as $logger) {
+			$appenders = $logger->getAllAppenders();
+			$this->updateAppenders($appenders);
+		}
+	}
+
+	/**
+	 * Updates all appenders with a new file name
+	 */
+	private function updateAppenders($appenders) {
+		foreach($appenders as $appender) {
+			if($appender instanceof LoggerAppenderRollingFile) {
+				$appender->setFile($this->getFile());
+				$appender->activateOptions();
+			}
+		}
+	}
 	
 	/**
 	 * @return Returns the maximum number of backup files to keep around.

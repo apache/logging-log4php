@@ -140,6 +140,54 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 			self::assertTrue(false);
 		}
 	}
+	
+	public function testLoggingViaLogger() {
+		$logger = Logger::getLogger('mycat');
+		$logger->setAdditivity(false);
+		$layout = new LoggerLayoutSimple();
+
+		$appender = new LoggerAppenderRollingFile("mylogger");
+		$appender->setFile($this->dir.'/TEST-rolling.txt');
+		$appender->setLayout($layout);
+		$appender->setMaxFileSize('1KB');
+		$appender->setMaxBackupIndex(2);
+		$appender->activateOptions();
+
+		$logger->addAppender($appender);
+		
+		for($i = 0; $i < 1000; $i++) {
+			$logger->warn("my message123");
+		}
+		
+		$logger->warn("my messageXYZ");
+		
+		$file = $this->dir.'/TEST-rolling.txt';
+		$data = file($file);
+		
+		$line = $data[count($data)-1];
+		$e = "WARN - my messageXYZ".PHP_EOL;
+		self::assertEquals($e, $line);
+
+		$file = $this->dir.'/TEST-rolling.txt.1';
+		$data = file($file);
+		$line = $data[count($data)-1];
+		$e = "WARN - my message123".PHP_EOL;
+		foreach($data as $r) {
+			self::assertEquals($e, $r);
+		}
+
+		$file = $this->dir.'/TEST-rolling.txt.2';
+		$data = file($file);
+		$line = $data[count($data)-1];
+		$e = "WARN - my message123".PHP_EOL;
+		foreach($data as $r) {
+			self::assertEquals($e, $r);
+		}
+
+		if(file_exists($this->dir.'/TEST-rolling.txt.3')) {
+			self::assertTrue(false);
+		}
+	}
 
 	protected function tearDown() {
 		@unlink($this->dir.'/TEST-rolling.txt');
