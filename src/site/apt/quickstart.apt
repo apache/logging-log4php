@@ -20,16 +20,18 @@ Quickstart
 
 Quickstart
 
-  First, please {{{./install.html}install log4php}}.
+  First, please {{{./download.html}download log4php}} and unpack it.
+  
+  Optionally, you may copy the folder <<src/main/php>>, which contains the source code, to a location of your choosing. For example, a folder within your project.  
 
-  It would also be wise to read the {{{./docs/introduction.html}introduction to log4php}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
+  Please read the {{{./docs/introduction.html}introduction}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
   
 * A trivial example
   
   You just want logging to stdout?
 
 +--
-require_once('log4php/Logger.php');
+include('log4php/Logger.php');
 
 $logger = Logger::getLogger("main");
 $logger->info("foo");
@@ -77,8 +79,8 @@ Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
   To try it out, run the following code:
 
 +--
-// Replace the path with where you installed log4php
-require_once('/path/to/log4php/Logger.php');
+// Insert the path where you unpacked log4php
+include('log4php/Logger.php');
 
 // Tell log4php to use our configuration file.
 Logger::configure('log4php.xml');
@@ -105,7 +107,15 @@ FATAL - My sixth message.
 
 * An advanced example
 
-  Named loggers; layouts; best practices in object-oriented programming.
+  This example covers:
+  
+  * named loggers 
+  
+  * using layouts 
+  
+  * best practices in object-oriented programming
+  
+  []
   
   Create the following configuration file:
 
@@ -144,7 +154,7 @@ FATAL - My sixth message.
   The code:
   
 +--
-require 'D:\Projects\apache\log4php\src\main\php\Logger.php';
+include('log4php/Logger.php');
 
 Logger::configure('D:\Projects\apache\_playground\log4php.xml');
 

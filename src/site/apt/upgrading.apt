@@ -18,18 +18,18 @@ Upgrading
  ------
  ------
 
-Upgrading from previous versions to 2.0
+Upgrading
 
-  log4php 2.0 is not compatible with the previous versions. Please have the following in mind when
+  Apache log4php 2.0 is not compatible with the previous versions. Please have the following in mind when
   upgrading to log4php 2.0 in your project: 
 
-  * PHP5 is required instead of PHP4
+  * PHP 5.2+ is required
   
-  * The LoggerManager class has been removed. Use Logger instead.
+  * LoggerManager class has been removed. Use Logger instead.
   
   * LoggerHierarchy is not a singleton anymore by default. 
   
-  * log4php logs to std out by default
+  * Apache log4php logs to STDOUT by default
   
-  * The old constants LOG4PHP_CONFIGURATION and similar are not longer valid. Please use Logger::configure for configuring log4php
+  * LOG4PHP_CONFIGURATION constant is no longer used. Please use Logger::configure() to configure log4php.
   

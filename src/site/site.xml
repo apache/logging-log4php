@@ -45,7 +45,6 @@
   
 		<menu name="Get log4php">
 		   <item name="Download" href="/download.html"/>
-		   <item name="Install" href="/install.html"/>
 		   <item name="Upgrading" href="/upgrading.html"/>
 		</menu>
 
@@ -63,7 +62,7 @@
 				<item name="Renderer" href="/docs/renderer.html"/> 
 				<item name="Performance" href="/docs/performance.html"/>
 			</item>
-			<item name="PHPDoc" href="/apidocs/index.html"/>
+			<item name="API docs" href="/apidocs/index.html"/>
 		</menu>
 		
 		<menu name="Community">
@@ -76,7 +75,6 @@
 		<menu name="Developers">
 			<item name="Volunteering" href="/volunteering.html"/>
 			<item name="Contributing Patches" href="/contributingpatches.html"/>			
-			<item name="Roadmap" href="/roadmap.html"/>
 			<item name="Code Coverage" href="/coverage-report/index.html"/>
 			<item name="Buildbot" href="http://ci.apache.org/projects/log4php"/>
 		</menu>
