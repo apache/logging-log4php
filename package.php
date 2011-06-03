@@ -21,9 +21,10 @@ date_default_timezone_set('Europe/Berlin');
 if(!class_exists('PEAR_PackageFileManager2')) {
 	echo "\nYou need to install PEAR_PackageFileManager2 in order to run this script\n\n";
 	echo "Installation tips:\n\n";
-	echo "  $ sudo pear upgrade PEAR\n";
-	echo "  $ sudo pear install XML_Serializer-0.19.2\n";
-	echo "  $ sudo pear install --alldeps PEAR_PackageFileManager2\n\n";
+	echo "  $ pear upgrade PEAR\n";
+	echo "  $ pear install XML_Serializer-0.20.2\n";
+	echo "  $ pear install Console_ProgressBar-0.5.2beta\n";
+	echo "  $ pear install --alldeps PEAR_PackageFileManager2\n\n";
 	exit(0);
 }
 
@@ -41,10 +42,10 @@ $package->setSummary($summary);
 $package->setDescription($description);
 
 $package->setChannel($channel);
-$package->setAPIVersion($apiVersion);
+$package->setAPIVersion($version);
 $package->setReleaseVersion($version);
-$package->setReleaseStability($state);
-$package->setAPIStability($apiStability);
+$package->setReleaseStability($stability);
+$package->setAPIStability($stability);
 $package->setNotes($notes);
 $package->setPackageType('php'); // this is a PEAR-style php script package
 $package->setLicense($license['name'], $license['url']);

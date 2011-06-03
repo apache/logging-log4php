@@ -17,20 +17,18 @@
  */
 
 // parse pom.xml to get version in sync
-preg_match("/<version>(.+?)(-(incubating))?(-SNAPSHOT)?<\/version>/", file_get_contents("../../pom.xml"), $pom_version);
+$xml = simplexml_load_file('../../pom.xml');
+$pom_version = (string) $xml->version;
+
+preg_match("/^([^-]+)(-SNAPSHOT)?$/", $pom_version, $matches);
+$version = $matches[1];
+$stability = empty($matches[2]) ? 'stable' : 'devel';
 
 $name = 'Apache_log4php';
-$summary = 'log4php is a PHP port of log4j framework';
-$version = $pom_version[1].(empty($pom_version[3]) ? '' : $pom_version[3]);
-$versionBuild = 'b1';
-$apiVersion = '2.0.0';
-$state = empty($pom_version[4]) ? 'stable' : 'snapshot';
-$apiStability = 'stable';
+$summary = 'Apache log4php is a logging framework for PHP.';
 
 $description = <<<EOT
-log4php is a PHP port of log4j framework. It supports XML configuration, 
-logging to files, stdout/err, syslog, socket, configurable output layouts 
-and logging levels.
+Apache log4php is a logging framework for PHP at the Apache Software Foundation (ASF).
 EOT;
 
 $notes = 'Please see CHANGELOG and changes.xml!';
@@ -79,6 +77,13 @@ $maintainer[]   =   array(
     'handle' => 'chammers',
     'name' => 'Christian Hammers',
     'email' => 'chammers@apache.org',
+    'active' => 'yes'
+);
+$maintainer[]   =   array(
+    'role' => 'developer',
+    'handle' => 'ihabunek',
+    'name' => 'Ivan Habunek',
+    'email' => 'ihabunek@apache.org',
     'active' => 'yes'
 );
 
