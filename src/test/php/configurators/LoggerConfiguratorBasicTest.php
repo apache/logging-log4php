@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group configurators
+ */
 class LoggerConfiguratorBasicTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {

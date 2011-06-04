@@ -24,6 +24,9 @@
  */
 class MyFilter extends LoggerFilter {}
 
+/**
+ * @group filters
+ */
 class LoggerFilterTest extends PHPUnit_Framework_TestCase {
         
 	public function testDecide() {

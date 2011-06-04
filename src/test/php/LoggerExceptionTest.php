@@ -23,6 +23,9 @@
  */
 class MyException extends Exception { }
 
+/**
+ * @group main
+ */
 class LoggerExceptionTest extends PHPUnit_Framework_TestCase {
   	/**
 	 * @expectedException LoggerException

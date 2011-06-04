@@ -43,8 +43,9 @@ class Simple {
         $this->male = $male;
     }
 }
+
 /**
- * Tests the LoggerReflectionUtils class
+ * @group main
  */
 class LoggerReflectionUtilsTest extends PHPUnit_Framework_TestCase {
 

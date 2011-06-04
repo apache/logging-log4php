@@ -22,10 +22,13 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+
 define('MY_CONSTANT_CONSTANT', 'DEFINE');
 define('MY_CONSTANT_CONSTANT_OTHER', 'DEFINE_OTHER');
 
-// require_once "src/main/php/helpers/LoggerOptionConverter.php";
+/**
+ * @group helpers
+ */
 class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
 
     public function testToBoolean() {

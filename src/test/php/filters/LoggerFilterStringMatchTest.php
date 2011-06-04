@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group filters
+ */
 class LoggerFilterStringMatchTest extends PHPUnit_Framework_TestCase {
         
 	public function testDecideAccept() {

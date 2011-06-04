@@ -23,8 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
-/** Tests the Console Appender.
- * 
+/** 
+ * @group appenders
+ *        
  * FIXME: Currently clutters the phpunit output as output buffering seems not
  *        to work for fwrite(STDOUT, ...)
  */

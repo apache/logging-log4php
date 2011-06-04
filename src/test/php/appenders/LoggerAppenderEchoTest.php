@@ -22,6 +22,10 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+
+/**
+ * @group appenders
+ */
 class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 
 	public function testEcho() {

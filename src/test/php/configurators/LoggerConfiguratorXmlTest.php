@@ -34,6 +34,9 @@ class FruitRenderer2 implements LoggerRendererObject {
 	}
 }
 
+/**
+ * @group configurators
+ */
 class LoggerConfiguratorXmlTest extends PHPUnit_Framework_TestCase {
         
 	protected function setUp() {

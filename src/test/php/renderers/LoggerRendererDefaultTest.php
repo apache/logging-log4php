@@ -29,6 +29,9 @@ class DefaultRendererMockObject {
 	public $c;
 }
 
+/**
+ * @group renderers
+ */
 class LoggerRendererDefaultTest extends PHPUnit_Framework_TestCase {
 
 	public function testDoRender() {

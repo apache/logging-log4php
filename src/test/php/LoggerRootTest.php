@@ -22,6 +22,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group main
+ */
 class LoggerRootTest extends PHPUnit_Framework_TestCase {
         
 	private $loggerRoot;

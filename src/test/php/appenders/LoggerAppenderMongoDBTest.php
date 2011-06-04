@@ -15,7 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @package log4php
+ * @category   tests   
+ * @package    log4php
+ * @subpackage appenders
+ * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version    SVN: $Id$
+ * @link       http://logging.apache.org/log4php
  */
 
 /**
@@ -24,10 +29,7 @@
  * This class has been originally contributed from Vladimir Gorej 
  * (http://github.com/log4mongo/log4mongo-php).
  * 
- * @version $Revision: 806678 $
- * @package log4php
- * @subpackage appenders
- * @since 2.1
+ * @group appenders
  */
 class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		

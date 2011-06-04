@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests the LoggerLevel
+ * @group main
  */
 class LoggerLevelTest extends PHPUnit_Framework_TestCase {
         

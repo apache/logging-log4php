@@ -38,6 +38,9 @@ class FruitRenderer3 implements LoggerRendererObject {
 	}
 }
 
+/**
+ * @group renderers
+ */
 class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
         
 	public function testFindAndRender() {

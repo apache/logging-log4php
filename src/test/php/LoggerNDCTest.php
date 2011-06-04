@@ -22,8 +22,11 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+
+/**
+ * @group main
+ */
 class LoggerNDCTest extends PHPUnit_Framework_TestCase {
-	
 	
 	public function testItemHandling()
 	{

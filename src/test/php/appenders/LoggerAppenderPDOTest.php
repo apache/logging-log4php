@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group appenders
+ */
 class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
     const dsn = 'sqlite:../../../target/pdotest.sqlite';
     const file = '../../../target/pdotest.sqlite';

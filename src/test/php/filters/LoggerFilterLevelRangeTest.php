@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group filters
+ */
 class LoggerFilterLevelRangeTest extends PHPUnit_Framework_TestCase {
         
 	public function testDecide() {

@@ -23,7 +23,11 @@
  * @link       http://logging.apache.org/log4php
  */
 
-// TODO: Should also test complex patterns like: "%d{Y-m-d H:i:s} %-5p %c %X{username}: %m in %F at %L%n"
+/**
+ * @group helpers
+ * 
+ * TODO: Should also test complex patterns like: "%d{Y-m-d H:i:s} %-5p %c %X{username}: %m in %F at %L%n"
+ */
 class LoggerPatternParserTest extends PHPUnit_Framework_TestCase {
         
     public function testErrorLayout() {

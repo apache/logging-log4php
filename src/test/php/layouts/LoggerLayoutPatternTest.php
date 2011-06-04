@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group layouts
+ */
 class LoggerLayoutPatternTest extends PHPUnit_Framework_TestCase {
 
 	/** Pattern used for testing. */

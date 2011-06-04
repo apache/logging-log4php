@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group appenders
+ */
 class LoggerAppenderMailTest extends PHPUnit_Framework_TestCase {
         
 	public function testRequiresLayout() {

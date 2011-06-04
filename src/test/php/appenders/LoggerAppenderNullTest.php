@@ -23,6 +23,9 @@
  * @link       http://logging.apache.org/log4php
  */
 
+/**
+ * @group appenders
+ */
 class LoggerAppenderNullTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * The Null appender does nothing - nothing to assert.

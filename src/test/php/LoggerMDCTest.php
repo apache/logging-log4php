@@ -22,6 +22,10 @@
  * @version    SVN: $Id$
  * @link       http://logging.apache.org/log4php
  */
+
+/**
+ * @group main
+ */
 class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	
 	/** A pattern with 1 key. */

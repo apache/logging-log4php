@@ -45,6 +45,9 @@ class LoggerLoggingEventTestCaseLayout extends LoggerLayout {
 	}
 }
 
+/**
+ * @group main
+ */
 class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
         
 	public static $locationInfo;
