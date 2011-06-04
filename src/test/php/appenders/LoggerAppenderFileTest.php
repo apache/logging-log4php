@@ -28,7 +28,7 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
 	private $testPath;
 	
 	public function __construct() {
-		$this->testPath = dirname(__FILE__) . '/../../../target/temp/phpunit/TEST.txt';
+		$this->testPath = dirname(__FILE__) . '/../../../../target/temp/phpunit/TEST.txt';
 	}
 	
     protected function setUp() {
@@ -57,7 +57,7 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
 		$appender->append($event);
 		$appender->close();
 
-		$v = file_get_contents($this->testPath);		
+		$v = file_get_contents($this->testPath);
 		$e = "WARN - my message".PHP_EOL;
 		self::assertEquals($e, $v);
     }
