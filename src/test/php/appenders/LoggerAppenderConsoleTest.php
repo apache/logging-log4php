@@ -30,6 +30,15 @@
  */
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
     
+	private $event;
+	
+	public function setUp()
+	{
+		$logger = new Logger('mycategory');
+		$level = LoggerLevel::getLevelWarn();
+		$this->event = new LoggerLoggingEvent(__CLASS__, $logger, $level, "my message");
+	}
+	
 	public function testRequiresLayout() {
 		$appender = new LoggerAppenderConsole(); 
 		self::assertTrue($appender->requiresLayout());
@@ -38,54 +47,32 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
     public function testSimpleStdOutLogging() {
     	$layout = new LoggerLayoutSimple();
     	
-    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
-    									new Logger('mycategory'), 
-    									LoggerLevel::getLevelWarn(),
-    									"my message");
-    	
     	$appender = new LoggerAppenderConsole("mylogger"); 
     	$appender->setTarget('STDOUT');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
-
-		ob_start();
-		$appender->append($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-
+		$appender->append($this->event);
 		$appender->close();
-		
     }
 
     public function testSimpleStdErrLogging() {
     	$layout = new LoggerLayoutSimple();
     	
-    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
-    									new Logger('mycategory'), 
-    									LoggerLevel::getLevelWarn(),
-    									"my message");
-    	
     	$appender = new LoggerAppenderConsole("mylogger"); 
 		$appender->setTarget('STDERR');
 		$appender->setLayout($layout);
 		$appender->activateOptions();
-		$appender->append($event);
+		$appender->append($this->event);
 		$appender->close();
     }    
-
 
     public function testSimpleDefaultLogging() {
     	$layout = new LoggerLayoutSimple();
     	
-    	$event = new LoggerLoggingEvent('LoggerAppenderConsoleTest', 
-    									new Logger('mycategory'), 
-    									LoggerLevel::getLevelWarn(),
-    									"my message");
-    	
     	$appender = new LoggerAppenderConsole("mylogger"); 
 		$appender->setLayout($layout);
 		$appender->activateOptions();
-		$appender->append($event);
+		$appender->append($this->event);
 		$appender->close();
     }
 }
