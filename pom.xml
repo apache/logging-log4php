@@ -1,33 +1,40 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
 
-	<!--
-		Licensed to the Apache Software Foundation (ASF) under one or more
-		contributor license agreements. See the NOTICE file distributed with
-		this work for additional information regarding copyright ownership.
-		The ASF licenses this file to You under the Apache License, Version
-		2.0 (the "License"); you may not use this file except in compliance
-		with the License. You may obtain a copy of the License at
+	  http://www.apache.org/licenses/LICENSE-2.0
 
-		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.apache.log4php</groupId>
 	<artifactId>apache-log4php</artifactId>
-	<packaging>jar</packaging>
-	<version>2.0.1-incubating-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<version>2.1.0</version>
 	<name>Apache log4php</name>
 	<description>Logging framework for PHP</description>
 	<url>http://logging.apache.org/log4php</url>
+	
 	<issueManagement>
 		<system>JIRA</system>
 		<url>http://issues.apache.org/jira/browse/LOG4PHP</url>
 	</issueManagement>
+	
+	<ciManagement>
+		<system>buildbot</system>
+		<url>http://ci.apache.org/builders/log4php-trunk</url>
+	</ciManagement>
+	
 	<mailingLists>
 		<mailingList>
 			<name>log4php-user</name>
@@ -50,6 +57,7 @@
 			</otherArchives>
 		</mailingList>
 	</mailingLists>
+	
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -57,11 +65,13 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
 	<scm>
 		<connection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</connection>
 		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</developerConnection>
 		<url>http://svn.apache.org/viewcvs.cgi/logging/log4php/trunk</url>
 	</scm>
+	
 	<organization>
 		<name>Apache Software Foundation</name>
 		<url>http://www.apache.org</url>
@@ -93,6 +103,7 @@
 			<email>ihabunek at apache.org</email>
 		</developer>
 	</developers>
+	
 	<contributors>
 		<contributor>
 			<name>Vladimir Gorej</name>
@@ -130,236 +141,144 @@
 	</contributors>
 
 	<properties>
-		<surefire.reports>target/surefire-reports</surefire.reports>
+		<surefire.report>target/surefire-reports</surefire.report>
 		<coverage.report>target/site/coverage-report</coverage.report>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<workingDirectory>target</workingDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				
 				<dependencies>
-					<dependency>
-						<groupId>org.apache.ant</groupId>
-						<artifactId>ant-trax</artifactId>
-						<version>1.7.0</version>
-					</dependency>
+					<!-- Replace Xalan XSLT engine with Saxon. Required for phpunit_to_surefire.xslt to work. -->
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>saxon</artifactId>
 						<version>8.7</version>
 					</dependency>
-					
-					<!--  SITE DEPENDENCIES -->		
-					
-					<dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-nodeps</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-           
-          <dependency>
-            <groupId>ant-contrib</groupId>
-            <artifactId>ant-contrib</artifactId>
-            <version>1.0b2</version>
-          </dependency>
-          
 				</dependencies>
+				
 				<executions>
 					<execution>
-						<id>phplint</id>
+						<id>syntax-check</id>
 						<phase>process-sources</phase>
+						<configuration>
+							<target>
+								<ant target="syntax-check" />
+							</target>
+						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
-							<tasks>
-								<apply executable="php">
-									<arg value="-l" />
-									<fileset dir="." includes="src/**/*.php" />
-								</apply>
-							</tasks>
-						</configuration>
 					</execution>
-					 <!-- 
-                     To create a pear package you need the following pear artifacts installed
-                        [exec]   $ sudo pear upgrade PEAR
-     					[exec]   $ sudo pear install XML_Serializer-0.19.2
-     					[exec]   $ sudo pear install - -alldeps PEAR_PackageFileManager2
-                      -->
+					
 					<execution>
 						<id>pear-package</id>
 						<phase>package</phase>
+						<configuration>
+							<target>
+								<ant target="pear-package" />
+							</target>
+						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
-							<tasks>
-								<delete dir="target/pear" />
-								<mkdir dir="target/pear/log4php" />
-								<copy file="package.php" todir="target/pear" />
-								<copy file="package-config.php" todir="target/pear" />
-								<copy file="src/changes/changes.xml" todir="target/pear" />
-								<copy file="CHANGELOG" todir="target/pear" />
-								<copy file="LICENSE" todir="target/pear" />
-								<copy file="README" todir="target/pear" />
-								<copy file="NOTICE" todir="target/pear" />
-								<copy todir="target/pear">
-									<fileset dir="src">
-										<include name="examples/**/*" />
-									</fileset>
-								</copy>
-								<copy todir="target/pear/log4php">
-									<fileset dir="src/main/php">
-										<include name="**/*.php" />
-										<include name="**/*.dtd" />
-									</fileset>
-								</copy>
-								<exec executable="php" dir="target/pear">
-									<arg line="-d error_reporting=6143" /> <!-- E_ALL & ~E_STRICT -->
-									<arg line="../../package.php" />
-								</exec>
-								<exec executable="pear" dir="target/pear">
-									<arg line="package" />
-								</exec>
-								<move tofile="target/Apache_log4php-${version}-pear.tgz">
-									<fileset dir="target/pear/">
-										<include name="Apache_log4php-*.tgz" />
-									</fileset>
-								</move>
-							</tasks>
-						</configuration>
 					</execution>
 
-					<!--+ 
-						| PHPDoc must be installed for this execution 
-						+-->
 					<execution>
-						<id>phpdoc</id>
+						<id>api-docs</id>
 						<phase>pre-site</phase>
+						<configuration>
+							<target>
+								<ant target="api-docs" />
+							</target>
+						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
-
-							<tasks>
-								<mkdir dir="target/site/apidocs" />
-								<exec executable="phpdoc" failonerror="true">
-									<arg value="-d" />
-									<arg value="src/main/php" />
-									<arg value="-t" />
-									<arg value="target/site/apidocs" />
-									<arg value="-o" />
-									<arg value="HTML:frames:DOM/default" />
-									<arg value="--title" />
-									<arg value="Apache log4php ${version}" />
-								</exec>
-							</tasks>
-
-						</configuration>
 					</execution>
 					
-					<!--+ 
-						| PHPUnit (and XDebug for the coverage report) must be installed
-						| for this execution 
-						+-->
 					<execution>
-						<id>test</id>
+						<id>unit-testing</id>
 						<phase>test</phase>
+						<configuration>
+							<target>
+								<ant target="unit-testing" />
+							</target>
+						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
-							<tasks>
-								<mkdir dir="${surefire.reports}" />
-								<mkdir dir="${coverage.report}" />
-								<exec executable="phpunit" dir="src/test/php">
-									<arg
-										line=" --log-junit ../../../${surefire.reports}/phpunit-testresults.xml" />
-									<arg line=" --coverage-html ../../../${coverage.report}" />
-								</exec>
-								<xslt in="${surefire.reports}/phpunit-testresults.xml" out="${surefire.reports}/xslt.info"
-									style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
-									<param name="outputDir" expression="${surefire.reports}" />
-								</xslt>
-							</tasks>
-						</configuration>
 					</execution>
 					
-					<!--+ 
-						| SITE deployment tasks 
-						+-->
 					<execution>
-						<phase>site</phase>
-						<id>untag-site</id>
-						<configuration>
-							<tasks>
-								<taskdef name="replaceregexp"
-									classname="org.apache.tools.ant.taskdefs.optional.ReplaceRegExp"
-									classpathref="maven.plugin.classpath" />
-								<replaceregexp file="target/site/source-repository.html"
-									match="/tags/[^ ]*" replace="/trunk" flags="g" />
-									
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
-						<phase>post-site</phase>
 						<id>post-site</id>
+						<phase>post-site</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<ant target="post-site" />
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
+					
 					<execution>
-						<phase>site-deploy</phase>
 						<id>site-deploy</id>
+						<phase>site-deploy</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<ant target="site-deploy" />
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
-
-
 				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<workingDirectory>target</workingDirectory>
+				</configuration>
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/src.xml</descriptor>
 					</descriptors>
 					<appendAssemblyId>true</appendAssemblyId>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.rat</groupId>
 				<artifactId>apache-rat-plugin</artifactId>
 				<version>0.6</version>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -368,58 +287,77 @@
 					<goals>site assembly:assembly</goals>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-	</dependencies>
-	<reporting>
-		<excludeDefaults>true</excludeDefaults>
-		<plugins>
-			<plugin>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>scm</report>
-							<report>dependencies</report>
-							<report>license</report>
-							<report>project-team</report>
-							<report>issue-tracking</report>
-							<report>mailing-list</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<artifactId>maven-changes-plugin</artifactId>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>changes-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-				<configuration>
-					<issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
-				</configuration>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.rat</groupId>
-				<artifactId>apache-rat-plugin</artifactId>
-				<version>0.6</version>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.0-beta-3</version>
 				<configuration>
-					<excludes>
-						<exclude>.buildbot-sourcedata</exclude>
-					</excludes>
+
+					<!-- Configure additional reports on the site -->
+					<reportPlugins>
+
+						<!-- Project info report -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.4</version>
+							<reportSets>
+								<reportSet>
+									<reports>
+										<report>cim</report>	
+										<report>scm</report>
+										<report>dependencies</report>
+										<report>license</report>
+										<report>project-team</report>
+										<report>issue-tracking</report>
+										<report>mailing-list</report>
+									</reports>
+								</reportSet>
+							</reportSets>
+						</plugin>
+						
+						<!-- Changes report -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-changes-plugin</artifactId>
+							<version>2.5</version>
+							<reportSets>
+								<reportSet>
+									<reports>
+										<report>changes-report</report>
+										<report>jira-report</report>
+									</reports>
+								</reportSet>
+							</reportSets>
+							<configuration>
+								<statusIds>Resolved, Closed</statusIds>
+								<columnNames>Type,Key,Summary,Assignee,Status,Resolution,Fix Version</columnNames>
+							</configuration>
+						</plugin>
+						
+						<!-- Surefire report -->
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+							<version>2.8.1</version>
+						</plugin>
+			
+						<!-- RAT report -->
+						<plugin>
+							<groupId>org.apache.rat</groupId>
+							<artifactId>apache-rat-plugin</artifactId>
+							<version>0.6</version>
+						</plugin>
+					</reportPlugins>
 				</configuration>
 			</plugin>
 		</plugins>
-	</reporting>
+	</build>
+	
+	<dependencies>
+	</dependencies>
+	
 	<distributionManagement>
 		<site>
 			<id>logging.site</id>
