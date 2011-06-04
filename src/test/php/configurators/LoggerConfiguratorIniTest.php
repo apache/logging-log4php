@@ -39,7 +39,7 @@ class FruitRenderer implements LoggerRendererObject {
 class LoggerConfiguratorIniTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-
+		Logger :: resetConfiguration();
     }
 
     protected function tearDown() {
