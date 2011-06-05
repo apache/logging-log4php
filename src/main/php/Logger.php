@@ -425,11 +425,10 @@ class Logger {
 	 * @param LoggerLoggingEvent $event 
 	 */
 	public function callAppenders($event) {
-		if(count($this->appenders) > 0) {
-			foreach(array_keys($this->appenders) as $appenderName) {
-				$this->appenders[$appenderName]->doAppend($event);
-			}
+		foreach($this->appenders as $appender) {
+			$appender->doAppend($event);
 		}
+		
 		if($this->parent != null and $this->getAdditivity()) {
 			$this->parent->callAppenders($event);
 		}
