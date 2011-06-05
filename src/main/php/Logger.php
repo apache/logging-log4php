@@ -218,7 +218,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function trace($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelTrace(), $caller);
+		$this->log(LoggerLevel::getLevelTrace(), $message, $caller);
 	} 		
 	
 	/**
@@ -228,7 +228,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function debug($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelDebug(), $caller);
+		$this->log(LoggerLevel::getLevelDebug(), $message, $caller);
 	} 
 
 
@@ -239,7 +239,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function info($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelInfo(), $caller);
+		$this->log(LoggerLevel::getLevelInfo(), $message, $caller);
 	}
 
 	/**
@@ -249,7 +249,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function warn($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelWarn(), $caller);
+		$this->log(LoggerLevel::getLevelWarn(), $message, $caller);
 	}
 	
 	/**
@@ -259,7 +259,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function error($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelError(), $caller);
+		$this->log(LoggerLevel::getLevelError(), $message, $caller);
 	}
 	
 	/**
@@ -269,7 +269,7 @@ class Logger {
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function fatal($message, $caller = null) {
-		$this->logLevel($message, LoggerLevel::getLevelFatal(), $caller);
+		$this->log(LoggerLevel::getLevelFatal(), $message, $caller);
 	}
 	
 	/**
@@ -342,19 +342,6 @@ class Logger {
 			$this->error($msg);
 		}
 	}
-	
-	/**
-	 * Log a message using the provided logging Level.
-	 * 
-	 * @param string $message
-	 * @param LoggerLevel $level
-	 * @param mixed $caller caller object or caller string id
-	 */
-	private function logLevel($message, $level, $caller = null) {
-		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
-			$this->forcedLog($this->fqcn, $caller, $level, $message);
-		}
-	} 
 	
 	/* Factory methods */ 
 	
