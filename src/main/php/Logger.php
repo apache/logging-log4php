@@ -25,25 +25,25 @@ if (function_exists('__autoload')) {
 spl_autoload_register(array('Logger', 'autoload'));
 
 /**
- * This is the central class in the log4j package. Most logging operations, 
- * except configuration, are done through this class. 
- *
- * In log4j this class replaces the Category class. There is no need to 
- * port deprecated classes; log4php Logger class doesn't extend Category.
- *
+ * This is the central class in the log4php package. All logging operations 
+ * are done through this class.
+ * 
+ * The main logging methods are:
+ * 	<ul>
+ * 		<li>{@link trace()}</li>
+ * 		<li>{@link debug()}</li>
+ * 		<li>{@link info()}</li>
+ * 		<li>{@link warn()}</li>
+ * 		<li>{@link error()}</li>
+ * 		<li>{@link fatal()}</li>
+ * 	</ul>
+ * 
  * @category   log4php
- * @package log4php
+ * @package    log4php
  * @license	   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @version	   SVN: $Id$
  * @link	   http://logging.apache.org/log4php
  */
- /*
-  * TODO:
-  * Localization: setResourceBundle($bundle) : not supported
-  * Localization: getResourceBundle: not supported
-  * Localization: getResourceBundleString($key): not supported
-  * Localization: l7dlog($priority, $key, $params, $t) : not supported
-  */
 class Logger {
 	private static $_classes = array(
 		'LoggerException' => '/LoggerException.php',
@@ -117,9 +117,9 @@ class Logger {
 	);
 
 	/**
-	 * Class autoloader
-	 * This method is provided to be invoked within an __autoload() magic method.
-	 * @param string class name
+	 * Class autoloader. This method is provided to be invoked within an 
+	 * __autoload() magic method.
+	 * @param string $className The name of the class to load.
 	 */
 	public static function autoload($className) {
 		if(isset(self::$_classes[$className])) {
@@ -128,52 +128,58 @@ class Logger {
 	}
 
 	/**
-	 * Additivity is set to true by default, that is children inherit the 
-	 * appenders of their ancestors by default.
+	 * Logger additivity. If set to true then child loggers will inherit
+	 * the appenders of their ancestors by default.
 	 * @var boolean
 	 */
 	private $additive = true;
 	
-	/** @var string fully qualified class name */
+	/** The Logger's fully qualified class name. */
 	private $fqcn = 'Logger';
 
-	/** @var LoggerLevel The assigned level of this category. */
-	private $level = null;
+	/** The assigned Logger level. */
+	private $level;
 	
-	/** @var string name of this category. */
-	private $name = '';
+	/** The name of this Logger instance. */
+	private $name;
 	
-	/** @var Logger The parent of this category. Null if this is the root logger*/
-	private $parent = null;
+	/** The parent logger. Set to null if this is the root logger. */
+	private $parent;
 	
 	/**
-	 * @var array collection of appenders
+	 * A collection of appenders associated with this logger.
 	 * @see LoggerAppender
 	 */
 	private $aai = array();
 
-	/** the hierarchy used by log4php */
+	/** The logger hierarchy used by log4php. */
 	private static $hierarchy;
 	
-	/** the configurator class name */
+	/** 
+	 * Name of the configurator class used to configure log4php. 
+	 * Populated by {@link configure()} and used in {@link initialize()}.
+	 */
 	private static $configurationClass = 'LoggerConfiguratorBasic';
 	
-	/** the path to the configuration file */
-	private static $configurationFile = null;
+	/** 
+	 * Path to the configuration file which may be used by the configurator.
+	 * Populated by {@link configure()} and used in {@link initialize()}. 
+	 */
+	private static $configurationFile;
 	
-	/** inidicates if log4php has already been initialized */
+	/** Inidicates if log4php has been initialized */
 	private static $initialized = false;
 	
 	/**
 	 * Constructor.
-	 * @param  string  $name  Category name	  
+	 * @param string $name Name of the logger.	  
 	 */
 	public function __construct($name) {
 		$this->name = $name;
 	}
 	
 	/**
-	 * Return the category name.
+	 * Returns the logger name.
 	 * @return string
 	 */
 	public function getName() {
@@ -181,12 +187,12 @@ class Logger {
 	} 
 
 	/**
-	 * Returns the parent of this category.
+	 * Returns the parent Logger. Can be null if this is the root logger.
 	 * @return Logger
 	 */
 	public function getParent() {
 		return $this->parent;
-	}	  
+	}
 	
 	/**
 	 * Returns the hierarchy used by this Logger.
@@ -206,7 +212,7 @@ class Logger {
 	
 	/* Logging methods */
 	/**
-	 * Log a message object with the TRACE level including the caller.
+	 * Log a message object with the TRACE level.
 	 *
 	 * @param mixed $message message
 	 * @param mixed $caller caller object or caller string id
@@ -216,7 +222,7 @@ class Logger {
 	} 		
 	
 	/**
-	 * Log a message object with the DEBUG level including the caller.
+	 * Log a message object with the DEBUG level.
 	 *
 	 * @param mixed $message message
 	 * @param mixed $caller caller object or caller string id
@@ -247,7 +253,7 @@ class Logger {
 	}
 	
 	/**
-	 * Log a message object with the ERROR level including the caller.
+	 * Log a message object with the ERROR level.
 	 *
 	 * @param mixed $message message
 	 * @param mixed $caller caller object or caller string id
@@ -257,7 +263,7 @@ class Logger {
 	}
 	
 	/**
-	 * Log a message object with the FATAL level including the caller.
+	 * Log a message object with the FATAL level.
 	 *
 	 * @param mixed $message message
 	 * @param mixed $caller caller object or caller string id
@@ -267,16 +273,17 @@ class Logger {
 	}
 	
 	/**
-	 * This method creates a new logging event and logs the event without further checks.
+	 * This method creates a new logging event and logs the event without 
+	 * further checks.
 	 *
-	 * It should not be called directly. Use {@link info()}, {@link debug()}, {@link warn()},
-	 * {@link error()} and {@link fatal()} wrappers.
+	 * It should not be called directly. Use {@link trace()}, {@link debug()},
+	 * {@link info()}, {@link warn()}, {@link error()} and {@link fatal()} 
+	 * wrappers.
 	 *
-	 * @param string $fqcn Fully Qualified Class Name of the Logger
+	 * @param string $fqcn Fully qualified class name of the Logger
 	 * @param mixed $caller caller object or caller string id
 	 * @param LoggerLevel $level log level	   
-	 * @param mixed $message message
-	 * @see LoggerLoggingEvent			
+	 * @param mixed $message message to log
 	 */
 	public function forcedLog($fqcn, $caller, $level, $message) {
 		$throwable = ($caller !== null && $caller instanceof Exception) ? $caller : null;
@@ -285,8 +292,8 @@ class Logger {
 	} 
 	
 	
-		/**
-	 * Check whether this category is enabled for the DEBUG Level.
+	/**
+	 * Check whether this Logger is enabled for the DEBUG Level.
 	 * @return boolean
 	 */
 	public function isDebugEnabled() {
@@ -294,7 +301,7 @@ class Logger {
 	}		
 
 	/**
-	 * Check whether this category is enabled for a given Level passed as parameter.
+	 * Check whether this Logger is enabled for a given Level passed as parameter.
 	 *
 	 * @param LoggerLevel level
 	 * @return boolean
@@ -304,19 +311,18 @@ class Logger {
 	} 
 
 	/**
-	 * Check whether this category is enabled for the info Level.
+	 * Check whether this Logger is enabled for the INFO Level.
 	 * @return boolean
-	 * @see LoggerLevel
 	 */
 	public function isInfoEnabled() {
 		return $this->isEnabledFor(LoggerLevel::getLevelInfo());
 	} 
 
 	/**
-	 * This generic form is intended to be used by wrappers.
+	 * Log a message using the provided logging level.
 	 *
-	 * @param LoggerLevel $priority a valid level
-	 * @param mixed $message message
+	 * @param LoggerLevel $priority The logging level.
+	 * @param mixed $message Message to log.
 	 * @param mixed $caller caller object or caller string id
 	 */
 	public function log($priority, $message, $caller = null) {
@@ -326,7 +332,7 @@ class Logger {
 	}
 	
 	/**
-	 * If assertion parameter is false, then logs msg as an error statement.
+	 * If assertion parameter is false, then logs the message as an error.
 	 *
 	 * @param bool $assertion
 	 * @param string $msg message to log
@@ -336,7 +342,14 @@ class Logger {
 			$this->error($msg);
 		}
 	}
-	 
+	
+	/**
+	 * Log a message using the provided logging Level.
+	 * 
+	 * @param string $message
+	 * @param LoggerLevel $level
+	 * @param mixed $caller caller object or caller string id
+	 */
 	private function logLevel($message, $level, $caller = null) {
 		if($level->isGreaterOrEqual($this->getEffectiveLevel())) {
 			$this->forcedLog($this->fqcn, $caller, $level, $message);
@@ -369,7 +382,7 @@ class Logger {
 	}
 	
 	/**
-	 * get the Root Logger (Delegate to {@link Logger})
+	 * Get the Root Logger (Delegate to {@link Logger})
 	 * @return LoggerRoot
 	 * @static 
 	 */	   
@@ -383,17 +396,17 @@ class Logger {
 	/* Configuration methods */
 	
 	/**
-	 * Add a new Appender to the list of appenders of this Category instance.
+	 * Add a new appender to the Logger.
 	 *
-	 * @param LoggerAppender $newAppender
+	 * @param LoggerAppender $appender The appender to add.
 	 */
-	public function addAppender($newAppender) {
-		$appenderName = $newAppender->getName();
-		$this->aai[$appenderName] = $newAppender;
+	public function addAppender($appender) {
+		$appenderName = $appender->getName();
+		$this->aai[$appenderName] = $appender;
 	}
 	
 	/**
-	 * Remove all previously added appenders from this Category instance.
+	 * Remove all previously added appenders from the Logger.
 	 */
 	public function removeAllAppenders() {
 		$appenderNames = array_keys($this->aai);
@@ -404,9 +417,9 @@ class Logger {
 	} 
 			
 	/**
-	 * Remove the appender passed as parameter form the list of appenders.
+	 * Remove the appender passed as parameter form the Logger.
 	 *
-	 * @param mixed $appender can be an appender name or a {@link LoggerAppender} object
+	 * @param string|LoggerAppender $appender an appender name or a {@link LoggerAppender} instance.
 	 */
 	public function removeAppender($appender) {
 		if($appender instanceof LoggerAppender) {
@@ -419,7 +432,8 @@ class Logger {
 	} 
 			
 	/**
-	 * Call the appenders in the hierarchy starting at this.
+	 * Forwards the given logging event to all appenders associated with the 
+	 * Logger.
 	 *
 	 * @param LoggerLoggingEvent $event 
 	 */
@@ -435,15 +449,15 @@ class Logger {
 	}
 	
 	/**
-	 * Get the appenders contained in this category as an array.
-	 * @return array collection of appenders
+	 * Get the appenders contained in this logger as an array.
+	 * @return array collection of appender names
 	 */
 	public function getAllAppenders() {
 		return array_values($this->aai);
 	}
 	
 	/**
-	 * Look for the appender named as name.
+	 * Get an appender by name.
 	 * @return LoggerAppender
 	 */
 	public function getAppender($name) {
@@ -451,7 +465,7 @@ class Logger {
 	}
 	
 	/**
-	 * Get the additivity flag for this Category instance.
+	 * Get the additivity flag.
 	 * @return boolean
 	 */
 	public function getAdditivity() {
@@ -459,7 +473,7 @@ class Logger {
 	}
  
 	/**
-	 * Starting from this category, search the category hierarchy for a non-null level and return it.
+	 * Starting from this Logger, search the Logger hierarchy for a non-null level and return it.
 	 * @see LoggerLevel
 	 * @return LoggerLevel or null
 	 */
@@ -473,24 +487,24 @@ class Logger {
 	}
   
 	/**
-	 * Returns the assigned Level, if any, for this Category.
-	 * @return LoggerLevel or null 
+	 * Get the assigned Logger level.
+	 * @return LoggerLevel The assigned level or null if none is assigned. 
 	 */
 	public function getLevel() {
 		return $this->level;
 	}
 	
 	/**
-	 * Set the level of this Category.
+	 * Set the Logger level.
 	 *
-	 * @param LoggerLevel $level a level string or a level constant 
+	 * @param LoggerLevel $level the level to set
 	 */
 	public function setLevel($level) {
 		$this->level = $level;
 	}
 	
 	/**
-	 * Clears all logger definitions
+	 * Clears all Logger definitions from the logger hierarchy.
 	 * 
 	 * @static
 	 * @return boolean 
@@ -515,9 +529,9 @@ class Logger {
 
 	/**
 	 * Safely close all appenders.
-	 * This is not longer necessary due the appenders shutdown via
-	 * destructors. 
-	 * @deprecated
+	 * 
+	 * @deprecated This is no longer necessary due the appenders shutdown via
+	 * destructors.
 	 * @static
 	 */
 	public static function shutdown() {
@@ -547,17 +561,17 @@ class Logger {
 	}
 	
 	/**
-	 * Is the appender passed as parameter attached to this category?
+	 * Checks whether an appender is attached to this logger instance.
 	 *
 	 * @param LoggerAppender $appender
+	 * @return boolean
 	 */
-	public function isAttached($appender) {
+	public function isAttached(LoggerAppender $appender) {
 		return isset($this->aai[$appender->getName()]);
 	} 
 		   
 	/**
-	 * Set the additivity flag for this Category instance.
-	 *
+	 * Sets the additivity flag.
 	 * @param boolean $additive
 	 */
 	public function setAdditivity($additive) {
@@ -565,30 +579,32 @@ class Logger {
 	}
 
 	/**
-	 * Sets the parent logger of this logger
+	 * Sets the parent logger.
+	 * @param Logger $logger
 	 */
 	public function setParent(Logger $logger) {
 		$this->parent = $logger;
 	} 
 	
 	/**
-	 * Configures Log4PHP.
-	 * This method needs to be called before the first logging event
-	 * has occured. If this methode is never called, the standard configuration
-	 * takes place (@see LoggerConfiguratorBasic).
+	 * Configures log4php by defining a configuration file and/or class.
+	 * 
+	 * This method needs to be called before the first logging event has 
+	 * occured. If this method is not called before then, the standard 
+	 * configuration takes place (@see LoggerConfiguratorBasic).
+	 * 
 	 * If only the configuration file is given, the configurator class will
-	 * be the XML Configurator or the INI Configurator, if no .xml ending
-	 * could be determined.
+	 * be determined by the config file extension.  
 	 * 
-	 * If a custom configurator should be used, the configuration file
-	 * is either null or the path to file the custom configurator uses.
-	 * Make sure the configurator is already or can be loaded by PHP when necessary.
+	 * If a custom configurator class is provided, the configuration file
+	 * should either be null or contain the path to file used by the custom 
+	 * configurator. Make sure the configurator class is already loaded, or
+	 * that it can be included by PHP when necessary.
 	 * 
-	 * @param String $configurationFile the configuration file
-	 * @param String $configurationClass the configurator class
+	 * @param string $configurationFile path to the configuration file
+	 * @param string $configurationClass name of the custom configurator class 
 	 */
-	public static function configure($configurationFile = null, 
-									 $configurationClass = null ) {
+	public static function configure($configurationFile = null, $configurationClass = null ) {
 		if($configurationClass === null && $configurationFile === null) {
 			self::$configurationClass = 'LoggerConfiguratorBasic';
 			return;
@@ -610,30 +626,33 @@ class Logger {
 	}
 	
 	/**
-	 * Returns the current configurator
-	 * @return the configurator
+	 * Returns the current {@link Logger::$configurationClass configurator class}.
+	 * @return string the configurator class name
 	 */
 	public static function getConfigurationClass() {
 		return self::$configurationClass;
 	}
 	
 	/**
-	 * Returns the current configuration file
-	 * @return the configuration file
+	 * Returns the current {@link Logger::$configurationFile configuration file}.
+	 * @return string the configuration file
 	 */
 	public static function getConfigurationFile() {
 		return self::$configurationFile;
 	}
 	
 	/**
-	 * Returns, true, if the log4php framework is already initialized
+	 * Returns true if the log4php framework has been initialized.
+	 * @return boolean 
 	 */
 	private static function isInitialized() {
 		return self::$initialized;
 	}
 	
 	/**
-	 * Initializes the log4php framework.
+	 * Initializes the log4php framework using the provided {@link 
+	 * Logger::$configurationClass configuration class}  and {@link 
+	 * Logger::$configurationFile configuration file}.
 	 * @return boolean
 	 */
 	public static function initialize() {
