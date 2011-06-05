@@ -294,6 +294,10 @@
 				<version>3.0-beta-3</version>
 				<configuration>
 
+					<!-- Override default rendering (only required to add a custom footer) -->
+					<!-- This can be removed once <footer> tag is supported in site.xml.  -->
+					<templateFile>${basedir}/src/site/site.vm</templateFile>
+
 					<!-- Configure additional reports on the site -->
 					<reportPlugins>
 

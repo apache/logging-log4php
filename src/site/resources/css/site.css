@@ -16,3 +16,5 @@
 
 */
 
+div.section ul li { margin-top: 4px; }
+div.section ul ul li { margin-top: 1px; }
