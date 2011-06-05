@@ -5,7 +5,7 @@
 ~~ (the "License"); you may not use this file except in compliance with
 ~~ the License.  You may obtain a copy of the License at
 ~~
-~~      http://www.apache.org/licenses/LICENSE-2.0
+~~	    http://www.apache.org/licenses/LICENSE-2.0
 ~~
 ~~ Unless required by applicable law or agreed to in writing, software
 ~~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,26 +13,51 @@
 ~~ See the License for the specific language governing permissions and
 ~~ limitations under the License.
  ------
-What is it?
+What is Apache log4php?
  ------
  ------
  ------
 
 What is Apache log4php?
  
-   Apache log4php is a logging framework for PHP at the Apache Software Foundation (ASF), 
-   sponsored by the Apache Logging Services project. 
+	Apache log4php is a logging framework for PHP at the {{{http://www.apache.org}Apache Software Foundation}}, it is a part of the {{{http://logging.apache.org}Apache Logging Services}} project. 
   
-   Apache log4php has completed graduation in March 2010. 
+	Apache log4php supports:
+	
+	* Configuration through XML, properties and PHP files
 
-   Apache log4php supports:
-   
-   * Configuration through xml and properties file (same structure as log4j).
+	* Various logging destinations (appenders) including:
+	
+		* Console and standard outputs (stdout, stderr)
+	
+		* Files (including daily and rolling files)
+	
+		* Email
+		
+		* Databases (using PDO)
+		
+		* Sockets
+		
+		* Syslog
+		
+		[]
 
-   * File, RollingFile, DailyFile, Echo, Console, Mail, PDO, PHP error, Syslog or NT events and Socket appenders.
+	* Several built-in log message formats (layouts): 
+	
+		* Simple
+		
+		* TTCC
+		
+		* HTML
+		
+		* XML
+		
+		* Pattern (user defined)
+		
+		[]
+	
+	* Nested (NDC) and Mapped (MDC) Diagnostic Contexts. 
+	
+	[]
 
-   * Simple, TTCC, Pattern, Html and Xml Layouts.
-   
-   * Nested (NDC) and Mapped (MDC) Diagnostic Contexts. 
-   
-
+	Apache log4php graduated in March 2010.
