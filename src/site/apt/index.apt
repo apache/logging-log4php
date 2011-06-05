@@ -20,9 +20,9 @@ What is Apache log4php?
 
 What is Apache log4php?
  
-	Apache log4php is a logging framework for PHP at the {{{http://www.apache.org}Apache Software Foundation}}, it is a part of the {{{http://logging.apache.org}Apache Logging Services}} project. 
+	Apache log4php\u2122 is a logging framework for PHP at the {{{http://www.apache.org}Apache Software Foundation}}, it is a part of the {{{http://logging.apache.org}Apache Logging Services}} project. 
   
-	Apache log4php supports:
+	Apache log4php\u2122 supports:
 	
 	* Configuration through XML, properties and PHP files
 
@@ -60,4 +60,4 @@ What is Apache log4php?
 	
 	[]
 
-	Apache log4php graduated in March 2010.
+	Apache log4php\u2122 graduated in March 2010.
