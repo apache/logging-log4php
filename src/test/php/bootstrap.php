@@ -26,17 +26,4 @@ error_reporting(E_ALL | E_STRICT);
 
 date_default_timezone_set('Europe/London');
 
-if(!defined('LOG4PHP_DIR')) {
-    define('LOG4PHP_DIR', dirname(__FILE__).'/../../main/php');
-}
-
-if(!defined('LOG4PHP_DEFAULT_INIT_OVERRIDE')) {
-    define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
-}
-
-require_once LOG4PHP_DIR.'/Logger.php';
-
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Util/Filter.php';
+require dirname(__FILE__) . '/../../main/php/Logger.php';
