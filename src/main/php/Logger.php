@@ -150,7 +150,7 @@ class Logger {
 	 * A collection of appenders associated with this logger.
 	 * @see LoggerAppender
 	 */
-	private $aai = array();
+	private $appenders = array();
 
 	/** The logger hierarchy used by log4php. */
 	private static $hierarchy;
@@ -402,14 +402,14 @@ class Logger {
 	 */
 	public function addAppender($appender) {
 		$appenderName = $appender->getName();
-		$this->aai[$appenderName] = $appender;
+		$this->appenders[$appenderName] = $appender;
 	}
 	
 	/**
 	 * Remove all previously added appenders from the Logger.
 	 */
 	public function removeAllAppenders() {
-		$appenderNames = array_keys($this->aai);
+		$appenderNames = array_keys($this->appenders);
 		$enumAppenders = count($appenderNames);
 		for($i = 0; $i < $enumAppenders; $i++) {
 			$this->removeAppender($appenderNames[$i]); 
@@ -424,10 +424,10 @@ class Logger {
 	public function removeAppender($appender) {
 		if($appender instanceof LoggerAppender) {
 			$appender->close();
-			unset($this->aai[$appender->getName()]);
-		} else if (is_string($appender) and isset($this->aai[$appender])) {
-			$this->aai[$appender]->close();
-			unset($this->aai[$appender]);
+			unset($this->appenders[$appender->getName()]);
+		} else if (is_string($appender) and isset($this->appenders[$appender])) {
+			$this->appenders[$appender]->close();
+			unset($this->appenders[$appender]);
 		}
 	} 
 			
@@ -438,9 +438,9 @@ class Logger {
 	 * @param LoggerLoggingEvent $event 
 	 */
 	public function callAppenders($event) {
-		if(count($this->aai) > 0) {
-			foreach(array_keys($this->aai) as $appenderName) {
-				$this->aai[$appenderName]->doAppend($event);
+		if(count($this->appenders) > 0) {
+			foreach(array_keys($this->appenders) as $appenderName) {
+				$this->appenders[$appenderName]->doAppend($event);
 			}
 		}
 		if($this->parent != null and $this->getAdditivity()) {
@@ -453,7 +453,7 @@ class Logger {
 	 * @return array collection of appender names
 	 */
 	public function getAllAppenders() {
-		return array_values($this->aai);
+		return array_values($this->appenders);
 	}
 	
 	/**
@@ -461,7 +461,7 @@ class Logger {
 	 * @return LoggerAppender
 	 */
 	public function getAppender($name) {
-		return $this->aai[$name];
+		return $this->appenders[$name];
 	}
 	
 	/**
@@ -567,7 +567,7 @@ class Logger {
 	 * @return boolean
 	 */
 	public function isAttached(LoggerAppender $appender) {
-		return isset($this->aai[$appender->getName()]);
+		return isset($this->appenders[$appender->getName()]);
 	} 
 		   
 	/**
