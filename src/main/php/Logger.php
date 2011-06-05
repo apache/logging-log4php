@@ -18,16 +18,6 @@
  * @package log4php
  */
 
-/**
- * LOG4PHP_DIR points to the log4php root directory.
- *
- * If not defined it will be set automatically when the first package classfile 
- * is included
- * 
- * @var string 
- */
-if (!defined('LOG4PHP_DIR')) define('LOG4PHP_DIR', dirname(__FILE__));
-
 if (function_exists('__autoload')) {
 	trigger_error("log4php: It looks like your code is using an __autoload() function. log4php uses spl_autoload_register() which will bypass your __autoload() function and may break autoloading.", E_USER_WARNING);
 }
@@ -133,7 +123,7 @@ class Logger {
 	 */
 	public static function autoload($className) {
 		if(isset(self::$_classes[$className])) {
-			include LOG4PHP_DIR.self::$_classes[$className];
+			include dirname(__FILE__) . self::$_classes[$className];
 		}
 	}
 
