@@ -226,33 +226,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 			if(flock($this->fp, LOCK_EX)) { 
 				if(ftell($this->fp) > $this->getMaxFileSize()) { 
 					$this->rollOver(); 
-					$this->updateLoggers();
 				}
-			}
-		}
-	}
-	
-	/**
-	 * Iterates through all loggers and updates all appenders with a new file name
-	 */
-	private function updateLoggers() {
-		$appenders = Logger::getRootLogger()->getAllAppenders();
-		$this->updateAppenders($appenders);
-		$loggers = Logger::getAllLoggers();
-		foreach($loggers as $logger) {
-			$appenders = $logger->getAllAppenders();
-			$this->updateAppenders($appenders);
-		}
-	}
-
-	/**
-	 * Updates all appenders with a new file name
-	 */
-	private function updateAppenders($appenders) {
-		foreach($appenders as $appender) {
-			if($appender instanceof LoggerAppenderRollingFile) {
-				$appender->setFile($this->getFile());
-				$appender->activateOptions();
 			}
 		}
 	}
