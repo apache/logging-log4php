@@ -222,13 +222,13 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		parent::append($event);
-		if(ftell($this->fp) > $this->getMaxFileSize()) { 
-			if(flock($this->fp, LOCK_EX)) { 
-				if(ftell($this->fp) > $this->getMaxFileSize()) { 
-					$this->rollOver(); 
-				}
+		if((ftell($this->fp) > $this->getMaxFileSize()) && flock($this->fp, LOCK_EX)) {
+		   	clearstatcache();
+			if(ftell($this->fp) > $this->getMaxFileSize()) { 
+				$this->rollOver(); 
 			}
 		}
+		
 	}
 	
 	/**
