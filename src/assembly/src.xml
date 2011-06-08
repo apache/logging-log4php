@@ -42,7 +42,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>target/site/apidocs</directory>
-			<outputDirectory>docs</outputDirectory>
+			<outputDirectory>apidocs</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
