@@ -113,15 +113,19 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 * Moreover, File is renamed File.1 and closed. A new File is created to receive further log output.
 	 * 
 	 * <p>If MaxBackupIndex is equal to zero, then the File is truncated with no backup files created.
+	 * 
+	 * Rollover must be called while the file is locked so that it is safe for concurrent access. 
 	 */
 	private function rollOver() {
 		// If maxBackups <= 0, then there is no file renaming to be done.
 		if($this->maxBackupIndex > 0) {
 			$fileName = $this->getExpandedFileName();
+
 			// Delete the oldest file, to keep Windows happy.
 			$file = $fileName . '.' . $this->maxBackupIndex;
 			if(is_writable($file))
 				unlink($file);
+
 			// Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
 			for($i = $this->maxBackupIndex - 1; $i >= 1; $i--) {
 				$file = $fileName . "." . $i;
@@ -131,17 +135,13 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 				}
 			}
 	
-			$this->close();
-	
-			// Rename fileName to fileName.1
-			$target = $fileName . ".1";
-			$file = $fileName;
-			rename($file, $target);
+			// Backup the active file
+			copy($fileName, "$fileName.1");
 		}
 		
-		//unset($this->fp);
-		$this->setFile($fileName);
-		$this->activateOptions();
+		// Truncate the active file
+		ftruncate($this->fp, 0);
+		rewind($this->fp);
 	}
 	
 	public function setFile($fileName) {
@@ -217,18 +217,24 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		return $this->maxFileSize;
 	}
 
-	/**
-	 * @param LoggerLoggingEvent $event
-	 */
 	public function append(LoggerLoggingEvent $event) {
-		parent::append($event);
-		if((ftell($this->fp) > $this->getMaxFileSize()) && flock($this->fp, LOCK_EX)) {
-		   	clearstatcache();
-			if(ftell($this->fp) > $this->getMaxFileSize()) { 
-				$this->rollOver(); 
+		if($this->fp and $this->layout !== null) {
+			if(flock($this->fp, LOCK_EX)) {
+				fwrite($this->fp, $this->layout->format($event));
+
+				// Stats cache must be cleared, otherwise filesize() returns cached results
+				clearstatcache();
+				
+				// Rollover if needed
+				if (filesize($this->expandedFileName) > $this->maxFileSize) {
+					$this->rollOver();
+				}
+				
+				flock($this->fp, LOCK_UN);
+			} else {
+				$this->closed = true;
 			}
-		}
-		
+		} 
 	}
 	
 	/**
