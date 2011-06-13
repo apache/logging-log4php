@@ -31,11 +31,11 @@
  */
 class LoggerAppenderMongoDB extends LoggerAppender {
 		
-	private static $DEFAULT_MONGO_URL_PREFIX = 'mongodb://';
-	private static $DEFAULT_MONGO_HOST       = 'localhost';
-	private static $DEFAULT_MONGO_PORT       = 27017;
-	private static $DEFAULT_DB_NAME          = 'log4php_mongodb';
-	private static $DEFAULT_COLLECTION_NAME  = 'logs';		 
+	const DEFAULT_MONGO_URL_PREFIX = 'mongodb://';
+	const DEFAULT_MONGO_HOST = 'localhost';
+	const DEFAULT_MONGO_PORT = 27017;
+	const DEFAULT_DB_NAME = 'log4php_mongodb';
+	const DEFAULT_COLLECTION_NAME = 'logs';
 	
 	protected $hostname;
 	protected $port;
@@ -55,10 +55,10 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	public function __construct($name = '') {
 		parent::__construct($name);
-		$this->hostname         = self::$DEFAULT_MONGO_URL_PREFIX.self::$DEFAULT_MONGO_HOST;
-		$this->port             = self::$DEFAULT_MONGO_PORT;
-		$this->dbName           = self::$DEFAULT_DB_NAME;
-		$this->collectionName   = self::$DEFAULT_COLLECTION_NAME;
+		$this->hostname         = self::DEFAULT_MONGO_URL_PREFIX.self::DEFAULT_MONGO_HOST;
+		$this->port             = self::DEFAULT_MONGO_PORT;
+		$this->dbName           = self::DEFAULT_DB_NAME;
+		$this->collectionName   = self::DEFAULT_COLLECTION_NAME;
 		$this->bsonifier        = new LoggerLoggingEventBsonifier();
 	}
 	
@@ -122,7 +122,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	public function setHost($hostname) {
 		if (!preg_match('/^mongodb\:\/\//', $hostname)) {
-			$hostname = self::$DEFAULT_MONGO_URL_PREFIX.$hostname;
+			$hostname = self::DEFAULT_MONGO_URL_PREFIX.$hostname;
 		}			
 		$this->hostname = $hostname;				
 	}
