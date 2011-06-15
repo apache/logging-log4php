@@ -361,14 +361,6 @@ class Logger {
 	}
 	
 	/**
-	 * Returns all currently defined loggers
-	 * @return all currently defined logger instances
-	 */
-	public static function getAllLoggers() {
-		return self::getHierarchy()->getCurrentLoggers();
-	}
-	
-	/**
 	 * Get the Root Logger (Delegate to {@link Logger})
 	 * @return LoggerRoot
 	 * @static 
