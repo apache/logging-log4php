@@ -50,20 +50,6 @@
  */
 class LoggerLayoutTTCC extends LoggerLayout {
 
-	/**
-	 * String constant designating no time information. Current value of
-	 * this constant is <b>NULL</b>.
-	 */
-	 // TODO: not used?
-	const LOG4PHP_LOGGER_LAYOUT_NULL_DATE_FORMAT = 'NULL';
-	
-	/**
-	 * String constant designating relative time. Current value of
-	 * this constant is <b>RELATIVE</b>.
-	 */
-	 // TODO: not used?
-	const LOG4PHP_LOGGER_LAYOUT_RELATIVE_TIME_DATE_FORMAT = 'RELATIVE';
-	
 	// Internal representation of options
 	protected $threadPrinting    = true;
 	protected $categoryPrefixing = true;
