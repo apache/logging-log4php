@@ -156,12 +156,7 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		$addHeader = empty($this->from) ? '' : "From: {$this->from}\r\n";
 		
 		if(!$this->dry) {
-			$result = mail($this->to, $this->subject, 
-				$this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), $addHeader);			
-			if ($result === false) {
-				// The error message is only printed to stderr as warning. Any idea how to get it?
-				throw new LoggerException("Error sending mail to '".$this->to."'!");
-			}
+			$result = mail($this->to, $this->subject, $this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), $addHeader);			
 		} else {
 			echo "DRY MODE OF MAIL APP.: Send mail to: ".$this->to." with additional headers '".trim($addHeader)."' and content: ".$this->layout->format($event);
 		}
@@ -170,4 +165,3 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		ini_set('smtp_port', $prevSmtpPort);
 	}
 }
-
