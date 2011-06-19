@@ -32,47 +32,92 @@
  * @since 2.1
  */
 class LoggerAppenderMongoDB extends LoggerAppender {
-		
+	
+	// ******************************************
+	// ** Constants                            **
+	// ******************************************
+	
+	/** Default prefix for the {@link $host}. */	
 	const DEFAULT_MONGO_URL_PREFIX = 'mongodb://';
+	
+	/** Default value for {@link $host}, without a prefix. */
 	const DEFAULT_MONGO_HOST = 'localhost';
+	
+	/** Default value for {@link $port} */
 	const DEFAULT_MONGO_PORT = 27017;
+	
+	/** Default value for {@link $databaseName} */
 	const DEFAULT_DB_NAME = 'log4php_mongodb';
+	
+	/** Default value for {@link $collectionName} */
 	const DEFAULT_COLLECTION_NAME = 'logs';
 	
-	protected $hostname;
-	protected $port;
-	protected $dbName;
-	protected $collectionName;
+	// ******************************************
+	// ** Configurable parameters              **
+	// ******************************************
 	
-	protected $connection;
-	protected $collection;
-		
+	/** Server on which mongodb instance is located. */
+	protected $host;
+	
+	/** Port on which the instance is bound. */
+	protected $port;
+	
+	/** Name of the database to which to log. */
+	protected $databaseName;
+	
+	/** Name of the collection within the given database. */
+	protected $collectionName;
+			
+	/** Username used to connect to the database. */
 	protected $userName;
+	
+	/** Password used to connect to the database. */
 	protected $password;
 	
+	// ******************************************
+	// ** Member variables                     **
+	// ******************************************
+
+	/** 
+	 * Connection to the MongoDB instance.
+	 * @var Mongo
+	 */
+	protected $connection;
+	
+	/** 
+	 * The collection to which log is written. 
+	 * @var MongoCollection
+	 */
+	protected $collection;
+
+	/** 
+	 * Set to true if the appender can append. 
+	 * @todo Maybe we should use $closed here instead? 
+	 */
 	protected $canAppend = false;
 	
+	/** Appender does not require a layout. */
 	protected $requiresLayout = false;
 		
 	public function __construct($name = '') {
 		parent::__construct($name);
-		$this->hostname         = self::DEFAULT_MONGO_URL_PREFIX.self::DEFAULT_MONGO_HOST;
-		$this->port             = self::DEFAULT_MONGO_PORT;
-		$this->dbName           = self::DEFAULT_DB_NAME;
-		$this->collectionName   = self::DEFAULT_COLLECTION_NAME;
+		$this->host = self::DEFAULT_MONGO_URL_PREFIX . self::DEFAULT_MONGO_HOST;
+		$this->port = self::DEFAULT_MONGO_PORT;
+		$this->databaseName = self::DEFAULT_DB_NAME;
+		$this->collectionName = self::DEFAULT_COLLECTION_NAME;
 	}
 	
 	/**
 	 * Setup db connection.
-	 * Based on defined options, this method connects to db defined in {@link $dbNmae}
-	 * and creates a {@link $collection} 
-	 * @return boolean true if all ok.
-	 * @throws an Exception if the attempt to connect to the requested database fails.
+	 * Based on defined options, this method connects to the database and 
+	 * creates a {@link $collection}. 
+	 *  
+	 * @throws Exception if the attempt to connect to the requested database fails.
 	 */
 	public function activateOptions() {
 		try {
-			$this->connection = new Mongo(sprintf('%s:%d', $this->hostname, $this->port));
-			$db	= $this->connection->selectDB($this->dbName);
+			$this->connection = new Mongo(sprintf('%s:%d', $this->host, $this->port));
+			$db	= $this->connection->selectDB($this->databaseName);
 			if ($this->userName !== null && $this->password !== null) {
 				$authResult = $db->authenticate($this->userName, $this->password);
 				if ($authResult['ok'] == floatval(0)) {
@@ -87,13 +132,12 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		} 
 			
 		$this->canAppend = true;
-		return true;
 	}		 
 	
 	/**
 	 * Appends a new event to the mongo database.
 	 * 
-	 * @throws LoggerException	If the pattern conversion or the INSERT statement fails.
+	 * @throws LoggerException If the pattern conversion or the INSERT statement fails.
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		if ($this->canAppend == true && $this->collection != null) {
@@ -106,7 +150,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	 * Converts the logging event into an array which can be logged to mongodb.
 	 * 
 	 * @param LoggerLoggingEvent $event
-	 * @return array
+	 * @return array The array representation of the logging event.
 	 */
 	protected function format(LoggerLoggingEvent $event) {
 		$timestampSec  = (int) $event->getTimestamp();
@@ -171,66 +215,86 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 			$this->closed = true;
 		}
 	}
-		
+	
 	public function __destruct() {
 		$this->close();
 	}
 	
-	public function setHost($hostname) {
-		if (!preg_match('/^mongodb\:\/\//', $hostname)) {
-			$hostname = self::DEFAULT_MONGO_URL_PREFIX.$hostname;
+	/** Sets the value of {@link $host} parameter. */
+	public function setHost($host) {
+		if (!preg_match('/^mongodb\:\/\//', $host)) {
+			$host = self::DEFAULT_MONGO_URL_PREFIX . $host;
 		}			
-		$this->hostname = $hostname;				
+		$this->host = $host;				
 	}
 		
+	/** Returns the value of {@link $host} parameter. */
 	public function getHost() {
-		return $this->hostname;
+		return $this->host;
 	}
 		
+	/** Sets the value of {@link $port} parameter. */
 	public function setPort($port) {
 		$this->port = $port;
 	}
 		
+	/** Returns the value of {@link $port} parameter. */
 	public function getPort() {
 		return $this->port;
 	}
 		
-	public function setDatabaseName($dbName) {
-		$this->dbName = $dbName;
+	/** Sets the value of {@link $databaseName} parameter. */
+	public function setDatabaseName($databaseName) {
+		$this->databaseName = $databaseName;
 	}
 		
+	/** Returns the value of {@link $databaseName} parameter. */
 	public function getDatabaseName() {
-		return $this->dbName;
+		return $this->databaseName;
 	}
-		
+	
+	/** Sets the value of {@link $collectionName} parameter. */
 	public function setCollectionName($collectionName) {
 		$this->collectionName = $collectionName;
 	}
 		
+	/** Returns the value of {@link $collectionName} parameter. */
 	public function getCollectionName() {
 		return $this->collectionName;
 	}
 		
+	/** Sets the value of {@link $userName} parameter. */
 	public function setUserName($userName) {
 		$this->userName = $userName;
 	}
-		
+	
+	/** Returns the value of {@link $userName} parameter. */
 	public function getUserName() {
 		return $this->userName;
 	}
 		
+	/** Sets the value of {@link $password} parameter. */
 	public function setPassword($password) {
 		$this->password = $password;
 	}
 		
+	/** Returns the value of {@link $password} parameter. */
 	public function getPassword() {
 		return $this->password;
 	}
 	
+	/** 
+	 * Returns the mongodb connection.
+	 * @return Mongo
+	 */
 	public function getConnection() {
 		return $this->connection;
 	}
 	
+	/** 
+	 * Returns the active mongodb collection.
+	 * @return MongoCollection
+	 */
 	public function getCollection() {
 		return $this->collection;
 	}
