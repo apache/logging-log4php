@@ -84,7 +84,6 @@ class Logger {
 		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
 		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
 		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
-		'LoggerLoggingEventBsonifier' => '/helpers/LoggerLoggingEventBsonifier.php',
 		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
 		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
 		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',

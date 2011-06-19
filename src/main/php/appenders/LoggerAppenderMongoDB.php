@@ -21,8 +21,10 @@
 /**
  * Appender for writing to MongoDB.
  * 
- * This class has been originally contributed from Vladimir Gorej 
- * (http://github.com/log4mongo/log4mongo-php).
+ * This class was originally contributed by Vladimir Gorej.
+ * 
+ * @link http://github.com/log4mongo/log4mongo-php Vladimir Gorej's original submission.
+ * @link http://www.mongodb.org/ MongoDB website.
  * 
  * @version $Revision: 806678 $
  * @package log4php
@@ -44,7 +46,6 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	
 	protected $connection;
 	protected $collection;
-	protected $bsonifier;
 		
 	protected $userName;
 	protected $password;
@@ -59,7 +60,6 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		$this->port             = self::DEFAULT_MONGO_PORT;
 		$this->dbName           = self::DEFAULT_DB_NAME;
 		$this->collectionName   = self::DEFAULT_COLLECTION_NAME;
-		$this->bsonifier        = new LoggerLoggingEventBsonifier();
 	}
 	
 	/**
@@ -97,9 +97,65 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	 */
 	public function append(LoggerLoggingEvent $event) {
 		if ($this->canAppend == true && $this->collection != null) {
-			$document = $this->bsonifier->bsonify($event);
+			$document = $this->format($event);
 			$this->collection->insert($document);			
-		}				 
+		}
+	}
+	
+	/**
+	 * Converts the logging event into an array which can be logged to mongodb.
+	 * 
+	 * @param LoggerLoggingEvent $event
+	 * @return array
+	 */
+	protected function format(LoggerLoggingEvent $event) {
+		$timestampSec  = (int) $event->getTimestamp();
+		$timestampUsec = (int) (($event->getTimestamp() - $timestampSec) * 1000000);
+
+		$document = array(
+			'timestamp'  => new MongoDate($timestampSec, $timestampUsec),
+			'level'      => $event->getLevel()->toString(),
+			'thread'     => (int) $event->getThreadName(),
+			'message'    => $event->getMessage(),
+			'loggerName' => $event->getLoggerName() 
+		);	
+
+		$locationInfo = $event->getLocationInformation();
+		if ($locationInfo != null) {
+			$document['fileName']   = $locationInfo->getFileName();
+			$document['method']     = $locationInfo->getMethodName();
+			$document['lineNumber'] = ($locationInfo->getLineNumber() == 'NA') ? 'NA' : (int) $locationInfo->getLineNumber();
+			$document['className']  = $locationInfo->getClassName();
+		}	
+
+		$throwableInfo = $event->getThrowableInformation();
+		if ($throwableInfo != null) {
+			$document['exception'] = $this->formatThrowable($throwableInfo->getThrowable());
+		}
+		
+		return $document;
+	}
+	
+	/**
+	 * Converts an Exception into an array which can be logged to mongodb.
+	 * 
+	 * Supports innner exceptions (PHP >= 5.3)
+	 * 
+	 * @param Exception $ex
+	 * @return array
+	 */
+	protected function formatThrowable(Exception $ex) {
+		$array = array(				
+			'message'    => $ex->getMessage(),
+			'code'       => $ex->getCode(),
+			'stackTrace' => $ex->getTraceAsString(),
+		);
+                        
+		if (method_exists($ex, 'getPrevious') && $ex->getPrevious() !== null) {
+			$array['innerException'] = $this->formatThrowable($ex->getPrevious());
+		}
+			
+		return $array;
 	}
 		
 	/**
@@ -114,12 +170,12 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 			}					
 			$this->closed = true;
 		}
-	}		 
+	}
 		
 	public function __destruct() {
 		$this->close();
 	}
-		
+	
 	public function setHost($hostname) {
 		if (!preg_match('/^mongodb\:\/\//', $hostname)) {
 			$hostname = self::DEFAULT_MONGO_URL_PREFIX.$hostname;

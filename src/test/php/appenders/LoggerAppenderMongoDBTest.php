@@ -38,7 +38,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	
 	public static function setUpBeforeClass() {
 		self::$appender = new LoggerAppenderMongoDB('mongo_appender');
-		self::$event    = new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		self::$event = new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("test.Logger"), LoggerLevel::getLevelError(), "testmessage");
 	}
 	
 	public static function tearDownAfterClass() {
@@ -158,49 +158,83 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		self::$appender->append(self::$event);
 	}
 	
-	public function testMongoDB() {
-		self::$appender->activateOptions();		
-		$mongo  = self::$appender->getConnection();
-		$db     = $mongo->selectDB('log4php_mongodb');
-		$db->drop('logs');		
-		$collection = $db->selectCollection('logs');
-				
-		self::$appender->append(self::$event);
+	public function testFormat() {
+		$record = $this->logOne(self::$event);
+		
+		$this->assertEquals('ERROR', $record['level']);
+		$this->assertEquals('testmessage', $record['message']);
+		$this->assertEquals('test.Logger', $record['loggerName']);
+		
+		$this->assertEquals('NA', $record['fileName']);		
+		$this->assertEquals('getLocationInformation', $record['method']);
+		$this->assertEquals('NA', $record['lineNumber']);
+		$this->assertEquals('LoggerLoggingEvent', $record['className']);
+		
+		$this->assertTrue(is_int($record['thread']));
+		$this->assertTrue(is_int($record['lineNumber']) || $record['lineNumber'] == 'NA');
+	}
+	
+	public function testFormatThrowableInfo() {
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			new Logger('test.Logger'),
+			LoggerLevel::getLevelWarn(),
+			'test message',
+			microtime(true),
+			new Exception('test exception', 1)
+		);
+		
+		$record = $this->logOne($event);
+		
+		$this->assertArrayHasKey('exception', $record);
+		$this->assertEquals(1, $record['exception']['code']);
+		$this->assertEquals('test exception', $record['exception']['message']);
+		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
+	}
+	
+	public function testFormatThrowableInfoWithInnerException() {
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			new Logger('test.Logger'),
+			LoggerLevel::getLevelWarn(),
+			'test message',
+			microtime(true),
+			new Exception('test exception', 1, new Exception('test exception inner', 2))
+		);
+		
+		$record = $this->logOne($event);
 
-		$this->assertNotEquals(null, $collection->findOne(), 'Collection should return one record');
-	} 
-
-	public function testMongoDBException() {
-		self::$appender->activateOptions();		
-		$mongo	= self::$appender->getConnection();
-		$db		= $mongo->selectDB('log4php_mongodb');
-		$db->drop('logs');				
-		$collection = $db->selectCollection('logs');
-			
-		$throwable = new Exception('exception1');
-								
-		self::$appender->append(new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage", microtime(true), $throwable));				 
+		$this->assertArrayHasKey('exception', $record);
+		$this->assertEquals(1, $record['exception']['code']);
+		$this->assertEquals('test exception', $record['exception']['message']);
+		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
 		
-		$this->assertNotEquals(null, $collection->findOne(), 'Collection should return one record');
-	}		
-		
-	public function testMongoDBInnerException() {
-		self::$appender->activateOptions();
-		$mongo	= self::$appender->getConnection();
-		$db		= $mongo->selectDB('log4php_mongodb');
-		$db->drop('logs');				
-		$collection = $db->selectCollection('logs');
-				
-		$throwable1 = new Exception('exception1');
-		$throwable2 = new Exception('exception2', 0, $throwable1);
-								
-		self::$appender->append(new LoggerLoggingEvent("LoggerAppenderMongoDBTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage", microtime(true), $throwable2));				
-		
-		$this->assertNotEquals(null, $collection->findOne(), 'Collection should return one record');
+		$this->assertTrue(array_key_exists('innerException', $record['exception']));
+		$this->assertEquals(2, $record['exception']['innerException']['code']);
+		$this->assertEquals('test exception inner', $record['exception']['innerException']['message']);
 	}
 	
 	public function testClose() {
 		self::$appender->close();
 	}
+	
+	/** Logs the event and returns the record from the database. */
+	private function logOne($event)
+	{
+		self::$appender->activateOptions();
+		$mongo = self::$appender->getConnection();
+		$collection = $mongo->log4php_mongodb->logs;
+		
+		$result = $collection->drop();
+		self::assertSame((float) 1, $result['ok'], "Could not clear the collection before logging.");
+		
+		self::$appender->append($event);
+		
+		$record = $collection->findOne();
+		self::assertNotNull($record, "Could not read the record from the database.");
+		
+		return $record;
+	}
+	
 }
 ?>
