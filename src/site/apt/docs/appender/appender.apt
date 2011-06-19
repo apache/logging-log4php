@@ -115,6 +115,8 @@ $logger->info("Log this.");
 *------------------------------+--------------+
 | {{LoggerAppenderMailEvent}}  | Sends the log via email. Each log entry is sent in individual emails.
 *------------------------------+--------------+
+| {{LoggerAppenderMongoDB}}    | MongoDB.
+*------------------------------+--------------+
 | {{LoggerAppenderNull}}       | Ignores all log events.
 *------------------------------+--------------+
 | {{LoggerAppenderPDO}}        | Database.
@@ -403,6 +405,53 @@ log4php.appender.default.layout = LoggerLayoutTTCC
 log4php.appender.default.from = someone@example.com
 log4php.appender.default.to = root@localhost
 log4php.appender.default.subject = log4php test
++--
+
+
+** {LoggerAppenderMongoDB}
+
+  The LoggerAppenderMongoDB appends log events to a mongoDB instance.
+  
+  {{{http://www.mongodb.org/}MongoDB}} is a scalable, high-performance, open source, document-oriented database.
+
+  
+*** Configurable parameters
+ 
+*-------------------+--------------*--------------------+------------------------+
+|| Parameter        || Required    || Default value     || Description
+*-------------------+--------------*--------------------+------------------------+
+| host              | No           | mongodb://localhost| Server on which mongodb instance is located.
+*-------------------+--------------*--------------------+------------------------+
+| port              | No           | 27017              | Port on which the instance is bound. 
+*-------------------+--------------*--------------------+------------------------+
+| databaseName      | No           | log4php_mongodb    | Name of the database to which to log.
+*-------------------+--------------*--------------------+------------------------+
+| collectionName    | No           | logs               | Name of the collection within the given database.
+*-------------------+--------------*--------------------+------------------------+
+| username          | No           | -                  | Username used to connect to the database.
+*-------------------+--------------*--------------------+------------------------+
+| password          | No           | -                  | Password used to connect to the database.
+*-------------------+--------------*--------------------+------------------------+
+
+*** Examples
+  
+  Configuration via XML file:
+
++--
+<appender name="default" class="LoggerAppenderMongoDB">
+    <param name="host" value="mongodb://myhost.com" />
+    <param name="username" value="logger" />
+    <param name="password" value="secret" />
+</appender>
++--
+
+  Configuration via ini file:
+
++--
+log4php.appender.default = LoggerAppenderMongoDB
+log4php.appender.default.host = mongodb://myhost.com
+log4php.appender.default.username = logger
+log4php.appender.default.password = secret
 +--
 
 
