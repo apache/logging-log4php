@@ -193,6 +193,12 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testFormatThrowableInfoWithInnerException() {
+		
+		// Skip test if PHP version is lower than 5.3.0 (no inner exception support)
+		if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+			$this->markTestSkipped();
+		}
+		
 		$event = new LoggerLoggingEvent(
 			'testFqcn',
 			new Logger('test.Logger'),
