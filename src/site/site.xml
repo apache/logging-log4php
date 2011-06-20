@@ -36,17 +36,13 @@
 			<item name="log4php" href="http://logging.apache.org/log4php" />
 		</breadcrumbs>
 
-		<menu name="About log4php">
-			<item name="What is it?" href="/index.html" />
-			<item name="Who uses it?" href="/showcase.html" />
-		</menu>
-
-		<menu name="Get log4php">
+		<menu name="Apache log4php">
+			<item name="About" href="/index.html" />
 			<item name="Download" href="/download.html" />
 			<item name="Upgrading" href="/upgrading.html" />
 		</menu>
 
-		<menu name="User Documentation">
+	    <menu name="Documentation">
 			<item name="Quick start" href="/quickstart.html" />
 			<item name="Manual" collapse="false" href="/docs/introduction.html">
 				<item name="Introduction" href="/docs/introduction.html" />
@@ -66,7 +62,7 @@
 		<menu name="Community">
 			<item name="Mailing Lists" href="/mail-lists.html" />
 			<item name="Issue Tracking" href="/issue-tracking.html" />
-			<item name="Wiki" href="http://wiki.apache.org/logging/Log4PHP" />
+			<item name="Wiki" href="http://wiki.apache.org/logging-log4php" />
 			<item name="Blog" href="http://blogs.apache.org/logging/" />
 		</menu>
 
