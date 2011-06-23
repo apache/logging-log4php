@@ -159,7 +159,7 @@
 			<arg value="-o" />
 			<arg value="HTML:frames:DOM/default" />
 			<arg value="-ti" />
-			<arg value="Apache log4php ${version}" />
+			<arg value="Apache log4php ${version} - GENERATED FILES - License: ASL 2.0" />
 		</exec>
 	</target>
 	
