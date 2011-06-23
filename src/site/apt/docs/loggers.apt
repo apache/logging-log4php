@@ -20,7 +20,7 @@ Loggers
 
 Loggers
 
-  A logger is a component which will take your logging request and log it. Each class in a project can have an individual logger, or they can all use a common logger. Loggers are named entities; it is common to name them after the class which will use it for logging.
+  A Apache log4php logger is a component which will take your logging request and log it. Each class in a project can have an individual logger, or they can all use a common logger. Loggers are named entities; it is common to name them after the class which will use it for logging.
   
   Creating a logger is done by calling the static getLogger() method on the Logger object and providing the name of the logger. For example, to create a logger named <foo>:
   

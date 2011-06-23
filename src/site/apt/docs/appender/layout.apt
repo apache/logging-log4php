@@ -26,7 +26,7 @@ Appender Layout
   
 * {Available Layouts}
 
-  The following layouts are included with log4php:
+  The following layouts are included with Apache log4php:
 
 *------------------------------+--------------+
 || Name                        || Description

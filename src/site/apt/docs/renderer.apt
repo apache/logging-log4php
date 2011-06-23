@@ -20,7 +20,7 @@ Renderers
 
 Renderers
 
-  log4php can log more than just string messages. If you try to log an object it will be converted to a string and logged. The component which converts Objects to strings in log4php is called a <<renderer>>.
+  Apache log4php can log more than just string messages. If you try to log an object it will be converted to a string and logged. The component which converts Objects to strings in log4php is called a <<renderer>>.
   
 * Default renderer  
   

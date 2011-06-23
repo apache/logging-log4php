@@ -29,7 +29,7 @@ Configuration
   statements embedded within their code. Given their number, it becomes imperative
   to manage these log statements without the need to modify them manually.
 
-  The log4php environment is fully configurable programmatically. However, it is far more
+  The Apache log4php environment is fully configurable programmatically. However, it is far more
   flexible to configure log4php using configuration files. Currently, configuration files 
   can be written in XML or in properties (key=value) format.
 

@@ -18,7 +18,7 @@ Appenders
  ------
  ------
 
-Appenders
+Appenders in Apache log4php
 
   Logging requests can be sent to multiple destinations, such as files, databases, syslog and others. Such destinations are called appenders. Appenders are attached to {{{../loggers.html}loggers}} and each logger can have one or more attached appenders.
   

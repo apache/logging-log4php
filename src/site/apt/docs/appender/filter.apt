@@ -18,7 +18,7 @@ Appender Filters
  ------
  ------
 
-Appender Filters
+Appender Filters in Apache log4php
 
   Filtering is a mechanism which allows the user to configure more precisely which logging events will be logged by an appender, and which will be ignored. Logging events can be filtered based on the level of the logging request, or the message itself.
   
