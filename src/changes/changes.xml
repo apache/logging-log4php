@@ -21,9 +21,8 @@
 		<title>Apache log4php changelog</title>
 	</properties>
 	<body>
-		<release version="2.1" date="SVN" description="Stabilizing">
-			<action date="2011-06-01" type="fix" issue="LOG4PHP-138" dev="Christian Grobmeier">Permission denied while renaming log file when hundred of users are accessing the application
-</action>
+		<release version="2.1.0" date="SVN" description="Stabilizing">
+			<action date="2011-06-01" type="fix" issue="LOG4PHP-138" dev="Christian Grobmeier">Permission denied while renaming log file when hundred of users are accessing the application</action>
 			<action date="2011-05-28" type="fix" issue="LOG4PHP-140" dev="Ivan Habunek">Fixed incorrect usage of changes.xml</action>
 			<action date="2011-05-28" type="fix" issue="LOG4PHP-129" dev="Ivan Habunek">Log4PHP causes odd errors in the underlying application if used with source having an existing __autoload function</action>
 			<action date="2011-05-20" type="fix" issue="LOG4PHP-122" dev="Ivan Habunek" due-to="Moritz Schmidt" due-to-email="fusselwurm at gmail dot com">RendererMap::getByClassName doesnt recognize instances of child classes</action>
@@ -58,7 +57,7 @@
 			<action date="2010-01-05" type="fix" issue="LOG4PHP-93" dev="Christian Grobmeier" due-to="Hiroaki Kawai" due-to-email="kawai at apache dot org ">LoggerClassNamePatternConverter accessing private property</action>
 			<action date="2010-01-05" type="fix" issue="LOG4PHP-91" dev="Christian Grobmeier" due-to="Dan Barkwell" due-to-email="dan at barkwell dot com">LoginOptionConverter.php (used wrong constant name)</action>
 		</release>
-		<release version="2.0" date="2009-12-12" description="PHP 5 compatibility">
+		<release version="2.0.0" date="2009-12-12" description="PHP 5 compatibility">
 			<action type="fix" issue="LOG4PHP-3">Maven 2.0 build</action>
 			<action type="fix" issue="LOG4PHP-7">Updated source file headers with current ASF notice</action>
 			<action type="fix">PHP 5 compatibility modification.</action>
