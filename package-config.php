@@ -22,7 +22,13 @@ $pom_version = (string) $xml->version;
 
 preg_match("/^([^-]+)(-SNAPSHOT)?$/", $pom_version, $matches);
 $version = $matches[1];
-$stability = empty($matches[2]) ? 'stable' : 'devel';
+
+// Maven release plugin always requires the version to have -SNAPSHOT in 
+// the version node. So this is not possible:  
+// $stability = empty($matches[2]) ? 'stable' : 'devel';
+
+// Hard coded to stable. Maybe find better solution.
+$stability = 'stable';
 
 $name = 'Apache_log4php';
 $summary = 'Apache log4php is a logging framework for PHP.';
