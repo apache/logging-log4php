@@ -35,6 +35,7 @@
 				<include>INSTALL</include>
 				<include>CHANGELOG</include>
 				<include>pom.xml</include>
+				<include>build.xml</include>
 				<include>package-config.php</include>
 				<include>package.php</include>
 				<include>src/**</include>
