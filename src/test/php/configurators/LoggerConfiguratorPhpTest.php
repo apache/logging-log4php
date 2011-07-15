@@ -42,7 +42,7 @@ class TestRenderer implements LoggerRendererObject {
 class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-
+		Logger::resetConfiguration();
     }
 
     protected function tearDown() {
@@ -129,5 +129,59 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
         $actual = $map->findAndRender(new TestClass());
         self::assertEquals('test1,test2,test3', $actual);
 
+    }
+    
+    /** Tests setting levels and thresholds using the integer constants. */
+    public function testLevelsConstant() {
+        Logger::configure(array (
+            'rootLogger' => array (
+                'level' => (string) LoggerLevel::ERROR,
+                'appenders' => array (
+                    'default', 'filetest'
+                ),
+            ),
+            'appenders' => array (
+                'default' => array (
+                    'class' => 'LoggerAppenderEcho',
+            		'threshold' => LoggerLevel::FATAL
+                )
+            ),
+            
+        ), 'LoggerConfiguratorPhp');
+        
+        
+        $root = Logger::getRootLogger();
+        self::assertEquals(LoggerLevel::getLevelError(), $root->getLevel());
+        
+        $appender = $root->getAppender("default");
+        self::assertTrue($appender instanceof LoggerAppenderEcho);
+		self::assertSame(LoggerLevel::getLevelFatal(), $appender->getThreshold());
+    }
+    
+    /** Tests setting levels and thresholds using the LoggerLevel objects. */
+    public function testLevelsObject() {
+        Logger::configure(array (
+            'rootLogger' => array (
+                'level' => LoggerLevel::getLevelError(),
+                'appenders' => array (
+                    'default', 'filetest'
+                ),
+            ),
+            'appenders' => array (
+                'default' => array (
+                    'class' => 'LoggerAppenderEcho',
+            		'threshold' => LoggerLevel::getLevelFatal()
+                )
+            ),
+            
+        ), 'LoggerConfiguratorPhp');
+        
+        
+        $root = Logger::getRootLogger();
+        self::assertEquals(LoggerLevel::getLevelError(), $root->getLevel());
+        
+        $appender = $root->getAppender("default");
+        self::assertTrue($appender instanceof LoggerAppenderEcho);
+		self::assertSame(LoggerLevel::getLevelFatal(), $appender->getThreshold());
     }
 }

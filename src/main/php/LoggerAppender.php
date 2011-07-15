@@ -213,10 +213,10 @@ abstract class LoggerAppender {
 	 * @see LoggerOptionConverter::toLevel()
 	 */
 	public function setThreshold($threshold) {
-		if(is_string($threshold)) {
-			$this->threshold = LoggerOptionConverter::toLevel($threshold, null);
-		} else if($threshold instanceof LoggerLevel) {
+		if($threshold instanceof LoggerLevel) {
 			$this->threshold = $threshold;
+		} else {
+			$this->threshold = LoggerOptionConverter::toLevel($threshold, null);
 		}
 	}
 	
