@@ -135,7 +135,7 @@ class LoggerConfiguratorPhpTest extends PHPUnit_Framework_TestCase {
     public function testLevelsConstant() {
         Logger::configure(array (
             'rootLogger' => array (
-                'level' => (string) LoggerLevel::ERROR,
+                'level' => LoggerLevel::ERROR,
                 'appenders' => array (
                     'default', 'filetest'
                 ),
