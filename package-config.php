@@ -31,10 +31,10 @@ $version = $matches[1];
 $stability = 'stable';
 
 $name = 'Apache_log4php';
-$summary = 'Apache log4php is a logging framework for PHP.';
+$summary = 'A versatile logging framework for PHP';
 
 $description = <<<EOT
-Apache log4php is a logging framework for PHP at the Apache Software Foundation (ASF).
+Apache log4php is a versatile logging framework for PHP at the Apache Software Foundation (ASF).
 EOT;
 
 $notes = 'Please see CHANGELOG and changes.xml!';
@@ -64,13 +64,6 @@ $license = array(
 );
 
 $maintainer = array();
-$maintainer[]  =   array(
-	'role' => 'lead',
-	'handle' => 'kurdalen',
-	'name' => 'Knut Urdalen',
-	'email' => 'kurdalen@apache.org',
-	'active' => 'yes'
-);
 $maintainer[]   =   array(
 	'role' => 'lead',
 	'handle' => 'grobmeier',
@@ -80,22 +73,29 @@ $maintainer[]   =   array(
 );
 $maintainer[]   =   array(
     'role' => 'developer',
-    'handle' => 'chammers',
-    'name' => 'Christian Hammers',
-    'email' => 'chammers@apache.org',
-    'active' => 'yes'
-);
-$maintainer[]   =   array(
-    'role' => 'developer',
     'handle' => 'ihabunek',
     'name' => 'Ivan Habunek',
     'email' => 'ihabunek@apache.org',
     'active' => 'yes'
 );
+$maintainer[]  =   array(
+	'role' => 'lead',
+	'handle' => 'kurdalen',
+	'name' => 'Knut Urdalen',
+	'email' => 'kurdalen@apache.org',
+	'active' => 'no'
+);
+$maintainer[]   =   array(
+    'role' => 'developer',
+    'handle' => 'chammers',
+    'name' => 'Christian Hammers',
+    'email' => 'chammers@apache.org',
+    'active' => 'no'
+);
 
 $dependency = array();
 
-$channel = 'pear.php.net';
+$channel = 'pear.apache.org/log4php';
 $require = array(
 	'php' => '5.2.0',
 	'pear_installer' => '1.7.0',
