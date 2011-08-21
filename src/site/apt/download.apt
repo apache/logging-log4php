@@ -40,7 +40,14 @@ Download
   
 * Pear package
 
-	The pear package is prepared for a {{{http://pear.php.net}pear}} channel and is recommended for users who want to make log4php available in their own channels.
+	To install from the Apache log4php PEAR channel:
+	
++--
+pear channel-discover pear.apache.org/log4php
+pear install log4php/Apache_log4php
++--
+	
+	Alternatively, the PEAR package can be downloaded from:
 
 *----------+-----------+------------+
 || Mirrors || Checksum || Signature |
