@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="unqualified" 
+	targetNamespace="http://logging.apache.org/log4php"
+	xmlns="http://logging.apache.org/log4php">
+	
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="renderer" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="appender" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="logger" />
+				<xs:element minOccurs="0" ref="root" />
+			</xs:sequence>
+			<xs:attribute name="threshold" type="level" default="null" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="renderer">
+		<xs:complexType>
+			<xs:attribute name="renderedClass" use="required" />
+			<xs:attribute name="renderingClass" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="appender">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="layout" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="filter" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="appender_ref" />
+			</xs:sequence>
+			<xs:attribute name="name" use="required" type="xs:ID" />
+			<xs:attribute name="class" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="layout">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+			</xs:sequence>
+			<xs:attribute name="class" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="filter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+			</xs:sequence>
+			<xs:attribute name="class" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="param">
+		<xs:complexType>
+			<xs:attribute name="name" use="required" />
+			<xs:attribute name="value" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="priority">
+		<xs:complexType>
+			<xs:attribute name="value" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="level">
+		<xs:complexType>
+			<xs:attribute name="value" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="logger">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" ref="level" />
+				<xs:element minOccurs="0" maxOccurs="unbounded"	ref="appender_ref" />
+			</xs:sequence>
+			<xs:attribute name="name" use="required" type="xs:ID" />
+			<xs:attribute name="additivity" type="xs:boolean" default="true" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="appender_ref">
+		<xs:complexType>
+			<xs:attribute name="ref" use="required" type="xs:IDREF" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="root">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+				<xs:choice minOccurs="0">
+					<xs:element ref="priority" />
+					<xs:element ref="level" />
+				</xs:choice>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="appender_ref" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="eventSet">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="event" />
+			</xs:sequence>
+			<xs:attribute name="version" default="0.3">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="0.2" />
+						<xs:enumeration value="0.3" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="includesLocationInfo" default="true">
+				<xs:simpleType>
+					<xs:restriction base="xs:token">
+						<xs:enumeration value="true" />
+						<xs:enumeration value="false" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="event">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="message" />
+				<xs:element minOccurs="0" ref="locationInfo" />
+			</xs:sequence>
+			<xs:attribute name="logger" use="required" />
+			<xs:attribute name="level" use="required" />
+			<xs:attribute name="thread" use="required" />
+			<xs:attribute name="timestamp" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="message" type="xs:string" />
+	<xs:element name="NDC" type="xs:string" />
+	<xs:element name="locationInfo">
+		<xs:complexType>
+			<xs:attribute name="class" use="required" />
+			<xs:attribute name="method" use="required" />
+			<xs:attribute name="file" use="required" />
+			<xs:attribute name="line" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- ============================================== -->
+	<!--                   Types                        -->
+	<!-- ============================================== -->
+	
+	<xs:simpleType name="level">
+        <xs:restriction base="xs:token">
+			<xs:enumeration value="all" />
+			<xs:enumeration value="debug" />
+			<xs:enumeration value="info" />
+			<xs:enumeration value="warn" />
+			<xs:enumeration value="error" />
+			<xs:enumeration value="fatal" />
+			<xs:enumeration value="off" />
+			<xs:enumeration value="null" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

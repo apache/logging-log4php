@@ -53,11 +53,10 @@ class Logger {
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
-		'LoggerConfigurator' => '/LoggerConfigurator.php',
-		'LoggerConfiguratorBasic' => '/configurators/LoggerConfiguratorBasic.php',
-		'LoggerConfiguratorIni' => '/configurators/LoggerConfiguratorIni.php',
-		'LoggerConfiguratorPhp' => '/configurators/LoggerConfiguratorPhp.php',
-		'LoggerConfiguratorXml' => '/configurators/LoggerConfiguratorXml.php',
+		'LoggerConfigurator' => '/configurators/LoggerConfigurator.php',
+		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
+		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
+		'LoggerConfigurationAdapterXML' => '/configurators/LoggerConfigurationAdapterXML.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderPool' => '/LoggerAppenderPool.php',
@@ -154,17 +153,7 @@ class Logger {
 	/** The logger hierarchy used by log4php. */
 	private static $hierarchy;
 	
-	/** 
-	 * Name of the configurator class used to configure log4php. 
-	 * Populated by {@link configure()} and used in {@link initialize()}.
-	 */
-	private static $configurationClass = 'LoggerConfiguratorBasic';
-	
-	/** 
-	 * Path to the configuration file which may be used by the configurator.
-	 * Populated by {@link configure()} and used in {@link initialize()}. 
-	 */
-	private static $configurationFile;
+	private static $configurator;
 	
 	/** Inidicates if log4php has been initialized */
 	private static $initialized = false;
@@ -564,7 +553,7 @@ class Logger {
 	} 
 	
 	/**
-	 * Configures log4php by defining a configuration file and/or class.
+	 * Configures log4php.
 	 * 
 	 * This method needs to be called before the first logging event has 
 	 * occured. If this method is not called before then, the standard 
@@ -581,25 +570,12 @@ class Logger {
 	 * @param string $configurationFile path to the configuration file
 	 * @param string $configurationClass name of the custom configurator class 
 	 */
-	public static function configure($configurationFile = null, $configurationClass = null ) {
-		if($configurationClass === null && $configurationFile === null) {
-			self::$configurationClass = 'LoggerConfiguratorBasic';
-			return;
-		}
-									 	
-		if($configurationClass !== null) {
-			self::$configurationFile = $configurationFile;
-			self::$configurationClass = $configurationClass;
-			return;
+	public static function configure($configuration) {
+		if (!isset(self::$configurator)) {
+			self::$configurator = new LoggerConfigurator();	
 		}
 		
-		if (strtolower(substr( $configurationFile, -4 )) == '.xml') {
-			self::$configurationFile = $configurationFile;
-			self::$configurationClass = 'LoggerConfiguratorXml';
-		} else {
-			self::$configurationFile = $configurationFile;
-			self::$configurationClass = 'LoggerConfiguratorIni';
-		}
+		self::$configurator->configure(self::getHierarchy(), $configuration);
 	}
 	
 	/**

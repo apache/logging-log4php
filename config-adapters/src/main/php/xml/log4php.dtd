@@ -46,7 +46,7 @@ element. -->
 <!-- keeps its old value.                                                -->
      
 <!ATTLIST log4php:configuration
-  xmlns:log4php            CDATA #FIXED "http://logging.apache.org/log4php"
+  xmlns                    CDATA #FIXED "http://logging.apache.org/log4php"
   threshold                (all|debug|info|warn|error|fatal|off|null) "null"
 >
 
@@ -64,7 +64,7 @@ element. -->
 <!-- [log4php] -->
 <!-- error handler tag has no effects since log4php does not handle errors. Defintion deleted. -->
 <!-- [/log4php] -->
-<!ELEMENT appender (param*, layout?, filter*, appender-ref*)>
+<!ELEMENT appender (param*, layout?, filter*, appender_ref*)>
 <!ATTLIST appender
   name      ID  #REQUIRED
   class     CDATA   #REQUIRED
@@ -99,21 +99,21 @@ element. -->
 
 <!-- If no level element is specified, then the configurator MUST not -->
 <!-- touch the level of the named logger. -->
-<!ELEMENT logger (level?,appender-ref*)>
+<!ELEMENT logger (level?,appender_ref*)>
 <!ATTLIST logger
   name      ID  #REQUIRED
   additivity    (true|false) "true"  
 >
 
-<!ELEMENT appender-ref EMPTY>
-<!ATTLIST appender-ref
+<!ELEMENT appender_ref EMPTY>
+<!ATTLIST appender_ref
   ref IDREF #REQUIRED
 >
 
 <!-- If no priority element is specified, then the configurator MUST not -->
 <!-- touch the priority of root. -->
 <!-- The root category always exists and cannot be subclassed. -->
-<!ELEMENT root (param*, (priority|level)?, appender-ref*)>
+<!ELEMENT root (param*, (priority|level)?, appender_ref*)>
 
 
 <!-- ==================================================================== -->
@@ -121,7 +121,7 @@ element. -->
 <!-- ==================================================================== -->
 <!ELEMENT log4php:eventSet (log4php:event*)>
 <!ATTLIST log4php:eventSet
-  xmlns:log4php          CDATA #FIXED "http://www.vxr.it/log4php/" 
+  xmlns:log4php          CDATA #FIXED "http://logging.apache.org/log4php" 
   version                (0.2|0.3) "0.3" 
   includesLocationInfo   (true|false) "true"
 >
