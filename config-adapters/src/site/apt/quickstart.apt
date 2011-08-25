@@ -1,0 +1,200 @@
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+ ------
+Quickstart
+ ------
+ ------
+ ------
+
+Quickstart
+
+  First, please {{{./download.html}download Apache log4php}} and unpack it.
+  
+  Optionally, you may copy the folder <<src/main/php>>, which contains the source code, to a location of your choosing. For example, a folder within your project.  
+
+  Please read the {{{./docs/introduction.html}introduction}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
+  
+* A trivial example
+  
+  You just want logging to stdout?
+
++--
+include('log4php/Logger.php');
+
+$logger = Logger::getLogger("main");
+$logger->info("foo");
+$logger->warn("bar");
++--
+
+ This gives:
+
++--
+Sun Jul 26 01:40:23 2009,021 [10093] INFO main - foo
+Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
++--
+
+* A simple example
+
+  Wish to log all events to a file, but only those level is greater or equal to WARN?
+  
+  First, create a configuration file named log4php.xml containing:
+
++--
+<?xml version="1.0" encoding="UTF-8"?>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    <appender name="myAppender" class="LoggerAppenderFile">       <!-- 1 -->
+        <param name="file" value="myLog.log" />                   <!-- 2 -->
+    </appender>
+    <root>
+        <level value="WARN" />                                    <!-- 3 -->
+        <appender_ref ref="myAppender" />                         <!-- 4 -->
+    </root>
+</log4php:configuration>
++--
+
+  This configuration file does the following:
+  
+  [[1]] Creates an appender called <myAppender> using appender class {{{./docs/appender/appender.html#LoggerAppenderFile}LoggerAppenderFile}} which is used for logging to a file.
+
+  [[2]] Sets the <file> parameter, which is required for LoggerAppenderFile, to the path to the file in which events will be logged.
+  
+  [[3]] Configures the root {{{./docs/loggers.html}logger}} at WARN {{{./docs/introduction.html#Levels}level}}. Therefore, logging requests with the level lower than WARN will be ignored.
+
+  [[4]] Links <myAppender> with the root logger so that all events recieved by the root logger will be forwarded to <myAppender> and written into the log file.
+  
+  []
+
+  To try it out, run the following code:
+
++--
+// Insert the path where you unpacked log4php
+include('log4php/Logger.php');
+
+// Tell log4php to use our configuration file.
+Logger::configure('log4php.xml');
+
+// Fetch a logger, it will inherit settings from the root logger
+$log = Logger::getLogger('myLogger');
+
+// Start logging
+$log->trace("My first message.");   // Not logged because TRACE < WARN
+$log->debug("My second message.");  // Not logged because DEBUG < WARN
+$log->info("My third message.");    // Not logged because INFO < WARN
+$log->warn("My fourth message.");   // Logged because WARN >= WARN
+$log->error("My fifth message.");   // Logged because ERROR >= WARN
+$log->fatal("My sixth message.");   // Logged because FATAL >= WARN
++--
+
+  This will create a file named <<myLog.log>> containing the following:
+
++--
+WARN - My fourth message.
+ERROR - My fifth message.
+FATAL - My sixth message.
++--
+
+* An advanced example
+
+  This example covers:
+  
+  * named loggers 
+  
+  * using layouts 
+  
+  * best practices in object-oriented programming
+  
+  []
+  
+  Create the following configuration file:
+
++--
+<?xml version="1.0" encoding="UTF-8"?>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="myFileAppender" class="LoggerAppenderFile">
+		<layout class="LoggerLayoutTTCC" />
+        <param name="file" value="myLog.log" />
+    </appender>
+
+    <logger name="Foo">
+        <appender_ref ref="myFileAppender" />
+    </logger>
+    
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="myConsoleAppender" />
+    </root>
+</log4php:configuration>
++--
+
+  Note that:
+  
+  * Two appenders are created. The first logs to the console, and the second to a file. The file appender uses a different layout, which will result in different formatting of the logging events.
+  
+  * The console appender is linked to the root logger.
+  
+  * The file appender is linked to the logger named <Foo>, however <Foo> will also inherit appenders from the root logger (the console appender in this case). In other words, logging events sent to a logger named <Foo> will be logged both to the console and the file.
+
+  []
+  
+  The code:
+  
++--
+include('log4php/Logger.php');
+
+Logger::configure('D:\Projects\apache\_playground\log4php.xml');
+
+/**
+ * This is a classic pattern: using one logger object per class.
+ */
+class Foo
+{
+    /** Holds the Logger. */
+    private $log;
+
+    /** Logger is instantiated in the constructor. */
+    public function __construct()
+    {
+        // The __CLASS__ constant holds the class name, in our case "Foo".
+        // Therefore this creates a logger named "Foo" (which we configured in the config file)
+        $this->log = Logger::getLogger(__CLASS__);
+    }
+
+    /** Logger can be used from any member method. */
+    public function go()
+    {
+        $this->log->info("We have liftoff.");
+    }
+}
+
+$foo = new Foo();
+$foo->go();
++--
+
+  This produces the following output in the console:
+  
++--
+INFO - We have liftoff.
++-- 
+
+  And the following in the log file:
+  
++--
+01/06/11 18:43:39,545 [5428] INFO Foo - We have liftoff.
++--
+
+  Note the different layout, this is because LoggerLayoutTTCC was used as layout for the file appender.
