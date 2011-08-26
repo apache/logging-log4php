@@ -79,7 +79,8 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 				$this->parseAppender($key, $value);
 			}
 		}
-
+		
+		return $this->config;
 	}
 	
 	
@@ -132,31 +133,36 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	
 	
 	/**
-	 * Parses an appender.
+	 * Parses an configuration line pertaining to an appender.
 	 * 
-	 * Appenders are defined:
+	 * Parses the following patterns:
+	 * 
+	 * Appender class:
 	 * <pre>
-	 * log4php.appender.<appender> = <class>
-	 * log4php.appender.<appender>.<param> = <value>
+	 * log4php.appender.<name> = <class>
 	 * </pre>
 	 * 
- 	 * Appender layout is defined:
+	 * Appender parameter:
 	 * <pre>
-	 * log4php.appender.<appender>.layout = <layoutClass>
-	 * log4php.appender.<appender>.layout.<param> = <value>
-	 * </pre> 
+	 * log4php.appender.<name>.<param> = <value>
+	 * </pre>
 	 * 
-	 * Legend:
-	 * 		- appender - name of the appender
-	 * 		- class - the appender class to use
-	 * 		- param - name of a configurable parameter
-	 * 		- value - value of the configurable parameter
+ 	 * Appender layout:
+	 * <pre>
+	 * log4php.appender.<name>.layout = <layoutClass>
+	 * </pre>
+	 * 
+	 * Layout parameter:
+	 * <pre>
+	 * log4php.appender.<name>.layout.<param> = <value>
+	 * </pre> 
 	 * 
 	 * For example, a full appender config might look like:
 	 * <pre>
 	 * log4php.appender.myAppender = LoggerAppenderConsole
 	 * log4php.appender.myAppender.target = STDOUT
-	 * log4php.appender.myAppender.layout = LoggerLayoutSimple
+	 * log4php.appender.default.layout = LoggerLayoutPattern
+	 * log4php.appender.default.layout.conversionPattern = "%d %c: %m%n"
 	 * </pre>
 	 * 
 	 * @param unknown_type $key
@@ -174,67 +180,33 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 		// The first part is always the appender name
 		$name = trim($parts[0]);
 		
-		// No dots in key - this line defines the appender class 
+		// Only one part - this line defines the appender class 
 		if ($count == 1) {
-			$name = trim($parts[0]);
 			$this->config['appenders'][$name]['class'] = $value;
-		}
-		
-		// Dot(s) in key - this line defines an appender property.
-		else {
-			
-			// Layouts may have their own properties
-			if ($parts[0] == 'layout') {
-				
-				
-			}
-			
-			
-			
-		}
-		
-		// No dot in key - this is the appender class 
-		if (!strpos($appenderKey, '.')) {
-			
-		} 
-			
-		// Dot in key - this is an appender property.
-		else {
-			
-		}
-		
-		
-		
-		
-		// Remove the appender prefix from key to get name
-		$appenderName = substr($key, strlen(self::APPENDER_PREFIX));
-		
-		if (strpos($appenderName, '.')) {
 			return;
 		}
 		
-		$appender = array(
-			'class' => $value
-		);
-		
-		// Iterate over params and search for params linked to this appender
-		foreach($this->properties as $pKey => $pValue) {
+		// Two parts - either an appender property or layout class
+		else if ($count == 2) {
 			
-			// Detect layout
-			if($pKey == $appenderName . '.layout') {
-				$layout = $this->parseLayout($pKey, $pValue);
-			} 
-			
-			// Detect other parameters 
-			else if ($this->beginsWith($pKey, $key) && $pKey != $key) {
-				$paramName = substr($pKey, strlen($key) + 1);
-				$appender[$paramName] = $pValue;
+			if ($parts[1] == 'layout') {
+				$this->config['appenders'][$name]['layout']['class'] = $value;
+				return;
+			} else {
+				$this->config['appenders'][$name][$parts[1]] = $value;
+				return;
 			}
 		}
 		
-		$this->config['appenders'][$appenderName] = $appender; 
-
-	
+		// Three parts - this can only be a layout property
+		else if ($count == 3) {
+			if ($parts[1] == 'layout') {
+				$this->config['appenders'][$name]['layout'][$parts[2]] = $value;
+				return;
+			}
+		}
+		
+		trigger_error("log4php: Error in config file \"$key = $value\". Skipped this line.");
 	}
 	
 	private function beginsWith($str, $sub) {
