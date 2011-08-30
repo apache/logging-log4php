@@ -253,7 +253,7 @@ log4php.appender.default.layout = LoggerLayoutTTCC
 
 ** {LoggerLayoutXml}
 
-  The LoggerLayoutXml formats the message as a XML fragment.
+  The LoggerLayoutXml formats the messages as an XML document.
   
   
 *** Configurable parameters
@@ -263,8 +263,25 @@ log4php.appender.default.layout = LoggerLayoutTTCC
 *---------------------+--------------*-------------------+------------------------+
 | locationInfo        | No           | true              | If set to true then the file name and line number of the origin of the log statement will be included in output.
 *---------------------+--------------*-------------------+------------------------+
+| log4jNamespace      | No           | false             | If set to true then log4j namespace will be used instead of the log4php namespace. This can be usefull when using log viewers which can only parse the log4j namespace such as Apache Chainsaw. 
+*---------------------+--------------*-------------------+------------------------+
 
 *** Examples
+
+	This layout will by default include the Nested Diagnostic Context if any is present. 
+
+	Consider the following code snippet:
+	
++--
+$logger = Logger::getLogger('myLogger');
+
+LoggerNDC::push('foo');
+$logger->info("My first message.");
+LoggerNDC::push('bar');
+$logger->info("My second message.");
++-- 
+
+**** Example 1: default configuration
 
   Configuration via XML file:
   
@@ -281,7 +298,7 @@ log4php.appender.default = LoggerAppenderEcho
 log4php.appender.default.layout = LoggerLayoutXml
 +--
 
-  Sample output:
+  The resulting output:
 
 +--
 <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
@@ -296,12 +313,43 @@ log4php.appender.default.layout = LoggerLayoutXml
         <log4php:NDC><![CDATA[foo bar]]></log4php:NDC>
         <log4php:locationInfo class="main" file="/home/ihabunek/log4php/example.php" line="14" method="main" />
     </log4php:event>
-
-    <log4php:event logger="myLogger" level="WARN" thread="5032" timestamp="1294329322044">
-        <log4php:message><![CDATA[My third message.]]></log4php:message>
-        <log4php:NDC><![CDATA[foo bar baz]]></log4php:NDC>
-        <log4php:locationInfo class="main" file="/home/ihabunek/log4php/example.php" line="16" method="main" />
-    </log4php:event>
-
 </log4php:eventSet>
++--
+
+**** Example 2: log4j namespace, without location information
+
+  Configuration via XML file:
+  
++--
+<appender name="default" class="LoggerAppenderEcho">
+    <layout class="LoggerLayoutXml">
+    	<param name="locationInfo" value="false" />
+    	<param name="log4jNamespace" value="true" />
+    </layout>
+</appender>
++--
+
+  Configuration via ini file:
+  
++--
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutXml
+log4php.appender.default.layout.locationInfo = false
+log4php.appender.default.layout.log4jNamespace = true
++--
+
+  The resulting output:
+
++--
+<log4j:eventSet xmlns:log4j="http://jakarta.apache.org/log4j/" version="0.3" includesLocationInfo="false">
+	<log4j:event logger="myLogger" level="INFO" thread="5284" timestamp="1313152509034">
+		<log4j:message><![CDATA[My first message.]]></log4j:message>
+		<log4j:NDC><![CDATA[foo]]></log4j:NDC>
+	</log4j:event>
+	
+	<log4j:event logger="myLogger" level="INFO" thread="5284" timestamp="1313152509035">
+		<log4j:message><![CDATA[My second message.]]></log4j:message>
+		<log4j:NDC><![CDATA[foo bar]]></log4j:NDC>
+	</log4j:event>
+</log4j:eventSet>
 +--

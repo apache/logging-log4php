@@ -21,8 +21,13 @@
 /**
  * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
  * 
- * <p>Parameters: {@link $locationInfo}.</p>
- *
+ * Configurable parameters: 
+ * - {@link $locationInfo} - If set to true then the file name and line number 
+ *   of the origin of the log statement will be included in output.
+ * - {@link $log4jNamespace} - If set to true then log4j namespace will be used
+ *   instead of log4php namespace. This can be usefull when using log viewers 
+ *   which can only parse the log4j namespace such as Apache Chainsaw. 
+ * 
  * <p>It does not output a complete well-formed XML file. 
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
