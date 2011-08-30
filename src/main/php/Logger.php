@@ -387,10 +387,8 @@ class Logger {
 	 * Remove all previously added appenders from the Logger.
 	 */
 	public function removeAllAppenders() {
-		$appenderNames = array_keys($this->appenders);
-		$enumAppenders = count($appenderNames);
-		for($i = 0; $i < $enumAppenders; $i++) {
-			$this->removeAppender($appenderNames[$i]); 
+		foreach($this->appenders as $name => $appender) {
+			$this->removeAppender($name);
 		}
 	} 
 			
