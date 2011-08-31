@@ -135,7 +135,7 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
 	 * @param string $url
 	 * @param LoggerHierarchy $repository
 	 */
-	private function doConfigure($url = '', LoggerHierarchy $repository)
+	private function doConfigure($url, LoggerHierarchy $repository)
 	{
 		$xmlData = '';
 		if (!empty($url))
