@@ -29,16 +29,12 @@
 	<filter>
 		<whitelist>
 			<directory suffix=".php">../../main/php</directory>
-			<exclude>
-				<file>../../main/php/appenders/LoggerAppenderAdodb.php</file>
-			</exclude>
 		</whitelist>
 	</filter>
 	
 	<logging>
-		<log type="coverage-html" target="../../../target/test/report" charset="UTF-8"
-			yui="true" highlight="false"
-			lowUpperBound="35" highLowerBound="70"/>
+		<log type="coverage-html" target="../../../target/test/report" charset="UTF-8" 
+			yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
 	</logging>
 
 </phpunit>

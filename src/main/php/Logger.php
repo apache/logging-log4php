@@ -61,7 +61,6 @@ class Logger {
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderPool' => '/LoggerAppenderPool.php',
-		'LoggerAppenderAdodb' => '/appenders/LoggerAppenderAdodb.php',
 		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
