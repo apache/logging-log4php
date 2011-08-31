@@ -185,7 +185,6 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 
 	public function reset() {
 		$this->close();
-		parent::reset();
 	}
 
 	/**
