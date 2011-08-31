@@ -302,16 +302,6 @@ class LoggerPatternParser {
 				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::THREAD_CONVERTER);
 				$this->currentLiteral = '';
 				break;
-			case 'u':
-				if($this->i < $this->patternLength) {
-					$cNext = $this->pattern{$this->i};
-					if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
-						$pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
-						$this->currentLiteral = '';
-						$this->i++;
-					}
-				}
-				break;
 			case 'x':
 				$pc = new LoggerBasicPatternConverter($this->formattingInfo, self::NDC_CONVERTER);
 				$this->currentLiteral = '';
