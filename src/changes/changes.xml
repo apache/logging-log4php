@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 	    <release version="2.2.0" date="SVN">
+	    	<action date="2011-08-31" type="fix" issue="LOG4PHP-148" dev="Ivan Habunek" >LoggerUserFieldPatternConverter class missing in log4php archive</action>
 	        <action date="2011-07-14" type="fix" issue="LOG4PHP-143" dev="Ivan Habunek" due-to="Justin Cherniak" due-to-email="justin dot cherniak at gmail dot com">LoggerConfiguratorPhp does not accept integer constants for appender threshold</action>
 	    </release>
 	    <release version="2.1.0" date="2011-07-13" description="Stabilizing">
