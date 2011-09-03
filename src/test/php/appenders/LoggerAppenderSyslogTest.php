@@ -76,7 +76,7 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 
 	/** Tests parsing of "option" parameter. */
 	public function testOption() {
-		if(method_exists('ReflectionProperty', 'setAccessible')) {
+		if(!method_exists('ReflectionProperty', 'setAccessible')) {
 			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 		
@@ -119,7 +119,7 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	/** Tests parsing of "priority" parameter. */
 	public function testPriority() {
-		if(method_exists('ReflectionProperty', 'setAccessible')) {
+		if(!method_exists('ReflectionProperty', 'setAccessible')) {
 			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 	
@@ -159,7 +159,7 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	/** Tests parsing of "facility" parameter. */
 	public function testFacility() {
-		if(method_exists('ReflectionProperty', 'setAccessible')) {
+		if(!method_exists('ReflectionProperty', 'setAccessible')) {
 			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 	
@@ -233,7 +233,7 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	
 	public function testPriorityOverride() {
-		if(method_exists('ReflectionProperty', 'setAccessible')) {
+		if(!method_exists('ReflectionProperty', 'setAccessible')) {
 			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 		
