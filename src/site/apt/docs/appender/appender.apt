@@ -728,7 +728,7 @@ log4php.appender.default.locationInfo = true
 *-------------------+--------------*----------------------+------------------------+
 || Parameter        || Required    || Default value       || Description
 *-------------------+--------------*----------------------+------------------------+
-| ident             | No           | Log4PHP Syslog-Event | A string which will identify your appender.  
+| ident             | No           | Apache log4php       | A string which will identify your appender.  
 *-------------------+--------------*----------------------+------------------------+
 | overridePriority  | No           | false                | If set to true, all messages will be sent to the syslog using the priority specified in the <priority> parameter. Otherwise, the pririty will depend on the level of the event being logged. See below. 
 *-------------------+--------------*----------------------+------------------------+
@@ -842,7 +842,11 @@ log4php.appender.default.locationInfo = true
 | PID     | Include the PID with each message.
 *---------+--------------------------------------------+
 
-  Multiple options may be set by separating them with a "|". For exampe "CONS|PID|NODELAY".
+  Multiple options may be set by separating them with a pipe character. For exampe "CONS|PID|NODELAY".
+  
++--
+NOTE: when setting multiple options in an INI file, be sure to put the options string in quotes. Otherwise they will not be parsed correctly.
++--
 
 *** Examples 
 
@@ -864,5 +868,5 @@ log4php.appender.default = LoggerAppenderSyslog
 log4php.appender.default.layout = LoggerLayoutSimple
 log4php.appender.default.ident = log4php-test
 log4php.appender.default.facility = LOCAL0
-log4php.appender.default.options = NDELAY|PID
+log4php.appender.default.options = "NDELAY|PID"
 +--
