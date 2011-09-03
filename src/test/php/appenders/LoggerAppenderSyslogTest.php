@@ -76,9 +76,8 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 
 	/** Tests parsing of "option" parameter. */
 	public function testOption() {
-		
-		if(!class_exists("ReflectionClass") || method_exists('ReflectionProperty', 'setAccessible ')) {
-			$this->markTestSkipped("ReflectionClass required to perform this test.");
+		if(method_exists('ReflectionProperty', 'setAccessible')) {
+			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 		
 		$options = array(
@@ -120,9 +119,8 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	/** Tests parsing of "priority" parameter. */
 	public function testPriority() {
-	
-		if(!class_exists("ReflectionClass") || method_exists('ReflectionProperty', 'setAccessible ')) {
-			$this->markTestSkipped("ReflectionClass required to perform this test.");
+		if(method_exists('ReflectionProperty', 'setAccessible')) {
+			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 	
 		$default = null;
@@ -161,9 +159,8 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	/** Tests parsing of "facility" parameter. */
 	public function testFacility() {
-	
-		if(!class_exists("ReflectionClass") || method_exists('ReflectionProperty', 'setAccessible ')) {
-			$this->markTestSkipped("ReflectionClass required to perform this test.");
+		if(method_exists('ReflectionProperty', 'setAccessible')) {
+			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
 		}
 	
 		// Default value is the same on all OSs
@@ -236,6 +233,10 @@ class LoggerAppenderSyslogTest extends PHPUnit_Framework_TestCase {
 	
 	
 	public function testPriorityOverride() {
+		if(method_exists('ReflectionProperty', 'setAccessible')) {
+			$this->markTestSkipped("ReflectionProperty::setAccessible() required to perform this test (available in PHP 5.3.2+).");
+		}
+		
 		$appender = new LoggerAppenderSyslog();
 		$appender->setPriority('EMERG');
 		$appender->setOverridePriority(true);
