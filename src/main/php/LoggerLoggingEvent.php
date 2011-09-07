@@ -297,9 +297,7 @@ class LoggerLoggingEvent {
 	/**
 	 * Returns the time when the application started, in seconds
 	 * elapsed since 01.01.1970 plus microseconds if available.
-	 *
 	 * @return float
-	 * @static
 	 */
 	public static function getStartTime() {
 		if(!isset(self::$startTime)) {

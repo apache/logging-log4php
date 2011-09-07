@@ -67,7 +67,6 @@ class LoggerMDC {
 	 *
 	 * @param string $key the key
 	 * @param string $value the value
-	 * @static
 	 */
 	public static function put($key, $value) {
 		self::$map[$key] = $value;
@@ -85,7 +84,6 @@ class LoggerMDC {
 	 * @param string $key the key
 	 * @return string the context or an empty string if no context found
 	 * 	for given key
-	 * @static
 	 */
 	public static function get($key) {
 		if(!empty($key)) {
@@ -109,7 +107,6 @@ class LoggerMDC {
 	 * It only affects user mappings, not $_ENV or $_SERVER.
 	 *
 	 * @param string $key the key to be removed
-	 * @static
 	 */
 	public static function remove($key) {
 		unset(self::$map[$key]);

@@ -105,8 +105,6 @@ class LoggerNDC {
 	 *
 	 * <p>This method is equivalent to calling the {@link setMaxDepth()}
 	 * method with a zero <var>maxDepth</var> argument.
-	 *
-	 * @static
 	 */
 	public static function clear() {
 		self::$stack = array();
@@ -114,7 +112,6 @@ class LoggerNDC {
 
 	/**
 	 * Never use this method directly, use the {@link LoggerLoggingEvent::getNDC()} method instead.
-	 * @static
 	 * @return array
 	 */
 	public static function get() {
@@ -126,7 +123,6 @@ class LoggerNDC {
 	 *
 	 * @see setMaxDepth()
 	 * @return integer
-	 * @static
 	 */
 	public static function getDepth() {
 		return count(self::$stack);
@@ -140,7 +136,6 @@ class LoggerNDC {
 	 * context is available, then the empty string "" is returned.</p>
 	 *
 	 * @return string The innermost diagnostic context.
-	 * @static
 	 */
 	public static function pop() {
 		if(count(self::$stack) > 0) {
@@ -157,7 +152,6 @@ class LoggerNDC {
 	 * <p>The returned value is the value that was pushed last. If no
 	 * context is available, then the empty string "" is returned.</p>
 	 * @return string The innermost diagnostic context.
-	 * @static
 	 */
 	public static function peek(){
 		if(count(self::$stack) > 0) {
@@ -174,7 +168,6 @@ class LoggerNDC {
 	 * determined solely by the client.
 	 *	
 	 * @param string $message The new diagnostic context information.
-	 * @static	
 	 */
 	public static function push($message) {
 		array_push(self::$stack, (string)$message);
@@ -182,7 +175,6 @@ class LoggerNDC {
 
 	/**
 	 * Remove the diagnostic context for this thread.
-	 * @static
 	 */
 	public static function remove() {
 		LoggerNDC::clear();
@@ -201,7 +193,6 @@ class LoggerNDC {
 	 *
 	 * @param integer $maxDepth
 	 * @see getDepth()
-	 * @static
 	 */
 	public static function setMaxDepth($maxDepth) {
 		$maxDepth = (int)$maxDepth;

@@ -21,7 +21,6 @@
 /**
  * @package log4php
  * @subpackage helpers
- * @abstract
  */
 class LoggerNamedPatternConverter extends LoggerPatternConverter {
 
@@ -44,10 +43,8 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 	/**
 	 * @param LoggerLoggingEvent $event
 	 * @return string
-	 * @abstract
 	 */
 	public function getFullyQualifiedName($event) {
-		// abstract
 		return;
 	}
 

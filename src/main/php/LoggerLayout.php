@@ -23,7 +23,6 @@
  *	
  * @version $Revision$
  * @package log4php
- * @abstract
  */
 abstract class LoggerLayout {
 	/**

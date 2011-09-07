@@ -82,13 +82,11 @@ class LoggerLayoutXml extends LoggerLayout {
 	
 	/**
 	 * @var string namespace
-	 * @private
 	 */
 	private $_namespace = self::LOG4PHP_NS;
 	
 	/**
 	 * @var string namespace prefix
-	 * @private
 	 */
 	private $_namespacePrefix = self::LOG4PHP_NS_PREFIX;
 	 
@@ -209,7 +207,6 @@ class LoggerLayoutXml extends LoggerLayout {
 	 *						the calling method.
 	 * @param string str	The String that is inserted into an existing 
 	 *						CDATA Section within buf.
-	 * @static  
 	 */
 	private function appendEscapingCDATA(&$buf, $str) {
 		if(empty($str)) {

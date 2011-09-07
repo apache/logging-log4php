@@ -24,7 +24,6 @@
  * @version $Revision$ 
  * @package log4php
  * @subpackage helpers
- * @static
  * @since 0.5
  */
 class LoggerOptionConverter {
@@ -46,8 +45,6 @@ class LoggerOptionConverter {
 	 * @param string $def The default value to return.
 	 * @return string	the string value of the system property, or the default
 	 *					value if there is no property with that key.
-	 *
-	 * @static
 	 */
 	public static function getSystemProperty($key, $def) {
 		if(defined($key)) {
@@ -72,8 +69,6 @@ class LoggerOptionConverter {
 	 * @param string $value
 	 * @param boolean $default
 	 * @return boolean
-	 *
-	 * @static
 	 */
 	public static function toBoolean($value, $default=true) {
 		if (is_null($value)) {
@@ -99,7 +94,6 @@ class LoggerOptionConverter {
 	 * @param string $value
 	 * @param integer $default
 	 * @return integer
-	 * @static
 	 */
 	public static function toInt($value, $default) {
 		$value = trim($value);
@@ -135,7 +129,6 @@ class LoggerOptionConverter {
 	 * @param string $value
 	 * @param LoggerLevel $defaultValue
 	 * @return LoggerLevel a {@link LoggerLevel} or null
-	 * @static
 	 */
 	public static function toLevel($value, $defaultValue) {
 		if($value === null) {
@@ -176,8 +169,6 @@ class LoggerOptionConverter {
 	 * @param string $value
 	 * @param float $default
 	 * @return float
-	 *
-	 * @static
 	 */
 	public static function toFileSize($value, $default) {
 		if($value === null) {
@@ -210,8 +201,6 @@ class LoggerOptionConverter {
 	 * @param string $key
 	 * @param array $props
 	 * @return string
-	 *
-	 * @static
 	 */
 	public static function findAndSubst($key, $props) {
 		$value = @$props[$key];
@@ -267,8 +256,6 @@ class LoggerOptionConverter {
 	 * @param string $val The string on which variable substitution is performed.
 	 * @param array $props
 	 * @return string
-	 *
-	 * @static
 	 */
 	 // TODO: this method doesn't work correctly with key = true, it needs key = "true" which is odd
 	public static function substVars($val, $props = null) {

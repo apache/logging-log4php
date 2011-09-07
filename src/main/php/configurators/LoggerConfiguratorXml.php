@@ -120,7 +120,6 @@ class LoggerConfiguratorXml implements LoggerConfigurator {
 	 * set to "1".
 	 *
 	 * @param string $url
-	 * @static
 	 */
 	public function configure(LoggerHierarchy $hierarchy, $url = '') {
 		return $this->doConfigure($url, $hierarchy);

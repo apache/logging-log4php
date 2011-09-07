@@ -61,7 +61,6 @@ class LoggerRendererMap {
 	 * @param LoggerHierarchy $repository a logger repository.
 	 * @param string $renderedClassName
 	 * @param string $renderingClassName
-	 * @static
 	 */
 	public function addRenderer($renderedClassName, $renderingClassName) {
 		$renderer = LoggerReflectionUtils::createObject($renderingClassName);

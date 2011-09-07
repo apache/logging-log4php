@@ -30,7 +30,6 @@
  * @version $Revision$
  * @package log4php
  * @subpackage helpers
- * @abstract
  * @since 0.3
  */
 class LoggerPatternConverter {

@@ -349,7 +349,6 @@ class Logger {
 	 * @param string $name logger name
 	 * @param LoggerFactory $factory a {@link LoggerFactory} instance or null
 	 * @return Logger
-	 * @static 
 	 */
 	public static function getLogger($name) {
 		if(!self::isInitialized()) {
@@ -361,7 +360,6 @@ class Logger {
 	/**
 	 * Get the Root Logger (Delegate to {@link Logger})
 	 * @return LoggerRoot
-	 * @static 
 	 */	   
 	public static function getRootLogger() {
 		if(!self::isInitialized()) {
@@ -479,8 +477,6 @@ class Logger {
 	
 	/**
 	 * Clears all Logger definitions from the logger hierarchy.
-	 * 
-	 * @static
 	 * @return boolean 
 	 */
 	public static function clear() {
@@ -489,8 +485,6 @@ class Logger {
 	
 	/**
 	 * Destroy configurations for logger definitions
-	 * 
-	 * @static
 	 * @return boolean 
 	 */
 	public static function resetConfiguration() {
@@ -503,10 +497,8 @@ class Logger {
 
 	/**
 	 * Safely close all appenders.
-	 * 
 	 * @deprecated This is no longer necessary due the appenders shutdown via
 	 * destructors.
-	 * @static
 	 */
 	public static function shutdown() {
 		return self::getHierarchy()->shutdown();	   
@@ -516,7 +508,6 @@ class Logger {
 	 * check if a given logger exists.
 	 * 
 	 * @param string $name logger name 
-	 * @static
 	 * @return boolean
 	 */
 	public static function exists($name) {
@@ -525,8 +516,6 @@ class Logger {
 	
 	/**
 	 * Returns an array this whole Logger instances.
-	 * 
-	 * @static
 	 * @see Logger
 	 * @return array
 	 */

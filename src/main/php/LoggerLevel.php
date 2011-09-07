@@ -94,7 +94,6 @@ class LoggerLevel {
 	
 	/**
 	 * Returns an Off Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelOff() {
@@ -106,7 +105,6 @@ class LoggerLevel {
 
 	/**
 	 * Returns a Fatal Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelFatal() {
@@ -118,7 +116,6 @@ class LoggerLevel {
 	
 	/**
 	 * Returns an Error Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelError() {
@@ -130,7 +127,6 @@ class LoggerLevel {
 	
 	/**
 	 * Returns a Warn Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelWarn() {
@@ -142,7 +138,6 @@ class LoggerLevel {
 
 	/**
 	 * Returns an Info Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelInfo() {
@@ -154,7 +149,6 @@ class LoggerLevel {
 
 	/**
 	 * Returns a Debug Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelDebug() {
@@ -166,7 +160,6 @@ class LoggerLevel {
 	
 	/**
 	 * Returns a Trace Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelTrace() {
@@ -178,7 +171,6 @@ class LoggerLevel {
 
 	/**
 	 * Returns an All Level
-	 * @static
 	 * @return LoggerLevel
 	 */
 	public static function getLevelAll() {
@@ -190,7 +182,6 @@ class LoggerLevel {
 	
 	/**
 	 * Return the syslog equivalent of this priority as an integer.
-	 * @final
 	 * @return integer
 	 */
 	public function getSyslogEquivalent() {
@@ -242,7 +233,6 @@ class LoggerLevel {
 	 *
 	 * @param mixed $arg
 	 * @param LoggerLevel $default
-	 * @static 
 	 */
 	public static function toLevel($arg, $defaultLevel = null) {
 		if($defaultLevel === null) {
