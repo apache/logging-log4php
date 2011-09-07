@@ -58,10 +58,6 @@ class LoggerAppenderConsole extends LoggerAppender {
 	 */
 	protected $fp = null;
 
-	public function __destruct() {
-		$this->close();
-	}
-	
 	/**
 	 * Set console target.
 	 * @param mixed $value a constant or a string
@@ -83,9 +79,6 @@ class LoggerAppenderConsole extends LoggerAppender {
 		$this->closed = (bool)is_resource($this->fp) === false;
 	}
 	
-	/**
-	 * @see LoggerAppender::close()
-	 */
 	public function close() {
 		if($this->closed != true) {
 			if (is_resource($this->fp) && $this->layout !== null) {

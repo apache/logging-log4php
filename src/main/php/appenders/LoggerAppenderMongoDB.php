@@ -216,10 +216,6 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		}
 	}
 	
-	public function __destruct() {
-		$this->close();
-	}
-	
 	/** Sets the value of {@link $host} parameter. */
 	public function setHost($host) {
 		if (!preg_match('/^mongodb\:\/\//', $host)) {

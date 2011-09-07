@@ -81,19 +81,6 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	/** @var indiciates if this appender should run in dry mode */
 	private $dry = false;
 	
-	/**
-	 * Constructor.
-	 *
-	 * @param string $name appender name
-	 */
-	public function __construct($name = '') {
-		parent::__construct($name);
-	}
-
-	public function __destruct() {
-		$this->close();
-	}
-	
 	public function activateOptions() {
 		if (empty($this->layout)) {
 			throw new LoggerException("LoggerAppenderMailEvent requires layout!");
@@ -110,10 +97,6 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 		$this->closed = false;
 	}
 	
-	public function close() {
-		$this->closed = true;
-	}
-
 	public function setFrom($from) {
 		$this->from = $from;
 	}

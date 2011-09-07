@@ -59,10 +59,6 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 	 */
 	public $datePattern = "Ymd";
 	
-	public function __destruct() {
-		parent::__destruct();
-	}
-	
 	/**
 	 * Sets date format for the file name.
 	 * @param string $datePattern a regular date() string format

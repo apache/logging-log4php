@@ -119,19 +119,6 @@ class LoggerAppenderPDO extends LoggerAppender {
 	protected $requiresLayout = false;
 	
 	/**
-	 * Constructor.
-	 * This apender doesn't require a layout.
-	 * @param string $name appender name
-	 */
-	public function __construct($name = '') {
-		parent::__construct($name);
-	}
-	
-	public function __destruct() {
-	   $this->close();
-   	}
-   	
-	/**
 	 * Setup db connection.
 	 * Based on defined options, this method connects to db defined in {@link $dsn}
 	 * and creates a {@link $table} table if {@link $createTable} is true.

@@ -57,14 +57,6 @@ class LoggerAppenderFile extends LoggerAppender {
 	 */
 	protected $fp = false;
 	
-	public function __construct($name = '') {
-		parent::__construct($name);
-	}
-
-	public function __destruct() {
-		$this->close();
-	}
-	
 	public function activateOptions() {
 		$fileName = $this->getFile();
 

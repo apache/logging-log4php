@@ -69,23 +69,6 @@ class LoggerAppenderMail extends LoggerAppender {
 	/** @var string used to create mail body */
 	private $body = '';
 	
-	/**
-	 * Constructor.
-	 *
-	 * @param string $name appender name
-	 */
-	public function __construct($name = '') {
-		parent::__construct($name);
-	}
-
-	public function __destruct() {
-		$this->close();
-	}
-
-	public function activateOptions() {
-		$this->closed = false;
-	}
-	
 	public function close() {
 		if($this->closed != true) {
 			$from = $this->from;

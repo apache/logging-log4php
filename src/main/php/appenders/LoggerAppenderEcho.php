@@ -49,19 +49,6 @@ class LoggerAppenderEcho extends LoggerAppender {
 	 * break in the logged message. Default value is false. @var boolean 
 	 */
 	private $htmlLineBreaks = false;
-
-	public function __construct($name = '') {
-		parent::__construct($name);
-		$this->firstAppend = true;
-	}
-	
-	public function __destruct() {
-		$this->close();
-	}
-
-	public function activateOptions() {
-		$this->closed = false;
-	}
 	
 	public function close() {
 		if($this->closed != true) {

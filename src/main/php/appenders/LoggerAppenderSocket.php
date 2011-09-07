@@ -97,10 +97,6 @@ class LoggerAppenderSocket extends LoggerAppender {
 	/** @var indiciates if this appender should run in dry mode */
 	private $dry = false;
 	
-	public function __destruct() {
-		$this->close();
-	}
-	
 	/**
 	 * Create a socket connection using defined parameters
 	 */

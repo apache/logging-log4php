@@ -35,19 +35,10 @@
  */
 class LoggerAppenderNull extends LoggerAppender {
 
+	/** 
+	 * This appender does not require a layout. 
+	 */
 	protected $requiresLayout = false;
-	
-	public function __destruct() {
-		$this->close();
-	}
-	
-	public function activateOptions() {
-		$this->closed = false;
-	}
-	
-	public function close() {
-		$this->closed = true;
-	}
 	
 	/**
 	 * Do nothing. 
