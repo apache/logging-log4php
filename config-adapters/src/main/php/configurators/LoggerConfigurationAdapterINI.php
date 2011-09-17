@@ -4,14 +4,10 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	
 	const ROOT_LOGGER_NAME = "root";
 	
+	const ADDITIVITY_PREFIX = "log4php.additivity.";
 	const THRESHOLD_PREFIX = "log4php.threshold";
 	const ROOT_LOGGER_PREFIX = "log4php.rootLogger";
 	const LOGGER_PREFIX = "log4php.logger.";
-	
-// 	const CATEGORY_PREFIX = "log4php.category.";
-// 	const FACTORY_PREFIX = "log4php.factory";
-	const ADDITIVITY_PREFIX = "log4php.additivity.";
-	const ROOT_CATEGORY_PREFIX = "log4php.rootCategory";
 	const APPENDER_PREFIX = "log4php.appender.";
 	const RENDERER_PREFIX = "log4php.renderer.";
 	
@@ -71,12 +67,23 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 			// Parse loggers
 			if ($this->beginsWith($key, self::LOGGER_PREFIX)) {
 				$name = substr($key, strlen(self::LOGGER_PREFIX));
-				$this->parseLogger($property, $name);
+				$this->parseLogger($value, $name);
+			}
+			
+			// Parse additivity
+			if ($this->beginsWith($key, self::ADDITIVITY_PREFIX)) {
+				$name = substr($key, strlen(self::ADDITIVITY_PREFIX));
+				$this->parseAdditivity($value, $name);
 			}
 			
 			// Parse appenders
 			else if ($this->beginsWith($key, self::APPENDER_PREFIX)) {
 				$this->parseAppender($key, $value);
+			}
+			
+			// Parse renderers
+			else if ($this->beginsWith($key, self::RENDERER_PREFIX)) {
+				$this->parseRenderer($key, $value);
 			}
 		}
 		
@@ -125,12 +132,27 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 		);
 		
 		if ($loggerName == self::ROOT_LOGGER_NAME) {
-			$this->config['rootLogger'] = $config; 
+			$target = &$this->config['rootLogger']; 
 		} else {
-			$this->config['loggers'][$loggerName] = $config;
+			$target = &$this->config['loggers'][$loggerName];
+		}
+		
+		// It is possible that the logger config array already exists  
+		//  (set when parsing additivity) so make sure not to overwrite it.
+		if (is_array($target)) {
+			$target = array_merge($target, $config);
+		} else {
+			$target = $config;
 		}
 	}
 	
+	private function parseAdditivity($value, $loggerName) {
+		if ($loggerName == self::ROOT_LOGGER_NAME) {
+			$this->config['rootLogger']['additivity'] = $value;
+		} else {
+			$this->config['loggers'][$loggerName]['additivity'] = $value;
+		}
+	}
 	
 	/**
 	 * Parses an configuration line pertaining to an appender.
@@ -207,6 +229,15 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 		}
 		
 		trigger_error("log4php: Error in config file \"$key = $value\". Skipped this line.");
+	}
+	
+	
+	private function parseRenderer($key, $value) {
+		// Remove the appender prefix from key
+		$renderedClass = substr($key, strlen(self::APPENDER_PREFIX));
+		$renderingClass = $value;
+		
+		$this->config['renderers'][] = compact('renderedClass', 'renderingClass');
 	}
 	
 	private function beginsWith($str, $sub) {

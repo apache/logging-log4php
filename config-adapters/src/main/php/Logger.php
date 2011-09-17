@@ -53,7 +53,7 @@ class Logger {
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
-		'LoggerConfigurator' => '/configurators/LoggerConfigurator.php',
+		'LoggerConfigurator' => '/LoggerConfigurator.php',
 		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
 		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
 		'LoggerConfigurationAdapterXML' => '/configurators/LoggerConfigurationAdapterXML.php',
@@ -343,7 +343,7 @@ class Logger {
 	 */
 	public static function getLogger($name) {
 		if(!self::isInitialized()) {
-			self::initialize();
+			self::configure();
 		}
 		return self::getHierarchy()->getLogger($name);
 	}
@@ -488,8 +488,6 @@ class Logger {
 	public static function resetConfiguration() {
 		$result = self::getHierarchy()->resetConfiguration();
 		self::$initialized = false;
-		self::$configurationClass = 'LoggerConfiguratorBasic';
-		self::$configurationFile = null;
 		return $result;	 
 	}
 
@@ -566,32 +564,15 @@ class Logger {
 	 * should either be null or contain the path to file used by the custom 
 	 * configurator. Make sure the configurator class is already loaded, or
 	 * that it can be included by PHP when necessary.
-	 * 
-	 * @param string $configurationFile path to the configuration file
-	 * @param string $configurationClass name of the custom configurator class 
 	 */
-	public static function configure($configuration) {
+	public static function configure($configuration = null) {
 		if (!isset(self::$configurator)) {
 			self::$configurator = new LoggerConfigurator();	
 		}
 		
+		self::resetConfiguration();
 		self::$configurator->configure(self::getHierarchy(), $configuration);
-	}
-	
-	/**
-	 * Returns the current {@link Logger::$configurationClass configurator class}.
-	 * @return string the configurator class name
-	 */
-	public static function getConfigurationClass() {
-		return self::$configurationClass;
-	}
-	
-	/**
-	 * Returns the current {@link Logger::$configurationFile configuration file}.
-	 * @return string the configuration file
-	 */
-	public static function getConfigurationFile() {
-		return self::$configurationFile;
+		self::$initialized = true;
 	}
 	
 	/**
@@ -602,16 +583,4 @@ class Logger {
 		return self::$initialized;
 	}
 	
-	/**
-	 * Initializes the log4php framework using the provided {@link 
-	 * Logger::$configurationClass configuration class}  and {@link 
-	 * Logger::$configurationFile configuration file}.
-	 * @return boolean
-	 */
-	public static function initialize() {
-		self::$initialized = true;
-		$instance = LoggerReflectionUtils::createObject(self::$configurationClass);
-		$result = $instance->configure(self::getHierarchy(), self::$configurationFile);
-		return $result;
-	}
 }

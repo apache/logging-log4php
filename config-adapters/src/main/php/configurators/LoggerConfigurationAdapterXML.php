@@ -39,7 +39,6 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		foreach($xml->renderer as $rendererNode) {
 			$this->parseRenderer($rendererNode);
 		}
-		
 		return $this->config;
 	}
 	
@@ -48,26 +47,28 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	 * @param string $url Input XML.
 	 */
 	private function loadXML($url) {
+		if (!file_exists($url)) {
+			$cwd = getcwd();
+			throw new LoggerException("Config file not found at [$url]. Current working dir is [$cwd].");
+		}
 		
 		// Load the config file
 		$config = @file_get_contents($url);
 		if ($config === false) {
 			$error = error_get_last();
-			throw new LoggerException("Cannot load config file: {$error['message']}");
+			throw new LoggerException("Cannot load config file.");
 		}
 		
 		// Validate XML against schema
-		$internal = libxml_use_internal_errors(true);
-		
-		$this->validateXML($config);
-		
-		libxml_clear_errors();
-		libxml_use_internal_errors($internal);
+// 		$internal = libxml_use_internal_errors(true);
+// 		$this->validateXML($config);
+// 		libxml_clear_errors();
+// 		libxml_use_internal_errors($internal);
 		
 		// Load XML
 		$xml = simplexml_load_string($config);
 		if ($xml === false) {
-			throw new LoggerException("Failed parsing XML configuration file.");
+			throw new LoggerException("XML file contains errors.");
 		}
 		return $xml;
 	}
@@ -163,8 +164,6 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	/** Parses a <root> node. */
 	private function parseRootLogger(SimpleXMLElement $node) {
 		$logger = array();
-		
-		var_dump($node->level['value']);
 		
 		if (isset($node->level)) {
 			$logger['level'] = $this->getAttributeValue($node->level, 'value');

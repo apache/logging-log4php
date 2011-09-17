@@ -28,7 +28,6 @@ class LoggerConfigurationAdapterPHP implements LoggerConfigurationAdapter
 		
 		return $config;
 	}
-
 }
 
 ?>
