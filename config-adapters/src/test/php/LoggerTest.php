@@ -55,7 +55,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testCanLogToAllLevels() {
-		Logger::configure('LoggerTest.properties');
+		Logger::configure(dirname(__FILE__) . '/LoggerTest.properties');
 		
 		$logger = Logger::getLogger('mylogger');
 		ob_start();
@@ -78,7 +78,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testIsEnabledFor() {
-		Logger::configure('LoggerTest.properties');
+		Logger::configure(dirname(__FILE__) . '/LoggerTest.properties');
 		
 		$logger = Logger::getLogger('mylogger');
 		
@@ -97,34 +97,10 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 		
 		self::assertEquals(0, count(Logger::getCurrentLoggers()));
 		
-		Logger::configure('LoggerTest.properties');
-		Logger::initialize();
+		Logger::configure(dirname(__FILE__) . '/LoggerTest.properties');
 		self::assertEquals(1, count(Logger::getCurrentLoggers()));
 		$list = Logger::getCurrentLoggers();
 		self::assertEquals('mylogger', $list[0]->getName());
 	}
-	
-	public function testConfigure() {
-		Logger::resetConfiguration();
-		Logger::configure();
-		self::assertEquals('LoggerConfiguratorBasic', Logger::getConfigurationClass());
-		self::assertEquals(null, Logger::getConfigurationFile());
-		
-		Logger::configure(null, 'MyLoggerClass');
-		self::assertEquals('MyLoggerClass', Logger::getConfigurationClass());
-		self::assertEquals(null, Logger::getConfigurationFile());
-		
-		Logger::configure('log4php.xml');
-		self::assertEquals('LoggerConfiguratorXml', Logger::getConfigurationClass());
-		self::assertEquals('log4php.xml', Logger::getConfigurationFile());
-		
-		Logger::configure('log4php.xml');
-		self::assertEquals('LoggerConfiguratorXml', Logger::getConfigurationClass());
-		self::assertEquals('log4php.xml', Logger::getConfigurationFile());
-		
-		Logger::configure('log4php.properties');
-		self::assertEquals('LoggerConfiguratorIni', Logger::getConfigurationClass());
-		self::assertEquals('log4php.properties', Logger::getConfigurationFile());
-		
-	}
+
 }

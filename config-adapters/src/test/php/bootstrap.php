@@ -26,4 +26,12 @@ error_reporting(E_ALL | E_STRICT);
 
 date_default_timezone_set('Europe/London');
 
+// Define a temp dir where tests may write to
+$tmpDir = dirname(__FILE__) . '/../../../../target/temp/phpunit';
+if (!is_dir($tmpDir)) {
+	mkdir($tmpDir, 0777, true);
+}
+define('PHPUNIT_TEMP_DIR', realpath($tmpDir));
+
 require dirname(__FILE__) . '/../../main/php/Logger.php';
+

@@ -57,6 +57,7 @@ class Logger {
 		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
 		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
 		'LoggerConfigurationAdapterXML' => '/configurators/LoggerConfigurationAdapterXML.php',
+		'LoggerConfigurationAdapterPHP' => '/configurators/LoggerConfigurationAdapterPHP.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderPool' => '/LoggerAppenderPool.php',
@@ -355,7 +356,7 @@ class Logger {
 	 */	   
 	public static function getRootLogger() {
 		if(!self::isInitialized()) {
-			self::initialize();
+			self::configure();
 		}
 		return self::getHierarchy()->getRootLogger();	  
 	}
@@ -481,14 +482,11 @@ class Logger {
 	
 	/**
 	 * Destroy configurations for logger definitions
-	 * 
-	 * @static
-	 * @return boolean 
 	 */
 	public static function resetConfiguration() {
-		$result = self::getHierarchy()->resetConfiguration();
+		self::getHierarchy()->resetConfiguration();
+		self::getHierarchy()->clear(); // TODO: clear or not?
 		self::$initialized = false;
-		return $result;	 
 	}
 
 	/**
@@ -566,12 +564,9 @@ class Logger {
 	 * that it can be included by PHP when necessary.
 	 */
 	public static function configure($configuration = null) {
-		if (!isset(self::$configurator)) {
-			self::$configurator = new LoggerConfigurator();	
-		}
-		
 		self::resetConfiguration();
-		self::$configurator->configure(self::getHierarchy(), $configuration);
+		$configurator = new LoggerConfigurator();
+		$configurator->configure(self::getHierarchy(), $configuration);
 		self::$initialized = true;
 	}
 	

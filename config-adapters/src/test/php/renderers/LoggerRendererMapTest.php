@@ -46,7 +46,6 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	public function testFindAndRender() {
 		$fruit = new Fruit3();
 		Logger::configure(dirname(__FILE__).'/test4.properties');
-		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
 		$map = $hierarchy->getRendererMap();
@@ -57,7 +56,6 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	public function testFindAndRenderDescendants() {
 		$fruit = new Fruit3Descendant();
 		Logger::configure(dirname(__FILE__).'/test4.properties');
-		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 
 		$map = $hierarchy->getRendererMap();
@@ -68,7 +66,6 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	public function testGetByObject() {
 		$fruit = new Fruit3();
 		Logger::configure(dirname(__FILE__).'/test4.properties');
-		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
 		$map = $hierarchy->getRendererMap();
@@ -78,7 +75,6 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
         
 	public function testGetByClassName() {
 		Logger::configure(dirname(__FILE__).'/test4.properties');
-		Logger::initialize();
 		$hierarchy = Logger::getHierarchy();
 		
 		$map = $hierarchy->getRendererMap();
@@ -89,14 +85,14 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	public function testUsage() {
 	    Logger::resetConfiguration();
         Logger::configure(dirname(__FILE__).'/test4.properties');
-        Logger::initialize();
         $logger = Logger::getRootLogger();
  
         ob_start();
-        $logger->error(new Fruit3());
-        $v = ob_get_contents();
+        $logger->warn(new Fruit3());
+        $actual = ob_get_contents();
         ob_end_clean();
 
-        self::assertEquals("ERROR - test1,test2,test3" . PHP_EOL, $v);
+        $expected = "WARN - test1,test2,test3" . PHP_EOL;
+        self::assertEquals($expected, $actual);
 	}
 }

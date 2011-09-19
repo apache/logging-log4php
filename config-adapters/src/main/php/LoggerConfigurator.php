@@ -19,7 +19,12 @@
  */
 
 /**
- * Configures log4php based on a provided configuration file or array.  
+ * Configures log4php based on a provided configuration file or array.
+ * 
+ * @package log4php
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version $Revision$
+ * @since 2.2
  */
 class LoggerConfigurator
 {
@@ -56,11 +61,18 @@ class LoggerConfigurator
         ),
 	);
 	
+	/** Holds the appenders before they are linked to loggers. */
+	private $appenders = array();
+	
 	/**
-	 * Starts logger configuration procedure.
+	 * Configures log4php based on the given configuration. The input can 
+	 * either be a path to the config file, or a PHP array holding the 
+	 * configuration. 
 	 * 
-	 * If the config file cannot be loaded or parsed, reverts to the default 
-	 * configuration contained in {@link $defaultConfiguration}.
+	 * If no configuration is given, or if the given configuration cannot be
+	 * parsed for whatever reason, a warning will be issued, and log4php
+	 * will use the default configuration contained in 
+	 * {@link $defaultConfiguration}.
 	 * 
 	 * @param LoggerHierarchy $hierarchy The hierarchy on which to perform 
 	 * 		the configuration. 
@@ -69,6 +81,25 @@ class LoggerConfigurator
 	 * 		will be used.
 	 */
 	public function configure(LoggerHierarchy $hierarchy, $input = null)
+	{
+		$config = $this->parse($input);
+		$this->doConfigure($hierarchy, $config);
+	}
+	
+	/**
+	 * Parses the given configuration and returns the parsed configuration
+	 * as a PHP array. Does not perform any configuration. 
+	 * 
+	 * If no configuration is given, or if the given configuration cannot be
+	 * parsed for whatever reason, a warning will be issued, and the default 
+	 * configuration will be returned ({@link $defaultConfiguration}).
+	 * 
+	 * @param string|array $input Either path to the config file or the 
+	 * 		configuration as an array. If not set, default configuration 
+	 * 		will be used.
+	 * @return array The parsed configuration.
+	 */
+	public function parse($input)
 	{
 		// No input - use default configuration
 		if (!isset($input)) {
@@ -80,12 +111,12 @@ class LoggerConfigurator
 			$config = $input;
 		}
 		
-		// String input - contains path to configuration file 
+		// String input - contains path to configuration file
 		else if (is_string($input)) {
 			try {
-				$config = $this->parseConfigFile($input);
-			} catch (Exception $e) {
-				$this->warn("Failed parsing configuration file: " . $e->getMessage());
+				$config = $this->parseFile($input);
+			} catch (LoggerException $e) {
+				$this->warn("Configuration failed. " . $e->getMessage() . " Using default configuration.");
 				$config = $this->defaultConfiguration;
 			}
 		}
@@ -95,22 +126,34 @@ class LoggerConfigurator
 			$this->warn("Invalid configuration param given. Reverting to default configuration.");
 			$config = $this->defaultConfiguration;
 		}
-
-		$this->doConfigure($hierarchy, $config);
+		
+		return $config;
 	}
+
+	/** 
+	 * Returns the default log4php configuration.
+	 * @return array
+	 */
+	public function getDefaultConfiguration() {
+		return $this->defaultConfiguration;
+	} 
 	
 	/**
-	 * Loads the configuration file from the given URL, determines which 
+	 * Loads the configuration file from the given URL, determines which
 	 * adapter to use, converts the configuration to a PHP array and
 	 * returns it.
-	 * 
+	 *
 	 * @param string $url Path to the config file.
 	 * @return The configuration from the config file, as a PHP array.
 	 * @throws LoggerException If the configuration file cannot be loaded, or
 	 * 		if the parsing fails.
 	 */
-	public function parseConfigFile($url)
-	{
+	private function parseFile($url) {
+		
+		if (!file_exists($url)) {
+			throw new LoggerException("File not found at [$url].");
+		}
+		
 		$type = $this->getConfigType($url);
 		$adapterClass = $this->adapters[$type];
 
@@ -158,7 +201,7 @@ class LoggerConfigurator
 		// Configure appenders and add them to the appender pool
 		if (isset($config['appenders']) && is_array($config['appenders'])) {
 			foreach($config['appenders'] as $name => $appenderConfig) {
-				$this->configureAppender($hierarchy, $name, $appenderConfig);
+				$this->configureAppender($name, $appenderConfig);
 			}
 		}
 		
@@ -182,21 +225,28 @@ class LoggerConfigurator
 		}
 	}
 	
-	private function configureAppender(LoggerHierarchy $hierarchy, $name, $config) {
+	/** 
+	 * Configures an appender based on given config and saves it to 
+	 * {@link $appenders} array so it can be later linked to loggers. 
+	 * @param string $name Appender name. 
+	 * @param array $config Appender configuration options.
+	 */
+	private function configureAppender($name, $config) {
+		// Parse appender class
 		$class = $config['class'];
-		
 		if (!class_exists($class)) {
 			$this->warn("Class [$class] does not exist. Skipping appender [$name].");
 			return;
 		}
 		
+		// Instantiate the appender
 		$appender = new $class($name);
 		if (!($appender instanceof LoggerAppender)) {
 			$this->warn("[$class] is not a valid appender class. Skipping appender [$name].");
 			return;
 		}
 		
-		// Parse the threshold
+		// Parse the appender threshold
 		if (isset($config['threshold'])) {
 			$threshold = LoggerLevel::toLevel($config['threshold']);
 			if ($threshold instanceof LoggerLevel) {
@@ -211,11 +261,10 @@ class LoggerConfigurator
 		if ($appender->requiresLayout() && isset($config['layout'])) {
 			$this->createAppenderLayout($appender, $config['layout']);
 		}
-		
+
+		// Activate and save for later linking to loggers
 		$appender->activateOptions();
-		
-		// Save appender in pool 
-		LoggerAppenderPool::add($appender);
+		$this->appenders[$name] = $appender;
 	}
 	
 	/**
@@ -244,19 +293,33 @@ class LoggerConfigurator
 		$appender->setLayout($layout);
 	}
 	
+	/** 
+	 * Configures the root logger
+	 * @see configureLogger() 
+	 */
 	private function configureRootLogger(LoggerHierarchy $hierarchy, $config) {
 		$logger = $hierarchy->getRootLogger();
 		$this->configureLogger($logger, $config);
 	}
-	
+
+	/**
+	 * Configures a logger which is not root.
+	 * @see configureLogger()
+	 */
 	private function configureOtherLogger(LoggerHierarchy $hierarchy, $name, $config) {
 		// Get logger from hierarchy (this creates it if it doesn't already exist)
 		$logger = $hierarchy->getLogger($name);
 		$this->configureLogger($logger, $config);
 	}
 	
+	/**
+	 * Configures a logger. 
+	 * 
+	 * @param Logger $logger The logger to configure
+	 * @param array $config Logger configuration options.
+	 */
 	private function configureLogger(Logger $logger, $config) {
-		$name = $logger->getName();
+		$loggerName = $logger->getName();
 		
 		// Set logger level
 		if (isset($config['level'])) {
@@ -264,18 +327,18 @@ class LoggerConfigurator
 			if (isset($level)) {
 				$logger->setLevel($level);
 			} else {
-				$this->warn("Invalid logger level [{$config['level']}] specified for logger [$name].");
+				$default = $logger->getLevel();
+				$this->warn("Invalid logger level [{$config['level']}] specified for logger [$loggerName].");
 			}
 		}
 		
 		// Link appenders to logger
 		if (isset($config['appenders'])) {
 			foreach($config['appenders'] as $appenderName) {
-				$appender = LoggerAppenderPool::get($appenderName);
-				if (isset($appender)) {
-					$logger->addAppender($appender);
+				if (isset($this->appenders[$appenderName])) {
+					$logger->addAppender($this->appenders[$appenderName]);
 				} else {
-					$this->warn("Nonexistnant appender [$appenderName] linked to logger [$name].");
+					$this->warn("Nonexistnant appender [$appenderName] linked to logger [$loggerName].");
 				}
 			}
 		}
@@ -286,11 +349,34 @@ class LoggerConfigurator
 			if (is_bool($additivity)) {
 				$logger->setAdditivity($additivity);
 			} else {
-				$this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$name].");
+				$this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName].");
 			}
 		}
 	}
 
+	/**
+	 * Helper method which applies given options to an object which has setters
+	 * for these options (such as appenders, layouts, etc.).
+	 * 
+	 * For example, if options are:
+	 * <code>
+	 * array(
+	 * 	'file' => '/tmp/myfile.log',
+	 * 	'append' => true
+	 * )
+	 * </code>
+	 * 
+	 * This method will call:
+	 * <code>
+	 * $object->setFile('/tmp/myfile.log')
+	 * $object->setAppend(true)
+	 * </code>
+	 * 
+	 * If required setters do not exist, it will produce a warning. 
+	 * 
+	 * @param mixed $object The object to configure.
+	 * @param unknown_type $options
+	 */
 	private function setOptions($object, $options) {
 		foreach($options as $name => $value) {
 			$setter = "set$name";

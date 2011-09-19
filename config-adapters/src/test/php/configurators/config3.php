@@ -1,0 +1,5 @@
+<?php
+
+// Empty config
+
+?>

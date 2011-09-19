@@ -1,7 +1,31 @@
 <?php
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * @package log4php
+ */
 
 /**
- * Loads configuration from an XML file and converts it to a PHP array.
+ * Converts XML configuration files to a PHP array.
+ * 
+ * @package log4php
+ * @subpackage configurators
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version $Revision$
+ * @since 2.2
  */
 class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 {
@@ -48,54 +72,15 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	 */
 	private function loadXML($url) {
 		if (!file_exists($url)) {
-			$cwd = getcwd();
-			throw new LoggerException("Config file not found at [$url]. Current working dir is [$cwd].");
+			throw new LoggerException("File [$url] does not exist.");
 		}
-		
-		// Load the config file
-		$config = @file_get_contents($url);
-		if ($config === false) {
-			$error = error_get_last();
-			throw new LoggerException("Cannot load config file.");
-		}
-		
-		// Validate XML against schema
-// 		$internal = libxml_use_internal_errors(true);
-// 		$this->validateXML($config);
-// 		libxml_clear_errors();
-// 		libxml_use_internal_errors($internal);
 		
 		// Load XML
-		$xml = simplexml_load_string($config);
+		$xml = simplexml_load_file($url);
 		if ($xml === false) {
-			throw new LoggerException("XML file contains errors.");
+			throw new LoggerException("Error loading confuguration file.");
 		}
 		return $xml;
-	}
-	
-	/**
-	 * DOMDocument is used here for validation because SimpleXML doesn't 
-	 * implement this feature.
-	 * @param string $input The configuration XML.
-	 */
-	private function validateXML($url) {
-		$schema = dirname(__FILE__) . self::SCHEMA_PATH;
-		try {
-			$dom = new DOMDocument();
-			$dom->loadXML($url);
-		} catch(Exception $e) {
-			throw new LoggerException("Failed parsing XML configuration file.");
-		}
-		
-		$success = $dom->schemaValidate($schema);
-		if ($success === false) {
-			$errors = libxml_get_errors();
-			foreach($errors as $error) {
-				$message = trim($error->message) . " On line {$error->line} of the configuration file.";
-				$this->warn($message);
-			}
-			throw new LoggerException("The XML configuration file failed validation.");
-		}
 	}
 	
 	/**
@@ -115,9 +100,8 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		$appender = array();
 		$appender['class'] = $this->getAttributeValue($node, 'class');
 		
-		$attrs = $node->attributes();
-		if (isset($attrs['threshold'])) {
-			$appender['threshold'] = (string) $attrs['threshold'];
+		if (isset($node['threshold'])) {
+			$appender['threshold'] = $this->getAttributeValue($node, 'threshold');
 		}
 		
 		if (isset($node->layout)) {
@@ -147,13 +131,17 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		return $layout;
 	}
 	/** Parses any <param> child nodes returning them in an array. */
-	private function parseParameters($node) {
+	private function parseParameters($paramsNode) {
 		$params = array();
 
-		foreach($node->param as $paramNode) {
-			$attrs = $paramNode->attributes();
-			$name = (string) $attrs['name'];
-			$value = (string) $attrs['value'];
+		foreach($paramsNode->param as $paramNode) {
+			if (empty($paramNode['name'])) {
+				$this->warn("Found parameter node without a name. Skipping parameter.");
+				continue;
+			}
+			
+			$name = $this->getAttributeValue($paramNode, 'name');
+			$value = $this->getAttributeValue($paramNode, 'value');
 			
 			$params[$name] = $value;
 		}
@@ -180,18 +168,28 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	/** Parses a <logger> node. */
 	private function parseLogger(SimpleXMLElement $node) {
 		$logger = array();
-		$attributes = $node->attributes();
 		
-		$name = (string) $attributes['name'];
+		// Check logger name exists (mandatory because it is used as the array key)
+		if (empty($node['name'])) {
+			$this->warn("Found logger without a 'name' attribute. All loggers must be named. Skipping.");
+			return;
+		}
+		
+		$name = (string) $node['name'];
 		
 		if (isset($node->level)) {
 			$logger['level'] = $this->getAttributeValue($node->level, 'value');
 		}
 		
+		if (isset($node['additivity'])) {
+			$logger['additivity'] = $this->getAttributeValue($node, 'additivity');
+		}
+		
 		$logger['appenders'] = $this->parseAppenderReferences($node, $name);
 
+		// Check for duplicate loggers
 		if (isset($this->config['loggers'][$name])) {
-			$this->warn("Duplicate logger definition for $name. Overwriting.");
+			$this->warn("Duplicate logger definition [$name]. Overwriting.");
 		}
 		
 		$this->config['loggers'][$name] = $logger;

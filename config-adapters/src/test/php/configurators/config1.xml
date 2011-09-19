@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php" threshold="debug">
+	<renderer renderedClass="Fruit" renderingClass="FruitRenderer" />
+	<renderer renderedClass="Beer" renderingClass="BeerRenderer" />
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutTTCC"/>
+        <filter class="LoggerFilterLevelRange">
+            <param name="levelMin" value="ERROR" />
+            <param name="levelMax" value="FATAL" />
+            <param name="acceptOnMatch" value="false" />
+        </filter>
+        <filter class="LoggerFilterDenyAll" />
+    </appender>
+	<appender name="file" class="LoggerAppenderDailyFile" threshold="warn">
+		<param name="datePattern" value="Ymd" />
+		<param name="file" value="target/examples/daily_%s.log" />
+        <layout class="LoggerLayoutPattern">
+        	<param name="conversionPattern" value= "%d{ISO8601} [%p] %c: %m (at %F line %L)%n" />
+        </layout>
+    </appender>
+    <logger name="foo.bar.baz" additivity="false">
+        <level value="trace" />
+        <appender_ref ref="default" />
+    </logger>
+    <logger name="foo.bar" additivity="true">
+        <level value="debug" />
+        <appender_ref ref="file" />
+    </logger>
+    <logger name="foo">
+        <level value="warn" />
+        <appender_ref ref="default" />
+        <appender_ref ref="file" />
+    </logger>
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="default" />
+    </root>
+</configuration>

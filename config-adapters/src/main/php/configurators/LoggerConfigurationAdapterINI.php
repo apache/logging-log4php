@@ -1,19 +1,60 @@
 <?php
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * @package log4php
+ */
 
+/**
+ * Converts ini configuration files to a PHP array.
+ * 
+ * These used to be called "properties" files (inherited from log4j), and that 
+ * file extension is still supported. 
+ *
+ * @package log4php
+ * @subpackage configurators
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version $Revision$
+ * @since 2.2
+ */
 class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	
+	/** Name to assign to the root logger. */
 	const ROOT_LOGGER_NAME = "root";
-	
+
+	/** Prefix used for defining logger additivity. */
 	const ADDITIVITY_PREFIX = "log4php.additivity.";
+	
+	/** Prefix used for defining logger threshold. */
 	const THRESHOLD_PREFIX = "log4php.threshold";
+	
+	/** Prefix used for defining the root logger. */
 	const ROOT_LOGGER_PREFIX = "log4php.rootLogger";
+	
+	/** Prefix used for defining a logger. */
 	const LOGGER_PREFIX = "log4php.logger.";
+	
+	/** Prefix used for defining an appender. */
 	const APPENDER_PREFIX = "log4php.appender.";
+	
+	/** Prefix used for defining a renderer. */
 	const RENDERER_PREFIX = "log4php.renderer.";
 	
+	/** Holds the configuration. */
 	private $config = array();
-	
-	private $properties;
 	
 	/**
 	 * Loads and parses the INI configuration file.
@@ -24,21 +65,21 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	 * 
 	 * @see http://php.net/manual/en/function.parse-ini-file.php
 	 * 
-	 * @param string $path Path to the config file.
+	 * @param string $url Path to the config file.
 	 * @throws LoggerException
 	 */
-	private function load($path) {
-		if(!file_exists($path)) {
-			throw new LoggerException("Config file not found on given path: [$path].");	
+	private function load($url) {
+		if (!file_exists($url)) {
+			throw new LoggerException("File [$url] does not exist.");
 		}
 		
-		$properties = @parse_ini_file($path, true, INI_SCANNER_RAW);
+		$properties = @parse_ini_file($url, true, INI_SCANNER_RAW);
 		if ($properties === false) {
 			$error = error_get_last();
 			throw new LoggerException("Error parsing configuration file: {$error['message']}");
 		}
 		
-		$this->properties = $properties;
+		return $properties;
 	}
 	
 	/**
@@ -49,21 +90,21 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	*/
 	public function convert($path) {
 		// Load the configuration
-		$this->load($path);
+		$properties = $this->load($path);
 		
 		// Parse threshold
-		if (isset($this->properties[self::THRESHOLD_PREFIX])) {
-			$this->config['threshold'] = $this->properties[self::THRESHOLD_PREFIX]; 
+		if (isset($properties[self::THRESHOLD_PREFIX])) {
+			$this->config['threshold'] = $properties[self::THRESHOLD_PREFIX]; 
 		}
 		
 		// Parse root logger
-		if (isset($this->properties[self::ROOT_LOGGER_PREFIX])) {
-			$this->parseLogger($this->properties[self::ROOT_LOGGER_PREFIX], self::ROOT_LOGGER_NAME);
+		if (isset($properties[self::ROOT_LOGGER_PREFIX])) {
+			$this->parseLogger($properties[self::ROOT_LOGGER_PREFIX], self::ROOT_LOGGER_NAME);
 		}
 		
 		$appenders = array();
 		
-		foreach($this->properties as $key => $value) {
+		foreach($properties as $key => $value) {
 			// Parse loggers
 			if ($this->beginsWith($key, self::LOGGER_PREFIX)) {
 				$name = substr($key, strlen(self::LOGGER_PREFIX));
@@ -73,7 +114,7 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 			// Parse additivity
 			if ($this->beginsWith($key, self::ADDITIVITY_PREFIX)) {
 				$name = substr($key, strlen(self::ADDITIVITY_PREFIX));
-				$this->parseAdditivity($value, $name);
+				$this->config['loggers'][$name]['additivity'] = $value;
 			}
 			
 			// Parse appenders
@@ -92,65 +133,42 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	
 	
 	/**
-	 * Parses a logger property.
+	 * Parses a logger definition.
 	 * 
 	 * Loggers are defined in the following manner:
 	 * <pre>
 	 * log4php.logger.<name> = [<level>], [<appender-ref>, <appender-ref>, ...] 
 	 * </pre>
 	 * 
-	 * Where:
-	 * 	- level        - level to assign to the logger (optional)
-	 * 	- appender-ref - name of the appenders to attach to the logger (optional)
-	 * 
-	 * @param string $property
-	 * @param string $loggerName
+	 * @param string $value The configuration value (level and appender-refs).
+	 * @param string $name Logger name. 
 	 */
-	private function parseLogger($property, $loggerName) {
-		// Values are divided by commas
-		$values = explode(',', $property);
-		
-		if (empty($property) || empty($values)) {
+	private function parseLogger($value, $name) {
+		// Value is divided by commas
+		$parts = explode(',', $value);
+		if (empty($value) || empty($parts)) {
 			return;
 		}
 
 		// The first value is the logger level 
-		$level = array_shift($values);
+		$level = array_shift($parts);
 		
 		// The remaining values are appender references 
 		$appenders = array();
-		while($appender = array_shift($values)) {
+		while($appender = array_shift($parts)) {
 			$appender = trim($appender);
 			if (!empty($appender)) {
 				$appenders[] = trim($appender);
 			}
 		}
 
-		$config = array(
-			'level' => trim($level),
-			'appenders' => $appenders
-		);
-		
-		if ($loggerName == self::ROOT_LOGGER_NAME) {
-			$target = &$this->config['rootLogger']; 
+		// Find the target configuration 
+		if ($name == self::ROOT_LOGGER_NAME) {
+			$this->config['rootLogger']['level'] = trim($level);
+			$this->config['rootLogger']['appenders'] = $appenders;
 		} else {
-			$target = &$this->config['loggers'][$loggerName];
-		}
-		
-		// It is possible that the logger config array already exists  
-		//  (set when parsing additivity) so make sure not to overwrite it.
-		if (is_array($target)) {
-			$target = array_merge($target, $config);
-		} else {
-			$target = $config;
-		}
-	}
-	
-	private function parseAdditivity($value, $loggerName) {
-		if ($loggerName == self::ROOT_LOGGER_NAME) {
-			$this->config['rootLogger']['additivity'] = $value;
-		} else {
-			$this->config['loggers'][$loggerName]['additivity'] = $value;
+			$this->config['loggers'][$name]['level'] = trim($level);
+			$this->config['loggers'][$name]['appenders'] = $appenders;
 		}
 	}
 	
@@ -169,6 +187,11 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	 * log4php.appender.<name>.<param> = <value>
 	 * </pre>
 	 * 
+ 	 * Appender threshold:
+	 * <pre>
+	 * log4php.appender.<name>.threshold = <level>
+	 * </pre>
+	 * 
  	 * Appender layout:
 	 * <pre>
 	 * log4php.appender.<name>.layout = <layoutClass>
@@ -182,13 +205,32 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	 * For example, a full appender config might look like:
 	 * <pre>
 	 * log4php.appender.myAppender = LoggerAppenderConsole
-	 * log4php.appender.myAppender.target = STDOUT
-	 * log4php.appender.default.layout = LoggerLayoutPattern
-	 * log4php.appender.default.layout.conversionPattern = "%d %c: %m%n"
+	 * log4php.appender.myAppender.threshold = info
+	 * log4php.appender.myAppender.target = stdout
+	 * log4php.appender.myAppender.layout = LoggerLayoutPattern
+	 * log4php.appender.myAppender.layout.conversionPattern = "%d %c: %m%n"
 	 * </pre>
 	 * 
-	 * @param unknown_type $key
-	 * @param unknown_type $value
+	 * After parsing all these options, the following configuration can be 
+	 * found under $this->config['appenders']['myAppender']:
+	 * <pre>
+	 * array(
+	 * 	'class' => LoggerAppenderConsole,
+	 * 	'threshold' => info,
+	 * 	'params' => array(
+	 * 		'target' => 'stdout'
+	 * 	),
+	 * 	'layout' => array(
+	 * 		'class' => 'LoggerAppenderConsole',
+	 * 		'params' => array(
+	 * 			'conversionPattern' => '%d %c: %m%n'
+	 * 		)
+	 * 	)
+	 * )
+	 * </pre>
+	 * 
+	 * @param string $key
+	 * @param string $value
 	 */
 	private function parseAppender($key, $value) {
 
@@ -208,30 +250,43 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 			return;
 		}
 		
-		// Two parts - either an appender property or layout class
+		// Two parts - either a parameter, a threshold or layout class
 		else if ($count == 2) {
 			
 			if ($parts[1] == 'layout') {
 				$this->config['appenders'][$name]['layout']['class'] = $value;
 				return;
+			} else if ($parts[1] == 'threshold') {
+				$this->config['appenders'][$name]['threshold'] = $value;
+				return;
 			} else {
-				$this->config['appenders'][$name][$parts[1]] = $value;
+				$this->config['appenders'][$name]['params'][$parts[1]] = $value;
 				return;
 			}
 		}
 		
-		// Three parts - this can only be a layout property
+		// Three parts - this can only be a layout parameter
 		else if ($count == 3) {
 			if ($parts[1] == 'layout') {
-				$this->config['appenders'][$name]['layout'][$parts[2]] = $value;
+				$this->config['appenders'][$name]['layout']['params'][$parts[2]] = $value;
 				return;
 			}
 		}
 		
-		trigger_error("log4php: Error in config file \"$key = $value\". Skipped this line.");
+		trigger_error("log4php: Don't know how to parse the following line: \"$key = $value\". Skipping.");
 	}
-	
-	
+
+	/**
+	 * Parses a renderer definition.
+	 * 
+	 * Renderers are defined as:
+	 * <pre>
+	 * log4php.renderer.<renderedClass> = <renderingClass> 
+	 * </pre>
+	 * 
+	 * @param string $key log4php.renderer.<renderedClass>
+	 * @param string $value <renderingClass>
+	 */
 	private function parseRenderer($key, $value) {
 		// Remove the appender prefix from key
 		$renderedClass = substr($key, strlen(self::APPENDER_PREFIX));
@@ -240,6 +295,7 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 		$this->config['renderers'][] = compact('renderedClass', 'renderingClass');
 	}
 	
+	/** Helper method. Returns true if $str begins with $sub. */
 	private function beginsWith($str, $sub) {
 		return (strncmp($str, $sub, strlen($sub)) == 0);
 	}

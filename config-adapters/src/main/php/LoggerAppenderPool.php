@@ -19,7 +19,12 @@
  */
 
 /**
- * Pool implmentation for LoggerAppender instances
+ * Pool implmentation for LoggerAppender instances.
+ * 
+ * The pool is used when configuring log4php. First all appender instances 
+ * are created in the pool. Afterward, they are linked to loggers, each 
+ * appender can be linked to multiple loggers. This makes sure duplicate 
+ * appenders are not created.
  *
  * @version $Revision: 795727 $
  * @package log4php
@@ -39,8 +44,12 @@ class LoggerAppenderPool {
 		$name = $appender->getName();
 		
 		if(empty($name)) {
-			trigger_error('Cannot add unnamed appender to pool.', E_USER_WARNING);
+			trigger_error('log4php: Cannot add unnamed appender to pool.', E_USER_WARNING);
 			return;
+		}
+		
+		if (isset(self::$appenders[$name])) {
+			trigger_error("log4php: Appender [$name] already exists in pool. Overwriting existing appender.", E_USER_WARNING);
 		}
 		
 		self::$appenders[$name] = $appender;
@@ -54,6 +63,22 @@ class LoggerAppenderPool {
 	 */
 	public static function get($name) {
 		return isset(self::$appenders[$name]) ? self::$appenders[$name] : null;
+	}
+	
+	/**
+	* Removes an appender from the pool by name.
+	* @param string $name Name of the appender to remove.
+	*/
+	public static function delete($name) {
+		unset(self::$appenders[$name]);
+	}
+	
+	/**
+	 * Returns all appenders from the pool.
+	 * @return array Array of LoggerAppender objects.
+	 */
+	public static function getAppenders() {
+		return self::$appenders;
 	}
 	
 	/**
