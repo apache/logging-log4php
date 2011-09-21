@@ -27,7 +27,7 @@
  * @group filters
  */
 class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
-        
+		
 	public function testDecideAcceptErrorLevel() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch(true);
@@ -45,9 +45,9 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		
 		$result = $filter->decide($eventWarn);
 		self::assertEquals($result, LoggerFilter::NEUTRAL);
-    }
-    
-    public function testDecideDenyErrorLevel() {
+	}
+	
+	public function testDecideDenyErrorLevel() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("false");
 		$filter->setLevelToMatch(LoggerLevel::getLevelError());
@@ -64,9 +64,9 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		
 		$result = $filter->decide($eventWarn);
 		self::assertEquals($result, LoggerFilter::NEUTRAL);
-    }
-    
-    public function testDecideAcceptWarnLevel() {
+	}
+	
+	public function testDecideAcceptWarnLevel() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("true");
 		$filter->setLevelToMatch(LoggerLevel::getLevelWarn());
@@ -83,9 +83,9 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		
 		$result = $filter->decide($eventWarn);
 		self::assertEquals($result, LoggerFilter::ACCEPT);
-    }
-    
-    public function testDecideDenyWarnLevel() {
+	}
+	
+	public function testDecideDenyWarnLevel() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("false");
 		$filter->setLevelToMatch(LoggerLevel::getLevelWarn());
@@ -102,9 +102,9 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		
 		$result = $filter->decide($eventWarn);
 		self::assertEquals($result, LoggerFilter::DENY);
-    }
-    
-    public function testDecideDenyDebugLevel() {
+	}
+	
+	public function testDecideDenyDebugLevel() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("false");
 		$filter->setLevelToMatch(LoggerLevel::getLevelDebug());
@@ -121,5 +121,42 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		
 		$result = $filter->decide($eventWarn);
 		self::assertEquals($result, LoggerFilter::NEUTRAL);
-    }
+	}
+	
+	public function testConfiguration() {
+		$config = LoggerConfigurator::getDefaultConfiguration();
+		
+		// Add filters to accept debug and deny all others
+		$config['appenders']['default']['filters'] = array(
+			array(
+				'class' => 'LoggerFilterLevelMatch',
+				'params' => array(
+					'levelToMatch' => 'error',
+					'acceptOnMatch' => true
+				)
+			),
+			array(
+				'class' => 'LoggerFilterDenyAll',
+			)
+		);
+		 
+		Logger::configure($config);
+		$logger = Logger::getRootLogger();
+		 
+		ob_start();
+		$logger->trace('Test');
+		$logger->debug('Test');
+		$logger->info('Test');
+		$logger->warn('Test');
+		$logger->error('Test');
+		$logger->fatal('Test');
+		$actual = ob_get_clean();
+		
+		var_dump($actual);
+		
+		$this->assertEmpty($actual);
+	}
+	
+	
+	
 }

@@ -17,9 +17,8 @@
  		Logger::resetConfiguration();
  	}
  	
- 	/** Check proper default setup. */
+ 	/** Check default setup. */
  	public function testDefaultConfig() {
- 		// Uses default config file
  		Logger::configure();
  		
  		$actual = Logger::getCurrentLoggers();
@@ -79,7 +78,9 @@
 		 		 	'class' => 'LoggerAppenderEcho',
 		 		 	'layout' => array(
 		 		 		'class' => 'LoggerLayoutPattern',
-		 		 		'conversionPattern' => 'message: %m%n'
+		 		 		'params' => array(
+		 		 			'conversionPattern' => 'message: %m%n'
+		 		 		)
 		 			)
 		 		),
  			) 

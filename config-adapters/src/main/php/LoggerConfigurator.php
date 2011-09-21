@@ -45,10 +45,10 @@ class LoggerConfigurator
 	);
 	
 	/** Default configuration; used if no configuration file is provided. */
-	private $defaultConfiguration = array(
+	private static $defaultConfiguration = array(
         'threshold' => 'ALL',
         'rootLogger' => array(
-            'level' => 'INFO',
+            'level' => 'DEBUG',
             'appenders' => array('default'),
         ),
         'appenders' => array(
@@ -80,8 +80,7 @@ class LoggerConfigurator
 	 * 		configuration as an array. If not set, default configuration 
 	 * 		will be used.
 	 */
-	public function configure(LoggerHierarchy $hierarchy, $input = null)
-	{
+	public function configure(LoggerHierarchy $hierarchy, $input = null) {
 		$config = $this->parse($input);
 		$this->doConfigure($hierarchy, $config);
 	}
@@ -103,7 +102,7 @@ class LoggerConfigurator
 	{
 		// No input - use default configuration
 		if (!isset($input)) {
-			$config =  $this->defaultConfiguration;
+			$config = self::$defaultConfiguration;
 		}
 		
 		// Array input - contains configuration within the array
@@ -117,14 +116,14 @@ class LoggerConfigurator
 				$config = $this->parseFile($input);
 			} catch (LoggerException $e) {
 				$this->warn("Configuration failed. " . $e->getMessage() . " Using default configuration.");
-				$config = $this->defaultConfiguration;
+				$config = self::$defaultConfiguration;
 			}
 		}
 		
 		// Anything else is an error
 		else {
 			$this->warn("Invalid configuration param given. Reverting to default configuration.");
-			$config = $this->defaultConfiguration;
+			$config = self::$defaultConfiguration;
 		}
 		
 		return $config;
@@ -134,8 +133,8 @@ class LoggerConfigurator
 	 * Returns the default log4php configuration.
 	 * @return array
 	 */
-	public function getDefaultConfiguration() {
-		return $this->defaultConfiguration;
+	public static function getDefaultConfiguration() {
+		return self::$defaultConfiguration;
 	} 
 	
 	/**
@@ -262,6 +261,13 @@ class LoggerConfigurator
 			$this->createAppenderLayout($appender, $config['layout']);
 		}
 		
+		// Parse filters
+		if (isset($config['filters']) && is_array($config['filters'])) {
+			foreach($config['filters'] as $filterConfig) {
+				$this->createAppenderFilter($appender, $filterConfig);
+			}
+		}
+		
 		// Set options if any
 		if (isset($config['params'])) {
 			$this->setOptions($appender, $config['params']);
@@ -275,7 +281,7 @@ class LoggerConfigurator
 	/**
 	 * Parses layout config, creates the layout and links it to the appender.
 	 * @param LoggerAppender $appender
-	 * @param array $config Layout configuration options.
+	 * @param array $config Layout configuration.
 	 */
 	private function createAppenderLayout(LoggerAppender $appender, $config) {
 		$name = $appender->getName();
@@ -285,7 +291,7 @@ class LoggerConfigurator
 			return;
 		}
 		
-		$layout = new $class;
+		$layout = new $class();
 		if (!($layout instanceof LoggerLayout)) {
 			$this->warn("Invalid layout class [$class] sepcified for appender [$name]. Reverting to default layout.");
 			return;
@@ -296,8 +302,35 @@ class LoggerConfigurator
 		}
 		
 		$layout->activateOptions();
-		
 		$appender->setLayout($layout);
+	}
+	
+	/**
+	 * Parses filter config, creates the filter and adds it to the appender's 
+	 * filter chain.
+	 * @param LoggerAppender $appender
+	 * @param array $config Filter configuration.
+	 */
+	private function createAppenderFilter(LoggerAppender $appender, $config) {
+		$name = $appender->getName();
+		$class = $config['class'];
+		if (!class_exists($class)) {
+			$this->warn("Nonexistant filter class [$class] specified on appender [$name]. Skipping filter definition.");
+			return;
+		}
+	
+		$filter = new $class();
+		if (!($filter instanceof LoggerFilter)) {
+			$this->warn("Invalid filter class [$class] sepcified on appender [$name]. Skipping filter definition.");
+			return;
+		}
+	
+		if (isset($config['params'])) {
+			$this->setOptions($filter, $config['params']);
+		}
+	
+		$filter->activateOptions();
+		$appender->addFilter($filter);
 	}
 	
 	/** 
