@@ -5,6 +5,11 @@
 	xmlns="http://logging.apache.org/log4php">
 	
 	<xs:element name="configuration">
+		<xs:annotation>
+			<xs:documentation>
+				The root element for Apache log4php configuration.
+			</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="renderer" />
@@ -12,13 +17,30 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="logger" />
 				<xs:element minOccurs="0" ref="root" />
 			</xs:sequence>
-			<xs:attribute name="threshold" type="level" default="null" />
+			<xs:attribute name="threshold" type="threshold" default="all" />
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="renderer">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a renderer.
+			</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
-			<xs:attribute name="renderedClass" use="required" />
-			<xs:attribute name="renderingClass" use="required" />
+			<xs:attribute name="renderedClass" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the class which will be rendered by this renderer.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="renderingClass" use="required">
+			<xs:annotation>
+					<xs:documentation>
+						Name of the class which perform the rendering. Must implement LoggerRendererObject interface.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="appender">
@@ -142,7 +164,7 @@
 	<!--                   Types                        -->
 	<!-- ============================================== -->
 	
-	<xs:simpleType name="level">
+	<xs:simpleType name="threshold">
         <xs:restriction base="xs:token">
 			<xs:enumeration value="all" />
 			<xs:enumeration value="debug" />
@@ -151,7 +173,17 @@
 			<xs:enumeration value="error" />
 			<xs:enumeration value="fatal" />
 			<xs:enumeration value="off" />
-			<xs:enumeration value="null" />
 		</xs:restriction>
 	</xs:simpleType>
+	
+	<xs:simpleType name="level">
+        <xs:restriction base="threshold">
+			<xs:enumeration value="debug" />
+			<xs:enumeration value="info" />
+			<xs:enumeration value="warn" />
+			<xs:enumeration value="error" />
+			<xs:enumeration value="fatal" />
+		</xs:restriction>
+	</xs:simpleType>
+
 </xs:schema>

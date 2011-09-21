@@ -261,6 +261,11 @@ class LoggerConfigurator
 		if ($appender->requiresLayout() && isset($config['layout'])) {
 			$this->createAppenderLayout($appender, $config['layout']);
 		}
+		
+		// Set options if any
+		if (isset($config['params'])) {
+			$this->setOptions($appender, $config['params']);
+		}
 
 		// Activate and save for later linking to loggers
 		$appender->activateOptions();
@@ -286,8 +291,10 @@ class LoggerConfigurator
 			return;
 		}
 		
-		unset($config['class']);
-		$this->setOptions($layout, $config);
+		if (isset($config['params'])) {
+			$this->setOptions($layout, $config['params']);
+		}
+		
 		$layout->activateOptions();
 		
 		$appender->setLayout($layout);

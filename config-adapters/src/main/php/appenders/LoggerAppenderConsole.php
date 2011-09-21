@@ -74,6 +74,10 @@ class LoggerAppenderConsole extends LoggerAppender {
 			$this->target = self::STDERR;
 		}
 	}
+	
+	public function getTarget() {
+		return $this->target;
+	}
 
 	public function activateOptions() {
 		$this->fp = fopen($this->target, 'w');
