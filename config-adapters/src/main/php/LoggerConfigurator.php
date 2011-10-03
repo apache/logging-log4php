@@ -55,7 +55,7 @@ class LoggerConfigurator
             'default' => array(
                 'class' => 'LoggerAppenderEcho',
                 'layout' => array(
-                    'class' => 'LoggerLayoutSimple',
+                    'class' => 'LoggerLayoutTTCC',
                 ),
             ),
         ),
@@ -231,6 +231,14 @@ class LoggerConfigurator
 	 * @param array $config Appender configuration options.
 	 */
 	private function configureAppender($name, $config) {
+
+		// TODO: add this check to other places it might be useful
+		if (!is_array($config)) {
+			$type = gettype($config);
+			$this->warn("Invalid configuration provided for [$name] appender. Expected an array, found <$type>. Skipping appender definition.");
+			return;
+		}
+		
 		// Parse appender class
 		$class = $config['class'];
 		if (!class_exists($class)) {

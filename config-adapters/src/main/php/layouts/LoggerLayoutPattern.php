@@ -140,7 +140,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 	const DEFAULT_CONVERSION_PATTERN = '%m%n';
 
 	/** Default conversion TTCC Pattern */
-	const TTCC_CONVERSION_PATTERN = '%r [%t] %p %c %x - %m%n';
+	const TTCC_CONVERSION_PATTERN = '%d [%t] %p %c %x - %m%n';
 
 	/** The pattern. 
 	 * @var string */
