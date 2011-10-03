@@ -128,7 +128,6 @@ class LoggerReflectionUtils {
 	 */
 	public static function createObject($class) {
 		if(!empty($class)) {
-			$class = basename($class);
 			return new $class();
 		}
 		return null;
