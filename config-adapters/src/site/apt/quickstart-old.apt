@@ -20,11 +20,10 @@ Quickstart
 
 Quickstart
 
-  First, please {{{./download.html}download Apache log4php}} and unpack it.
+  First, please {{{./install.html}install Apache log4php}}.
   
-  Optionally, you may copy the folder <<src/main/php>>, which contains the source code, to a location of your choosing. For example, a folder within your project.  
-
-  Please read the {{{./docs/introduction.html}introduction}} to familiarise yoursef with the basic concepts used throughout the documentation and examples.
+  You may also like to read the {{{./docs/introduction.html}introduction chapter}} to familiarise 
+  yoursef with the basic concepts used throughout the documentation and examples.
   
 * A trivial example
   

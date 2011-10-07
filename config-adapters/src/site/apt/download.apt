@@ -40,21 +40,8 @@ Download
   
 * Pear package
 
-	To install from the Apache log4php PEAR channel:
+	To install from the Apache log4php PEAR channel, follow the {{{./install.html#From_pear_repository}installation instructions.}}
 	
-+--
-pear channel-discover pear.apache.org/log4php
-pear install log4php/Apache_log4php
-+--
-	
-	Alternatively, the PEAR package can be downloaded from:
-
-*----------+-----------+------------+
-|| Mirrors || Checksum || Signature |
-*----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.1.0/Apache_log4php-2.1.0-pear.tgz}Apache_log4php-2.1.0-pear.tgz}} | {{{http://www.apache.org/dist/logging/log4php/2.1.0/Apache_log4php-2.1.0-pear.tgz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.1.0/Apache_log4php-2.1.0-pear.tgz.asc}ASC}} |
-*----------+-----------+------------+
-  
 * From repository  
   
 	The latest development version can be checked out from the {{{./source-repository.html}project repository}}. This will provide access to all the latest features, but may be unstable and should not be used in production systems. 
