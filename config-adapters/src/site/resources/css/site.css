@@ -13,8 +13,275 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-
 */
 
-div.section ul li { margin-top: 4px; }
-div.section ul ul li { margin-top: 1px; }
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 13px;
+}
+img {
+	border:none;
+}
+acronym {
+	cursor: help;
+	border-bottom: 1px dotted #feb;
+}
+code, tt{
+	font-family: Monaco, Andale Mono, Courier New, monospace;
+	font-size: 12px;
+	background-color: whitesmoke;
+	padding: 2px;
+	border: 1px solid #ddd;
+	/*line-height: 18px;*/
+}
+div.clear{
+	clear:both;
+	visibility: hidden;
+}
+div.clear hr{
+	display: none;
+}
+
+#banner {
+	padding: 10px;
+}
+#bannerLeft {
+	float: left;
+}
+#bannerRight {
+	float: right;
+}
+.xleft { 
+	float:left;
+}
+.xright {
+	float:right;
+}
+#leftColumn {
+	width: 190px;
+	float: left;
+	overflow: auto;
+}
+#bodyColumn {
+	margin-right: 1.5em;
+	margin-left: 210px;
+}
+#navcolumn {
+	padding: 4px 8px 8px 8px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	margin: 10px 0 0 5px;
+	border: 1px solid #999;
+	background-color: #F5F5F5;
+}
+#navcolumn h5 {
+	font-size: 11px;
+	line-height: 24px;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #aaaaaa;
+	padding-top: 2px;
+	color: #000;
+}
+#navcolumn ul {
+	margin: 0;
+	padding: 0;
+}
+#navcolumn li {
+	font-size: 11px;
+	line-height: 1.2em;
+	list-style-type: none;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-position: 0 0.4em;
+	padding-left: 16px;
+	list-style-position: outside;
+}
+#navcolumn li.expanded {
+	background-image: url(../images/expanded.gif);
+}
+#navcolumn li.collapsed {
+	background-image: url(../images/collapsed.gif);
+}
+#poweredBy {
+	margin: 15px;
+}
+#lastPublished {
+	font-size: x-small;
+}
+.navSection {
+	margin-bottom: 2px;
+	padding: 8px;
+}
+.navSectionHead {
+	font-weight: bold;
+	font-size: x-small;
+}
+.section {
+	padding: 4px;
+	margin-top: 15px;
+}
+#footer {
+	margin-top: 17px;
+	padding: 17px 10px;
+	border-top: 1px solid #eee;
+	background-color: #F5F5F5;
+	text-align: right;
+	font-size: 11px;
+}
+a.externalLink {
+	background: url(../images/external.png) right center no-repeat;
+	padding-right: 18px;
+}
+a.newWindow {
+	background: url(../images/newwindow.png) right center no-repeat;
+	padding-right: 18px;
+}
+.breadcrumb {
+	padding: 4px 14px;	
+}
+#organizationLogo img, #projectLogo img, #projectLogo span{
+	margin: 8px;
+}
+
+/* PROBABLY UNUSED STYLES, REMOVE LATER
+
+#navcolumn img.imageLink, .imageLink{
+	padding-left: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	padding-right: 2px;
+	border: 0px;
+	margin: 0px;
+}
+
+
+.errormark, .warningmark, .donemark, .infomark {
+	background: url(../images/icon_error_sml.gif) no-repeat;
+}
+
+.warningmark {
+	background-image: url(../images/icon_warning_sml.gif);
+}
+
+.donemark {
+	background-image: url(../images/icon_success_sml.gif);
+}
+
+.infomark {
+	background-image: url(../images/icon_info_sml.gif);
+}
+#breadcrumbs {
+	border-top: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	background-color: #ccc;
+	font-size: x-small;
+	margin: 0pt;
+	padding: 3px 10px 3px 10px;
+
+}
+.source {
+	padding: 12px;
+	margin: 1em 7px 1em 7px;
+}
+.source pre {
+	margin: 0px;
+	padding: 0px;
+}
+.source {
+	border: 1px solid #999;
+}
+
+#legend {
+	padding: 8px 0 8px 0;
+}
+#legend li.externalLink {
+	background: url(../images/external.png) left top no-repeat;
+	padding-left: 18px;
+}
+#legend li.newWindow {
+	background: url(../images/newwindow.png) left top no-repeat;
+	padding-left: 18px;
+}
+#search img {
+	margin: 0px;
+	display: block;
+}
+#search #q, #search #btnG {
+	border: 1px solid #999;
+	margin-bottom:10px;
+}
+#search form {
+	margin: 0px;
+}
+*/
+
+/* Custom additions 
+-------------------------------------------------*/
+
+div.section { 
+	margin-top: 12px; 
+}
+
+table th, table td { 
+	padding: 6px; 
+}
+table th { 
+	background-color: #F5F5F5; 
+}
+
+h2 { margin-bottom: 5px; }
+
+li { color: inherit; }
+
+.alert-message {
+	margin: 18px 0;	
+}
+
+
+/* Pretty printing styles. Used with prettify.js. 
+---------------------------------------------------- */
+
+/* SPAN elements with the classes below are added by prettyprint. */
+.pln { color: #000 }  /* plain text */
+
+@media screen {
+  .str { color: #080 }  /* string content */
+  .kwd { color: #008 }  /* a keyword */
+  .com { color: #800 }  /* a comment */
+  .typ { color: #606 }  /* a type name */
+  .lit { color: #066 }  /* a literal value */
+  /* punctuation, lisp open bracket, lisp close bracket */
+  .pun, .opn, .clo { color: #660 }
+  .tag { color: #008 }  /* a markup tag name */
+  .atn { color: #606 }  /* a markup attribute name */
+  .atv { color: #080 }  /* a markup attribute value */
+  .dec, .var { color: #606 }  /* a declaration; a variable name */
+  .fun { color: red }  /* a function name */
+}
+
+/* Use higher contrast and text-weight for printable form. */
+@media print, projection {
+  .str { color: #060 }
+  .kwd { color: #006; font-weight: bold }
+  .com { color: #600; font-style: italic }
+  .typ { color: #404; font-weight: bold }
+  .lit { color: #044 }
+  .pun, .opn, .clo { color: #440 }
+  .tag { color: #006; font-weight: bold }
+  .atn { color: #404 }
+  .atv { color: #060 }
+}
+
+/* Put a border around prettyprinted code snippets. */
+pre.prettyprint { padding: 6px; border: 1px solid #ddd }
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
+
+.linenums li { 
+	color: #ccc; 
+}
