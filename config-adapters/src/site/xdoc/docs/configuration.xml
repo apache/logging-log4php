@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>Configuration</title>
+	</properties>
+
+	<body>
+		<section name="Configuration">
+
+			<p>Apache log4php can be configured either programatically or with a file containing the configuration 
+			parameters in one of the supported formats.</p>
+			
+			<p>The configuration should be provided by calling <code>Logger::configure(...)</code> method before any logging 
+			is done. Otherwise, the default configuration will be used.</p>
+			
+			<subsection name="Default configuration">
+				
+				<p>If no configuration </p>
+			
+			
+			</subsection>
+			
+			<subsection name="XML">
+			
+			</subsection>
+			
+			<subsection name="PHP">
+			
+				<p>Configuration is stored in a PHP array. This is the format used internally by log4php and other 
+				formats are converted to a PHP array before being used. Because of this, the PHP format should be
+				used when performance is important.</p>
+				
+				<p>It is possible to pass an configuration array directly to <code>Logger::configure()</code>.</p>
+
+<pre class="prettyprint">
+Logger::configure(array(
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderConsole',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple'
+            )
+        )
+    )
+));
+</pre>
+				
+				<p>Alternatively a file can be created which holds the PHP configuration array. The file must
+				have the <code>php</code> extension and it should <em>return</em> the configuration array. For example, 
+				a file named <code>config.php</code> with the following content:</p>
+				
+<pre class="prettyprint">
+return array(
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderConsole',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple'
+            )
+        )
+    )
+);
+</pre>
+
+				<p>This file can then be used to configure log4php:</p>
+				
+				<pre class="prettyprint">Logger::configure('config.php');</pre>
+				
+				<p>Hint: to translate a XML or properties configuration file to PHP, run the following code:</p>
+				
+				<pre class="prettyprint">Logger::configure('config.php');</pre>
+				
+				
+			
+			</subsection>
+
+
+			<subsection name="Properties (INI)">
+			
+			</subsection>
+
+			
+
+		</section>
+	</body>
+</document>

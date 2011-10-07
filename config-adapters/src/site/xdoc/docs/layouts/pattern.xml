@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>LoggerLayoutPattern</title>
+	</properties>
+
+	<body>
+		<section name="LoggerLayoutPattern">
+		
+			<p>LoggerLayoutPattern is a flexible layout configurable via a conversion pattern.</p>
+		
+			<subsection name="Options">
+				<p>The following options are available:</p>
+		
+				<table>
+					<tr>
+						<th>Parameter</th>
+						<th>Type</th>
+						<th>Required</th>
+						<th>Default</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>conversionPattern</td>
+						<td>string</td>
+						<td>No</td>
+						<td>%m%n</td>
+						<td>String which controls the output. See full specification below.</td>
+					</tr>
+				</table>
+				
+				<h4>Conversion patterns</h4>
+				
+					<p>This is the string which controls formatting and consists of a mix of literal content and 
+					conversion specifiers.</p>
+				
+					<p>The conversion pattern is closely related to the conversion pattern of the 
+					<a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf" target="_blank">printf</a> 
+					function in C. It is composed of literal text and format control expressions called conversion 
+					specifiers. You are free to insert any literal text within the conversion pattern.</p>
+					
+					<p>Each conversion specifier starts with a percent sign (%) and is followed by optional <em>
+					format modifiers</em> and a <em>conversion character</em>. The recognized conversion specifiers 
+					are:</p>
+					
+					<table>
+						<tr>
+							<th>Conversion character</th>
+							<th>Converts to</th>
+						</tr>
+						<tr>
+							<td>
+								<p><code>%c</code></p>
+								<p><code>%c{<![CDATA[<precision>]]>}</code></p>
+							</td>
+							<td>
+								<p>Name of the Logger object which recieved the logging request.</p>
+								
+								<p>Optionally, it can be can followed by <em>precision specifier</em>, which is a 
+								decimal constant in brackets. If a precision specifier is given, then only the 
+								corresponding number of right most components of the logger name will be printed.</p>
+								
+								<p>For example, if the logger is named <code>foo.bar.Baz</code>, then <code>%c</code>
+								will be translated to the full logger name, <code>%c{2}</code> will be translated to
+								<code>bar.Baz</code>, and <code>%c{1}</code> will be translated to <code>Baz</code>.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p><code>%C</code></p>
+								<p><code>%C{<![CDATA[<precision>]]>}</code></p>
+							</td>
+							<td>
+								<p>The fully qualified class name of the caller issuing the logging request. Currently,
+								this will always return "Logger".</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p><code>%d</code></p>
+								<p><code>%d{<![CDATA[<format>]]>}</code></p>
+							</td>
+							<td>
+								<p>The date of the logging event.</p>
+								
+								<p>Optionally, may be followed by a <em>date format specifier</em> enclosed between 
+								braces. The format specifier follows the PHP 
+								<a href="http://php.net/manual/en/function.date.php">date</a> function. If no date 
+								format specifier is given then ISO8601 format is assumed (Y-m-d H:i:s,u). </p>
+								 
+								<p>For example: <code>%d{Y-m-d H:i:s}</code></p>
+							</td>
+						</tr>
+						<tr>
+							<td><code>%F</code></td>
+							<td>Name of the file from which the logging request was issued.</td>
+						</tr>
+						<tr>
+							<td><code>%l</code></td>
+							<td>
+								<p>Location information of the caller which generated the logging event.</p>
+								<p>Identical to <code>%C.%M(%F:%L)</code></p>
+							</td>
+						</tr>
+						<tr>
+							<td><code>%L</code></td>
+							<td>The line number at which the logging request was issued.</td>
+						</tr>
+						<tr>
+							<td><code>%m</code></td>
+							<td>The message associated with the logging event.</td>
+						</tr>
+						<tr>
+							<td><code>%n</code></td>
+							<td>
+								<p>A platform dependent line-break character(s).</p>
+								<p>Note that a line break will not be printed unless explicitely specified.</p>
+							</td>
+						</tr>
+						<tr>
+							<td><code>%M</code></td>
+							<td>The method or function name from which the logging request was issued.</td>
+						</tr>
+						<tr>
+							<td><code>%p</code></td>
+							<td>The level of the logging event.</td>
+						</tr>
+						<tr>
+							<td><code>%r</code></td>
+							<td>The number of milliseconds elapsed since the start of the application until the creation of the logging event.</td>
+						</tr>
+						<tr>
+							<td><code>%t</code></td>
+							<td>The ID of the process that generated the logging event.</td>
+						</tr>
+						<tr>
+							<td><code>%x</code></td>
+							<td>The NDC (Nested Diagnostic Context) associated with the thread that generated the logging event.</td>
+						</tr>
+						<tr>
+							<td><code>%X{<![CDATA[<key>]]>}</code></td>
+							<td>
+								<p>The MDC (Mapped Diagnostic Context) associated with the thread that generated the 
+								logging event.</p>
+								<p>The X conversion character must be followed by the MDC key in braces. The value in 
+								the MDC corresponding to the key will be output.</p>
+							</td>
+						</tr>
+						<tr>
+							<td><code>%%</code></td>
+							<td>A single percent sign.</td>	
+						</tr>
+					</table>			
+				</subsection>
+		
+				<subsection name="Format modifiers">
+					<p>By default the relevant information is output as-is. However, with the aid of format modifiers 
+					it is possible to change the minimum and maximum width and the justifications of each data field.
+					</p>
+					
+					<p>All format modifiers are optional, and are placed between the percent sign and the conversion 
+					character.</p>
+					
+					<p>The first format modifier is the <em>left justification flag</em> which is just the minus (-)
+					character.</p>
+					 
+					<p>Then comes the <em>>minimum field width</em> modifier. This is an integer that 
+					represents the minimum number of characters to output. If the data item requires fewer characters,
+					it is padded on either the left or the right until the minimum width is reached. The default is to
+					pad on the left (right justify) but you can specify right padding with the left justification flag.
+					The padding character is space. If the data item is larger than the minimum field width, the field
+					is expanded to accommodate the data. The value is never truncated. </p>
+					 
+					<p>This behavior can be changed using the <em>maximum field width</em> modifier which is designated
+					by a period (.) followed by an integer. If the data item is longer than the maximum field, then the
+					extra characters are removed from the beginning of the data item and not from the end. For example,
+					it the maximum field width is eight and the data item is ten characters long, then the first two 
+					characters of the data item are dropped. This behavior deviates from the printf function in C where
+					truncation is done from the end. </p>
+					
+					<p>The following table demonstrates various uses of format modifiers:</p>
+					
+					<table>
+						<tr>
+							<th>Format modifier</th>
+							<th>Justification</th>
+							<th>Minimum width</th>
+							<th>Maximum width</th>
+							<th>Comment</th>
+						</tr>
+						<tr>
+							<td align="center"><code>%c</code></td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td>Output the logger name as-is.</td>
+						</tr>
+						<tr>
+							<td align="center"><code>%20c</code></td>
+							<td align="center">right</td>
+							<td align="center">20</td>
+							<td align="center">none</td>
+							<td>Left pad with spaces if the logger name is less than 20 characters long.</td>
+						</tr>
+						<tr>
+							<td align="center"><code>%-20c</code></td>
+							<td align="center">left</td>
+							<td align="center">20</td>
+							<td align="center">none</td>
+							<td>Right pad with spaces if the logger name is less than 20 characters long.</td>
+						</tr>
+						<tr>
+							<td align="center"><code>%.30c</code></td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">30</td>
+							<td>Truncate from the beginning if the logger name is longer than 30 characters.</td>
+						</tr>
+						<tr>
+							<td align="center"><code>%20.30c</code></td>
+							<td align="center">right</td>
+							<td align="center">20</td>
+							<td align="center">30</td>
+							<td>Left pad with spaces if the logger name is shorter than 20 characters. However, if 
+							the logger name is longer than 30 characters, then truncate from the beginning.</td>
+						</tr>
+						<tr>
+							<td align="center"><code>%-20.30c</code></td>
+							<td align="center">true</td>
+							<td align="center">20</td>
+							<td align="center">30</td>
+							<td>Right pad with spaces if the logger name is shorter than 20 characters. However, if the
+							logger name is longer than 30 characters, then truncate from the beginning.</td>
+						</tr>
+					</table> 
+				
+				</subsection>
+
+
+				<subsection name="Examples">
+					
+					<p>The following configuration configures a <code>LoggerAppenderEcho</code> which uses the pattern
+					layout. All examples will use the same code and configuration, only the conversion pattern will 
+					change.</p>
+					
+					<p>Save the configuration to a file called <code>layout_pattern.xml</code>.</p>
+					
+<pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s.u} %c %-5p %m%n" />
+        </layout>
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+
+					<p>Run the following code:</p>
+
+<pre class="prettyprint">
+Logger::configure("layout_pattern.xml");
+$logger = Logger::getLogger('myLogger');
+$logger->info("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+$logger->debug("Donec a diam lectus.");
+$logger->warn("Sed sit amet ipsum mauris.");
+</pre>
+
+					<h4>Pattern example</h4>
+					<p>Conversion pattern: <code>%d %c %-5p %m%n</code></p>
+				
+					<p>Produces the following output:</p>
+
+<pre>
+2011-09-28 09:29:38,602 myLogger INFO  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+2011-09-28 09:29:38,603 myLogger DEBUG Donec a diam lectus.
+2011-09-28 09:29:38,604 myLogger WARN  Sed sit amet ipsum mauris.
+</pre>
+
+					<p>In this example, <code>%d</code> produces the event datetime in default format 
+					(<code>Y-m-d H:i:s,u</code>), and <code>%-5p</code> produces the event level right padded to 5 
+					characters. Since longest level name is 5 characters long, this ensures that the message always 
+					starts at the same character position which improves log readability.</p>
+			</subsection>
+		</section>
+	</body>
+</document>
