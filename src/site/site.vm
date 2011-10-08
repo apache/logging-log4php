@@ -450,6 +450,7 @@
     
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '$accountId']);
+      _gaq.push (['_gat._anonymizeIp']);
       _gaq.push(['_trackPageview']);
 
       (function() {
@@ -533,7 +534,7 @@
     </div>
     <div id="footer">
       <div class="xright">
-        <div class="xright">Copyright &#169;#copyright()#publishDate( "bottom" $decoration.publishDate $decoration.version ) Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>.</div><br />
+        <div class="xright">Copyright &#169;#copyright()#publishDate( "bottom" $decoration.publishDate $decoration.version ) Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>. Please read the <a href="$relativePath/privacy-policy.html">privacy policy</a></div><br />
         <div class="xright">Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by Maven logo are trademarks of The Apache Software Foundation.</div>
         <div class="clear">
       </div>
