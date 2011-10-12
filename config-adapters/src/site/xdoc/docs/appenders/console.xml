@@ -25,8 +25,8 @@
 	<body>
 		<section name="LoggerAppenderConsole">
 		
-			<p><code>LoggerAppenderConsole</code> writes logging events to the stdout (<code>php://stdout</code>) or 
-			the stderr (php://stderr) stream, the former being the default target.</p>
+			<p><code>LoggerAppenderConsole</code> writes logging events to the <code>php://stdout</code> or 
+			the <code>php://stderr</code> stream, the former being the default target.</p>
 			
 			<subsection name="Options">
 				<p>The following options are available:</p>
@@ -44,7 +44,7 @@
 						<td>string</td>
 						<td>No</td>
 						<td>stdout</td>
-						<td>The stream to write to, "stdout" or "stderr".</td>
+						<td>The stream to write to; either "stdout" or "stderr".</td>
 					</tr>
 				</table>
 				

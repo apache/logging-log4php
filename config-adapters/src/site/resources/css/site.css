@@ -15,6 +15,115 @@
  limitations under the License.
 */
 
+div.clear{
+	clear:both;
+	visibility: hidden;
+}
+div.clear hr{
+	display: none;
+}
+
+/* Tweaks to the bootstrap theme
+--------------------------------- */
+body {
+	font-family: Verdana,Helvetica,Arial,sans-serif;
+}
+table th, table td { 
+	padding: 6px; 
+}
+table th { 
+	background-color: #F5F5F5; 
+}
+h2 { 
+	margin-bottom: 5px; 
+}
+li { 
+	color: inherit; 
+	line-height: 20px; 
+}
+code, tt{
+	font-family: Monaco, Andale Mono, Courier New, monospace;
+	font-size: 12px;
+	background-color: whitesmoke;
+	padding: 2px;
+	border: 1px solid #ddd;
+}
+
+.section {
+	padding: 4px;
+	margin-top: 15px;
+}
+.breadcrumb {
+	font-size: 12px;
+	padding: 6px 14px;
+}
+a.externalLink {
+	background: url(../images/external.png) right center no-repeat;
+	padding-right: 18px;
+}
+a.newWindow {
+	background: url(../images/newwindow.png) right center no-repeat;
+	padding-right: 18px;
+}
+
+/* Sidebar menu 
+----------------- */
+
+.well {
+	padding: 10px;
+}
+.sidebar {
+	font-size: 11px;
+}
+.sidebar h5 {
+	font-size: 12px;
+	line-height: 24px;
+	border-bottom: 1px solid grey;
+}
+.sidebar ul {
+	margin: 0;
+}
+.sidebar li {
+	list-style-type: none;
+	line-height: 14px;
+	background-position: 0 0.4em;
+    background-repeat: no-repeat;
+    padding-left: 16px;
+}
+.sidebar li.expanded {
+	background-image: url(../images/expanded.gif);
+}
+.sidebar li.collapsed {
+	background-image: url(../images/collapsed.gif);
+}
+
+/* Footer (using <div> instead of <footer> because of IE). 
+----------------------------------------------------------- */
+
+div.footer {
+	background-color: whitesmoke;
+	padding: 15px;
+    margin-top: 15px;
+	text-align: right;
+	border-top: 1px solid #EEEEEE;
+}
+div.footer p {
+	font-size: 11px;
+}
+
+/* Banners
+----------------- */
+#banner {
+	padding: 10px 0;
+}
+#bannerLeft {
+	float: left;
+}
+#bannerRight {
+	float: right;
+}
+
+/*
 body {
 	margin: 0px;
 	padding: 0px;
@@ -34,25 +143,8 @@ code, tt{
 	background-color: whitesmoke;
 	padding: 2px;
 	border: 1px solid #ddd;
-	/*line-height: 18px;*/
-}
-div.clear{
-	clear:both;
-	visibility: hidden;
-}
-div.clear hr{
-	display: none;
 }
 
-#banner {
-	padding: 10px;
-}
-#bannerLeft {
-	float: left;
-}
-#bannerRight {
-	float: right;
-}
 .xleft { 
 	float:left;
 }
@@ -99,12 +191,7 @@ div.clear hr{
 	background-position: 0 0.4em;
 	padding-left: 16px;
 	list-style-position: outside;
-}
-#navcolumn li.expanded {
-	background-image: url(../images/expanded.gif);
-}
-#navcolumn li.collapsed {
-	background-image: url(../images/collapsed.gif);
+	margin: 0;
 }
 #poweredBy {
 	margin: 15px;
@@ -132,115 +219,33 @@ div.clear hr{
 	text-align: right;
 	font-size: 11px;
 }
-a.externalLink {
-	background: url(../images/external.png) right center no-repeat;
-	padding-right: 18px;
-}
-a.newWindow {
-	background: url(../images/newwindow.png) right center no-repeat;
-	padding-right: 18px;
-}
 .breadcrumb {
 	padding: 4px 14px;	
 }
 #organizationLogo img, #projectLogo img, #projectLogo span{
 	margin: 8px;
 }
-
-/* PROBABLY UNUSED STYLES, REMOVE LATER
-
-#navcolumn img.imageLink, .imageLink{
-	padding-left: 0px;
-	padding-bottom: 0px;
-	padding-top: 0px;
-	padding-right: 2px;
-	border: 0px;
-	margin: 0px;
-}
-
-
-.errormark, .warningmark, .donemark, .infomark {
-	background: url(../images/icon_error_sml.gif) no-repeat;
-}
-
-.warningmark {
-	background-image: url(../images/icon_warning_sml.gif);
-}
-
-.donemark {
-	background-image: url(../images/icon_success_sml.gif);
-}
-
-.infomark {
-	background-image: url(../images/icon_info_sml.gif);
-}
-#breadcrumbs {
-	border-top: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	background-color: #ccc;
-	font-size: x-small;
-	margin: 0pt;
-	padding: 3px 10px 3px 10px;
-
-}
-.source {
-	padding: 12px;
-	margin: 1em 7px 1em 7px;
-}
-.source pre {
-	margin: 0px;
-	padding: 0px;
-}
-.source {
-	border: 1px solid #999;
-}
-
-#legend {
-	padding: 8px 0 8px 0;
-}
-#legend li.externalLink {
-	background: url(../images/external.png) left top no-repeat;
-	padding-left: 18px;
-}
-#legend li.newWindow {
-	background: url(../images/newwindow.png) left top no-repeat;
-	padding-left: 18px;
-}
-#search img {
-	margin: 0px;
-	display: block;
-}
-#search #q, #search #btnG {
-	border: 1px solid #999;
-	margin-bottom:10px;
-}
-#search form {
-	margin: 0px;
-}
-*/
-
-/* Custom additions 
--------------------------------------------------*/
-
 div.section { 
 	margin-top: 12px; 
 }
-
 table th, table td { 
 	padding: 6px; 
 }
 table th { 
 	background-color: #F5F5F5; 
 }
+h2 { 
+	margin-bottom: 5px; 
+}
 
-h2 { margin-bottom: 5px; }
-
-li { color: inherit; }
-
+li { 
+	color: inherit; 
+	margin-bottom: 5px; 
+}
 .alert-message {
 	margin: 18px 0;	
 }
-
+*/
 
 /* Pretty printing styles. Used with prettify.js. 
 ---------------------------------------------------- */
@@ -283,5 +288,9 @@ pre.prettyprint { padding: 6px; border: 1px solid #ddd }
 ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
 
 .linenums li { 
-	color: #ccc; 
+	color: #ccc;
 }
+.prettyprint li { 
+	margin-bottom: 0;
+}
+

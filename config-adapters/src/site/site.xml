@@ -28,6 +28,7 @@
 	</bannerLeft>
 	
 	<publishDate position="right" format="dd.MM.yyyy."/>
+	
 	<version position="right"/>
 	
 	<body>
@@ -41,7 +42,7 @@
 			<item name="About" href="/index.html" />
 			<item name="Download" href="/download.html" />
 			<item name="Install" href="/install.html" />
-			<item name="Upgrade" href="/upgrade.html" />
+			<item name="Changelog" href="/changelog	.html" />
 		</menu>
 
 		<menu name="Documentation">

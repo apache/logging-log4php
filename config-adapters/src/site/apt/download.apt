@@ -38,10 +38,6 @@ Download
 | {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.1.0/apache-log4php-2.1.0-src.zip}apache-log4php-2.1.0-src.zip}} | {{{http://www.apache.org/dist/logging/log4php/2.1.0/apache-log4php-2.1.0-src.zip.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.1.0/apache-log4php-2.1.0-src.zip.asc}ASC}} |
 *----------+-----------+------------+
   
-* Pear package
-
-	To install from the Apache log4php PEAR channel, follow the {{{./install.html#From_pear_repository}installation instructions.}}
-	
 * From repository  
   
 	The latest development version can be checked out from the {{{./source-repository.html}project repository}}. This will provide access to all the latest features, but may be unstable and should not be used in production systems. 

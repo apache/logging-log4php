@@ -340,13 +340,13 @@
         #end
       </div>
     #elseif ( $datePosition.equalsIgnoreCase("left") )
-      <div class="xleft">
+      <div class="pull-left">
         <span id="publishDate">$i18n.getString( "site-renderer", $locale, "template.lastpublished" ): $dateToday</span>
         #if ( $versionPosition.equalsIgnoreCase( $position ) )
           <span class="divider">|</span> <span id="projectVersion">$i18n.getString( "site-renderer", $locale, "template.version" ): ${project.version}</span>
         #end
         #if ( $breadcrumbs && $breadcrumbs.size() > 0 )
-          | #breadcrumbs( $breadcrumbs )
+          <span class="divider">|</span> #breadcrumbs( $breadcrumbs )
         #end
       </div>
     #end
@@ -358,16 +358,16 @@
         <span id="projectVersion">$i18n.getString( "site-renderer", $locale, "template.version" ): ${project.version}</span>
       </div>
     #elseif ( $versionPosition.equalsIgnoreCase("left") )
-      <div class="xleft">
+      <div class="pull-left">
         <span id="projectVersion">$i18n.getString( "site-renderer", $locale, "template.version" ): ${project.version}</span>
         #if ( $breadcrumbs && $breadcrumbs.size() > 0 )
-          | #breadcrumbs( $breadcrumbs )
+          <span class="divider">|</span> #breadcrumbs( $breadcrumbs )
         #end
       </div>
     #end
   #elseif ( $position.equalsIgnoreCase( "left" ) )
     #if ( $breadcrumbs && $breadcrumbs.size() > 0 )
-      <div class="xleft">
+      <div class="pull-left">
         #breadcrumbs( $breadcrumbs )
       </div>
     #end
@@ -467,8 +467,10 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}" />
     <title>$title</title>
-    <link rel="stylesheet" href="$relativePath/css/site.min.css" type="text/css" />
-    <script type="text/javascript" src="$relativePath/js/site.min.js"></script>
+    <link rel="stylesheet" href="$relativePath/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="$relativePath/css/site.css" type="text/css" />
+    <script type="text/javascript" src="$relativePath/js/prettify.js"></script>
+    <script type="text/javascript" src="$relativePath/js/site.js"></script>
 #foreach( $author in $authors )
       <meta name="author" content="$author" />
 #end
@@ -498,43 +500,46 @@
     #googleAnalytics( $decoration.googleAnalyticsAccountId )
   </head>
   <body class="composite" onload="siteOnLoad()">
-    <div id="banner">
-      #banner( $decoration.bannerLeft "bannerLeft" )
-      #banner( $decoration.bannerRight "bannerRight" )
-      <div class="clear">
-        <hr/>
+ 
+    <div class="container-fluid">
+      <div id="banner">
+        #banner( $decoration.bannerLeft "bannerLeft" )
+        #banner( $decoration.bannerRight "bannerRight" )
+        <div class="clear">
+          <hr/>
+        </div>
       </div>
-    </div>
-    <div class="breadcrumb">
-      #publishDate( "left" $decoration.publishDate $decoration.version )
-      <div class="xright">#links( $decoration.body.links )#publishDate( "right" $decoration.publishDate $decoration.version )</div>
-      <div class="clear">
-        <hr/>
+      
+      <div class="breadcrumb">
+        #publishDate( "left" $decoration.publishDate $decoration.version )
+        <div class="pull-right">#links( $decoration.body.links )#publishDate( "right" $decoration.publishDate $decoration.version )</div>
+        <div class="clear"><hr/></div>
       </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-       #publishDate( "navigation-top" $decoration.publishDate $decoration.version )
-       #mainMenu( $decoration.body.menus )
-       #publishDate( "navigation-bottom" $decoration.publishDate $decoration.version )
+      
+      <div class="sidebar">
+        <div class="well">
+          #publishDate( "navigation-top" $decoration.publishDate $decoration.version )
+          #mainMenu( $decoration.body.menus )
+          #publishDate( "navigation-bottom" $decoration.publishDate $decoration.version )
+        </div>
+        
+        <div id="poweredBy">
+          #poweredByLogo( $decoration.poweredBy )
+        </div>
       </div>
-      <div id="poweredBy">
-      #poweredByLogo( $decoration.poweredBy )
-      </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
+      
+      <div class="content">
         $bodyContent
       </div>
+  
     </div>
-    <div class="clear">
-      <hr/>
+    <div class="footer">
+        <p>Copyright &#169;#copyright()All Rights Reserved.#publishDate( "bottom" $decoration.publishDate $decoration.version )
+        Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>. 
+        Please read the <a href="$relativePath/privacy.html">Privacy policy</a></p>	
+        <p>Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by 
+        Maven logo are trademarks of The Apache Software Foundation.</p>
     </div>
-    <div id="footer">
-        Copyright &#169;#copyright()All Rights Reserved.#publishDate( "bottom" $decoration.publishDate $decoration.version )
-        Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>.<br />
-		Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by 
-		Maven logo are trademarks of The Apache Software Foundation.
-    </div>
+
   </body>
 </html>

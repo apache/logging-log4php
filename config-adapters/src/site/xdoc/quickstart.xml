@@ -112,9 +112,94 @@ WARN - My fourth message.
 ERROR - My fifth message.
 FATAL - My sixth message.
 ]]></pre>	
-				
-
 			</subsection>
+			
+			<subsection name="An advanced example">
+			
+				<p>This example covers named loggers, layouts and best practices in object-oriented programming.</p>
+			
+				<p>Create a configuration file named <code>log4php.xml</code> with the following content:</p>
+				
+<pre class="prettyprint linenums"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="myFileAppender" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutTTCC" />
+        <param name="file" value="myLog.log" />
+    </appender>
+
+    <logger name="Foo">
+        <appender_ref ref="myFileAppender" />
+    </logger>
+    
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="myConsoleAppender" />
+    </root>
+</configuration>
+]]></pre>
+
+				<p>The configuration defines two appenders: one writes to the console, and the other to a file.</p>
+				
+				<p>The 
+				console appender doesn't have a layout defined, so it will revert to default layout
+				(<code><a href="docs/layouts/simple.html">LoggerLayoutSimple</a></code>). The 
+				file appender uses a different layout 
+				(<code><a href="docs/layouts/ttcc.html">LoggerLayoutTTCC</a></code>)
+				which will result in different formatting of the logging 
+				events.</p>
+				
+				<p>The console appender is linked to the root logger. The file appender is linked to the logger named 
+				<code>Foo</code>, however <code>Foo</code> also inherits appenders from the root logger (in this case
+				the console appender). This means that logging events sent to the <code>Foo</code> logger will be 
+				logged both to the console and the file.</p>
+				
+				<p>Consider the following code snippet:</p>
+				
+<pre class="prettyprint linenums"><![CDATA[
+// Include and configure log4php
+include('log4php/Logger.php');
+Logger::configure('log4php.xml');
+
+/**
+ * This is a classic usage pattern: one logger object per class.
+ */
+class Foo
+{
+    /** Holds the Logger. */
+    private $log;
+
+    /** Logger is instantiated in the constructor. */
+    public function __construct()
+    {
+        // The __CLASS__ constant holds the class name, in our case "Foo".
+        // Therefore this creates a logger named "Foo" (which we configured in the config file)
+        $this->log = Logger::getLogger(__CLASS__);
+    }
+
+    /** Logger can be used from any member method. */
+    public function go()
+    {
+        $this->log->info("We have liftoff.");
+    }
+}
+
+$foo = new Foo();
+$foo->go();
+]]></pre>
+
+  					<p>This produces the following output in the console:</p>
+					<pre>INFO - We have liftoff.</pre>
+
+					<p>And the following in the log file:</p>
+					<pre>01/06/11 18:43:39,545 [5428] INFO Foo - We have liftoff.</pre>
+
+					<p>Note the different layout, this is because LoggerLayoutTTCC was used as layout for the file appender.</p>
+			</subsection>
+			
 		</section>
 	</body>
 </document>
