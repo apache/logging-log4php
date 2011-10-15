@@ -27,114 +27,98 @@
  * @group filters
  */
 class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
-		
-	public function testDecideAcceptErrorLevel() {
-		$filter = new LoggerFilterLevelMatch();
-		$filter->setAcceptOnMatch(true);
-		$filter->setLevelToMatch(LoggerLevel::getLevelError());
-		
-		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
-		
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, LoggerFilter::ACCEPT);
-		
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-	}
-	
-	public function testDecideDenyErrorLevel() {
-		$filter = new LoggerFilterLevelMatch();
-		$filter->setAcceptOnMatch("false");
-		$filter->setLevelToMatch(LoggerLevel::getLevelError());
-		
-		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
-		
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, LoggerFilter::DENY);
-		
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-	}
-	
-	public function testDecideAcceptWarnLevel() {
+
+	/** 
+	 * Tests all possible combinations of event level and filter levelToMatch 
+	 * option, with acceptOnMatch set to TRUE. 
+	 */
+	public function testDecideAccept() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("true");
-		$filter->setLevelToMatch(LoggerLevel::getLevelWarn());
 		
-		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
+		$levels = LoggerTestHelper::getAllLevels();
+		$events = LoggerTestHelper::getAllEvents();
 		
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, LoggerFilter::ACCEPT);
+		foreach($levels as $level) {
+			$filter->setLevelToMatch($level);
+			
+			foreach($events as $event) {
+				// Expecting given level to be accepted, neutral for others
+				$expected = ($event->getLevel() == $level) ? LoggerFilter::ACCEPT : LoggerFilter::NEUTRAL;
+				$actual = $filter->decide($event);
+					
+				// Get string represenations for logging
+				$sExpected = LoggerTestHelper::decisionToString($expected);
+				$sActual = LoggerTestHelper::decisionToString($actual);
+				
+				$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+			}
+		}
 	}
 	
-	public function testDecideDenyWarnLevel() {
+	/**
+	 * Tests all possible combinations of event level and filter levelToMatch
+	 * option, with acceptOnMatch set to TRUE.
+	 */
+	public function testDecideDeny() {
 		$filter = new LoggerFilterLevelMatch();
 		$filter->setAcceptOnMatch("false");
-		$filter->setLevelToMatch(LoggerLevel::getLevelWarn());
-		
-		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
-		
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, LoggerFilter::DENY);
+	
+		$levels = LoggerTestHelper::getAllLevels();
+		$events = LoggerTestHelper::getAllEvents();
+	
+		foreach($levels as $level) {
+			$filter->setLevelToMatch($level);
+				
+			foreach($events as $event) {
+				// Expecting given level to be denied, neutral for others
+				$expected = ($event->getLevel() == $level) ? LoggerFilter::DENY : LoggerFilter::NEUTRAL;
+				$actual = $filter->decide($event);
+					
+				// Get string represenations for logging
+				$sExpected = LoggerTestHelper::decisionToString($expected);
+				$sActual = LoggerTestHelper::decisionToString($actual);
+	
+				$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+			}
+		}
 	}
 	
-	public function testDecideDenyDebugLevel() {
+	/** Test that filter always decides NEUTRAL when levelToMatch is not set. */
+	public function testDecideNull() {
 		$filter = new LoggerFilterLevelMatch();
-		$filter->setAcceptOnMatch("false");
-		$filter->setLevelToMatch(LoggerLevel::getLevelDebug());
+		$events = LoggerTestHelper::getAllEvents();
 		
-		$eventError = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-		$eventDebug = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
-		
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
-		
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, LoggerFilter::DENY);
-		
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, LoggerFilter::NEUTRAL);
+		foreach($events as $event) {
+			$expected = LoggerFilter::NEUTRAL;
+			$actual = $filter->decide($event);
+				
+			// Get string represenations for logging
+			$sExpected = LoggerTestHelper::decisionToString($expected);
+			$sActual = LoggerTestHelper::decisionToString($actual);
+			$level = $event->getLevel();
+			
+			$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+		}
 	}
 	
-	public function testConfiguration() {
-		$config = LoggerConfigurator::getDefaultConfiguration();
+	/** Test logger configuration. */
+	public function testAcceptConfig() {
+		$config = LoggerTestHelper::getEchoConfig();
 		
-		// Add filters to accept debug and deny all others
+		// Add filters to default appender
 		$config['appenders']['default']['filters'] = array(
+			
+			// Accepts only INFO events
 			array(
 				'class' => 'LoggerFilterLevelMatch',
 				'params' => array(
-					'levelToMatch' => 'error',
+					'levelToMatch' => 'info',
 					'acceptOnMatch' => true
 				)
 			),
+			
+			// Denies all events not accepted by first filter
 			array(
 				'class' => 'LoggerFilterDenyAll',
 			)
@@ -150,13 +134,48 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 		$logger->warn('Test');
 		$logger->error('Test');
 		$logger->fatal('Test');
+		
 		$actual = ob_get_clean();
+
 		
-		var_dump($actual);
-		
-		$this->assertEmpty($actual);
+		$expected = "INFO - Test" . PHP_EOL;
 	}
 	
+	public function testDenyConfig() {
+		$config = LoggerTestHelper::getEchoConfig();
 	
+		// Add filter which denies INFO events
+		$config['appenders']['default']['filters'] = array(
+			array(
+				'class' => 'LoggerFilterLevelMatch',
+				'params' => array(
+					'levelToMatch' => 'info',
+					'acceptOnMatch' => false
+				)
+			)
+		);
+			
+		Logger::configure($config);
+		$logger = Logger::getRootLogger();
+			
+		ob_start();
+		$logger->trace('Test');
+		$logger->debug('Test');
+		$logger->info('Test');
+		$logger->warn('Test');
+		$logger->error('Test');
+		$logger->fatal('Test');
 	
+		$actual = ob_get_clean();
+		
+		// Should log all except info
+		$expected = 
+			"TRACE - Test" . PHP_EOL . 
+			"DEBUG - Test" . PHP_EOL . 
+			"WARN - Test"  . PHP_EOL . 
+			"ERROR - Test" . PHP_EOL . 
+			"FATAL - Test" . PHP_EOL;	
+	
+		$this->assertSame($expected, $actual);
+	}
 }

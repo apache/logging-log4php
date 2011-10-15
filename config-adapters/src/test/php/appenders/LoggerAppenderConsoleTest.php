@@ -41,6 +41,7 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
 				'layout' => array(
 					'class' => 'LoggerLayoutPattern',
 					'params' => array(
+						// Intentionally blank so output doesn't clutter phpunit output
 						'conversionPattern' => '' 
 					)
 				),

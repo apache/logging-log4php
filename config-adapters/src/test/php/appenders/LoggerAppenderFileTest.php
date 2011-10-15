@@ -47,10 +47,6 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
 	
 	public function __construct() {
 		$this->testPath = PHPUNIT_TEMP_DIR . '/TEST.txt';
-		
-		if (is_dir(PHPUNIT_TEMP_DIR)) {
-			rmdir(PHPUNIT_TEMP_DIR);
-		}
 	}
 	
 	public function setUp() {

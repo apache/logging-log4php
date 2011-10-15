@@ -34,7 +34,7 @@
  		$this->assertInstanceOf('LoggerAppenderEcho', $appender);
  		
  		$layout = $appender->getLayout();
- 		$this->assertInstanceOf('LoggerLayoutSimple', $layout);
+ 		$this->assertInstanceOf('LoggerLayoutTTCC', $layout);
  		
  		$root = Logger::getRootLogger();
  		$appenders = $root->getAllAppenders();
@@ -42,8 +42,8 @@
  		$this->assertEquals(count($appenders), 1);
 		
  		$actual = $root->getLevel();
- 		$expected = LoggerLevel::getLevelInfo();
- 		$this->assertSame($expected, $actual);
+ 		$expected = LoggerLevel::getLevelDebug();
+ 		$this->assertEquals($expected, $actual);
  	}
  	
  	/**
