@@ -23,6 +23,8 @@
  * @link       http://logging.apache.org/log4php
  */
 
+require dirname(__FILE__) . '/../LoggerTestHelper.php';
+
 /**
  * @group filters
  */

@@ -71,6 +71,10 @@ class LoggerAppenderConsole extends LoggerAppender {
 		}
 	}
 
+	public function getTarget() {
+		return $this->target;
+	}
+
 	public function activateOptions() {
 		$this->fp = fopen($this->target, 'w');
 		if(is_resource($this->fp) && $this->layout !== null) {

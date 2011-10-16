@@ -26,17 +26,7 @@
  * @group main
  */
 class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
-	
-	protected static $logger;
-	
-	public static function setUpBeforeClass() {
-		self::$logger = Logger::getLogger('test');
-	}
-	
-	public static function tearDownAfterClass() {
-		self::$logger = null;
-	}
-	
+
 	public function testConstructor() {
 		$ex = new Exception();
 		$tInfo = new LoggerThrowableInformation($ex);

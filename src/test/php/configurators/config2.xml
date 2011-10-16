@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Duplicate renderer -->
+	<renderer renderedClass="Fruit" renderingClass="FruitRenderer1" />
+	<renderer renderedClass="Fruit" renderingClass="FruitRenderer2" />
+	<renderer renderedClass="Beer" renderingClass="BeerRenderer" />
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple"/>
+    </appender>
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="default" />
+    </root>
+</configuration>

@@ -28,6 +28,91 @@
  */
 class LoggerAppenderEchoTest extends PHPUnit_Framework_TestCase {
 
+	private $config1 = array(
+		'rootLogger' => array(
+			'appenders' => array('default'),
+		),
+		'appenders' => array(
+			'default' => array(
+				'class' => 'LoggerAppenderEcho',
+				'layout' => array(
+					'class' => 'LoggerLayoutSimple'
+				),
+			)
+		)
+	);
+	
+	private $config2 = array(
+		'rootLogger' => array(
+			'appenders' => array('default'),
+		),
+		'appenders' => array(
+			'default' => array(
+				'class' => 'LoggerAppenderEcho',
+				'layout' => array(
+					'class' => 'LoggerLayoutSimple'
+				),
+				'params' => array(
+					'htmlLineBreaks' => true
+				)
+			)
+		)
+	);
+	
+	private $config3 = array(
+		'rootLogger' => array(
+			'appenders' => array('default'),
+		),
+		'appenders' => array(
+			'default' => array(
+				'class' => 'LoggerAppenderEcho',
+				'layout' => array(
+					'class' => 'LoggerLayoutSimple'
+				),
+				'params' => array(
+					'htmlLineBreaks' => 'foo'
+				)
+			)
+		)
+	);
+	
+	public function testAppend() {
+		Logger::configure($this->config1);
+		$log = Logger::getRootLogger();
+
+		$hlb = $log->getAppender('default')->getHtmlLineBreaks();
+		$this->assertSame(false, $hlb);
+		
+		ob_start();
+		$log->info("This is a test");
+		$log->debug("And this too");
+		$actual = ob_get_clean();
+		$expected = "INFO - This is a test" . PHP_EOL . "DEBUG - And this too". PHP_EOL;
+		
+		$this->assertSame($expected, $actual);
+	}
+	
+	public function testHtmlLineBreaks() {
+		Logger::configure($this->config2);
+		$log = Logger::getRootLogger();
+		
+		$hlb = $log->getAppender('default')->getHtmlLineBreaks();
+		$this->assertSame(true, $hlb);
+		
+		ob_start();
+		$log->info("This is a test" . PHP_EOL . "With more than one line");
+		$log->debug("And this too");
+		$actual = ob_get_clean();
+		$expected = "INFO - This is a test<br />" . PHP_EOL . "With more than one line<br />" . PHP_EOL . "DEBUG - And this too<br />" . PHP_EOL;
+		
+		$this->assertSame($expected, $actual);
+	}
+	
+// 	public function testHtmlLineBreaksInvalidOption() {
+// 		Logger::configure($this->config3);
+// 	}
+	
+	
 	public function testEcho() {
 		$appender = new LoggerAppenderEcho("myname ");
 		

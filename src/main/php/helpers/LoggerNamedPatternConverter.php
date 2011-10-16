@@ -57,6 +57,9 @@ class LoggerNamedPatternConverter extends LoggerPatternConverter {
 		if($this->precision <= 0) {
 			return $n;
 		} else {
+			
+			// TODO: do this with explode()
+			
 			$len = strlen($n);
 			// We substract 1 from 'len' when assigning to 'end' to avoid out of
 			// bounds exception in return r.substring(end+1, len). This can happen if

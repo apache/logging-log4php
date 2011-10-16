@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 	    <release version="2.2.0" date="SVN">
+	    	<action date="2011-10-15" type="update" issue="LOG4PHP-152" dev="Ivan Habunek">A rewrite of the configurator.</action>
 	    	<action date="2011-09-03" type="fix" issue="LOG4PHP-145" dev="Ivan Habunek">The syslog appender does not correctly parse options</action>
 	    	<action date="2011-08-31" type="remove" issue="LOG4PHP-149" dev="Ivan Habunek">Remove deprecated appender LoggerAppenderAdodb</action>
 	    	<action date="2011-08-31" type="fix" issue="LOG4PHP-148" dev="Ivan Habunek">LoggerUserFieldPatternConverter class missing in log4php archive</action>

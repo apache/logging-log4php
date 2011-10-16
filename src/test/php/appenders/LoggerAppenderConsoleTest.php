@@ -25,55 +25,66 @@
 
 /** 
  * @group appenders
- *        
- * FIXME: Currently clutters the phpunit output as output buffering seems not
- *        to work for fwrite(STDOUT, ...)
  */
 class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
-    
-	private $event;
 	
-	public function setUp()
-	{
-		$logger = new Logger('mycategory');
-		$level = LoggerLevel::getLevelWarn();
-		$this->event = new LoggerLoggingEvent(__CLASS__, $logger, $level, "my message");
-	}
+	private $config = array(
+		'rootLogger' => array(
+			'appenders' => array('default'),
+		),
+		'appenders' => array(
+			'default' => array(
+				'class' => 'LoggerAppenderConsole',
+				'layout' => array(
+					'class' => 'LoggerLayoutPattern',
+					'params' => array(
+						// Intentionally blank so output doesn't clutter phpunit output
+						'conversionPattern' => '' 
+					)
+				),
+			)
+		)
+	);
 	
 	public function testRequiresLayout() {
 		$appender = new LoggerAppenderConsole(); 
 		self::assertTrue($appender->requiresLayout());
 	}
 	
-    public function testSimpleStdOutLogging() {
-    	$layout = new LoggerLayoutSimple();
+    public function testAppendDefault() {
+    	Logger::configure($this->config);
+    	$log = Logger::getRootLogger();
     	
-    	$appender = new LoggerAppenderConsole("mylogger"); 
-    	$appender->setTarget('STDOUT');
-		$appender->setLayout($layout);
-		$appender->activateOptions();
-		$appender->append($this->event);
-		$appender->close();
+    	$expected = LoggerAppenderConsole::STDOUT;
+    	$actual = $log->getAppender('default')->getTarget();
+    	$this->assertSame($expected, $actual);
+    	
+    	$log->info("hello");
     }
 
-    public function testSimpleStdErrLogging() {
-    	$layout = new LoggerLayoutSimple();
+    public function testAppendStdout() {
+    	$this->config['appenders']['default']['params']['target'] = 'stdout';
     	
-    	$appender = new LoggerAppenderConsole("mylogger"); 
-		$appender->setTarget('STDERR');
-		$appender->setLayout($layout);
-		$appender->activateOptions();
-		$appender->append($this->event);
-		$appender->close();
-    }    
-
-    public function testSimpleDefaultLogging() {
-    	$layout = new LoggerLayoutSimple();
+    	Logger::configure($this->config);
+    	$log = Logger::getRootLogger();
+    	 
+    	$expected = LoggerAppenderConsole::STDOUT;
+    	$actual = $log->getAppender('default')->getTarget();
+    	$this->assertSame($expected, $actual);
+    	 
+    	$log->info("hello");
+    }
+    
+    public function testAppendStderr() {
+    	$this->config['appenders']['default']['params']['target'] = 'stderr';
     	
-    	$appender = new LoggerAppenderConsole("mylogger"); 
-		$appender->setLayout($layout);
-		$appender->activateOptions();
-		$appender->append($this->event);
-		$appender->close();
+    	Logger::configure($this->config);
+    	$log = Logger::getRootLogger();
+    	$expected = LoggerAppenderConsole::STDERR;
+    	 
+    	$actual = $log->getAppender('default')->getTarget();
+    	$this->assertSame($expected, $actual);
+    	 
+    	$log->info("hello");
     }
 }
