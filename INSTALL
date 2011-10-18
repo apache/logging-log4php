@@ -40,11 +40,11 @@
    b. Copy '{YOUR_PATH}/src/main/php' to the dir where you want log4php to  
       reside (ex: {MY_LOG4PHP_PATH}).
       
-      Include the LoggerManager class:
+      Include the Logger class:
 
-         require_once( '{MY_LOG4PHP_PATH}/LoggerManager.php' );
+         require_once( '{MY_LOG4PHP_PATH}/Logger.php' );
 
-3. That's all! For more details on using Log4PHP please see the HTML docs in the site folder.
+3. That's all! For more details on using Apache log4php please see the HTML docs in the site folder.
 
 ------------------------------------------------------------------------------
  $Revision$
