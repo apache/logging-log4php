@@ -104,16 +104,21 @@
 #end
 ##
 #macro ( links $links )
+  <ul class="nav">
   #set ( $counter = 0 )
   #foreach( $item in $links )
     #set ( $counter = $counter + 1 )
     #set ( $currentItemHref = $PathTool.calculateLink( $item.href, $relativePath ) )
     #set ( $currentItemHref = $currentItemHref.replaceAll( '\\', '/' ) )
-    #link( $currentItemHref $item.name $item.target $item.img $item.position $item.alt $item.border $item.width $item.height )
-    #if ( $links.size() > $counter )
-      |
+    #set ( $activeClass = "" )
+    #if ( $alignedFileName == $currentItemHref) 
+    	#set ( $activeClass = ' class="active"' )
     #end
+    <li$activeClass>
+    #link( $currentItemHref $item.name $item.target $item.img $item.position $item.alt $item.border $item.width $item.height )
+    </li>
   #end
+  </ul>
 #end
 ##
 #macro ( breadcrumbs $breadcrumbs )
@@ -320,15 +325,9 @@
   #set ( $breadcrumbs = $decoration.body.breadcrumbs )
   #set ( $links = $decoration.body.links )
 
-  #if ( $datePosition.equalsIgnoreCase( "right" ) && $links && $links.size() > 0 )
-    #set ( $prefix = "&nbsp;|" )
-  #else
-    #set ( $prefix = "" )
-  #end
-##
   #if ( $datePosition.equalsIgnoreCase( $position ) )
     #if ( ( $datePosition.equalsIgnoreCase( "right" ) ) || ( $datePosition.equalsIgnoreCase( "bottom" ) ) )
-      $prefix <span id="publishDate">$i18n.getString( "site-renderer", $locale, "template.lastpublished" ): $dateToday</span>
+      <span id="publishDate">$i18n.getString( "site-renderer", $locale, "template.lastpublished" ): $dateToday</span>
       #if ( $versionPosition.equalsIgnoreCase( $position ) )
         <span class="divider">|</span> <span id="projectVersion">$i18n.getString( "site-renderer", $locale, "template.version" ): ${project.version}</span>
       #end
@@ -501,6 +500,17 @@
   </head>
   <body class="composite" onload="siteOnLoad()">
  
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="$relativePath">$project.name</a>
+          #links( $decoration.body.links )
+        </div>
+      </div>
+    </div>
+    
+    <div style="padding-top: 40px;"></div>
+ 
     <div class="container-fluid">
       <div id="banner">
         #banner( $decoration.bannerLeft "bannerLeft" )
@@ -512,7 +522,7 @@
       
       <div class="breadcrumb">
         #publishDate( "left" $decoration.publishDate $decoration.version )
-        <div class="pull-right">#links( $decoration.body.links )#publishDate( "right" $decoration.publishDate $decoration.version )</div>
+        <div class="pull-right">#publishDate( "right" $decoration.publishDate $decoration.version )</div>
         <div class="clear"><hr/></div>
       </div>
       
@@ -533,6 +543,7 @@
       </div>
   
     </div>
+
     <div class="footer">
         <p>Copyright &#169;#copyright()All Rights Reserved.#publishDate( "bottom" $decoration.publishDate $decoration.version )
         Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>. 
@@ -540,6 +551,5 @@
         <p>Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by 
         Maven logo are trademarks of The Apache Software Foundation.</p>
     </div>
-
   </body>
 </html>

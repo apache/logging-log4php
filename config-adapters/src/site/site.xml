@@ -32,6 +32,13 @@
 	<version position="right"/>
 	
 	<body>
+		<links>
+			<item name="About" href="/index.html" />
+			<item name="Download" href="/download.html" />
+			<item name="Install" href="/install.html" />
+			<item name="Quick start" href="/quickstart.html" />
+		</links>
+
 		<breadcrumbs>
 			<item name="Apache" href="http://www.apache.org/" target="_blank" />
 			<item name="Logging Services" href="http://logging.apache.org" target="_blank" />
@@ -42,43 +49,39 @@
 			<item name="About" href="/index.html" />
 			<item name="Download" href="/download.html" />
 			<item name="Install" href="/install.html" />
-			<item name="Changelog" href="/changelog	.html" />
+			<item name="Changelog" href="/changelog.html" />
 		</menu>
 
 		<menu name="Documentation">
 			<item name="Quick start" href="/quickstart.html" />
-			<item name="Manual" href="/docs/introduction.html">
-				<item name="Introduction" href="/docs/introduction.html" />
-				<item name="Configuration" href="/docs/configuration.html" />
-				<item name="Loggers" href="/docs/loggers.html" />
-				<item name="Appenders" href="/docs/appenders.html" collapse="true">
-					<item name="Console" href="/docs/appenders/console.html" />
-					<item name="Echo" href="/docs/appenders/echo.html" />
-					<item name="File" href="/docs/appenders/file.html" />
-					<item name="Daily File" href="/docs/appenders/daily-file.html" />
-					<item name="Rolling File" href="/docs/appenders/rolling-file.html" />
-					<item name="Mail" href="/docs/appenders/mail.html" />
-					<item name="Mail Event" href="/docs/appenders/mail-event.html" />
-					<item name="MongoDB" href="/docs/appenders/mongodb.html" />
-					<item name="Null" href="/docs/appenders/null.html" />
-					<item name="PDO" href="/docs/appenders/pdo.html" />					
-					<item name="PHP" href="/docs/appenders/php.html" />
-					<item name="Socket" href="/docs/appenders/socket.html" />
-					<item name="Syslog" href="/docs/appenders/syslog.html" />
-				</item>
-				<item name="Layouts" href="/docs/layouts.html" collapse="true">
-					<item name="LoggerLayoutHtml" href="/docs/layouts/html.html" />
-					<item name="LoggerLayoutPattern" href="/docs/layouts/pattern.html" />
-					<item name="LoggerLayoutSimple" href="/docs/layouts/simple.html" />
-					<item name="LoggerLayoutTTCC" href="/docs/layouts/ttcc.html" />
-					<item name="LoggerLayoutXml" href="/docs/layouts/xml.html" />
-				</item>
-				<item name="Threshold" href="/docs/threshold.html" />
-				<item name="Filters" href="/docs/filters.html" />
-				<item name="Renderers" href="/docs/renderers.html" />
-				<item name="Performance" href="/docs/performance.html" />
+			<item name="Introduction" href="/docs/introduction.html" />
+			<item name="Configuration" href="/docs/configuration.html" />
+			<item name="Loggers" href="/docs/loggers.html" />
+			<item name="Appenders" href="/docs/appenders.html" collapse="true">
+				<item name="Console" href="/docs/appenders/console.html" />
+				<item name="Echo" href="/docs/appenders/echo.html" />
+				<item name="File" href="/docs/appenders/file.html" />
+				<item name="Daily File" href="/docs/appenders/daily-file.html" />
+				<item name="Rolling File" href="/docs/appenders/rolling-file.html" />
+				<item name="Mail" href="/docs/appenders/mail.html" />
+				<item name="Mail Event" href="/docs/appenders/mail-event.html" />
+				<item name="MongoDB" href="/docs/appenders/mongodb.html" />
+				<item name="Null" href="/docs/appenders/null.html" />
+				<item name="PDO" href="/docs/appenders/pdo.html" />					
+				<item name="PHP" href="/docs/appenders/php.html" />
+				<item name="Socket" href="/docs/appenders/socket.html" />
+				<item name="Syslog" href="/docs/appenders/syslog.html" />
 			</item>
-			<item name="API docs" href="/apidocs/index.html" />
+			<item name="Layouts" href="/docs/layouts.html" collapse="true">
+				<item name="LoggerLayoutHtml" href="/docs/layouts/html.html" />
+				<item name="LoggerLayoutPattern" href="/docs/layouts/pattern.html" />
+				<item name="LoggerLayoutSimple" href="/docs/layouts/simple.html" />
+				<item name="LoggerLayoutTTCC" href="/docs/layouts/ttcc.html" />
+				<item name="LoggerLayoutXml" href="/docs/layouts/xml.html" />
+			</item>
+			<item name="Filters" href="/docs/filters.html" />
+			<item name="Renderers" href="/docs/renderers.html" />
+			<item name="API documentation" href="/apidocs/index.html" />
 		</menu>
 
 		<menu name="Community">
