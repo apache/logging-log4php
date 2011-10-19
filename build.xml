@@ -112,6 +112,17 @@
 		</apply>
 	</target>
 	
+	<!-- Determine the platform-specific executables -->
+	<condition property="phpunit.exec" value="phpunit.bat" else="phpunit">
+		<os family="windows" />
+	</condition>
+	<condition property="phpdoc.exec" value="phpdoc.bat" else="phpdoc">
+		<os family="windows" />
+	</condition>
+	<condition property="pear.exec" value="pear.bat" else="pear">
+		<os family="windows" />
+	</condition>
+
 	<!-- Builds a pear package -->
 	<target name="pear-package">
 		<delete dir="target/pear" />
@@ -138,7 +149,7 @@
 			<arg line="-d error_reporting=6143" /> <!-- E_ALL & ~E_STRICT -->
 			<arg line="../../package.php" />
 		</exec>
-		<exec executable="pear" dir="target/pear">
+		<exec executable="${pear.exec}" dir="target/pear">
 			<arg line="package" />
 		</exec>
 		<move tofile="target/Apache_log4php-${project.version}.tgz">
@@ -151,7 +162,7 @@
 	<!-- Generates API documentation (requires phpdoc). -->
 	<target name="api-docs">
 		<mkdir dir="target/site/apidocs" />
-		<exec executable="phpdoc" failonerror="true">
+		<exec executable="${phpdoc.exec}" failonerror="true">
 			<arg value="-d" />
 			<arg value="src/main/php" />
 			<arg value="-t" />
@@ -160,6 +171,7 @@
 			<arg value="HTML:frames:DOM/default" />
 			<arg value="-ti" />
 			<arg value="Apache log4php ${project.version} - GENERATED FILES - License: ASL 2.0" />
+			<arg value="--parseprivate" />
 		</exec>
 	</target>
 	
@@ -167,7 +179,7 @@
 	<target name="unit-testing">
 		<mkdir dir="${surefire.report}" />
 		<mkdir dir="${coverage.report}" />
-		<exec executable="phpunit" dir="src/test/php">
+		<exec executable="${phpunit.exec}" dir="src/test/php">
 			<arg line=" --log-junit ../../../${surefire.report}/phpunit-testresults.xml" />
 			<arg line=" --coverage-html ../../../${coverage.report}" />
 		</exec>
