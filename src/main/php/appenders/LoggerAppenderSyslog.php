@@ -138,10 +138,6 @@ class LoggerAppenderSyslog extends LoggerAppender {
 		LoggerLevel::ERROR => LOG_ERR,
 		LoggerLevel::FATAL => LOG_ALERT,
 	);
-	
-	public function __destruct() {
-		$this->close();
-	}
 
 	/**
 	 * Sets the {@link $ident}.
