@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>LoggerAppenderMongoDB</title>
+	</properties>
+
+	<body>
+		<section name="LoggerAppenderMongoDB">
+		
+			<p><code>LoggerAppenderMongoDB</code> appends log events to a mongoDB instance.</p>
+			
+			<p><a href="http://www.mongodb.org/" target="_blank" class="externalLink">MongoDB</a> is a scalable, 
+			high-performance, open source, document-oriented database.</p>
+		
+			<subsection name="Options">
+				<p>The following options are available:</p>
+		
+				<table>
+					<tr>
+						<th>Option</th>
+						<th>Type</th>
+						<th>Required</th>
+						<th>Default</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>host</td>
+						<td>string</td>
+						<td>No</td>
+						<td>mongodb://localhost</td>
+						<td>Server on which mongodb instance is located.</td>
+					</tr>
+					<tr>
+						<td>port</td>
+						<td>integer</td>
+						<td>No</td>
+						<td>27017</td>
+						<td>Port on which the instance is bound.</td>
+					</tr>
+					<tr>
+						<td>databaseName</td>
+						<td>string</td>
+						<td>No</td>
+						<td>log4php_mongodb</td>
+						<td>Name of the database to which to log.</td>
+					</tr>
+					<tr>
+						<td>collectionName</td>
+						<td>string</td>
+						<td>No</td>
+						<td>logs</td>
+						<td>Name of the target collection within the given database.</td>
+					</tr>
+					<tr>
+						<td>username</td>
+						<td>string</td>
+						<td>No</td>
+						<td>-</td>
+						<td>Username used to connect to the database.</td>
+					</tr>
+					<tr>
+						<td>password</td>
+						<td>string</td>
+						<td>No</td>
+						<td>-</td>
+						<td>Password used to connect to the database.</td>
+					</tr>
+					
+				</table>
+				
+			</subsection>
+				
+			<subsection name="Examples">
+				<p>This example shows how to configure <code>LoggerAppenderMongoDB</code> to log to a remote database.</p>
+				
+				<p>XML configuration:</p>
+					
+<pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderMongoDB">
+        <layout class="LoggerLayoutTTCC" />
+        <param name="host" value="mongodb://example.com" />
+        <param name="username" value="logger" />
+        <param name="password" value="secret" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+
+				<p>Equivalent PHP configuration:</p>
+				
+<pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderMongoDB',
+            'layout' => array(
+                'class' => 'LoggerLayoutTTCC',
+            ),
+            'params' => array(
+                'host' => 'mongodb://example.com',
+                'username' => 'logger',
+                'password' => 'secret',
+            ),
+        ),
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+);
+]]></pre>
+			</subsection>
+		</section>
+	</body>
+</document>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>Configuration</title>
+	</properties>
+
+	<body>
+		<section name="Configuration">
+
+			<p>Apache log4php can be configured either programatically or with a file containing the configuration 
+			parameters in one of the supported formats.</p>
+			
+			<p>The configuration should be provided by calling <code>Logger::configure()</code> method before any logging 
+			is done. Otherwise, the <a href="#Default_configuration">default configuration</a> will be used.</p>
+			
+			<subsection name="XML" id="XML">
+			
+				<p>XML is the most common configuration format, and it is the most prominently featured in the 
+				documentation and examples.</p>
+				
+				
+			
+			</subsection>
+			
+			<subsection name="PHP" id="PHP">
+			
+				<p>Configuration can also be stored in a PHP array. This is the format used internally by log4php. Other 
+				formats are converted to a PHP array before being used. Because of this, the PHP configuration format 
+				should be used when performance is important.</p>
+				
+				<p>It is possible to pass an configuration array directly to <code>Logger::configure()</code>.</p>
+
+<pre class="prettyprint">
+Logger::configure(array(
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderConsole',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple'
+            )
+        )
+    )
+));
+</pre>
+				
+				<p>Alternatively a file can be created which holds the PHP configuration array. The file must
+				have the <code>php</code> extension and it should <em>return</em> the configuration array. For example, 
+				a file named <code>config.php</code> with the following content:</p>
+				
+<pre class="prettyprint">
+return array(
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderConsole',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple'
+            )
+        )
+    )
+);
+</pre>
+
+				<p>This file can then be used to configure log4php:</p>
+				
+				<pre class="prettyprint">Logger::configure('config.php');</pre>
+				
+				<div class="alert-message block-message info">
+					<p><strong>Hint:</strong> to translate a XML or properties configuration file to PHP, run the following code:</p>
+					<pre>Logger::configure('config.php');</pre>
+				</div>
+			</subsection>
+
+
+			<subsection name="Properties (INI)" id="INI">
+
+				<p>The properties configuration format is a legacy method of configuring log4php. It was inherited from 
+				<a href="logging.apache.org/log4j/1.2/manual.html">Apache log4j</a> and uses the same format. The only 
+				difference is that lines begin with <code>log4php</code> instead of <code>log4j</code>.</p>
+				
+				<div class="alert-message block-message warning">
+					<p>This format has been deprecated and will not be updated 
+				to include newly introduced features in the future. It is recommended that you use either the <a href="#XML">XML</a> or <a href="PHP">PHP</a> 
+				configuration format.</p></div>
+				
+				<p>The properites configuration format does not support filters.</p>
+				
+				<p>The following is a high level overview of all options provided by this format:</p>
+				
+				
+<pre class="prettyprint">
+# Appender named "default"
+log4php.appender.default = LoggerAppenderEcho
+log4php.appender.default.layout = LoggerLayoutTTCC
+
+# Appender named "file"
+log4php.appender.file = LoggerAppenderDailyFile
+log4php.appender.file.layout = LoggerLayoutPattern
+log4php.appender.file.layout.conversionPattern = %d{ISO8601} [%p] %c: %m (at %F line %L)%n
+log4php.appender.file.datePattern = Ymd
+log4php.appender.file.file = target/examples/daily_%s.log
+log4php.appender.file.threshold = warn
+
+# Root logger, linked to "default" appender
+log4php.rootLogger = DEBUG, default
+
+# Logger named "foo", linked to "default" appender
+log4php.logger.foo = warn, default
+
+# Logger named "foo.bar", linked to "file" appender
+log4php.logger.foo.bar = debug, file
+log4php.additivity.foo.bar = true
+
+# Logger named "foo.bar.baz", linked to both "file" and "default" appenders
+log4php.logger.foo.bar.baz = trace, default, file
+log4php.additivity.foo.bar.baz = false
+
+# Renderers for Fruit and Beer classes
+log4php.renderer.Fruit = FruitRenderer
+log4php.renderer.Beer = BeerRenderer
+
+# Setting base threshold
+log4php.threshold = debug
+</pre>
+			</subsection>
+
+			<subsection name="Default configuration" id="Default_configuration">
+				<p>If no configuration is provided before the initial logging request is issued, log4php will configure
+				using the default configuration. This consists of a single <code>LoggerAppenderEcho</code> appender,
+				using <code>LoggerLayoutTTCC</code>, attached to the root logger and set to the DEBUG level.</p>
+				
+				<p>The default configuration in PHP format is:</p>
+				
+<pre class="prettyprint">
+array(
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderConsole',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple'
+            )
+        )
+    )
+)
+</pre>
+
+				<div class="alert-message block-message info">
+					<p><strong>Hint:</strong> You can fetch the default configuration as a PHP array by running:</p>
+					<pre class="prettyprint">LoggerConfigurator::getDefaultConfiguration();</pre>
+				</div>
+			</subsection>
+			
+			<subsection name="Programmatic configuration">
+				
+				<p>It is possible to configure log4php fully programmatically.</p>
+				
+			</subsection>
+
+
+		</section>
+	</body>
+</document>

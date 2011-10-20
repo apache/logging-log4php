@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>LoggerAppenderPDO</title>
+	</properties>
+
+	<body>
+		<section name="LoggerAppenderPDO">
+		
+			<p><code>LoggerAppenderPDO</code> appender logs to a database using the PHP's 
+			<a href="http://php.net/manual/en/book.pdo.php" target="_blank" class="externalLink">PDO extension</a>.</p>
+		
+			<subsection name="Options">
+				<p>The following options are available:</p>
+		
+				<table>
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>dsn</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>The Data Source Name (DSN) used to connect to the database.</td>
+						</tr>
+						<tr>
+							<td>user</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Username used to connect to the database.</td>
+						</tr>
+						<tr>
+							<td>password</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Password used to connect to the database.</td>
+						</tr>
+						<tr>
+							<td>createTable</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the table will be created if it doesn't exist.</td>
+						</tr>
+						<tr>
+							<td>table</td>
+							<td>string</td>
+							<td>No</td>
+							<td>-</td>
+							<td>Name of the table to which log entries are be inserted.</td>
+						</tr>
+						<tr>
+							<td>insertSql</td>
+							<td>string</td>
+							<td>No</td>
+							<td><em><a href="#Advanced_configuration">see below</a></em></td>
+							<td>SQL query used to insert a log event.</td>
+						</tr>
+						<tr>
+							<td>insertPattern</td>
+							<td>string</td>
+							<td>No</td>
+							<td><em><a href="#Advanced_configuration">see below</a></em></td>
+							<td>A comma separated list of format strings used in conjunction with <code>insertSql</code> option.</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<p>Parameters <code>dsn</code>, <code>user</code> and <code>password</code> are used by PDO to connect to 
+				the database which will be used for logging. For available database drivers and corresponding DSN format, 
+				please see the <a href="http://www.php.net/manual/en/pdo.drivers.php" target="_blank" 
+				class="externalLink">PDO driver documentation</a>.</p>
+
+			</subsection>
+			
+			<subsection name="Advanced configuration" id="Advanced_configuration">
+				<p>Options <code>insertSql</code> and <code>insertPattern</code> can be used to change how events are 
+				inserted into the database. By manipulating them, it is possible to use a custom table structure to 
+				suit your needs.</p>
+			
+				<p class="alert-message warning">WARNING: Change these settings only if you are sure you know what you are doing.</p>
+			
+				<p>The default values of these options are:</p>
+				
+				<table>
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Default value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>insertSql</td>
+							<td>INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)</td>
+						</tr>
+						<tr>
+							<td>insertPattern</td>
+							<td>%d,%c,%p,%m,%t,%F,%L</td>
+						</tr>
+					</tbody>
+				</table>
+			
+				<p>The string <em>__TABLE__</em> in <code>insertSql</code> will be replaced with the table name 
+				defined in <code>table</code>. Question marks in <code>insertSql</code> will be replaced by evaluated 
+				<code><a href="../layouts/pattern.html">LoggerPatternLayout</a></code> format strings defined in 
+				<code>insertPattern</code>. See <code><a href="../layouts/pattern.html">LoggerPatternLayout</a></code>
+				documentation for format string description.</p>
+			
+			</subsection>
+			
+				
+			<subsection name="Examples">
+			
+				<h4>Example 1</h4>
+			
+				<p>The simplest example is connecting to an SQLite database which does not require any 
+				authentication.</p> 
+				
+				<p>SQLite databases are contained in simple files and don't reuquire a server to run. This example will
+				log to the database contained in <code>/var/log/log.sqlite</code>. The database will be created if it 
+				doesn't already exist.</p>
+				
+				<p>XML configuration:</p>
+					
+<pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderPDO">
+        <param name="dsn" value="sqlite:/var/log/log.sqlite" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+
+				<p>Equivalent PHP configuration:</p>
+				
+<pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderPDO',
+            'params' => array(
+                'dsn' => 'sqlite:/var/log/log.sqlite',
+            ),
+        ),
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+);
+]]></pre>
+				<h4>Example 2</h4>
+
+				<p>A slightly more complex example is connecting to a MySQL database which requires user credentials
+				to be provided. Additionally, a user-specified table name is used.</p>
+				
+				<p>For this example, MySQL server needs to be running on localhost, and needs to contain a database
+				named <code>logdb</code>. The log will be written to a table named <code>log_table</code>. The table
+				will be created if it doesn't already exist.</p>
+
+				<p>XML configuration:</p>
+					
+<pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderPDO">
+        <param name="dsn" value="mysql:host=localhost;dbname=logdb" />
+        <param name="user" value="root" />
+        <param name="password" value="secret" />
+        <param name="table" value="log_table" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+
+				<p>Equivalent PHP configuration:</p>
+				
+<pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderPDO',
+            'params' => array(
+                'dsn' => 'mysql:host=localhost;dbname=logdb',
+                'user' => 'root',
+                'password' => 'secret',
+                'table' => 'log_table',
+            ),
+        ),
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+);
+]]></pre>
+
+				<p>This is an output sample retrieved from the MySQL database.</p>
+				
+<pre>
+    mysql> desc log_table;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| timestamp | varchar(32)   | YES  |     | NULL    |       |
+| logger    | varchar(64)   | YES  |     | NULL    |       |
+| level     | varchar(32)   | YES  |     | NULL    |       |
+| message   | varchar(9999) | YES  |     | NULL    |       |
+| thread    | varchar(32)   | YES  |     | NULL    |       |
+| file      | varchar(255)  | YES  |     | NULL    |       |
+| line      | varchar(6)    | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+
+    mysql> SELECT * FROM log_table;
+ +-------------------------+--------+-------+--------------+--------+--------------+------+
+ | timestamp               | logger | level | message      | thread | file         | line |
+ +-------------------------+--------+-------+--------------+--------+--------------+------+
+ | 2011-10-02 19:36:07,935 | main   | INFO  | Hello World! | 21858  | /tmp/log.php | 24   |
+ +-------------------------+--------+-------+--------------+--------+--------------+------+
+</pre> 
+				
+			</subsection>
+		</section>
+	</body>
+</document>
