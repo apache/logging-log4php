@@ -271,4 +271,9 @@ abstract class LoggerAppender {
 		$this->closed = true;
 	}
 	
+	/** Triggers a warning for this logger with the given message. */
+	protected function warn($message) {
+		trigger_error("log4php: appender [{$this->name}]: $message", E_USER_WARNING);
+	}
+	
 }
