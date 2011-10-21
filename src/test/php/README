@@ -1,5 +1,17 @@
-Individual Tests can be run from the top level directory using e.g.:
-$ phpunit --bootstrap=src/test/php/bootstrap.php src/test/php/appenders/LoggerAppenderSocketTest.php
+All tests can be run from the src/test/php directory by running:
+$ phpunit
+
+Tests classes are divided into groups which can be run individually:
+$ phpunit --group main
+$ phpunit --group appenders
+$ phpunit --group configurators
+$ phpunit --group filters
+$ phpunit --group helpers
+$ phpunit --group layouts
+$ phpunit --group renderers
+
+Individual test classes can be run using e.g.:
+$ phpunit appenders/LoggerAppenderSocketTest.php
 
 When using relative paths in the tests, be aware that "mvn test" does a
 changedir to this directory. So dirname(__FILE__).'/../../' is preferred.
