@@ -86,7 +86,6 @@ class LoggerOptionConverter {
 			return !($value == 0); // true is everything but 0 like in C 
 		}
 		
-		trigger_error("Could not convert ".var_export($value,1)." to boolean!", E_USER_WARNING);
 		return $default;
 	}
 
