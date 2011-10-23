@@ -97,7 +97,7 @@ abstract class LoggerAppender {
 	 * Clears the filter chain by removing all the filters in it.
 	 */
 	public function clearFilters() {
-		unset($this->filter);
+		$this->filter = null;
 	}
 
 	/**
