@@ -93,7 +93,6 @@ class Logger {
 		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
 		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
 		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
-		'LoggerLayoutBson' => '/layouts/LoggerLayoutBson.php',
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
 		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
