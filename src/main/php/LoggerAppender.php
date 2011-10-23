@@ -37,14 +37,14 @@ abstract class LoggerAppender {
 	 * The first filter in the filter chain.
 	 * @var LoggerFilter
 	 */
-	protected $filter = null;
+	protected $filter;
 			
 	/**
 	 * The appender's layout. Can be null if the appender does not use 
 	 * a layout.
 	 * @var LoggerLayout
 	 */
-	protected $layout = null; 
+	protected $layout; 
 	
 	/**
 	 * Appender name. Used by other components to identify this appender.
@@ -57,7 +57,7 @@ abstract class LoggerAppender {
 	 * will not be logged.
 	 * @var LoggerLevel
 	 */
-	protected $threshold = null;
+	protected $threshold;
 	
 	/**
 	 * Set to true if the appender requires a layout.
@@ -101,7 +101,6 @@ abstract class LoggerAppender {
 	 */
 	public function clearFilters() {
 		unset($this->filter);
-		$this->filter = null;
 	}
 
 	/**
@@ -273,7 +272,8 @@ abstract class LoggerAppender {
 	
 	/** Triggers a warning for this logger with the given message. */
 	protected function warn($message) {
-		trigger_error("log4php: appender [{$this->name}]: $message", E_USER_WARNING);
+		$id = get_class($this) . (empty($this->name) ? '' : ":{$this->name}");
+		trigger_error("log4php: [$id]: $message", E_USER_WARNING);
 	}
 	
 }
