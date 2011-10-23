@@ -98,6 +98,9 @@ class LoggerOptionConverter {
 	/** Converts $value to boolean, or throws an exception if not possible. */
 	public static function toBooleanEx($value) {
 		if (isset($value)) {
+			if (is_bool($value)) {
+				return $value;
+			}
 			$value = strtolower(trim($value));
 			if (in_array($value, self::$trueValues)) {
 				return true;
@@ -107,7 +110,7 @@ class LoggerOptionConverter {
 			}
 		}
 		
-		throw new LoggerException("Givan value [" . var_export($value, true) . "] cannot be converted to boolean.");
+		throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to boolean.");
 	}
 	
 	/**
@@ -127,13 +130,14 @@ class LoggerOptionConverter {
 	
 	/** Converts $value to integer, or throws an exception if not possible. */
 	public static function toIntegerEx($value) {
-		if (!empty($value)) {
-			if (is_numeric($value)) {
-				return (integer) $value;
-			}
+		if (is_integer($value)) {
+			return $value;
+		}
+		if (is_numeric($value)) {
+			return (integer) $value;
 		}
 	
-		throw new LoggerException("Givan value [" . var_export($value, true) . "] cannot be converted to integer.");
+		throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to integer.");
 	}
 
 	/**

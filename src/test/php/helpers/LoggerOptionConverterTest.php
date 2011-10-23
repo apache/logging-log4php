@@ -52,12 +52,16 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
         self::assertFalse(LoggerOptionConverter::toBoolean("off"));
         self::assertFalse(LoggerOptionConverter::toBoolean("no"));
         
+        self::assertTrue(LoggerOptionConverter::toBooleanEx(1));
         self::assertTrue(LoggerOptionConverter::toBooleanEx("1"));
+        self::assertTrue(LoggerOptionConverter::toBooleanEx(true));
         self::assertTrue(LoggerOptionConverter::toBooleanEx("true"));
         self::assertTrue(LoggerOptionConverter::toBooleanEx("on"));
         self::assertTrue(LoggerOptionConverter::toBooleanEx("yes"));
         
+        self::assertFalse(LoggerOptionConverter::toBooleanEx(0));
         self::assertFalse(LoggerOptionConverter::toBooleanEx("0"));
+        self::assertFalse(LoggerOptionConverter::toBooleanEx(false));
         self::assertFalse(LoggerOptionConverter::toBooleanEx("false"));
         self::assertFalse(LoggerOptionConverter::toBooleanEx("off"));
         self::assertFalse(LoggerOptionConverter::toBooleanEx("no"));
@@ -66,7 +70,7 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     /**
      * Test fail on NULL. 
  	 * @expectedException LoggerException
- 	 * @expectedExceptionMessage Givan value [NULL] cannot be converted to boolean.
+ 	 * @expectedExceptionMessage Given value [NULL] cannot be converted to boolean.
      */
     public function testToBooleanFailure1() {
     	LoggerOptionConverter::toBooleanEx(null);
@@ -75,7 +79,7 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     /**
      * Test fail on empty string.
      * @expectedException LoggerException
-     * @expectedExceptionMessage Givan value [''] cannot be converted to boolean.
+     * @expectedExceptionMessage Given value [''] cannot be converted to boolean.
      */
     public function testToBooleanFailure2() {
     	LoggerOptionConverter::toBooleanEx('');
@@ -84,7 +88,7 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     /**
      * Test fail on invalid string.
      * @expectedException LoggerException
-     * @expectedExceptionMessage Givan value ['foo'] cannot be converted to boolean.
+     * @expectedExceptionMessage Given value ['foo'] cannot be converted to boolean.
      */
     public function testToBooleanFailure3() {
     	LoggerOptionConverter::toBooleanEx('foo');
@@ -98,12 +102,17 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     	self::assertSame(-10, LoggerOptionConverter::toInt('foo', -10));
     	
     	self::assertSame(1, LoggerOptionConverter::toIntegerEx('1'));
+    	self::assertSame(1, LoggerOptionConverter::toIntegerEx(1));
+    	self::assertSame(0, LoggerOptionConverter::toIntegerEx('0'));
+    	self::assertSame(0, LoggerOptionConverter::toIntegerEx(0));
+    	self::assertSame(-1, LoggerOptionConverter::toIntegerEx('-1'));
+    	self::assertSame(-1, LoggerOptionConverter::toIntegerEx(-1));
     }
     
     /**
     * Test fail on NULL.
     * @expectedException LoggerException
-    * @expectedExceptionMessage Givan value [NULL] cannot be converted to integer.
+    * @expectedExceptionMessage Given value [NULL] cannot be converted to integer.
     */
     public function testToIntegerFailure1() {
     	LoggerOptionConverter::toIntegerEx(null);
@@ -112,7 +121,7 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     /**
      * Test fail on empty string.
      * @expectedException LoggerException
-     * @expectedExceptionMessage Givan value [''] cannot be converted to integer.
+     * @expectedExceptionMessage Given value [''] cannot be converted to integer.
      */
     public function testToIntegerFailure2() {
     	LoggerOptionConverter::toIntegerEx('');
@@ -121,10 +130,28 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     /**
      * Test fail on invalid string.
      * @expectedException LoggerException
-     * @expectedExceptionMessage Givan value ['foo'] cannot be converted to integer.
+     * @expectedExceptionMessage Given value ['foo'] cannot be converted to integer.
      */
     public function testToIntegerFailure3() {
     	LoggerOptionConverter::toIntegerEx('foo');
+    }
+    
+    /**
+     * Test fail on boolean.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Given value [true] cannot be converted to integer.
+     */
+    public function testToIntegerFailure4() {
+    	LoggerOptionConverter::toIntegerEx(true);
+    }
+
+    /**
+     * Test fail on boolean.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Given value [false] cannot be converted to integer.
+     */
+    public function testToIntegerFailure5() {
+    	LoggerOptionConverter::toIntegerEx(false);
     }
     
     public function testSubstituteVars() {
