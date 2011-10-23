@@ -66,4 +66,9 @@ abstract class LoggerLayout {
 	public function getHeader() {
 		return null;
 	}
+	
+	/** Triggers a warning for this layout with the given message. */
+	protected function warn($message) {
+		trigger_error("log4php: [" . get_class($this) . "]: $message", E_USER_WARNING);
+	}
 }
