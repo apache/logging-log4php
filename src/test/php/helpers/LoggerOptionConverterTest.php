@@ -32,23 +32,100 @@ define('MY_CONSTANT_CONSTANT_OTHER', 'DEFINE_OTHER');
 class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
 
     public function testToBoolean() {
-        self::assertEquals(true, LoggerOptionConverter::toBoolean(null, true));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean(null));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean(true));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean("1"));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean("true"));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean("on"));
-        self::assertEquals(true, LoggerOptionConverter::toBoolean("yes"));
+        self::assertTrue(LoggerOptionConverter::toBoolean(null, true));
+        self::assertTrue(LoggerOptionConverter::toBoolean('foo', true));
+        self::assertTrue(LoggerOptionConverter::toBoolean(null));
+        self::assertTrue(LoggerOptionConverter::toBoolean(true));
+        self::assertTrue(LoggerOptionConverter::toBoolean("1"));
+        self::assertTrue(LoggerOptionConverter::toBoolean(1));
+        self::assertTrue(LoggerOptionConverter::toBoolean("true"));
+        self::assertTrue(LoggerOptionConverter::toBoolean("on"));
+        self::assertTrue(LoggerOptionConverter::toBoolean("yes"));
         
-        self::assertEquals(false, LoggerOptionConverter::toBoolean(null, false));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean(false));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean(""));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean("0"));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean("false"));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean("off"));
-        self::assertEquals(false, LoggerOptionConverter::toBoolean("no"));
+        self::assertFalse(LoggerOptionConverter::toBoolean(null, false));
+        self::assertFalse(LoggerOptionConverter::toBoolean('foo', false));
+        self::assertFalse(LoggerOptionConverter::toBoolean(false));
+        self::assertFalse(LoggerOptionConverter::toBoolean(""));
+        self::assertFalse(LoggerOptionConverter::toBoolean("0"));
+        self::assertFalse(LoggerOptionConverter::toBoolean(0));
+        self::assertFalse(LoggerOptionConverter::toBoolean("false"));
+        self::assertFalse(LoggerOptionConverter::toBoolean("off"));
+        self::assertFalse(LoggerOptionConverter::toBoolean("no"));
+        
+        self::assertTrue(LoggerOptionConverter::toBooleanEx("1"));
+        self::assertTrue(LoggerOptionConverter::toBooleanEx("true"));
+        self::assertTrue(LoggerOptionConverter::toBooleanEx("on"));
+        self::assertTrue(LoggerOptionConverter::toBooleanEx("yes"));
+        
+        self::assertFalse(LoggerOptionConverter::toBooleanEx("0"));
+        self::assertFalse(LoggerOptionConverter::toBooleanEx("false"));
+        self::assertFalse(LoggerOptionConverter::toBooleanEx("off"));
+        self::assertFalse(LoggerOptionConverter::toBooleanEx("no"));
     }
     
+    /**
+     * Test fail on NULL. 
+ 	 * @expectedException LoggerException
+ 	 * @expectedExceptionMessage Givan value [NULL] cannot be converted to boolean.
+     */
+    public function testToBooleanFailure1() {
+    	LoggerOptionConverter::toBooleanEx(null);
+    }
+    
+    /**
+     * Test fail on empty string.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Givan value [''] cannot be converted to boolean.
+     */
+    public function testToBooleanFailure2() {
+    	LoggerOptionConverter::toBooleanEx('');
+    }
+    
+    /**
+     * Test fail on invalid string.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Givan value ['foo'] cannot be converted to boolean.
+     */
+    public function testToBooleanFailure3() {
+    	LoggerOptionConverter::toBooleanEx('foo');
+    }
+    
+    public function testToInteger() {
+    	self::assertSame(1, LoggerOptionConverter::toInt('1', 0));
+    	self::assertSame(-11, LoggerOptionConverter::toInt('-11', 0));
+    	self::assertSame(-10, LoggerOptionConverter::toInt(null, -10));
+    	self::assertSame(-10, LoggerOptionConverter::toInt('', -10));
+    	self::assertSame(-10, LoggerOptionConverter::toInt('foo', -10));
+    	
+    	self::assertSame(1, LoggerOptionConverter::toIntegerEx('1'));
+    }
+    
+    /**
+    * Test fail on NULL.
+    * @expectedException LoggerException
+    * @expectedExceptionMessage Givan value [NULL] cannot be converted to integer.
+    */
+    public function testToIntegerFailure1() {
+    	LoggerOptionConverter::toIntegerEx(null);
+    }
+    
+    /**
+     * Test fail on empty string.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Givan value [''] cannot be converted to integer.
+     */
+    public function testToIntegerFailure2() {
+    	LoggerOptionConverter::toIntegerEx('');
+    }
+    
+    /**
+     * Test fail on invalid string.
+     * @expectedException LoggerException
+     * @expectedExceptionMessage Givan value ['foo'] cannot be converted to integer.
+     */
+    public function testToIntegerFailure3() {
+    	LoggerOptionConverter::toIntegerEx('foo');
+    }
     
     public function testSubstituteVars() {
     	$props['OTHER_CONSTANT'] = "OTHER";

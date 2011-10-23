@@ -32,7 +32,13 @@ class LoggerOptionConverter {
 	const DELIM_STOP = '}';
 	const DELIM_START_LEN = 2;
 	const DELIM_STOP_LEN = 1;
-
+	
+	/** String values which are converted to boolean TRUE. */
+	private static $trueValues = array('1', 'true', 'yes', 'on');
+	
+	/** String values which are converted to boolean FALSE. */
+	private static $falseValues = array('0', 'false', 'no', 'off');
+	
 	/**
 	 * Read a predefined var.
 	 *
@@ -89,6 +95,21 @@ class LoggerOptionConverter {
 		return $default;
 	}
 
+	/** Converts $value to boolean, or throws an exception if not possible. */
+	public static function toBooleanEx($value) {
+		if (isset($value)) {
+			$value = strtolower(trim($value));
+			if (in_array($value, self::$trueValues)) {
+				return true;
+			}
+			if (in_array($value, self::$falseValues)) {
+				return false;
+			}
+		}
+		
+		throw new LoggerException("Givan value [" . var_export($value, true) . "] cannot be converted to boolean.");
+	}
+	
 	/**
 	 * @param string $value
 	 * @param integer $default
@@ -101,6 +122,18 @@ class LoggerOptionConverter {
 		} else {
 			return $default;
 		}
+	}
+	
+	
+	/** Converts $value to integer, or throws an exception if not possible. */
+	public static function toIntegerEx($value) {
+		if (!empty($value)) {
+			if (is_numeric($value)) {
+				return (integer) $value;
+			}
+		}
+	
+		throw new LoggerException("Givan value [" . var_export($value, true) . "] cannot be converted to integer.");
 	}
 
 	/**
