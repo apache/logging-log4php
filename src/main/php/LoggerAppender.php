@@ -75,13 +75,10 @@ abstract class LoggerAppender {
 	 */
 	public function __construct($name = '') {
 		$this->name = $name;
-	}
-	
-	/**
-	 * Default destructor; closes the appender.
-	 */
-	public function __destruct() {
-		$this->close();
+		
+		// Closes the appender on shutdown. Better than a destructor because
+		// it will be called even if a fatal error occurs (destructor won't).
+		register_shutdown_function(array($this, 'close'));
 	}
 
 	/**
