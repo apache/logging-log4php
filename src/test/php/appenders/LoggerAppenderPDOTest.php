@@ -36,12 +36,12 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
             self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
         }
 
-        if (file_exists(self::file)) unlink(self::file);
+        if (file_exists(self::file)) @unlink(self::file);
     }
 
     /** Clean up after the last test was run. */
     public static function tearDownAfterClass() {
-        if (file_exists(self::file)) unlink(self::file);
+        if (file_exists(self::file)) @unlink(self::file);
     }
     
 	public function testRequiresLayout() {
