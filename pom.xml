@@ -150,7 +150,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
+				<version>1.7</version>
 				
 				<dependencies>
 					<!-- Replace Xalan XSLT engine with Saxon. Required for phpunit_to_surefire.xslt to work. -->
@@ -293,8 +293,7 @@
 				<version>3.0</version>
 				<configuration>
 
-					<!-- Override default rendering (only required to add a custom footer) -->
-					<!-- This can be removed once <footer> tag is supported in site.xml.  -->
+					<!-- Override default site template for achieveing a custom look. -->
 					<templateFile>${basedir}/src/site/site.vm</templateFile>
 
 					<!-- Configure additional reports on the site -->
