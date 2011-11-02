@@ -175,6 +175,12 @@
 		</exec>
 	</target>
 	
+	<!-- Copies google custom engine definition to site folder. -->
+	<target name="google-search">
+		<mkdir dir="target/site" />
+		<copy file="src/site/cse.xml" todir="target/site" />
+	</target>
+	
 	<!-- Performs unit testing (requires phpunit). -->
 	<target name="unit-testing">
 		<mkdir dir="${surefire.report}" />

@@ -189,10 +189,11 @@
 					</execution>
 
 					<execution>
-						<id>api-docs</id>
+						<id>pre-site</id>
 						<phase>pre-site</phase>
 						<configuration>
 							<target>
+								<ant target="google-search" />
 								<ant target="api-docs" />
 							</target>
 						</configuration>

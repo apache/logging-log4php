@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GoogleCustomizations>
+	<CustomSearchEngine id="2bsldg43-_4" creator="016746456102595360368" keywords="log4php PHP logging framework Apache logger appender" language="en" encoding="UTF-8">
+		<Title>Apache log4php</Title>
+		<Description>Engine for searching the Apache log4php web site.</Description>
+		<Context>
+			<BackgroundLabels>
+				<Label name="_cse_2bsldg43-_4" mode="FILTER" />
+				<Label name="_cse_exclude_2bsldg43-_4" mode="ELIMINATE" />
+			</BackgroundLabels>
+		</Context>
+		<LookAndFeel nonprofit="true" />
+		<AdSense />
+		<EnterpriseAccount />
+		<commerce_search_security_setting />
+		<autocomplete_settings />
+	</CustomSearchEngine>
+	<Annotations>
+		<!-- Include log4php web -->
+		<Annotation about="logging.apache.org/log4php*">
+			<Label name="_cse_2bsldg43-_4" />
+		</Annotation>
+		<!-- Exclude code coverage -->
+		<Annotation about="logging.apache.org/log4php/coverage-report*">
+			<Label name="_cse_exclude_2bsldg43-_4" />
+		</Annotation>
+		<!-- Exclude api docs -->
+		<Annotation about="logging.apache.org/log4php/apidocs*">
+			<Label name="_cse_exclude_2bsldg43-_4" />
+		</Annotation>
+	</Annotations>
+</GoogleCustomizations>

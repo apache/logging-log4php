@@ -511,6 +511,15 @@
         <div class="container-fluid">
           <a class="brand" href="$relativePath">$project.name</a>
           #links( $decoration.body.links )
+          <div class="pull-right">
+            <!-- Google CSE Search Box Begins  -->
+            <form id="cref" action="http://www.google.com/cse">
+              <input type="hidden" name="cref" value="$project.url/cse.xml" />
+              <input type="text" name="q" size="40" />
+              <input type="submit" name="sa" value="Search" />
+            </form>
+            <!-- Google CSE Search Box Ends -->
+          </div>
         </div>
       </div>
     </div>
@@ -553,7 +562,7 @@
     <div class="footer">
         <p>Copyright &#169;#copyright()All Rights Reserved.#publishDate( "bottom" $decoration.publishDate $decoration.version )
         Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>. 
-        Please read the <a href="$relativePath/privacy.html">Privacy policy</a></p>	
+        Please read the <a href="$relativePath/privacy.html">Privacy policy</a></p>
         <p>Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by 
         Maven logo are trademarks of The Apache Software Foundation.</p>
     </div>
