@@ -48,6 +48,12 @@
  */
 class LoggerLayoutHtml extends LoggerLayout {
 
+	
+	public function activateOptions() {
+		
+		
+	}
+	
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
 	 * default, it is set to false which means there will be no location
@@ -69,12 +75,6 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * @var string
 	 */
 	private $title = "Log4php Log Messages";
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-	}
 	
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
