@@ -206,20 +206,22 @@ class Logger {
 	 * Log a message object with the TRACE level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+ 	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function trace($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelTrace(), $message, $caller);
+	public function trace($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelTrace(), $message, $throwable);
 	} 		
 	
 	/**
 	 * Log a message object with the DEBUG level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+ 	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function debug($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelDebug(), $message, $caller);
+	public function debug($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelDebug(), $message, $throwable);
 	} 
 
 
@@ -227,40 +229,44 @@ class Logger {
 	 * Log a message object with the INFO Level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+ 	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function info($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelInfo(), $message, $caller);
+	public function info($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelInfo(), $message, $throwable);
 	}
 
 	/**
 	 * Log a message with the WARN level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+  	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function warn($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelWarn(), $message, $caller);
+	public function warn($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelWarn(), $message, $throwable);
 	}
 	
 	/**
 	 * Log a message object with the ERROR level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function error($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelError(), $message, $caller);
+	public function error($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelError(), $message, $throwable);
 	}
 	
 	/**
 	 * Log a message object with the FATAL level.
 	 *
 	 * @param mixed $message message
-	 * @param mixed $caller caller object or caller string id
+	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function fatal($message, $caller = null) {
-		$this->log(LoggerLevel::getLevelFatal(), $message, $caller);
+	public function fatal($message, $throwable = null) {
+		$this->log(LoggerLevel::getLevelFatal(), $message, $throwable);
 	}
 	
 	/**
@@ -272,12 +278,13 @@ class Logger {
 	 * wrappers.
 	 *
 	 * @param string $fqcn Fully qualified class name of the Logger
-	 * @param mixed $caller caller object or caller string id
+	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 * @param LoggerLevel $level log level	   
 	 * @param mixed $message message to log
 	 */
-	public function forcedLog($fqcn, $caller, $level, $message) {
-		$throwable = ($caller !== null && $caller instanceof Exception) ? $caller : null;
+	public function forcedLog($fqcn, $throwable, LoggerLevel $level, $message) {
+		$throwable = ($throwable !== null && $throwable instanceof Exception) ? $throwable : null;
 		
 		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable));
 	} 
@@ -297,7 +304,7 @@ class Logger {
 	 * @param LoggerLevel level
 	 * @return boolean
 	 */
-	public function isEnabledFor($level) {
+	public function isEnabledFor(LoggerLevel $level) {
 		return (bool)($level->isGreaterOrEqual($this->getEffectiveLevel()));
 	} 
 
@@ -312,13 +319,14 @@ class Logger {
 	/**
 	 * Log a message using the provided logging level.
 	 *
-	 * @param LoggerLevel $priority The logging level.
+	 * @param LoggerLevel $level The logging level.
 	 * @param mixed $message Message to log.
-	 * @param mixed $caller caller object or caller string id
+ 	 * @param Exception $throwable Optional throwable information to include 
+	 *   in the logging event.
 	 */
-	public function log($priority, $message, $caller = null) {
-		if($this->isEnabledFor($priority)) {
-			$this->forcedLog($this->fqcn, $caller, $priority, $message);
+	public function log(LoggerLevel $level, $message, $throwable = null) {
+		if($this->isEnabledFor($level)) {
+			$this->forcedLog($this->fqcn, $throwable, $level, $message);
 		}
 	}
 	
