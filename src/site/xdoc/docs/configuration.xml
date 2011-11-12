@@ -25,28 +25,58 @@
 	<body>
 		<section name="Configuration">
 
-			<p>Apache log4php can be configured either programatically or with a file containing the configuration 
-			parameters in one of the supported formats.</p>
-			
-			<p>The configuration should be provided by calling <code>Logger::configure()</code> method before any logging 
-			is done. Otherwise, the <a href="#Default_configuration">default configuration</a> will be used.</p>
+			<p>Most components of log4php have various settings which determing their behaviour. They can all be
+			configured programatically, but a much more common way is by providing the configuration options
+			in a file.</p>
+
+			<p>Log4php understands three configuration formats: XML, PHP and Properties, all of which are covered in 
+			more details in the following sections.</p>
+
+			<p>The configuration is passed to log4php by calling the static method <code>Logger::configure()</code>
+			before issuing any logging requests. In case log4php is not configured by the time a logging request is 
+			issued, log4php will configure itself using the <a href="#Default_configuration">default configuration</a>.</p>			
 			
 			<subsection name="XML" id="XML">
 			
 				<p>XML is the most common configuration format, and it is the most prominently featured in the 
 				documentation and examples.</p>
 				
+				<p>A simple configuration looks like this:</p>
 				
-			
+<pre class="prettyprint"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutTTCC" />
+        <param name="file" value="/var/log/my.log" />
+        <param name="append" value="true" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+				
+				<p>Detailed instructions on configuring each component is outlined in the corresponding compomnent's 
+				documentation: 
+				<a href="loggers.html">loggers</a>, 
+				<a href="appenders.html">appenders</a>, 
+				<a href="layouts.html">layouts</a>,  
+				<a href="filters.html">filters</a>, 
+				<a href="renderers.html">renderers</a> 
+				</p>
 			</subsection>
 			
 			<subsection name="PHP" id="PHP">
 			
-				<p>Configuration can also be stored in a PHP array. This is the format used internally by log4php. Other 
-				formats are converted to a PHP array before being used. Because of this, the PHP configuration format 
-				should be used when performance is important.</p>
+				<p>Configuration can also be stored in a PHP array. This is the format used internally by log4php. All 
+				other formats are converted to a PHP array before being used by the configurator. Because of this, the 
+				PHP configuration format should be used when performance is important since it will avoid the overhead
+				of parsing the ini or XML file.</p>
 				
-				<p>It is possible to pass an configuration array directly to <code>Logger::configure()</code>.</p>
+				<p>This format can be used in one of two ways:</p>
+				
+				<p>The configuration array can directly be passed to <code>Logger::configure()</code>.</p>
 
 <pre class="prettyprint">
 Logger::configure(array(
@@ -102,9 +132,10 @@ return array(
 				difference is that lines begin with <code>log4php</code> instead of <code>log4j</code>.</p>
 				
 				<div class="alert-message block-message warning">
-					<p>This format has been deprecated and will not be updated 
-				to include newly introduced features in the future. It is recommended that you use either the <a href="#XML">XML</a> or <a href="PHP">PHP</a> 
-				configuration format.</p></div>
+					<p>This format has been deprecated and will not be updated to include newly introduced features in 
+					the future. It is recommended that you use either the <a href="#XML">XML</a> or 
+					<a href="#PHP">PHP</a> configuration format.</p>
+				</div>
 				
 				<p>The properites configuration format does not support filters.</p>
 				
@@ -178,8 +209,17 @@ array(
 			
 			<subsection name="Programmatic configuration">
 				
-				<p>It is possible to configure log4php fully programmatically.</p>
-				
+				<p>It is possible to configure log4php fully programmatically. Here is an example:</p>
+
+<pre class="prettyprint">
+
+
+</pre>
+
+				<div class="alert-message block-message warn">
+					<p>Note that named loggers should always be created by calling Logger::getLogger('name'). This 
+					will create the logger if it doesn't already exist and place it in the logger hierarchy.</p>
+				</div>
 			</subsection>
 
 

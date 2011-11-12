@@ -41,7 +41,7 @@
 				consulted. If there are no remaining filters in the chain, the event is logged.</li>
 			</ol>
 			
-			<subsection name="Configuring">
+			<subsection name="Configuring filters" id="Configuring_filters">
 			
 				<p>Filters are configurable in the XML and PHP configuration format. They cannot be configured using
 				the properties configuration format.</p>
