@@ -235,21 +235,25 @@ class LoggerConfigurator
 		// TODO: add this check to other places where it might be useful
 		if (!is_array($config)) {
 			$type = gettype($config);
-			$this->warn("Invalid configuration provided for [$name] appender. Expected an array, found <$type>. Skipping appender definition.");
+			$this->warn("Invalid configuration provided for appender [$name]. Expected an array, found <$type>. Skipping appender definition.");
 			return;
 		}
 		
 		// Parse appender class
 		$class = $config['class'];
+		if (empty($class)) {
+			$this->warn("No class given for appender [$name]. Skipping appender definition.");
+			return;
+		}
 		if (!class_exists($class)) {
-			$this->warn("Class [$class] does not exist. Skipping appender [$name].");
+			$this->warn("Invalid class [$class] given for appender [$name]. Class does not exist. Skipping appender definition.");
 			return;
 		}
 		
 		// Instantiate the appender
 		$appender = new $class($name);
 		if (!($appender instanceof LoggerAppender)) {
-			$this->warn("[$class] is not a valid appender class. Skipping appender [$name].");
+			$this->warn("Invalid class [$class] given for appender [$name]. Not a valid LoggerAppender class. Skipping appender definition.");
 			return;
 		}
 		
@@ -294,6 +298,10 @@ class LoggerConfigurator
 	private function createAppenderLayout(LoggerAppender $appender, $config) {
 		$name = $appender->getName();
 		$class = $config['class'];
+		if (empty($class)) {
+			$this->warn("Layout class not specified for appender [$name]. Reverting to default layout.");
+			return;
+		}
 		if (!class_exists($class)) {
 			$this->warn("Nonexistant layout class [$class] specified for appender [$name]. Reverting to default layout.");
 			return;

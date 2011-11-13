@@ -96,7 +96,11 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	/** Parses an <appender> node. */
 	private function parseAppender(SimpleXMLElement $node) {
 		$name = $this->getAttributeValue($node, 'name');
-
+		if (empty($name)) {
+			$this->warn("An <appender> node is missing the required 'name' attribute. Skipping appender definition.");
+			return;
+		}
+		
 		$appender = array();
 		$appender['class'] = $this->getAttributeValue($node, 'class');
 		
@@ -136,7 +140,7 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 
 		foreach($paramsNode->param as $paramNode) {
 			if (empty($paramNode['name'])) {
-				$this->warn("Found parameter node without a name. Skipping parameter.");
+				$this->warn("A <param> node is missing the required 'name' attribute. Skipping parameter.");
 				continue;
 			}
 			
@@ -169,13 +173,11 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	private function parseLogger(SimpleXMLElement $node) {
 		$logger = array();
 		
-		// Check logger name exists (mandatory because it is used as the array key)
-		if (empty($node['name'])) {
-			$this->warn("Found logger without a 'name' attribute. All loggers must be named. Skipping.");
+		$name = $this->getAttributeValue($node, 'name');
+		if (empty($name)) {
+			$this->warn("A <logger> node is missing the required 'name' attribute. Skipping logger definition.");
 			return;
 		}
-		
-		$name = (string) $node['name'];
 		
 		if (isset($node->level)) {
 			$logger['level'] = $this->getAttributeValue($node->level, 'value');
@@ -232,8 +234,7 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	// ******************************************
 	
 	private function getAttributeValue(SimpleXMLElement $node, $name) {
-		$attrs = $node->attributes();
-		return isset($attrs[$name]) ? (string) $attrs[$name] : null;
+		return isset($node[$name]) ? (string) $node[$name] : null;
 	}
 	
 	private function warn($message) {
