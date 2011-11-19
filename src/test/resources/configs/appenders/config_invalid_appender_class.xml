@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php" threshold="debug">
+    <appender name="foo" class="stdClass"/>
+
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="default" />
+    </root>
+</configuration>

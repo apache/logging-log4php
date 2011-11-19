@@ -218,10 +218,42 @@ class LoggerConfigurator
 
 		// Configure renderers
 		if (isset($config['renderers']) && is_array($config['renderers'])) {
-			foreach($config['renderers'] as $renderer) {
-				$hierarchy->getRendererMap()->addRenderer($renderer['renderedClass'], $renderer['renderingClass']);
+			foreach($config['renderers'] as $rendererConfig) {
+				$this->configureRenderer($hierarchy, $rendererConfig);
 			}
 		}
+	}
+	
+	private function configureRenderer(LoggerHierarchy $hierarchy, $config) {
+		if (!isset($config['renderingClass'])) {
+			$this->warn("Rendering class not specified. Skipping renderers definition.");
+			return;			
+		}
+		
+		$renderingClass = $config['renderingClass'];
+		if (!class_exists($renderingClass)) {
+			$this->warn("Nonexistant rendering class [$renderingClass] specified. Skipping renderers definition.");
+			return;
+		}
+		
+		$renderingClassInstance = new $renderingClass();
+		if (!$renderingClassInstance instanceof LoggerRendererObject) {
+			$this->warn("Invalid class [$renderingClass] given. Not a valid LoggerRenderer class. Skipping renderers definition.");
+			return;			
+		}
+	
+		if (!isset($config['renderedClass'])) {
+			$this->warn("Rendered class not specified for rendering Class [$renderingClass]. Skipping renderers definition.");
+			return;			
+		}
+		
+		$renderedClass = $config['renderedClass'];
+		if (!class_exists($renderedClass)) {
+			$this->warn("Nonexistant rendered class [$renderedClass] specified for renderer [$renderingClass]. Skipping renderers definition.");
+			return;
+		}		
+
+		$hierarchy->getRendererMap()->addRenderer($renderedClass, $renderingClassInstance);
 	}
 	
 	/** 

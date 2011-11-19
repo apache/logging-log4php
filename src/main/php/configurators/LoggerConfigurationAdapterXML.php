@@ -74,12 +74,25 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		if (!file_exists($url)) {
 			throw new LoggerException("File [$url] does not exist.");
 		}
+
+		libxml_clear_errors();
+		$oldValue = libxml_use_internal_errors(true);
 		
 		// Load XML
-		$xml = simplexml_load_file($url);
+		$xml = @simplexml_load_file($url);
 		if ($xml === false) {
-			throw new LoggerException("Error loading confuguration file.");
+			
+			$errorStr = "";
+			foreach(libxml_get_errors() as $error) {
+				$errorStr .= $error->message;
+			}
+			
+			throw new LoggerException("Error loading configuration file: " . trim($errorStr));
 		}
+		
+		libxml_clear_errors();
+		libxml_use_internal_errors($oldValue);
+		
 		return $xml;
 	}
 	

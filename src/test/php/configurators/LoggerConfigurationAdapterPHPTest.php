@@ -40,7 +40,7 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
 	);
 	
 	public function testConfig() {
-		$url = dirname(__FILE__) . '/config1.php';
+		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_valid.php';
 		$adapter = new LoggerConfigurationAdapterPHP();
 		$actual = $adapter->convert($url);
 		
@@ -63,7 +63,7 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Error parsing configuration: syntax error
 	 */
 	public function testInvalidFileWarning() {
-		$url = dirname(__FILE__) . '/config2.php';
+		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_invalid_syntax.php';
 		$adapter = new LoggerConfigurationAdapterPHP();
 		$adapter->convert($url);
 	}
@@ -74,7 +74,7 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Invalid configuration: empty configuration array.
 	 */
 	public function testEmptyConfigWarning() {
-		$url = dirname(__FILE__) . '/config3.php';
+		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_empty.php';
 		$adapter = new LoggerConfigurationAdapterPHP();
 		$adapter->convert($url);
 	}
@@ -85,12 +85,10 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Invalid configuration: not an array.
 	 */
 	public function testInvalidConfigWarning() {
-		$url = dirname(__FILE__) . '/config4.php';
+		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_not_an_array.php';
 		$adapter = new LoggerConfigurationAdapterPHP();
 		$adapter->convert($url);
 	}
-
-
 }
 
 ?>

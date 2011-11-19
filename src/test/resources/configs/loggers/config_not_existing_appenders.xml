@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php" threshold="debug">
+    <logger name="myLogger">
+        <level value="warn" />
+        <appender_ref ref="unknownAppender" />
+    </logger>
+</configuration>

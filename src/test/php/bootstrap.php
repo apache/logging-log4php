@@ -33,5 +33,9 @@ if (!is_dir($tmpDir)) {
 }
 define('PHPUNIT_TEMP_DIR', realpath($tmpDir));
 
+// Make the path to the configurations dir for easier access
+$confDir = dirname(__FILE__) . '/../resources/configs';
+define('PHPUNIT_CONFIG_DIR', realpath($confDir));
+
 require dirname(__FILE__) . '/../../main/php/Logger.php';
 

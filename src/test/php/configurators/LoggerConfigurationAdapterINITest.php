@@ -81,7 +81,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 	);	
 	
 	public function testConfig() {
-		$url = dirname(__FILE__) . '/config1.ini';
+		$url = PHPUNIT_CONFIG_DIR . '/adapters/ini/config_valid.ini';
 		$adapter = new LoggerConfigurationAdapterINI();
 		$actual = $adapter->convert($url);
 	
@@ -104,7 +104,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Error parsing configuration file: syntax error
 	 */
 	public function testInvalidFileException() {
-		$url =  dirname(__FILE__) . '/config2.ini';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/ini/config_invalid_syntax.ini';
 		$adapter = new LoggerConfigurationAdapterINI();
 		$adapter->convert($url);
 	}
@@ -115,7 +115,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage log4php: Don't know how to parse the following line: "log4php.appender.default.layout.param.bla = LoggerLayoutTTCC". Skipping.
 	 */
 	public function testInvalidLineWarning1() {
-		$url =  dirname(__FILE__) . '/config3.ini';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/ini/config_invalid_appender_declaration_1.ini';
 		$adapter = new LoggerConfigurationAdapterINI();
 		$adapter->convert($url);
 	}
@@ -126,7 +126,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage log4php: Don't know how to parse the following line: "log4php.appender.default.not-layout.param = LoggerLayoutTTCC". Skipping.
 	 */
 	public function testInvalidLineWarning2() {
-		$url =  dirname(__FILE__) . '/config4.ini';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/ini/config_invalid_appender_declaration_2.ini';
 		$adapter = new LoggerConfigurationAdapterINI();
 		$adapter->convert($url);
 	}

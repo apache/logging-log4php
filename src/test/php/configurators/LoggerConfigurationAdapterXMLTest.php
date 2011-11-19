@@ -103,7 +103,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testConversion() {
-		$url =  dirname(__FILE__) . '/config1.xml';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid.xml';
 		$adapter = new LoggerConfigurationAdapterXML();
 		$actual = $adapter->convert($url);
 		$this->assertEquals($this->expected1, $actual);
@@ -121,14 +121,13 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Test exception is thrown when file contains invalid XML.
-	 * @ expectedException LoggerException
-	 * @ expectedExceptionMessage Cannot load config file
+	 * @expectedException LoggerException
+	 * @expectedExceptionMessage Error loading configuration file: Premature end of data in tag configuration line 2
 	 */
 	public function testInvalidXMLFile() {
-		// TODO: fix error reporting for XML files
-		//$url =  dirname(__FILE__) . '/config4.xml';
-		//$adapter = new LoggerConfigurationAdapterXML();
-		//$adapter->convert($url);
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_invalid_syntax.xml';
+		$adapter = new LoggerConfigurationAdapterXML();
+		$adapter->convert($url);
 	}
 	
 	/**
@@ -138,7 +137,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
  	 * @expectedExceptionMessage log4php: Duplicate logger definition [foo]. Overwriting
 	 */
 	public function testDuplicateLoggerWarning() {
-		$url =  dirname(__FILE__) . '/config3.xml';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
 		$adapter = new LoggerConfigurationAdapterXML();
 		$adapter->convert($url);
 	}
@@ -149,7 +148,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 	 * one will overwrite the first.
 	 */
 	public function testDuplicateLoggerConfig() {
-		$url =  dirname(__FILE__) . '/config3.xml';
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
 		$adapter = new LoggerConfigurationAdapterXML();
 		
 		// Supress the warning so that test can continue 

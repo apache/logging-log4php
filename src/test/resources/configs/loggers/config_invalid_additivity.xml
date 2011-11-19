@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php" threshold="debug">
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutTTCC"/>
+    </appender>
+    <logger name="myLogger" additivity="4711">
+        <level value="warn" />
+        <appender_ref ref="default" />
+    </logger>
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="default" />
+    </root>
+</configuration>
