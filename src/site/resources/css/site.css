@@ -72,7 +72,10 @@ a.newWindow {
 .well {
 	padding: 10px;
 }
-.sidebar {
+
+.container-fluid > .sidebar {
+	float: left;
+	position: static;
 	font-size: 11px;
 }
 .sidebar h5 {
