@@ -107,6 +107,7 @@
 	<!-- Performs a syntax check on all PHP files (phplint). -->
 	<target name="syntax-check">
 		<apply executable="php">
+			<arg value="-n" />
 			<arg value="-l" />
 			<fileset dir="." includes="src/**/*.php" />
 		</apply>
