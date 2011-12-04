@@ -146,4 +146,28 @@ class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
 		$nullfilter = $appender->getFilter();
 		self::assertNull($nullfilter);
     }
+    
+    public function testInstanciateWithLayout() {
+    	$appender = new LoggerAppenderEcho("LoggerAppenderTest");
+    	
+    	$expected = "LoggerLayoutSimple";
+    	$actual = $appender->getLayout();
+    	$this->assertInstanceof($expected, $actual);
+    }
+    
+    public function testOverwriteLayout() {
+    	$layout = new LoggerLayoutSimple();
+    	$appender = new LoggerAppenderEcho("LoggerAppenderTest");
+    	$appender->setLayout($layout);    	
+    	
+    	$actual = $appender->getLayout();
+    	$this->assertEquals($layout, $actual);
+    }
+
+    public function testRequiresNoLayout() {
+    	$appender = new LoggerAppenderNull("LoggerAppenderTest");
+		
+    	$actual = $appender->getLayout();
+    	$this->assertNull($actual);
+    }    
 }

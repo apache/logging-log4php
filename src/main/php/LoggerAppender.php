@@ -79,8 +79,23 @@ abstract class LoggerAppender {
 		// Closes the appender on shutdown. Better than a destructor because
 		// it will be called even if a fatal error occurs (destructor won't).
 		register_shutdown_function(array($this, 'close'));
+		
+		if ($this->requiresLayout) {
+			$this->layout = $this->getDefaultLayout();
+		}
 	}
-
+	
+	/**
+	 * Returns the default layout for this appender. Can be overriden by 
+	 * derived appenders.
+	 * 
+	 * @return LoggerLayout
+	 */
+	public function getDefaultLayout()
+	{
+		return new LoggerLayoutSimple();
+	}
+	
 	/**
 	 * Adds a filter to the end of the filter chain.
 	 * @param LoggerFilter $filter add a new LoggerFilter
