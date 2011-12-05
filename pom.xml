@@ -21,7 +21,7 @@
 	<packaging>pom</packaging>
 	<version>2.1.1-SNAPSHOT</version>
 	<name>Apache log4php</name>
-	<description>Logging framework for PHP</description>
+	<description>A versatile logging framework for PHP</description>
 	<url>http://logging.apache.org/log4php</url>
 	
 	<issueManagement>
@@ -82,33 +82,39 @@
 			<email>alvero at apache.org</email>
 		</developer>
 		<developer>
-			<name>Knut Urdalen</name>
-			<email>kurdalen at apache.org</email>
-		</developer>
-		<developer>
 			<name>Christian Grobmeier</name>
 			<email>grobmeier at apache.org</email>
 		</developer>
 		<developer>
-			<name>Gavin McDonald </name>
-			<email>gmcdonald at apache.org</email>
+			<name>Ivan Habunek</name>
+			<email>ihabunek at apache.org</email>
 		</developer>
 		<developer>
 			<name>Christian Hammers</name>
 			<email>chammers at apache.org</email>
 		</developer>
 		<developer>
-			<name>Ivan Habunek</name>
-			<email>ihabunek at apache.org</email>
+			<name>Gavin McDonald </name>
+			<email>gmcdonald at apache.org</email>
+		</developer>
+		<developer>
+			<name>Knut Urdalen</name>
+			<email>kurdalen at apache.org</email>
 		</developer>
 	</developers>
 	
 	<contributors>
 		<contributor>
+			<name>Abel Gonzalez</name>
+		</contributor>
+		<contributor>
 			<name>Vladimir Gorej</name>
 		</contributor>
 		<contributor>
-			<name>Moritz Schmidt</name>
+			<name>Ilker Kiris</name>
+		</contributor>
+		<contributor>
+			<name>Domenico Lordi</name>
 		</contributor>
 		<contributor>
 			<name>Tommy Montgomery</name>
@@ -117,19 +123,16 @@
 			<name>Florian Platzer</name>
 		</contributor>
 		<contributor>
-			<name>Marco Vassura</name>
+			<name>Moritz Schmidt</name>
+		</contributor>
+		<contributor>
+			<name>Florian Semm</name>
 		</contributor>
 		<contributor>
 			<name>Sergio Strampelli</name>
 		</contributor>
 		<contributor>
-			<name>Abel Gonzalez</name>
-		</contributor>
-		<contributor>
-			<name>Domenico Lordi</name>
-		</contributor>
-		<contributor>
-			<name>Ilker Kiris</name>
+			<name>Marco Vassura</name>
 		</contributor>
 		<contributor>
 			<name>Blake Watters</name>
