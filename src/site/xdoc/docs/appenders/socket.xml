@@ -25,9 +25,11 @@
 	<body>
 		<section name="LoggerAppenderSocket">
 		
-			<p><code>LoggerAppenderSocket</code> serializes log events and sends them to a network socket.</p>
+			<p><code>LoggerAppenderSocket</code> appends to a network socket.</p>
 			
-			<p>This appender does not require a layout.</p>
+			<p>Unlike most other appenders, the default layout for this appender is <code>LoggerLayoutSerialized</code>.</p>
+			
+			<p>Prior to version <code>2.2</code>, a layout was not required.</p>
 			
 			<subsection name="Options">
 				<p>The following options are available:</p>
@@ -63,41 +65,16 @@
 							<td>timeout</td>
 							<td>integer</td>
 							<td>No</td>
-							<td>30</td>
+							<td><code>ini_get('default_socket_timeout')</code></td>
 							<td>Timeout in ms.</td>
-						</tr>
-						<tr>
-							<td>useXml</td>
-							<td>boolean</td>
-							<td>No</td>
-							<td>false</td>
-							<td>If set to <em>true</em> the appender will sent the event formatted in XML. Otherwise, 
-							the appender will send the event as a serialized PHP object.</td>
-						</tr>
-						<tr>
-							<td>locationInfo</td>
-							<td>boolean</td>
-							<td>No</td>
-							<td>false</td>
-							<td>Whether location info is included for the XML event format. Ignored if XML format is not used.</td>
-						</tr>
-						<tr>
-							<td>log4jNamespace</td>
-							<td>boolean</td>
-							<td>No</td>
-							<td>false</td>
-							<td>In XML format, <code>log4php</code> namespace is used by default. If set to true, 
-							<code>log4j</code> namespace will be used instead.</td>
 						</tr>
 					</tbody>
 				</table>
-				
 			</subsection>
 				
 			<subsection name="Examples">
 				
-				<p>In this example, log events are sent to localhost:4242, using the serialized format. The host 
-				will recieve a serialized LoggerLoggingEvent object.</p>
+				<p>In this example, log events are sent to localhost:4242, using the default (serialized) layout.</p>
 				
 				<p>XML configuration:</p>
 					
