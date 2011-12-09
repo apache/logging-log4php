@@ -122,7 +122,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test exception is thrown when file contains invalid XML.
 	 * @expectedException LoggerException
-	 * @expectedExceptionMessage Error loading configuration file: Premature end of data in tag configuration line 2
+	 * @expectedExceptionMessage Error loading configuration file: Premature end of data in tag configuration line
 	 */
 	public function testInvalidXMLFile() {
 		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_invalid_syntax.xml';
