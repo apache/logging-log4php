@@ -276,4 +276,153 @@
  		$expected = "INFO - info" . PHP_EOL . "message: info" . PHP_EOL;
   		$this->assertSame($expected, $actual);
  	}
+ 	
+  	public function testThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'threshold' => 'WARN',
+ 			'rootLogger' => array(
+ 				'appenders' => array('default')
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 				),
+ 			) 
+ 		));
+ 		
+ 		$actual = Logger::getHierarchy()->getThreshold();
+ 		$expected = LoggerLevel::getLevelWarn();
+ 		
+ 		self::assertSame($expected, $actual);
+ 	}
+ 	
+ 	/**
+ 	* @expectedException PHPUnit_Framework_Error
+ 	* @expectedExceptionMessage Invalid threshold value [FOO] specified. Ignoring threshold definition.
+ 	*/
+  	public function testInvalidThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'threshold' => 'FOO',
+ 			'rootLogger' => array(
+ 				'appenders' => array('default')
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 				),
+ 			) 
+ 		));
+ 	}
+ 	
+ 	public function testAppenderThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'rootLogger' => array(
+ 				'appenders' => array('default')
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 					'threshold' => 'INFO'
+ 				),
+ 			) 
+ 		));
+ 		
+ 		$actual = Logger::getRootLogger()->getAppender('default')->getThreshold();
+ 		$expected = LoggerLevel::getLevelInfo();
+
+ 		self::assertSame($expected, $actual);
+ 	}
+ 	
+ 	/**
+ 	 * @expectedException PHPUnit_Framework_Error
+ 	 * @expectedExceptionMessage Invalid threshold value [FOO] specified for appender [default]. Ignoring threshold definition.
+ 	 */
+ 	public function testAppenderInvalidThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'rootLogger' => array(
+ 				'appenders' => array('default')
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 					'threshold' => 'FOO'
+ 				),
+ 			) 
+ 		));
+ 	}
+ 	
+ 	public function testLoggerThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'rootLogger' => array(
+ 				'appenders' => array('default'),
+ 				'level' => 'ERROR'
+ 			),
+ 			'loggers' => array(
+ 				'default' => array(
+ 					'appenders' => array('default'),
+ 		 			'level' => 'WARN'
+ 				)
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 				),
+ 			) 
+ 		));
+ 		
+ 		// Check root logger
+ 		$actual = Logger::getRootLogger()->getLevel();
+ 		$expected = LoggerLevel::getLevelError();
+ 		self::assertSame($expected, $actual);
+ 		
+ 		// Check default logger
+ 		$actual = Logger::getLogger('default')->getLevel();
+ 		$expected = LoggerLevel::getLevelWarn();
+ 		self::assertSame($expected, $actual);
+ 	}
+ 	
+ 	/**
+ 	 * @expectedException PHPUnit_Framework_Error
+ 	 * @expectedExceptionMessage Invalid level value [FOO] specified for logger [default]. Ignoring level definition.
+ 	 */
+ 	public function testInvalidLoggerThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'loggers' => array(
+ 				'default' => array(
+ 					'appenders' => array('default'),
+ 		 			'level' => 'FOO'
+ 				)
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 				),
+ 			) 
+ 		));
+ 	}
+ 	
+ 	/**
+ 	 * @expectedException PHPUnit_Framework_Error
+ 	 * @expectedExceptionMessage Invalid level value [FOO] specified for logger [root]. Ignoring level definition.
+ 	 */
+  	public function testInvalidRootLoggerThreshold()
+ 	{
+ 		Logger::configure(array(
+ 			'rootLogger' => array(
+ 				'appenders' => array('default'),
+ 				'level' => 'FOO'
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 				),
+ 			) 
+ 		));
+ 	}
  }

@@ -193,7 +193,7 @@ class LoggerConfigurator
 			if (isset($threshold)) {
 				$hierarchy->setThreshold($threshold);
 			} else {
-				$this->warn("Invalid threshold {$config['threshold']} specified.");
+				$this->warn("Invalid threshold value [{$config['threshold']}] specified. Ignoring threshold definition.");
 			}
 		}
 		
@@ -295,8 +295,7 @@ class LoggerConfigurator
 			if ($threshold instanceof LoggerLevel) {
 				$appender->setThreshold($threshold);
 			} else {
-				$default = $appender->getThreshold();
-				$this->warn("Invalid threshold value [{$config['threshold']}] specified for appender [$name]. Reverting to default value [$default].");
+				$this->warn("Invalid threshold value [{$config['threshold']}] specified for appender [$name]. Ignoring threshold definition.");
 			}
 		}
 		
@@ -416,7 +415,7 @@ class LoggerConfigurator
 				$logger->setLevel($level);
 			} else {
 				$default = $logger->getLevel();
-				$this->warn("Invalid logger level [{$config['level']}] specified for logger [$loggerName].");
+				$this->warn("Invalid level value [{$config['level']}] specified for logger [$loggerName]. Ignoring level definition.");
 			}
 		}
 		
@@ -437,7 +436,7 @@ class LoggerConfigurator
 			if (is_bool($additivity)) {
 				$logger->setAdditivity($additivity);
 			} else {
-				$this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName].");
+				$this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName]. Ignoring additivity setting.");
 			}
 		}
 	}

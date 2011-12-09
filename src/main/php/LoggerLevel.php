@@ -228,40 +228,37 @@ class LoggerLevel {
 	}
 
 	/**
-	 * Convert the string passed as argument to a level. If the
-	 * conversion fails, then this method returns a DEBUG Level.
+	 * Convert the input argument to a level. If the conversion fails, then 
+	 * this method returns the provided default level.
 	 *
-	 * @param mixed $arg
-	 * @param LoggerLevel $default
+	 * @param mixed $arg The value to convert to level.
+	 * @param LoggerLevel $default Value to return if conversion is not possible.
+	 * @return LoggerLevel 
 	 */
 	public static function toLevel($arg, $defaultLevel = null) {
-		if($defaultLevel === null) {
-			return self::toLevel($arg, self::getLevelDebug());
+		if(is_int($arg)) {
+			switch($arg) {
+				case self::ALL:	return self::getLevelAll();
+				case self::TRACE: return self::getLevelTrace();
+				case self::DEBUG: return self::getLevelDebug();
+				case self::INFO: return self::getLevelInfo();
+				case self::WARN: return self::getLevelWarn();
+				case self::ERROR: return self::getLevelError();
+				case self::FATAL: return self::getLevelFatal();
+				case self::OFF:	return self::getLevelOff();
+				default: return $defaultLevel;
+			}
 		} else {
-			if(is_int($arg)) {
-				switch($arg) {
-					case self::ALL:	return self::getLevelAll();
-					case self::TRACE: return self::getLevelTrace();
-					case self::DEBUG: return self::getLevelDebug();
-					case self::INFO: return self::getLevelInfo();
-					case self::WARN: return self::getLevelWarn();
-					case self::ERROR: return self::getLevelError();
-					case self::FATAL: return self::getLevelFatal();
-					case self::OFF:	return self::getLevelOff();
-					default: return $defaultLevel;
-				}
-			} else {
-				switch(strtoupper($arg)) {
-					case 'ALL':	return self::getLevelAll();
-					case 'TRACE': return self::getLevelTrace();
-					case 'DEBUG': return self::getLevelDebug();
-					case 'INFO': return self::getLevelInfo();
-					case 'WARN': return self::getLevelWarn();
-					case 'ERROR': return self::getLevelError();
-					case 'FATAL': return self::getLevelFatal();
-					case 'OFF':	return self::getLevelOff();
-					default: return $defaultLevel;
-				}
+			switch(strtoupper($arg)) {
+				case 'ALL':	return self::getLevelAll();
+				case 'TRACE': return self::getLevelTrace();
+				case 'DEBUG': return self::getLevelDebug();
+				case 'INFO': return self::getLevelInfo();
+				case 'WARN': return self::getLevelWarn();
+				case 'ERROR': return self::getLevelError();
+				case 'FATAL': return self::getLevelFatal();
+				case 'OFF':	return self::getLevelOff();
+				default: return $defaultLevel;
 			}
 		}
 	}

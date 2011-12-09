@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 	    <release version="2.2.0" date="SVN">
+	    	<action date="2011-12-09" type="fix" issue="LOG4PHP-162" dev="Ivan Habunek">Warning for invalid appender threshold level never called.</action>
 	    	<action date="2011-12-08" type="fix" issue="LOG4PHP-114" dev="Ivan Habunek">Order of params in LoggerAppenderDailyFile configuration is significant.</action>
 	    	<action date="2011-12-08" type="update" issue="LOG4PHP-154" dev="Ivan Habunek">Rewritten LoggerAppenderSocket to use a layout.</action>
 	    	<action date="2011-12-04" type="add" issue="LOG4PHP-160" dev="Ivan Habunek" due-to="Florian Semm" due-to-email="florian dot semm at gmx dot de">Appeneders should use a default layout is no layout is specified in configuration</action>
