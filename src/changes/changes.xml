@@ -27,10 +27,14 @@
 	    	<action date="2011-12-04" type="add" issue="LOG4PHP-160" dev="Ivan Habunek" due-to="Florian Semm" due-to-email="florian dot semm at gmx dot de">Appeneders should use a default layout is no layout is specified in configuration</action>
 	    	<action date="2011-10-23" type="add" issue="LOG4PHP-155" dev="Ivan Habunek">Created a new layout LoggerLayoutSerialized which formats events as serialized objects.</action>
 	    	<action date="2011-10-23" type="fix" issue="LOG4PHP-159" dev="Ivan Habunek" due-to="Justin Cherniak" due-to-email="justin dot cherniak at gmail dot com">Appenders do not close gracefully if a fatal error occurs.</action>
+	    	<action date="2011-10-15" type="fix" issue="LOG4PHP-101" dev="Ivan Habunek">Wrong order in configuration breaks logging.</action>
 	    	<action date="2011-10-15" type="update" issue="LOG4PHP-152" dev="Ivan Habunek">A rewrite of the configurator.</action>
+			<action date="2011-09-11" type="fix" issue="LOG4PHP-147" dev="Ivan Habunek">Bugs during HipHop build</action>
+			<action date="2011-09-07" type="update" issue="LOG4PHP-151" dev="Ivan Habunek">Move common appender methods to parent class</action>
 	    	<action date="2011-09-03" type="fix" issue="LOG4PHP-145" dev="Ivan Habunek">The syslog appender does not correctly parse options</action>
 	    	<action date="2011-08-31" type="remove" issue="LOG4PHP-149" dev="Ivan Habunek">Remove deprecated appender LoggerAppenderAdodb</action>
 	    	<action date="2011-08-31" type="fix" issue="LOG4PHP-148" dev="Ivan Habunek">LoggerUserFieldPatternConverter class missing in log4php archive</action>
+	    	<action date="2011-08-18" type="update" issue="LOG4PHP-137" dev="Ivan Habunek">Improve pear build.</action>
 	        <action date="2011-07-14" type="fix" issue="LOG4PHP-143" dev="Ivan Habunek" due-to="Justin Cherniak" due-to-email="justin dot cherniak at gmail dot com">LoggerConfiguratorPhp does not accept integer constants for appender threshold</action>
 	    </release>
 	    <release version="2.1.0" date="2011-07-13" description="Stabilizing">
