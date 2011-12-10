@@ -272,6 +272,14 @@ class LoggerLoggingEvent {
 	public function getMDC($key) {
 		return LoggerMDC::get($key);
 	}
+	
+	/**
+	 * Returns the entire MDC context.
+	 * @return array
+	 */
+	public function getMDCMap () {
+		return LoggerMDC::getMap();
+	}
 
 	/**
 	 * Render message.

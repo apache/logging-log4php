@@ -52,13 +52,29 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	 */
 	private $patternServer = "%-5p %c: %X{server.PHP_SELF} %m";
 	
-
+	protected function setUp() {
+		LoggerMDC::clear();
+	}
+	
+	protected function tearDown() {
+		LoggerMDC::clear();
+	}
+	
 	public function testPatterns() {
 
 		// Create some data to test with
 		LoggerMDC::put('key1', 'valueofkey1');
 		LoggerMDC::put('key2', 'valueofkey2');
 		LoggerMDC::put(3, 'valueofkey3');
+		
+		$expected = array(
+			'key1' => 'valueofkey1',
+			'key2' => 'valueofkey2',
+			3 => 'valueofkey3',
+		);
+		$actual = LoggerMDC::getMap();
+		
+		self::assertSame($expected, $actual);
 		
 		$event = new LoggerLoggingEvent("LoggerLayoutPattern", new Logger("TEST"), LoggerLevel::getLevelInfo(), "Test message");
 

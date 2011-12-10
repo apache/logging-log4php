@@ -19,7 +19,7 @@
  * @package    log4php
  * @subpackage appenders
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version    SVN: $Id$
+ * @version    $Revision$
  * @link       http://logging.apache.org/log4php
  */
 
@@ -27,55 +27,122 @@
  * @group layouts
  */
 class LoggerLayoutXmlTest extends PHPUnit_Framework_TestCase {
-        
-	public function testErrorLayout() {
-		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-
-		$layout = new LoggerLayoutXml();
-		$v = $layout->format($event);
-
-		$e = "<log4php:event logger=\"TEST\" level=\"ERROR\" thread=\"".$event->getThreadName().
-			"\" timestamp=\"".number_format((float)($event->getTimeStamp() * 1000), 0, '', '')."\">".PHP_EOL.
-			"<log4php:message><![CDATA[testmessage]]></log4php:message>".PHP_EOL.
-			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
-			"method=\"getLocationInformation\" />".PHP_EOL.
-			"</log4php:event>".PHP_EOL . PHP_EOL;
-
-		self::assertEquals($v, $e);
-    }
-    
-    public function testWarnLayout() {
-		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelWarn(), "testmessage");
-
-		$layout = new LoggerLayoutXml();
-		$v = $layout->format($event);
-
-		$e = "<log4php:event logger=\"TEST\" level=\"WARN\" thread=\"".$event->getThreadName().
-			"\" timestamp=\"".number_format((float)($event->getTimeStamp() * 1000), 0, '', '')."\">".PHP_EOL.
-			"<log4php:message><![CDATA[testmessage]]></log4php:message>".PHP_EOL.
-			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
-			"method=\"getLocationInformation\" />".PHP_EOL.
-			"</log4php:event>".PHP_EOL . PHP_EOL;
 		
-		self::assertEquals($v, $e);
-    }
-    
-    public function testLog4JNamespaceErrorLayout() {
-		$event = new LoggerLoggingEvent("LoggerLayoutXml", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+	public function testErrorLayout() {
+		$event = LoggerTestHelper::getErrorEvent("testmessage");
+
+		$layout = new LoggerLayoutXml();
+		$layout->activateOptions();
+		
+		$actual = $layout->format($event);
+
+		$thread = $event->getThreadName();
+		$timestamp = number_format(($event->getTimeStamp() * 1000), 0, '', '');
+		
+		$expected = "<log4php:event logger=\"test\" level=\"ERROR\" thread=\"$thread\" timestamp=\"$timestamp\">" . PHP_EOL . 
+			"<log4php:message><![CDATA[testmessage]]></log4php:message>" . PHP_EOL . 
+			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " . 
+			"method=\"getLocationInformation\" />" . PHP_EOL . 
+			"</log4php:event>" . PHP_EOL;
+
+		self::assertEquals($expected, $actual);
+	}
+	
+	public function testWarnLayout() {
+		$event = LoggerTestHelper::getWarnEvent("testmessage");
+
+		$layout = new LoggerLayoutXml();
+		$layout->activateOptions();
+		
+		$actual = $layout->format($event);
+
+		$thread = $event->getThreadName();
+		$timestamp = number_format(($event->getTimeStamp() * 1000), 0, '', '');
+		
+		$expected = "<log4php:event logger=\"test\" level=\"WARN\" thread=\"$thread\" timestamp=\"$timestamp\">" . PHP_EOL . 
+			"<log4php:message><![CDATA[testmessage]]></log4php:message>" . PHP_EOL . 
+			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" "  . 
+			"method=\"getLocationInformation\" />" . PHP_EOL . 
+			"</log4php:event>" . PHP_EOL;
+		
+		self::assertEquals($expected, $actual);
+	}
+	
+	public function testLog4JNamespaceErrorLayout() {
+		$event = LoggerTestHelper::getErrorEvent("testmessage");
 
 		$layout = new LoggerLayoutXml();
 		$layout->setLog4jNamespace(true);
 		$layout->activateOptions();
 		
-		$v = $layout->format($event);
+		$actual = $layout->format($event);
 
-		$e = "<log4j:event logger=\"TEST\" level=\"ERROR\" thread=\"".$event->getThreadName().
-			"\" timestamp=\"".number_format((float)($event->getTimeStamp() * 1000), 0, '', '')."\">".PHP_EOL.
-			"<log4j:message><![CDATA[testmessage]]></log4j:message>".PHP_EOL.
-			"<log4j:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" " .
-			"method=\"getLocationInformation\" />".PHP_EOL.
-			"</log4j:event>".PHP_EOL . PHP_EOL;
+		$thread = $event->getThreadName();
+		$timestamp = number_format(($event->getTimeStamp() * 1000), 0, '', '');
+		
+		$expected = "<log4j:event logger=\"test\" level=\"ERROR\" thread=\"$thread\" timestamp=\"$timestamp\">" . PHP_EOL . 
+			"<log4j:message><![CDATA[testmessage]]></log4j:message>" . PHP_EOL . 
+			"<log4j:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" "  . 
+			"method=\"getLocationInformation\" />" . PHP_EOL . 
+			"</log4j:event>" . PHP_EOL;
 
-		self::assertEquals($v, $e);
-    }
+		self::assertEquals($expected, $actual);
+	}
+	
+	public function testNDC()
+	{
+		LoggerNDC::push('foo');
+		LoggerNDC::push('bar');
+		
+		$event = LoggerTestHelper::getErrorEvent("testmessage");
+		
+		$layout = new LoggerLayoutXml();
+		$layout->activateOptions();
+		
+		$actual = $layout->format($event);
+
+		$thread = $event->getThreadName();
+		$timestamp = number_format(($event->getTimeStamp() * 1000), 0, '', '');
+		
+		$expected = "<log4php:event logger=\"test\" level=\"ERROR\" thread=\"$thread\" timestamp=\"$timestamp\">" . PHP_EOL . 
+			"<log4php:message><![CDATA[testmessage]]></log4php:message>" . PHP_EOL . 
+			"<log4php:NDC><![CDATA[<![CDATA[foo bar]]>]]></log4php:NDC>"  .  PHP_EOL  . 
+			"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" "  . 
+			"method=\"getLocationInformation\" />" . PHP_EOL . 
+			"</log4php:event>" . PHP_EOL;
+		
+		self::assertEquals($expected, $actual);
+		
+		LoggerNDC::clear();
+	}
+	
+	public function testMDC()
+	{
+		LoggerMDC::put('foo', 'bar');
+		LoggerMDC::put('bla', 'tra');
+	
+		$event = LoggerTestHelper::getErrorEvent("testmessage");
+	
+		$layout = new LoggerLayoutXml();
+		$layout->activateOptions();
+	
+		$actual = $layout->format($event);
+	
+		$thread = $event->getThreadName();
+		$timestamp = number_format(($event->getTimeStamp() * 1000), 0, '', '');
+		
+		$expected = "<log4php:event logger=\"test\" level=\"ERROR\" thread=\"$thread\" timestamp=\"$timestamp\">" . PHP_EOL .
+				"<log4php:message><![CDATA[testmessage]]></log4php:message>" . PHP_EOL . 
+				"<log4php:properties>" . PHP_EOL . 
+				"<log4php:data name=\"foo\" value=\"bar\" />" . PHP_EOL . 
+				"<log4php:data name=\"bla\" value=\"tra\" />" . PHP_EOL . 
+				"</log4php:properties>" . PHP_EOL . 
+				"<log4php:locationInfo class=\"LoggerLoggingEvent\" file=\"NA\" line=\"NA\" "  . 
+				"method=\"getLocationInformation\" />" . PHP_EOL . 
+				"</log4php:event>" . PHP_EOL;
+	
+		self::assertEquals($expected, $actual);
+	
+		LoggerMDC::clear();
+	}
 }
