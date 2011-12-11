@@ -59,16 +59,16 @@
 			<item name="Loggers" href="/docs/loggers.html" />
 			<item name="Appenders" href="/docs/appenders.html" collapse="true">
 				<item name="LoggerAppenderConsole" href="/docs/appenders/console.html" />
+				<item name="LoggerAppenderDailyFile" href="/docs/appenders/daily-file.html" />
 				<item name="LoggerAppenderEcho" href="/docs/appenders/echo.html" />
 				<item name="LoggerAppenderFile" href="/docs/appenders/file.html" />
-				<item name="LoggerAppenderDailyFile" href="/docs/appenders/daily-file.html" />
-				<item name="LoggerAppenderRollingFile" href="/docs/appenders/rolling-file.html" />
 				<item name="LoggerAppenderMail" href="/docs/appenders/mail.html" />
 				<item name="LoggerAppenderMailEvent" href="/docs/appenders/mail-event.html" />
 				<item name="LoggerAppenderMongoDB" href="/docs/appenders/mongodb.html" />
 				<item name="LoggerAppenderNull" href="/docs/appenders/null.html" />
 				<item name="LoggerAppenderPDO" href="/docs/appenders/pdo.html" />					
 				<item name="LoggerAppenderPHP" href="/docs/appenders/php.html" />
+				<item name="LoggerAppenderRollingFile" href="/docs/appenders/rolling-file.html" />
 				<item name="LoggerAppenderSocket" href="/docs/appenders/socket.html" />
 				<item name="LoggerAppenderSyslog" href="/docs/appenders/syslog.html" />
 			</item>
