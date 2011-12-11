@@ -474,6 +474,7 @@
     <title>$title</title>
     <link rel="stylesheet" href="$relativePath/css/bootstrap.css" type="text/css" />
     <link rel="stylesheet" href="$relativePath/css/site.css" type="text/css" />
+	<script type="text/javascript" src="$relativePath/js/jquery.min.js"></script>
     <script type="text/javascript" src="$relativePath/js/prettify.js"></script>
     <script type="text/javascript" src="$relativePath/js/site.js"></script>
 #foreach( $author in $authors )

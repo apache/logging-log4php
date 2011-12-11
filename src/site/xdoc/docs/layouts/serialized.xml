@@ -54,7 +54,14 @@
 			<subsection name="Examples">
 				
 				<p>Sample configuration file:</p>
-					
+				
+				<ul class="tabs">
+					<li class="active"><a href="#xml">XML</a></li>
+					<li><a href="#php">PHP</a></li>
+				</ul>
+
+				<div class="pill-content" >
+					<div class="active" id="xml">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
@@ -65,6 +72,25 @@
     </root>
 </configuration>
 ]]></pre>
+					</div>
+					<div id="php">
+<pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderEcho',
+            'layout' => array(
+                'class' => 'LoggerLayoutSerialized',
+            )
+        )
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default')
+    ),
+)
+]]></pre>
+					</div>
+				</div>
 
 				<p>Running the following code:</p>
 

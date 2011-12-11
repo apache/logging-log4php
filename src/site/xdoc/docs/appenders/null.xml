@@ -32,8 +32,13 @@
 			
 			<subsection name="Examples">
 				
-				<p>XML configuration:</p>
-					
+				<ul class="tabs">
+					<li class="active"><a href="#xml">XML</a></li>
+					<li><a href="#php">PHP</a></li>
+				</ul>
+ 
+				<div class="pill-content" >
+					<div class="active" id="xml">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderNull" />
@@ -42,9 +47,8 @@
     </root>
 </configuration>
 ]]></pre>
-
-				<p>Equivalent PHP configuration:</p>
-				
+					</div>
+					<div id="php">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -57,6 +61,9 @@ array(
     ),
 );
 ]]></pre>
+					</div>
+				</div>
+				
 			</subsection>
 		</section>
 	</body>

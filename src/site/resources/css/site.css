@@ -65,6 +65,10 @@ a.newWindow {
 	background: url(../images/newwindow.png) right center no-repeat;
 	padding-right: 18px;
 }
+ul.tabs {
+	height: 35px;
+	margin-bottom: 8px;	
+}
 
 /* Sidebar menu 
 ----------------- */

@@ -66,8 +66,13 @@
 				<p>It is also possible to specify an absolute path to the target file, such as 
 				<code>/var/log/file.log</code> or <code>D:/logs/file.log</code></p>
 				
-				<p>XML configuration:</p>
-					
+				<ul class="tabs">
+					<li class="active"><a href="#xml">XML</a></li>
+					<li><a href="#php">PHP</a></li>
+				</ul>
+ 
+				<div class="pill-content" >
+					<div class="active" id="xml">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderFile">
@@ -80,9 +85,8 @@
     </root>
 </configuration>
 ]]></pre>
-
-				<p>Equivalent PHP configuration:</p>
-				
+					</div>
+					<div id="php">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -102,6 +106,8 @@ array(
     ),
 );
 ]]></pre>
+					</div>
+				</div>
 			</subsection>
 		</section>
 	</body>

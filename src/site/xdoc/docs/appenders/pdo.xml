@@ -149,8 +149,13 @@
 				log to the database contained in <code>/var/log/log.sqlite</code>. The database will be created if it 
 				doesn't already exist.</p>
 				
-				<p>XML configuration:</p>
-					
+				<ul class="tabs">
+					<li class="active"><a href="#xml1">XML</a></li>
+					<li><a href="#php1">PHP</a></li>
+				</ul>
+ 
+				<div class="pill-content" >
+					<div class="active" id="xml1">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderPDO">
@@ -161,9 +166,8 @@
     </root>
 </configuration>
 ]]></pre>
-
-				<p>Equivalent PHP configuration:</p>
-				
+					</div>
+					<div id="php1">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -179,6 +183,9 @@ array(
     ),
 );
 ]]></pre>
+					</div>
+				</div>
+				
 				<h4>Example 2</h4>
 
 				<p>A slightly more complex example is connecting to a MySQL database which requires user credentials
@@ -188,8 +195,13 @@ array(
 				named <code>logdb</code>. The log will be written to a table named <code>log_table</code>. The table
 				will be created if it doesn't already exist.</p>
 
-				<p>XML configuration:</p>
-					
+				<ul class="tabs">
+					<li class="active"><a href="#xml2">XML</a></li>
+					<li><a href="#php2">PHP</a></li>
+				</ul>
+ 
+				<div class="pill-content" >
+					<div class="active" id="xml2">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderPDO">
@@ -203,9 +215,8 @@ array(
     </root>
 </configuration>
 ]]></pre>
-
-				<p>Equivalent PHP configuration:</p>
-				
+					</div>
+					<div id="php2">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -224,7 +235,9 @@ array(
     ),
 );
 ]]></pre>
-
+					</div>
+				</div>
+					
 				<p>This is an output sample retrieved from the MySQL database.</p>
 				
 <pre>
