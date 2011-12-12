@@ -39,7 +39,7 @@ class LoggerLayoutSerializedTest extends PHPUnit_Framework_TestCase {
 	
 	/**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage log4php: [LoggerLayoutSerialized]: Invalid value provided for locationInfo: ['foo']. Expected a boolean. Using default value: [false].
+ 	 * @expectedExceptionMessage Invalid value given for 'locationInfo' property: ['foo']. Expected a boolean value. Property not changed.
 	 */
 	public function testLocationInfoFail() {
 		$layout = new LoggerLayoutSerialized();

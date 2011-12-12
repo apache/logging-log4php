@@ -51,7 +51,7 @@ class LoggerAppenderConsole extends LoggerAppender {
 	 * Default is STDOUT
 	 * @var string
 	 */
-	private $target = self::STDOUT;
+	protected $target = self::STDOUT;
 	
 	/**
 	 * @var mixed the resource used to open stdout/stderr
@@ -68,6 +68,9 @@ class LoggerAppenderConsole extends LoggerAppender {
 			$this->target = self::STDOUT;
 		} elseif ($v == self::STDERR || strtoupper($v) == 'STDERR') {
 			$this->target = self::STDERR;
+		} else {
+			$value = var_export($value);
+			$this->warn("Invalid value given for 'target' property: [$value]. Property not set.");
 		}
 	}
 

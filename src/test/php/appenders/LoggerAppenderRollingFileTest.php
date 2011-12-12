@@ -49,35 +49,32 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 	public function testMaxFileSize() {
 		$appender = new LoggerAppenderRollingFile("mylogger");
 
-		$e = $appender->setMaxFileSize('1KB');
-		self::assertEquals($e, '1024');
+		$appender->setMaxFileSize('1KB');
+		self::assertEquals(1024, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('2KB');
-		self::assertEquals($e, '2048');
+		$appender->setMaxFileSize('2KB');
+		self::assertEquals(2048, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('1MB');
-		self::assertEquals($e, '1048576');
+		$appender->setMaxFileSize('1MB');
+		self::assertEquals(1048576, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('3MB');
-		self::assertEquals($e, '3145728');
+		$appender->setMaxFileSize('3MB');
+		self::assertEquals(3145728, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('1GB');
-		self::assertEquals($e, '1073741824');
+		$appender->setMaxFileSize('1GB');
+		self::assertEquals(1073741824, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('10000');
-		self::assertEquals($e, '10000');
+		$appender->setMaxFileSize('10000');
+		self::assertEquals(10000, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('BLUB');
-		self::assertEquals($e, '10000');
+		$appender->setMaxFileSize('100.5');
+		self::assertEquals(100, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('100.5');
-		self::assertEquals($e, '100');
+		$appender->setMaxFileSize('1000.6');
+		self::assertEquals(1000, $appender->getMaxFileSize());
 
-		$e = $appender->setMaxFileSize('1000.6');
-		self::assertEquals($e, '1000');
-
-		$e = $appender->setMaxFileSize('1.5MB');
-		self::assertEquals($e, '1048576');
+		$appender->setMaxFileSize('1.5MB');
+		self::assertEquals(1572864, $appender->getMaxFileSize());
 	}
 
 	public function testSetFileName() {

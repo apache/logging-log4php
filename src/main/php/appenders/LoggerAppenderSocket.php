@@ -40,13 +40,13 @@ class LoggerAppenderSocket extends LoggerAppender {
 	 * Target host.
 	 * @see http://php.net/manual/en/function.fsockopen.php 
 	 */
-	private $remoteHost;
+	protected $remoteHost;
 	
 	/** Target port */
-	private $port = 4446;
+	protected $port = 4446;
 	
 	/** Connection timeout in ms. */
-	private $timeout;
+	protected $timeout;
 	
 	// ******************************************
 	// *** Appender methods                   ***
@@ -92,27 +92,17 @@ class LoggerAppenderSocket extends LoggerAppender {
 	
 	/** Sets the target host. */
 	public function setRemoteHost($hostname) {
-		$this->remoteHost = $hostname;
+		$this->setString('remoteHost', $hostname);
 	}
 	
 	/** Sets the target port */
 	public function setPort($port) {
-		try {
-			$this->port = LoggerOptionConverter::toIntegerEx($port, null);
-		} catch (Exception $ex) {
-			$this->warn("Invalid value provided for 'port' [$port]. Expected an integer. Using default value [{$this->port}].");
-		}
+		$this->setPositiveInteger('port', $port);
 	}
 	 
 	/** Sets the timeout. */
 	public function setTimeout($timeout) {
-		try {
-			$this->timeout = LoggerOptionConverter::toIntegerEx($timeout);
-		} catch (Exception $ex) {
-			$value = var_export($timeout);
-			$default = var_export($this->timeout);
-			$this->warn("Invalid value provided for 'timeout' [$value]. Expeceted an integer. Using default value [$default].");
-		}
+		$this->setPositiveInteger('timeout', $timeout);
 	}
 	
 	/** Returns the target host. */

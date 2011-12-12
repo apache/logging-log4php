@@ -220,8 +220,8 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	public function setHost($host) {
 		if (!preg_match('/^mongodb\:\/\//', $host)) {
 			$host = self::DEFAULT_MONGO_URL_PREFIX . $host;
-		}			
-		$this->host = $host;				
+		}
+		$this->host = $host;
 	}
 		
 	/** Returns the value of {@link $host} parameter. */
@@ -231,7 +231,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	/** Sets the value of {@link $port} parameter. */
 	public function setPort($port) {
-		$this->port = $port;
+		$this->setPositiveInteger('port', $port);
 	}
 		
 	/** Returns the value of {@link $port} parameter. */
@@ -241,7 +241,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	/** Sets the value of {@link $databaseName} parameter. */
 	public function setDatabaseName($databaseName) {
-		$this->databaseName = $databaseName;
+		$this->setString('databaseName', $databaseName);
 	}
 		
 	/** Returns the value of {@link $databaseName} parameter. */
@@ -251,7 +251,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	
 	/** Sets the value of {@link $collectionName} parameter. */
 	public function setCollectionName($collectionName) {
-		$this->collectionName = $collectionName;
+		$this->setString('collectionName', $collectionName);
 	}
 		
 	/** Returns the value of {@link $collectionName} parameter. */
@@ -261,7 +261,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	/** Sets the value of {@link $userName} parameter. */
 	public function setUserName($userName) {
-		$this->userName = $userName;
+		$this->setString('userName', $userName, true);
 	}
 	
 	/** Returns the value of {@link $userName} parameter. */
@@ -271,7 +271,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		
 	/** Sets the value of {@link $password} parameter. */
 	public function setPassword($password) {
-		$this->password = $password;
+		$this->setString('password', $password, true);
 	}
 		
 	/** Returns the value of {@link $password} parameter. */

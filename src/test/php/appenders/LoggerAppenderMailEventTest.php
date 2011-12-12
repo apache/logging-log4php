@@ -55,13 +55,13 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 		$appender->close();
     }
 
-    /** Check if invalid configurations are rejected. 
-     * @expectedException LoggerException       with empty
+    /** 
+	 * Check if invalid configurations are rejected. 
+     * @expectedException LoggerException with empty
      */
     public function testEmptyTo() {
-        $appender = new LoggerAppenderMailEvent("myname ");
+        $appender = new LoggerAppenderMailEvent("myname");
         $appender->setLayout(new LoggerLayoutSimple());
-        $appender->setTo(null);
         $appender->setFrom('info@example.com');
         $appender->activateOptions();
     }

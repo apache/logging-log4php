@@ -52,6 +52,7 @@ class Logger {
 		'LoggerMDC' => '/LoggerMDC.php',
 		'LoggerNDC' => '/LoggerNDC.php',
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
+		'LoggerConfigurable' => '/LoggerConfigurable.php',
 		'LoggerConfigurator' => '/LoggerConfigurator.php',
 		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
 		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',

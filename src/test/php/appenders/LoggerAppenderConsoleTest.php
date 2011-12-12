@@ -77,7 +77,6 @@ class LoggerAppenderConsoleTest extends PHPUnit_Framework_TestCase {
     
     public function testAppendStderr() {
     	$this->config['appenders']['default']['params']['target'] = 'stderr';
-    	
     	Logger::configure($this->config);
     	$log = Logger::getRootLogger();
     	$expected = LoggerAppenderConsole::STDERR;

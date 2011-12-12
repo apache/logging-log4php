@@ -57,14 +57,14 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 	 * It follows the {@link PHP_MANUAL#date()} formatting rules and <b>should always be set before {@link $file} param</b>.
 	 * @var string
 	 */
-	public $datePattern = "Ymd";
+	protected $datePattern = "Ymd";
 	
 	/**
 	 * Sets date format for the file name.
 	 * @param string $datePattern a regular date() string format
 	 */
 	public function setDatePattern($datePattern) {
-		$this->datePattern = $datePattern;
+		$this->setString('datePattern', $datePattern);
 	}
 	
 	/**

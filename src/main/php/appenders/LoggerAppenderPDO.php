@@ -50,68 +50,68 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * Create the log table if it does not exists (optional).
 	 * @var string 
 	 */
-	private $createTable = true;
+	protected $createTable = true;
 	
 	/** 
 	 * Database user name.
 	 * @var string 
 	 */
-	private $user = '';
+	protected $user;
 	
 	/** 
 	 * Database password
 	 * @var string 
 	 */
-	private $password = '';
+	protected $password;
 	
 	/** 
 	 * DSN string for enabling a connection.
 	 * @var string 
 	 */
-	private $dsn;
+	protected $dsn;
 	
 	/** 
 	 * A {@link LoggerPatternLayout} string used to format a valid insert query.
 	 * @deprecated Use {@link $insertSql} and {@link $insertPattern} which properly handle quotes in the messages!
 	 * @var string 
 	 */
-	private $sql;
+	protected $sql;
 	
 	/** 
 	 * Can be set to a complete insert statement with ? that are replaced using {@link insertPattern}.
 	 * @var string 
 	 */
-	private $insertSql = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?,?,?,?,?,?,?)";
+	protected $insertSql = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?,?,?,?,?,?,?)";
 
 	/** 
 	 * A comma separated list of {@link LoggerPatternLayout} format strings that replace the "?" in {@link $sql}.
 	 * @var string 
 	 */
-	private $insertPattern = "%d,%c,%p,%m,%t,%F,%L";
+	protected $insertPattern = "%d,%c,%p,%m,%t,%F,%L";
 
 	/** 
 	 * Table name to write events. Used only for CREATE TABLE if {@link $createTable} is true.
 	 * @var string 
 	 */
-	private $table = 'log4php_log';
+	protected $table = 'log4php_log';
 	
 	/** 
 	 * The PDO instance.
 	 * @var PDO 
 	 */
-	private $db = null;
+	protected $db = null;
 	
 	/** 
 	 * Prepared statement for the INSERT INTO query.
 	 * @var PDOStatement 
 	 */
-	private $preparedInsert;
+	protected $preparedInsert;
 
 	/** 
 	 * Set in activateOptions() and later used in append() to check if all conditions to append are true.
 	 * @var boolean 
 	 */
-	private $canAppend = true;
+	protected $canAppend = true;
 	
 	/**
 	 * This appender does not require a layout.
@@ -224,7 +224,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * Defaults to ''
 	 */
 	public function setUser($user) {
-		$this->user = $user;
+		$this->setString('user', $user);
 	}
 	
 	/**
@@ -232,7 +232,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * Defaults to ''
 	 */
 	public function setPassword($password) {
-		$this->password = $password;
+		$this->setString('password', $password);
 	}
 	
 	/**
@@ -240,7 +240,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * if its not existing.
 	 */
 	public function setCreateTable($flag) {
-		$this->createTable = LoggerOptionConverter::toBoolean($flag, true);
+		$this->setBoolean('createTable', $flag);
 	}
    
    	/**
@@ -257,7 +257,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * @deprecated See {@link setInsertSql} and {@link setInsertPattern}.
 	 */
 	public function setSql($sql) {
-		$this->sql = $sql;	
+		$this->setString('sql', $sql);
 	}
 	
 	/**
@@ -266,7 +266,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * @param $sql		  A complete INSERT INTO query with "?" that gets replaced.
 	 */
 	public function setInsertSql($sql) {
-		$this->insertSql = $sql;
+		$this->setString('insertSql', $sql);
 	}
 
 	/**
@@ -277,7 +277,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * @param $pattern		  Comma separated format strings like "%p,%m,%C"
 	 */
 	public function setInsertPattern($pattern) {
-		$this->insertPattern = $pattern;
+		$this->setString('insertPattern', $pattern);
 	}
 
 	/**
@@ -285,7 +285,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * Defaults to log4php_log
 	 */
 	public function setTable($table) {
-		$this->table = $table;
+		$this->setString('table', $table);
 	}
 	
 	/**
@@ -293,7 +293,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * SQLite it could look like this: 'sqlite:appenders/pdotest.sqlite'
 	 */
 	public function setDSN($dsn) {
-		$this->dsn = $dsn;
+		$this->setString('dsn', $dsn);
 	}
 	
 	/**

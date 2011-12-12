@@ -24,7 +24,7 @@
  * @version $Revision$
  * @package log4php
  */
-abstract class LoggerLayout {
+abstract class LoggerLayout extends LoggerConfigurable {
 	/**
 	 * Activates options for this layout.
 	 * Override this method if you have options to be activated.

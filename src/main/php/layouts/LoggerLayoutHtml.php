@@ -47,13 +47,6 @@
  * @subpackage layouts
  */
 class LoggerLayoutHtml extends LoggerLayout {
-
-	
-	public function activateOptions() {
-		
-		
-	}
-	
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
 	 * default, it is set to false which means there will be no location
@@ -66,7 +59,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * <b>LocationInfo</b> option of that appender as well.
 	 * @var boolean
 	 */
-	private $locationInfo = false;
+	protected $locationInfo = false;
 	
 	/**
 	 * The <b>Title</b> option takes a String value. This option sets the
@@ -74,7 +67,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * Defaults to 'Log4php Log Messages'.
 	 * @var string
 	 */
-	private $title = "Log4php Log Messages";
+	protected $title = "Log4php Log Messages";
 	
 	/**
 	 * The <b>LocationInfo</b> option takes a boolean value. By
@@ -88,11 +81,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * <b>LocationInfo</b> option of that appender as well.
 	 */
 	public function setLocationInfo($flag) {
-		if (is_bool($flag)) {
-			$this->locationInfo = $flag;
-		} else {
-			$this->locationInfo = (bool)(strtolower($flag) == 'true');
-		}
+		$this->setBoolean('locationInfo', $flag);
 	}
 
 	/**
@@ -108,7 +97,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 	 * Defaults to 'Log4php Log Messages'.
 	 */
 	public function setTitle($title) {
-		$this->title = $title;
+		$this->setString('title', $title);
 	}
 
 	/**

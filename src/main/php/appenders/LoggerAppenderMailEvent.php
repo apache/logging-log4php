@@ -56,30 +56,30 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	/**  'from' field (defaults to 'sendmail_from' from php.ini on win32).
 	 * @var string
 	 */
-	private $from = null;
+	protected $from;
 
 	/** Mailserver port (win32 only).
 	 * @var integer 
 	 */
-	private $port = 25;
+	protected $port = 25;
 
 	/** Mailserver hostname (win32 only).
 	 * @var string   
 	 */
-	private $smtpHost = null;
+	protected $smtpHost = null;
 
 	/**
 	 * @var string 'subject' field
 	 */
-	private $subject = '';
+	protected $subject = '';
 
 	/**
 	 * @var string 'to' field
 	 */
-	private $to = null;
+	protected $to = null;
 	
 	/** @var indiciates if this appender should run in dry mode */
-	private $dry = false;
+	protected $dry = false;
 	
 	public function activateOptions() {
 		if (empty($this->layout)) {
@@ -98,27 +98,27 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	}
 	
 	public function setFrom($from) {
-		$this->from = $from;
+		$this->setString('from', $from);
 	}
 	
 	public function setPort($port) {
-		$this->port = (int)$port;
+		$this->setPositiveInteger('port', $port);
 	}
 	
 	public function setSmtpHost($smtpHost) {
-		$this->smtpHost = $smtpHost;
+		$this->setString('smtpHost', $smtpHost);
 	}
 	
 	public function setSubject($subject) {
-		$this->subject = $subject;
+		$this->setString('subject',  $subject);
 	}
 	
 	public function setTo($to) {
-		$this->to = $to;
+		$this->setString('to',  $to);
 	}
 
 	public function setDry($dry) {
-		$this->dry = $dry;
+		$this->setBoolean('dry', $dry);
 	}
 	
 	public function append(LoggerLoggingEvent $event) {

@@ -24,7 +24,7 @@
  * @version $Revision$
  * @package log4php
  */
-abstract class LoggerAppender {
+abstract class LoggerAppender extends LoggerConfigurable {
 	
 	/**
 	 * Set to true when the appender is closed. A closed appender will not 

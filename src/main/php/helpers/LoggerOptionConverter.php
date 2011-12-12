@@ -128,16 +128,34 @@ class LoggerOptionConverter {
 	}
 	
 	
-	/** Converts $value to integer, or throws an exception if not possible. */
+	/** 
+	 * Converts $value to integer, or throws an exception if not possible. 
+	 * Floats cannot be converted to integer.
+	 */
 	public static function toIntegerEx($value) {
 		if (is_integer($value)) {
 			return $value;
 		}
-		if (is_numeric($value)) {
+		if (is_numeric($value) && ($value == (integer) $value)) {
 			return (integer) $value;
 		}
 	
 		throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to integer.");
+	}
+	
+	/**
+	 * Converts $value to integer, or throws an exception if not possible.
+	 * Floats cannot be converted to integer.
+	 */
+	public static function toPositiveIntegerEx($value) {
+		if (is_integer($value) && $value > 0) {
+			return $value;
+		}
+		if (is_numeric($value) && ($value == (integer) $value) && $value > 0) {
+			return (integer) $value;
+		}
+	
+		throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a positive integer.");
 	}
 
 	/**
@@ -200,6 +218,19 @@ class LoggerOptionConverter {
 		} 
 		return $result;
 	}
+	
+	
+	/** Converts the value to a level. Throws an exception if not possible. */
+	public static function toLevelEx($value) {
+		if ($value instanceof LoggerLevel) {
+			return $value;
+		}
+		$level = LoggerLevel::toLevel($value);
+		if ($level === null) {
+			throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a logger level.");
+		}
+		return $level;
+	}
 
 	/**
 	 * @param string $value
@@ -228,7 +259,79 @@ class LoggerOptionConverter {
 		} 
 		return $default;
 	}
+	
 
+	/**
+	 * Converts a value to a valid file size (integer).
+	 * 
+	 * Supports 'KB', 'MB' and 'GB' suffixes, where KB = 1024 B etc. 
+	 *
+	 * The final value will be rounded to the nearest integer.
+	 *
+	 * Examples:
+	 * - '100' => 100
+	 * - '100.12' => 100
+	 * - '100KB' => 102400
+	 * - '1.5MB' => 1572864
+	 * 
+	 * @param mixed $value File size (optionally with suffix).
+	 * @return integer Parsed file size.
+	 */
+	public static function toFileSizeEx($value) {
+		
+		if (empty($value)) {
+			throw new LoggerException("Empty value cannot be converted to a file size.");
+		}
+		
+		if (is_numeric($value)) {
+			return (integer) $value;
+		}
+		
+		if (!is_string($value)) {
+			throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a file size.");
+		}
+		
+		$str = strtoupper(trim($value));
+		$count = preg_match('/^([0-9.]+)(KB|MB|GB)?$/', $str, $matches);
+		
+		if ($count > 0) {
+			$size = $matches[1];
+			$unit = $matches[2];
+			
+			switch($unit) {
+				case 'KB': $size *= pow(1024, 1); break;
+				case 'MB': $size *= pow(1024, 2); break;
+				case 'GB': $size *= pow(1024, 3); break;
+			}
+			
+			return (integer) $size;
+		}
+		
+		throw new LoggerException("Given value [$value] cannot be converted to a file size.");
+	}
+
+	/** 
+	 * Converts a value to string, or throws an exception if not possible. 
+	 * 
+	 * Objects can be converted to string if they implement the magic 
+	 * __toString() method.
+	 * 
+	 */
+	public static function toStringEx($value) {
+		if (is_string($value)) {
+			return $value;
+		}
+		if (is_numeric($value)) {
+			return (string) $value;
+		}
+		if (is_object($value) && method_exists($value, '__toString')) {
+			return (string) $value;
+		}
+	
+		throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to string.");
+	}
+	
+	
 	/**
 	 * Find the value corresponding to <var>$key</var> in
 	 * <var>$props</var>. Then perform variable substitution on the

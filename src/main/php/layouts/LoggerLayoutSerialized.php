@@ -33,17 +33,11 @@
 class LoggerLayoutSerialized extends LoggerLayout {
 	
 	/** Whether to include the event's location information (slow). */
-	private $locationInfo = false;
+	protected $locationInfo = false;
 	
 	/** Sets the location information flag. */
 	public function setLocationInfo($value) {
-		try {
-			$this->locationInfo = LoggerOptionConverter::toBooleanEx($value);
-		} catch (Exception $ex) {
-			$strVal = var_export($value, true);
-			$default = var_export($this->locationInfo, true);
-			$this->warn("Invalid value provided for locationInfo: [$strVal]. Expected a boolean. Using default value: [$default].");
-		}
+		$this->setBoolean('locationInfo', $value);
 	}
 	
 	/** Returns the location information flag. */

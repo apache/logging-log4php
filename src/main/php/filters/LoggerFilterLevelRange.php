@@ -67,45 +67,37 @@ class LoggerFilterLevelRange extends LoggerFilter {
 	/**
 	 * @var boolean
 	 */
-	private $acceptOnMatch = true;
+	protected $acceptOnMatch = true;
 
 	/**
 	 * @var LoggerLevel
 	 */
-	private $levelMin;
+	protected $levelMin;
   
 	/**
 	 * @var LoggerLevel
 	 */
-	private $levelMax;
+	protected $levelMax;
 
 	/**
 	 * @param boolean $acceptOnMatch
 	 */
 	public function setAcceptOnMatch($acceptOnMatch) {
-		$this->acceptOnMatch = LoggerOptionConverter::toBoolean($acceptOnMatch, true); 
+		$this->setBoolean('acceptOnMatch', $acceptOnMatch); 
 	}
 	
 	/**
 	 * @param string $l the level min to match
 	 */
-	public function setLevelMin($l) {
-		if($l instanceof LoggerLevel) {
-			$this->levelMin = $l;
-		} else {
-			$this->levelMin = LoggerOptionConverter::toLevel($l, null);
-		}
+	public function setLevelMin($level) {
+		$this->setLevel('levelMin', $level);
 	}
 
 	/**
 	 * @param string $l the level max to match
 	 */
-	public function setLevelMax($l) {
-		if($l instanceof LoggerLevel) {
-			$this->levelMax = $l;
-		} else {
-			$this->levelMax = LoggerOptionConverter::toLevel($l, null);
-		}
+	public function setLevelMax($level) {
+		$this->setLevel('levelMax', $level);
 	}
 
 	/**

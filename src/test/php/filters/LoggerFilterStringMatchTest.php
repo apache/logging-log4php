@@ -106,7 +106,6 @@ class LoggerFilterStringMatchTest extends PHPUnit_Framework_TestCase {
 	public function testDecideNullMatch() {
 		$filter = new LoggerFilterStringMatch();
 		$filter->setAcceptOnMatch("false");
-		$filter->setStringToMatch(null);
 		
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		

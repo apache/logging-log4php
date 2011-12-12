@@ -78,7 +78,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 * 
 	 * @var string 
 	 */
-	private $ident = "Apache log4php";
+	protected $ident = "Apache log4php";
 
 	/**
 	 * The syslog priority to use when overriding priority. This setting is 
@@ -86,21 +86,21 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 * 
 	 * @var string 
 	 */
-	private $priority;
+	protected $priority;
 	
 	/**
 	 * The option used when opening the syslog connection.
 	 * 
 	 * @var string
 	 */
-	private $option = 'PID|CONS';
+	protected $option = 'PID|CONS';
 	
 	/**
 	 * The facility value indicates the source of the message.
 	 *
 	 * @var string
 	 */
-	private $facility = 'USER';
+	protected $facility = 'USER';
 	
 	/**
 	 * If set to true, the message priority will always use the value defined 
@@ -109,7 +109,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 *
 	 * @var string
 	 */
-	private $overridePriority = false;
+	protected $overridePriority = false;
 
 	/**
 	 * Holds the int value of the {@link $priority}.

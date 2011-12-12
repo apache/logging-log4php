@@ -40,12 +40,6 @@
  */  
 class LoggerLayoutSimple extends LoggerLayout {
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-	}
-
-	/**
 	 * Returns the log statement in a format consisting of the
 	 * <b>level</b>, followed by " - " and then the
 	 * <b>message</b>. For example, 

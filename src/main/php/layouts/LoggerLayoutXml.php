@@ -70,20 +70,20 @@ class LoggerLayoutXml extends LoggerLayout {
 	 * log statement will be output.
 	 * @var boolean
 	 */
-	private $locationInfo = true;
+	protected $locationInfo = true;
   
 	/**
 	 * If set to true, log4j namespace will be used instead of the log4php 
 	 * namespace.
 	 * @var boolean 
 	 */
-	private $log4jNamespace = false;
+	protected $log4jNamespace = false;
 	
 	/** The namespace in use. */
-	private $namespace = self::LOG4PHP_NS;
+	protected $namespace = self::LOG4PHP_NS;
 	
 	/** The namespace prefix in use */
-	private $namespacePrefix = self::LOG4PHP_NS_PREFIX;
+	protected $namespacePrefix = self::LOG4PHP_NS_PREFIX;
 	 
 	public function activateOptions() {
 		if ($this->getLog4jNamespace()) {
@@ -180,7 +180,7 @@ class LoggerLayoutXml extends LoggerLayout {
 	 * origin of the log statement will be output.
 	 */
 	public function setLocationInfo($flag) {
-		$this->locationInfo = LoggerOptionConverter::toBoolean($flag, true);
+		$this->setBoolean('locationInfo', $flag);
 	}
   
 	/**
@@ -194,7 +194,7 @@ class LoggerLayoutXml extends LoggerLayout {
 	 * @param boolean
 	 */
 	public function setLog4jNamespace($flag) {
-		$this->log4jNamespace = LoggerOptionConverter::toBoolean($flag, true);
+		$this->setBoolean('log4jNamespace', $flag);
 	}
 	
 	/** 

@@ -62,96 +62,92 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	
 	public function testSetGetHost() {
 		$expected = 'mongodb://localhost';
-		self::$appender->setHost($expected);		
+		self::$appender->setHost($expected);
 		$result = self::$appender->getHost();
 		$this->assertEquals($expected, $result, 'Host doesn\'t match expted value');
 	}
 	
 	public function testSetGetHostMongoPrefix() {
 		$expected = 'mongodb://localhost';
-		self::$appender->setHost('localhost');		
+		self::$appender->setHost('localhost');
 		$result = self::$appender->getHost();
 		$this->assertEquals($expected, $result, 'Host doesn\'t match expted value');
 	}
 	
 	public function testSetPort() {
 		$expected = 27017;
-		self::$appender->setPort($expected);		
+		self::$appender->setPort($expected);
 		$result = self::$appender->getPort();
 		$this->assertEquals($expected, $result, 'Port doesn\'t match expted value');
 	}
 
 	public function testGetPort() {
 		$expected = 27017;
-		self::$appender->setPort($expected);		
+		self::$appender->setPort($expected);
 		$result = self::$appender->getPort();
 		$this->assertEquals($expected, $result, 'Port doesn\'t match expted value');
 	}
 	
 	public function testSetDatabaseName() {
 		$expected = 'log4php_mongodb';
-		self::$appender->setDatabaseName($expected);		
+		self::$appender->setDatabaseName($expected);
 		$result	= self::$appender->getDatabaseName();
 		$this->assertEquals($expected, $result, 'Database name doesn\'t match expted value');
 	}
 	
 	public function testGetDatabaseName() {
 		$expected = 'log4php_mongodb';
-		self::$appender->setDatabaseName($expected);		
+		self::$appender->setDatabaseName($expected);
 		$result	= self::$appender->getDatabaseName();
 		$this->assertEquals($expected, $result, 'Database name doesn\'t match expted value');
 	}		 
 	
 	public function testSetCollectionName() {
 		$expected = 'logs';
-		self::$appender->setCollectionName($expected);		
+		self::$appender->setCollectionName($expected);
 		$result = self::$appender->getCollectionName();
 		$this->assertEquals($expected, $result, 'Collection name doesn\'t match expted value');
 	}
 	
 	public function testGetCollectionName() {
 		$expected = 'logs';
-		self::$appender->setCollectionName($expected);		
+		self::$appender->setCollectionName($expected);
 		$result = self::$appender->getCollectionName();
 		$this->assertEquals($expected, $result, 'Collection name doesn\'t match expted value');
 	}	 
 	
 	public function testSetUserName() {
 		$expected = 'char0n';
-		self::$appender->setUserName($expected);		
+		self::$appender->setUserName($expected);
 		$result = self::$appender->getUserName();
 		$this->assertEquals($expected, $result, 'UserName doesn\'t match expted value');
 	}
 	
 	public function testGetUserName() {
 		$expected = 'char0n';
-		self::$appender->setUserName($expected);		
+		self::$appender->setUserName($expected);
 		$result	= self::$appender->getUserName();
 		$this->assertEquals($expected, $result, 'UserName doesn\'t match expted value');
 	}					 
 	
 	public function testSetPassword() {
 		$expected = 'secret pass';
-		self::$appender->setPassword($expected);		
+		self::$appender->setPassword($expected);
 		$result	= self::$appender->getPassword();
 		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
 	}
 	
 	public function testGetPassword() {
 		$expected = 'secret pass';
-		self::$appender->setPassword($expected);		
+		self::$appender->setPassword($expected);
 		$result	= self::$appender->getPassword();
 		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
 	} 
 	
 	public function testActivateOptionsNoCredentials() {
-		try {
-			self::$appender->setUserName(null);
-			self::$appender->setPassword(null);
-			self::$appender->activateOptions();	
-		} catch (Exception $ex) {
-			$this->fail('Activating appender options was not successful');
-		}		
+		self::$appender->setUserName(null);
+		self::$appender->setPassword(null);
+		self::$appender->activateOptions();
 	}		
 	
 	public function testAppend() {
@@ -227,6 +223,8 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	/** Logs the event and returns the record from the database. */
 	private function logOne($event)
 	{
+		self::$appender = new LoggerAppenderMongoDB();
+		self::$appender->setHost('localhost');
 		self::$appender->activateOptions();
 		$mongo = self::$appender->getConnection();
 		$collection = $mongo->log4php_mongodb->logs;

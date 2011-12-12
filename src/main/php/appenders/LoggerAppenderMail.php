@@ -55,19 +55,19 @@
 class LoggerAppenderMail extends LoggerAppender {
 
 	/** @var string 'from' field */
-	private $from = null;
+	protected $from = null;
 
 	/** @var string 'subject' field */
-	private $subject = 'Log4php Report';
+	protected $subject = 'Log4php Report';
 	
 	/** @var string 'to' field */
-	private $to = null;
+	protected $to = null;
 
 	/** @var indiciates if this appender should run in dry mode */
-	private $dry = false;
+	protected $dry = false;
 
 	/** @var string used to create mail body */
-	private $body = '';
+	protected $body = '';
 	
 	public function close() {
 		if($this->closed != true) {
@@ -90,19 +90,19 @@ class LoggerAppenderMail extends LoggerAppender {
 	}
 	
 	public function setSubject($subject) {
-		$this->subject = $subject;
+		$this->setString('subject', $subject);
 	}
 	
 	public function setTo($to) {
-		$this->to = $to;
+		$this->setString('to', $to);
 	}
 
 	public function setFrom($from) {
-		$this->from = $from;
-	}  
+		$this->setString('from', $from);
+	}
 
 	public function setDry($dry) {
-		$this->dry = $dry;
+		$this->setBoolean('dry', $dry);
 	}
 	
 	public function append(LoggerLoggingEvent $event) {

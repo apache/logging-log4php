@@ -64,7 +64,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 *
 	 * @var integer
 	 */
-	private $maxFileSize = 10485760;
+	protected $maxFileSize = 10485760;
 	
 	/**
 	 * Set the maximum number of backup files to keep around.
@@ -78,7 +78,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 *
 	 * @var integer 
 	 */
-	private $maxBackupIndex	 = 1;
+	protected $maxBackupIndex = 1;
 	
 	/**
 	 * @var string the filename expanded
@@ -162,9 +162,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 * @param mixed $maxBackups
 	 */
 	public function setMaxBackupIndex($maxBackups) {
-		if(is_numeric($maxBackups)) {
-			$this->maxBackupIndex = abs((int)$maxBackups);
-		}
+		$this->setPositiveInteger('maxBackupIndex', $maxBackups);
 	}
 
 	/**
@@ -193,24 +191,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 * @return the actual file size set
 	 */
 	public function setMaxFileSize($value) {
-		$maxFileSize = null;
-		$numpart = substr($value,0, strlen($value) -2);
-		$suffix = strtoupper(substr($value, -2));
-
-		switch($suffix) {
-			case 'KB': $maxFileSize = (int)((int)$numpart * 1024); break;
-			case 'MB': $maxFileSize = (int)((int)$numpart * 1024 * 1024); break;
-			case 'GB': $maxFileSize = (int)((int)$numpart * 1024 * 1024 * 1024); break;
-			default:
-				if(is_numeric($value)) {
-					$maxFileSize = (int)$value;
-				}
-		}
-		
-		if($maxFileSize !== null) {
-			$this->maxFileSize = abs($maxFileSize);
-		}
-		return $this->maxFileSize;
+		$this->setFileSize('maxFileSize', $value);
 	}
 
 	public function append(LoggerLoggingEvent $event) {

@@ -53,7 +53,7 @@
  * @version $Revision$
  * @package log4php
  */
-abstract class LoggerFilter {
+abstract class LoggerFilter extends LoggerConfigurable {
 
 	/**
 	 * The log event must be logged immediately without consulting with
