@@ -230,11 +230,7 @@ abstract class LoggerAppender extends LoggerConfigurable {
 	 * @see LoggerOptionConverter::toLevel()
 	 */
 	public function setThreshold($threshold) {
-		if($threshold instanceof LoggerLevel) {
-			$this->threshold = $threshold;
-		} else {
-			$this->threshold = LoggerOptionConverter::toLevel($threshold, null);
-		}
+		$this->setLevel('threshold', $threshold);
 	}
 	
 	/**
