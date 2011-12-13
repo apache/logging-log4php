@@ -203,26 +203,70 @@ array(
 
 				<div class="alert-message block-message info">
 					<p><strong>Hint:</strong> You can fetch the default configuration as a PHP array by running:</p>
-					<pre class="prettyprint">LoggerConfigurator::getDefaultConfiguration();</pre>
+					<pre class="prettyprint">LoggerConfiguratorDefault::getDefaultConfiguration();</pre>
 				</div>
 			</subsection>
 			
 			<subsection name="Programmatic configuration">
 				
-				<p>It is possible to configure log4php fully programmatically. Here is an example:</p>
+				<p>It is possible to configure log4php fully programmatically. This requires the user to implement 
+				their own configurator object. Configurators must implement the <code>LoggerConfigurator</code> 
+				interface.</p>
+				
+				<p>Here is an example:</p>
 
 <pre class="prettyprint">
+class MyConfigurator implements LoggerConfigurator {
+	
+    public function configure(LoggerHierarchy $hierarchy, $input = null) {
 
+        // Create an appender which logs to file
+        $appFile = new LoggerAppenderFile('foo');
+        $appFile->setFile('D:/Temp/log.txt');
+        $appFile->setAppend(true);
+        $appFile->setThreshold('all');
+        $appFile->activateOptions();
+        
+        // Use a different layout for the next appender
+        $layout = new LoggerLayoutTTCC();
+        $layout->setContextPrinting(false);
+        $layout->setDateFormat('%Y-%m-%d %H:%M:%S');
+        $layout->activateOptions();
+        
+        // Create an appender which echoes log events, using a custom layout
+        // and with the threshold set to INFO 
+        $appEcho = new LoggerAppenderEcho('bar');
+        $appEcho->setLayout($layout);
+        $appEcho->setThreshold('info');
+        $appEcho->activateOptions();
+        
+        // Add both appenders to the root logger
+        $root = $hierarchy->getRootLogger();
+        $root->addAppender($appFile);
+        $root->addAppender($appEcho);
+    }
+}
+</pre>
 
+				<p>To use the configurator, pass it as a second parameter to <code>Logger::configure()</code> 
+				(either the name of the class as a string or an instance).</p>
+
+<pre class="prettyprint">
+Logger::configure(null, 'MyConfigurator');
+
+$log = Logger::getRootLogger();
+$log->trace('one');
+$log->debug('two');
+$log->info('three');
+$log->warn('four');
+$log->error('five');
 </pre>
 
 				<div class="alert-message block-message warn">
-					<p>Note that named loggers should always be created by calling Logger::getLogger('name'). This 
-					will create the logger if it doesn't already exist and place it in the logger hierarchy.</p>
+					<p><strong>Note: </strong>Always call <code>activateOptions()</code> on all appenders, filters and layouts after setting
+					their configuration parameters. Otherwise, the configuration may not be properly activated.</p>
 				</div>
 			</subsection>
-
-
 		</section>
 	</body>
 </document>

@@ -98,7 +98,7 @@
 	        ),
         );
 
-        $configurator = new LoggerConfigurator();
+        $configurator = new LoggerConfiguratorDefault();
         $configurator->configure($hierachyMock, $config);
  	}
  	

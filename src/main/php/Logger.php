@@ -54,6 +54,7 @@ class Logger {
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
 		'LoggerConfigurable' => '/LoggerConfigurable.php',
 		'LoggerConfigurator' => '/LoggerConfigurator.php',
+		'LoggerConfiguratorDefault' => '/configurators/LoggerConfiguratorDefault.php',
 		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
 		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
 		'LoggerConfigurationAdapterXML' => '/configurators/LoggerConfigurationAdapterXML.php',
@@ -558,12 +559,43 @@ class Logger {
 	 *
 	 * @param string|array $configuration Either a path to the configuration
 	 *   file, or a configuration array.
+	 *   
+	 * @param mixed $configuratorClass A custom configurator class: either a 
+	 * class name (string), or an object which implements LoggerConfigurator
+	 * interface. If left empty, the default configurator will be used. 
 	 */
-	public static function configure($configuration = null) {
+	public static function configure($configuration = null, $configuratorClass = null) {
 		self::resetConfiguration();
-		$configurator = new LoggerConfigurator();
+		$configurator = self::getConfigurator($configuratorClass);
 		$configurator->configure(self::getHierarchy(), $configuration);
 		self::$initialized = true;
+	}
+	
+	/**
+	 * Creates a logger configurator instance based on the provided 
+	 * configurator class. If no class is given, returns an instance of
+	 * the default configurator.
+	 * 
+	 * @param string $configuratorClass The configurator class.
+	 */
+	private static function getConfigurator($configuratorClass = null) {
+		if (empty($configuratorClass)) {
+			return new LoggerConfiguratorDefault();
+		}
+		
+		if (!class_exists($configuratorClass)) {
+			$this->warn("Specified configurator class [$configuratorClass] does not exist. Reverting to default configurator.");
+			return new LoggerConfiguratorDefault();
+		}
+		
+		$configurator = new $configuratorClass();
+			
+		if (!($configurator instanceof LoggerConfigurator)) {
+			$this->warn("Specified configurator class [$configuratorClass] does not implement the LoggerConfigurator interface. Reverting to default configurator.");
+			return new LoggerConfiguratorDefault();
+		}
+		
+		return $configurator;
 	}
 	
 	/**

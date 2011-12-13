@@ -47,7 +47,7 @@ class LoggerFilterDenyAllTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testConfiguration() {
-    	$config = LoggerConfigurator::getDefaultConfiguration();
+    	$config = LoggerConfiguratorDefault::getDefaultConfiguration();
     	$config['appenders']['default']['filters'] = array(
     		array(
     			'class' => 'LoggerFilterDenyAll'
