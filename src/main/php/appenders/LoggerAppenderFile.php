@@ -60,6 +60,12 @@ class LoggerAppenderFile extends LoggerAppender {
 	public function activateOptions() {
 		$fileName = $this->getFile();
 
+		if (empty($fileName)) {
+			$this->warn("Required parameter 'fileName' not set. Closing appender.");
+			$this->closed = true;
+			return;
+		}
+		
 		if(!is_file($fileName)) {
 			$dir = dirname($fileName);
 			if(!is_dir($dir)) {

@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 	    <release version="2.2.0" date="SVN">
+			<action date="2011-12-13" type="fix" issue="LOG4PHP-158" dev="Ivan Habunek">LoggerAppenderFile throws wrong warning messages.</action>
 	    	<action date="2011-12-12" type="update" issue="LOG4PHP-161" dev="Ivan Habunek">All configurable components should report errors when given invalid values</action>
 	    	<action date="2011-12-10" type="update" issue="LOG4PHP-165" dev="Ivan Habunek" due-to="Johannes Wohlgemuth" due-to-email="j dot wohlgemuth at findologic dot com">Extended LoggerLayoutXml to include MDC info</action>
 	    	<action date="2011-12-09" type="fix" issue="LOG4PHP-162" dev="Ivan Habunek">Warning for invalid appender threshold level never called.</action>
