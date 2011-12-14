@@ -10,7 +10,7 @@
   #if ( $href.toLowerCase().startsWith("http:/") || $href.toLowerCase().startsWith("https:/") ||
     $href.toLowerCase().startsWith("ftp:/") || $href.toLowerCase().startsWith("mailto:/") ||
     $href.toLowerCase().startsWith("file:/") || ($href.toLowerCase().indexOf("://") != -1) )
-    #set ( $linkClass = ' class="externalLink"' )
+    #set ( $linkClass = ' class="externalLink" target="_blank"' )
     
     #if ( $linkTarget )
     #else
