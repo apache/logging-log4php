@@ -34,22 +34,32 @@
 				<p>Release date: TBA</p>
 				<p><a href="changes-report.html#a2.2.0">JIRA change log</a></p>
 				
-				<!-- <strong>New features:</strong>
+				<p><strong>New features:</strong></p>
 				<ul>
-					<li></li>
-				</ul> -->
+					<li>A new layout: <a href="docs/layouts/serialized.html">serialized</a></li>
+				</ul>
 				
 				<p><strong>Improvements:</strong></p>
 				<ul>
-					<li>Full rewrite of the configuration logic.</li>
+					<li>Full rewrite of the <a href="docs/configuration.html">configuration logic</a>. Makes inline 
+						PHP configuration possible.</li>
+					<li>Improved error reporting. Warnings will be triggered if problems are detected. This makes 
+						locating errors in configuration easier.</li>
+					<li>Appenders will use a default layout if no layout is specified in configuration.</li>
+					<li>The <a href="docs/layouts/xml.html">XML layout</a> has been extended to include MDC data.</li>
 					<li>Improved documentation to include more XML and PHP configuration examples.</li>
-					<li>New web site appearance.</li>
+					<li>New web site appearance (powered by the <a class="externalLink" target="_blank" 
+						href="http://twitter.github.com/bootstrap/">Bootstrap toolkit</a>).</li>
 				</ul>
 				
 				<p><strong>Breaking changes:</strong></p>
 				<ul>
-					<li>Minor changes to PHP configuration format.</li>
+					<li>The <a href="docs/appenders/socket.html">socket appender</a> has been rewritten to use a layout. 
+						By default it will use the <a href="docs/layouts/serialized.html">serialized layout</a>.</li>
+					<li>The <a href="docs/appenders/syslog.html">syslog appender</a> has been rewritten and the 
+						interpretation of parameters has changed.</li>
 				</ul>
+				<p>Please review the documentation and make any necessary changes to your configuration.</p>
 			</subsection>
 
 			<subsection name="Apache log4php v2.1.0" id="Apache_log4php_v2.1.0">
@@ -57,7 +67,7 @@
 				<p>Release date: 13.07.2011.</p>
 				<p><a href="changes-report.html#a2.1.0">JIRA change log</a></p>
 				
-				<strong>New features:</strong>
+				<p><strong>New features:</strong></p>
 				<ul>
 					<li>New logging level: TRACE</li>
 					<li>New appender: MongoDB (thanks to Vladimir Gorej)</li>
@@ -84,7 +94,7 @@
 					<li>LoggerHierarchy is not a singleton anymore by default.</li>
 					<li>logs to STDOUT by default</li>
 					<li>LOG4PHP_CONFIGURATION constant is no longer used. Please use Logger::configure() to configure 
-					log4php.</li>
+						log4php.</li>
 				</ul>
 			</subsection>
 		
