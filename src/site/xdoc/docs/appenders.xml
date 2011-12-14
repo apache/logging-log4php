@@ -124,7 +124,8 @@
 					<li>A <strong>class</strong> which specifies which appender class will be used to handle the 
 					requests. Since we wish to log to a file, <code>LoggerAppenderFile</code> is used in this case.</li>
 					<li>A <strong>layout</strong> which transforms the logging events to string which can be logged.
-					A layout is required by most appenders, but some do not require it, such as the database appender.</li>
+					A layout is required by most appenders, but some do not require it, such as the database appender. 
+					If a layout is not defined, the appenders will use a default layout.</li>
 					<li>Zero or more <strong>parameters</strong> which configure the appender 
 					behaviour. In this example, the <em>file</em> parameter governs the path to the file which will be
 					used for logging, and <em>append</em> defines that log messages should be appended to the file,

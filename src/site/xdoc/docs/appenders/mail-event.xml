@@ -30,6 +30,11 @@
 			<p>This appender is similar to <code><a href="mail.html">LoggerAppenderMail</a></code>, except that it 
   			sends each each log event in an individual email message at the time when it occurs.</p>
 			
+			<subsection name="Layout">
+				<p>This appender requires a layout. If no layout is specified in configuration, 
+				<code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
+			</subsection>
+			
 			<subsection name="Parameters">
 				<p>The following parameters are available:</p>
 		

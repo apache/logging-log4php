@@ -27,7 +27,10 @@
 		
 			<p><code>LoggerAppenderSyslog</code> logs events to the syslog.</p>
 			
-			<p>This appender does not require a layout.</p>
+			<subsection name="Layout">
+				<p>This appender requires a layout. If no layout is specified in configuration, 
+				<code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
+			</subsection>	
 			
 			<subsection name="Parameters">
 				<p>The following parameters are available:</p>
@@ -80,7 +83,7 @@
 							<td>option</td>
 							<td>string</td>
 							<td>No</td>
-							<td><code>PID | CONS</code></td>
+							<td><code>PID|CONS</code></td>
 							<td>Syslog options. <a href="#Options">See below</a> for available options.</td>
 						</tr>
 					</tbody>
@@ -297,6 +300,8 @@
 			</subsection>
 				
 			<subsection name="Examples">
+			
+				<p>Here is a sample configuration:</p>
 				
 				<ul class="tabs">
 					<li class="active"><a href="#xml">XML</a></li>

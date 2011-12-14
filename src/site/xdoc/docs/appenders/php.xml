@@ -36,6 +36,10 @@
 				<li><code>E_USER_ERROR</code> when the event's level is equal to or greater than ERROR</li>
 			</ul>
 			
+			<subsection name="Layout">
+				<p>This appender requires a layout. If no layout is specified in configuration, 
+				<code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
+			</subsection>	
 		
 			<subsection name="Parameters">
 				<p>This appender has no configurable parameters.</p>

@@ -27,6 +27,11 @@
 		
 			<p><code>LoggerAppenderFile</code> writes logging events to a file.</p>
 		
+			<subsection name="Layout">
+				<p>This appender requires a layout. If no layout is specified in configuration, 
+				<code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
+			</subsection>
+			
 			<subsection name="Parameters">
 				<p>The following parameters are available:</p>
 		

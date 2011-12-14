@@ -27,9 +27,12 @@
 		
 			<p><code>LoggerAppenderSocket</code> appends to a network socket.</p>
 			
-			<p>Unlike most other appenders, the default layout for this appender is <code>LoggerLayoutSerialized</code>.</p>
-			
-			<p>Prior to version <code>2.2</code>, a layout was not required.</p>
+			<subsection name="Layout">
+				<p>This appender requires a layout. If no layout is specified in configuration, 
+				<code><a href="../layouts/serialized.html">LoggerLayoutSerialized</a></code> will be used by default.</p>
+				
+				<p>Prior to version <code>2.2</code>, a layout was not required.</p>
+			</subsection>
 			
 			<subsection name="Parameters">
 				<p>The following parameters are available:</p>
