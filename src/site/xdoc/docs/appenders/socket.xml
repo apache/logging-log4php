@@ -31,13 +31,13 @@
 			
 			<p>Prior to version <code>2.2</code>, a layout was not required.</p>
 			
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>

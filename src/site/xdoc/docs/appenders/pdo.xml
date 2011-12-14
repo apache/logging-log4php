@@ -28,13 +28,13 @@
 			<p><code>LoggerAppenderPDO</code> appender logs to a database using the PHP's 
 			<a href="http://php.net/manual/en/book.pdo.php" target="_blank" class="externalLink">PDO extension</a>.</p>
 		
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>
@@ -89,7 +89,7 @@
 							<td>string</td>
 							<td>No</td>
 							<td><em><a href="#Advanced_configuration">see below</a></em></td>
-							<td>A comma separated list of format strings used in conjunction with <code>insertSql</code> option.</td>
+							<td>A comma separated list of format strings used in conjunction with <code>insertSql</code> parameter.</td>
 						</tr>
 					</tbody>
 				</table>
@@ -102,18 +102,18 @@
 			</subsection>
 			
 			<subsection name="Advanced configuration" id="Advanced_configuration">
-				<p>Options <code>insertSql</code> and <code>insertPattern</code> can be used to change how events are 
+				<p>Parameters <code>insertSql</code> and <code>insertPattern</code> can be used to change how events are 
 				inserted into the database. By manipulating them, it is possible to use a custom table structure to 
 				suit your needs.</p>
 			
 				<p class="alert-message warning">WARNING: Change these settings only if you are sure you know what you are doing.</p>
 			
-				<p>The default values of these options are:</p>
+				<p>The default values of these parameters are:</p>
 				
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Default value</th>
 						</tr>
 					</thead>

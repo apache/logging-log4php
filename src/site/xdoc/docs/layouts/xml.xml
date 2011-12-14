@@ -27,8 +27,8 @@
 		
 			<p><code>LoggerLayoutXml</code> formats the messages as an XML document.</p>
 			
-			<subsection name="Options" id="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters" id="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>

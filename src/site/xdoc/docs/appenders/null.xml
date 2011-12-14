@@ -28,7 +28,7 @@
 			<p><code>LoggerAppenderNull</code> ignores all logging requests; it never outputs a message to any 
 			device.</p>
 			
-			<p>This appender does not use a layout and has no configurable options.</p>
+			<p>This appender does not use a layout and has no configurable parameters.</p>
 			
 			<subsection name="Examples">
 				

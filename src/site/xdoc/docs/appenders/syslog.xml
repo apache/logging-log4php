@@ -29,13 +29,13 @@
 			
 			<p>This appender does not require a layout.</p>
 			
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>
@@ -154,7 +154,7 @@
 			
 			<subsection name="Facilities" id="Facilities">
 			
-				<p>The <em>facility</em> option is used to specify what type of program is logging the message. This 
+				<p>The <em>facility</em> parameter is used to specify what type of program is logging the message. This 
 				allows you to specify (in your machine's syslog configuration) how messages coming from different
 				facilities will be handled.</p>
 				
@@ -311,7 +311,7 @@
         <layout class="LoggerLayoutTTCC" />
         <param name="ident" value="log4php-test" />
         <param name="facility" value="LOCAL0" />
-        <param name="options" value="NDELAY|PID" />
+        <param name="option" value="NDELAY|PID" />
     </appender>
     <root>
         <appender_ref ref="default" />
@@ -331,7 +331,7 @@ array(
             'params' => array(
                 'ident' => 'log4php-test',
                 'facility' => 'LOCAL0',
-                'options' => 'NDELAY|PID'
+                'option' => 'NDELAY|PID'
             ),
         ),
     ),

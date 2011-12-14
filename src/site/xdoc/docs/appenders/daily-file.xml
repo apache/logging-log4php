@@ -28,16 +28,16 @@
 			<p><code>LoggerAppenderDailyFile</code> writes logging events to a file. The file is rolled over 
 			once a day. In other words, for each day a new file is created.</p>
 			
-			<p>The path specified in the <code>file</code> option string should contain the string <code>%s</code> 
-			which will be substituted with the current date when logging. The <code>datePattern</code> option 
+			<p>The path specified in the <code>file</code> parameter string should contain the string <code>%s</code> 
+			which will be substituted with the current date when logging. The <code>datePattern</code> parameter 
 			determines how the date will be formatted.</p>
 			
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>
-						<th>Option</th>
+						<th>Parameter</th>
 						<th>Type</th>
 						<th>Required</th>
 						<th>Default</th>

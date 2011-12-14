@@ -30,12 +30,12 @@
 			<p>This appender is similar to <code><a href="mail.html">LoggerAppenderMail</a></code>, except that it 
   			sends each each log event in an individual email message at the time when it occurs.</p>
 			
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>
-						<th>Option</th>
+						<th>Parameter</th>
 						<th>Type</th>
 						<th>Required</th>
 						<th>Default</th>

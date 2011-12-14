@@ -35,12 +35,12 @@
 			<p class="alert-message warning">When working in Windows, make sure that the <code>SMTP</code> and <code>smpt_port</code>
 			values in php.ini are set to the correct values for your email server (address and port).</p>
 			
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>
-						<th>Option</th>
+						<th>Parameter</th>
 						<th>Type</th>
 						<th>Required</th>
 						<th>Default</th>

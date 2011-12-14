@@ -28,8 +28,8 @@
 			<p><code>LoggerLayoutSerialized</code> formats the logging event using the PHP's 
 			<code><a href="http://php.net/manual/en/function.serialize.php">serialize()</a></code> function.</p>
 			
-			<subsection name="Options" id="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters" id="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>
@@ -44,8 +44,8 @@
 						<td>boolean</td>
 						<td>No</td>
 						<td>false</td>
-						<td>If set to true, it will initilaize the event's location information before serialization. 
-						This option makes logging slower and should be used only if required.</td>
+						<td>If set to true, event's location information will be initialized before serialization. 
+						Enabling this parameter makes logging slower and should be used only if required.</td>
 					</tr>
 				</table>
 				

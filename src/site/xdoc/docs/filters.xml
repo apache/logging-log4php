@@ -49,8 +49,15 @@
 				<p>Like appenders and layouts, depending on the class used, filters may have configurable parameters 
 				which determine their behaviour.</p>
 			
-				<p>Here is an XML configuration example:</p>
+				<p>Here is a configuration example:</p>
 				
+	<ul class="tabs">
+					<li class="active"><a href="#xml">XML</a></li>
+					<li><a href="#php">PHP</a></li>
+				</ul>
+ 
+				<div class="pill-content" >
+					<div class="active" id="xml">
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="defualt" class="LoggerAppenderEcho">
@@ -71,8 +78,8 @@
 </configuration>
 ]]></pre>
 
-				<p>And the same configuration in PHP format:</p>
-				
+					</div>
+					<div id="php">
 <pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
@@ -104,7 +111,8 @@ array(
     )
 )
 ]]></pre>	
-				
+					</div>
+				</div>
 				
 				<p>In this example, there are two filters defined for the <em>default</em> appender.</p>
 				
@@ -162,12 +170,12 @@ array(
 			<subsection name="LoggerFilterLevelMatch" id="LoggerFilterLevelMatch">
 				<p>This filter either accepts the specified logger level or denies it.</p>
 				
-				<h4>Configurable options</h4>
+				<h4>Configurable parameters</h4>
 				
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>
@@ -209,12 +217,12 @@ array(
 			<subsection name="LoggerFilterLevelRange" id="LoggerFilterLevelRange">
 				<p>This filter accepts or denies logging events if their log level is within the specified range.</p>
 				
-				<h4>Configurable options</h4>
+				<h4>Configurable parameters</h4>
 				
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>
@@ -262,12 +270,12 @@ array(
 			<subsection name="LoggerFilterStringMatch" id="LoggerFilterStringMatch">
 				<p>This filter allows or denies logging events if their message contains a given string.</p>
 				
-				<h4>Configurable options</h4>
+				<h4>Configurable parameters</h4>
 				
 				<table>
 					<thead>
 						<tr>
-							<th>Option</th>
+							<th>Parameter</th>
 							<th>Type</th>
 							<th>Required</th>
 							<th>Default</th>

@@ -27,8 +27,8 @@
 		
 			<p>LoggerLayoutPattern is a flexible layout configurable via a conversion pattern.</p>
 		
-			<subsection name="Options">
-				<p>The following options are available:</p>
+			<subsection name="Parameters">
+				<p>The following parameters are available:</p>
 		
 				<table>
 					<tr>
