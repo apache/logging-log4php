@@ -19,7 +19,7 @@
 	<groupId>org.apache.log4php</groupId>
 	<artifactId>apache-log4php</artifactId>
 	<packaging>pom</packaging>
-	<version>2.1.1-SNAPSHOT</version>
+	<version>2.2.0</version>
 	<name>Apache log4php</name>
 	<description>A versatile logging framework for PHP</description>
 	<url>http://logging.apache.org/log4php</url>
@@ -66,9 +66,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</connection>
-		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/trunk</developerConnection>
-		<url>http://svn.apache.org/viewcvs.cgi/logging/log4php/trunk</url>
+		<connection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/tags/apache-log4php-2.2.0</connection>
+		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/logging/log4php/tags/apache-log4php-2.2.0</developerConnection>
+		<url>http://svn.apache.org/viewcvs.cgi/logging/log4php/tags/apache-log4php-2.2.0</url>
 	</scm>
 	
 	<organization>
