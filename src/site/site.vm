@@ -510,7 +510,7 @@
     <div class="topbar">
       <div class="topbar-inner">
         <div class="container-fluid">
-          <a class="brand" href="$relativePath">$project.name</a>
+          <a class="brand" href="$relativePath">$project.name &trade;</a>
           #links( $decoration.body.links )
           <div class="pull-right">
             <!-- Google CSE Search Box Begins  -->
