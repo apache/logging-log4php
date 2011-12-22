@@ -87,7 +87,13 @@
 						<td>-</td>
 						<td>Password used to connect to the database.</td>
 					</tr>
-					
+				    <tr>
+				        <td>timeout</td>
+				        <td>integer</td>
+				        <td>No</td>
+				        <td>3000</td>
+				        <td>For how long the driver should try to connect to the database (in milliseconds).</td>
+				    </tr>
 				</table>
 				
 			</subsection>

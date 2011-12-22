@@ -48,101 +48,54 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function setUp() {
-		if (extension_loaded('mongo') == false) {
+		if (!extension_loaded('mongo')) {
 			$this->markTestSkipped(
 				'The Mongo extension is not available.'
 			);
 		}
 	}
 	
-	public function test__construct() {
-		$appender = new LoggerAppenderMongoDB('mongo_appender');
-		$this->assertTrue($appender instanceof LoggerAppenderMongoDB);
-	}
-	
-	public function testSetGetHost() {
+	public function testHost() {
 		$expected = 'mongodb://localhost';
 		self::$appender->setHost($expected);
 		$result = self::$appender->getHost();
-		$this->assertEquals($expected, $result, 'Host doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
 	
-	public function testSetGetHostMongoPrefix() {
-		$expected = 'mongodb://localhost';
-		self::$appender->setHost('localhost');
-		$result = self::$appender->getHost();
-		$this->assertEquals($expected, $result, 'Host doesn\'t match expted value');
-	}
-	
-	public function testSetPort() {
+	public function testPort() {
 		$expected = 27017;
 		self::$appender->setPort($expected);
 		$result = self::$appender->getPort();
-		$this->assertEquals($expected, $result, 'Port doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
 
-	public function testGetPort() {
-		$expected = 27017;
-		self::$appender->setPort($expected);
-		$result = self::$appender->getPort();
-		$this->assertEquals($expected, $result, 'Port doesn\'t match expted value');
-	}
-	
-	public function testSetDatabaseName() {
+	public function testDatabaseName() {
 		$expected = 'log4php_mongodb';
 		self::$appender->setDatabaseName($expected);
 		$result	= self::$appender->getDatabaseName();
-		$this->assertEquals($expected, $result, 'Database name doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
 	
-	public function testGetDatabaseName() {
-		$expected = 'log4php_mongodb';
-		self::$appender->setDatabaseName($expected);
-		$result	= self::$appender->getDatabaseName();
-		$this->assertEquals($expected, $result, 'Database name doesn\'t match expted value');
-	}		 
-	
-	public function testSetCollectionName() {
+	public function testCollectionName() {
 		$expected = 'logs';
 		self::$appender->setCollectionName($expected);
 		$result = self::$appender->getCollectionName();
-		$this->assertEquals($expected, $result, 'Collection name doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
 	
-	public function testGetCollectionName() {
-		$expected = 'logs';
-		self::$appender->setCollectionName($expected);
-		$result = self::$appender->getCollectionName();
-		$this->assertEquals($expected, $result, 'Collection name doesn\'t match expted value');
-	}	 
-	
-	public function testSetUserName() {
+	public function testUserName() {
 		$expected = 'char0n';
 		self::$appender->setUserName($expected);
 		$result = self::$appender->getUserName();
-		$this->assertEquals($expected, $result, 'UserName doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
 	
-	public function testGetUserName() {
-		$expected = 'char0n';
-		self::$appender->setUserName($expected);
-		$result	= self::$appender->getUserName();
-		$this->assertEquals($expected, $result, 'UserName doesn\'t match expted value');
-	}					 
-	
-	public function testSetPassword() {
+	public function testPassword() {
 		$expected = 'secret pass';
 		self::$appender->setPassword($expected);
 		$result	= self::$appender->getPassword();
-		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
+		self::assertEquals($expected, $result);
 	}
-	
-	public function testGetPassword() {
-		$expected = 'secret pass';
-		self::$appender->setPassword($expected);
-		$result	= self::$appender->getPassword();
-		$this->assertEquals($expected, $result, 'Password doesn\'t match expted value');
-	} 
 	
 	public function testActivateOptionsNoCredentials() {
 		self::$appender->setUserName(null);
@@ -150,24 +103,22 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		self::$appender->activateOptions();
 	}		
 	
-	public function testAppend() {
-		self::$appender->append(self::$event);
-	}
-	
 	public function testFormat() {
-		$record = $this->logOne(self::$event);
+		$event = LoggerTestHelper::getErrorEvent("testmessage");
+		$record = $this->logOne($event);
 		
-		$this->assertEquals('ERROR', $record['level']);
-		$this->assertEquals('testmessage', $record['message']);
-		$this->assertEquals('test.Logger', $record['loggerName']);
+		self::assertEquals('ERROR', $record['level']);
+		self::assertEquals('testmessage', $record['message']);
+		self::assertEquals('test', $record['loggerName']);
 		
-		$this->assertEquals('NA', $record['fileName']);		
-		$this->assertEquals('getLocationInformation', $record['method']);
-		$this->assertEquals('NA', $record['lineNumber']);
-		$this->assertEquals('LoggerLoggingEvent', $record['className']);
+		self::assertEquals('NA', $record['fileName']);		
+		self::assertEquals('getLocationInformation', $record['method']);
+		self::assertEquals('NA', $record['lineNumber']);
+		self::assertEquals('LoggerLoggingEvent', $record['className']);
 		
-		$this->assertTrue(is_int($record['thread']));
-		$this->assertTrue(is_int($record['lineNumber']) || $record['lineNumber'] == 'NA');
+		self::assertTrue(is_int($record['thread']));
+		self::assertSame(getmypid(), $record['thread']);
+		self::assertTrue(is_int($record['lineNumber']) || $record['lineNumber'] == 'NA');
 	}
 	
 	public function testFormatThrowableInfo() {
@@ -182,10 +133,10 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		
 		$record = $this->logOne($event);
 		
-		$this->assertArrayHasKey('exception', $record);
-		$this->assertEquals(1, $record['exception']['code']);
-		$this->assertEquals('test exception', $record['exception']['message']);
-		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
+		self::assertArrayHasKey('exception', $record);
+		self::assertEquals(1, $record['exception']['code']);
+		self::assertEquals('test exception', $record['exception']['message']);
+		self::assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
 	}
 	
 	public function testFormatThrowableInfoWithInnerException() {
@@ -206,14 +157,14 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		
 		$record = $this->logOne($event);
 
-		$this->assertArrayHasKey('exception', $record);
-		$this->assertEquals(1, $record['exception']['code']);
-		$this->assertEquals('test exception', $record['exception']['message']);
-		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
+		self::assertArrayHasKey('exception', $record);
+		self::assertEquals(1, $record['exception']['code']);
+		self::assertEquals('test exception', $record['exception']['message']);
+		self::assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
 		
-		$this->assertTrue(array_key_exists('innerException', $record['exception']));
-		$this->assertEquals(2, $record['exception']['innerException']['code']);
-		$this->assertEquals('test exception inner', $record['exception']['innerException']['message']);
+		self::assertTrue(array_key_exists('innerException', $record['exception']));
+		self::assertEquals(2, $record['exception']['innerException']['code']);
+		self::assertEquals('test exception inner', $record['exception']['innerException']['message']);
 	}
 	
 	public function testClose() {
@@ -223,19 +174,22 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	/** Logs the event and returns the record from the database. */
 	private function logOne($event)
 	{
-		self::$appender = new LoggerAppenderMongoDB();
-		self::$appender->setHost('localhost');
-		self::$appender->activateOptions();
-		$mongo = self::$appender->getConnection();
+		$appender = new LoggerAppenderMongoDB();
+		$appender->setHost('localhost');
+		$appender->activateOptions();
+		
+		$mongo = $appender->getConnection();
 		$collection = $mongo->log4php_mongodb->logs;
 		
 		$result = $collection->drop();
 		self::assertSame((float) 1, $result['ok'], "Could not clear the collection before logging.");
 		
-		self::$appender->append($event);
+		$appender->append($event);
 		
 		$record = $collection->findOne();
 		self::assertNotNull($record, "Could not read the record from the database.");
+		
+		$appender->close();
 		
 		return $record;
 	}

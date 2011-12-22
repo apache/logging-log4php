@@ -20,6 +20,9 @@
 		<title>Apache log4php changelog</title>
 	</properties>
 	<body>
+	    <release version="2.3.0-SNAPSHOT" date="SVN">
+	        <action date="2011-12-22" type="update" issue="LOG4PHP-166" dev="Ivan Habunek" due-to="David Hilowitz" due-to-email="dhilowitz at gmail dot com">Added connection timeout parameter to MongoDB appender.</action>
+	    </release>
 	    <release version="2.2.0" date="2011-12-20">
 			<action date="2011-12-13" type="fix" issue="LOG4PHP-158" dev="Ivan Habunek">LoggerAppenderFile throws wrong warning messages.</action>
 	    	<action date="2011-12-12" type="update" issue="LOG4PHP-161" dev="Ivan Habunek">All configurable components should report errors when given invalid values</action>
