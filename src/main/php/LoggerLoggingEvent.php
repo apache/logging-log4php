@@ -39,26 +39,23 @@ class LoggerLoggingEvent {
 	private $logger = null;
 	
 	/** 
-	* The category (logger) name.
-	* This field will be marked as private in future
-	* releases. Please do not access it directly. 
-	* Use the {@link getLoggerName()} method instead.
-	* @deprecated 
-	*/
+	 * The category (logger) name.
+	 * This field will be marked as private in future
+	 * releases. Please do not access it directly. 
+	 * Use the {@link getLoggerName()} method instead.
+	 * @deprecated 
+	 */
 	private $categoryName;
 	
 	/** 
-	* Level of logging event.
-	* <p> This field should not be accessed directly. You shoud use the
-	* {@link getLevel()} method instead.
-	*
-	* @deprecated
-	* @var LoggerLevel
-	*/
+	 * Level of the logging event.
+	 * @var LoggerLevel
+	 */
 	protected $level;
 	
 	/** 
-	 * @var string The nested diagnostic context (NDC) of logging event. 
+	 * The nested diagnostic context (NDC) of logging event.
+	 * @var string  
 	 */
 	private $ndc;
 	
@@ -118,7 +115,7 @@ class LoggerLoggingEvent {
 	/**
 	* Instantiate a LoggingEvent from the supplied parameters.
 	*
-	* <p>Except {@link $timeStamp} all the other fields of
+	* Except {@link $timeStamp} all the other fields of
 	* LoggerLoggingEvent are filled when actually needed.
 	*
 	* @param string $fqcn name of the caller class.
@@ -141,12 +138,7 @@ class LoggerLoggingEvent {
 		if($timeStamp !== null && is_float($timeStamp)) {
 			$this->timeStamp = $timeStamp;
 		} else {
-			if(function_exists('microtime')) {
-				// get microtime as float
-				$this->timeStamp = microtime(true);
-			} else {
-				$this->timeStamp = floatval(time());
-			}
+			$this->timeStamp = microtime(true);
 		}
 		
 		if ($throwable !== null && $throwable instanceof Exception) {
@@ -175,38 +167,34 @@ class LoggerLoggingEvent {
 		if($this->locationInfo === null) {
 
 			$locationInfo = array();
-
-			if(function_exists('debug_backtrace')) {
-				$trace = debug_backtrace();
-				$prevHop = null;
-				// make a downsearch to identify the caller
-				$hop = array_pop($trace);
-				while($hop !== null) {
-					if(isset($hop['class'])) {
-						// we are sometimes in functions = no class available: avoid php warning here
-						$className = strtolower($hop['class']);
-						if(!empty($className) and ($className == 'logger' or $className == 'loggercategory' or 
-							strtolower(get_parent_class($className)) == 'logger' or
-							strtolower(get_parent_class($className)) == 'loggercategory')) {
-							$locationInfo['line'] = $hop['line'];
-							$locationInfo['file'] = $hop['file'];
-							break;
-						}
+			$trace = debug_backtrace();
+			$prevHop = null;
+			// make a downsearch to identify the caller
+			$hop = array_pop($trace);
+			while($hop !== null) {
+				if(isset($hop['class'])) {
+					// we are sometimes in functions = no class available: avoid php warning here
+					$className = strtolower($hop['class']);
+					if(!empty($className) and ($className == 'logger' or 
+						strtolower(get_parent_class($className)) == 'logger')) {
+						$locationInfo['line'] = $hop['line'];
+						$locationInfo['file'] = $hop['file'];
+						break;
 					}
-					$prevHop = $hop;
-					$hop = array_pop($trace);
 				}
-				$locationInfo['class'] = isset($prevHop['class']) ? $prevHop['class'] : 'main';
-				if(isset($prevHop['function']) and
-					$prevHop['function'] !== 'include' and
-					$prevHop['function'] !== 'include_once' and
-					$prevHop['function'] !== 'require' and
-					$prevHop['function'] !== 'require_once') {
-	
-					$locationInfo['function'] = $prevHop['function'];
-				} else {
-					$locationInfo['function'] = 'main';
-				}
+				$prevHop = $hop;
+				$hop = array_pop($trace);
+			}
+			$locationInfo['class'] = isset($prevHop['class']) ? $prevHop['class'] : 'main';
+			if(isset($prevHop['function']) and
+				$prevHop['function'] !== 'include' and
+				$prevHop['function'] !== 'include_once' and
+				$prevHop['function'] !== 'require' and
+				$prevHop['function'] !== 'require_once') {
+
+				$locationInfo['function'] = $prevHop['function'];
+			} else {
+				$locationInfo['function'] = 'main';
 			}
 					 
 			$this->locationInfo = new LoggerLocationInfo($locationInfo, $this->fqcn);
@@ -288,14 +276,9 @@ class LoggerLoggingEvent {
 	public function getRenderedMessage() {
 		if($this->renderedMessage === null and $this->message !== null) {
 			if(is_string($this->message)) {
-					$this->renderedMessage = $this->message;
+				$this->renderedMessage = $this->message;
 			} else {
-				// $this->logger might be null or an instance of Logger or RootLogger
-				// But in contrast to log4j, in log4php there is only have one LoggerHierarchy so there is
-				// no need figure out which one is $this->logger part of.
-				// TODO: Logger::getHierarchy() is marked @deprecated!
-				$repository = Logger::getHierarchy();
-				$rendererMap = $repository->getRendererMap();
+				$rendererMap = Logger::getHierarchy()->getRendererMap();
 				$this->renderedMessage= $rendererMap->findAndRender($this->message);
 			}
 		}
@@ -303,18 +286,13 @@ class LoggerLoggingEvent {
 	}
 
 	/**
-	 * Returns the time when the application started, in seconds
-	 * elapsed since 01.01.1970 plus microseconds if available.
+	 * Returns the time when the application started, as a UNIX timestamp 
+	 * with microseconds.
 	 * @return float
 	 */
 	public static function getStartTime() {
 		if(!isset(self::$startTime)) {
-			if (function_exists('microtime')) {
-				// microtime as float
-				self::$startTime = microtime(true);
-			} else {
-				self::$startTime = floatval(time());
-			}
+			self::$startTime = microtime(true);
 		}
 		return self::$startTime; 
 	}
@@ -331,8 +309,8 @@ class LoggerLoggingEvent {
 	 * @return the time after event starttime when this event has occured
 	 */
 	public function getTime() {
-		$eventTime = (float)$this->getTimeStamp();
-		$eventStartTime = (float)LoggerLoggingEvent::getStartTime();
+		$eventTime = $this->getTimeStamp();
+		$eventStartTime = LoggerLoggingEvent::getStartTime();
 		return number_format(($eventTime - $eventStartTime) * 1000, 0, '', '');
 	}
 	
