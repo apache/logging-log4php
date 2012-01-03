@@ -18,11 +18,7 @@
  * @package log4php
  */
 
-if (function_exists('__autoload')) {
-	trigger_error("log4php: It looks like your code is using an __autoload() function. log4php uses spl_autoload_register() which will bypass your __autoload() function and may break autoloading.", E_USER_WARNING);
-}
-
-spl_autoload_register(array('Logger', 'autoload'));
+require dirname(__FILE__) . '/LoggerAutoloader.php';
 
 /**
  * This is the central class in the log4php package. All logging operations 
@@ -44,88 +40,7 @@ spl_autoload_register(array('Logger', 'autoload'));
  * @link	   http://logging.apache.org/log4php
  */
 class Logger {
-	private static $_classes = array(
-		'LoggerException' => '/LoggerException.php',
-		'LoggerHierarchy' => '/LoggerHierarchy.php',
-		'LoggerLayout' => '/LoggerLayout.php',
-		'LoggerLevel' => '/LoggerLevel.php',
-		'LoggerMDC' => '/LoggerMDC.php',
-		'LoggerNDC' => '/LoggerNDC.php',
-		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
-		'LoggerConfigurable' => '/LoggerConfigurable.php',
-		'LoggerConfigurator' => '/LoggerConfigurator.php',
-		'LoggerConfiguratorDefault' => '/configurators/LoggerConfiguratorDefault.php',
-		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
-		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
-		'LoggerConfigurationAdapterXML' => '/configurators/LoggerConfigurationAdapterXML.php',
-		'LoggerConfigurationAdapterPHP' => '/configurators/LoggerConfigurationAdapterPHP.php',
-		'LoggerRoot' => '/LoggerRoot.php',
-		'LoggerAppender' => '/LoggerAppender.php',
-		'LoggerAppenderPool' => '/LoggerAppenderPool.php',
-		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
-		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
-		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
-		'LoggerAppenderEcho' => '/appenders/LoggerAppenderEcho.php',
-		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
-		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
-		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
-		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
-		'LoggerAppenderNull' => '/appenders/LoggerAppenderNull.php',
-		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
-		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
-		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
-		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
-		'LoggerFormattingInfo' => '/helpers/LoggerFormattingInfo.php',
-		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
-		'LoggerPatternConverter' => '/helpers/LoggerPatternConverter.php',
-		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',
-		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
-		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
-		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
-		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
-		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
-		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
-		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
-		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',
-		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
-		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
-		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
-		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
-		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
-		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
-		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
-		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
-		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
-		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
-		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
-		'LoggerLayoutPattern' => '/layouts/LoggerLayoutPattern.php',
-		'LoggerLayoutSerialized' => '/layouts/LoggerLayoutSerialized.php',
-		'LoggerLayoutXml' => '/layouts/LoggerLayoutXml.php',
-		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
-		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
-		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
-		'LoggerRendererException' => '/renderers/LoggerRendererException.php',
-		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
-		'LoggerThrowableInformation' => '/LoggerThrowableInformation.php',
-		'LoggerLoggingEvent' => '/LoggerLoggingEvent.php',
-		'LoggerFilter' => '/LoggerFilter.php',
-		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
-		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
-		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
-		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php'
-	);
-
-	/**
-	 * Class autoloader. This method is provided to be invoked within an 
-	 * __autoload() magic method.
-	 * @param string $className The name of the class to load.
-	 */
-	public static function autoload($className) {
-		if(isset(self::$_classes[$className])) {
-			include dirname(__FILE__) . self::$_classes[$className];
-		}
-	}
-
+	
 	/**
 	 * Logger additivity. If set to true then child loggers will inherit
 	 * the appenders of their ancestors by default.
