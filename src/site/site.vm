@@ -471,7 +471,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"#if ( $locale ) xml:lang="$locale.language" lang="$locale.language"#end>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}" />
-    <title>$title</title>
+    <title>$title - $project.name</title>
     <link rel="stylesheet" href="$relativePath/css/bootstrap.css" type="text/css" />
     <link rel="stylesheet" href="$relativePath/css/site.css" type="text/css" />
 	<script type="text/javascript" src="$relativePath/js/jquery.min.js"></script>
