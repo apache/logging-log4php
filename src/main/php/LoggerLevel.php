@@ -42,23 +42,17 @@ class LoggerLevel {
 	const TRACE = 5000;
 	const ALL = -2147483647;
 
-	/**
-	 * TODO: check if still necessary or to be refactored 
-	 * @var integer
-	 */
+	/** Integer level value. */
 	private $level;
 	
-	/**
-	 * Contains a list of instantiated levels 
-	 */
+	/** Contains a list of instantiated levels. */
 	private static $levelMap;
 
-	/**
-	 * @var string
-	 */
+	/** String representation of the level. */
 	private $levelStr;
 
-	/**
+	/** 
+	 * Equivalent syslog level.
 	 * @var integer
 	 */
 	private $syslogEquivalent;
@@ -77,14 +71,14 @@ class LoggerLevel {
 	}
 
 	/**
-	 * Two priorities are equal if their level fields are equal.
+	 * Compares two logger levels.
 	 *
-	 * @param object $o
+	 * @param LoggerLevels $other
 	 * @return boolean 
 	 */
-	public function equals($o) {
-		if($o instanceof LoggerLevel) {
-			if($this->level == $o->level) {
+	public function equals($other) {
+		if($other instanceof LoggerLevel) {
+			if($this->level == $other->level) {
 				return true;
 			}
 		} else {
@@ -98,7 +92,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelOff() {
 		if(!isset(self::$levelMap[LoggerLevel::OFF])) {
-			self::$levelMap[LoggerLevel::OFF] = new LoggerLevel(LoggerLevel::OFF, 'OFF', 0);
+			self::$levelMap[LoggerLevel::OFF] = new LoggerLevel(LoggerLevel::OFF, 'OFF', LOG_ALERT);
 		}
 		return self::$levelMap[LoggerLevel::OFF];
 	}
@@ -109,7 +103,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelFatal() {
 		if(!isset(self::$levelMap[LoggerLevel::FATAL])) {
-			self::$levelMap[LoggerLevel::FATAL] = new LoggerLevel(LoggerLevel::FATAL, 'FATAL', 0);
+			self::$levelMap[LoggerLevel::FATAL] = new LoggerLevel(LoggerLevel::FATAL, 'FATAL', LOG_ALERT);
 		}
 		return self::$levelMap[LoggerLevel::FATAL];
 	}
@@ -120,7 +114,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelError() {
 		if(!isset(self::$levelMap[LoggerLevel::ERROR])) {
-			self::$levelMap[LoggerLevel::ERROR] = new LoggerLevel(LoggerLevel::ERROR, 'ERROR', 3);
+			self::$levelMap[LoggerLevel::ERROR] = new LoggerLevel(LoggerLevel::ERROR, 'ERROR', LOG_ERR);
 		}
 		return self::$levelMap[LoggerLevel::ERROR];
 	}
@@ -131,7 +125,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelWarn() {
 		if(!isset(self::$levelMap[LoggerLevel::WARN])) {
-			self::$levelMap[LoggerLevel::WARN] = new LoggerLevel(LoggerLevel::WARN, 'WARN', 4);
+			self::$levelMap[LoggerLevel::WARN] = new LoggerLevel(LoggerLevel::WARN, 'WARN', LOG_WARNING);
 		}
 		return self::$levelMap[LoggerLevel::WARN];
 	}
@@ -142,7 +136,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelInfo() {
 		if(!isset(self::$levelMap[LoggerLevel::INFO])) {
-			self::$levelMap[LoggerLevel::INFO] = new LoggerLevel(LoggerLevel::INFO, 'INFO', 6);
+			self::$levelMap[LoggerLevel::INFO] = new LoggerLevel(LoggerLevel::INFO, 'INFO', LOG_INFO);
 		}
 		return self::$levelMap[LoggerLevel::INFO];
 	}
@@ -153,7 +147,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelDebug() {
 		if(!isset(self::$levelMap[LoggerLevel::DEBUG])) {
-			self::$levelMap[LoggerLevel::DEBUG] = new LoggerLevel(LoggerLevel::DEBUG, 'DEBUG', 7);
+			self::$levelMap[LoggerLevel::DEBUG] = new LoggerLevel(LoggerLevel::DEBUG, 'DEBUG', LOG_DEBUG);
 		}
 		return self::$levelMap[LoggerLevel::DEBUG];
 	}
@@ -164,7 +158,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelTrace() {
 		if(!isset(self::$levelMap[LoggerLevel::TRACE])) {
-			self::$levelMap[LoggerLevel::TRACE] = new LoggerLevel(LoggerLevel::TRACE, 'TRACE', 7);
+			self::$levelMap[LoggerLevel::TRACE] = new LoggerLevel(LoggerLevel::TRACE, 'TRACE', LOG_DEBUG);
 		}
 		return self::$levelMap[LoggerLevel::TRACE];
 	}	
@@ -175,7 +169,7 @@ class LoggerLevel {
 	 */
 	public static function getLevelAll() {
 		if(!isset(self::$levelMap[LoggerLevel::ALL])) {
-			self::$levelMap[LoggerLevel::ALL] = new LoggerLevel(LoggerLevel::ALL, 'ALL', 7);
+			self::$levelMap[LoggerLevel::ALL] = new LoggerLevel(LoggerLevel::ALL, 'ALL', LOG_DEBUG);
 		}
 		return self::$levelMap[LoggerLevel::ALL];
 	}
@@ -192,15 +186,12 @@ class LoggerLevel {
 	 * Returns <i>true</i> if this level has a higher or equal
 	 * level than the level passed as argument, <i>false</i>
 	 * otherwise.
-	 * 
-	 * <p>You should think twice before overriding the default
-	 * implementation of <i>isGreaterOrEqual</i> method.
 	 *
-	 * @param LoggerLevel $r
+	 * @param LoggerLevel $other
 	 * @return boolean
 	 */
-	public function isGreaterOrEqual($r) {
-		return $this->level >= $r->level;
+	public function isGreaterOrEqual($other) {
+		return $this->level >= $other->level;
 	}
 
 	/**
