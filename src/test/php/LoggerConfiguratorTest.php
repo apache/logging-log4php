@@ -51,10 +51,13 @@
  		$appenders = Logger::getRootLogger()->getAllAppenders();
  		$this->assertInternalType('array', $appenders);
  		$this->assertEquals(count($appenders), 1);
- 		$this->assertSame('default', $appenders[0]->getName());
  		
- 		$appender = $appenders[0];
+ 		$names = array_keys($appenders);
+ 		$this->assertSame('default', $names[0]);
+ 		
+ 		$appender = array_shift($appenders);
  		$this->assertInstanceOf('LoggerAppenderEcho', $appender);
+ 		$this->assertSame('default', $appender->getName());
  		
  		$layout = $appender->getLayout();
  		$this->assertInstanceOf('LoggerLayoutTTCC', $layout);
