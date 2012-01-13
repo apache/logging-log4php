@@ -59,7 +59,9 @@ What is Apache log4php?
 
 The Apache log4php project
 	
-	Apache log4php\u2122 is an open source project at the {{{http://www.apache.org}Apache Software Foundation}}, a part the {{{http://logging.apache.org}Apache Logging Services}} project.
+	Apache log4php\u2122 is an open source project at the 
+	{{{http://www.apache.org}Apache Software Foundation}}, a part the 
+	{{{http://logging.apache.org}Apache Logging Services}} project.
 
 	Apache log4php\u2122 graduated in March 2010.
 
@@ -71,23 +73,32 @@ Who uses Apache log4php?
 	
 	* {{{http://cmsmadesimple.org}CMS Made Simple}} - an open source (GPL) CMS
 	
+	* {{{http://marcelog.github.com/Ding/}Ding}} - a dependency injection, AOP, and MVC container, with features 
+	    similar to the Spring Framework
+	
 	* {{{http://sourceforge.net/projects/helpzilla/}Helpzilla}} - interactive solutions for customer care
 	
-	* {{{http://www.imento.dk}Imento}} - A danish company which uses log4php in their commercial
+	* {{{http://www.imento.dk}Imento}} - a danish company which uses log4php in their commercial
 		MVC framework
 	
 	* {{{http://www.paloose.org}Paloose}} - a simplified version of Cocoon using PHP
 	
-	* {{{http://piwi.googlecode.com/}PIWI Framework}} - A framework for quick website building and
+	* {{{http://marcelog.github.com/PAMI/}PAMI}} / {{{http://marcelog.github.com/PAGI/}PAGI}} - OOP clients for the 
+	    Asterisk Manager Protocol and the Asterisk Gateway Protocol, implemented in PHP.
+	
+	* {{{http://piwi.googlecode.com/}PIWI Framework}} - a framework for quick website building and
 		PHP Dependency Injection similar to Apache Cocoon and Apache Forrest.
 	
-	* {{{http://code.google.com/p/scalr/}Scalr}} - a fully redundant, self-curing and self-scaling hosting environment using Amazon's EC2
+	* {{{http://code.google.com/p/scalr/}Scalr}} - a fully redundant, self-curing and self-scaling hosting environment
+	    using Amazon's EC2
 	
-	* {{{http://www.sitesupra.com/}SiteSupra}} - enterprise PHP platform
+	* {{{http://www.sitesupra.com/}SiteSupra}} - an enterprise PHP platform
 	
 	* {{{http://www.sugarcrm.com}SugarCRM}} - low-cost customer relationship management solutions
 	
 	* {{{http://www.vtiger.com}vtiger}} - an open source CRM
+	
+	[]
 	
 	If you think that you should be on this list, please let us know by sending a 
 	message to the {{{./mail-lists.html}log4php user lists}}.

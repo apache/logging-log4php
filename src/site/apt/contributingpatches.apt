@@ -44,13 +44,17 @@ Contributing patches
 
     * don't use vertical alignement
     
-    * brackets are on the same line as the method signature
+    * keep brackets on the same line as the method signature
     
-    * brackets are on the same line as control statements
+    * keep brackets on the same line as control statements
     
-    * always brackets for control statements
+    * always use brackets for control statements
     
-    * don't use _ in variablenames
+    * use lowerCamelCase for naming methods and variables
+    
+    * don't use underscores (_)
+    
+    []
 
 * Tabs not spaces
 
@@ -65,8 +69,9 @@ Contributing patches
 
 * Test cases
 
-  Classes needs to be tested with PHPUnit. If you are not familiar with the principles
-  of regression testing, then the JUnit or even the PHPUnit site has some good articles.
+  Classes needs to be tested with {{{https://github.com/sebastianbergmann/phpunit/}PHPUnit}}. If 
+  you are not familiar with the principles of regression testing, then the 
+  {{{http://www.phpunit.de/manual/3.6/en/}PHPUnit manual}} is a good place to start.
 
   Before you submit your patch, please do a clean build of the full distribution and 
   run the unit tests (this can be done with <<<maven test>>>. This ensures that 
@@ -78,7 +83,7 @@ Contributing patches
 
 * Creating a patch
 
-  The Apache log4php source code repository holds the current source. Currently SVN is beeing used.
+  The Apache log4php {{{./source-repository.html}source code repository}} holds the current source.
 
   Please create your patch against the latest revision of the files in the source code 
   repository since this makes the job of applying the patch much easier. 
@@ -95,13 +100,13 @@ Contributing patches
   Try to give your patch files meaningful names. This makes it easier for 
   developers who need to apply a number of different patches.
 
-* S	ubmitting a patch
+* Submitting a patch
 
-  There are two ways to go to submit a patch:
-
-  * Add the patch as an attachment to a bug report. log4php uses JIRA. Create a new bug
-    report if necessary.
+  The preffered way of submitting a patch is by attaching it to a bug report in the project's
+  {{{http://logging.apache.org/log4php/issue-tracking.html} issue tracker}}. Create a new bug
+  report if necessary.
     
-  * Mail the JIRA issue number to the dev mailing list. The email subject should describe
-    what the patch does and should be prefixed by [PATCH]. Make sure that it's clear 
-    which component the patch is for. 
+  Please make sure to mark "Grant license to ASF for inclusion in ASF works" when attaching
+  the patch. This means you agree with providing us with the code contained in the patch
+  under the {{{http://www.apache.org/licenses/LICENSE-2.0}Apache licence}}.    
+
