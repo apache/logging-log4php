@@ -27,7 +27,7 @@
  * @group appenders
  */
 class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
-        
+	
 	public function testRequiresLayout() {
 		$appender = new LoggerAppenderMailEvent();
 		self::assertTrue($appender->requiresLayout());
@@ -53,16 +53,29 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 		$e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with additional headers 'From: Testsender' and content: ERROR - testmessage".PHP_EOL;
 		self::assertEquals($e, $v);
 		$appender->close();
-    }
+	}
 
-    /** 
-	 * Check if invalid configurations are rejected. 
-     * @expectedException LoggerException with empty
-     */
-    public function testEmptyTo() {
-        $appender = new LoggerAppenderMailEvent("myname");
-        $appender->setLayout(new LoggerLayoutSimple());
-        $appender->setFrom('info@example.com');
-        $appender->activateOptions();
-    }
+	/** 
+	 * Check an error is reported if 'to' is not set.
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage Required parameter 'to' not set.
+	 */
+	public function testEmptyTo() {
+		$appender = new LoggerAppenderMailEvent("myname");
+		$appender->setLayout(new LoggerLayoutSimple());
+		$appender->setFrom('info@example.com');
+		$appender->activateOptions();
+	}
+	
+	/**
+	 * Check an error is reported if 'from' is not set.
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage Required parameter 'from' not set.
+	 */
+	public function testEmptyFrom() {
+		$appender = new LoggerAppenderMailEvent("myname");
+		$appender->setLayout(new LoggerLayoutSimple());
+		$appender->setTo('info@example.com');
+		$appender->activateOptions();
+	}
 }
