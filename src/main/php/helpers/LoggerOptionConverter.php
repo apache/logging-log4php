@@ -36,8 +36,14 @@ class LoggerOptionConverter {
 	/** String values which are converted to boolean TRUE. */
 	private static $trueValues = array('1', 'true', 'yes', 'on');
 	
-	/** String values which are converted to boolean FALSE. */
-	private static $falseValues = array('0', 'false', 'no', 'off');
+	/** 
+	 * String values which are converted to boolean FALSE.
+	 * 
+	 * Note that an empty string must convert to false, because 
+	 * parse_ini_file() which is used for parsing configuration 
+	 * converts the value _false_ to an empty string.
+	 */
+	private static $falseValues = array('0', 'false', 'no', 'off', '');
 	
 	/**
 	 * Read a predefined var.

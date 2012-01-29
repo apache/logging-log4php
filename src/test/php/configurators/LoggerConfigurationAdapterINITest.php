@@ -130,6 +130,39 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 		$adapter = new LoggerConfigurationAdapterINI();
 		$adapter->convert($url);
 	}
+
+	/**
+	 * Check that various boolean equivalents from ini file convert properly 
+	 * to boolean. 
+	 */
+	public function testBooleanValues() {
+		$values = parse_ini_file(PHPUNIT_CONFIG_DIR . '/adapters/ini/values.ini');
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_true']);
+		self::assertTrue($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_yes']);
+		self::assertTrue($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_false']);
+		self::assertFalse($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_no']);
+		self::assertFalse($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['quoted_true']);
+		self::assertTrue($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['quoted_false']);
+		self::assertFalse($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_one']);
+		self::assertTrue($actual);
+		
+		$actual = LoggerOptionConverter::toBooleanEx($values['unquoted_zero']);
+		self::assertFalse($actual);
+	}
+	
 }
 
 ?>
