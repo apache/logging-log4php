@@ -101,7 +101,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test exception is thrown when file is not a valid ini file.
 	 * @expectedException LoggerException
-	 * @expectedExceptionMessage Error parsing configuration file: syntax error
+	 * @expectedExceptionMessage Error parsing configuration file
 	 */
 	public function testInvalidFileException() {
 		$url =  PHPUNIT_CONFIG_DIR . '/adapters/ini/config_invalid_syntax.ini';
