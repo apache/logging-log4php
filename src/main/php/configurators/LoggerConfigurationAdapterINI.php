@@ -73,7 +73,7 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 			throw new LoggerException("File [$url] does not exist.");
 		}
 		
-		$properties = @parse_ini_file($url, true, INI_SCANNER_RAW);
+		$properties = @parse_ini_file($url, true);
 		if ($properties === false) {
 			$error = error_get_last();
 			throw new LoggerException("Error parsing configuration file: {$error['message']}");
