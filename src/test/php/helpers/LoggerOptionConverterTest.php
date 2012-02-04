@@ -77,20 +77,11 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * Test fail on empty string.
-     * @expectedException LoggerException
-     * @expectedExceptionMessage Given value [''] cannot be converted to boolean.
-     */
-    public function testToBooleanFailure2() {
-    	LoggerOptionConverter::toBooleanEx('');
-    }
-    
-    /**
      * Test fail on invalid string.
      * @expectedException LoggerException
      * @expectedExceptionMessage Given value ['foo'] cannot be converted to boolean.
      */
-    public function testToBooleanFailure3() {
+    public function testToBooleanFailure2() {
     	LoggerOptionConverter::toBooleanEx('foo');
     }
     
