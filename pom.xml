@@ -166,19 +166,6 @@
 				
 				<executions>
 					<execution>
-						<id>syntax-check</id>
-						<phase>process-sources</phase>
-						<configuration>
-							<target>
-								<ant target="syntax-check" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					
-					<execution>
 						<id>pear-package</id>
 						<phase>package</phase>
 						<configuration>
