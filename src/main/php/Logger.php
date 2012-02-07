@@ -506,13 +506,14 @@ class Logger {
 	 * @param string|array $configuration Either a path to the configuration
 	 *   file, or a configuration array.
 	 *   
-	 * @param mixed $configuratorClass A custom configurator class: either a 
-	 * class name (string), or an object which implements LoggerConfigurator
-	 * interface. If left empty, the default configurator will be used. 
+	 * @param string|LoggerConfigurator $configurator A custom 
+	 * configurator class: either a class name (string), or an object which 
+	 * implements the LoggerConfigurator interface. If left empty, the default
+	 * configurator implementation will be used. 
 	 */
-	public static function configure($configuration = null, $configuratorClass = null) {
+	public static function configure($configuration = null, $configurator = null) {
 		self::resetConfiguration();
-		$configurator = self::getConfigurator($configuratorClass);
+		$configurator = self::getConfigurator($configurator);
 		$configurator->configure(self::getHierarchy(), $configuration);
 		self::$initialized = true;
 	}
@@ -522,26 +523,41 @@ class Logger {
 	 * configurator class. If no class is given, returns an instance of
 	 * the default configurator.
 	 * 
-	 * @param string $configuratorClass The configurator class.
+	 * @param string|LoggerConfigurator $configurator The configurator class 
+	 * or LoggerConfigurator instance.
 	 */
-	private static function getConfigurator($configuratorClass = null) {
-		if (empty($configuratorClass)) {
+	private static function getConfigurator($configurator = null) {
+		if ($configurator === null) {
 			return new LoggerConfiguratorDefault();
 		}
 		
-		if (!class_exists($configuratorClass)) {
-			$this->warn("Specified configurator class [$configuratorClass] does not exist. Reverting to default configurator.");
-			return new LoggerConfiguratorDefault();
+		if (is_object($configurator)) {
+			if ($configurator instanceof LoggerConfigurator) {
+				return $configurator;
+			} else {
+				trigger_error("log4php: Given configurator object [$configurator] does not implement the LoggerConfigurator interface. Reverting to default configurator.", E_USER_WARNING);
+				return new LoggerConfiguratorDefault();
+			}
 		}
 		
-		$configurator = new $configuratorClass();
+		if (is_string($configurator)) {
+			if (!class_exists($configurator)) {
+				trigger_error("log4php: Specified configurator class [$configurator] does not exist. Reverting to default configurator.", E_USER_WARNING);
+				return new LoggerConfiguratorDefault();
+			}
 			
-		if (!($configurator instanceof LoggerConfigurator)) {
-			$this->warn("Specified configurator class [$configuratorClass] does not implement the LoggerConfigurator interface. Reverting to default configurator.");
-			return new LoggerConfiguratorDefault();
+			$instance = new $configurator();
+				
+			if (!($instance instanceof LoggerConfigurator)) {
+				trigger_error("log4php: Specified configurator class [$configurator] does not implement the LoggerConfigurator interface. Reverting to default configurator.", E_USER_WARNING);
+				return new LoggerConfiguratorDefault();
+			}
+			
+			return $instance;
 		}
 		
-		return $configurator;
+		trigger_error("log4php: Invalid configurator specified. Expected either a string or a LoggerConfigurator instance. Reverting to default configurator.", E_USER_WARNING);
+		return new LoggerConfiguratorDefault();
 	}
 	
 	/**

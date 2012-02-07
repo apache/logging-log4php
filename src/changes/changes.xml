@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 	    <release version="2.2.1-SNAPSHOT" date="SVN">
+	        <action date="2011-02-07" type="fix" issue="LOG4PHP-168" dev="Ivan Habunek">Fixed a bug which prevented configuration by passing a LoggerConfigurator instance.</action>
 	    	<action date="2012-01-29" type="fix" issue="LOG4PHP-167" dev="Ivan Habunek">Fixed a bug which prevented parsing of INI configuration files when using PHP 5.2.x.</action>
 	        <action date="2011-12-22" type="update" issue="LOG4PHP-166" dev="Ivan Habunek" due-to="David Hilowitz" due-to-email="dhilowitz at gmail dot com">Added connection timeout parameter to MongoDB appender.</action>
 	    </release>

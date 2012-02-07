@@ -248,20 +248,23 @@ class MyConfigurator implements LoggerConfigurator {
 }
 </pre>
 
-				<p>To use the configurator, pass it as a second parameter to <code>Logger::configure()</code> 
-				(either the name of the class as a string or an instance).</p>
+				<p>To use the configurator, pass it as a second parameter to <code>Logger::configure()</code> (either 
+				    the name of the class as a string or an instance). Any value passed as <code>$configuration</code>
+				    will be available in the configure() method of the LoggerConfigurator as <code>$input</code>.</p>
 
-<pre class="prettyprint">
-Logger::configure(null, 'MyConfigurator');
+<pre class="prettyprint linenums">
+// User defined configuration (optional) 
+$configuration = array(
+    'foo' => 1,
+    'bar' => 2
+);
 
-$log = Logger::getRootLogger();
-$log->trace('one');
-$log->debug('two');
-$log->info('three');
-$log->warn('four');
-$log->error('five');
+// Passing the configurator as string
+Logger::configure($configuration, 'MyConfigurator');
+
+// Passing the configurator as an instance
+Logger::configure($configuration, new MyConfigurator());
 </pre>
-
 				<div class="alert-message block-message warn">
 					<p><strong>Note: </strong>Always call <code>activateOptions()</code> on all appenders, filters and layouts after setting
 					their configuration parameters. Otherwise, the configuration may not be properly activated.</p>
