@@ -40,15 +40,15 @@
 					
 				<p>Configuration:</p>
 					
-					
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
 
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+					<div class="tab-content" >
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSimple" />
@@ -58,9 +58,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -75,6 +75,7 @@ array(
     ),
 )
 ]]></pre>
+						</div>
 					</div>
 				</div>
 				
@@ -91,11 +92,11 @@ $log->warn("My third message.");
 
 				<p>Produces the following output:</p>
 
-<pre class="prettyprint"><![CDATA[
+<pre>
 INFO - My first message.
 DEBUG - My second message.
 WARN - My third message.
-]]></pre>
+</pre>
 
 			</subsection>
 		</section>

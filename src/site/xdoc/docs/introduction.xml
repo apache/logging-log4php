@@ -46,49 +46,53 @@
 				<p>Layouts are components responsible for transforming a logging event into a string. Most appender 
 				classes require a layout class to convert the event to a string so that it can be logged.</p>
 			</subsection>
-		</section>
 		
-		<section name="Levels" id ="Levels">
-			<p>A level describes the severity of a logging message. There are six levels, show here in descending order
-			of severity.</p>
-			
-			<table>
-				<tr>
-					<th>Level</th>
-					<th>Severity</th>
-					<th>Description</th>
-				</tr>
-				<tr>
-					<td>FATAL</td>
-					<td>Highest</td>
-					<td>Very severe error events that will presumably lead the application to abort.</td>
-				</tr>
-				<tr>
-					<td>ERROR</td>
-					<td>...</td>
-					<td>Error events that might still allow the application to continue running.</td>
-				</tr>
-				<tr>
-					<td>WARN</td>
-					<td>...</td>
-					<td>Potentially harmful situations which still allow the application to continue running.</td>
-				</tr>
-				<tr>
-					<td>INFO</td>
-					<td>...</td>
-					<td>Informational messages that highlight the progress of the application at coarse-grained level.</td>
-				</tr>
-				<tr>
-					<td>DEBUG</td>
-					<td>...</td>
-					<td>Fine-grained informational events that are most useful to debug an application.</td>
-				</tr>
-				<tr>
-					<td>TRACE</td>
-					<td>Lowest</td>
-					<td>Finest-grained informational events.</td>
-				</tr>
-			</table>
+			<subsection name="Levels" id ="Levels">
+				<p>A level describes the severity of a logging message. There are six levels, show here in descending order
+				of severity.</p>
+				
+				<table>
+					<thead>
+						<tr>
+							<th>Level</th>
+							<th>Severity</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>FATAL</td>
+							<td>Highest</td>
+							<td>Very severe error events that will presumably lead the application to abort.</td>
+						</tr>
+						<tr>
+							<td>ERROR</td>
+							<td>...</td>
+							<td>Error events that might still allow the application to continue running.</td>
+						</tr>
+						<tr>
+							<td>WARN</td>
+							<td>...</td>
+							<td>Potentially harmful situations which still allow the application to continue running.</td>
+						</tr>
+						<tr>
+							<td>INFO</td>
+							<td>...</td>
+							<td>Informational messages that highlight the progress of the application at coarse-grained level.</td>
+						</tr>
+						<tr>
+							<td>DEBUG</td>
+							<td>...</td>
+							<td>Fine-grained informational events that are most useful to debug an application.</td>
+						</tr>
+						<tr>
+							<td>TRACE</td>
+							<td>Lowest</td>
+							<td>Finest-grained informational events.</td>
+						</tr>
+					</tbody>
+				</table>
+			</subsection>
 		</section>
 	</body>
 </document>

@@ -110,7 +110,8 @@
 				inserted into the database. By manipulating them, it is possible to use a custom table structure to 
 				suit your needs.</p>
 			
-				<p class="alert-message warning">WARNING: Change these settings only if you are sure you know what you are doing.</p>
+				<p class="alert alert-warning"><strong>WARNING:</strong> Change these settings only if you are sure you
+				know what you are doing.</p>
 			
 				<p>The default values of these parameters are:</p>
 				
@@ -153,13 +154,14 @@
 				log to the database contained in <code>/var/log/log.sqlite</code>. The database will be created if it 
 				doesn't already exist.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml1">XML</a></li>
-					<li><a href="#php1">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml1">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderPDO">
@@ -170,8 +172,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php1">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -187,6 +189,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 				
@@ -199,13 +202,14 @@ array(
 				named <code>logdb</code>. The log will be written to a table named <code>log_table</code>. The table
 				will be created if it doesn't already exist.</p>
 
-				<ul class="tabs">
-					<li class="active"><a href="#xml2">XML</a></li>
-					<li><a href="#php2">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml2">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderPDO">
@@ -219,8 +223,8 @@ array(
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php2">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -239,6 +243,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 					

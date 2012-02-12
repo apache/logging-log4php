@@ -45,67 +45,70 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>threadPrinting</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the process ID will be included in output.</td>
-					</tr>
-					<tr>
-						<td>categoryPrefixing</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the logger name will be included in output.</td>
-					</tr>
-					<tr>
-						<td>contextPrinting</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the nested diagnostic context will be included in output.</td>
-					</tr>
-					<tr>
-						<td>microSecondsPrinting</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the microseconds will be included in output.</td>
-					</tr>
-					<tr>
-						<td>microSecondsPrinting</td>
-						<td>string</td>
-						<td>No</td>
-						<td>%c</td>
-						<td>Overrides the date format, using the format used in PHP 
-						<code>
-						<a class="externalLink" target="_blank" href="http://php.net/manual/en/function.strftime.php">strftime()</a>
-						</code> function.</td>
-					</tr>
-
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>threadPrinting</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the process ID will be included in output.</td>
+						</tr>
+						<tr>
+							<td>categoryPrefixing</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the logger name will be included in output.</td>
+						</tr>
+						<tr>
+							<td>contextPrinting</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the nested diagnostic context will be included in output.</td>
+						</tr>
+						<tr>
+							<td>microSecondsPrinting</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the microseconds will be included in output.</td>
+						</tr>
+						<tr>
+							<td>microSecondsPrinting</td>
+							<td>string</td>
+							<td>No</td>
+							<td>%c</td>
+							<td>Overrides the date format, using the format used in PHP 
+							<code><a class="externalLink" href="http://php.net/manual/en/function.strftime.php">strftime()</a></code> 
+							function.</td>
+						</tr>
+					</tbody>
 				</table>
 			</subsection>
 			
 			<subsection name="Examples">
 					
 				<p>Configuration:</p>
-
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
-
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+				
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
+					
+					<div class="tab-content" >
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutTTCC" />
@@ -115,9 +118,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -132,6 +135,7 @@ array(
     ),
 )
 ]]></pre>
+						</div>
 					</div>
 				</div>
 					
@@ -148,11 +152,11 @@ $logger->warn("Sed sit amet ipsum mauris.");
 
 				<p>Produces the following output:</p>
 
-<pre class="prettyprint"><![CDATA[
+<pre>
 INFO - My first message.
 DEBUG - My second message.
 WARN - My third message.
-]]></pre>
+</pre>
 
 			</subsection>
 		</section>

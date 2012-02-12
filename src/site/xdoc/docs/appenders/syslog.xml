@@ -250,7 +250,7 @@
 					</tbody>
 				</table>
 				
-				<p class="alert-message warning">Warning: <code>USER</code> is the only available facility under 
+				<p class="alert alert-warning">Warning: <code>USER</code> is the only facility available on 
 				Windows operating systems.</p>
 			
 			</subsection>
@@ -303,14 +303,15 @@
 			
 				<p>Here is a sample configuration:</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+					<div class="tab-content">
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderSyslog">
         <layout class="LoggerLayoutTTCC" />
@@ -323,9 +324,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -345,6 +346,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

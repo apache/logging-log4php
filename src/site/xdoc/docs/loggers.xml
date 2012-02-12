@@ -53,7 +53,7 @@
 				
 				<p>An example of setting the root logger threshold to <code>DEBUG</code>:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <root>
@@ -73,7 +73,7 @@
 				<p>The simplest example is to configure the root logger, since all other loggers will inherit its 
 				settings, as explained in the <a href="#Logger_hierarchy">next section</a>.</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <root>
@@ -88,7 +88,7 @@
 				<p>It is also possible to configure individual named loggers. For example, let's configure the 
 				<code>foo</code> logger, used in the example above, and set it's threshold to WARN:</p>	
 					
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <logger name="foo">
@@ -126,7 +126,7 @@
 				
 				<p>For example examine the following configuration:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <root>
@@ -139,7 +139,7 @@
 				<p>The threshold level of the root logger is set to debug. Also, the root logger is linked to a console
 				appender. Any named logger that is created will inherit these root settings.</p>
 			
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 $main = Logger::getLogger('main');
 $main->trace('This will not be logged.');
 $main->info('This will be logged.');
@@ -157,7 +157,7 @@ $main->info('This will be logged.');
 				
 				<p>Let's take the following example:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="A1" class="LoggerAppenderConsole" />
     <appender name="A2" class="LoggerAppenderConsole" />
@@ -174,7 +174,7 @@ $main->info('This will be logged.');
 				
 				<p>Therefore, by executing the following code:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 $main = Logger::getLogger('foo');
 $main->info('This will be logged twice.');
 ]]></pre>
@@ -191,7 +191,7 @@ INFO - This will be logged twice.
 				
 				<p>If the <code>foo</code> logger in the previous example was configured like this:</p>
 
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <logger name="foo" additivity="false"> 
     <appender_ref ref="A2" />
 </logger>
@@ -208,7 +208,7 @@ INFO - This will be logged twice.
 				
 				<p>Let's take the following configuration file:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="A1" class="LoggerAppenderConsole" />
     <appender name="A2" class="LoggerAppenderConsole" />

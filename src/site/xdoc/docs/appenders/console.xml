@@ -37,20 +37,24 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>target</td>
-						<td>string</td>
-						<td>No</td>
-						<td>stdout</td>
-						<td>The stream to write to; either "stdout" or "stderr".</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>target</td>
+							<td>string</td>
+							<td>No</td>
+							<td>stdout</td>
+							<td>The stream to write to; either "stdout" or "stderr".</td>
+						</tr>
+					</tbody>
 				</table>
 				
 			</subsection>
@@ -59,14 +63,15 @@
 			
 				<p>This example shows how to configure <code>LoggerAppenderConsole</code>.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
- 
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
+					
+					<div class="tab-content">
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole">
         <layout class="LoggerLayoutTTCC" />
@@ -76,9 +81,10 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+				
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -93,6 +99,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

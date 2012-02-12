@@ -74,18 +74,40 @@
 					</tbody>
 				</table>
 			</subsection>
+			
+			<subsection name="Changelog">
+				<table class="table table-striped table-bordered table-not-wide">
+					<thead>
+						<tr>
+							<th>Version</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>2.2.0</code></td>
+							<td>From this version, the socket appender uses a layout to format the logging events.
+							Because of this change, the following parameters are no longer used: <code>useXml</code>,
+							<code>locationInfo</code>, <code>log4jNamespace</code>. These settings can be configured
+							on the layout.</td>
+						</tr>
+					</tbody>
+				</table>
+			</subsection>
 				
 			<subsection name="Examples">
 				
-				<p>In this example, log events are sent to localhost:4242, using the default (serialized) layout.</p>
+				<p>In this example, log events are sent to a socket server at <code>localhost:4242</code>, using the 
+				default (serialized) layout.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderSocket">
@@ -97,8 +119,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -115,6 +137,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

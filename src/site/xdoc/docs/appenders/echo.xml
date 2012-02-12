@@ -38,70 +38,74 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>htmlLineBreaks</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>false</td>
-						<td>If set to true, a <![CDATA[<br />]]> element will be inserted before each line break in 
-						the logged message.</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>htmlLineBreaks</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>false</td>
+							<td>If set to true, a <![CDATA[<br />]]> element will be inserted before each line break in 
+							the logged message.</td>
+						</tr>
+					</tbody>
 				</table>
-				
 			</subsection>
 				
 			<subsection name="Examples">
 				<p>This example shows how to configure <code>LoggerAppenderEcho</code> using the 
 				<a href="../layouts/ttcc.html">TTCC layout</a> with	<code>htmlLineBreaks</code> turned on.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
- 
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
-<configuration xmlns="http://logging.apache.org/log4php/">
-    <appender name="default" class="LoggerAppenderEcho">
-        <layout class="LoggerLayoutTTCC" />
-        <param name="htmlLineBreaks" value="true" />
-    </appender>
-    <root>
-        <appender_ref ref="default" />
-    </root>
-</configuration>
-]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
-array(
-    'appenders' => array(
-        'default' => array(
-            'class' => 'LoggerAppenderEcho',
-            'layout' => array(
-                'class' => 'LoggerLayoutTTCC',
-            ),
-            'params' => array(
-                'htmlLineBreaks' => 'true',
-            ),
-        ),
-    ),
-    'rootLogger' => array(
-        'appenders' => array('default'),
-    ),
-);
-]]></pre>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
+				
+					<div class="tab-content" >
+						<div class="tab-pane">
+	<pre class="prettyprint"><![CDATA[
+	<configuration xmlns="http://logging.apache.org/log4php/">
+	    <appender name="default" class="LoggerAppenderEcho">
+	        <layout class="LoggerLayoutTTCC" />
+	        <param name="htmlLineBreaks" value="true" />
+	    </appender>
+	    <root>
+	        <appender_ref ref="default" />
+	    </root>
+	</configuration>
+	]]></pre>
+						</div>
+						<div class="tab-pane">
+	<pre class="prettyprint"><![CDATA[
+	array(
+	    'appenders' => array(
+	        'default' => array(
+	            'class' => 'LoggerAppenderEcho',
+	            'layout' => array(
+	                'class' => 'LoggerLayoutTTCC',
+	            ),
+	            'params' => array(
+	                'htmlLineBreaks' => 'true',
+	            ),
+	        ),
+	    ),
+	    'rootLogger' => array(
+	        'appenders' => array('default'),
+	    ),
+	);
+	]]></pre>
+						</div>
 					</div>
 				</div>
-					
 			</subsection>
 		</section>
 	</body>

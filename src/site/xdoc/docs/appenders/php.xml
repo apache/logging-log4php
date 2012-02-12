@@ -47,13 +47,14 @@
 				
 			<subsection name="Examples">
 
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderPhp">
@@ -64,8 +65,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -81,6 +82,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

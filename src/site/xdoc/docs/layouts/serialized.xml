@@ -32,21 +32,25 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>locationInfo</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>false</td>
-						<td>If set to true, event's location information will be initialized before serialization. 
-						Enabling this parameter makes logging slower and should be used only if required.</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>locationInfo</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>false</td>
+							<td>If set to true, event's location information will be initialized before serialization. 
+							Enabling this parameter makes logging slower and should be used only if required.</td>
+						</tr>
+					</tbody>
 				</table>
 				
 			</subsection>
@@ -55,14 +59,15 @@
 				
 				<p>Sample configuration file:</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
 
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+					<div class="tab-content" >
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutSerialized" />
@@ -72,9 +77,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -89,6 +94,7 @@ array(
     ),
 )
 ]]></pre>
+						</div>
 					</div>
 				</div>
 

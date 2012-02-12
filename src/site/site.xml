@@ -16,20 +16,10 @@
  limitations under the License.
 
 -->
-<project 
-	name="Apache log4php" xmlns="http://maven.apache.org/DECORATION/1.1.0" 
+<project name="Apache log4php" 
+	xmlns="http://maven.apache.org/DECORATION/1.1.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 http://maven.apache.org/xsd/decoration-1.1.0.xsd">
-	
-	<bannerLeft>
-		<name>Apache Logging Services Project</name>
-		<src>images/logos/ls-logo.jpg</src>
-		<href>http://logging.apache.org/</href>
-	</bannerLeft>
-	
-	<publishDate position="right" format="dd.MM.yyyy."/>
-	
-	<version position="right"/>
 	
 	<googleAnalyticsAccountId>UA-26177991-1</googleAnalyticsAccountId>
 	
@@ -41,20 +31,14 @@
 			<item name="Quick start" href="/quickstart.html" />
 		</links>
 
-		<breadcrumbs>
-			<item name="Apache" href="http://www.apache.org/" target="_blank" />
-			<item name="Logging Services" href="http://logging.apache.org" target="_blank" />
-			<item name="Apache log4php™" href="http://logging.apache.org/log4php" />
-		</breadcrumbs>
-
-		<menu name="Apache log4php™">
+	    <menu name="Apache log4php™" img="icon-home">
 			<item name="About" href="/index.html" />
 			<item name="Download" href="/download.html" />
 			<item name="Install" href="/install.html" />
 			<item name="Changelog" href="/changelog.html" />
 		</menu>
 
-		<menu name="Documentation">
+	    <menu name="Documentation" img="icon-book">
 			<item name="Quick start" href="/quickstart.html" />
 			<item name="Introduction" href="/docs/introduction.html" />
 			<item name="Configuration" href="/docs/configuration.html" />
@@ -87,23 +71,32 @@
 			<item name="API documentation" href="/apidocs/index.html" />
 		</menu>
 
-		<menu name="Community">
-			<item name="Mailing Lists" href="/mail-lists.html" />
-			<item name="Issue Tracking" href="/issue-tracking.html" />
+	    <menu name="Community" img="icon-user">
+			<item name="Volunteering" href="/volunteering.html" />
+			<item name="Contributing Patches" href="/contributingpatches.html" />
 			<item name="Wiki" href="http://wiki.apache.org/logging-log4php" />
 			<item name="Blog" href="http://blogs.apache.org/logging/" />
 		</menu>
-
-		<menu name="Developers">
-			<item name="Volunteering" href="/volunteering.html" />
-			<item name="Contributing Patches" href="/contributingpatches.html" />
-			<item name="Code Coverage" href="/coverage-report/index.html" />
+		
+	    <menu name="Project Information" img="icon-info-sign">
 			<item name="Continuous Integration" href="/integration.html" />
+			<item name="Source Repository" href="/source-repository.html" />
+			<item name="Dependencies" href="/dependencies.html" />
+			<item name="Project License" href="/license.html" />
+			<item name="Project Team" href="/team-list.html" />
+			<item name="Issue Tracking" href="/issue-tracking.html" />
+			<item name="Mailing Lists" href="/mail-lists.html" />
 		</menu>
 
-		<menu ref="reports" />
+	    <menu name="Project Reports" img="icon-cog">
+			<item name="Changes Report" href="/changes-report.html" />
+			<item name="Surefire Report" href="/surefire-report.html" />
+			<item name="RAT Report" href="/rat-report.html" />
+		</menu>
 
-		<menu name="Apache">
+		<!-- <menu name="Project Information" ref="reports" img="icon-info-sign" /> -->
+
+		<menu name="Apache" img="icon-heart">
 			<item name="Home" href="http://www.apache.org" />
 			<item name="Sponsorship" href="http://www.apache.org/foundation/sponsorship.html" />
 			<item name="License" href="http://www.apache.org/licenses" />

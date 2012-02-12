@@ -38,76 +38,97 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>host</td>
-						<td>string</td>
-						<td>No</td>
-						<td>mongodb://localhost</td>
-						<td>Server on which mongodb instance is located.</td>
-					</tr>
-					<tr>
-						<td>port</td>
-						<td>integer</td>
-						<td>No</td>
-						<td>27017</td>
-						<td>Port on which the instance is bound.</td>
-					</tr>
-					<tr>
-						<td>databaseName</td>
-						<td>string</td>
-						<td>No</td>
-						<td>log4php_mongodb</td>
-						<td>Name of the database to which to log.</td>
-					</tr>
-					<tr>
-						<td>collectionName</td>
-						<td>string</td>
-						<td>No</td>
-						<td>logs</td>
-						<td>Name of the target collection within the given database.</td>
-					</tr>
-					<tr>
-						<td>username</td>
-						<td>string</td>
-						<td>No</td>
-						<td>-</td>
-						<td>Username used to connect to the database.</td>
-					</tr>
-					<tr>
-						<td>password</td>
-						<td>string</td>
-						<td>No</td>
-						<td>-</td>
-						<td>Password used to connect to the database.</td>
-					</tr>
-				    <tr>
-				        <td>timeout</td>
-				        <td>integer</td>
-				        <td>No</td>
-				        <td>3000</td>
-				        <td>For how long the driver should try to connect to the database (in milliseconds).</td>
-				    </tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>host</td>
+							<td>string</td>
+							<td>No</td>
+							<td>mongodb://localhost</td>
+							<td>Server on which mongodb instance is located.</td>
+						</tr>
+						<tr>
+							<td>port</td>
+							<td>integer</td>
+							<td>No</td>
+							<td>27017</td>
+							<td>Port on which the instance is bound.</td>
+						</tr>
+						<tr>
+							<td>databaseName</td>
+							<td>string</td>
+							<td>No</td>
+							<td>log4php_mongodb</td>
+							<td>Name of the database to which to log.</td>
+						</tr>
+						<tr>
+							<td>collectionName</td>
+							<td>string</td>
+							<td>No</td>
+							<td>logs</td>
+							<td>Name of the target collection within the given database.</td>
+						</tr>
+						<tr>
+							<td>username</td>
+							<td>string</td>
+							<td>No</td>
+							<td>-</td>
+							<td>Username used to connect to the database.</td>
+						</tr>
+						<tr>
+							<td>password</td>
+							<td>string</td>
+							<td>No</td>
+							<td>-</td>
+							<td>Password used to connect to the database.</td>
+						</tr>
+						<tr>
+							<td>timeout</td>
+							<td>integer</td>
+							<td>No</td>
+							<td>3000</td>
+							<td>For how long the driver should try to connect to the database (in milliseconds).</td>
+						</tr>
+					</tbody>
 				</table>
-				
+			</subsection>
+			
+			<subsection name="Changelog">
+				<table class="table table-striped table-bordered table-not-wide">
+					<thead>
+						<tr>
+							<th>Version</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>2.2.0</code></td>
+							<td>Added the <code>timeout</code> parameter.</td>
+						</tr>
+					</tbody>
+				</table>
 			</subsection>
 				
 			<subsection name="Examples">
 				<p>This example shows how to configure <code>LoggerAppenderMongoDB</code> to log to a remote database.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderMongoDB">
@@ -120,8 +141,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -139,6 +160,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

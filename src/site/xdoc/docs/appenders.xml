@@ -104,7 +104,7 @@
 			
 				<p>The following configuration shows how to configure an appender which logs to a file:</p>
 			
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderFile">
         <layout class="LoggerLayoutTTCC" />
@@ -141,7 +141,7 @@
 				
 				<p>Consider the following configuration:</p>
 			
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
     <appender name="primus" class="LoggerAppenderConsole" />
     <appender name="secundus" class="LoggerAppenderFile">
@@ -177,7 +177,7 @@
 				
 				<p>An example of setting an appender threshold:</p>
 				
-<pre class="prettyprint"><![CDATA[
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho" threshold="WARN" />
     <root>

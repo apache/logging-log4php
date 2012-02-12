@@ -15,165 +15,65 @@
  limitations under the License.
 */
 
-div.clear{
-	clear:both;
-	visibility: hidden;
-}
-div.clear hr{
-	display: none;
-}
+div.clear { clear:both; visibility: hidden; }
+div.clear hr { display: none; }
 
 /* Tweaks to the bootstrap theme
 --------------------------------- */
-body {
-	font-family: Verdana,Helvetica,Arial,sans-serif;
-}
-table th, table td { 
-	padding: 6px; 
-}
-table th { 
-	background-color: #F5F5F5; 
-}
-h2 { 
-	margin-bottom: 5px; 
-}
-li { 
-	color: inherit; 
-	line-height: 20px; 
-}
-code, tt{
-	font-family: Monaco, Andale Mono, Courier New, monospace;
-	font-size: 12px;
-	background-color: whitesmoke;
-	padding: 2px;
-	border: 1px solid #ddd;
-}
 
-.section {
-	padding: 4px;
-	margin-top: 15px;
-}
-.breadcrumb {
-	font-size: 12px;
-	padding: 6px 14px;
-}
-a.externalLink {
-	background: url(../images/external.png) right center no-repeat;
-	padding-right: 18px;
-}
-a.newWindow {
-	background: url(../images/newwindow.png) right center no-repeat;
-	padding-right: 18px;
-}
-ul.tabs {
-	height: 35px;
-	margin-bottom: 8px;	
-}
+li { line-height: 20px; }
+tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 3px 4px; color: #d14; background-color: #f7f7f9; border: 1px solid #e1e1e8; }
 
-/* Sidebar menu 
------------------ */
+.layout-table { width: 100%; }
+.sidebar { width: 250px; vertical-align: top; }
+.content { padding-left: 20px; vertical-align: top; }
 
-.well {
-	padding: 10px;
-}
+.sidebar-nav { padding: 9px 0; }
 
-.container-fluid > .sidebar {
-	float: left;
-	position: static;
-	font-size: 11px;
-}
-.sidebar h5 {
-	font-size: 12px;
-	line-height: 24px;
-	border-bottom: 1px solid grey;
-}
-.sidebar ul {
-	margin: 0;
-}
-.sidebar li {
-	list-style-type: none;
-	line-height: 14px;
-	background-position: 0 0.4em;
-    background-repeat: no-repeat;
-    padding-left: 16px;
-}
-.sidebar li.expanded {
-	background-image: url(../images/expanded.gif);
-}
-.sidebar li.collapsed {
-	background-image: url(../images/collapsed.gif);
-}
+.navbar .nav { margin-left: 40px; }
+.navbar-inner { border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; }
 
-/* Footer (using <div> instead of <footer> because of IE). 
------------------------------------------------------------ */
+.nav-list { margin-bottom: 15px; }
+.nav-list li { line-height: 16px; }
+.nav-list li.nav-header { color: #333; }
+.nav-list li.nav-header i { margin-right: 5px; }
+.nav-list li a { background-repeat: no-repeat; background-position: 16px 9px; padding-left: 28px; }
 
-div.footer {
-	background-color: whitesmoke;
-	padding: 15px;
-    margin-top: 15px;
-	text-align: right;
-	border-top: 1px solid #EEEEEE;
-}
-div.footer p {
-	font-size: 11px;
-}
+.nav-list .collapsed > a { background-image: url(../images/collapsed.gif) }
+.nav-list .expanded > a { background-image: url(../images/expanded.gif) }
+.nav-list .expanded ul { list-style: none; margin-left: 0px; }
+.nav-list .expanded li a { display: block; padding: 3px 15px 3px 45px; margin-left: -15px; margin-right: -15px; }
 
-/* Banners
------------------ */
-#banner {
-	padding: 10px 0;
-}
-#bannerLeft {
-	float: left;
-}
-#bannerRight {
-	float: right;
-}
+.nav.nav-tabs { margin-bottom: 8px; }
+
+.content .section { margin-top: 20px; }
+.content .section:first-child { margin-top: 0px; }
+.section h2 { margin-bottom: 10px; }
+.section h3 { margin-bottom: 10px; }
+.section h4 { margin-bottom: 10px; }
+
+.footer { background-color: whitesmoke; padding: 15px; margin-top: 15px; text-align: right; border-top: 1px solid #EEEEEE; }
+.footer p { font-size: 11px; }
+
+.table-not-wide { width: inherit;}
+
 
 /* Pretty printing styles. Used with prettify.js. 
 ---------------------------------------------------- */
 
-/* SPAN elements with the classes below are added by prettyprint. */
-.pln { color: #000 }  /* plain text */
-
-@media screen {
-  .str { color: #080 }  /* string content */
-  .kwd { color: #008 }  /* a keyword */
-  .com { color: #800 }  /* a comment */
-  .typ { color: #606 }  /* a type name */
-  .lit { color: #066 }  /* a literal value */
-  /* punctuation, lisp open bracket, lisp close bracket */
-  .pun, .opn, .clo { color: #660 }
-  .tag { color: #008 }  /* a markup tag name */
-  .atn { color: #606 }  /* a markup attribute name */
-  .atv { color: #080 }  /* a markup attribute value */
-  .dec, .var { color: #606 }  /* a declaration; a variable name */
-  .fun { color: red }  /* a function name */
+.com { color: #93a1a1; }
+.lit { color: #195f91; }
+.pun, .opn, .clo { color: #93a1a1; }
+.fun { color: #dc322f; }
+.str, .atv { color: #D14; }
+.kwd, .linenums .tag { color: #1e347b; }
+.typ, .atn, .dec, .var { color: teal; }
+.pln { color: #48484c; }
+.prettyprint { padding: 8px; background-color: #f7f7f9; border: 1px solid #e1e1e8; }
+.prettyprint.linenums {
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+     -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+          box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
 }
-
-/* Use higher contrast and text-weight for printable form. */
-@media print, projection {
-  .str { color: #060 }
-  .kwd { color: #006; font-weight: bold }
-  .com { color: #600; font-style: italic }
-  .typ { color: #404; font-weight: bold }
-  .lit { color: #044 }
-  .pun, .opn, .clo { color: #440 }
-  .tag { color: #006; font-weight: bold }
-  .atn { color: #404 }
-  .atv { color: #060 }
-}
-
-/* Put a border around prettyprinted code snippets. */
-pre.prettyprint { padding: 6px; border: 1px solid #ddd }
-
-/* Specify class=linenums on a pre to get line numbering */
-ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
-
-.linenums li { 
-	color: #ccc;
-}
-.prettyprint li { 
-	margin-bottom: 0;
-}
-
+ol.linenums { margin: 0 0 0 33px; } 
+ol.linenums li { padding-left: 12px; color: #bebec5; line-height: 18px; text-shadow: 0 1px 0 #fff; }

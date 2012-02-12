@@ -29,11 +29,12 @@
 			
 			<p>This appender does not send individual emails for each logging requests but will collect them in a 
 			buffer and send them all in a single email once the appender is closed (i.e. when the script exists). 
-			Because of this, it may not appropriate for long running scripts. In that case
+			Because of this, it may not appropriate for long running scripts, in which case
 			<code><a href="mail-event.html">LoggerAppenderMailEvent</a></code> might be a better choice.</p>
 		
-			<p class="alert-message warning">When working in Windows, make sure that the <code>SMTP</code> and <code>smpt_port</code>
-			values in php.ini are set to the correct values for your email server (address and port).</p>
+			<p class="alert alert-warning"><strong>Note:</strong> When working in Windows, make sure that the 
+			<code>SMTP</code> and <code>smpt_port</code> values in php.ini are set to the correct values for 
+			your email server (address and port).</p>
 			
 			<subsection name="Layout">
 				<p>This appender requires a layout. If no layout is specified in configuration, 
@@ -44,35 +45,39 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>to</td>
-						<td>string</td>
-						<td><strong>Yes</strong></td>
-						<td>-</td>
-						<td>Email address(es) to which the log will be sent. Multiple email addresses may be specified
-						by separating them with a comma.</td>
-					</tr>
-					<tr>
-						<td>from</td>
-						<td>string</td>
-						<td><strong>Yes</strong></td>
-						<td>-</td>
-						<td>Email address which will be used in the From field.</td>
-					</tr>
-					<tr>
-						<td>subject</td>
-						<td>string</td>
-						<td>No</td>
-						<td>Log4php Report</td>
-						<td>Subject of the email message.</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>to</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Email address(es) to which the log will be sent. Multiple email addresses may be specified
+							by separating them with a comma.</td>
+						</tr>
+						<tr>
+							<td>from</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Email address which will be used in the From field.</td>
+						</tr>
+						<tr>
+							<td>subject</td>
+							<td>string</td>
+							<td>No</td>
+							<td>Log4php Report</td>
+							<td>Subject of the email message.</td>
+						</tr>
+					</tbody>
 				</table>
 				
 			</subsection>
@@ -82,13 +87,14 @@
 				<p>This example shows how to configure <code>LoggerAppenderMail</code> to send the log to two email 
 				addresses.</p>
 				
-<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderMail">
@@ -101,8 +107,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -122,6 +128,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

@@ -31,27 +31,31 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>locationInfo</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>false</td>
-						<td>If set to true, adds the file name and line number at which the log statement originated.</td>
-					</tr>
-					<tr>
-						<td>title</td>
-						<td>string</td>
-						<td>No</td>
-						<td>Log4php Log Messages</td>
-						<td>Sets the <![CDATA[<title>]]> of the generated HTML document.</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>locationInfo</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>false</td>
+							<td>If set to true, adds the file name and line number at which the log statement originated.</td>
+						</tr>
+						<tr>
+							<td>title</td>
+							<td>string</td>
+							<td>No</td>
+							<td>Log4php Log Messages</td>
+							<td>Sets the <![CDATA[<title>]]> of the generated HTML document.</td>
+						</tr>
+					</tbody>
 				</table>
 				
 			</subsection>
@@ -60,14 +64,15 @@
 					
 				<p>Configuration:</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+					<div class="tab-content" >
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutHtml">
@@ -79,9 +84,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -96,7 +101,7 @@ array(
     ),
 )
 ]]></pre>
-
+						</div>
 					</div>
 				</div>
 
@@ -112,32 +117,35 @@ $log->info("Hello World!");
 				<p>Produces the output as a HTML table:</p>
 
 				<table>
-					<tr>
-						<th>Time</th>
-						<th>Thread</th>
-						<th>Level</th>
-						<th>Category</th>
-						<th>File:Line</th>
-						<th>Message</th>
-					</tr>
-					
-					<tr>
-						<td>0</td>
-						<td title="5868 thread">5868</td>
-						<td title="Level"><font color="#339933">DEBUG</font></td>
-						<td title="root category">root</td>
-						<td>D:\Projects\apache\log4php-config-adapters\src\examples\php\layout_html.php:23</td>
-						<td title="Message">Hello World!</td>
-					</tr>
-					
-					<tr>
-						<td>2</td>
-						<td title="5868 thread">5868</td>
-						<td title="Level">INFO</td>
-						<td title="root category">root</td>
-						<td>D:\Projects\apache\log4php-config-adapters\src\examples\php\layout_html.php:24</td>
-						<td title="Message">Hello World!</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Time</th>
+							<th>Thread</th>
+							<th>Level</th>
+							<th>Category</th>
+							<th>File:Line</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>0</td>
+							<td title="5868 thread">5868</td>
+							<td title="Level"><font color="#339933">DEBUG</font></td>
+							<td title="root category">root</td>
+							<td>D:\Projects\apache\log4php-config-adapters\src\examples\php\layout_html.php:23</td>
+							<td title="Message">Hello World!</td>
+						</tr>
+						
+						<tr>
+							<td>2</td>
+							<td title="5868 thread">5868</td>
+							<td title="Level">INFO</td>
+							<td title="root category">root</td>
+							<td>D:\Projects\apache\log4php-config-adapters\src\examples\php\layout_html.php:24</td>
+							<td title="Message">Hello World!</td>
+						</tr>
+					</tbody>
 				</table>
 
 				<p>Source of the output:</p>

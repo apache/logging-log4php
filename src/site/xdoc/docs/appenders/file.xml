@@ -36,28 +36,32 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>file</td>
-						<td>string</td>
-						<td><strong>Yes</strong></td>
-						<td>-</td>
-						<td>Path to the target file. Relative paths are resolved based on the working directory.</td>
-					</tr>
-					<tr>
-						<td>append</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the appender will append to the file, otherwise the file contents will be 
-						overwritten.</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>file</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Path to the target file. Relative paths are resolved based on the working directory.</td>
+						</tr>
+						<tr>
+							<td>append</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the appender will append to the file, otherwise the file contents will be 
+							overwritten.</td>
+						</tr>
+					</tbody>
 				</table>
 				
 			</subsection>
@@ -71,13 +75,14 @@
 				<p>It is also possible to specify an absolute path to the target file, such as 
 				<code>/var/log/file.log</code> or <code>D:/logs/file.log</code></p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
  
-				<div class="pill-content" >
-					<div class="active" id="xml">
+					<div class="tab-content" >
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderFile">
@@ -90,8 +95,8 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
+						</div>
+						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 array(
     'appenders' => array(
@@ -111,6 +116,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>

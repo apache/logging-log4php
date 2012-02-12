@@ -41,58 +41,60 @@
 				<p>The following parameters are available:</p>
 		
 				<table>
-					<tr>
-						<th>Parameter</th>
-						<th>Type</th>
-						<th>Required</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>file</td>
-						<td>string</td>
-						<td><strong>Yes</strong></td>
-						<td>-</td>
-						<td>Path to the target file. Should contain a <code>%s</code> which gets substituted by the 
-						date.</td>
-					</tr>
-					<tr>
-						<td>append</td>
-						<td>boolean</td>
-						<td>No</td>
-						<td>true</td>
-						<td>If set to true, the appender will append to the file, otherwise the file contents will be 
-						overwritten.</td>
-					</tr>
-					<tr>
-						<td>datePattern</td>
-						<td>string</td>
-						<td>No</td>
-						<td>Ymd</td>
-						<td>Format for the date in the file path, follows formatting rules used by the PHP
-						<code><a href="http://php.net/manual/en/function.date.php">date()</a></code> function.</td>
-					</tr>
-					
-					
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>file</td>
+							<td>string</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>Path to the target file. Should contain a <code>%s</code> which gets substituted by the 
+							date.</td>
+						</tr>
+						<tr>
+							<td>append</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If set to true, the appender will append to the file, otherwise the file contents will be 
+							overwritten.</td>
+						</tr>
+						<tr>
+							<td>datePattern</td>
+							<td>string</td>
+							<td>No</td>
+							<td>Ymd</td>
+							<td>Format for the date in the file path, follows formatting rules used by the PHP
+							<code><a href="http://php.net/manual/en/function.date.php">date()</a></code> function.</td>
+						</tr>
+					</tbody>
 				</table>
-				
 			</subsection>
 				
 			<subsection name="Examples">
 				
 				<p>This example shows how to configure <code>LoggerAppenderDailyFile</code>.</p>
 				
-				<p>The desired filename format is, for example <code>file-2011-10-01.log</code>, so the date format in 
-				PHP date() notation is <code>Y-m-d</code>.</p>
+				<p>The date pattern used is <code>Y-m-d</code> which will result in filenames similar to 
+				<code>file-2011-10-01.log</code>.</p>
 				
-				<ul class="tabs">
-					<li class="active"><a href="#xml">XML</a></li>
-					<li><a href="#php">PHP</a></li>
-				</ul>
- 
-				<div class="pill-content" >
-					<div class="active" id="xml">
-<pre class="prettyprint"><![CDATA[
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
+				 
+					<div class="tab-content" >
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderDailyFile">
         <layout class="LoggerLayoutTTCC" />
@@ -104,9 +106,9 @@
     </root>
 </configuration>
 ]]></pre>
-					</div>
-					<div id="php">
-<pre class="prettyprint"><![CDATA[
+						</div>
+						<div class="tab-pane">
+<pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
         'default' => array(
@@ -125,6 +127,7 @@ array(
     ),
 );
 ]]></pre>
+						</div>
 					</div>
 				</div>
 			</subsection>
