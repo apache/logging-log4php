@@ -51,15 +51,15 @@
 							<td>A flexible layout configurable via a pattern string.</td>
 						</tr>
 						<tr>
-							<td><a href="layouts/daily-file.html">LoggerLayoutSimple</a></td>
+							<td><a href="layouts/simple.html">LoggerLayoutSimple</a></td>
 							<td>A simple, non configurable layout.</td>
 						</tr>
 						<tr>
-							<td><a href="layouts/rolling-file.html">LoggerLayoutSerialized</a></td>
+							<td><a href="layouts/serialized.html">LoggerLayoutSerialized</a></td>
 							<td>Outputs serialized objects.</td>
 						</tr>
 						<tr>
-							<td><a href="layouts/mail.html">LoggerLayoutTTCC</a></td>
+							<td><a href="layouts/ttcc.html">LoggerLayoutTTCC</a></td>
 							<td>Consists of Time, Thread, Category and nested diagnostic Context.</td>
 						</tr>
 						<tr>
