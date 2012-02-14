@@ -29,6 +29,24 @@
 				<param name="fromDepth" value="2"/>
 			</macro>
 
+		    <subsection name="Apache log4php v2.2.1" id="Apache_log4php_v2.2.1">
+		        <p>Release date: TBA</p>
+		        <p><a href="changes-report.html#a2.2.1">JIRA change log</a></p>
+		        
+		        <p>A bugfix release fixing several critical bugs found since the 2.2.0 release.</p>
+		        
+		        <p><strong>Bugfixes:</strong></p>
+		        <ul>
+		            <li>Fixed a bug which prevented configuration by passing a LoggerConfigurator instance.</li>
+		            <li>Fixed a bug which prevented parsing of INI configuration files when using PHP 5.2.x.</li>
+		        </ul>
+		        
+		        <p><strong>New features:</strong></p>
+		        <ul>
+		            <li>Added connection timeout parameter to the <a href="docs/appenders/mongodb.">MongoDB appender</a>.</li>
+		        </ul>
+		    </subsection>
+
 			<subsection name="Apache log4php v2.2.0" id="Apache_log4php_v2.2.0">
 				
 				<p>Release date: 20.12.2011.</p>
