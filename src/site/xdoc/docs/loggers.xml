@@ -51,20 +51,20 @@
 				<p>For example, setting logger threshold to <code>INFO</code> means that logging requests with levels 
 				<code>TRACE</code> and <code>DEBUG</code> will not be logged by this logger.</p>
 				
-				<p>An example of setting the root logger threshold to <code>DEBUG</code>:</p>
+				<p>An example of setting the root logger threshold to <code>INFO</code>:</p>
 				
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <root>
-        <level value="debug" />
+        <level value="info" />
         <appender_ref ref="default" />
     </root>
 </configuration>
 ]]></pre>		
 				
-				<p>By default loggers do not have a threshold set, which means they will log all events, regardless of the
-				level.</p>
+			    <p>If not explicitly configured, loggers will have their threshold level set to <code>DEBUG</code> by 
+			    default.</p>
 			</subsection>
 			
 			<subsection name="Configuring loggers" id="Configuring_loggers">
@@ -77,13 +77,13 @@
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole" />
     <root>
-        <level value="debug" />
+        <level value="info" />
         <appender_ref ref="default" />
     </root>
 </configuration>
 ]]></pre>		
 				<p>This configuration adds the <code>default</code> appender to the root logger, and sets it's 
-				<a href="#Logger_threshold">threshold level</a> to DEBUG.</p>
+				<a href="#Logger_threshold">threshold level</a> to <code>INFO</code>.</p>
 				
 				<p>It is also possible to configure individual named loggers. For example, let's configure the 
 				<code>foo</code> logger, used in the example above, and set it's threshold to WARN:</p>	
