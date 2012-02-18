@@ -30,7 +30,7 @@
 			</macro>
 
 		    <subsection name="Apache log4php v2.2.1" id="Apache_log4php_v2.2.1">
-		        <p>Release date: TBA</p>
+		        <p>Release date: 18.02.2012.</p>
 		        <p><a href="changes-report.html#a2.2.1">JIRA change log</a></p>
 		        
 		        <p>A bugfix release fixing several critical bugs found since the 2.2.0 release.</p>
