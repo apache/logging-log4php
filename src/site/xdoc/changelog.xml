@@ -43,7 +43,7 @@
 		        
 		        <p><strong>New features:</strong></p>
 		        <ul>
-		            <li>Added connection timeout parameter to the <a href="docs/appenders/mongodb.">MongoDB appender</a>.</li>
+		            <li>Added connection timeout parameter to the <a href="docs/appenders/mongodb.html">MongoDB appender</a>.</li>
 		        </ul>
 		    </subsection>
 

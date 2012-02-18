@@ -42,7 +42,7 @@
 			<pre class="prettyprint">$logger->info("This is the message to be logged.");</pre>
 
 			<p>Loggers by themselves do not define where these messages will be logged. For that you need to assign 
-			one or more <a href="./appender.html">appenders</a> to the logger.</p>
+			one or more <a href="./appenders.html">appenders</a> to the logger.</p>
 			
 			<subsection name="Logger threshold" id="Logger_threshold">
 				<p>A logger can be assigned a threshold level. All logging requests with level lower than this threshold
