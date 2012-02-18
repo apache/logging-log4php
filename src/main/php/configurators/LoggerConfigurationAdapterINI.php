@@ -59,12 +59,6 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	/**
 	 * Loads and parses the INI configuration file.
 	 * 
-	 * INI_SCANNER_RAW is used here because otherwise parse_ini_file() will 
-	 * try to parse all values, with some strange results. For example, "true"
-	 * will become "1", while "false" and "null" will become "" (empty string). 
-	 * 
-	 * @see http://php.net/manual/en/function.parse-ini-file.php
-	 * 
 	 * @param string $url Path to the config file.
 	 * @throws LoggerException
 	 */
