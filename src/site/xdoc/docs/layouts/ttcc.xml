@@ -140,10 +140,12 @@ array(
 				</div>
 					
 
-				<p>Running the following code:</p>
+				<p>For this example, some Nested Diagnostic Context is added also. Running the following code:</p>
 
 <pre class="prettyprint linenums">
 Logger::configure("config.xml");
+LoggerNDC::push("Some Context");
+
 $logger = Logger::getLogger('myLogger');
 $logger->info("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 $logger->debug("Donec a diam lectus.");
@@ -153,11 +155,10 @@ $logger->warn("Sed sit amet ipsum mauris.");
 				<p>Produces the following output:</p>
 
 <pre>
-INFO - My first message.
-DEBUG - My second message.
-WARN - My third message.
+02/20/12 23:36:39,772 [9820] INFO myLogger Some Context - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+02/20/12 23:36:39,773 [9820] DEBUG myLogger Some Context - Donec a diam lectus.
+02/20/12 23:36:39,773 [9820] WARN myLogger Some Context - Sed sit amet ipsum mauris.
 </pre>
-
 			</subsection>
 		</section>
 	</body>
