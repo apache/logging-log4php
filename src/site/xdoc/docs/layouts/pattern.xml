@@ -45,7 +45,7 @@
 							<td>conversionPattern</td>
 							<td>string</td>
 							<td>No</td>
-							<td>%m%n</td>
+							<td>%message%newline</td>
 							<td>String which controls the output. See full specification below.</td>
 						</tr>
 					</tbody>
@@ -53,239 +53,429 @@
 				
 				<h4>Conversion patterns</h4>
 				
-					<p>This is the string which controls formatting and consists of a mix of literal content and 
-					conversion specifiers.</p>
+				<p><strong>Conversion pattern</strong> is a string which controls the formatting of logging 
+				events. It controls how logging events will be transformed into strings by the layout.</p>
+			
+				<p>The conversion pattern is closely related to the conversion pattern of the 
+				<a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf" target="_blank">printf</a> 
+				function in C(++). It is composed of literal text and format control expressions called <em>conversion 
+				specifiers</em>.</p>
 				
-					<p>The conversion pattern is closely related to the conversion pattern of the 
-					<a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf" target="_blank">printf</a> 
-					function in C. It is composed of literal text and format control expressions called conversion 
-					specifiers. You are free to insert any literal text within the conversion pattern.</p>
+				<p>A conversion specifier begins with a percent sign (%) and is followed by a <em>conversion word</em>.
+				Some conversion words require one or more <em>options</em> to be given. These are specified in braces after the 
+				conversion word. An example of a conversion specifier is <code>%message</code> which will be converted into
+				the message from the logging event which is being logged.</p>
+				
+				<p>The recognized conversion specifiers are:</p>
 					
-					<p>Each conversion specifier starts with a percent sign (%) and is followed by optional <em>
-					format modifiers</em> and a <em>conversion character</em>. The recognized conversion specifiers 
-					are:</p>
-					
-					<table>
-						<thead>
-							<tr>
-								<th>Conversion character</th>
-								<th>Converts to</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<p><code>%c</code></p>
-									<p><code>%c{<![CDATA[<precision>]]>}</code></p>
-								</td>
-								<td>
-									<p>Name of the Logger object which recieved the logging request.</p>
-									
-									<p>Optionally, it can be can followed by <em>precision specifier</em>, which is a 
-									decimal constant in brackets. If a precision specifier is given, then only the 
-									corresponding number of right most components of the logger name will be printed.</p>
-									
-									<p>For example, if the logger is named <code>foo.bar.Baz</code>, then <code>%c</code>
-									will be translated to the full logger name, <code>%c{2}</code> will be translated to
-									<code>bar.Baz</code>, and <code>%c{1}</code> will be translated to <code>Baz</code>.
-									</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p><code>%C</code></p>
-									<p><code>%C{<![CDATA[<precision>]]>}</code></p>
-								</td>
-								<td>
-									<p>The fully qualified class name of the caller issuing the logging request. Currently,
-									this will always return "Logger".</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p><code>%d</code></p>
-									<p><code>%d{<![CDATA[<format>]]>}</code></p>
-								</td>
-								<td>
-									<p>The date of the logging event.</p>
-									
-									<p>Optionally, may be followed by a <em>date format specifier</em> enclosed between 
-									braces. The format specifier follows the PHP 
-									<a href="http://php.net/manual/en/function.date.php">date</a> function. If no date 
-									format specifier is given then ISO8601 format is assumed (Y-m-d H:i:s,u). </p>
-									 
-									<p>For example: <code>%d{Y-m-d H:i:s}</code></p>
-								</td>
-							</tr>
-							<tr>
-								<td><code>%F</code></td>
-								<td>Name of the file from which the logging request was issued.</td>
-							</tr>
-							<tr>
-								<td><code>%l</code></td>
-								<td>
-									<p>Location information of the caller which generated the logging event.</p>
-									<p>Identical to <code>%C.%M(%F:%L)</code></p>
-								</td>
-							</tr>
-							<tr>
-								<td><code>%L</code></td>
-								<td>The line number at which the logging request was issued.</td>
-							</tr>
-							<tr>
-								<td><code>%m</code></td>
-								<td>The message associated with the logging event.</td>
-							</tr>
-							<tr>
-								<td><code>%n</code></td>
-								<td>
-									<p>A platform dependent line-break character(s).</p>
-									<p>Note that a line break will not be printed unless explicitely specified.</p>
-								</td>
-							</tr>
-							<tr>
-								<td><code>%M</code></td>
-								<td>The method or function name from which the logging request was issued.</td>
-							</tr>
-							<tr>
-								<td><code>%p</code></td>
-								<td>The level of the logging event.</td>
-							</tr>
-							<tr>
-								<td><code>%r</code></td>
-								<td>The number of milliseconds elapsed since the start of the application until the creation of the logging event.</td>
-							</tr>
-							<tr>
-								<td><code>%t</code></td>
-								<td>The ID of the process that generated the logging event.</td>
-							</tr>
-							<tr>
-								<td><code>%x</code></td>
-								<td>The NDC (Nested Diagnostic Context) associated with the thread that generated the logging event.</td>
-							</tr>
-							<tr>
-								<td><code>%X{<![CDATA[<key>]]>}</code></td>
-								<td>
-									<p>The MDC (Mapped Diagnostic Context) associated with the thread that generated the 
-									logging event.</p>
-									<p>The X conversion character must be followed by the MDC key in braces. The value in 
-									the MDC corresponding to the key will be output.</p>
-								</td>
-							</tr>
-							<tr>
-								<td><code>%%</code></td>
-								<td>A single percent sign.</td>	
-							</tr>
-						</tbody>
-					</table>			
-				</subsection>
+				<table class="table table-bordered">
+				    <thead>
+    				    <tr>
+    						<th>Conversion specifier</th>
+    						<th>Converts to</th>
+    				    </tr>
+				    </thead>
+				    <tbody>
+    					<tr>
+    						<td>
+    						    <p><strong>%c</strong>{length}</p>
+    							<p><strong>%lo</strong>{length}</p>
+    							<p><strong>%logger</strong>{length}</p>
+    						</td>
+    						<td>
+    							<p>Name of the Logger which generated the logging request.</p>
+    							
+    							<p>Optionally, a desired output length can be specified. If given, the converter will attempt
+    							to abbreviate the logger name without losing too much information in the process. If 
+    							zero length is specified, only the rightmost name fragment will be output.</p>
+    							
+    							<p>Specifying the desired length 0 means that only the class name will be returned without
+    							the corresponding namespace.</p>
+   							
+    							<p>Several examples of the shortening algorithm in action:</p>
+    							
+    						    <table class="table table-bordered table-not-wide">
+    								<thead>
+    									<tr>
+    										<th>Conversion specifier</th>
+    										<th>Logger name</th>
+    										<th>Result</th>
+    									</tr>
+    								</thead>
+    								<tbody>
+    									<tr>
+    										<td>%logger</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    									</tr>
+    									<tr>
+    										<td>%logger{0}</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>Foo</td>
+    									</tr>
+    									<tr>
+    										<td>%logger{10}</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>o\a\l\l\Foo</td>
+    									</tr>
+    									<tr>
+    										<td>%logger{20}</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>o\a\l\log4php\Foo</td>
+    									</tr>
+    									<tr>
+    										<td>%logger{25}</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>o\a\logging\log4php\Foo</td>
+    									</tr>
+    									<tr>
+    										<td>%logger{30}</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    										<td>org\apache\logging\log4php\Foo</td>
+    									</tr>
+    								</tbody>
+    							</table>
+    							
+    							<p>Note that rightmost segment will never be shortened. It is possible that the 
+    							resulting string will be longer than the specified desired length.</p>
+    							<p>For backward compatibility, a dot can be used as a namespace separator, as well as
+    							the backslash.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%C</strong>{length}</p>
+    							<p><strong>%class</strong>{length}</p>
+    						</td>
+    						<td>
+    							<p>The fully qualified class name of the caller issuing the logging request.</p>
+    							<p>Just like <strong>%logger</strong>, a desired length can be defined as an option.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%cookie</strong>{key}</p>
+    						</td>
+    						<td>
+    							<p>A value from the $_COOKIE superglobal array corresponding to the given key.</p>
+    							<p>If no key is given, will return all values in key=value format.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%d</strong>{pattern}</p>
+    							<p><strong>%date</strong>{pattern}</p>
+    						</td>
+    						<td>
+    							<p>The date/time of the logging event. Accepts a pattern string as an option. The 
+    							pattern syntax is the same as used by the PHP's <code><a href="http://php.net/manual/en/function.date.php" 
+    							target="_blank" class="externalLink">date()</a></code> function.</p>
+    							
+    							<p>If no pattern is given, the date format will default to the ISO8601 datetime format,
+    							which is the same as giving the pattern: <code>c</code>.</p>
+    							
+    							<table>
+    								<thead>
+    									<tr>
+    										<th>Conversion specifier</th>
+    										<th>Result</th>
+    									</tr>
+    								</thead>
+    								<tbody>
+    									<tr>
+    										<td>%d</td>
+    										<td>2011-12-27T12:01:32+01:00</td>
+    									</tr>
+    									<tr>
+    										<td>%date</td>
+    										<td>2011-12-27T12:01:32+01:00</td>
+    									</tr>
+    									<tr>
+    										<td>%date{ISO8601}</td>
+    										<td>2011-12-27T12:01:32+01:00</td>
+    									</tr>
+    									<tr>
+    										<td>%date{Y-m-d H:i:s,u}</td>
+    										<td>2011-12-27 12:01:32,610</td>
+    									</tr>
+    									<tr>
+    										<td>%date{l jS \of F Y h:i:s A}</td>
+    										<td>Tuesday 27th of December 2011 12:01:32 PM</td>
+    									</tr>
+    								</tbody>
+    							</table>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%e</strong>{key}</p>
+    							<p><strong>%env</strong>{key}</p>
+    						</td>
+    						<td>
+    							<p>A value from the $_ENV superglobal array corresponding to the given key.</p>
+    							<p>If no key is given, will return all values in key=value format.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%F</strong></p>
+    							<p><strong>%file</strong></p>
+    						</td>
+    						<td>Name of the file from which the logging request was issued.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%l</strong></p>
+    							<p><strong>%location</strong></p>
+    						</td>
+    						<td>
+    							<p>Location information of the caller which generated the logging event.</p>
+    							<p>Identical to <code>%C.%M(%F:%L)</code></p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%L</strong></p>
+    							<p><strong>%line</strong></p>
+    						</td>
+    						<td>The line number at which the logging request was issued.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%m</strong></p>
+    							<p><strong>%msg</strong></p>
+    							<p><strong>%message</strong></p>
+    						</td>
+    						<td>The message associated with the logging event.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    						    <p><strong>%n</strong></p>
+    							<p><strong>%newline</strong></p>
+    						</td>
+    						<td>
+    							<p>A platform dependent line-break character(s).</p>
+    							<p>Note that a line break will not be printed unless explicitely specified.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%M</strong></p>
+    							<p><strong>%method</strong></p>
+    						</td>
+    						<td>The method or function name from which the logging request was issued.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%p</strong></p>
+    							<p><strong>%le</strong></p>
+    							<p><strong>%level</strong></p>
+    						</td>
+    						<td>The level of the logging event.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%r</strong></p>
+    							<p><strong>%relative</strong></p>
+    						</td>
+    						<td>The number of milliseconds elapsed since the start of the application until the creation of the logging event.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%req</strong>{key}</p>
+    							<p><strong>%request</strong>{key}</p>
+    						</td>
+    						<td>
+    							<p>A value from the $_REQUEST superglobal array corresponding to the given key.</p>
+    							<p>If no key is given, will return all values in key=value format.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%s</strong>{key}</p>
+    							<p><strong>%server</strong>{key}</p>
+    						</td>
+    						<td>
+    							<p>A value from the $_SERVER superglobal array corresponding to the given key.</p>
+    							<p>If no key is given, will return all values in key=value format.</p>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%t</strong></p>
+    							<p><strong>%pid</strong></p>
+    							<p><strong>%process</strong></p>
+    						</td>
+    						<td>The ID of the process that generated the logging event.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%x</strong></p>
+    							<p><strong>%ndc</strong></p>
+    						</td>
+    						<td>The NDC (Nested Diagnostic Context) associated with the thread that generated the logging event.</td>
+    					</tr>
+    					<tr>
+    						<td>
+    							<p><strong>%X</strong>{key}</p>
+    							<p><strong>%mdc</strong>{key}</p>
+    						</td>
+    						<td>
+    							<p>A value from the Mapped Diagnostic Context (MDC) corresponding to the given key.</p>
+    						</td>
+    					</tr>
+                    </tbody>
+				</table>			
+			</subsection>
 		
-				<subsection name="Format modifiers">
-					<p>By default the relevant information is output as-is. However, with the aid of format modifiers 
-					it is possible to change the minimum and maximum width and the justifications of each data field.
-					</p>
-					
-					<p>All format modifiers are optional, and are placed between the percent sign and the conversion 
-					character.</p>
-					
-					<p>The first format modifier is the <em>left justification flag</em> which is just the minus (-)
-					character.</p>
-					 
-					<p>Then comes the <em>>minimum field width</em> modifier. This is an integer that 
-					represents the minimum number of characters to output. If the data item requires fewer characters,
-					it is padded on either the left or the right until the minimum width is reached. The default is to
-					pad on the left (right justify) but you can specify right padding with the left justification flag.
-					The padding character is space. If the data item is larger than the minimum field width, the field
-					is expanded to accommodate the data. The value is never truncated. </p>
-					 
-					<p>This behavior can be changed using the <em>maximum field width</em> modifier which is designated
-					by a period (.) followed by an integer. If the data item is longer than the maximum field, then the
-					extra characters are removed from the beginning of the data item and not from the end. For example,
-					it the maximum field width is eight and the data item is ten characters long, then the first two 
-					characters of the data item are dropped. This behavior deviates from the printf function in C where
-					truncation is done from the end. </p>
-					
-					<p>The following table demonstrates various uses of format modifiers:</p>
-					
-					<table>
-						<thead>
-							<tr>
-								<th>Format modifier</th>
-								<th>Justification</th>
-								<th>Minimum width</th>
-								<th>Maximum width</th>
-								<th>Comment</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td align="center"><code>%c</code></td>
-								<td align="center">none</td>
-								<td align="center">none</td>
-								<td align="center">none</td>
-								<td>Output the logger name as-is.</td>
-							</tr>
-							<tr>
-								<td align="center"><code>%20c</code></td>
-								<td align="center">right</td>
-								<td align="center">20</td>
-								<td align="center">none</td>
-								<td>Left pad with spaces if the logger name is less than 20 characters long.</td>
-							</tr>
-							<tr>
-								<td align="center"><code>%-20c</code></td>
-								<td align="center">left</td>
-								<td align="center">20</td>
-								<td align="center">none</td>
-								<td>Right pad with spaces if the logger name is less than 20 characters long.</td>
-							</tr>
-							<tr>
-								<td align="center"><code>%.30c</code></td>
-								<td align="center">none</td>
-								<td align="center">none</td>
-								<td align="center">30</td>
-								<td>Truncate from the beginning if the logger name is longer than 30 characters.</td>
-							</tr>
-							<tr>
-								<td align="center"><code>%20.30c</code></td>
-								<td align="center">right</td>
-								<td align="center">20</td>
-								<td align="center">30</td>
-								<td>Left pad with spaces if the logger name is shorter than 20 characters. However, if 
-								the logger name is longer than 30 characters, then truncate from the beginning.</td>
-							</tr>
-							<tr>
-								<td align="center"><code>%-20.30c</code></td>
-								<td align="center">true</td>
-								<td align="center">20</td>
-								<td align="center">30</td>
-								<td>Right pad with spaces if the logger name is shorter than 20 characters. However, if the
-								logger name is longer than 30 characters, then truncate from the beginning.</td>
-							</tr>
-						</tbody>
-					</table> 
-				</subsection>
+			<subsection name="Format modifiers">
+				<p>By default the relevant information is output as-is. However, with the aid of format modifiers 
+				it is possible to change the minimum and maximum width and the justifications of each data field.
+				</p>
+				
+				<p>All format modifiers are optional, and are placed between the percent sign and the conversion 
+				word.</p>
+				
+				<p>The first format modifier is the <em>left justification flag</em> which is just the minus (-)
+				character.</p>
+				 
+				<p>Then comes the <em>>minimum field width</em> modifier. This is an integer that 
+				represents the minimum number of characters to output. If the data item requires fewer characters,
+				it is padded on either the left or the right until the minimum width is reached. The default is to
+				pad on the left (right justify) but you can specify right padding with the left justification flag.
+				The padding character is space. If the data item is larger than the minimum field width, the field
+				is expanded to accommodate the data. The value is never truncated. </p>
+				 
+				<p>This behavior can be changed using the <em>maximum field width</em> modifier which is designated
+				by a period (.) followed by an integer. If the data item is longer than the maximum field, then the
+				extra characters are removed from the beginning of the data item and not from the end. For example,
+				it the maximum field width is eight and the data item is ten characters long, then the first two 
+				characters of the data item are dropped. This behavior deviates from the printf function in C where
+				truncation is done from the end. </p>
+				
+				<p>The following table demonstrates various uses of format modifiers:</p>
+				
+				<table>
+					<thead>
+						<tr>
+							<th>Format modifier</th>
+							<th>Padding</th>
+							<th>Trimming</th>
+							<th>Minimum width</th>
+							<th>Maximum width</th>
+							<th>Comment</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td align="center"><strong>%logger</strong></td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td>Output the logger name as-is.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%20logger</strong></td>
+							<td align="center">right</td>
+							<td align="center">20</td>
+							<td align="center">none</td>
+							<td>Left pad with spaces if the logger name is less than 20 characters long.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%-20logger</strong></td>
+							<td align="center">left</td>
+							<td align="center">20</td>
+							<td align="center">none</td>
+							<td>Right pad with spaces if the logger name is less than 20 characters long.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%.30logger</strong></td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">30</td>
+							<td>Trim from the beginning if the logger name is longer than 30 characters.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%.-30logger</strong></td>
+							<td align="center">none</td>
+							<td align="center">none</td>
+							<td align="center">30</td>
+							<td>Trim from the end if the logger name is longer than 30 characters.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%20.30logger</strong></td>
+							<td align="center">right</td>
+							<td align="center">20</td>
+							<td align="center">30</td>
+							<td>Left pad with spaces if the logger name is shorter than 20 characters. However, if 
+							the logger name is longer than 30 characters, then trim from the beginning.</td>
+						</tr>
+						<tr>
+							<td align="center"><strong>%-20.30logger</strong></td>
+							<td align="center">true</td>
+							<td align="center">20</td>
+							<td align="center">30</td>
+							<td>Right pad with spaces if the logger name is shorter than 20 characters. However, if the
+							logger name is longer than 30 characters, then trim from the beginning.</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<p>The following table lists a couple of examples for using format modifiers. Note that the square
+				brackets are added to the conversion pattern to delimit the output.</p>
+				
+				<table class="table table-bordered table-striped table-not-wide">
+					<thead>
+						<tr>
+							<th>Conversion pattern</th>
+							<th>Logger name</th>
+							<th>Result</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>[%10.10logger]</td>
+							<td>Foo</td>
+							<td><code>[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Foo]</code></td>
+						</tr>
+						<tr>
+							<td>[%-10.10logger]</td>
+							<td>Foo</td>
+							<td><code>[Foo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]</code></td>
+						</tr>
+						<tr>
+							<td>[%10.10logger]</td>
+							<td>org.apache.log4php.Foo</td>
+							<td><code>[og4php.Foo]</code></td>
+						</tr>
+						<tr>
+							<td>[%10.-10logger]</td>
+							<td>org.apache.log4php.Foo</td>
+							<td><code>[org.apache]</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</subsection>
 
-				<subsection name="Examples">
-					<p>The following configuration configures a <code>LoggerAppenderEcho</code> which uses the pattern
-					layout. All examples will use the same code and configuration, only the conversion pattern will 
-					change.</p>
-					
-					<p>Save the configuration to a file called <code>layout_pattern.xml</code>.</p>
+			<subsection name="Examples">
+				<p>The following configuration configures a <code>LoggerAppenderEcho</code> which uses the pattern
+				layout. All examples will use the same code and configuration, only the conversion pattern will 
+				change from example to example.</p>
+				
+				<div class="auto-tabs">
+					<ul>
+						<li>XML</li>
+						<li>PHP</li>
+					</ul>
 	
-					<div class="auto-tabs">
-						<ul>
-							<li>XML</li>
-							<li>PHP</li>
-						</ul>
-		
-							<div class="tab-content" >
-								<div class="tab-pane">
+						<div class="tab-content" >
+							<div class="tab-pane">
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderEcho">
         <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%d{Y-m-d H:i:s.u} %c %-5p %m%n" />
+            <param name="conversionPattern" value="%date %logger %-5level %msg%n" />
         </layout>
     </appender>
     <root>
@@ -293,8 +483,8 @@
     </root>
 </configuration>
 ]]></pre>
-								</div>
-								<div class="tab-pane">
+							</div>
+							<div class="tab-pane">
 <pre class="prettyprint linenums"><![CDATA[
 array(
     'appenders' => array(
@@ -303,7 +493,7 @@ array(
             'layout' => array(
                 'class' => 'LoggerLayoutPattern',
                 'params' => array(
-                    'conversionPattern' => '%d{Y-m-d H:i:s.u} %c %-5p %m%n'
+                    'conversionPattern' => '%date %logger %-5level %msg%n'
                 )
             )
         )
@@ -313,36 +503,72 @@ array(
     ),
 )
 ]]></pre>
-							</div>
 						</div>
 					</div>
-					
+				</div>
+				
 
-					<p>Run the following code:</p>
+				<p>Example code:</p>
 
 <pre class="prettyprint linenums">
-Logger::configure("layout_pattern.xml");
+Logger::configure("config.xml");
 $logger = Logger::getLogger('myLogger');
 $logger->info("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 $logger->debug("Donec a diam lectus.");
 $logger->warn("Sed sit amet ipsum mauris.");
 </pre>
 
-					<h4>Pattern example</h4>
-					<p>Conversion pattern: <code>%d %c %-5p %m%n</code></p>
+				<h4>A simple example</h4>
 				
-					<p>Produces the following output:</p>
+			    <p>Conversion pattern: <code>%date %logger %-5level %msg%n</code></p>
+			
+				<p>Running the example code produces the following output:</p>
 
 <pre>
-2011-09-28 09:29:38,602 myLogger INFO  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-2011-09-28 09:29:38,603 myLogger DEBUG Donec a diam lectus.
-2011-09-28 09:29:38,604 myLogger WARN  Sed sit amet ipsum mauris.
+2012-02-27T19:42:17+01:00 myLogger INFO  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+2012-02-27T19:42:17+01:00 myLogger DEBUG Donec a diam lectus.
+2012-02-27T19:42:17+01:00 myLogger WARN  Sed sit amet ipsum mauris.
 </pre>
 
-					<p>In this example, <code>%d</code> produces the event datetime in default format 
-					(<code>Y-m-d H:i:s,u</code>), and <code>%-5p</code> produces the event level right padded to 5 
-					characters. Since longest level name is 5 characters long, this ensures that the message always 
-					starts at the same character position which improves log readability.</p>
+			    <p>In this example, <code>%date</code> is converted to the event datetime in default format 
+			    (corresponding to the ISO-8601 specification), and <code>%-5level</code> produces the event 
+			    level right padded to 5 characters. Since longest level name is 5 characters long, this 
+			    ensures that the message always starts at the same character position which improves log 
+			    readability.</p>
+			    
+			    <p>Notice that the newline between logging events (%n) has to be explicitely defined. Otherwise all 
+			    logging events will be logged in the same line.</p>
+			    
+			    <h4>Formatting the date</h4>
+			    
+			    <p>The <code>%date</code> conversion word can take the desired date format as an option. For example, 
+			    if you're European, the d.m.Y date format might be more familiar. Also, adding milliseconds.</p>
+			    
+			    <p>Conversion pattern: <code>%date{d.m.Y H:i:s,u} %logger %-5level %msg%n</code></p>
+			    
+				<p>Running the example code produces the following output:</p>
+
+<pre>
+27.02.2012 20:14:41,624 myLogger INFO  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+27.02.2012 20:14:41,625 myLogger DEBUG Donec a diam lectus.
+27.02.2012 20:14:41,626 myLogger WARN  Sed sit amet ipsum mauris.
+</pre>
+			    
+			    <h4>Logging HTTP requests</h4>
+			    
+			    <p>If log4php is used to log HTTP requests, a pattern like this might be useful:</p>
+			    
+			    <p><code>%date [%pid] From:%server{REMOTE_ADDR}:%server{REMOTE_PORT} Request:[%request] Message: %msg%n</code></p>
+			    
+			    <p>Request <code>/test.php?foo=bar</code> it will produce the output similar to:</p>
+				    
+<pre>
+2012-01-02T14:19:33+01:00 [22924] From:194.152.205.71:11257 Request:[foo=bar] Message: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+2012-01-02T14:19:33+01:00 [22924] From:194.152.205.71:11257 Request:[foo=bar] Message: Donec a diam lectus.
+2012-01-02T14:19:33+01:00 [22924] From:194.152.205.71:11257 Request:[foo=bar] Message: Sed sit amet ipsum mauris.
+</pre>
+				    
+				<p><code>%server{REMOTE_ADDR}</code> is equivalent to PHP code <code>$_SERVER['REMOTE_ADDR']</code>.</p>
 			</subsection>
 		</section>
 	</body>

@@ -27,138 +27,135 @@
  * @group appenders
  */
 class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
-    const dsn = 'sqlite:../../../target/pdotest.sqlite';
-    const file = '../../../target/pdotest.sqlite';
-        
-    /** To start with an empty database for each single test. */
-    public function setUp() {
-        if(!extension_loaded('pdo_sqlite')) {
-            self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
-        }
+	const dsn = 'sqlite:../../../target/pdotest.sqlite';
+	const file = '../../../target/pdotest.sqlite';
+	
+	public static function setUpBeforeClass() {
+		if(extension_loaded('pdo_sqlite')) {
+			$drop = 'DROP TABLE IF EXISTS log4php_log;';
+			$create = 'CREATE TABLE log4php_log (
+				timestamp VARCHAR(256),
+				logger VARCHAR(256),
+				level VARCHAR(32),
+				message VARCHAR(4000),
+				thread INTEGER,
+				file VARCHAR(255),
+				line VARCHAR(10)
+			);';
+			
+			$pdo = new PDO(self::dsn);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$pdo->exec($drop);
+			$pdo->exec($create);
+		}
+	}
+	
+	
+	/** To start with an empty database for each single test. */
+	public function setUp() {
+		if(!extension_loaded('pdo_sqlite')) {
+			self::markTestSkipped("Please install 'pdo_sqlite' in order to run this test");
+		}
+	}
 
-        if (file_exists(self::file)) @unlink(self::file);
-    }
-
-    /** Clean up after the last test was run. */
-    public static function tearDownAfterClass() {
-        if (file_exists(self::file)) @unlink(self::file);
-    }
-    
+	/** Clean up after the last test was run. */
+	public static function tearDownAfterClass() {
+		if (file_exists(self::file)) @unlink(self::file);
+	}
+	
 	public function testRequiresLayout() {
 		$appender = new LoggerAppenderPDO();
 		self::assertFalse($appender->requiresLayout());
 	}
 
-    /** Tests new-style logging using prepared statements and the default SQL definition. */
-    public function testSimpleWithDefaults() {
-        // Log event
-        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-        $appender = new LoggerAppenderPDO("myname");
-        $appender->setDSN(self::dsn);
-        $appender->activateOptions();
-        $appender->append($event);
-        $appender->close();
+	/** Tests new-style logging using prepared statements and the default SQL definition. */
+	public function testSimpleWithDefaults() {
+		// Log event
+		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		$appender = new LoggerAppenderPDO("myname");
+		$appender->setDSN(self::dsn);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
 
-        // Test the default pattern %d,%c,%p,%m,%t,%F,%L
-        $db = new PDO(self::dsn);
-        $query = "SELECT * FROM log4php_log";
-        $sth = $db->query($query);
-        $row = $sth->fetch(PDO::FETCH_NUM);
-        self::assertTrue(is_array($row), "No rows found.");
-        self::assertEquals(7, count($row));
-        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d$/', $row[0])); // %d = date
-        self::assertEquals('TEST', $row[1]); // %c = category
-        self::assertEquals('ERROR', $row[2]); // %p = priority
-        self::assertEquals('testmessage', $row[3]); // %m = message
-        if (function_exists('posix_getpid')) {
-            self::assertEquals(posix_getpid(), $row[4]); // %t = thread
-        }
-        self::assertEquals('NA', $row[5]); // %F = file, NA due to phpunit magic
-        self::assertEquals('NA', $row[6]); // %L = line, NA due to phpunit magic
-    }
+		// Test the default pattern
+		$db = new PDO(self::dsn);
+		$query = "SELECT * FROM log4php_log";
+		$sth = $db->query($query);
+		$row = $sth->fetch(PDO::FETCH_NUM);
+		
+		self::assertTrue(is_array($row), "No rows found.");
+		self::assertEquals(7, count($row));
+		self::assertEquals(1, preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $row[0])); // %d = date
+		self::assertEquals('TEST', $row[1]); // %c = category
+		self::assertEquals('ERROR', $row[2]); // %p = priority
+		self::assertEquals('testmessage', $row[3]); // %m = message
+		if (function_exists('posix_getpid')) {
+			self::assertEquals(posix_getpid(), $row[4]); // %t = thread
+		}
+		self::assertEquals('NA', $row[5]); // %F = file, NA due to phpunit magic
+		self::assertEquals('NA', $row[6]); // %L = line, NA due to phpunit magic
+	}
 
 
-    /** Tests new style prepared statment logging with customized SQL. */
-    public function testCustomizedSql() {
-        // Prepare appender
-        $appender = new LoggerAppenderPDO("myname");
-        $appender->setDSN(self::dsn);
-        $appender->setTable('unittest2');
-        $appender->setInsertSql("INSERT INTO unittest2 (file, line, thread, timestamp, logger, level, message) VALUES (?,?,?,?,?,?,?)");
-        $appender->setInsertPattern("%F,%L,%t,%d,%c,%p,%m");
-        $appender->activateOptions();
+	/** Tests new style prepared statment logging with customized SQL. */
+	public function testCustomizedSql() {
+		
+		$dateFormat = "Y-m-d H:i:s";
+		
+		// Prepare appender
+		$appender = new LoggerAppenderPDO("myname");
+		$appender->setDSN(self::dsn);
+		$appender->setInsertSql("INSERT INTO log4php_log (file, line, thread, timestamp, logger, level, message) VALUES (?,?,?,?,?,?,?)");
+		$appender->setInsertPattern("%F,%L,%t,%d\{$dateFormat\},%c,%p,%m");
+		$appender->activateOptions();
 
-        // Action!
-        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest2", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-        $appender->append($event);
-        
-        // Check
-        $db = new PDO(self::dsn);
-        $result = $db->query("SELECT * FROM unittest2");
-        $row = $result->fetch(PDO::FETCH_OBJ);
-        self::assertTrue(is_object($row));
-        self::assertEquals("NA", $row->file); // "NA" due to phpunit magic
-        self::assertEquals("NA", $row->line); // "NA" due to phpunit magic
-        if (function_exists('posix_getpid')) {
-            self::assertEquals(posix_getpid(), $row->thread);
-        }
-        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d$/', $row->timestamp));
-        self::assertEquals('TEST', $row->logger);
-        self::assertEquals('ERROR', $row->level);
-        self::assertEquals('testmessage', $row->message);
-    }
-        
-    /** Tests old-style logging using the $sql variable. */
-    public function testOldStyle() {
-        // Create table with different column order
-        $db = new PDO(self::dsn);
-        $db->exec('CREATE TABLE unittest3 (ts timestamp, level varchar(32), msg varchar(64))');
-
-        // Prepare appender
-        $appender = new LoggerAppenderPDO("myname");
-        $appender->setDSN(self::dsn);
-        $appender->setCreateTable(false);
-        $appender->setSql("INSERT INTO unittest3 (ts, level, msg) VALUES ('%d', '%p', '%m')");
-        $appender->activateOptions();
-
-        // Action!
-        $event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-        $appender->append($event);
-
-        // Check
-        $db = new PDO(self::dsn);
-        $result = $db->query("SELECT * FROM unittest3");
-        self::assertFalse($result === false);
-        $row = $result->fetch(PDO::FETCH_OBJ);
-        self::assertTrue(is_object($row));
-        self::assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d$/', $row->ts));
-        self::assertEquals('ERROR', $row->level);
-        self::assertEquals('testmessage', $row->msg);
-    }
-    
-    /** Tests if log4php throws an Exception if the appender does not work. 
-     * @expectedException LoggerException
-     */
-    public function testException() {
-        $dsn = 'doenotexist';
-        $appender = new LoggerAppenderPDO("myname");
-        $appender->setDSN($dsn);
-        $appender->setCreateTable(true);
-            $appender->activateOptions();
-    }
-    
+		// Action!
+		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest2", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		$appender->append($event);
+		
+		$date = date($dateFormat, $event->getTimeStamp());
+		
+		// Check
+		$db = new PDO(self::dsn);
+		$result = $db->query("SELECT * FROM log4php_log");
+		$row = $result->fetch(PDO::FETCH_OBJ);
+		self::assertTrue(is_object($row));
+		self::assertEquals("NA", $row->file); // "NA" due to phpunit magic
+		self::assertEquals("NA", $row->line); // "NA" due to phpunit magic
+		if (function_exists('posix_getpid')) {
+			self::assertEquals(posix_getpid(), $row->thread);
+		}
+		self::assertEquals($date, $row->timestamp);
+		self::assertEquals('TEST', $row->logger);
+		self::assertEquals('ERROR', $row->level);
+		self::assertEquals('testmessage', $row->message);
+	}
+	
+	/** 
+	 * Tests a warning is shown when connecting to invalid dns. 
+ 	 * @expectedException PHPUnit_Framework_Error
+ 	 * @expectedExceptionMessage Failed connecting to database: invalid data source name
+	 */
+	public function testException() {
+		$dsn = 'doenotexist';
+		$appender = new LoggerAppenderPDO("myname");
+		$appender->setDSN($dsn);
+		$appender->activateOptions();
+	}
+	
 	/**
 	 * Check whether close() actually closes the database connection. 
 	 */
-    public function testClose() {
-    	$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
-    	
-        $appender = new LoggerAppenderPDO("myname");
-        $appender->setDSN(self::dsn);
-        $appender->activateOptions();
-        $appender->append($event);
-        $appender->close();
-        
-        self::assertNull($appender->getDatabaseHandle());
-    }
+	public function testClose() {
+		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
+		
+		$appender = new LoggerAppenderPDO("myname");
+		$appender->setDSN(self::dsn);
+		$appender->activateOptions();
+		$appender->append($event);
+		$appender->close();
+		
+		self::assertNull($appender->getDatabaseHandle());
+	}
 }

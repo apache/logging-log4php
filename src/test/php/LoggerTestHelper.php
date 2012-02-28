@@ -28,33 +28,33 @@
 class LoggerTestHelper {
 	
 	/** Returns a test logging event with level set to TRACE. */
-	public static function getTraceEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelTrace(), $message);
+	public static function getTraceEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelTrace(), $message);
 	}
 	
 	/** Returns a test logging event with level set to DEBUG. */
-	public static function getDebugEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelDebug(), $message);
+	public static function getDebugEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelDebug(), $message);
 	}
 	
 	/** Returns a test logging event with level set to INFO. */
-	public static function getInfoEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelInfo(), $message);
+	public static function getInfoEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelInfo(), $message);
 	}
 	
 	/** Returns a test logging event with level set to WARN. */
-	public static function getWarnEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelWarn(), $message);
+	public static function getWarnEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelWarn(), $message);
 	}
 	
 	/** Returns a test logging event with level set to ERROR. */
-	public static function getErrorEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelError(), $message);
+	public static function getErrorEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelError(), $message);
 	}
 	
 	/** Returns a test logging event with level set to FATAL. */
-	public static function getFatalEvent($message = 'test') {
-		return new LoggerLoggingEvent(__CLASS__, new Logger("test"), LoggerLevel::getLevelFatal(), $message);
+	public static function getFatalEvent($message = 'test', $logger = "test") {
+		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelFatal(), $message);
 	}
 	
 	/** 
@@ -106,6 +106,28 @@ class LoggerTestHelper {
 	                'class' => 'LoggerAppenderEcho',
 	                'layout' => array(
 	                    'class' => 'LoggerLayoutSimple',
+					),
+				),
+			),
+		);
+	}
+	
+	/** Returns a simple configuration with one echo appender using the pattern layout. */
+	public static function getEchoPatternConfig($pattern) {
+		return array(
+			'threshold' => 'ALL',
+			'rootLogger' => array(
+				'level' => 'trace',
+				'appenders' => array('default'),
+			),
+			'appenders' => array(
+				'default' => array(
+					'class' => 'LoggerAppenderEcho',
+					'layout' => array(
+						'class' => 'LoggerLayoutPattern',
+						'params' => array(
+							'conversionPattern' => $pattern
+						)
 					),
 				),
 			),

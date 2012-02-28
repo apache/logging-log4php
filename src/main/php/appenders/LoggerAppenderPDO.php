@@ -23,15 +23,18 @@
  *
  * Configurable parameters of this appender are:
  *
- * - user            - Sets the user of this database connection
- * - password        - Sets the password of this database connection
- * - createTable     - true, if the table should be created if necessary. false otherwise
- * - table           - Sets the table name (default: log4php_log)
- * - sql             - Sets the insert statement for a logging event. Defaults
+ * - dsn             - The DSN string for this connection
+ * - user            - The user of this database connection
+ * - password        - The password of this database connection
+ * - table           - Name of the database table into which log entries will be inserted (default: log4php_log)
+ * - insertSQL       - Sets the insert statement for a logging event. Defaults
  *                     to the correct one - change only if you are sure what you are doing.
- * - dsn             - Sets the DSN string for this connection
+ * - insertPattern   - The conversion pattern to use in conjuction with insert 
+ *                     SQL. Must contain the same number of comma separated 
+ *                     conversion patterns as there are question marks in the 
+ *                     insertSQL.
  *
- * If $sql is set then $table and $sql are used, else $table, $insertSql and $insertPattern.
+ * If $sql is set then $table and $sql are used, else $table, $insertSQL and $insertPattern.
  *
  * An example:
  *
@@ -46,265 +49,246 @@
  */
 class LoggerAppenderPDO extends LoggerAppender {
 
-	/** 
-	 * Create the log table if it does not exists (optional).
-	 * @var string 
-	 */
-	protected $createTable = true;
+	// ******************************************
+	// *** Configurable parameters            ***
+	// ******************************************
 	
 	/** 
-	 * Database user name.
-	 * @var string 
+	 * DSN string used to connect to the database.
+	 * @see http://www.php.net/manual/en/pdo.construct.php
 	 */
+	protected $dsn;
+
+	/** Database user name. */
 	protected $user;
 	
-	/** 
-	 * Database password
-	 * @var string 
-	 */
+	/** Database password. */
 	protected $password;
 	
 	/** 
-	 * DSN string for enabling a connection.
-	 * @var string 
+	 * The insert query.
+	 * 
+	 * The __TABLE__ placeholder will be replaced by the table name from 
+	 * {@link $table}.
+	 *  
+	 * The questionmarks are part of the prepared statement, and they must 
+	 * match the number of conversion specifiers in {@link insertPattern}.
 	 */
-	protected $dsn;
-	
-	/** 
-	 * A {@link LoggerPatternLayout} string used to format a valid insert query.
-	 * @deprecated Use {@link $insertSql} and {@link $insertPattern} which properly handle quotes in the messages!
-	 * @var string 
-	 */
-	protected $sql;
-	
-	/** 
-	 * Can be set to a complete insert statement with ? that are replaced using {@link insertPattern}.
-	 * @var string 
-	 */
-	protected $insertSql = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?,?,?,?,?,?,?)";
+	protected $insertSQL = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	/** 
-	 * A comma separated list of {@link LoggerPatternLayout} format strings that replace the "?" in {@link $sql}.
-	 * @var string 
+	 * A comma separated list of {@link LoggerPatternLayout} format strings 
+	 * which replace the "?" in {@link $insertSQL}.
+	 * 
+	 * Must contain the same number of comma separated conversion patterns as 
+	 * there are question marks in {@link insertSQL}.
+ 	 * 
+ 	 * @see LoggerPatternLayout For conversion patterns.
 	 */
-	protected $insertPattern = "%d,%c,%p,%m,%t,%F,%L";
+	protected $insertPattern = "%date{Y-m-d H:i:s},%logger,%level,%message,%pid,%file,%line";
 
-	/** 
-	 * Table name to write events. Used only for CREATE TABLE if {@link $createTable} is true.
-	 * @var string 
-	 */
+	/** Name of the table to which to append log events. */
 	protected $table = 'log4php_log';
+	
+	/** The number of recconect attempts to make on failed append. */
+	protected $reconnectAttempts = 3;
+	
+	
+	// ******************************************
+	// *** Private memebers                   ***
+	// ******************************************
 	
 	/** 
 	 * The PDO instance.
 	 * @var PDO 
 	 */
-	protected $db = null;
+	protected $db;
 	
 	/** 
-	 * Prepared statement for the INSERT INTO query.
+	 * Prepared statement for the insert query.
 	 * @var PDOStatement 
 	 */
 	protected $preparedInsert;
-
-	/** 
-	 * Set in activateOptions() and later used in append() to check if all conditions to append are true.
-	 * @var boolean 
-	 */
-	protected $canAppend = true;
 	
-	/**
-	 * This appender does not require a layout.
-	 */
+	/** This appender does not require a layout. */
 	protected $requiresLayout = false;
 	
+
+	// ******************************************
+	// *** Appender methods                   ***
+	// ******************************************
+	
 	/**
-	 * Setup db connection.
-	 * Based on defined options, this method connects to db defined in {@link $dsn}
-	 * and creates a {@link $table} table if {@link $createTable} is true.
-	 * @return boolean true if all ok.
-	 * @throws a PDOException if the attempt to connect to the requested database fails.
+	 * Acquires a database connection based on parameters.
+	 * Parses the insert pattern to create a chain of converters which will be
+	 * used in forming query parameters from logging events.
 	 */
 	public function activateOptions() {
 		try {
-			if($this->user === null) {
-				$this->db = new PDO($this->dsn);
-			} else if($this->password === null) {
-				$this->db = new PDO($this->dsn, $this->user);
-			} else {
-				$this->db = new PDO($this->dsn,$this->user,$this->password);
-			}
-			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-			// test if log table exists
-			try {
-				$result = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE 1 = 0');
-				$result->closeCursor(); 
-			} catch (PDOException $e) {
-				// It could be something else but a "no such table" is the most likely
-				$result = false;
-			}
-			
-			// create table if necessary
-			if ($result == false and $this->createTable) {
-				// The syntax should at least be compatible with MySQL, PostgreSQL, SQLite and Oracle.
-				$query = "CREATE TABLE {$this->table} (".
-							"timestamp varchar(32)," .
-							"logger varchar(64)," .
-							"level varchar(32)," .
-							"message varchar(9999)," .
-							"thread varchar(32)," .
-							"file varchar(255)," .
-							"line varchar(6))";
-				$result = $this->db->query($query);
-			}
+			$this->establishConnection();
 		} catch (PDOException $e) {
-			$this->canAppend = false;
-			throw new LoggerException($e);
-		}
-		
-		$this->layout = new LoggerLayoutPattern();
-		
-		//
-		// Keep compatibility to legacy option $sql which already included the format patterns!
-		//
-		if (empty($this->sql)) {
-			// new style with prepared Statment and $insertSql and $insertPattern
-			// Maybe the tablename has to be substituted.
-			$this->insertSql = preg_replace('/__TABLE__/', $this->table, $this->insertSql);
-			$this->preparedInsert = $this->db->prepare($this->insertSql);
-			$this->layout->setConversionPattern($this->insertPattern);
-		} else {
-			// Old style with format strings in the $sql query should be used.
-		$this->layout->setConversionPattern($this->sql);
+			$this->warn("Failed connecting to database: " . $e->getMessage());
+			$this->close();
+			return;
 		}
 
-		$this->canAppend = true;
-		return true;
+		// Parse the insert patterns; pattern parts are comma delimited
+		$pieces = explode(',', $this->insertPattern);
+		$converterMap = LoggerLayoutPattern::getDefaultConverterMap();
+		foreach($pieces as $pattern) {
+			$parser = new LoggerPatternParser($pattern, $converterMap);
+			$this->converters[] = $parser->parse(); 
+		}
+		
+		$this->closed = false;
+	}
+	
+	/** 
+	 * Connects to the database, and prepares the insert query.
+	 * @throws PDOException If connect or prepare fails.  
+	 */
+	protected function establishConnection() {
+		// Acquire database connection
+		$this->db = new PDO($this->dsn, $this->user, $this->password);
+		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+		// Prepare the insert statement
+		$insertSQL = str_replace('__TABLE__', $this->table, $this->insertSQL);
+		$this->preparedInsert = $this->db->prepare($insertSQL);
 	}
 	
 	/**
 	 * Appends a new event to the database.
 	 * 
-	 * @throws LoggerException If the pattern conversion or the INSERT statement fails.
+	 * If writing to database fails, it will retry by re-establishing the 
+	 * connection up to $reconnectAttempts times. If writing still fails, 
+	 * the appender will close.
 	 */
 	public function append(LoggerLoggingEvent $event) {
-		// TODO: Can't activateOptions() simply throw an Exception if it encounters problems?
-		if ( ! $this->canAppend) return;
-
+		
+		for ($attempt = 1; $attempt <= $this->reconnectAttempts; $attempt++) {
 			try {
-			if (empty($this->sql)) {
-				// new style with prepared statement
-				$params = $this->layout->formatToArray($event);
-				$this->preparedInsert->execute($params);
-			} else {
-				// old style
-				$query = $this->layout->format($event);
-				$this->db->exec($query);
-			}
-			} catch (Exception $e) {
-				throw new LoggerException($e);
+				// If it's a retry, reestablish the connection
+				if ($attempt > 1) {
+					$this->establishConnection();
+				}
+				
+				// Write to database
+				@$this->preparedInsert->execute($this->format($event));
+				@$this->preparedInsert->closeCursor();
+				break;
+			} catch (PDOException $e) {
+				$this->warn("Failed writing to database: ". $e->getMessage());
+				
+				// Close the appender if it's the last attempt
+				if ($attempt == $this->reconnectAttempts) {
+					$this->warn("Failed after {$this->reconnectAttempts} attempts. Closing appender.");
+					$this->close();
+				} else {
+					$this->warn("Attempting a reconnect (attempt $attempt of {$this->reconnectAttempts}).");
+				}
 			}
 		}
+	}
+	
+	/**
+	 * Converts the logging event to a series of database parameters by using 
+	 * the converter chain which was set up on activation. 
+	 */
+	protected function format(LoggerLoggingEvent $event) {
+		$params = array();
+		foreach($this->converters as $converter) {
+			$buffer = '';
+			while ($converter !== null) {
+				$converter->format($buffer, $event);
+				$converter = $converter->next;
+			}
+			$params[] = $buffer;
+		}
+		return $params;
+	}
 	
 	/**
 	 * Closes the connection to the logging database
 	 */
 	public function close() {
-		if($this->closed != true) {
-			if ($this->db !== null) {
-				$this->db = null;
-			}
-			$this->closed = true;
-		}
+		// Close the connection (if any)
+		$this->db = null;
+		
+		// Close the appender
+		$this->closed = true;
 	}
 	
-	/**
-	 * Sets the username for this connection. 
-	 * Defaults to ''
-	 */
-	public function setUser($user) {
-		$this->setString('user', $user);
-	}
+	// ******************************************
+	// *** Accessor methods                   ***
+	// ******************************************
 	
 	/**
-	 * Sets the password for this connection. 
-	 * Defaults to ''
-	 */
-	public function setPassword($password) {
-		$this->setString('password', $password);
-	}
-	
-	/**
-	 * Indicator if the logging table should be created on startup,
-	 * if its not existing.
-	 */
-	public function setCreateTable($flag) {
-		$this->setBoolean('createTable', $flag);
-	}
-   
-   	/**
-	 * Sets the SQL string into which the event should be transformed.
-	 * Defaults to:
-	 * 
-	 * INSERT INTO $this->table 
-	 * ( timestamp, logger, level, message, thread, file, line) 
-	 * VALUES 
-	 * ('%d','%c','%p','%m','%t','%F','%L')
-	 * 
-	 * It's not necessary to change this except you have customized logging'
-	 *
-	 * @deprecated See {@link setInsertSql} and {@link setInsertPattern}.
-	 */
-	public function setSql($sql) {
-		$this->setString('sql', $sql);
-	}
-	
-	/**
-	 * Sets the SQL INSERT string to use with {@link $insertPattern}.
-	 *
-	 * @param $sql		  A complete INSERT INTO query with "?" that gets replaced.
-	 */
-	public function setInsertSql($sql) {
-		$this->setString('insertSql', $sql);
-	}
-
-	/**
-	 * Sets the {@link LoggerLayoutPattern} format strings for {@link $insertSql}.
-	 *
-	 * It's not necessary to change this except you have customized logging.
-	 *
-	 * @param $pattern		  Comma separated format strings like "%p,%m,%C"
-	 */
-	public function setInsertPattern($pattern) {
-		$this->setString('insertPattern', $pattern);
-	}
-
-	/**
-	 * Sets the tablename to which this appender should log.
-	 * Defaults to log4php_log
-	 */
-	public function setTable($table) {
-		$this->setString('table', $table);
-	}
-	
-	/**
-	 * Sets the DSN string for this connection. In case of
-	 * SQLite it could look like this: 'sqlite:appenders/pdotest.sqlite'
-	 */
-	public function setDSN($dsn) {
-		$this->setString('dsn', $dsn);
-	}
-	
-	/**
-	 * Sometimes databases allow only one connection to themselves in one thread.
-	 * SQLite has this behaviour. In that case this handle is needed if the database
-	 * must be checked for events.
-	 *
+	 * Returns the active database handle or null if not established.
 	 * @return PDO
 	 */
 	public function getDatabaseHandle() {
 		return $this->db;
 	}
+	
+	/** Sets the username. */
+	public function setUser($user) {
+		$this->setString('user', $user);
+	}
+	
+	/** Returns the username. */
+	public function getUser($user) {
+		return $this->user;
+	}
+	
+	/** Sets the password. */
+	public function setPassword($password) {
+		$this->setString('password', $password);
+	}
+	
+	/** Returns the password. */
+	public function getPassword($password) {
+		return $this->password;
+	}
+	
+	/** Sets the insert SQL. */
+	public function setInsertSQL($sql) {
+		$this->setString('insertSQL', $sql);
+	}
+	
+	/** Returns the insert SQL. */
+	public function getInsertSQL($sql) {
+		return $this->insertSQL;
+	}
+
+	/** Sets the insert pattern. */
+	public function setInsertPattern($pattern) {
+		$this->setString('insertPattern', $pattern);
+	}
+	
+	/** Returns the insert pattern. */
+	public function getInsertPattern($pattern) {
+		return $this->insertPattern;
+	}
+
+	/** Sets the table name. */
+	public function setTable($table) {
+		$this->setString('table', $table);
+	}
+	
+	/** Returns the table name. */
+	public function getTable($table) {
+		return $this->table;
+	}
+	
+	/** Sets the DSN string. */
+	public function setDSN($dsn) {
+		$this->setString('dsn', $dsn);
+	}
+	
+	/** Returns the DSN string. */
+	public function getDSN($dsn) {
+		return $this->setString('dsn', $dsn);
+	}	
 }
 

@@ -40,8 +40,8 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	/** A pattern with a non-existant key. */
 	private $pattern4 = "%-5p %c: %X{key_does_not_exist} %m";
 	
-	/** A pattern with an empty key. */
-	private $pattern5 = "%-5p %c: %X{} %m";
+	/** A pattern without a key. */
+	private $pattern5 = "%-5p %c: %X %m";
 	
 	/** A pattern for testing values from $_ENV. */
 	private $patternEnv = "%-5p %c: %X{env.TEST} %m";
@@ -76,31 +76,31 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 		
 		self::assertSame($expected, $actual);
 		
-		$event = new LoggerLoggingEvent("LoggerLayoutPattern", new Logger("TEST"), LoggerLevel::getLevelInfo(), "Test message");
+		$event = LoggerTestHelper::getInfoEvent("Test message");
 
 		// Pattern with 1 key
 		$actual = $this->formatEvent($event, $this->pattern1);
-		$expected = "INFO  TEST: valueofkey1 Test message";
+		$expected = "INFO  test: valueofkey1 Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Pattern with 2 keys
 		$actual = $this->formatEvent($event, $this->pattern2);
-		$expected = "INFO  TEST: valueofkey1 valueofkey2 Test message";
+		$expected = "INFO  test: valueofkey1 valueofkey2 Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Pattern with 3 keys (one numeric)
 		$actual = $this->formatEvent($event, $this->pattern3);
-		$expected = "INFO  TEST: valueofkey1 valueofkey2 valueofkey3 Test message";
+		$expected = "INFO  test: valueofkey1 valueofkey2 valueofkey3 Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Pattern with non-existant key
 		$actual = $this->formatEvent($event, $this->pattern4);
-		$expected = "INFO  TEST:  Test message";
+		$expected = "INFO  test:  Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Pattern with an empty key
     	$actual = $this->formatEvent($event, $this->pattern5);
-		$expected = "INFO  TEST:  Test message";
+		$expected = "INFO  test: key1=valueofkey1, key2=valueofkey2, 3=valueofkey3 Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Test key removal
@@ -110,7 +110,7 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 		
 		// Pattern with 1 key, now removed
 		$actual = $this->formatEvent($event, $this->pattern1);
-		$expected = "INFO  TEST:  Test message";
+		$expected = "INFO  test:  Test message";
 		self::assertEquals($expected, $actual);
     }
     
@@ -125,9 +125,9 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
     	self::assertEquals('abc', LoggerMDC::get('env.TEST'));
     	
     	// Test env variable in a pattern
-    	$event = new LoggerLoggingEvent("LoggerLayoutPattern", new Logger("TEST"), LoggerLevel::getLevelInfo(), "Test message");
+    	$event = LoggerTestHelper::getInfoEvent("Test message");
     	$actual = $this->formatEvent($event, $this->patternEnv);
-		$expected = "INFO  TEST: abc Test message";
+		$expected = "INFO  test: abc Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Test reading a non-existant env variable
@@ -144,9 +144,9 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
     	self::assertEquals($value, LoggerMDC::get('server.PHP_SELF'));
     	
 		// Test the server variable in a pattern
-    	$event = new LoggerLoggingEvent("LoggerLayoutPattern", new Logger("TEST"), LoggerLevel::getLevelInfo(), "Test message");
+    	$event = LoggerTestHelper::getInfoEvent("Test message");
     	$actual = $this->formatEvent($event, $this->patternServer);
-		$expected = "INFO  TEST: $value Test message";
+		$expected = "INFO  test: $value Test message";
 		self::assertEquals($expected, $actual);
 		
 		// Test reading a non-existant server variable
@@ -159,6 +159,7 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	private function formatEvent($event, $pattern) {
 		$layout = new LoggerLayoutPattern();
 		$layout->setConversionPattern($pattern);
+		$layout->activateOptions();
 		return $layout->format($event);
 	}
 }

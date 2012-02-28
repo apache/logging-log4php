@@ -42,6 +42,7 @@ class LoggerAutoloader {
 		'LoggerConfigurable' => '/LoggerConfigurable.php',
 		'LoggerConfigurator' => '/LoggerConfigurator.php',
 		'LoggerException' => '/LoggerException.php',
+		'LoggerFilter' => '/LoggerFilter.php',
 		'LoggerHierarchy' => '/LoggerHierarchy.php',
 		'LoggerLevel' => '/LoggerLevel.php',
 		'LoggerLocationInfo' => '/LoggerLocationInfo.php',
@@ -52,7 +53,7 @@ class LoggerAutoloader {
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerThrowableInformation' => '/LoggerThrowableInformation.php',
-
+		
 		// Appenders
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
@@ -76,7 +77,6 @@ class LoggerAutoloader {
 		'LoggerConfiguratorDefault' => '/configurators/LoggerConfiguratorDefault.php',
 
 		// Filters
-		'LoggerFilter' => '/LoggerFilter.php',
 		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
 		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
 		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
@@ -86,18 +86,33 @@ class LoggerAutoloader {
 		'LoggerFormattingInfo' => '/helpers/LoggerFormattingInfo.php',
 		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
 		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
+		'LoggerUtils' => '/helpers/LoggerUtils.php',
+	
+		// Pattern converters
+		'LoggerPatternConverter' => '/pattern/LoggerPatternConverter.php',
+		'LoggerPatternConverterClass' => '/pattern/LoggerPatternConverterClass.php',
+		'LoggerPatternConverterCookie' => '/pattern/LoggerPatternConverterCookie.php',
+		'LoggerPatternConverterDate' => '/pattern/LoggerPatternConverterDate.php',
+		'LoggerPatternConverterEnvironment' => '/pattern/LoggerPatternConverterEnvironment.php',
+		'LoggerPatternConverterFile' => '/pattern/LoggerPatternConverterFile.php',
+		'LoggerPatternConverterLevel' => '/pattern/LoggerPatternConverterLevel.php',
+		'LoggerPatternConverterLine' => '/pattern/LoggerPatternConverterLine.php',
+		'LoggerPatternConverterLiteral' => '/pattern/LoggerPatternConverterLiteral.php',
+		'LoggerPatternConverterLogger' => '/pattern/LoggerPatternConverterLogger.php',
+		'LoggerPatternConverterMDC' => '/pattern/LoggerPatternConverterMDC.php',
+		'LoggerPatternConverterMessage' => '/pattern/LoggerPatternConverterMessage.php',
+		'LoggerPatternConverterMethod' => '/pattern/LoggerPatternConverterMethod.php',
+		'LoggerPatternConverterNDC' => '/pattern/LoggerPatternConverterNDC.php',
+		'LoggerPatternConverterNewLine' => '/pattern/LoggerPatternConverterNewLine.php',
+		'LoggerPatternConverterProcess' => '/pattern/LoggerPatternConverterProcess.php',
+		'LoggerPatternConverterRelative' => '/pattern/LoggerPatternConverterRelative.php',
+		'LoggerPatternConverterRequest' => '/pattern/LoggerPatternConverterRequest.php',
+		'LoggerPatternConverterServer' => '/pattern/LoggerPatternConverterServer.php',
+		'LoggerPatternConverterSession' => '/pattern/LoggerPatternConverterSession.php',
+		'LoggerPatternConverterSessionID' => '/pattern/LoggerPatternConverterSessionID.php',
+		'LoggerPatternConverterSuperglobal' => '/pattern/LoggerPatternConverterSuperglobal.php',
+		'LoggerPatternConverterThrowable' => '/pattern/LoggerPatternConverterThrowable.php',
 		
-		// Converters
-		'LoggerBasicPatternConverter' => '/helpers/LoggerBasicPatternConverter.php',
-		'LoggerCategoryPatternConverter' => '/helpers/LoggerCategoryPatternConverter.php',
-		'LoggerClassNamePatternConverter' => '/helpers/LoggerClassNamePatternConverter.php',
-		'LoggerDatePatternConverter' => '/helpers/LoggerDatePatternConverter.php',
-		'LoggerLiteralPatternConverter' => '/helpers/LoggerLiteralPatternConverter.php',
-		'LoggerLocationPatternConverter' => '/helpers/LoggerLocationPatternConverter.php',
-		'LoggerMDCPatternConverter' => '/helpers/LoggerMDCPatternConverter.php',
-		'LoggerNamedPatternConverter' => '/helpers/LoggerNamedPatternConverter.php',
-		'LoggerPatternConverter' => '/helpers/LoggerPatternConverter.php',
-
 		// Layouts
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutPattern' => '/layouts/LoggerLayoutPattern.php',
@@ -112,7 +127,7 @@ class LoggerAutoloader {
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
 		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
 	);
-
+	
 	/**
 	 * Loads a class.
 	 * @param string $className The name of the class to load.

@@ -212,6 +212,14 @@ class LoggerLoggingEvent {
 	}
 
 	/**
+	 * Returns the logger which created the event.
+	 * @return Logger
+	 */
+	public function getLogger() {
+		return $this->logger;
+	}
+	
+	/**
 	 * Return the name of the logger. Use this form instead of directly
 	 * accessing the {@link $categoryName} field.
 	 * @return string  
