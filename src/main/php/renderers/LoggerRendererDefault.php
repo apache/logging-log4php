@@ -37,7 +37,7 @@
  * @subpackage renderers
  * @since 0.3
  */
-class LoggerRendererDefault implements LoggerRendererObject {
+class LoggerRendererDefault implements LoggerRenderer {
 
 	/**
 	 * Render objects by type casting

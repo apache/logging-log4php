@@ -24,6 +24,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+
+class CostumDefaultRenderer implements LoggerRenderer {
+	public function render($o) { }
+}
+
+
 /**
  * 
  * @group configurators
@@ -450,5 +456,34 @@
  				),
  			) 
  		));
+ 	}
+ 	
+ 	public function testConfigureRenderer_ShouldReturnBuildInObjectRenderer() {
+ 		Logger::configure(array(
+ 			'rootLogger' => array(
+ 				'appenders' => array('default')
+ 			),
+ 			'appenders' => array(
+ 				'default' => array(
+ 					'class' => 'LoggerAppenderEcho',
+ 					'threshold' => 'INFO'
+ 				),
+ 			) 
+ 		));
+ 			
+ 		$actualDefaultObjectRenderer = Logger::getHierarchy()->getRendererMap()->getDefaultObjectRenderer();
+ 		
+ 		$this->assertTrue($actualDefaultObjectRenderer instanceof LoggerRendererObject, 'build in object renderer');
+ 	} 	
+ 	
+ 	public function testConfigureRenderer_SetupCostumDefaultObjectRenderer() {
+ 		Logger::configure(array(
+ 			'renderers' => array(
+ 					array('defaultObjectRenderer' => 'CostumDefaultRenderer')
+ 			)));
+ 		
+ 		$actualCostumObjectRenderer = Logger::getHierarchy()->getRendererMap()->getDefaultObjectRenderer();
+ 		
+ 		$this->assertNotNull($actualCostumObjectRenderer, 'costum default object renderer');
  	}
  }

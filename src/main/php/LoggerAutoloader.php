@@ -125,7 +125,8 @@ class LoggerAutoloader {
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererException' => '/renderers/LoggerRendererException.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
-		'LoggerRendererObject' => '/renderers/LoggerRendererObject.php',
+		'LoggerRenderer' => '/renderers/LoggerRenderer.php',
+		'LoggerRendererObject'	=> '/renderers/LoggerRendererObject.php',
 	);
 	
 	/**

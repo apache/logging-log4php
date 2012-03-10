@@ -19,23 +19,28 @@
  */
 
 /**
- * Exception renderer
+ * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
  *
+ * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
+ *
+ * Example:
+ * {@example ../../examples/php/renderer_map.php 19}<br>
+ * {@example ../../examples/resources/renderer_map.properties 18}<br>
+ * <pre>
+ * DEBUG - Now comes the current MyClass object:
+ * DEBUG - Doe, John
+ * </pre>
+ *
+ * @version $Revision$
  * @package log4php
  * @subpackage renderers
- * @since 2.1
+ * @since 0.3
  */
-class LoggerRendererException implements LoggerRenderer {
-
-	public function render($o) {
-		$strRep  = 'Throwable('.get_class($o).'): '.$o->getMessage().' in '.$o->getFile().' on line '.$o->getLine();
-		$strRep .= PHP_EOL.$o->getTraceAsString();
-		
-		if (method_exists($o, 'getPrevious') && $o->getPrevious() !== null) {
-			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());
-		}
-		
-		return $strRep;		
-	}
+interface LoggerRenderer {
+	/**
+	 * Render the entity passed as parameter as a String.
+	 * @param mixed $o entity to render
+	 * @return string
+	 */
+	public function render($o);
 }
-?>

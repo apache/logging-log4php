@@ -115,7 +115,7 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 	public function testGetThrowableInformation2() {
 		$hierarchy = Logger::getHierarchy();
 		$root	   = $hierarchy->getRootLogger();
-		
+
 		$a = new LoggerLoggingEventTestCaseAppender('A1');
 		$a->setLayout( new LoggerLoggingEventTestCaseLayout() );
 		$root->addAppender($a);
@@ -124,7 +124,7 @@ class LoggerLoggingEventTest extends PHPUnit_Framework_TestCase {
 		$logger = $hierarchy->getLogger('test');
 		$logger->debug('test', $ex);
 		$hierarchy->shutdown();
-		
+
 		$ti = self::$throwableInfo;
 		
 		self::assertTrue($ti instanceof LoggerThrowableInformation);				

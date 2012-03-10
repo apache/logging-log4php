@@ -23,14 +23,21 @@
  * @link       http://logging.apache.org/log4php
  */
 
+class DefaultObject {
+	private $a;
+	protected $b;
+	public $c;
+}
+
 /**
  * @group renderers
  */
 class LoggerRendererObjectTest extends PHPUnit_Framework_TestCase {
 
-	public function testFactory() {
-		$renderer = LoggerReflectionUtils::createObject('LoggerRendererDefault');
-		self::assertInstanceOf('LoggerRendererDefault', $renderer);
+	public function testDoRender() {
+		$class = new DefaultObject();
+		$renderer = new LoggerRendererObject();
+		self::assertEquals(print_r($class, true), $renderer->render($class));
 	}
 
 }

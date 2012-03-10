@@ -61,12 +61,8 @@ class LoggerThrowableInformation {
 	 */
 	public function getStringRepresentation() {
 		if (!is_array($this->throwableArray)) {
-			$renderer = Logger::getHierarchy()->getRendererMap()->getByClassName(get_class($this->throwable));
+			$renderer = new LoggerRendererException();
 			
-			// TODO: why this?
-			if ($renderer instanceof LoggerRendererDefault) {
-				$renderer = new LoggerRendererException();
-			}
 			$this->throwableArray = explode("\n", $renderer->render($this->throwable));
 		}
 		

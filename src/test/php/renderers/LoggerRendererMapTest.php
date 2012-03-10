@@ -23,6 +23,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+class CostumObjectRenderer implements LoggerRenderer {
+	public function render($o) {
+		return true;
+	}
+}
+
 class Fruit3 {
     public $test1 = 'test1';
     public $test2 = 'test2';
@@ -32,10 +38,14 @@ class Fruit3 {
 class Fruit3Descendant extends Fruit3 {
 }
 
-class FruitRenderer3 implements LoggerRendererObject {
+class FruitRenderer3 implements LoggerRenderer {
     public function render($o) {
 		return $o->test1.','.$o->test2.','.$o->test3;
 	}
+}
+
+class SampleObject {
+	
 }
 
 /**
@@ -94,5 +104,19 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 
         $expected = "WARN - test1,test2,test3" . PHP_EOL;
         self::assertEquals($expected, $actual);
+	}
+	
+	public function testGetByObject_CostumRendererShouldRenderObject() {
+		$sampleObject = new SampleObject();
+		
+		Logger::configure(dirname(__FILE__).'/test4.properties');
+		$hierarchy = Logger::getHierarchy();
+		
+		$map = $hierarchy->getRendererMap();
+		$map->setDefaultObjectRenderer(new CostumObjectRenderer());
+		
+		$actual = $map->findAndRender($sampleObject);
+		
+		$this->assertTrue($actual, 'costumobjectrenderer was rendered object');
 	}
 }

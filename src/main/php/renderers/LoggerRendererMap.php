@@ -45,6 +45,12 @@ class LoggerRendererMap {
 	 * @var LoggerDefaultRenderer
 	 */
 	private $defaultRenderer;
+	
+	/**
+	 * 
+	 * @var LoggerRendererObject
+	 */
+	private $defaultObjectRenderer;
 
 	/**
 	 * Constructor
@@ -52,6 +58,7 @@ class LoggerRendererMap {
 	public function __construct() {
 		$this->map = array();
 		$this->defaultRenderer = new LoggerRendererDefault();
+		$this->defaultObjectRenderer = new LoggerRendererObject();
 	}
 
 	/**
@@ -92,9 +99,9 @@ class LoggerRendererMap {
 				$renderer = $this->getByObject($o);
 				if($renderer !== null) {
 					return $renderer->render($o);
-				} else {
-					return null;
 				}
+
+				return $this->defaultObjectRenderer->render($o);
 			} else {
 				$renderer = $this->defaultRenderer;
 				return $renderer->render($o);
@@ -124,14 +131,13 @@ class LoggerRendererMap {
 	 * @return LoggerRendererObject
 	 */
 	public function getByClassName($class) {
-		$r = null;
 		for($c = $class; !empty($c); $c = get_parent_class($c)) {
 			$c = strtolower($c);
 			if(isset($this->map[$c])) {
 				return $this->map[$c];
 			}
 		}
-		return $this->defaultRenderer;
+		return null;
 	}
 
 	public function clear() {
@@ -145,5 +151,13 @@ class LoggerRendererMap {
 	 */
 	private function put($class, $or) {
 		$this->map[strtolower($class)] = $or;
+	}
+	
+	public function setDefaultObjectRenderer($renderer) {
+		$this->defaultObjectRenderer = $renderer;
+	}
+	
+	public function getDefaultObjectRenderer() {
+		return $this->defaultObjectRenderer;
 	}
 }
