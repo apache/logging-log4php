@@ -83,15 +83,6 @@
 							<td>true</td>
 							<td>If set to true, the microseconds will be included in output.</td>
 						</tr>
-						<tr>
-							<td>microSecondsPrinting</td>
-							<td>string</td>
-							<td>No</td>
-							<td>%c</td>
-							<td>Overrides the date format, using the format used in PHP 
-							<code><a class="externalLink" href="http://php.net/manual/en/function.strftime.php">strftime()</a></code> 
-							function.</td>
-						</tr>
 					</tbody>
 				</table>
 			</subsection>
