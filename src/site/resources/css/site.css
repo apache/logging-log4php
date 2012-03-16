@@ -43,6 +43,7 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 .nav-list .expanded > a { background-image: url(../images/expanded.gif) }
 .nav-list .expanded ul { list-style: none; margin-left: 0px; }
 .nav-list .expanded li a { display: block; padding: 3px 15px 3px 45px; margin-left: -15px; margin-right: -15px; }
+.nav-list .expanded li a:hover { text-decoration: none; background-color: #eeeeee; }
 
 .nav.nav-tabs { margin-bottom: 8px; }
 
@@ -56,7 +57,7 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 .footer p { font-size: 11px; }
 
 .table-not-wide { width: inherit;}
-
+.alert-heading { display: block; font-size: 14px; margin-bottom: 6px; font-weight: bold; } 
 
 /* Pretty printing styles. Used with prettify.js. 
 ---------------------------------------------------- */
