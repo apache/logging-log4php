@@ -51,7 +51,7 @@ class LoggerPatternConverterDate extends LoggerPatternConverter {
 	public function activateOptions() {
 		
 		// Parse the option (date format)
-		if (isset($this->option)) {
+		if (!empty($this->option)) {
 			if(isset($this->specials[$this->option])) {
 				$this->format = $this->specials[$this->option];
 			} else {
