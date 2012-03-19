@@ -66,7 +66,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  		$this->assertSame('default', $appender->getName());
  		
  		$layout = $appender->getLayout();
- 		$this->assertInstanceOf('LoggerLayoutTTCC', $layout);
+ 		$this->assertInstanceOf('LoggerLayoutSimple', $layout);
  		
  		$root = Logger::getRootLogger();
  		$appenders = $root->getAllAppenders();

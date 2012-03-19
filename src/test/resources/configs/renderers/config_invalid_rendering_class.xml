@@ -17,7 +17,7 @@
 -->
 <configuration xmlns="http://logging.apache.org/log4php">
     <appender name="foo" class="LoggerAppenderConsole">
-    	<layout class="LoggerLayoutTTCC"/>
+    	<layout class="LoggerLayoutSimple"/>
     </appender>
     
     <renderer renderedClass="stdClass" renderingClass="stdClass"  />

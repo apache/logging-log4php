@@ -21,6 +21,7 @@
 	</properties>
 	<body>
 		<release version="2.3.0" date="SVN">
+		    <action date="2011-03-19" type="update" dev="Ivan Habunek">Made LoggerLayoutTTCC deprecated.</action>
 			<action date="2011-02-28" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek">Fixed formatting bug in LoggerLayoutPattern.</action>
 			<action date="2011-02-28" type="update" issue="LOG4PHP-172" dev="Ivan Habunek">Rewritten pattern system to allow longer conversion words and some new ones.</action>
 			<action date="2011-02-28" type="add" issue="LOG4PHP-134" dev="Ivan Habunek">Added reconnectAttempts parameter to LoggerAppenderPDO. Adds support for reconnect if connection fails while appending.</action>

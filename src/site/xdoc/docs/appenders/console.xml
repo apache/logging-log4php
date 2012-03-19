@@ -74,7 +74,7 @@
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderConsole">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
     </appender>
     <root>
         <appender_ref ref="default" />
@@ -90,7 +90,7 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderConsole',
             'layout' => array(
-                'class' => 'LoggerLayoutTTCC',
+                'class' => 'LoggerLayoutSimple',
             ),
         ),
     ),

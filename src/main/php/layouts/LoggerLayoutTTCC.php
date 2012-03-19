@@ -47,6 +47,9 @@
  * @version $Revision$
  * @package log4php
  * @subpackage layouts
+ * 
+ * @deprecated LoggerLayout TTCC is deprecated and will be removed in a future release. Please use 
+ *   LoggerLayoutPattern instead. 
  */
 class LoggerLayoutTTCC extends LoggerLayout {
 
@@ -68,6 +71,7 @@ class LoggerLayoutTTCC extends LoggerLayout {
 	 * @see dateFormat
 	 */
 	public function __construct($dateFormat = '') {
+		$this->warn("LoggerLayout TTCC is deprecated and will be removed in a future release. Please use LoggerLayoutPattern instead.");
 		if (!empty($dateFormat)) {
 			$this->dateFormat = $dateFormat;
 		}

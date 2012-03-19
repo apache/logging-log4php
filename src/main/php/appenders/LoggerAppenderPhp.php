@@ -19,7 +19,7 @@
  */
 
 /**
- * Log events using php {@link PHP_MANUAL#trigger_error} function and a {@link LoggerLayoutTTCC} default layout.
+ * Log events using php {@link PHP_MANUAL#trigger_error} function and a {@link LoggerLayoutSimple} default layout.
  *
  * This appender has no configurable parameters.
  *

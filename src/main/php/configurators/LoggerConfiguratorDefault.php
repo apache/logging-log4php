@@ -55,10 +55,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
         ),
         'appenders' => array(
             'default' => array(
-                'class' => 'LoggerAppenderEcho',
-                'layout' => array(
-                    'class' => 'LoggerLayoutTTCC',
-                ),
+                'class' => 'LoggerAppenderEcho'
             ),
         ),
 	);

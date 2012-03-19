@@ -107,7 +107,7 @@
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderRollingFile">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
         <param name="file" value="file.log" />
         <param name="maxFileSize" value="1MB" />
         <param name="maxBackupIndex" value="5" />
@@ -125,7 +125,7 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderRollingFile',
             'layout' => array(
-                'class' => 'LoggerLayoutTTCC',
+                'class' => 'LoggerLayoutSimple',
             ),
             'params' => array(
                 'file' => 'file.log',

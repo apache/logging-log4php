@@ -98,7 +98,7 @@
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderMail">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
         <param name="to" value="foo@example.com,baz@example.com" />
         <param name="from" value="logger@example.com" />
     </appender>
@@ -115,7 +115,7 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderMail',
             'layout' => array(
-                'class' => 'LoggerLayoutTTCC',
+                'class' => 'LoggerLayoutSimple',
             ),
             'params' => array(
                 'to' => 'foo@example.com,baz@example.com',

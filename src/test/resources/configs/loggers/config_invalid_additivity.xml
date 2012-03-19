@@ -17,7 +17,7 @@
 -->
 <configuration xmlns="http://logging.apache.org/log4php" threshold="debug">
     <appender name="default" class="LoggerAppenderEcho">
-        <layout class="LoggerLayoutTTCC"/>
+        <layout class="LoggerLayoutSimple"/>
     </appender>
     <logger name="myLogger" additivity="4711">
         <level value="warn" />

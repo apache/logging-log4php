@@ -314,7 +314,7 @@
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderSyslog">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
         <param name="ident" value="log4php-test" />
         <param name="facility" value="LOCAL0" />
         <param name="option" value="NDELAY|PID" />
@@ -332,7 +332,7 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderSyslog',
             'layout' => array(
-            	'class' => 'LoggerLayoutTTCC',
+            	'class' => 'LoggerLayoutSimple',
             ),
             'params' => array(
                 'ident' => 'log4php-test',

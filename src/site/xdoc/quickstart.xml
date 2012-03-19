@@ -34,26 +34,27 @@
 				<p>Just want logging to stdout?</p>
 				
 <pre class="prettyprint linenums">
-include('log4php/Logger.php');
+include('Logger.php');
 $logger = Logger::getLogger("main");
-$logger->info("foo");
-$logger->warn("bar");
+$logger->info("This is an informational message.");
+$logger->warn("I'm not feeling so good...");
 </pre>
 			
 				<p>This produces the following output:</p>
 				
 <pre>
-Sun Jul 26 01:40:23 2009,021 [10093] INFO main - foo
-Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
+INFO - This is an informational message.
+WARN - I'm not feeling so good...
 </pre>
 
 			</subsection>
 			
 			<subsection name="A simple example">
-				<p>This example demonstrates how to log messages to a file, but only with level greater or equal to 
-				WARN.</p>
+				<p>This example shows how to configure log4php using an XML configuration file. The framework will be 
+				configured to log messages to a file, but only those with level greater or equal to <code>WARN</code>.
+				</p>
 				
-				<p>Create a configuration file named <code>log4php.xml</code> containing:</p>
+				<p>First, create a configuration file named <code>config.xml</code> containing:</p>
 				
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
@@ -67,20 +68,20 @@ Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
 </configuration>
 ]]></pre>
 
-				<p>This configuration file:</p>
+				<p>This configuration file does the following:</p>
 				
 				<ul>
-					<li>Creates an appender named <code>myAppender</code> using appender class <code>
-					<a href="docs/appenders.html#LoggerAppenderFile">LoggerAppenderFile</a></code> which is used for 
-					logging to a file (on line 2).</li>
+				    <li><em>line 2</em>: Creates an appender named <code>myAppender</code> using appender class <code>
+					<a href="docs/appenders/file.html">LoggerAppenderFile</a></code> which is used for 
+					logging to a file.</li>
 					
-					<li>Sets the <code>file</code> parameter, which is required for LoggerAppenderFile, to the path 
-					to the file in which events will be logged (on line 3).</li>
+					<li><em>line 3</em>: Sets the <code>file</code> parameter, which tells the appender to which file to 
+					write.</li>
 					
-					<li>Sets the root logger level to <code>WARN</code> (on line 6)). This means that logging requests 
-					with the level lower than WARN will be ignored.</li>
+					<li><em>line 6</em>: Sets the root logger level to <code>WARN</code>. This means that logging requests 
+					with the level lower than <code>WARN</code> will not be logged by the root logger.</li>
 					
-					<li>Links <code>myAppender</code> to the root logger (on line 7) so that all events recieved by the root 
+					<li><em>line 7</em>: Links <code>myAppender</code> to the root logger so that all events recieved by the root 
 					logger will be forwarded to <code>myAppender</code> and written into the log file.</li>
 				</ul>
 
@@ -91,7 +92,7 @@ Sun Jul 26 01:40:23 2009,030 [10093] WARN main - bar
 include('log4php/Logger.php');
 
 // Tell log4php to use our configuration file.
-Logger::configure('log4php.xml');
+Logger::configure('config.xml');
 
 // Fetch a logger, it will inherit settings from the root logger
 $log = Logger::getLogger('myLogger');
@@ -112,22 +113,24 @@ WARN - My fourth message.
 ERROR - My fifth message.
 FATAL - My sixth message.
 ]]></pre>	
+			    
 			</subsection>
 			
 			<subsection name="An advanced example">
 			
 				<p>This example covers named loggers, layouts and best practices in object-oriented programming.</p>
 			
-				<p>Create a configuration file named <code>log4php.xml</code> with the following content:</p>
+				<p>Create a configuration file named <code>config.xml</code> with the following content:</p>
 				
 <pre class="prettyprint linenums"><![CDATA[
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration xmlns="http://logging.apache.org/log4php/">
 
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
     
     <appender name="myFileAppender" class="LoggerAppenderFile">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date [%logger] %message%newline" />
+        </layout>
         <param name="file" value="myLog.log" />
     </appender>
 
@@ -148,7 +151,7 @@ FATAL - My sixth message.
 				console appender doesn't have a layout defined, so it will revert to default layout
 				(<code><a href="docs/layouts/simple.html">LoggerLayoutSimple</a></code>). The 
 				file appender uses a different layout 
-				(<code><a href="docs/layouts/ttcc.html">LoggerLayoutTTCC</a></code>)
+				(<code><a href="docs/layouts/pattern.html">LoggerLayoutPattern</a></code>)
 				which will result in different formatting of the logging 
 				events.</p>
 				
@@ -162,7 +165,7 @@ FATAL - My sixth message.
 <pre class="prettyprint linenums"><![CDATA[
 // Include and configure log4php
 include('log4php/Logger.php');
-Logger::configure('log4php.xml');
+Logger::configure('config.xml');
 
 /**
  * This is a classic usage pattern: one logger object per class.

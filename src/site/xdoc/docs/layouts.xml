@@ -60,7 +60,8 @@
 						</tr>
 						<tr>
 							<td><a href="layouts/ttcc.html">LoggerLayoutTTCC</a></td>
-							<td>Consists of Time, Thread, Category and nested diagnostic Context.</td>
+						    <td>Consists of Time, Thread, Category and nested diagnostic Context.
+						        <span class="label label-warning">DEPRECATED</span></td>
 						</tr>
 						<tr>
 							<td><a href="layouts/xml.html">LoggerLayoutXml</a></td>

@@ -25,9 +25,15 @@
 	<body>
 		<section name="LoggerLayoutTTCC">
 		
+		    <div class="alert alert-error">
+		        <span class="alert-heading">Deprecated!</span>
+		        <p>LoggerLayoutTTCC is deprecated and will be removed in a future release. Please use 
+		        <a href="pattern.html">LoggerLayoutPattern</a> instead.</p>
+            </div>
+		    
 			<p>The TTCC layout format was taken from Apache log4j, and originally consisted of Time, Thread, Category 
 			and nested diagnostic Context information, hence the name.</p>
-			
+		    
 			<p><code>LoggerLayoutTTCC</code> contains equivalent information:</p>
 			<ul>
 				<li>Time</li>

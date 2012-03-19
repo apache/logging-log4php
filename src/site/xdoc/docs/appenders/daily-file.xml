@@ -97,7 +97,7 @@
 <pre class="prettyprint linenums"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderDailyFile">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
         <param name="file" value="file-%s.log" />
         <param name="datePattern" value="Y-m-d" />
     </appender>
@@ -114,7 +114,7 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderDailyFile',
             'layout' => array(
-                'class' => 'LoggerLayoutTTCC',
+                'class' => 'LoggerLayoutSimple',
             ),
             'params' => array(
                 'datePattern' => 'Y-m-d',

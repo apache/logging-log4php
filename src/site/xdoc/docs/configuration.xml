@@ -47,7 +47,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderFile">
-        <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutSimple" />
         <param name="file" value="/var/log/my.log" />
         <param name="append" value="true" />
     </appender>
@@ -148,7 +148,7 @@ $config = $configurator->parse('/path/to/config.xml');
 <pre class="prettyprint">
 # Appender named "default"
 log4php.appender.default = LoggerAppenderEcho
-log4php.appender.default.layout = LoggerLayoutTTCC
+log4php.appender.default.layout = LoggerLayoutSimple
 
 # Appender named "file"
 log4php.appender.file = LoggerAppenderDailyFile
@@ -184,7 +184,7 @@ log4php.threshold = debug
 			<subsection name="Default configuration" id="Default_configuration">
 				<p>If no configuration is provided before the initial logging request is issued, log4php will configure
 				using the default configuration. This consists of a single <code>LoggerAppenderEcho</code> appender,
-				using <code>LoggerLayoutTTCC</code>, attached to the root logger and set to the DEBUG level.</p>
+				using <code>LoggerLayoutSimple</code>, attached to the root logger and set to the DEBUG level.</p>
 				
 				<p>The default configuration in PHP format is:</p>
 				
@@ -231,9 +231,8 @@ class MyConfigurator implements LoggerConfigurator {
         $appFile->activateOptions();
         
         // Use a different layout for the next appender
-        $layout = new LoggerLayoutTTCC();
-        $layout->setContextPrinting(false);
-        $layout->setDateFormat('%Y-%m-%d %H:%M:%S');
+        $layout = new LoggerLayoutPattern();
+        $layout->setConversionPattern("%date %logger %msg%newline");
         $layout->activateOptions();
         
         // Create an appender which echoes log events, using a custom layout
