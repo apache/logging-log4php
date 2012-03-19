@@ -44,6 +44,7 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 .nav-list .expanded ul { list-style: none; margin-left: 0px; }
 .nav-list .expanded li a { display: block; padding: 3px 15px 3px 45px; margin-left: -15px; margin-right: -15px; }
 .nav-list .expanded li a:hover { text-decoration: none; background-color: #eeeeee; }
+.nav-list .expanded li.active a:hover { text-decoration: none; background-color: #08C; }
 
 .nav.nav-tabs { margin-bottom: 8px; }
 
