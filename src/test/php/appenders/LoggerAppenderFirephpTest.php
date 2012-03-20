@@ -88,7 +88,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'debug');
+		$this->assertLog($console, $expectedMessage, 'debug', 'trace');
 	}
 	
 	public function testAppend_HandleWarn() {
@@ -102,7 +102,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'warn');
+		$this->assertLog($console, $expectedMessage, 'warn', 'debug');
 	}
 	
 	public function testAppend_HandleError() {
@@ -116,7 +116,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'error');
+		$this->assertLog($console, $expectedMessage, 'error', 'warn');
 	}	
 	
 	public function testAppend_HandleFatal() {
@@ -130,7 +130,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 
-		$this->assertLog($console, $expectedMessage, 'fatal');
+		$this->assertLog($console, $expectedMessage, 'fatal', 'error');
 	}
 	
 	public function testAppend_HandleDefault() {
@@ -144,12 +144,13 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 	
-		$this->assertLog($console, $expectedMessage, 'info');
+		$this->assertLog($console, $expectedMessage, 'info', 'info');
 	}
 	
-	public function assertLog($console, $expectedMessage, $logLevel) {
-		$this->assertEquals('['.$logLevel.'] - '.$expectedMessage, $console->getMessage());
-		$this->assertEquals(1, $console->getCalls(), 'info wasn\'t called once');		
+	public function assertLog($console, $expectedMessage, $logLevel, $calledMethod) {
+		$this->assertEquals('['.$logLevel.']'.' - '.$expectedMessage, $console->getMessage());
+		$this->assertEquals(1, $console->getCalls(), 'wasn\'t called once');
+		$this->assertEquals($calledMethod, $console->getCalledMethod());
 	}
 }
 
@@ -162,6 +163,7 @@ class TestableLoggerAppenderFirePhp extends LoggerAppenderFirephp {
 class FirePHPSpy {
 	private $calls = 0;
 	private $message = '';
+	private $calledMethod = '';
 	
 	public function getCalls() {
 		return $this->calls;
@@ -173,26 +175,35 @@ class FirePHPSpy {
 	
 	public function trace($message) {
 		$this->calls++;
+		$this->calledMethod = 'trace';
 		$this->message = $message;
 	}
 	
 	public function debug($message) {
 		$this->calls++;
+		$this->calledMethod = 'debug';
 		$this->message = $message;		
 	}
 	
 	public function warn($message) {
 		$this->calls++;
+		$this->calledMethod = 'warn';
 		$this->message = $message;		
 	}
 	
 	public function error($message) {
 		$this->calls++;
+		$this->calledMethod = 'error';
 		$this->message = $message;
 	}
 	
 	public function info($message) {
 		$this->calls++;
+		$this->calledMethod = 'info';
 		$this->message = $message;
+	}
+	
+	public function getCalledMethod() {
+		return $this->calledMethod;
 	}
 }

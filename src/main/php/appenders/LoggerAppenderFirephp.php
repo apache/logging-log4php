@@ -86,12 +86,7 @@ class LoggerAppenderFirephp extends LoggerAppender {
 			return;		//Silently fail, if FirePHP is unavailable
 		}
 
-		$msg = '';
-		if ($this->layout !== null) {
-			$msg = trim($this->layout->format($event));
-		} else {
-			$msg = '[' . $event->getLevel()->toString() . '] - ' . $event->getRenderedMessage();
-		}
+		$msg = $this->formatMessage($event);
 
 		switch (strtolower($event->getLevel()->toString())) {
 		case 'debug':
@@ -111,6 +106,10 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		}
 	}
 
+	private function formatMessage(LoggerLoggingEvent $event) {
+		return '[' . $event->getLevel()->toString() . '] - ' . $event->getRenderedMessage();
+	}
+	
 	/**
 	 * Disable
 	 *
