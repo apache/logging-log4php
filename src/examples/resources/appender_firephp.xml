@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://logging.apache.org/log4php/ -->
+
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="firePhpAppender" class="LoggerAppenderFirephp">
+        <layout class="LoggerLayoutSimple" />
+        <param name="medium" value="page" />
+    </appender>
+    <appender name="consoleAppender" class="LoggerAppenderConsole" />
+
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="firePhpAppender" />
+        <appender_ref ref="consoleAppender" />
+    </root>
+</configuration>

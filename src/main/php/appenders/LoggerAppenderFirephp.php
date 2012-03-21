@@ -29,8 +29,6 @@
  * @since     Feb 22, 2012
  * @internal  CodeSniffs as PEAR style, adapted to Apache. Phpmd clean.
  * @example   require_once 'FirePHP/Init.php';	//Must be declared before log4php
- * @example   use Monolog/Logger;				//Alternate to firephp lib
- * @example   use Monolog/Handler/FirePHPHandler;
  */
 
 /**
