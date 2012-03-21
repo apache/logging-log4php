@@ -47,8 +47,6 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	);
 
 	public function testRequiresLayout() {
-		$firephp = FirePHP::getInstance(true);
-		
 		$appender = new LoggerAppenderFirephp();
 		self::assertFalse($appender->requiresLayout());
 	}
