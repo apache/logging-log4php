@@ -60,7 +60,7 @@ Logger::configure(dirname(__FILE__).'/../resources/appender_firephp.xml');
 <ul>
 	<li>
 		<a href="http://logging.apache.org/log4php/">Apache log4php</a>
-		>= <b style="color:red;">v2.2.2</b>
+		&gt;= v2.2.2
 	</li>
 	<li>
 		<a href="http://getfirebug.com/">Mozilla Firebug</a> with console &amp; net enabled.
@@ -93,7 +93,7 @@ Logger::configure(dirname(__FILE__).'/../resources/appender_firephp.xml');
 	<li>If you installed the phar package, edit its location at the top of this file</li>
 	<li>Ensure this file has web server read permissions in <code>DOCUMENT_ROOT</code></li>
 	<li>
-		Similarly, place <b style="color:red;">sample log4php.xml</b> in the same directory
+		Copy <code>appender_firephp.xml</code> to log4php.xml into your DOCUMENT_ROOT
 		<small>(Note that log4php.xml runs LogggerAppenderFirephp at debug level)</small>
 	</li>
 	<li>Optional: launch Developer Companion. Follow its instructions to generate a key</li>
