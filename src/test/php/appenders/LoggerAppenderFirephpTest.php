@@ -27,7 +27,7 @@
 require_once('FirePHPCore/FirePHP.class.php');
 
 /**
- * @group firephp
+ * @group appenders
  */
 class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 
@@ -46,35 +46,18 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		)
 	);
 
-	public function testRequiresLayout() {
-		$appender = new LoggerAppenderFirephp();
-		self::assertFalse($appender->requiresLayout());
-	}
-
+	private function createEvent($message, $level) {
+		$eventMock = new LoggerLoggingEvent("LoggerAppenderFirephpTest", new Logger("TEST"), LoggerLevel::toLevel($level), $message);
+	
+		return $eventMock;
+	}	
+	
 	public function testSetMedium() {
 		$appender = new LoggerAppenderFirephp();
 		$appender->setMedium('page');
 		self::assertSame('page', $appender->getMedium());
 	}
 
-	private function createEvent($message, $level) {
-		$eventMock = $this->getMock('LoggerLoggingEvent', array(), array(), '', false);
-		$eventMock->expects($this->any())
-			  	  ->method('getRenderedMessage')
-			  	  ->will($this->returnValue($message));
-		
-		$levelMock = $this->getMock('LoggerLevel', array(), array(), '', false);
-		$levelMock->expects($this->any())
-			  	  ->method('toString')
-			  	  ->will($this->returnValue($level));
-		
-		$eventMock->expects($this->any())
-			  	  ->method('getLevel')
-			  	  ->will($this->returnValue($levelMock));
-		
-		return $eventMock;
-	}
-	
 	public function testAppend_HandleDebug() {
 		$console = new FirePHPSpy();
 		
@@ -86,7 +69,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'debug', 'trace');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'trace');
 	}
 	
 	public function testAppend_HandleWarn() {
@@ -100,7 +83,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'warn', 'debug');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'debug');
 	}
 	
 	public function testAppend_HandleError() {
@@ -114,7 +97,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, 'error', 'warn');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'warn');
 	}	
 	
 	public function testAppend_HandleFatal() {
@@ -123,12 +106,12 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		$appender = new TestableLoggerAppenderFirePhp();
 		$appender->setConsole($console);
 	
-		$expectedMessage = 'fatal message';
+		$expectedMessage = "fatal message";
 		$expectedLevel = 'fatal';
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 
-		$this->assertLog($console, $expectedMessage, 'fatal', 'error');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'error');
 	}
 	
 	public function testAppend_HandleDefault() {
@@ -142,13 +125,18 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 	
-		$this->assertLog($console, $expectedMessage, 'info', 'info');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'info');
 	}
 	
 	public function assertLog($console, $expectedMessage, $logLevel, $calledMethod) {
-		$this->assertEquals('['.$logLevel.']'.' - '.$expectedMessage, $console->getMessage());
+		$event = $this->createEvent($expectedMessage, $logLevel);
+		
+		$layout = new LoggerLayoutSimple();
+		$message = $layout->format($event);
+		
+		$this->assertEquals($message, $console->getMessage(), 'log message is wrong');
 		$this->assertEquals(1, $console->getCalls(), 'wasn\'t called once');
-		$this->assertEquals($calledMethod, $console->getCalledMethod());
+		$this->assertEquals($calledMethod, $console->getCalledMethod(), 'wrong log-method was called');
 	}
 }
 

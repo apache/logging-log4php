@@ -57,8 +57,6 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * @param string $name Default ''
 	 */
 	public function __construct($name = '') {
-		$this->requiresLayout = false;
-		
 		parent::__construct($name);
 	}
 
@@ -81,12 +79,12 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	public function append(LoggerLoggingEvent $event) {
 		$console = $this->getConsole();
 		if (null === $console) {
-			return;		//Silently fail, if FirePHP is unavailable
+			$this->warn('FirePHP is not installed correctly.');
 		}
 
-		$msg = $this->formatMessage($event);
-
-		switch (strtolower($event->getLevel()->toString())) {
+		$msg = $this->getLayout()->format($event);
+		
+		switch ($this->getLogLevel($event)) {
 		case 'debug':
 			$console->trace($msg);	//includes backtrace
 			break;
@@ -103,11 +101,11 @@ class LoggerAppenderFirephp extends LoggerAppender {
 			$console->info($msg);
 		}
 	}
-
-	private function formatMessage(LoggerLoggingEvent $event) {
-		return '[' . $event->getLevel()->toString() . '] - ' . $event->getRenderedMessage();
-	}
 	
+	private function getLogLevel(LoggerLoggingEvent $event) {
+		return strtolower($event->getLevel()->toString());
+	}
+
 	/**
 	 * Disable
 	 *
