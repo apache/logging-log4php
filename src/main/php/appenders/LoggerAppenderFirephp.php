@@ -34,31 +34,37 @@
 /**
  * Connect Apache Log4php to Insight, the next version of FirePHP
  * Read the link at sourcemint, to <b>define</b> 4 INSIGHT_* constants in your php
- * config / bootstrap
+ * 
+ * LoggerAppenderFirephp logs events by creating a PHP user-level message using the Browser-Extension FirePHP
+ * 
+ * An example php file:
+ * 
+ * {@example ../../examples/php/appender_firephp.php 19}
  *
- * @category  Include
+ * An example configuration file:
+ * 
+ * {@example ../../examples/resources/appender_firephp.xml 18}
+ * 
  * @package   LoggerAppenderFirephp
  * @author    Bruce Ingalls <Bruce.Ingalls-at-gmail-dot-com>
  * @copyright 2012 Apache Software Foundation
  * @license   Apache License, Version 2.0
  * @link      http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Configuration/Constants
- * @example   define('INSIGHT_IPS', '*');		//If using firephp lib
- * @example   define('INSIGHT_AUTHKEYS', '*');  //weak security (ok for dev only)
- * @example   define('INSIGHT_PATHS', dirname(__FILE__));
- * @example   define('INSIGHT_SERVER_PATH', '/index.php');
  */
 class LoggerAppenderFirephp extends LoggerAppender {
-	protected $console;
-	protected $medium;
-
+	
 	/**
-	 * Default constructor
-	 *
-	 * @param string $name Default ''
+	 * 
+	 * @var FirePHP instance of FirePHP-Console Client
 	 */
-	public function __construct($name = '') {
-		parent::__construct($name);
-	}
+	protected $console;
+	
+	/**
+	 * 
+	 * where to write the log-message
+	 * @var string possible values are: page, request, package, contoller, site, page
+	 */
+	protected $medium;
 
 	/**
 	 * Enable
@@ -106,11 +112,6 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		return strtolower($event->getLevel()->toString());
 	}
 
-	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
 	public function close() {
 		$this->closed = true;
 	}
@@ -151,11 +152,8 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * Sets medium. Defaults to 'page' for firebug console
 	 *
 	 * @param string $medium
-	 *
-	 * @return void
 	 */
-	public function setMedium($medium='page') {
+	public function setMedium($medium = 'page') {
 		$this->setString('medium', $medium);
 	}
-
 }
