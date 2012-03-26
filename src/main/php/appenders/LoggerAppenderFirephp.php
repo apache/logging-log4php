@@ -66,8 +66,8 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * @return void
 	 */
 	public function activateOptions() {
-		$console = $this->getConsole();
-		if (null === $console) {
+		$this->console = $this->getConsole();
+		if (null === $this->console) {
 			$this->warn('FirePHP is not installed correctly.');
 		}		
 		
@@ -77,7 +77,7 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	/**
 	 * Write event object to Log. Defaults to INFO level
 	 *
-	 * @param LoggerLoggingEvent $event Includes level & message
+	 * @param LoggerLoggingEvent this->consoleIncludes level & message
 	 *
 	 * @return void
 	 */
@@ -86,19 +86,19 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		
 		switch ($this->getLogLevel($event)) {
 		case 'debug':
-			$console->trace($msg);	//includes backtrace
+			$this->console->trace($msg);	//includes backtrace
 			break;
 		case 'warn':
-			$console->debug($msg);
+			$this->console->debug($msg);
 			break;
 		case 'error':
-			$console->warn($msg);
+			$this->console->warn($msg);
 			break;
 		case 'fatal':
-			$console->error($msg);
+			$this->console->error($msg);
 			break;
 		default:
-			$console->info($msg);
+			$this->console->info($msg);
 		}
 	}
 	
