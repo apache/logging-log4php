@@ -66,7 +66,12 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * @return void
 	 */
 	public function activateOptions() {
-		$this->closed = false;
+		$console = $this->getConsole();
+		if (null === $console) {
+			$this->warn('FirePHP is not installed correctly.');
+		}		
+		
+		$this->closed = true;
 	}
 
 	/**
@@ -77,11 +82,6 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * @return void
 	 */
 	public function append(LoggerLoggingEvent $event) {
-		$console = $this->getConsole();
-		if (null === $console) {
-			$this->warn('FirePHP is not installed correctly.');
-		}
-
 		$msg = $this->getLayout()->format($event);
 		
 		switch ($this->getLogLevel($event)) {
