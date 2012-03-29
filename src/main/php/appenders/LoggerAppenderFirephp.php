@@ -64,12 +64,12 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	protected $target = 'page';
 
 	public function activateOptions() {
-		$this->console = $this->getConsole();
-		if (null === $this->console) {
-			$this->warn('FirePHP is not installed correctly.');
+		if (method_exists('FirePHP', 'to')) {
+			$this->console = FirePHP::to($this->target)->console();
+			$this->closed = false;
+		} else {
+			$this->warn('FirePHP is not installed correctly. Closing appender.');
 		}
-				
-		$this->closed = false;
 	}
 
 	public function append(LoggerLoggingEvent $event) {
@@ -95,24 +95,6 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	
 	private function getLogLevel(LoggerLoggingEvent $event) {
 		return strtolower($event->getLevel()->toString());
-	}
-
-	/**
-	 * Returns the FirePHP Insight console.
-	 * @return Insight_Plugin_Console
-	 */
-	private function getConsole() {
-		if (isset($this->console)) {
-			return $this->console;
-		}
-		
-		if (method_exists('FirePHP', 'to')) {
-			$inspector = FirePHP::to($this->target);
-			
-			return $inspector->console();
-		}
-		
-		return null;
 	}
 
 	/** Returns the target. */
