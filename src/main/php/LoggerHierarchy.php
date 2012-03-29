@@ -237,4 +237,24 @@ class LoggerHierarchy {
 			$logger->removeAllAppenders();
 		}
 	}
+	
+	/**
+	 * Prints the current Logger hierarchy tree. Useful for debugging.
+	 */
+	public function printHierarchy() {
+		$this->printHierarchyInner($this->getRootLogger(), 0);
+	}
+	
+	private function printHierarchyInner(Logger $current, $level) {
+		for ($i = 0; $i < $level; $i++) {
+			echo ($i == $level - 1) ? "|--" : "|  ";
+		}
+		echo $current->getName() . "\n";
+		
+		foreach($this->loggers as $logger) {
+			if ($logger->getParent() == $current) {
+				$this->printHierarchyInner($logger, $level + 1);
+			}
+		}
+	}
 } 
