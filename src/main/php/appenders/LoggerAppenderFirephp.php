@@ -75,28 +75,24 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	public function append(LoggerLoggingEvent $event) {
 		$msg = $this->getLayout()->format($event);
 		
-		switch ($this->getLogLevel($event)) {
-		case 'debug':
-			$this->console->trace($msg);	//includes backtrace
-			break;
-		case 'warn':
-			$this->console->debug($msg);
-			break;
-		case 'error':
-			$this->console->warn($msg);
-			break;
-		case 'fatal':
-			$this->console->error($msg);
-			break;
-		default:
-			$this->console->info($msg);
+		switch ($event->getLevel()->toInt()) {
+			case LoggerLevel::TRACE:
+			case LoggerLevel::DEBUG:
+				$this->console->log($msg);
+				break;
+			case LoggerLevel::INFO:
+				$this->console->info($msg);
+				break;
+			case LoggerLevel::WARN:
+				$this->console->warn($msg);
+				break;
+			case LoggerLevel::ERROR:
+			case LoggerLevel::FATAL:
+				$this->console->error($msg);
+				break;
 		}
 	}
 	
-	private function getLogLevel(LoggerLoggingEvent $event) {
-		return strtolower($event->getLevel()->toString());
-	}
-
 	/** Returns the target. */
 	public function getTarget() {
 		return $this->target;
