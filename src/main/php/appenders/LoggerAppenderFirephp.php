@@ -97,14 +97,6 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		return strtolower($event->getLevel()->toString());
 	}
 
-	public function close() {
-		$this->closed = true;
-	}
-
-	public function __destruct() {
-		$this->close();
-	}
-
 	/**
 	 * Returns the FirePHP Insight console.
 	 * @return Insight_Plugin_Console
