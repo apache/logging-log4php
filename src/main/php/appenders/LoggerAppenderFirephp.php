@@ -67,9 +67,9 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		$this->console = $this->getConsole();
 		if (null === $this->console) {
 			$this->warn('FirePHP is not installed correctly.');
-		}		
-		
-		$this->closed = true;
+		}
+				
+		$this->closed = false;
 	}
 
 	public function append(LoggerLoggingEvent $event) {
