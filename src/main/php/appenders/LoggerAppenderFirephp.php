@@ -24,7 +24,7 @@
  * This appender requires the FirePHP server library version 1.0 or later.
  * 
  * Configurable parameters of this appender are:
- * - mediummediutarget - (string) The target to which messages will be sent. Possible options are 
+ * - target - (string) The target to which messages will be sent. Possible options are 
  *            'page' (default), 'request', 'package' and 'controller'. For more details,
  *            see FirePHP documentation.
  * 
@@ -61,7 +61,7 @@ class LoggerAppenderFirephp extends LoggerAppender {
 	 * The target for log messages. Possible values are: 'page' (default), 
 	 * 'request', 'package' and 'contoller'.
 	 */
-	protected $medium = 'page';
+	protected $target = 'page';
 
 	public function activateOptions() {
 		$this->console = $this->getConsole();
@@ -107,7 +107,7 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		}
 		
 		if (method_exists('FirePHP', 'to')) {
-			$inspector = FirePHP::to($this->getMedium());
+			$inspector = FirePHP::to($this->target);
 			
 			return $inspector->console();
 		}
@@ -115,13 +115,13 @@ class LoggerAppenderFirephp extends LoggerAppender {
 		return null;
 	}
 
-	/** Returns the medium. */
-	public function getMedium() {
-		return $this->medium;
+	/** Returns the target. */
+	public function getTarget() {
+		return $this->target;
 	}
 
-	/** Sets the medium. */
-	public function setMedium($medium) {
-		$this->setString('medium', $medium);
+	/** Sets the target. */
+	public function setTarget($target) {
+		$this->setString('target', $target);
 	}
 }
