@@ -98,6 +98,10 @@
 			<email>gmcdonald at apache.org</email>
 		</developer>
 		<developer>
+			<name>Florian Semm </name>
+			<email>floriansemm at apache.org</email>
+		</developer>
+		<developer>
 			<name>Knut Urdalen</name>
 			<email>kurdalen at apache.org</email>
 		</developer>
@@ -124,9 +128,6 @@
 		</contributor>
 		<contributor>
 			<name>Moritz Schmidt</name>
-		</contributor>
-		<contributor>
-			<name>Florian Semm</name>
 		</contributor>
 		<contributor>
 			<name>Sergio Strampelli</name>
