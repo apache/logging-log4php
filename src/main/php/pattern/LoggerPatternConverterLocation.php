@@ -25,7 +25,7 @@
  * @package log4php
  * @subpackage pattern
  */
-class LoggerPatternConverterLine extends LoggerPatternConverter {
+class LoggerPatternConverterLocation extends LoggerPatternConverter {
 
 	public function convert(LoggerLoggingEvent $event) {
 		return 

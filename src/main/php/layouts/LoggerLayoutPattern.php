@@ -55,6 +55,9 @@ class LoggerLayoutPattern extends LoggerLayout {
 		
 		'F' => 'LoggerPatternConverterFile',
 		'file' => 'LoggerPatternConverterFile',
+			
+		'l' => 'LoggerPatternConverterLocation',
+		'location' => 'LoggerPatternConverterLocation',
 		
 		'L' => 'LoggerPatternConverterLine',
 		'line' => 'LoggerPatternConverterLine',

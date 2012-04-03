@@ -99,6 +99,7 @@ class LoggerAutoloader {
 		'LoggerPatternConverterLevel' => '/pattern/LoggerPatternConverterLevel.php',
 		'LoggerPatternConverterLine' => '/pattern/LoggerPatternConverterLine.php',
 		'LoggerPatternConverterLiteral' => '/pattern/LoggerPatternConverterLiteral.php',
+		'LoggerPatternConverterLocation' => '/pattern/LoggerPatternConverterLocation.php',
 		'LoggerPatternConverterLogger' => '/pattern/LoggerPatternConverterLogger.php',
 		'LoggerPatternConverterMDC' => '/pattern/LoggerPatternConverterMDC.php',
 		'LoggerPatternConverterMessage' => '/pattern/LoggerPatternConverterMessage.php',
