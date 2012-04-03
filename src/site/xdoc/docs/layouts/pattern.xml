@@ -378,6 +378,7 @@
 						<tr>
 							<td align="center"><strong>%20logger</strong></td>
 							<td align="center">right</td>
+						    <td align="center">none</td>
 							<td align="center">20</td>
 							<td align="center">none</td>
 							<td>Left pad with spaces if the logger name is less than 20 characters long.</td>
@@ -385,6 +386,7 @@
 						<tr>
 							<td align="center"><strong>%-20logger</strong></td>
 							<td align="center">left</td>
+						    <td align="center">none</td>
 							<td align="center">20</td>
 							<td align="center">none</td>
 							<td>Right pad with spaces if the logger name is less than 20 characters long.</td>
@@ -392,6 +394,7 @@
 						<tr>
 							<td align="center"><strong>%.30logger</strong></td>
 							<td align="center">none</td>
+						    <td align="center">left</td>
 							<td align="center">none</td>
 							<td align="center">30</td>
 							<td>Trim from the beginning if the logger name is longer than 30 characters.</td>
@@ -399,6 +402,7 @@
 						<tr>
 							<td align="center"><strong>%.-30logger</strong></td>
 							<td align="center">none</td>
+						    <td align="center">right</td>
 							<td align="center">none</td>
 							<td align="center">30</td>
 							<td>Trim from the end if the logger name is longer than 30 characters.</td>
@@ -406,6 +410,7 @@
 						<tr>
 							<td align="center"><strong>%20.30logger</strong></td>
 							<td align="center">right</td>
+						    <td align="center">left</td>
 							<td align="center">20</td>
 							<td align="center">30</td>
 							<td>Left pad with spaces if the logger name is shorter than 20 characters. However, if 
@@ -413,7 +418,8 @@
 						</tr>
 						<tr>
 							<td align="center"><strong>%-20.30logger</strong></td>
-							<td align="center">true</td>
+							<td align="center">left</td>
+						    <td align="center">left</td>
 							<td align="center">20</td>
 							<td align="center">30</td>
 							<td>Right pad with spaces if the logger name is shorter than 20 characters. However, if the
