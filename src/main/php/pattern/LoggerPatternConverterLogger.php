@@ -49,9 +49,9 @@ class LoggerPatternConverterLogger extends LoggerPatternConverter {
 
 			// If length is set return shortened logger name 
 			if (isset($this->length)) {
-				$this->cache[$name] = $this->shorten($name, $this->length);
+				$this->cache[$name] = LoggerUtils::shortenClassName($name, $this->length);
 			} 
-			 
+			
 			// If no length is specified return full logger name
 			else {
 				$this->cache[$name] = $name;
@@ -60,55 +60,4 @@ class LoggerPatternConverterLogger extends LoggerPatternConverter {
 		
 		return $this->cache[$name];
 	}
-	
-	/** 
-	 * Attempts to shorten the given name to the desired length by trimming 
-	 * name fragments. See docs for examples.
-	 */
-	private function shorten($name, $length) {
-	
-		$currentLength = strlen($name);
-	
-		// Check if any shortening is required
-		if ($currentLength <= $length) {
-			return $name;
-		}
-	
-		// Split name into fragments
-		$name = str_replace('.', '\\', $name);
-		$name = trim($name, ' \\');
-		$fragments = explode('\\', $name);
-		$count = count($fragments);
-	
-		// If the name splits to only one fragment, then it cannot be shortened
-		if ($count == 1) {
-			return $name;
-		}
-		
-		foreach($fragments as $key => &$fragment) {
-	
-			// Never shorten last fragment
-			if ($key == $count - 1) {
-				break;
-			}
-	
-			// Check for empty fragments (shouldn't happen but it's possible)
-			$fragLen = strlen($fragment);
-			if ($fragLen <= 1) {
-				continue;
-			}
-	
-			// Shorten fragment to one character and check if total length satisfactory
-			$fragment = substr($fragment, 0, 1);
-			$currentLength = $currentLength - $fragLen + 1;
-	
-			if ($currentLength <= $length) {
-				break;
-			}
-		}
-		unset($fragment);
-	
-		return implode('\\', $fragments);
-	}
-	
 }
