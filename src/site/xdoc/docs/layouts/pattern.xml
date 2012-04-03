@@ -250,6 +250,13 @@
     					</tr>
     					<tr>
     						<td>
+    							<p><strong>%M</strong></p>
+    							<p><strong>%method</strong></p>
+    						</td>
+    						<td>The method or function name from which the logging request was issued.</td>
+    					</tr>
+    					<tr>
+    						<td>
     						    <p><strong>%n</strong></p>
     							<p><strong>%newline</strong></p>
     						</td>
@@ -257,13 +264,6 @@
     							<p>A platform dependent line-break character(s).</p>
     							<p>Note that a line break will not be printed unless explicitely specified.</p>
     						</td>
-    					</tr>
-    					<tr>
-    						<td>
-    							<p><strong>%M</strong></p>
-    							<p><strong>%method</strong></p>
-    						</td>
-    						<td>The method or function name from which the logging request was issued.</td>
     					</tr>
     					<tr>
     						<td>
@@ -290,23 +290,43 @@
     							<p>If no key is given, will return all values in key=value format.</p>
     						</td>
     					</tr>
-    					<tr>
-    						<td>
-    							<p><strong>%s</strong>{key}</p>
-    							<p><strong>%server</strong>{key}</p>
-    						</td>
-    						<td>
-    							<p>A value from the $_SERVER superglobal array corresponding to the given key.</p>
-    							<p>If no key is given, will return all values in key=value format.</p>
-    						</td>
-    					</tr>
+				        <tr>
+				            <td>
+				                <p><strong>%s</strong>{key}</p>
+				                <p><strong>%server</strong>{key}</p>
+				            </td>
+				            <td>
+				                <p>A value from the $_SERVER superglobal array corresponding to the given key.</p>
+				                <p>If no key is given, will return all values in key=value format.</p>
+				            </td>
+				        </tr>
+				        <tr>
+				            <td>
+				                <p><strong>%ses</strong>{key}</p>
+				                <p><strong>%session</strong>{key}</p>
+				            </td>
+				            <td>
+				                <p>A value from the $_SESSION superglobal array corresponding to the given key.</p>
+				                <p>If no key is given, will return all values in key=value format.</p>
+				            </td>
+				        </tr>
+				        <tr>
+				            <td>
+				                <p><strong>%sid</strong></p>
+				                <p><strong>%sessionid</strong></p>
+				            </td>
+				            <td>
+				                <p>The active session ID, or an empty string if not in session.</p>
+				                <p>Equivalent to calling <code>session_id()</code>.</p>
+				            </td>
+				        </tr>
     					<tr>
     						<td>
     							<p><strong>%t</strong></p>
     							<p><strong>%pid</strong></p>
     							<p><strong>%process</strong></p>
     						</td>
-    						<td>The ID of the process that generated the logging event.</td>
+    					    <td>The ID of the process that generated the logging event.</td>
     					</tr>
     					<tr>
     						<td>
