@@ -54,8 +54,8 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 	public function testSetMedium() {
 		$appender = new LoggerAppenderFirephp();
-		$appender->setMedium('page');
-		self::assertSame('page', $appender->getMedium());
+		$appender->setTarget('page');
+		self::assertSame('page', $appender->getTarget());
 	}
 
 	public function testAppend_HandleDebug() {
@@ -69,7 +69,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, $expectedLevel, 'trace');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'log');
 	}
 	
 	public function testAppend_HandleWarn() {
@@ -83,7 +83,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, $expectedLevel, 'debug');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'warn');
 	}
 	
 	public function testAppend_HandleError() {
@@ -97,7 +97,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	
 		$appender->append($this->createEvent($expectedMessage, $expectedLevel));
 		
-		$this->assertLog($console, $expectedMessage, $expectedLevel, 'warn');
+		$this->assertLog($console, $expectedMessage, $expectedLevel, 'error');
 	}	
 	
 	public function testAppend_HandleFatal() {
@@ -159,9 +159,9 @@ class FirePHPSpy {
 		return $this->message;
 	}
 	
-	public function trace($message) {
+	public function log($message) {
 		$this->calls++;
-		$this->calledMethod = 'trace';
+		$this->calledMethod = 'log';
 		$this->message = $message;
 	}
 	
