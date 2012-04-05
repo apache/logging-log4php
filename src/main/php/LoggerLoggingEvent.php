@@ -69,14 +69,6 @@ class LoggerLoggingEvent {
 	private $ndcLookupRequired = true;
 	
 	/** 
-	 * Have we tried to do an MDC lookup? If we did, there is no need
-	 * to do it again.	Note that its value is always false when
-	 * serialized. See also the getMDC and getMDCCopy methods.
-	 * @var boolean	 
-	 */
-	private $mdcCopyLookupRequired = true;
-	
-	/** 
 	 * @var mixed The application supplied message of logging event. 
 	 */
 	private $message;
