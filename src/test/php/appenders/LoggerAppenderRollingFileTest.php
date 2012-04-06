@@ -33,6 +33,8 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 	 */
 	private $dir;
 
+	const WARNING_MASSAGE = 'WARN - my messageXYZ';
+	
 	protected function setUp() {
 		$this->dir = dirname(__FILE__) . '/../../../../target/phpunit';
 		@mkdir($this->dir);
@@ -85,16 +87,25 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$expectedFilePattern = '/' . implode(preg_quote(DIRECTORY_SEPARATOR, '/'), array('target', 'phpunit', 'doesnotexist\.log')) . '$/';
 		self::assertEquals(preg_match($expectedFilePattern, $expandedFileName), 1, $expandedFileName);
 	}
-
-	public function testSimpleLogging() {
+	
+	/**
+	 * @return LoggerAppenderRollingFile
+	 */
+	private function createRolloverAppender() {
 		$layout = new LoggerLayoutSimple();
-
+		
 		$appender = new LoggerAppenderRollingFile("mylogger");
 		$appender->setFile($this->dir.'/TEST-rolling.txt');
 		$appender->setLayout($layout);
 		$appender->setMaxFileSize('1KB');
 		$appender->setMaxBackupIndex(2);
 		$appender->activateOptions();
+		
+		return $appender;
+	}
+
+	public function testSimpleLogging() {
+		$appender = $this->createRolloverAppender();
 
 		$event = new LoggerLoggingEvent('LoggerAppenderFileTest',
 										new Logger('mycategory'),
@@ -121,37 +132,19 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($e, $line);
 
 		$file = $this->dir.'/TEST-rolling.txt.1';
-		$data = file($file);
-		$line = $data[count($data)-1];
-		$e = "WARN - my message123".PHP_EOL;
-		foreach($data as $r) {
-			self::assertEquals($e, $r);
-		}
+		$this->checkFileContent($file);
 
 		$file = $this->dir.'/TEST-rolling.txt.2';
-		$data = file($file);
-		$line = $data[count($data)-1];
-		$e = "WARN - my message123".PHP_EOL;
-		foreach($data as $r) {
-			self::assertEquals($e, $r);
-		}
+		$this->checkFileContent($file);
 
-		if(file_exists($this->dir.'/TEST-rolling.txt.3')) {
-			self::assertTrue(false);
-		}
+		$this->assertFalse(file_exists($this->dir.'/TEST-rolling.txt.3'), 'should not roll over three times');
 	}
 	
 	public function testLoggingViaLogger() {
 		$logger = Logger::getLogger('mycat');
 		$logger->setAdditivity(false);
-		$layout = new LoggerLayoutSimple();
-
-		$appender = new LoggerAppenderRollingFile("mylogger");
-		$appender->setFile($this->dir.'/TEST-rolling.txt');
-		$appender->setLayout($layout);
-		$appender->setMaxFileSize('1KB');
-		$appender->setMaxBackupIndex(2);
-		$appender->activateOptions();
+		
+		$appender = $this->createRolloverAppender();
 
 		$logger->addAppender($appender);
 		
@@ -169,30 +162,69 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		self::assertEquals($e, $line);
 
 		$file = $this->dir.'/TEST-rolling.txt.1';
-		$data = file($file);
-		$line = $data[count($data)-1];
-		$e = "WARN - my message123".PHP_EOL;
-		foreach($data as $r) {
-			self::assertEquals($e, $r);
-		}
+		$this->checkFileContent($file);
 
 		$file = $this->dir.'/TEST-rolling.txt.2';
-		$data = file($file);
-		$line = $data[count($data)-1];
-		$e = "WARN - my message123".PHP_EOL;
-		foreach($data as $r) {
-			self::assertEquals($e, $r);
-		}
+		$this->checkFileContent($file);
 
-		if(file_exists($this->dir.'/TEST-rolling.txt.3')) {
-			self::assertTrue(false);
+		$this->assertFalse(file_exists($this->dir.'/TEST-rolling.txt.3'), 'should not roll over three times');
+	}
+	
+	public function testRolloverWithCompression() {
+		$logger = Logger::getLogger('mycat');
+		$logger->setAdditivity(false);
+
+		$appender = $this->createRolloverAppender();
+		$appender->setCompress(true);
+		
+		$logger->addAppender($appender);
+		
+		for($i = 0; $i < 1000; $i++) {
+			$logger->warn(self::WARNING_MASSAGE. $i);
 		}
+		
+		$logger->warn("my messageXYZ");
+
+		$file = $this->dir.'/TEST-rolling.txt';
+		$data = file($file);
+		
+		$line = $data[count($data)-1];
+		$e = self::WARNING_MASSAGE.PHP_EOL;
+		self::assertEquals($e, $line);
+
+		$firstCompressedRollingFile = $this->dir.'/TEST-rolling.txt.1.gz';
+		$this->assertTrue(file_exists($firstCompressedRollingFile),'TEST-rolling.txt.1.gz not found');
+
+		$firstUncompressedRollingField = $this->dir.'/TEST-rolling.txt.1';
+		$this->assertFalse(file_exists($firstUncompressedRollingField),'TEST-rolling.txt.1 should be replaced by compressed');
+		
+		$secondCompressedRollingFile = $this->dir.'/TEST-rolling.txt.2.gz';
+		$this->assertTrue(file_exists($secondCompressedRollingFile), 'TEST-rolling.txt.2.gz not found');
+		
+		$secondUncompressedRollingField = $this->dir.'/TEST-rolling.txt.2';
+		$this->assertFalse(file_exists($secondUncompressedRollingField),'TEST-rolling.txt.2 should be replaced by compressed');
+		
+	}	
+
+	private function checkFileContent($file) {
+		$data = file($file);
+		$this->checkText($data);		
 	}
 
+	private function checkText($text) {
+		$line = $text[count($text)-1];
+		$e = "WARN - my message123".PHP_EOL;
+		foreach($text as $r) {
+			self::assertEquals($e, $r);
+		}		
+	}
+	
 	protected function tearDown() {
 		@unlink($this->dir.'/TEST-rolling.txt');
 		@unlink($this->dir.'/TEST-rolling.txt.1');
 		@unlink($this->dir.'/TEST-rolling.txt.2');
+		@unlink($this->dir.'/TEST-rolling.txt.1.gz');
+		@unlink($this->dir.'/TEST-rolling.txt.2.gz');
 		@rmdir($this->dir);
 	}
 

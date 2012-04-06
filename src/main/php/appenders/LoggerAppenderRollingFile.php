@@ -33,6 +33,7 @@
  *                       reach before being rolled over to backup files.
  *                       Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB" is interpreted as 10240
  * - maximumFileSize   - Alias to maxFileSize (deprecated, use "maxFileSize" instead)
+ * - compress	   	   - Compress the rollover file ("true" or "false")
  *
  * <p>Contributors: Sergio Strampelli.</p>
  *
@@ -86,6 +87,16 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	private $expandedFileName = null;
 
 	/**
+	 * <p>The <var>Compress</var> option determindes the compression with zlib. 
+	 * If set to true, then the rollover file is compressed and saved with the 
+	 * file-extension .gz. 
+	 * </p>
+	 * 
+	 * @var boolean Compress the rollover file
+	 */
+	protected $compress = false;
+	
+	/**
 	 * Returns the value of the MaxBackupIndex option.
 	 * @return integer 
 	 */
@@ -119,25 +130,43 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 
 			// Delete the oldest file, to keep Windows happy.
 			$file = $fileName . '.' . $this->maxBackupIndex;
-			if(is_writable($file))
+			if(is_writable($file)) {
 				unlink($file);
+			}
 
 			// Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
-			for($i = $this->maxBackupIndex - 1; $i >= 1; $i--) {
-				$file = $fileName . "." . $i;
-				if(is_readable($file)) {
-					$target = $fileName . '.' . ($i + 1);
-					rename($file, $target);
-				}
-			}
+			$this->renameArchievedLogs($fileName);
 	
-			// Backup the active file
-			copy($fileName, "$fileName.1");
+			if (true === $this->compress) {
+				file_put_contents('compress.zlib:///'.$fileName.'.1.gz', file_get_contents($fileName));
+			} else {
+				// Backup the active file
+				copy($fileName, "$fileName.1");				
+			}
 		}
 		
 		// Truncate the active file
 		ftruncate($this->fp, 0);
 		rewind($this->fp);
+	}
+	
+	private function renameArchievedLogs($fileName) {
+		for($i = $this->maxBackupIndex - 1; $i >= 1; $i--) {
+			
+			$file = $fileName . "." . $i;
+			if (true === $this->compress) {
+				$file = $fileName . "." . $i .'.gz';
+			}
+			
+			if(is_readable($file)) {
+				$target = $fileName . '.' . ($i + 1);
+				if (true === $this->compress) {
+					$target = $fileName . '.' . ($i + 1) . '.gz';
+				}				
+				
+				rename($file, $target);
+			}
+		}		
 	}
 	
 	public function setFile($fileName) {
@@ -214,6 +243,16 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		} 
 	}
 	
+	public function activateOptions() {
+		parent::activateOptions();
+		
+		if ($this->compress == true && !function_exists('gzcompress')) {
+			$this->closed = true;
+			
+			$this->warn('zlib is required for file-compression');
+		}
+	}
+	
 	/**
 	 * @return Returns the maximum number of backup files to keep around.
 	 */
@@ -227,5 +266,9 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	 */
 	public function getMaxFileSize() {
 		return $this->maxFileSize;
+	}
+	
+	public function setCompress($compress) {
+		$this->setBoolean('compress', $compress);
 	}
 }
