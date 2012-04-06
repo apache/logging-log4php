@@ -71,9 +71,14 @@ class LoggerAppenderFirephp extends LoggerAppender {
 			$this->warn('FirePHP is not installed correctly. Closing appender.');
 		}
 	}
-
+	
 	public function append(LoggerLoggingEvent $event) {
-		$msg = $this->getLayout()->format($event);
+		$msg = $event->getMessage();
+		
+		// Skip formatting for objects and arrays which are handled by FirePHP.
+		if (!is_array($msg) && !is_object($msg)) {
+			$msg = $this->getLayout()->format($event);
+		}
 		
 		switch ($event->getLevel()->toInt()) {
 			case LoggerLevel::TRACE:
