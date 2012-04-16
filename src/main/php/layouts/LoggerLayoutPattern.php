@@ -19,8 +19,16 @@
  */
 
 /**
- * A flexible layout configurable with pattern string.
- *
+ * A flexible layout configurable with a pattern string.
+ * 
+ * Configurable parameters:
+ * 
+ * * converionPattern - A string which controls the formatting of logging 
+ *   events. See docs for full specification.
+ * 
+ * @package log4php
+ * @subpackage layouts
+ * @version $Revision$
  */
 class LoggerLayoutPattern extends LoggerLayout {
 	
@@ -33,7 +41,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 	/** The conversion pattern. */ 
 	protected $pattern = self::DEFAULT_CONVERSION_PATTERN;
 	
-	/** Maps conversion keywords to the relevant converter. */
+	/** Maps conversion keywords to the relevant converter (default implementation). */
 	protected static $defaultConverterMap = array(
 		'c' => 'LoggerPatternConverterLogger',
 		'lo' => 'LoggerPatternConverterLogger',
@@ -102,6 +110,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 		'mdc' => 'LoggerPatternConverterMDC',
 	);
 
+	/** Maps conversion keywords to the relevant converter. */
 	protected $converterMap = array();
 	
 	/** 
@@ -110,23 +119,30 @@ class LoggerLayoutPattern extends LoggerLayout {
 	 */
 	private $head;
 
+	/** Returns the default converter map. */
 	public static function getDefaultConverterMap() {
 		return self::$defaultConverterMap;
 	}
 	
+	/** Constructor. Initializes the converter map. */
 	public function __construct() {
 		$this->converterMap = self::$defaultConverterMap;
 	}
 	
 	/**
-	 * Set the <b>ConversionPattern</b> option. This is the string which
+	 * Sets the conversionPattern option. This is the string which
 	 * controls formatting and consists of a mix of literal content and
 	 * conversion specifiers.
+	 * @param array $conversionPattern
 	 */
 	public function setConversionPattern($conversionPattern) {
 		$this->pattern = $conversionPattern;
 	}
 	
+	/**
+	 * Processes the conversion pattern and creates a corresponding chain of 
+	 * pattern converters which will be used to format logging events. 
+	 */
 	public function activateOptions() {
 		if (!isset($this->pattern)) {
 			throw new LoggerException("Mandatory parameter 'conversionPattern' is not set.");
