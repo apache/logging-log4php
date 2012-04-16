@@ -27,6 +27,8 @@
  * 
  * @package log4php
  * @subpackage pattern
+ * @version $Revision$
+ * @since 2.3
  */
 class LoggerPatternConverterSession extends LoggerPatternConverterSuperglobal {
 	protected $name = '_SESSION';

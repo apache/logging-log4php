@@ -27,6 +27,8 @@
  * 
  * @package log4php
  * @subpackage pattern
+ * @version $Revision$
+ * @since 2.3
  */
 class LoggerPatternConverterEnvironment extends LoggerPatternConverterSuperglobal {
 	protected $name = '_ENV';

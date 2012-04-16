@@ -30,8 +30,11 @@
  * 
  * @see http://php.net/manual/en/language.variables.superglobals.php
  * @see http://www.php.net/manual/en/ini.core.php#ini.variables-order
+ * 
  * @package log4php
  * @subpackage pattern
+ * @version $Revision$
+ * @since 2.3
  */
 abstract class LoggerPatternConverterSuperglobal extends LoggerPatternConverter {
 

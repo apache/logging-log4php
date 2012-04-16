@@ -23,6 +23,8 @@
  * 
  * @package log4php
  * @subpackage pattern
+ * @version $Revision$
+ * @since 2.3
  */
 class LoggerPatternConverterLiteral extends LoggerPatternConverter {
 
