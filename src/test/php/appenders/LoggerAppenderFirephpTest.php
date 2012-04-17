@@ -19,12 +19,12 @@
  * @package    log4php
  * @subpackage appenders
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version    SVN: $Id$
+ * @version    $Revision$
  * @link       http://logging.apache.org/log4php
  * @internal   Phpmd clean.
  */
 
-require_once('FirePHPCore/FirePHP.class.php');
+@include_once('FirePHPCore/FirePHP.class.php');
 
 /**
  * @group appenders
@@ -41,18 +41,24 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 				'layout' => array(
 					'class' => 'LoggerLayoutPattern',
 				),
-				'params' => array('medium' => 'page')
+				'params' => array('target' => 'page')
 			)
 		)
 	);
 
+	public function setUp() {
+		if(!method_exists('FirePHP', 'to')) {
+			self::markTestSkipped("Please install 'FirePHP' in order to run this test");
+		}
+	}
+	
 	private function createEvent($message, $level) {
 		$eventMock = new LoggerLoggingEvent("LoggerAppenderFirephpTest", new Logger("TEST"), LoggerLevel::toLevel($level), $message);
 	
 		return $eventMock;
 	}	
 	
-	public function testSetMedium() {
+	public function testSetTarget() {
 		$appender = new LoggerAppenderFirephp();
 		$appender->setTarget('page');
 		self::assertSame('page', $appender->getTarget());
