@@ -31,14 +31,14 @@
 			<item name="Quick start" href="/quickstart.html" />
 		</links>
 
-	    <menu name="Apache log4php™" img="icon-home">
+		<menu name="Apache log4php™" img="icon-home">
 			<item name="About" href="/index.html" />
 			<item name="Download" href="/download.html" />
 			<item name="Install" href="/install.html" />
 			<item name="Changelog" href="/changelog.html" />
 		</menu>
 
-	    <menu name="Documentation" img="icon-book">
+		<menu name="Documentation" img="icon-book">
 			<item name="Quick start" href="/quickstart.html" />
 			<item name="Introduction" href="/docs/introduction.html" />
 			<item name="Configuration" href="/docs/configuration.html" />
@@ -72,14 +72,14 @@
 			<item name="API documentation" href="/apidocs/index.html" />
 		</menu>
 
-	    <menu name="Community" img="icon-user">
+		<menu name="Community" img="icon-user">
 			<item name="Volunteering" href="/volunteering.html" />
 			<item name="Contributing Patches" href="/contributingpatches.html" />
 			<item name="Wiki" href="http://wiki.apache.org/logging-log4php" />
 			<item name="Blog" href="http://blogs.apache.org/logging/" />
 		</menu>
 		
-	    <menu name="Project Information" img="icon-info-sign">
+		<menu name="Project Information" img="icon-info-sign">
 			<item name="Continuous Integration" href="/integration.html" />
 			<item name="Source Repository" href="/source-repository.html" />
 			<item name="Dependencies" href="/dependencies.html" />
@@ -89,14 +89,12 @@
 			<item name="Mailing Lists" href="/mail-lists.html" />
 		</menu>
 
-	    <menu name="Project Reports" img="icon-cog">
+		<menu name="Project Reports" img="icon-cog">
 			<item name="Changes Report" href="/changes-report.html" />
 			<item name="Surefire Report" href="/surefire-report.html" />
 			<item name="RAT Report" href="/rat-report.html" />
-	        <item name="Code Coverage" href="/coverage-report/index.html" />
+			<item name="Code Coverage" href="/coverage-report/index.html" />
 		</menu>
-
-		<!-- <menu name="Project Information" ref="reports" img="icon-info-sign" /> -->
 
 		<menu name="Apache" img="icon-heart">
 			<item name="Home" href="http://www.apache.org" />
