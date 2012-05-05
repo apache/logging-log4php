@@ -42,7 +42,7 @@
  * 
  * {@example ../../examples/resources/appender_pdo.properties 18}
  * 
- * @version $Revision: 806678 $
+ * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.0

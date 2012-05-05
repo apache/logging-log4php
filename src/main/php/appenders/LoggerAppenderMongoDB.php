@@ -26,7 +26,7 @@
  * @link http://github.com/log4mongo/log4mongo-php Vladimir Gorej's original submission.
  * @link http://www.mongodb.org/ MongoDB website.
  * 
- * @version $Revision: 806678 $
+ * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.1

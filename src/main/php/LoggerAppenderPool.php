@@ -26,7 +26,7 @@
  * appender can be linked to multiple loggers. This makes sure duplicate 
  * appenders are not created.
  *
- * @version $Revision: 795727 $
+ * @version $Revision$
  * @package log4php
  */
 class LoggerAppenderPool {
