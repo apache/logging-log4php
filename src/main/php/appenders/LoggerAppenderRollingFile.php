@@ -138,7 +138,7 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 			$this->renameArchievedLogs($fileName);
 	
 			if (true === $this->compress) {
-				file_put_contents('compress.zlib:///'.$fileName.'.1.gz', file_get_contents($fileName));
+				file_put_contents('compress.zlib://'.$fileName.'.1.gz', file_get_contents($fileName));
 			} else {
 				// Backup the active file
 				copy($fileName, "$fileName.1");				
@@ -246,10 +246,9 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	public function activateOptions() {
 		parent::activateOptions();
 		
-		if ($this->compress == true && !function_exists('gzcompress')) {
+		if ($this->compress == true && !extension_loaded('zlib')) {
+			$this->warn('The zlib extension is required for file-compression');
 			$this->closed = true;
-			
-			$this->warn('zlib is required for file-compression');
 		}
 	}
 	
