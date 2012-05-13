@@ -14,25 +14,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * Appends events to a network socket.
+ * LoggerAppenderSocket appends to a network socket.
  *
- * This appender can be configured by changing the following attributes:
+ * ## Configurable parameters: ##
  * 
- * - remoteHost - Target remote host.
- * - port       - Target port (optional, defaults to 4446).
- * - timeout    - Connection timeout in seconds (optional, defaults to
- *                'default_socket_timeout' from php.ini)
+ * - **remoteHost** - Target remote host.
+ * - **port** - Target port (optional, defaults to 4446).
+ * - **timeout** - Connection timeout in seconds (optional, defaults to 
+ *     'default_socket_timeout' from php.ini)
  * 
  * The socket will by default be opened in blocking mode.
  * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/socket.html Appender documentation
  */ 
 class LoggerAppenderSocket extends LoggerAppender {
 	

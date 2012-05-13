@@ -14,14 +14,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
  
 /**
  * Appender for writing to MongoDB.
  * 
  * This class was originally contributed by Vladimir Gorej.
+ * 
+ * ## Configurable parameters: ##
+ * 
  * 
  * @link http://github.com/log4mongo/log4mongo-php Vladimir Gorej's original submission.
  * @link http://www.mongodb.org/ MongoDB website.
@@ -30,6 +31,8 @@
  * @package log4php
  * @subpackage appenders
  * @since 2.1
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/mongodb.html Appender documentation
  */
 class LoggerAppenderMongoDB extends LoggerAppender {
 	

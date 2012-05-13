@@ -19,33 +19,28 @@
  */
 
 /**
- * LoggerAppenderRollingFile extends LoggerAppenderFile to backup the log files 
- * when they reach a certain size.
+ * LoggerAppenderRollingFile writes logging events to a specified file. The 
+ * file is rolled over after a specified size has been reached.
  * 
  * This appender uses a layout.
  *
- * Parameters are:
- * - file              - The target file to write to
- * - filename          - The target file to write to (deprecated, use "file" instead).
- * - append            - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
- * - maxBackupIndex    - Set the maximum number of backup files to keep around (int)
- * - maxFileSize       - Set the maximum size that the output file is allowed to
- *                       reach before being rolled over to backup files.
- *                       Suffixes like "KB", "MB" or "GB" are allowed, f. e. "10KB" is interpreted as 10240
- * - maximumFileSize   - Alias to maxFileSize (deprecated, use "maxFileSize" instead)
- * - compress	   	   - Compress the rollover file ("true" or "false")
- *
- * <p>Contributors: Sergio Strampelli.</p>
- *
- * An example:
- *
- * {@example ../../examples/php/appender_socket.php 19}
- *
- * {@example ../../examples/resources/appender_socket.properties 18}
+ * ## Configurable parameters: ##
+ * 
+ * - **file** - Path to the target file.
+ * - **append** - If set to true, the appender will append to the file, 
+ *     otherwise the file contents will be overwritten.
+ * - **maxBackupIndex** - Maximum number of backup files to keep. Default is 1.
+ * - **maxFileSize** - Maximum allowed file size (in bytes) before rolling 
+ *     over. Suffixes "KB", "MB" and "GB" are allowed. 10KB = 10240 bytes, etc.
+ *     Default is 10M.
+ * - **compress** - If set to true, rolled-over files will be compressed. 
+ *     Requires the zlib extension.
  *
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/rolling-file.html Appender documentation
  */
 class LoggerAppenderRollingFile extends LoggerAppenderFile {
 
@@ -87,12 +82,9 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	private $expandedFileName = null;
 
 	/**
-	 * <p>The <var>Compress</var> option determindes the compression with zlib. 
-	 * If set to true, then the rollover file is compressed and saved with the 
-	 * file-extension .gz. 
-	 * </p>
-	 * 
-	 * @var boolean Compress the rollover file
+	 * The <var>compress</var> parameter determindes the compression with zlib. 
+	 * If set to true, the rollover files are compressed and saved with the .gz extension.
+	 * @var boolean
 	 */
 	protected $compress = false;
 	
@@ -194,34 +186,6 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 		$this->setPositiveInteger('maxBackupIndex', $maxBackups);
 	}
 
-	/**
-	 * Set the maximum size that the output file is allowed to reach
-	 * before being rolled over to backup files.
-	 *
-	 * @param mixed $maxFileSize
-	 * @see setMaxFileSize()
-	 * @deprecated
-	 */
-	public function setMaximumFileSize($maxFileSize) {
-		return $this->setMaxFileSize($maxFileSize);
-	}
-
-	/**
-	 * Set the maximum size that the output file is allowed to reach
-	 * before being rolled over to backup files.
-	 * <p>In configuration files, the <b>maxFileSize</b> option takes an
-	 * long integer in the range 0 - 2^63. You can specify the value
-	 * with the suffixes "KB", "MB" or "GB" so that the integer is
-	 * interpreted being expressed respectively in kilobytes, megabytes
-	 * or gigabytes. For example, the value "10KB" will be interpreted
-	 * as 10240.
-	 *
-	 * @param mixed $value
-	 * @return the actual file size set
-	 */
-	public function setMaxFileSize($value) {
-		$this->setFileSize('maxFileSize', $value);
-	}
 
 	public function append(LoggerLoggingEvent $event) {
 		if($this->fp and $this->layout !== null) {
@@ -253,15 +217,45 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	}
 	
 	/**
-	 * @return Returns the maximum number of backup files to keep around.
+	 * Returns the 'maxBackupIndex' parameter.
+	 * @return integer
 	 */
 	public function getMaxBackupIndex() {
 		return $this->maxBackupIndex;
 	}
 	
 	/**
-	 * @return Returns the maximum size that the output file is allowed to reach
+	 * Set the maximum size that the output file is allowed to reach
 	 * before being rolled over to backup files.
+	 * <p>In configuration files, the <b>maxFileSize</b> option takes an
+	 * long integer in the range 0 - 2^63. You can specify the value
+	 * with the suffixes "KB", "MB" or "GB" so that the integer is
+	 * interpreted being expressed respectively in kilobytes, megabytes
+	 * or gigabytes. For example, the value "10KB" will be interpreted
+	 * as 10240.
+	 *
+	 * @param mixed $value
+	 * @return the actual file size set
+	 */
+	public function setMaxFileSize($value) {
+		$this->setFileSize('maxFileSize', $value);
+	}
+	
+	/**
+	 * Set the maximum size that the output file is allowed to reach
+	 * before being rolled over to backup files.
+	 *
+	 * @param mixed $maxFileSize
+	 * @see setMaxFileSize()
+	 * @deprecated
+	 */
+	public function setMaximumFileSize($maxFileSize) {
+		return $this->setMaxFileSize($maxFileSize);
+	}
+	
+	/**
+	 * Returns the 'maxFileSize' parameter.
+	 * @return integer
 	 */
 	public function getMaxFileSize() {
 		return $this->maxFileSize;

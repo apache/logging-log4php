@@ -34,7 +34,7 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function testMail() {
-		$appender = new LoggerAppenderMailEvent("myname ");
+		$appender = new LoggerAppenderMailEvent("myname");
 		
 		$layout = new LoggerLayoutSimple();
 		$appender->setLayout($layout);

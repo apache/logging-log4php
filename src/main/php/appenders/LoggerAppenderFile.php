@@ -14,31 +14,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * FileAppender appends log events to a file.
+ * LoggerAppenderFile appends log events to a file.
  *
  * This appender uses a layout.
  * 
- * Configurable parameters for this appender are:
- * - file      - The target file to write to
- * - filename  - The target file to write to (deprecated, use "file" instead)
- * - append    - Sets if the appender should append to the end of the file or overwrite content ("true" or "false")
+ * ## Configurable parameters: ##
+ * 
+ * - **file** - Path to the target file. Relative paths are resolved based on 
+ *     the working directory.
+ * - **append** - If set to true, the appender will append to the file, 
+ *     otherwise the file contents will be overwritten.
  *
- * An example php file:
- * 
- * {@example ../../examples/php/appender_file.php 19}
- *
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_file.properties 18}
- * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/file.html Appender documentation
  */
 class LoggerAppenderFile extends LoggerAppender {
 
@@ -116,7 +110,7 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	/**
-	 * Sets the file where the log output will go.
+	 * Sets the 'file' parameter.
 	 * @param string $file
 	 */
 	public function setFile($file) {
@@ -124,6 +118,7 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	/**
+	 * Returns the 'file' parameter.
 	 * @return string
 	 */
 	public function getFile() {
@@ -131,18 +126,23 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	/**
+	 * Returns the 'append' parameter.
 	 * @return boolean
 	 */
 	public function getAppend() {
 		return $this->append;
 	}
 
+	/**
+	 * Sets the 'append' parameter.
+	 * @param boolean $append
+	 */
 	public function setAppend($append) {
 		$this->setBoolean('append', $append);
 	}
 
 	/**
-	 * Sets the file where the log output will go.
+	 * Sets the 'file' parmeter. Left for legacy reasons.
 	 * @param string $fileName
 	 * @deprecated Use setFile() instead.
 	 */
@@ -151,12 +151,11 @@ class LoggerAppenderFile extends LoggerAppender {
 	}
 	
 	/**
+	 * Returns the 'file' parmeter. Left for legacy reasons.
 	 * @return string
 	 * @deprecated Use getFile() instead.
 	 */
 	public function getFileName() {
 		return $this->getFile();
 	}
-	
-	 
 }

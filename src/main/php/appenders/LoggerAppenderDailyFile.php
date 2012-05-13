@@ -14,8 +14,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
@@ -27,52 +25,29 @@
  *
  * This appender uses a layout.
  * 
- * Configurable parameters for this appender are:
- * - datePattern - The date format for the file name. Should be set before 
- *                 $file. Default value: "Ymd".
- * - file        - The path to the target log file. The filename should 
- *                 contain a '%s' which will be substituted by the date.
- * - append      - Sets if the appender should append to the end of the
- *                 file or overwrite content ("true" or "false"). Default 
- *                 value: true.
+ * ##Configurable parameters:##
  * 
- * An example php file:
+ * - **datePattern** - Format for the date in the file path, follows formatting
+ *     rules used by the PHP date() function. Default value: "Ymd".
+ * - **file** - Path to the target file. Should contain a %s which gets 
+ *     substituted by the date.
+ * - **append** - If set to true, the appender will append to the file, 
+ *     otherwise the file contents will be overwritten. Defaults to true.
  * 
- * {@example ../../examples/php/appender_dailyfile.php 19}
- *  
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_dailyfile.properties 18}
- *
- * The above will create a file like: daily_20090908.log
- *
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/daily-file.html Appender documentation
  */
 class LoggerAppenderDailyFile extends LoggerAppenderFile {
 
 	/**
-	 * Format date. 
-	 * It follows the {@link PHP_MANUAL#date()} formatting rules and <b>should always be set before {@link $file} param</b>.
+	 * The 'datePattern' parameter.
+	 * Determines how date will be formatted in file name.
 	 * @var string
 	 */
 	protected $datePattern = "Ymd";
-	
-	/**
-	 * Sets date format for the file name.
-	 * @param string $datePattern a regular date() string format
-	 */
-	public function setDatePattern($datePattern) {
-		$this->setString('datePattern', $datePattern);
-	}
-	
-	/**
-	 * @return string returns date format for the filename
-	 */
-	public function getDatePattern() {
-		return $this->datePattern;
-	}
 	
 	/** 
 	 * Similar to parent method, but but replaces "%s" in the file name with 
@@ -106,5 +81,21 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 		} else {
 			$this->closed = true;
 		}
+	}
+	
+	/**
+	 * Sets the 'datePattern' parameter.
+	 * @param string $datePattern
+	 */
+	public function setDatePattern($datePattern) {
+		$this->setString('datePattern', $datePattern);
+	}
+	
+	/**
+	 * Returns the 'datePattern' parameter.
+	 * @return string
+	 */
+	public function getDatePattern() {
+		return $this->datePattern;
 	}
 }

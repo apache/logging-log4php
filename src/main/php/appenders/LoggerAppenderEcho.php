@@ -14,34 +14,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * LoggerAppenderEcho uses {@link PHP_MANUAL#echo echo} function to output events. 
+ * LoggerAppenderEcho uses the PHP echo() function to output events. 
  * 
- * <p>This appender requires a layout.</p>	
+ * This appender uses a layout.
  * 
- * An example php file:
+ * ## Configurable parameters: ##
  * 
- * {@example ../../examples/php/appender_echo.php 19}
- * 
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_echo.properties 18}
- * 
- * The above example would print the following:
- * <pre>
- *    Tue Sep  8 22:44:55 2009,812 [6783] DEBUG appender_echo - Hello World!
- * </pre>
+ * - **htmlLineBreaks** - If set to true, a <br /> element will be inserted 
+ *     before each line break in the logged message. Default is false.
  *
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/echo.html Appender documentation
  */
 class LoggerAppenderEcho extends LoggerAppender {
-	/** boolean used internally to mark first append */
+	/** 
+	 * Used to mark first append. Set to false after first append.
+	 * @var boolean 
+	 */
 	protected $firstAppend = true;
 	
 	/** 
@@ -74,10 +69,18 @@ class LoggerAppenderEcho extends LoggerAppender {
 		} 
 	}
 	
+	/**
+	 * Sets the 'htmlLineBreaks' parameter.
+	 * @param boolean $value
+	 */
 	public function setHtmlLineBreaks($value) {
 		$this->setBoolean('htmlLineBreaks', $value);
 	}
-
+	
+	/**
+	 * Returns the 'htmlLineBreaks' parameter.
+	 * @returns boolean
+	 */
 	public function getHtmlLineBreaks() {
 		return $this->htmlLineBreaks;
 	}

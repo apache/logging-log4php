@@ -14,8 +14,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
@@ -23,26 +21,18 @@
  * 
  * This appender requires the FirePHP server library version 1.0 or later.
  * 
- * Configurable parameters of this appender are:
- * - target - (string) The target to which messages will be sent. Possible options are 
+ * ## Configurable parameters: ##
+ * 
+ * - **target** - (string) The target to which messages will be sent. Possible options are 
  *            'page' (default), 'request', 'package' and 'controller'. For more details,
  *            see FirePHP documentation.
  * 
  * This class was originally contributed by Bruce Ingalls (Bruce.Ingalls-at-gmail-dot-com).
  * 
- * An example php file:
- * 
- * {@example ../../examples/php/appender_firephp.php 19}
- *
- * An example configuration file:
- * 
- * {@example ../../examples/resources/appender_firephp.xml 18}
- * 
- * @link https://github.com/firephp/firephp FirePHP 1.0 homepage.
- * @link http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Welcome 
- *       FirePHP documentation.
- * @link http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Configuration/Constants
- *       FirePHP constants documentation.
+ * @link https://github.com/firephp/firephp FirePHP homepage.
+ * @link http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Welcome FirePHP documentation.
+ * @link http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Configuration/Constants FirePHP constants documentation.
+ * @link http://logging.apache.org/log4php/docs/appenders/firephp.html Appender documentation
  * 
  * @version $Revision$
  * @package log4php

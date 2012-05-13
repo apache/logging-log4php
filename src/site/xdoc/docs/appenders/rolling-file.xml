@@ -86,6 +86,13 @@
 							<td>1</td>
 							<td>Maximum number of backup files to keep.</td>
 						</tr>
+						<tr>
+							<td>compress</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>false</td>
+							<td>If set to true, the rollover files are compressed and saved with the .gz extension.</td>
+						</tr>
 					</tbody>
 				</table>
 				

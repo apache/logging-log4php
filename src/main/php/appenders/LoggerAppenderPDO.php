@@ -14,19 +14,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * Appends log events to a db table using PDO.
+ * LoggerAppenderPDO appender logs to a database using the PHP's PDO extension.
  *
- * Configurable parameters of this appender are:
+ * ## Configurable parameters: ##
  *
- * - dsn             - The DSN string for this connection
- * - user            - The user of this database connection
- * - password        - The password of this database connection
- * - table           - Name of the database table into which log entries will be inserted (default: log4php_log)
+ * - dsn             - The Data Source Name (DSN) used to connect to the database.
+ * - user            - Username used to connect to the database.
+ * - password        - Password used to connect to the database.
+ * - table           - Name of the table to which log entries are be inserted.
  * - insertSQL       - Sets the insert statement for a logging event. Defaults
  *                     to the correct one - change only if you are sure what you are doing.
  * - insertPattern   - The conversion pattern to use in conjuction with insert 
@@ -34,18 +32,12 @@
  *                     conversion patterns as there are question marks in the 
  *                     insertSQL.
  *
- * If $sql is set then $table and $sql are used, else $table, $insertSQL and $insertPattern.
- *
- * An example:
- *
- * {@example ../../examples/php/appender_pdo.php 19}
- * 
- * {@example ../../examples/resources/appender_pdo.properties 18}
- * 
  * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.0
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/appenders/pdo.html Appender documentation
  */
 class LoggerAppenderPDO extends LoggerAppender {
 
@@ -112,7 +104,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	
 	/** This appender does not require a layout. */
 	protected $requiresLayout = false;
-	
+
 
 	// ******************************************
 	// *** Appender methods                   ***
