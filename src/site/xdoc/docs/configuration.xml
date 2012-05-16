@@ -85,9 +85,13 @@ Logger::configure(array(
     ),
     'appenders' => array(
         'default' => array(
-            'class' => 'LoggerAppenderConsole',
+            'class' => 'LoggerAppenderFile',
             'layout' => array(
                 'class' => 'LoggerLayoutSimple'
+            ),
+            'params' => array(
+            	'file' => '/var/log/my.log',
+            	'append' => true
             )
         )
     )
@@ -105,9 +109,13 @@ return array(
     ),
     'appenders' => array(
         'default' => array(
-            'class' => 'LoggerAppenderConsole',
+            'class' => 'LoggerAppenderFile',
             'layout' => array(
                 'class' => 'LoggerLayoutSimple'
+            ),
+            'params' => array(
+            	'file' => '/var/log/my.log',
+            	'append' => true
             )
         )
     )
