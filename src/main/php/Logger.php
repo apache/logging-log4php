@@ -376,9 +376,12 @@ class Logger {
 	/**
 	 * Set the Logger level.
 	 *
+	 * Use LoggerLevel::getLevelXXX() methods to get a LoggerLevel object, e.g.
+	 * <code>$logger->setLevel(LoggerLevel::getLevelInfo());</code>
+	 *
 	 * @param LoggerLevel $level the level to set
 	 */
-	public function setLevel($level) {
+	public function setLevel(LoggerLevel $level) {
 		$this->level = $level;
 	}
 	
