@@ -379,9 +379,9 @@ class Logger {
 	 * Use LoggerLevel::getLevelXXX() methods to get a LoggerLevel object, e.g.
 	 * <code>$logger->setLevel(LoggerLevel::getLevelInfo());</code>
 	 *
-	 * @param LoggerLevel $level the level to set
+	 * @param LoggerLevel $level The level to set, or NULL to clear the logger level.
 	 */
-	public function setLevel(LoggerLevel $level) {
+	public function setLevel(LoggerLevel $level = null) {
 		$this->level = $level;
 	}
 	
@@ -393,9 +393,8 @@ class Logger {
 	 */
 	public function isAttached(LoggerAppender $appender) {
 		return isset($this->appenders[$appender->getName()]);
-	} 
-		   
-
+	}
+	
 	/**
 	 * Sets the parent logger.
 	 * @param Logger $logger

@@ -26,30 +26,38 @@
  * @group main
  */
 class LoggerRootTest extends PHPUnit_Framework_TestCase {
-        
-	private $loggerRoot;
-        
-	protected function setUp() {
-		$this->loggerRoot = new LoggerRoot();
-	}
-        
-	public function testIfLevelIsInitiallyLevelAll() {
-		self::assertEquals($this->loggerRoot->getLevel()->toString(), 'ALL');
+    
+	public function testInitialSetup() {
+		$root = new LoggerRoot();
+		self::assertSame(LoggerLevel::getLevelAll(), $root->getLevel());
+		self::assertSame(LoggerLevel::getLevelAll(), $root->getEffectiveLevel());
+		self::assertSame('root', $root->getName());
+		self::assertNull($root->getParent());
 	}
 
-	public function testIfNameIsRoot() {
-		self::assertEquals($this->loggerRoot->getName(), 'root');
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage log4php: LoggerRoot cannot have a parent.
+	 */
+	public function testSetParentWarning() {
+		$root = new LoggerRoot();
+		$logger = new Logger('test');
+		$root->setParent($logger);
 	}
-
-	public function testIfParentIsNull() {
-		self::assertSame($this->loggerRoot->getParent(), null);
+	
+	public function testSetParentResult() {
+		$root = new LoggerRoot();
+		$logger = new Logger('test');
+		@$root->setParent($logger);
+		self::assertNull($root->getParent());
 	}
-
-	public function testSetParent() {
-		$hierarchy = new LoggerHierarchy(new LoggerRoot());
-		$l = $hierarchy->getLogger('dummy');
-		$this->loggerRoot->setParent($l);
-		$this->testIfParentIsNull();
+	
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage log4php: Cannot set LoggerRoot level to null.
+	 */
+	public function testNullLevelWarning() {
+		$root = new LoggerRoot();
+		$root->setLevel(null);
 	}
-
 }
