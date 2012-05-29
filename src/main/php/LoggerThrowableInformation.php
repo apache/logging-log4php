@@ -32,9 +32,6 @@ class LoggerThrowableInformation {
 	/** @var array Array of throwable messages */
 	private $throwableArray;
 	
-	/** @var Logger reference */
-	private $logger;
-	
 	/**
 	 * Create a new instance
 	 * 
@@ -69,4 +66,3 @@ class LoggerThrowableInformation {
 		return $this->throwableArray;
 	}
 }
-?>
