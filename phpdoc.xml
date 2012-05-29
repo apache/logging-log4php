@@ -18,15 +18,15 @@
 <phpdoc>
 	<title><![CDATA[Apache log4php]]></title>
 	<parser>
-		<target>target/phpdoc</target>
+		<target>target/site/apidocs</target>
 		<extensions>
 			<extension>php</extension>
 		</extensions>
 	</parser>
 	<transformer>
-		<target>target/phpdoc</target>
+		<target>target/site/apidocs</target>
 	</transformer>
 	<files>
-		<directory>src/main/php/appenders</directory>
+		<directory>src/main/php</directory>
 	</files>
 </phpdoc>
