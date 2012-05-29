@@ -63,7 +63,7 @@ class LoggerAutoloader {
 		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
 		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
 		'LoggerAppenderNull' => '/appenders/LoggerAppenderNull.php',
-		'LoggerAppenderFirephp' => '/appenders/LoggerAppenderFirephp.php',
+		'LoggerAppenderFirePHP' => '/appenders/LoggerAppenderFirePHP.php',
 		'LoggerAppenderPDO' => '/appenders/LoggerAppenderPDO.php',
 		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
 		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',

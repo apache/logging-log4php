@@ -39,7 +39,7 @@
  * @subpackage appenders
  * @since 2.3
  */
-class LoggerAppenderFirephp extends LoggerAppender {
+class LoggerAppenderFirePHP extends LoggerAppender {
 	
 	/**
 	 * Instance of the Insight console class.

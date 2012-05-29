@@ -29,7 +29,7 @@
 /**
  * @group appenders
  */
-class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
+class LoggerAppenderFirePHPTest extends PHPUnit_Framework_TestCase {
 
 	private $config = array(
 		'rootLogger' => array(
@@ -37,7 +37,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 		),
 		'appenders' => array(
 			'default' => array(
-				'class' => 'LoggerAppenderFirephp',
+				'class' => 'LoggerAppenderFirePHP',
 				'layout' => array(
 					'class' => 'LoggerLayoutPattern',
 				),
@@ -53,13 +53,13 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	private function createEvent($message, $level) {
-		$eventMock = new LoggerLoggingEvent("LoggerAppenderFirephpTest", new Logger("TEST"), LoggerLevel::toLevel($level), $message);
+		$eventMock = new LoggerLoggingEvent("LoggerAppenderFirePHPTest", new Logger("TEST"), LoggerLevel::toLevel($level), $message);
 	
 		return $eventMock;
 	}	
 	
 	public function testSetTarget() {
-		$appender = new LoggerAppenderFirephp();
+		$appender = new LoggerAppenderFirePHP();
 		$appender->setTarget('page');
 		self::assertSame('page', $appender->getTarget());
 	}
@@ -146,7 +146,7 @@ class LoggerAppenderFirephpTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class TestableLoggerAppenderFirePhp extends LoggerAppenderFirephp {
+class TestableLoggerAppenderFirePhp extends LoggerAppenderFirePHP {
 	public function setConsole($console) {
 		$this->console = $console;
 	}
