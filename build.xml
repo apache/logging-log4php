@@ -186,9 +186,9 @@
 	<target name="unit-testing">
 		<mkdir dir="${surefire.report}" />
 		<mkdir dir="${coverage.report}" />
-		<exec executable="${phpunit.exec}" dir="src/test/php">
-			<arg line=" --log-junit ../../../${surefire.report}/phpunit-testresults.xml" />
-			<arg line=" --coverage-html ../../../${coverage.report}" />
+		<exec executable="${phpunit.exec}" dir=".">
+			<arg line=" --log-junit ${surefire.report}/phpunit-testresults.xml" />
+			<arg line=" --coverage-html ${coverage.report}" />
 		</exec>
 		<xslt in="${surefire.report}/phpunit-testresults.xml" out="${surefire.report}/xslt.info"
 			style="src/test/config/phpunit_to_surefire.xslt" processor="trax">
