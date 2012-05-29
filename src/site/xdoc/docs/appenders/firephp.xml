@@ -19,13 +19,13 @@
 	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
 	<properties>
-		<title>LoggerAppenderFirephp</title>
+		<title>LoggerAppenderFirePHP</title>
 	</properties>
 
 	<body>
-		<section name="LoggerAppenderFirephp">
+		<section name="LoggerAppenderFirePHP">
 		
-			<p><code>LoggerAppenderFirephp</code> logs events by creating a PHP user-level message using the Browser-Extension
+			<p><code>LoggerAppenderFirePHP</code> logs events by creating a PHP user-level message using the Browser-Extension
 			<code><a href="http://www.firephp.org/" target="_blank" 
 			class="externalLink">FirePHP</a></code></p>
 		
@@ -50,7 +50,7 @@
 						<div class="tab-pane">
 <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
-    <appender name="default" class="LoggerAppenderFirephp">
+    <appender name="default" class="LoggerAppenderFirePHP">
         <layout class="LoggerLayoutSimple" />
     </appender>
     <root>
@@ -64,7 +64,7 @@
 array(
     'appenders' => array(
         'default' => array(
-            'class' => 'LoggerAppenderFirephp',
+            'class' => 'LoggerAppenderFirePHP',
             'layout' => array(
                 'class' => 'LoggerLayoutSimple',
             ),
