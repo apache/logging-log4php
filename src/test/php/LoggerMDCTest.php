@@ -43,15 +43,6 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	/** A pattern without a key. */
 	private $pattern5 = "%-5p %c: %X %m";
 	
-	/** A pattern for testing values from $_ENV. */
-	private $patternEnv = "%-5p %c: %X{env.TEST} %m";
-	
-	/**
-	 * A pattern for testing values from $_SERVER. PHP_SELF chosen because it
-	 * appears on both Linux and Windows systems. 
-	 */
-	private $patternServer = "%-5p %c: %X{server.PHP_SELF} %m";
-	
 	protected function setUp() {
 		LoggerMDC::clear();
 	}
@@ -112,48 +103,6 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 		$actual = $this->formatEvent($event, $this->pattern1);
 		$expected = "INFO  test:  Test message";
 		self::assertEquals($expected, $actual);
-    }
-    
-    public function testEnvKey() {
-    	
-    	// Set an environment variable for testing
-    	if (putenv('TEST=abc') === false) {
-    		self::markTestSkipped("Unable to set environment variable for testing.");
-    	}
-    	
-    	// Test reading of the set variable
-    	self::assertEquals('abc', LoggerMDC::get('env.TEST'));
-    	
-    	// Test env variable in a pattern
-    	$event = LoggerTestHelper::getInfoEvent("Test message");
-    	$actual = $this->formatEvent($event, $this->patternEnv);
-		$expected = "INFO  test: abc Test message";
-		self::assertEquals($expected, $actual);
-		
-		// Test reading a non-existant env variable
-		self::assertEquals('', LoggerMDC::get('env.hopefully_this_variable_doesnt_exist'));
-		
-		// Test reading an empty env variable
-		self::assertEquals('', LoggerMDC::get('env.'));
-    }
-    
-    public function testServerKey() {
-    	
-    	// Test reading a server variable
-    	$value = $_SERVER['PHP_SELF'];
-    	self::assertEquals($value, LoggerMDC::get('server.PHP_SELF'));
-    	
-		// Test the server variable in a pattern
-    	$event = LoggerTestHelper::getInfoEvent("Test message");
-    	$actual = $this->formatEvent($event, $this->patternServer);
-		$expected = "INFO  test: $value Test message";
-		self::assertEquals($expected, $actual);
-		
-		// Test reading a non-existant server variable
-		self::assertEquals('', LoggerMDC::get('server.hopefully_this_variable_doesnt_exist'));
-		
-		// Test reading an empty server variable
-		self::assertEquals('', LoggerMDC::get('server.'));
     }
     
 	private function formatEvent($event, $pattern) {

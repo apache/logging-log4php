@@ -35,15 +35,15 @@
 				
 				<p><strong>New features:</strong></p>
 				<ul>
-					<li>New appender: <a href="docs/appenders/fire-php.html">FirePHP</a> (thanks to Bruce Ingalls)</li>
+					<li>New appender: <a href="docs/appenders/firephp.html">FirePHP</a> (thanks to Bruce Ingalls)</li>
 				</ul>
 				
 				<p><strong>Improvements:</strong></p>
 				<ul>
 					<li>The <a href="docs/layouts/pattern.html">pattern layout</a> has been greatly improved:
 						<ul>
-							<li>supports longer conversion words such as <em>%date</em> instead of <em>%d</em>, 
-								<em>%message</em> instead of <em>%m</em>, etc.</li>
+							<li>supports longer conversion words such as <code>%date</code> instead of <code>%d</code>, 
+								<code>%message</code> instead of <code>%m</code>, etc.</li>
 							<li>added many new conversion words; check out the docs for the full list</li>
 						</ul>
 					</li>
@@ -51,13 +51,17 @@
 				
 				<p><strong>Breaking changes:</strong></p>
 				<ul>
-					<li>Several changes to <a href="docs/appenders/pdo.html">LoggerAppenderPDO</a>:
+					<li>Several changes to the <a href="docs/appenders/pdo.html">PDO appender</a>:
 						<ul>
 							<li>a database table for logging will no longer be created by the appender; the user must 
 								create this table manually.</li>
 							<li>the default date pattern does not include milliseconds (this is faster)</li>
 						</ul>
 					</li>
+					<li>In the <a href="docs/layouts/pattern.html">pattern layout</a>, it is no longer possible to 
+						access $_SERVER and $_ENV values using <code>%X{server.*}</code> and <code>%X{env.*}</code>
+						conversion words; use the new words <code>%server{*}</code> and <code>%env{*}</code> instead.
+						</li>
 				</ul>
 				<p>Please review the documentation and make any necessary changes to your configuration.</p>
 				
