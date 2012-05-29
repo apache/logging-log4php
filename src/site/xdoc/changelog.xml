@@ -29,6 +29,34 @@
 				<param name="fromDepth" value="2"/>
 			</macro>
 
+			<subsection name="Apache log4php v2.3.0" id="Apache_log4php_v2.3.0">
+				<p>Release date: TBA</p>
+				<p><a href="changes-report.html#a2.3.0">JIRA change log</a></p>
+				
+				<p><strong>New features:</strong></p>
+				<ul>
+					<li>New appender: <a href="docs/appenders/fire-php.html">FirePHP</a> (thanks to Vladimir Gorej)</li>
+				</ul>
+				
+				<p><strong>Improvements:</strong></p>
+				<ul>
+					<li></li>
+				</ul>
+				
+				<p><strong>Breaking changes:</strong></p>
+				<ul>
+					<li>Several changes to <a href="docs/appenders/pdo.html">LoggerAppenderPDO</a>:
+						<ul>
+							<li>a database table for logging will no longer be created by the appender; the user must 
+								create this table manually.</li>
+							<li>the default date pattern does not include milliseconds (this is faster)</li>
+						</ul>
+					</li>
+				</ul>
+				<p>Please review the documentation and make any necessary changes to your configuration.</p>
+				
+			</subsection>
+
 		    <subsection name="Apache log4php v2.2.1" id="Apache_log4php_v2.2.1">
 		        <p>Release date: 18.02.2012.</p>
 		        <p><a href="changes-report.html#a2.2.1">JIRA change log</a></p>
