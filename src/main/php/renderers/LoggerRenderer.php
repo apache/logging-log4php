@@ -39,8 +39,8 @@
 interface LoggerRenderer {
 	/**
 	 * Render the entity passed as parameter as a String.
-	 * @param mixed $o entity to render
+	 * @param mixed $input entity to render
 	 * @return string
 	 */
-	public function render($o);
+	public function render($input);
 }

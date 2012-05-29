@@ -82,4 +82,3 @@ class LoggerConfigurationAdapterPHP implements LoggerConfigurationAdapter
 	}
 }
 
-?>

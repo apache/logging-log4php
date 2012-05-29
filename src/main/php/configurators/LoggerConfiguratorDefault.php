@@ -435,7 +435,6 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 			if (isset($level)) {
 				$logger->setLevel($level);
 			} else {
-				$default = $logger->getLevel();
 				$this->warn("Invalid level value [{$config['level']}] specified for logger [$loggerName]. Ignoring level definition.");
 			}
 		}

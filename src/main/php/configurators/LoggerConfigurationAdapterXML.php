@@ -255,4 +255,3 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	}
 }
 
-?>

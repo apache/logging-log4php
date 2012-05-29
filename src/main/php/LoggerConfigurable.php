@@ -113,7 +113,3 @@ abstract class LoggerConfigurable {
 		trigger_error("log4php: $class: $message", E_USER_WARNING);
 	}
 }
-
-
-
-?>

@@ -82,10 +82,10 @@
 	 * @param string $target
 	 */
 	public function setTarget($target) {
-		$v = trim($target);
-		if ($v == self::STDOUT || strtoupper($v) == 'STDOUT') {
+		$value = trim($target);
+		if ($value == self::STDOUT || strtoupper($value) == 'STDOUT') {
 			$this->target = self::STDOUT;
-		} elseif ($v == self::STDERR || strtoupper($v) == 'STDERR') {
+		} elseif ($value == self::STDERR || strtoupper($value) == 'STDERR') {
 			$this->target = self::STDERR;
 		} else {
 			$target = var_export($target);

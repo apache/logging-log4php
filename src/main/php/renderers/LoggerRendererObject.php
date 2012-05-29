@@ -33,5 +33,3 @@ class LoggerRendererObject implements LoggerRenderer {
 		return print_r($o, true);
 	}
 }
-
-?>

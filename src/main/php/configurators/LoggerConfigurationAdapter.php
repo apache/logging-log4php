@@ -37,4 +37,3 @@ interface LoggerConfigurationAdapter
 
 }
 
-?>

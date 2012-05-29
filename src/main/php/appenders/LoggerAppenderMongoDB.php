@@ -314,4 +314,3 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		return $this->collection;
 	}
 }
-?>

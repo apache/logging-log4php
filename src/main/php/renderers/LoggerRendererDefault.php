@@ -42,10 +42,10 @@ class LoggerRendererDefault implements LoggerRenderer {
 	/**
 	 * Render objects by type casting
 	 *
-	 * @param mixed $o the object to render
+	 * @param mixed $input the object to render
 	 * @return string
 	 */
-	public function render($o) {
-		return var_export($o, true);
+	public function render($input) {
+		return var_export($input, true);
 	}
 }

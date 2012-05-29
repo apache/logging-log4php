@@ -248,20 +248,20 @@ class LoggerOptionConverter {
 			return $default;
 		}
 
-		$s = strtoupper(trim($value));
+		$string = strtoupper(trim($value));
 		$multiplier = (float)1;
-		if(($index = strpos($s, 'KB')) !== false) {
+		if(($index = strpos($string, 'KB')) !== false) {
 			$multiplier = 1024;
-			$s = substr($s, 0, $index);
-		} else if(($index = strpos($s, 'MB')) !== false) {
+			$string = substr($string, 0, $index);
+		} else if(($index = strpos($string, 'MB')) !== false) {
 			$multiplier = 1024 * 1024;
-			$s = substr($s, 0, $index);
-		} else if(($index = strpos($s, 'GB')) !== false) {
+			$string = substr($string, 0, $index);
+		} else if(($index = strpos($string, 'GB')) !== false) {
 			$multiplier = 1024 * 1024 * 1024;
-			$s = substr($s, 0, $index);
+			$string = substr($string, 0, $index);
 		}
-		if(is_numeric($s)) {
-			return (float)$s * $multiplier;
+		if(is_numeric($string)) {
+			return (float)$string * $multiplier;
 		} 
 		return $default;
 	}

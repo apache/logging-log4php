@@ -297,4 +297,3 @@ class LoggerConfigurationAdapterINI implements LoggerConfigurationAdapter {
 	
 }
 
-?>

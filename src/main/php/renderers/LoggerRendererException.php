@@ -27,15 +27,14 @@
  */
 class LoggerRendererException implements LoggerRenderer {
 
-	public function render($o) {
-		$strRep  = 'Throwable('.get_class($o).'): '.$o->getMessage().' in '.$o->getFile().' on line '.$o->getLine();
-		$strRep .= PHP_EOL.$o->getTraceAsString();
+	public function render($input) {
+		$strRep  = 'Throwable('.get_class($input).'): '.$input->getMessage().' in '.$input->getFile().' on line '.$input->getLine();
+		$strRep .= PHP_EOL.$input->getTraceAsString();
 		
-		if (method_exists($o, 'getPrevious') && $o->getPrevious() !== null) {
-			$strRep .= PHP_EOL.'Caused by: '.$this->render($o->getPrevious());
+		if (method_exists($input, 'getPrevious') && $input->getPrevious() !== null) {
+			$strRep .= PHP_EOL.'Caused by: '.$this->render($input->getPrevious());
 		}
 		
 		return $strRep;		
 	}
 }
-?>

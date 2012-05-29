@@ -283,4 +283,3 @@ class LoggerAppenderPDO extends LoggerAppender {
 		return $this->setString('dsn', $dsn);
 	}	
 }
-

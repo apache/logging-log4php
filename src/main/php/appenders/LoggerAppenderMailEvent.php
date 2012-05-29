@@ -177,7 +177,4 @@ class LoggerAppenderMailEvent extends LoggerAppender {
 	public function setDry($dry) {
 		$this->setBoolean('dry', $dry);
 	}
-
-	
-
 }

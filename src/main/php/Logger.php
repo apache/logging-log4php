@@ -569,5 +569,4 @@ class Logger {
 	private static function isInitialized() {
 		return self::$initialized;
 	}
-	
 }

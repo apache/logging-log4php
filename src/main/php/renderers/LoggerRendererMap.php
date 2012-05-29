@@ -47,7 +47,6 @@ class LoggerRendererMap {
 	private $defaultRenderer;
 	
 	/**
-	 * 
 	 * @var LoggerRendererObject
 	 */
 	private $defaultObjectRenderer;
@@ -88,23 +87,23 @@ class LoggerRendererMap {
 	 * Once a renderer is found, it is applied on the object <var>o</var> and 
 	 * the result is returned as a string.
 	 *
-	 * @param mixed $o
+	 * @param mixed $input
 	 * @return string 
 	 */
-	public function findAndRender($o) {
-		if($o == null) {
+	public function findAndRender($input) {
+		if($input == null) {
 			return null;
 		} else {
-			if(is_object($o)) {
-				$renderer = $this->getByObject($o);
+			if(is_object($input)) {
+				$renderer = $this->getByObject($input);
 				if($renderer !== null) {
-					return $renderer->render($o);
+					return $renderer->render($input);
 				}
 
-				return $this->defaultObjectRenderer->render($o);
+				return $this->defaultObjectRenderer->render($input);
 			} else {
 				$renderer = $this->defaultRenderer;
-				return $renderer->render($o);
+				return $renderer->render($input);
 			}
 		}
 	}
@@ -113,11 +112,11 @@ class LoggerRendererMap {
 	 * Syntactic sugar method that calls {@link PHP_MANUAL#get_class} with the
 	 * class of the object parameter.
 	 * 
-	 * @param mixed $o
+	 * @param mixed $object
 	 * @return string
 	 */
-	public function getByObject($o) {
-		return ($o == null) ? null : $this->getByClassName(get_class($o));
+	public function getByObject($object) {
+		return ($object == null) ? null : $this->getByClassName(get_class($object));
 	}
 
 
@@ -131,10 +130,10 @@ class LoggerRendererMap {
 	 * @return LoggerRendererObject
 	 */
 	public function getByClassName($class) {
-		for($c = $class; !empty($c); $c = get_parent_class($c)) {
-			$c = strtolower($c);
-			if(isset($this->map[$c])) {
-				return $this->map[$c];
+		for(; !empty($class); $class = get_parent_class($class)) {
+			$class = strtolower($class);
+			if(isset($this->map[$class])) {
+				return $this->map[$class];
 			}
 		}
 		return null;
@@ -145,12 +144,12 @@ class LoggerRendererMap {
 	}
 
 	/**
-	 * Register a {@link LoggerRendererObject} for <var>clazz</var>.
-	 * @param string $class
-	 * @param LoggerRendererObject $or
+	 * Register a {@link LoggerRendererObject}.
+	 * @param string $class Class which to render.
+	 * @param LoggerRendererObject $renderer
 	 */
-	private function put($class, $or) {
-		$this->map[strtolower($class)] = $or;
+	private function put($class, $renderer) {
+		$this->map[strtolower($class)] = $renderer;
 	}
 	
 	public function setDefaultObjectRenderer($renderer) {
