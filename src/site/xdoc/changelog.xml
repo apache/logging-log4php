@@ -35,12 +35,18 @@
 				
 				<p><strong>New features:</strong></p>
 				<ul>
-					<li>New appender: <a href="docs/appenders/fire-php.html">FirePHP</a> (thanks to Vladimir Gorej)</li>
+					<li>New appender: <a href="docs/appenders/fire-php.html">FirePHP</a> (thanks to Bruce Ingalls)</li>
 				</ul>
 				
 				<p><strong>Improvements:</strong></p>
 				<ul>
-					<li></li>
+					<li>The <a href="docs/layouts/pattern.html">pattern layout</a> has been greatly improved:
+						<ul>
+							<li>supports longer conversion words such as <em>%date</em> instead of <em>%d</em>, 
+								<em>%message</em> instead of <em>%m</em>, etc.</li>
+							<li>added many new conversion words; check out the docs for the full list</li>
+						</ul>
+					</li>
 				</ul>
 				
 				<p><strong>Breaking changes:</strong></p>
