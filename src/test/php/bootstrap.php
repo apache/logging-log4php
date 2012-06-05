@@ -41,4 +41,5 @@ $confDir = dirname(__FILE__) . '/../resources/configs';
 define('PHPUNIT_CONFIG_DIR', realpath($confDir));
 
 require dirname(__FILE__) . '/../../main/php/Logger.php';
+require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'LoggerTestHelper.php';
 
