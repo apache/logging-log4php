@@ -97,8 +97,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 	 * 		will be used.
 	 * @return array The parsed configuration.
 	 */
-	public function parse($input)
-	{
+	public function parse($input) {
 		// No input - use default configuration
 		if (!isset($input)) {
 			$config = self::$defaultConfiguration;

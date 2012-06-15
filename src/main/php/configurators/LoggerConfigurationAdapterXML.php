@@ -38,8 +38,7 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		'renderers' => array(),
 	);
 	
-	public function convert($url)
-	{
+	public function convert($url) {
 		$xml = $this->loadXML($url);
 		
 		$this->parseConfiguration($xml);

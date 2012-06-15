@@ -153,14 +153,14 @@ class LoggerNDC {
 	 * context is available, then the empty string "" is returned.</p>
 	 * @return string The innermost diagnostic context.
 	 */
-	public static function peek(){
+	public static function peek() {
 		if(count(self::$stack) > 0) {
 			return end(self::$stack);
 		} else {
 			return '';
 		}
 	}
-  
+	
 	/**
 	 * Push new diagnostic context information for the current thread.
 	 *

@@ -91,8 +91,7 @@ abstract class LoggerAppender extends LoggerConfigurable {
 	 * 
 	 * @return LoggerLayout
 	 */
-	public function getDefaultLayout()
-	{
+	public function getDefaultLayout() {
 		return new LoggerLayoutSimple();
 	}
 	
