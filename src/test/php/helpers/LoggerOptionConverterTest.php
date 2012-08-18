@@ -32,26 +32,6 @@ define('MY_CONSTANT_CONSTANT_OTHER', 'DEFINE_OTHER');
 class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
 
     public function testToBoolean() {
-        self::assertTrue(LoggerOptionConverter::toBoolean(null, true));
-        self::assertTrue(LoggerOptionConverter::toBoolean('foo', true));
-        self::assertTrue(LoggerOptionConverter::toBoolean(null));
-        self::assertTrue(LoggerOptionConverter::toBoolean(true));
-        self::assertTrue(LoggerOptionConverter::toBoolean("1"));
-        self::assertTrue(LoggerOptionConverter::toBoolean(1));
-        self::assertTrue(LoggerOptionConverter::toBoolean("true"));
-        self::assertTrue(LoggerOptionConverter::toBoolean("on"));
-        self::assertTrue(LoggerOptionConverter::toBoolean("yes"));
-        
-        self::assertFalse(LoggerOptionConverter::toBoolean(null, false));
-        self::assertFalse(LoggerOptionConverter::toBoolean('foo', false));
-        self::assertFalse(LoggerOptionConverter::toBoolean(false));
-        self::assertFalse(LoggerOptionConverter::toBoolean(""));
-        self::assertFalse(LoggerOptionConverter::toBoolean("0"));
-        self::assertFalse(LoggerOptionConverter::toBoolean(0));
-        self::assertFalse(LoggerOptionConverter::toBoolean("false"));
-        self::assertFalse(LoggerOptionConverter::toBoolean("off"));
-        self::assertFalse(LoggerOptionConverter::toBoolean("no"));
-        
         self::assertTrue(LoggerOptionConverter::toBooleanEx(1));
         self::assertTrue(LoggerOptionConverter::toBooleanEx("1"));
         self::assertTrue(LoggerOptionConverter::toBooleanEx(true));
@@ -86,12 +66,6 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testToInteger() {
-    	self::assertSame(1, LoggerOptionConverter::toInt('1', 0));
-    	self::assertSame(-11, LoggerOptionConverter::toInt('-11', 0));
-    	self::assertSame(-10, LoggerOptionConverter::toInt(null, -10));
-    	self::assertSame(-10, LoggerOptionConverter::toInt('', -10));
-    	self::assertSame(-10, LoggerOptionConverter::toInt('foo', -10));
-    	
     	self::assertSame(1, LoggerOptionConverter::toIntegerEx('1'));
     	self::assertSame(1, LoggerOptionConverter::toIntegerEx(1));
     	self::assertSame(0, LoggerOptionConverter::toIntegerEx('0'));
@@ -145,21 +119,29 @@ class LoggerOptionConverterTest extends PHPUnit_Framework_TestCase {
     	LoggerOptionConverter::toIntegerEx(false);
     }
     
-    public function testSubstituteVars() {
-    	$props['OTHER_CONSTANT'] = "OTHER";
-    	$props['MY_CONSTANT'] = "TEST";
-    	$props['NEXT_CONSTANT'] = "NEXT";
-        
-        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT}.', $props);
+    public function testSubstituteConstants() {
+    	define('OTHER_CONSTANT', 'OTHER');
+    	define('MY_CONSTANT', 'TEST');
+    	define('NEXT_CONSTANT', 'NEXT');
+     
+        $result = LoggerOptionConverter::substConstants('Value of key is ${MY_CONSTANT}.');
         self::assertEquals('Value of key is TEST.', $result);
         
-        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT} or ${OTHER_CONSTANT}.', $props);
+        $result = LoggerOptionConverter::substConstants('Value of key is ${MY_CONSTANT} or ${OTHER_CONSTANT}.');
         self::assertEquals('Value of key is TEST or OTHER.', $result);
         
-        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT_CONSTANT}.', $props);
+        $result = LoggerOptionConverter::substConstants('Value of key is ${MY_CONSTANT_CONSTANT}.');
         self::assertEquals('Value of key is DEFINE.', $result);
         
-        $result = LoggerOptionConverter::substVars('Value of key is ${MY_CONSTANT_CONSTANT} or ${MY_CONSTANT_CONSTANT_OTHER}.', $props);
+        $result = LoggerOptionConverter::substConstants('Value of key is ${MY_CONSTANT_CONSTANT} or ${MY_CONSTANT_CONSTANT_OTHER}.');
         self::assertEquals('Value of key is DEFINE or DEFINE_OTHER.', $result);
+    }
+    
+    public function testActualSubstituteConstants() {
+    	$a = new LoggerAppenderFile();
+    	$a->setFile('${PHPUNIT_TEMP_DIR}/log.txt');
+    	$actual = $a->getFile();
+    	$expected = PHPUNIT_TEMP_DIR . '/log.txt';
+    	self::assertSame($expected, $actual);
     }
 }

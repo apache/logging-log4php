@@ -37,8 +37,6 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		self::$file = PHPUNIT_TEMP_DIR . '/' . self::FILENAME;
 		self::$dsn = 'sqlite:' . self::$file;
 		
-// 		var_dump(self::$file, self::$dsn); die;
-		
 		if(extension_loaded('pdo_sqlite')) {
 			$drop = 'DROP TABLE IF EXISTS log4php_log;';
 			$create = 'CREATE TABLE log4php_log (

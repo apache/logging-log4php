@@ -99,7 +99,8 @@ abstract class LoggerConfigurable {
 			}
 		} else {
 			try {
-				$this->$property = LoggerOptionConverter::toStringEx($value);
+				$value = LoggerOptionConverter::toStringEx($value);
+				$this->$property = LoggerOptionConverter::substConstants($value);
 			} catch (Exception $ex) {
 				$value = var_export($value, true);
 				$this->warn("Invalid value given for '$property' property: [$value]. Expected a string. Property not changed.");
