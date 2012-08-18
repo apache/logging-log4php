@@ -114,6 +114,14 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->expected1, $actual);
 	}
 	
+	public function testConversion2() {
+		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid_underscore.xml';
+		$adapter = new LoggerConfigurationAdapterXML();
+		$actual = $adapter->convert($url);
+		
+		$this->assertEquals($this->expected1, $actual);
+	}
+	
 	/**
 	 * Test exception is thrown when file cannot be found.
  	 * @expectedException LoggerException

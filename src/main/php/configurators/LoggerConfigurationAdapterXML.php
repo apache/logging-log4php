@@ -173,10 +173,7 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 			$logger['level'] = $this->getAttributeValue($node->level, 'value');
 		}
 		
-		$logger['appenders'] = array();
-		foreach($node->appender_ref as $appender) {
-			$logger['appenders'][] = $this->getAttributeValue($appender, 'ref');
-		}
+		$logger['appenders'] = $this->parseAppenderReferences($node);
 		
 		$this->config['rootLogger'] = $logger;
 	}
@@ -199,7 +196,7 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 			$logger['additivity'] = $this->getAttributeValue($node, 'additivity');
 		}
 		
-		$logger['appenders'] = $this->parseAppenderReferences($node, $name);
+		$logger['appenders'] = $this->parseAppenderReferences($node);
 
 		// Check for duplicate loggers
 		if (isset($this->config['loggers'][$name])) {
@@ -211,13 +208,20 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 	
 	/** 
 	 * Parses a <logger> node for appender references and returns them in an array.
+	 * 
+	 * Previous versions supported appender-ref, as well as appender_ref so both
+	 * are parsed for backward compatibility.
 	 */
-	private function parseAppenderReferences(SimpleXMLElement $node, $name) {
+	private function parseAppenderReferences(SimpleXMLElement $node) {
 		$refs = array();
 		foreach($node->appender_ref as $ref) {
 			$refs[] = $this->getAttributeValue($ref, 'ref');
 		}
 		
+		foreach($node->{'appender-ref'} as $ref) {
+			$refs[] = $this->getAttributeValue($ref, 'ref');
+		}
+
 		return $refs;
 	}
 	
