@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * @category   tests   
- * @package	log4php
+ * @category   tests
+ * @package	   log4php
  * @subpackage appenders
- * @license	http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version	SVN: $Id$
- * @link	   http://logging.apache.org/log4php
+ * @license	   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @version    $Revision$
+ * @link       http://logging.apache.org/log4php
  */
 
 /**
