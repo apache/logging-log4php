@@ -117,7 +117,7 @@
 	<condition property="phpunit.exec" value="phpunit.bat" else="phpunit">
 		<os family="windows" />
 	</condition>
-	<condition property="phpdoc.exec" value="phpdoc.bat" else="phpdoc">
+	<condition property="apigen.exec" value="apigen.bat" else="apigen">
 		<os family="windows" />
 	</condition>
 	<condition property="pear.exec" value="pear.bat" else="pear">
@@ -160,20 +160,10 @@
 		</move>
 	</target>
 	
-	<!-- Generates API documentation (requires phpdoc). -->
+	<!-- Generates API documentation (requires apigen). -->
 	<target name="api-docs">
 		<mkdir dir="target/site/apidocs" />
-		<exec executable="${phpdoc.exec}" failonerror="true">
-			<arg value="-d" />
-			<arg value="src/main/php" />
-			<arg value="-t" />
-			<arg value="target/site/apidocs" />
-			<arg value="-o" />
-			<arg value="HTML:frames:DOM/default" />
-			<arg value="-ti" />
-			<arg value="Apache log4php ${project.version} - GENERATED FILES - License: ASL 2.0" />
-			<arg value="--parseprivate" />
-		</exec>
+		<exec executable="${apigen.exec}" failonerror="true" />
 	</target>
 	
 	<!-- Copies google custom engine definition to site folder. -->
