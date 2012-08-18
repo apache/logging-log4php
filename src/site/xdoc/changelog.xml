@@ -29,7 +29,7 @@
 				<param name="fromDepth" value="2"/>
 			</macro>
 
-			<subsection name="Apache log4php v2.3.0" id="Apache_log4php_v2.3.0">
+			<subsection name="Apache log4php v2.3.0 ()" id="Apache_log4php_v2.3.0">
 				<p>Release date: TBA</p>
 				<p><a href="changes-report.html#a2.3.0">JIRA change log</a></p>
 				
@@ -40,18 +40,19 @@
 				
 				<p><strong>Improvements:</strong></p>
 				<ul>
-					<li>The <a href="docs/layouts/pattern.html">pattern layout</a> has been greatly improved:
+					<li><a href="docs/layouts/pattern.html">LoggerLayoutPatern</a> has been greatly improved:
 						<ul>
 							<li>supports longer conversion words such as <code>%date</code> instead of <code>%d</code>, 
 								<code>%message</code> instead of <code>%m</code>, etc.</li>
 							<li>added many new conversion words; check out the docs for the full list</li>
+							<li>changed the default conversion pattern to be more verbose</li>
 						</ul>
 					</li>
 				</ul>
 				
 				<p><strong>Breaking changes:</strong></p>
 				<ul>
-					<li>Several changes to the <a href="docs/appenders/pdo.html">PDO appender</a>:
+					<li>Several changes to <a href="docs/appenders/pdo.html">LoggerAppenderPDO</a>:
 						<ul>
 							<li>a database table for logging will no longer be created by the appender; the user must 
 								create this table manually.</li>

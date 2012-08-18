@@ -33,7 +33,7 @@
 class LoggerLayoutPattern extends LoggerLayout {
 	
 	/** Default conversion pattern */
-	const DEFAULT_CONVERSION_PATTERN = '%m%n';
+	const DEFAULT_CONVERSION_PATTERN = '%date %-5level %logger %message%newline';
 
 	/** Default conversion TTCC Pattern */
 	const TTCC_CONVERSION_PATTERN = '%d [%t] %p %c %x - %m%n';
