@@ -119,7 +119,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 		try {
 			$this->establishConnection();
 		} catch (PDOException $e) {
-			$this->warn("Failed connecting to database: " . $e->getMessage());
+			$this->warn("Failed connecting to database. Closing appender. Error: " . $e->getMessage());
 			$this->close();
 			return;
 		}
@@ -157,27 +157,24 @@ class LoggerAppenderPDO extends LoggerAppender {
 	 * the appender will close.
 	 */
 	public function append(LoggerLoggingEvent $event) {
-		
-		for ($attempt = 1; $attempt <= $this->reconnectAttempts; $attempt++) {
+
+		for ($attempt = 1; $attempt <= $this->reconnectAttempts + 1; $attempt++) {
 			try {
-				// If it's a retry, reestablish the connection
-				if ($attempt > 1) {
-					$this->establishConnection();
-				}
-				
-				// Write to database
-				@$this->preparedInsert->execute($this->format($event));
-				@$this->preparedInsert->closeCursor();
+				// Attempt to write to database
+				$this->preparedInsert->execute($this->format($event));
+				$this->preparedInsert->closeCursor();
 				break;
 			} catch (PDOException $e) {
 				$this->warn("Failed writing to database: ". $e->getMessage());
 				
 				// Close the appender if it's the last attempt
-				if ($attempt == $this->reconnectAttempts) {
-					$this->warn("Failed after {$this->reconnectAttempts} attempts. Closing appender.");
+				if ($attempt > $this->reconnectAttempts) {
+					$this->warn("Failed writing to database after {$this->reconnectAttempts} reconnect attempts. Closing appender.");
 					$this->close();
+				// Otherwise reconnect and try to write again
 				} else {
 					$this->warn("Attempting a reconnect (attempt $attempt of {$this->reconnectAttempts}).");
+					$this->establishConnection();
 				}
 			}
 		}
