@@ -19,7 +19,7 @@
  * @package    log4php
  * @subpackage appenders
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version    SVN: $Id$
+ * @version    $Revision$
  * @link       http://logging.apache.org/log4php
  */
 
@@ -27,10 +27,18 @@
  * @group appenders
  */
 class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
-	const dsn = 'sqlite:../../../target/pdotest.sqlite';
-	const file = '../../../target/pdotest.sqlite';
+
+	const FILENAME = 'pdotest.sqlite';
+	private static $dsn;
+	private static $file;
 	
 	public static function setUpBeforeClass() {
+
+		self::$file = PHPUNIT_TEMP_DIR . '/' . self::FILENAME;
+		self::$dsn = 'sqlite:' . self::$file;
+		
+// 		var_dump(self::$file, self::$dsn); die;
+		
 		if(extension_loaded('pdo_sqlite')) {
 			$drop = 'DROP TABLE IF EXISTS log4php_log;';
 			$create = 'CREATE TABLE log4php_log (
@@ -43,13 +51,12 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 				line VARCHAR(10)
 			);';
 			
-			$pdo = new PDO(self::dsn);
+			$pdo = new PDO(self::$dsn);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$pdo->exec($drop);
 			$pdo->exec($create);
 		}
 	}
-	
 	
 	/** To start with an empty database for each single test. */
 	public function setUp() {
@@ -60,7 +67,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 
 	/** Clean up after the last test was run. */
 	public static function tearDownAfterClass() {
-		if (file_exists(self::file)) @unlink(self::file);
+		@unlink(self::$file);
 	}
 	
 	public function testRequiresLayout() {
@@ -73,28 +80,28 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		// Log event
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		$appender = new LoggerAppenderPDO("myname");
-		$appender->setDSN(self::dsn);
+		$appender->setDSN(self::$dsn);
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
 
 		// Test the default pattern
-		$db = new PDO(self::dsn);
+		$db = new PDO(self::$dsn);
 		$query = "SELECT * FROM log4php_log";
 		$sth = $db->query($query);
 		$row = $sth->fetch(PDO::FETCH_NUM);
 		
 		self::assertTrue(is_array($row), "No rows found.");
 		self::assertEquals(7, count($row));
-		self::assertEquals(1, preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $row[0])); // %d = date
-		self::assertEquals('TEST', $row[1]); // %c = category
-		self::assertEquals('ERROR', $row[2]); // %p = priority
-		self::assertEquals('testmessage', $row[3]); // %m = message
+		self::assertEquals(1, preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $row[0])); // datetime
+		self::assertEquals('TEST', $row[1]); // logger name
+		self::assertEquals('ERROR', $row[2]); // level
+		self::assertEquals('testmessage', $row[3]); // message
 		if (function_exists('posix_getpid')) {
-			self::assertEquals(posix_getpid(), $row[4]); // %t = thread
+			self::assertEquals(posix_getpid(), $row[4]); // process id
 		}
-		self::assertEquals('NA', $row[5]); // %F = file, NA due to phpunit magic
-		self::assertEquals('NA', $row[6]); // %L = line, NA due to phpunit magic
+		self::assertEquals('NA', $row[5]); // file, NA due to phpunit magic
+		self::assertEquals('NA', $row[6]); // line, NA due to phpunit magic
 	}
 
 
@@ -105,7 +112,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		
 		// Prepare appender
 		$appender = new LoggerAppenderPDO("myname");
-		$appender->setDSN(self::dsn);
+		$appender->setDSN(self::$dsn);
 		$appender->setInsertSql("INSERT INTO log4php_log (file, line, thread, timestamp, logger, level, message) VALUES (?,?,?,?,?,?,?)");
 		$appender->setInsertPattern("%F,%L,%t,%d\{$dateFormat\},%c,%p,%m");
 		$appender->activateOptions();
@@ -114,10 +121,8 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest2", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		$appender->append($event);
 		
-		$date = date($dateFormat, $event->getTimeStamp());
-		
 		// Check
-		$db = new PDO(self::dsn);
+		$db = new PDO(self::$dsn);
 		$result = $db->query("SELECT * FROM log4php_log");
 		$row = $result->fetch(PDO::FETCH_OBJ);
 		self::assertTrue(is_object($row));
@@ -126,7 +131,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		if (function_exists('posix_getpid')) {
 			self::assertEquals(posix_getpid(), $row->thread);
 		}
-		self::assertEquals($date, $row->timestamp);
+		self::assertEquals(1, preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $row->timestamp));
 		self::assertEquals('TEST', $row->logger);
 		self::assertEquals('ERROR', $row->level);
 		self::assertEquals('testmessage', $row->message);
@@ -135,7 +140,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 	/** 
 	 * Tests a warning is shown when connecting to invalid dns. 
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Failed connecting to database: invalid data source name
+ 	 * @expectedExceptionMessage invalid data source name
 	 */
 	public function testException() {
 		$dsn = 'doenotexist';
@@ -151,7 +156,7 @@ class LoggerAppenderPDOTest extends PHPUnit_Framework_TestCase {
 		$event = new LoggerLoggingEvent("LoggerAppenderPDOTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		
 		$appender = new LoggerAppenderPDO("myname");
-		$appender->setDSN(self::dsn);
+		$appender->setDSN(self::$dsn);
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();

@@ -19,7 +19,7 @@
  * @package    log4php
  * @subpackage appenders
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version    SVN: $Id$
+ * @version    $Revision$
  * @link       http://logging.apache.org/log4php
  */
 
@@ -27,72 +27,49 @@
  * @group appenders
  */
 class LoggerAppenderDailyFileTest extends PHPUnit_Framework_TestCase {
-    
-    private $t1;
-    private $t2;
-     
-    protected function setUp() {
-    	$today = date("Ymd");
-        if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$today)) {
-	        unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$today);
-        }
-    }
-    
+	
+	protected function setUp() {
+		@unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Ymd'));
+		@unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Y'));
+	}
+	
 	public function testRequiresLayout() {
 		$appender = new LoggerAppenderDailyFile(); 
 		self::assertTrue($appender->requiresLayout());
 	}
-    
-    public function testSimpleLogging() {
-    	$layout = new LoggerLayoutSimple();
-    	
-    	$event = new LoggerLoggingEvent('LoggerAppenderFileTest', 
-    									new Logger('mycategory'), 
-    									LoggerLevel::getLevelWarn(),
-    									"my message");
-    	
-    	$appender = new LoggerAppenderDailyFile("mylogger"); 
-		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt.%s');
-		$appender->setLayout($layout);
+	
+	public function testDefaultLayout() {
+		$appender = new LoggerAppenderDailyFile();
+		$actual = $appender->getLayout();
+		self::assertInstanceOf('LoggerLayoutSimple', $actual);
+	}
+	
+	public function testSimpleLogging() {
+		$event = LoggerTestHelper::getWarnEvent("my message");
+
+		$appender = new LoggerAppenderDailyFile(); 
+		$appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
 
-		$this->t1 = date("Ymd");
-		$v = file_get_contents('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1);		
-		$e = "WARN - my message".PHP_EOL;
-		self::assertEquals($e, $v);
-    }
-     
-    public function testChangedDateFormat() {
-    	$layout = new LoggerLayoutSimple();
-    	
-    	$event = new LoggerLoggingEvent('LoggerAppenderFileTest', 
-    									new Logger('mycategory'), 
-    									LoggerLevel::getLevelWarn(),
-    									"my message");
-    	
-    	$appender = new LoggerAppenderDailyFile("mylogger"); 
-    	$appender->setDatePattern('Y');
-		$appender->setFile('../../../target/temp/phpunit/TEST-daily.txt.%s');
-		$appender->setLayout($layout);
+		$actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Ymd"));		
+		$expected = "WARN - my message".PHP_EOL;
+		self::assertEquals($expected, $actual);
+	}
+	 
+	public function testChangedDateFormat() {
+		$event = LoggerTestHelper::getWarnEvent("my message");
+		
+		$appender = new LoggerAppenderDailyFile(); 
+		$appender->setDatePattern('Y');
+		$appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
 		$appender->activateOptions();
 		$appender->append($event);
 		$appender->close();
 
-		$this->t2 = date("Y");
-		$v = file_get_contents('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2);		
-		$e = "WARN - my message".PHP_EOL;
-		self::assertEquals($e, $v);
-    } 
-     
-    protected function tearDown() {
-    	if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1)) {
-    		unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t1);
-    	}
-    	if(file_exists('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2)) {
-    		unlink('../../../target/temp/phpunit/TEST-daily.txt.'.$this->t2);
-    	}
-        //rmdir('../../../target/temp/phpunit');
-    }
+		$actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Y"));		
+		$expected = "WARN - my message".PHP_EOL;
+		self::assertEquals($expected, $actual);
+	} 
 }
