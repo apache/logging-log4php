@@ -113,7 +113,8 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		$file = PHPUNIT_TEMP_DIR . '/TEST-rolling.txt.2';
 		$this->checkFileContent($file);
 
-		$this->assertFalse(file_exists(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.3'), 'should not roll over three times');
+		// Should not roll over three times
+		$this->assertFalse(file_exists(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.3'));
 	}
 	
 	public function testLoggingViaLogger() {
@@ -202,5 +203,4 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 		@unlink(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.1.gz');
 		@unlink(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.2.gz');
 	}
-
 }

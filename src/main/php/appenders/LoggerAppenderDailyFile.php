@@ -48,39 +48,24 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 	 * @var string
 	 */
 	protected $datePattern = "Ymd";
-	
-	/** 
-	 * Similar to parent method, but but replaces "%s" in the file name with 
-	 * the current date in format specified by the 'datePattern' parameter.
-	 */ 
+
+	/** Additional validation for the date pattern. */
 	public function activateOptions() {
-		$fileName = $this->getFile();
-		$date = date($this->getDatePattern());
-		$fileName = sprintf($fileName, $date);
-		
-		if(!is_file($fileName)) {
-			$dir = dirname($fileName);
-			if(!is_dir($dir)) {
-				mkdir($dir, 0777, true);
-			}
-		}
+		parent::activateOptions();
 	
-		$this->fp = fopen($fileName, ($this->getAppend()? 'a':'w'));
-		if($this->fp) {
-			if(flock($this->fp, LOCK_EX)) {
-				if($this->getAppend()) {
-					fseek($this->fp, 0, SEEK_END);
-				}
-				fwrite($this->fp, $this->layout->getHeader());
-				flock($this->fp, LOCK_UN);
-				$this->closed = false;
-			} else {
-				// TODO: should we take some action in this case?
-				$this->closed = true;
-			}
-		} else {
+		if (empty($this->datePattern)) {
+			$this->warn("Required parameter 'datePattern' not set. Closing appender.");
 			$this->closed = true;
+			return;
 		}
+	}
+	
+	/**
+	 * Determines target file. Replaces %s in file path with a date. 
+	 */
+	protected function getTargetFile() {
+		$date = date($this->datePattern);
+		return str_replace('%s', $date, $this->file);
 	}
 	
 	/**

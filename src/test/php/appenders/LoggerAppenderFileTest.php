@@ -68,6 +68,21 @@ class LoggerAppenderFileTest extends PHPUnit_Framework_TestCase {
 		self::assertTrue($appender->requiresLayout());
 	}
 	
+	public function testActivationDoesNotCreateTheFile() {
+		$path = PHPUNIT_TEMP_DIR . "/doesnotexisthopefully.log";
+		@unlink($path);
+		$appender = new LoggerAppenderFile();
+		$appender->setFile($path);
+		$appender->activateOptions();
+		
+		self::assertFalse(file_exists($path));
+		
+		$event = LoggerTestHelper::getInfoEvent('bla');
+		$appender->append($event);
+		
+		self::assertTrue(file_exists($path));
+	}
+	
 	public function testSimpleLogging() {
 		$config = $this->config1;
 		$config['appenders']['default']['params']['file'] = $this->testPath;

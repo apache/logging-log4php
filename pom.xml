@@ -166,71 +166,7 @@
 				</dependencies>
 				
 				<executions>
-					<execution>
-						<id>pear-package</id>
-						<phase>package</phase>
-						<configuration>
-							<target>
-								<ant target="pear-package" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-
-					<execution>
-						<id>pre-site</id>
-						<phase>pre-site</phase>
-						<configuration>
-							<target>
-								<ant target="google-search" />
-								<ant target="api-docs" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					
-					<execution>
-						<id>unit-testing</id>
-						<phase>test</phase>
-						<configuration>
-							<target>
-								<ant target="unit-testing" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					
-					<execution>
-						<id>post-site</id>
-						<phase>post-site</phase>
-						<configuration>
-							<target>
-								<ant target="post-site" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					
-					<execution>
-						<id>site-deploy</id>
-						<phase>site-deploy</phase>
-						<configuration>
-							<target>
-								<ant target="site-deploy" />
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
+				
 				</executions>
 			</plugin>
 			
@@ -267,7 +203,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.2.2</version>
+				<version>2.3.2</version>
 				<configuration>
 					<goals>site assembly:assembly</goals>
 				</configuration>
@@ -276,7 +212,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.1</version>
 				<configuration>
 
 					<!-- Override default site template for achieveing a custom look. -->
@@ -284,59 +220,6 @@
 
 					<!-- Configure additional reports on the site -->
 					<reportPlugins>
-
-						<!-- Project info report -->
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.4</version>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>cim</report>	
-										<report>scm</report>
-										<report>dependencies</report>
-										<report>license</report>
-										<report>project-team</report>
-										<report>issue-tracking</report>
-										<report>mailing-list</report>
-									</reports>
-								</reportSet>
-							</reportSets>
-						</plugin>
-						
-						<!-- Changes report -->
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-changes-plugin</artifactId>
-							<version>2.6</version>
-							<reportSets>
-								<reportSet>
-									<reports>
-										<report>changes-report</report>
-										<report>jira-report</report>
-									</reports>
-								</reportSet>
-							</reportSets>
-							<configuration>
-								<statusIds>Resolved, Closed</statusIds>
-								<columnNames>Type,Key,Summary,Assignee,Status,Resolution,Fix Version</columnNames>
-							</configuration>
-						</plugin>
-						
-						<!-- Surefire report -->
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-report-plugin</artifactId>
-							<version>2.12</version>
-						</plugin>
-			
-						<!-- RAT report -->
-						<plugin>
-							<groupId>org.apache.rat</groupId>
-							<artifactId>apache-rat-plugin</artifactId>
-							<version>0.8</version>
-						</plugin>
 					</reportPlugins>
 				</configuration>
 			</plugin>
