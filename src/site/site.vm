@@ -10,7 +10,7 @@
 	#if ( $href.toLowerCase().startsWith("http:/") || $href.toLowerCase().startsWith("https:/") ||
 		$href.toLowerCase().startsWith("ftp:/") || $href.toLowerCase().startsWith("mailto:/") ||
 		$href.toLowerCase().startsWith("file:/") || ($href.toLowerCase().indexOf("://") != -1) )
-		#set ( $linkClass = ' class="externalLink" target="_blank"' )
+		#set ( $linkClass = ' class="external" target="_blank"' )
 		
 		#if ( $linkTarget )
 		#else
@@ -442,7 +442,7 @@
 
 					<!-- Twitter link -->
 					<ul class="nav pull-right">
-						<li><a href="http://twitter.com/log4php/" class="externalLink">Follow <strong>@log4php</strong></a></li>
+						<li><a href="http://twitter.com/log4php/" class="external">Follow <strong>@log4php</strong></a></li>
 					</ul>
 					
 					<!-- Google CSE Search Box -->
@@ -478,8 +478,8 @@
 			Please read the <a href="$relativePath/privacy.html">Privacy policy</a></p>
 			<p>Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services project logo and the Built by 
 			Maven logo are trademarks of The Apache Software Foundation.</p>
-			<p>Site powered by <a target="_blank" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>. Icons from 
-			<a target="_blank" href="http://glyphicons.com/">Glyphicons Free</a>.</p>
+			<p>Site powered by <a class="external" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>. Icons from 
+			<a class="external" href="http://glyphicons.com/">Glyphicons Free</a>.</p>
 		</div>
 	</body>
 </html>

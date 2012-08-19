@@ -99,7 +99,7 @@ $(document).ready(function() {
 	});
 	
 	// Make external links open in new tab
-	$('a.externalLink').attr('target', '_blank');
+	$('a.external').attr('target', '_blank');
 	
 	// Trigger prettyprint
 	prettyPrint();

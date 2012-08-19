@@ -57,7 +57,7 @@
 				events. It controls how logging events will be transformed into strings by the layout.</p>
 			
 				<p>The conversion pattern is closely related to the conversion pattern of the 
-				<a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf" target="_blank">printf</a> 
+				<a href="http://www.cplusplus.com/reference/clibrary/cstdio/printf" class="external">printf</a> 
 				function in C(++). It is composed of literal text and format control expressions called <em>conversion 
 				specifiers</em>.</p>
 				
@@ -169,7 +169,7 @@
     						<td>
     							<p>The date/time of the logging event. Accepts a pattern string as an option. The 
     							pattern syntax is the same as used by the PHP's <code><a href="http://php.net/manual/en/function.date.php" 
-    							target="_blank" class="externalLink">date()</a></code> function.</p>
+    							class="external">date()</a></code> function.</p>
     							
     							<p>If no pattern is given, the date format will default to the ISO8601 datetime format,
     							which is the same as giving the pattern: <code>c</code>.</p>

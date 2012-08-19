@@ -26,8 +26,8 @@
 		<section name="LoggerAppenderEcho">
 		
 			<p><code>LoggerAppenderEcho</code> writes logging events using PHP's 
-			<code><a class="externalLink" target="_blank" href="http://php.net/manual/en/function.echo.php">echo()</a>
-			</code> function. Echo outputs may be buffered.</p>
+			<code><a class="external" href="http://php.net/manual/en/function.echo.php">echo()</a></code> function. 
+			Echo outputs may be buffered.</p>
 		
 			<subsection name="Layout">
 				<p>This appender requires a layout. If no layout is specified in configuration, 

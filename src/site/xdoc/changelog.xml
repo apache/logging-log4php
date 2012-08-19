@@ -105,7 +105,7 @@
 					<li>Appenders will use a default layout if no layout is specified in configuration.</li>
 					<li>The <a href="docs/layouts/xml.html">XML layout</a> has been extended to include MDC data.</li>
 					<li>Improved documentation to include more XML and PHP configuration examples.</li>
-					<li>New web site appearance (powered by the <a class="externalLink" target="_blank" 
+					<li>New web site appearance (powered by the <a class="external" 
 						href="http://twitter.github.com/bootstrap/">Bootstrap toolkit</a>).</li>
 				</ul>
 				

@@ -26,7 +26,7 @@
 		<section name="LoggerAppenderPDO">
 		
 			<p><code>LoggerAppenderPDO</code> appender logs to a database using the PHP's 
-			<a href="http://php.net/manual/en/book.pdo.php" target="_blank" class="externalLink">PDO extension</a>.</p>
+			<a href="http://php.net/manual/en/book.pdo.php" class="external">PDO extension</a>.</p>
 		
 			<subsection name="Layout">
 				<p>This appender does not require a layout.</p>
@@ -106,25 +106,24 @@
 						<tr>
 							<th>MySQL</th>
 							<td><code>mysql:host=localhost;dbname=logdb</code></td>
-							<td><a href="http://php.net/manual/en/ref.pdo-mysql.connection.php" class="externalLink">full reference</a> </td>
+							<td><a href="http://php.net/manual/en/ref.pdo-mysql.connection.php" class="external">full reference</a> </td>
 						</tr>
 						<tr>
 							<th>SQLite</th>
 							<td><code>sqlite:/path/to/log.db</code></td>
-							<td><a href="http://php.net/manual/en/ref.pdo-sqlite.connection.php" class="externalLink">full reference</a> </td>
+							<td><a href="http://php.net/manual/en/ref.pdo-sqlite.connection.php" class="external">full reference</a> </td>
 						</tr>
 						<tr>
 							<th>PostgreSQL </th>
 							<td><code>pgsql:host=localhost;port=5432</code></td>
-							<td><a href="http://php.net/manual/en/ref.pdo-pgsql.connection.php" class="externalLink">full reference</a> </td>
+							<td><a href="http://php.net/manual/en/ref.pdo-pgsql.connection.php" class="external">full reference</a> </td>
 						</tr>
 					</tbody>
 				</table>
 				
 				<p>For other available database drivers and corresponding DSN format, please see the 
-				<a href="http://www.php.net/manual/en/pdo.drivers.php" target="_blank" class="externalLink">PDO 
-				driver documentation</a>.</p>
-
+				<a href="http://www.php.net/manual/en/pdo.drivers.php" class="external">PDO driver documentation</a>.
+				</p>
 			</subsection>
 			
 			<subsection name="Database table">

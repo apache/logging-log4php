@@ -26,8 +26,8 @@
 		<section name="LoggerAppenderPhp">
 		
 			<p><code>LoggerAppenderPhp</code> logs events by creating a PHP user-level message using the PHP's
-			<code><a href="http://www.php.net/manual/en/function.trigger-error.php" target="_blank" 
-			class="externalLink">trigger_error()</a></code>function.</p>
+			<code><a href="http://www.php.net/manual/en/function.trigger-error.php" 
+			class="external">trigger_error()</a></code>function.</p>
 		
 			<p>The message type depends on the event's severity level:</p>
 			<ul>

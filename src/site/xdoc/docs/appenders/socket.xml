@@ -54,8 +54,8 @@
 							<td><strong>Yes</strong></td>
 							<td>-</td>
 							<td>Target host. On how to define a remote hostname see <code>
-							<a href="http://php.net/manual/en/function.fsockopen.php" class="externalLink" 
-							target="_blank">fsockopen()</a></code> documentation. </td>
+							<a href="http://php.net/manual/en/function.fsockopen.php" class="external">fsockopen()</a>
+							</code> documentation. </td>
 						</tr>
 						<tr>
 							<td>port</td>

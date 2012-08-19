@@ -27,7 +27,7 @@
 		
 			<p><code>LoggerAppenderMongoDB</code> appends log events to a mongoDB instance.</p>
 			
-			<p><a href="http://www.mongodb.org/" target="_blank" class="externalLink">MongoDB</a> is a scalable, 
+			<p><a href="http://www.mongodb.org/" class="external">MongoDB</a> is a scalable, 
 			high-performance, open source, document-oriented database.</p>
 		
 			<subsection name="Layout">

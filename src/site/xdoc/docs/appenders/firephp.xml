@@ -26,11 +26,11 @@
 		<section name="LoggerAppenderFirePHP">
 		
 			<p><code>LoggerAppenderFirePHP</code> logs events via the 
-				<a href="http://www.firephp.org/" target="_blank">FirePHP</a> serverside library. The messages are 
-				logged in HTTP headers and can be viewed using the <a target="_blank" 
+				<a href="http://www.firephp.org/" class="external">FirePHP</a> serverside library. The messages are 
+				logged in HTTP headers and can be viewed using the <a class="external" 
 				href="http://developercompanion.com/">Developer compainion</a> plugin for Firefox.</p>
 		
-			<p>Requires the FirePHP server-side library 1.0 or greater. Download it from <a target="_blank" 
+			<p>Requires the FirePHP server-side library 1.0 or greater. Download it from <a class="external" 
 				href="http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Welcome">here</a>.</p>
 				
 			<div class="alert">
