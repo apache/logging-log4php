@@ -20,7 +20,6 @@ div.clear hr { display: none; }
 
 /* Tweaks to the bootstrap theme
 --------------------------------- */
-
 li { line-height: 20px; }
 tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 3px 4px; color: #d14; background-color: #f7f7f9; border: 1px solid #e1e1e8; }
 
@@ -31,20 +30,20 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 .sidebar-nav { padding: 9px 0; }
 
 .navbar .nav { margin-left: 40px; }
-.navbar-inner { border-radius: 0px; -webkit-border-radius: 0px; -moz-border-radius: 0px; }
 
 .nav-list { margin-bottom: 15px; }
 .nav-list li { line-height: 16px; }
 .nav-list li.nav-header { color: #333; }
 .nav-list li.nav-header i { margin-right: 5px; }
-.nav-list li a { background-repeat: no-repeat; background-position: 16px 9px; padding-left: 28px; }
 
-.nav-list .collapsed > a { background-image: url(../images/collapsed.gif) }
-.nav-list .expanded > a { background-image: url(../images/expanded.gif) }
-.nav-list .expanded ul { list-style: none; margin-left: 0px; }
-.nav-list .expanded li a { display: block; padding: 3px 15px 3px 45px; margin-left: -15px; margin-right: -15px; }
-.nav-list .expanded li a:hover { text-decoration: none; background-color: #eeeeee; }
-.nav-list .expanded li.active a:hover { text-decoration: none; background-color: #08C; }
+.nav-list li a { background-repeat: no-repeat; background-position: 16px 9px; padding-left: 34px; }
+.nav-list li.collapsed > a { background-image: url(../images/collapsed.gif) }
+.nav-list li.expanded > a { background-image: url(../images/expanded.gif) }
+
+.nav-list li.expanded ul { list-style: none; margin-left: 0px; }
+.nav-list li.expanded li a { display: block; padding: 3px 15px 3px 45px; margin-left: -15px; margin-right: -15px; }
+.nav-list li.expanded li a:hover { text-decoration: none; background-color: #eeeeee; }
+.nav-list li.expanded li.active a { background-color: #08C; color: white }
 
 .nav.nav-tabs { margin-bottom: 8px; }
 
@@ -62,7 +61,6 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 
 /* Pretty printing styles. Used with prettify.js. 
 ---------------------------------------------------- */
-
 .com { color: #93a1a1; }
 .lit { color: #195f91; }
 .pun, .opn, .clo { color: #93a1a1; }
