@@ -54,7 +54,7 @@ tt { font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; -web
 .section h4 { margin-bottom: 10px; }
 
 .footer { background-color: whitesmoke; padding: 15px; margin-top: 15px; text-align: right; border-top: 1px solid #EEEEEE; }
-.footer p { font-size: 11px; }
+.footer p { font-size: 11px; margin: 0 }
 
 .table-not-wide { width: inherit;}
 .alert-heading { display: block; font-size: 14px; margin-bottom: 6px; font-weight: bold; } 
