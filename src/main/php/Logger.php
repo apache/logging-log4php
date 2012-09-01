@@ -202,9 +202,6 @@ class Logger {
 	 * @param mixed $message message to log
 	 */
 	public function forcedLog($fqcn, $throwable, LoggerLevel $level, $message) {
-		if (!($throwable instanceof Exception)) {
-			$throwable = null;
-		}
 		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable));
 	} 
 	
