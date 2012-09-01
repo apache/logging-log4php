@@ -222,19 +222,10 @@ class LoggerLoggingEvent {
 
 	/**
 	 * Return the message for this logging event.
-	 *
-	 * <p>Before serialization, the returned object is the message
-	 * passed by the user to generate the logging event. After
-	 * serialization, the returned value equals the String form of the
-	 * message possibly after object rendering.
 	 * @return mixed
 	 */
 	public function getMessage() {
-		if($this->message !== null) {
-			return $this->message;
-		} else {
-			return $this->getRenderedMessage();
-		}
+		return $this->message;
 	}
 
 	/**
