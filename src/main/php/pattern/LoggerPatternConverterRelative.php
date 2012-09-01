@@ -30,7 +30,7 @@
 class LoggerPatternConverterRelative extends LoggerPatternConverter {
 
 	public function convert(LoggerLoggingEvent $event) {
-		$ts = $event->getTimeStamp() - $event->getStartTime();
+		$ts = $event->getRelativeTime();
 		return number_format($ts, 4);
 	}
 }

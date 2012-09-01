@@ -122,7 +122,7 @@ class LoggerLayoutHtml extends LoggerLayout {
 		$sbuf = PHP_EOL . "<tr>" . PHP_EOL;
 	
 		$sbuf .= "<td>";
-		$sbuf .= $event->getTime();
+		$sbuf .= round(1000 * $event->getRelativeTime());
 		$sbuf .= "</td>" . PHP_EOL;
 	
 		$sbuf .= "<td title=\"" . $event->getThreadName() . " thread\">";

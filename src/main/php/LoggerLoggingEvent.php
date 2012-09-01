@@ -305,8 +305,23 @@ class LoggerLoggingEvent {
 	}
 	
 	/**
-	 * Calculates the time of this event.
-	 * @return the time after event starttime when this event has occured
+	 * Returns the time in seconds passed from the beginning of execution to 
+	 * the time the event was constructed.
+	 * 
+	 * @return float Seconds with microseconds in decimals.
+	 */
+	public function getRelativeTime() {
+		return $this->timeStamp - self::$startTime;
+	}
+	
+	/**
+	 * Returns the time in milliseconds passed from the beginning of execution
+	 * to the time the event was constructed.
+	 * 
+	 * @deprecated This method has been replaced by getRelativeTime which 
+	 * 		does not perform unneccesary multiplication and formatting.
+	 * 
+	 * @return integer 
 	 */
 	public function getTime() {
 		$eventTime = $this->getTimeStamp();
