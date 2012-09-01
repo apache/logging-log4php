@@ -175,7 +175,7 @@ class LoggerLevel {
 	}
 	
 	/**
-	 * Return the syslog equivalent of this priority as an integer.
+	 * Return the syslog equivalent of this level as an integer.
 	 * @return integer
 	 */
 	public function getSyslogEquivalent() {

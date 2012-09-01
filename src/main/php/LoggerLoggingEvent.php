@@ -112,12 +112,12 @@ class LoggerLoggingEvent {
 	*
 	* @param string $fqcn name of the caller class.
 	* @param mixed $logger The {@link Logger} category of this event or the logger name.
-	* @param LoggerLevel $priority The level of this event.
+	* @param LoggerLevel $level The level of this event.
 	* @param mixed $message The message of this event.
 	* @param integer $timeStamp the timestamp of this logging event.
 	* @param Exception $throwable The throwable associated with logging event
 	*/
-	public function __construct($fqcn, $logger, $priority, $message, $timeStamp = null, $throwable = null) {
+	public function __construct($fqcn, $logger, LoggerLevel $level, $message, $timeStamp = null, $throwable = null) {
 		$this->fqcn = $fqcn;
 		if($logger instanceof Logger) {
 			$this->logger = $logger;
@@ -125,7 +125,7 @@ class LoggerLoggingEvent {
 		} else {
 			$this->categoryName = strval($logger);
 		}
-		$this->level = $priority;
+		$this->level = $level;
 		$this->message = $message;
 		if($timeStamp !== null && is_float($timeStamp)) {
 			$this->timeStamp = $timeStamp;
