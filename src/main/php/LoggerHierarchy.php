@@ -56,7 +56,7 @@ class LoggerHierarchy {
 	 * The root logger.
 	 * @var RootLogger 
 	 */
-	protected $root = null;
+	protected $root;
 	
 	/** 
 	 * The logger renderer map.

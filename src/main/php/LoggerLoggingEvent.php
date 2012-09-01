@@ -36,7 +36,7 @@ class LoggerLoggingEvent {
 	/**
 	* @var Logger reference
 	*/
-	private $logger = null;
+	private $logger;
 	
 	/** 
 	 * The category (logger) name.
@@ -78,14 +78,14 @@ class LoggerLoggingEvent {
 	 * objet rendering mechanism. At present renderedMessage == message.
 	 * @var string
 	 */
-	private $renderedMessage = null;
+	private $renderedMessage;
 	
 	/** 
 	 * The name of thread in which this logging event was generated.
 	 * log4php saves here the process id via {@link PHP_MANUAL#getmypid getmypid()} 
 	 * @var mixed
 	 */
-	private $threadName = null;
+	private $threadName;
 	
 	/** 
 	* The number of seconds elapsed from 1/1/1970 until logging event
@@ -97,12 +97,12 @@ class LoggerLoggingEvent {
 	/** 
 	* @var LoggerLocationInfo Location information for the caller. 
 	*/
-	private $locationInfo = null;
+	private $locationInfo;
 	
 	/**
 	 * @var LoggerThrowableInformation log4php internal representation of throwable
 	 */
-	private $throwableInfo = null;
+	private $throwableInfo;
 	
 	/**
 	* Instantiate a LoggingEvent from the supplied parameters.
