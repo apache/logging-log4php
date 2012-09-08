@@ -164,7 +164,7 @@ class LoggerAppenderFile extends LoggerAppender {
 		if (is_resource($this->fp)) {
 			$this->write($this->layout->getFooter());
 			fclose($this->fp);
-			unset($this->fp);
+			$this->fp = null;
 		}
 		$this->closed = true;
 	}
