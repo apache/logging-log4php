@@ -182,7 +182,9 @@ class LoggerAppenderRollingFile extends LoggerAppenderFile {
 	protected function write($string) {
 		// Lazy file open
 		if(!isset($this->fp)) {
-			$this->openFile();
+			if ($this->openFile() === false) {
+				return; // Do not write if file open failed.
+			}
 		}
 		
 		// Lock the file while writing and possible rolling over

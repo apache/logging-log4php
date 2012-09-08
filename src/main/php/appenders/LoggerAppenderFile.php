@@ -75,6 +75,8 @@ class LoggerAppenderFile extends LoggerAppender {
 	/**
 	 * Acquires the target file resource, creates the destination folder if 
 	 * necessary. Writes layout header to file.
+	 * 
+	 * @return boolean FALSE if opening failed
 	 */
 	protected function openFile() {
 		$file = $this->getTargetFile();
@@ -88,7 +90,7 @@ class LoggerAppenderFile extends LoggerAppender {
 				if ($success === false) {
 					$this->warn("Failed creating target directory [$dir]. Closing appender.");
 					$this->closed = true;
-					return;
+					return false;
 				}
 			}
 		}
@@ -97,8 +99,9 @@ class LoggerAppenderFile extends LoggerAppender {
 		$this->fp = fopen($file, $mode);
 		if ($this->fp === false) {
 			$this->warn("Failed opening target file. Closing appender.");
+			$this->fp = null;
 			$this->closed = true;
-			return;
+			return false;
 		}
 		
 		// Required when appending with concurrent access
@@ -117,7 +120,9 @@ class LoggerAppenderFile extends LoggerAppender {
 	protected function write($string) {
 		// Lazy file open
 		if(!isset($this->fp)) {
-			$this->openFile();
+			if ($this->openFile() === false) {
+				return; // Do not write if file open failed.
+			}
 		}
 		
 		if ($this->locking) {
@@ -159,6 +164,7 @@ class LoggerAppenderFile extends LoggerAppender {
 		if (is_resource($this->fp)) {
 			$this->write($this->layout->getFooter());
 			fclose($this->fp);
+			unset($this->fp);
 		}
 		$this->closed = true;
 	}
