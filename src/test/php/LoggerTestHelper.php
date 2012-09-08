@@ -27,32 +27,50 @@
 /** A set of helper functions for running tests. */
 class LoggerTestHelper {
 	
-	/** Returns a test logging event with level set to TRACE. */
+	/** 
+	 * Returns a test logging event with level set to TRACE. 
+	 * @return LoggerLoggingEvent
+	 */
 	public static function getTraceEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelTrace(), $message);
 	}
 	
-	/** Returns a test logging event with level set to DEBUG. */
+	/** 
+	 * Returns a test logging event with level set to DEBUG. 
+	 * @return LoggerLoggingEvent
+	 */
 	public static function getDebugEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelDebug(), $message);
 	}
 	
-	/** Returns a test logging event with level set to INFO. */
+	/** 
+	 * Returns a test logging event with level set to INFO.
+	 * @return LoggerLoggingEvent 
+	 */
 	public static function getInfoEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelInfo(), $message);
 	}
 	
-	/** Returns a test logging event with level set to WARN. */
+	/** 
+	 * Returns a test logging event with level set to WARN. 
+	 * @return LoggerLoggingEvent
+	 */
 	public static function getWarnEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelWarn(), $message);
 	}
 	
-	/** Returns a test logging event with level set to ERROR. */
+	/** 
+	 * Returns a test logging event with level set to ERROR. 
+	 * @return LoggerLoggingEvent
+	 */
 	public static function getErrorEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelError(), $message);
 	}
 	
-	/** Returns a test logging event with level set to FATAL. */
+	/** 
+	 * Returns a test logging event with level set to FATAL. 
+	 * @return LoggerLoggingEvent
+	 */
 	public static function getFatalEvent($message = 'test', $logger = "test") {
 		return new LoggerLoggingEvent(__CLASS__, new Logger($logger), LoggerLevel::getLevelFatal(), $message);
 	}
