@@ -21,15 +21,15 @@
 	</properties>
 	<body>
 		<release version="2.3.0" date="SVN">
-			<action date="2011-05-29" type="update" dev="Ivan Habunek">Removed $_ENV and $_SERVER access from LoggerMDC.</action>
-		    <action date="2011-03-19" type="update" dev="Ivan Habunek">Made LoggerLayoutTTCC deprecated.</action>
-			<action date="2011-02-28" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek">Fixed formatting bug in LoggerLayoutPattern.</action>
-			<action date="2011-02-28" type="update" issue="LOG4PHP-172" dev="Ivan Habunek">Rewritten pattern system to allow longer conversion words and some new ones.</action>
-			<action date="2011-02-28" type="add" issue="LOG4PHP-134" dev="Ivan Habunek">Added reconnectAttempts parameter to LoggerAppenderPDO. Adds support for reconnect if connection fails while appending.</action>
-			<action date="2011-03-26" type="add" issue="LOG4PHP-174" dev="Florian Semm">Firephp appender logs to Firebug console.</action>
+			<action date="2012-05-29" type="update" dev="Ivan Habunek">Removed $_ENV and $_SERVER access from LoggerMDC.</action>
+		    <action date="2012-03-19" type="update" dev="Ivan Habunek">Made LoggerLayoutTTCC deprecated.</action>
+			<action date="2012-02-28" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek">Fixed formatting bug in LoggerLayoutPattern.</action>
+			<action date="2012-02-28" type="update" issue="LOG4PHP-172" dev="Ivan Habunek">Rewritten pattern system to allow longer conversion words and some new ones.</action>
+			<action date="2012-02-28" type="add" issue="LOG4PHP-134" dev="Ivan Habunek">Added reconnectAttempts parameter to LoggerAppenderPDO. Adds support for reconnect if connection fails while appending.</action>
+			<action date="2012-03-26" type="add" issue="LOG4PHP-174" dev="Florian Semm">Firephp appender logs to Firebug console.</action>
 		</release>
 	    <release version="2.2.1" date="2012-02-18">
-	        <action date="2011-02-07" type="fix" issue="LOG4PHP-168" dev="Ivan Habunek">Fixed a bug which prevented configuration by passing a LoggerConfigurator instance.</action>
+	        <action date="2012-02-07" type="fix" issue="LOG4PHP-168" dev="Ivan Habunek">Fixed a bug which prevented configuration by passing a LoggerConfigurator instance.</action>
 	    	<action date="2012-01-29" type="fix" issue="LOG4PHP-167" dev="Ivan Habunek">Fixed a bug which prevented parsing of INI configuration files when using PHP 5.2.x.</action>
 	        <action date="2011-12-22" type="update" issue="LOG4PHP-166" dev="Ivan Habunek" due-to="David Hilowitz" due-to-email="dhilowitz at gmail dot com">Added connection timeout parameter to MongoDB appender.</action>
 	    </release>
