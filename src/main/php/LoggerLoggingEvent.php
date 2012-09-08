@@ -127,7 +127,7 @@ class LoggerLoggingEvent {
 		}
 		$this->level = $level;
 		$this->message = $message;
-		if($timeStamp !== null && is_float($timeStamp)) {
+		if($timeStamp !== null && is_numeric($timeStamp)) {
 			$this->timeStamp = $timeStamp;
 		} else {
 			$this->timeStamp = microtime(true);
