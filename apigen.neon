@@ -19,3 +19,4 @@ charset: UTF-8
 title: Apache log4php
 progressbar: no
 googleAnalytics: UA-26177991-1
+php: no
