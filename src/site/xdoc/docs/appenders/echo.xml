@@ -72,37 +72,37 @@
 				
 					<div class="tab-content" >
 						<div class="tab-pane">
-	<pre class="prettyprint"><![CDATA[
-	<configuration xmlns="http://logging.apache.org/log4php/">
-	    <appender name="default" class="LoggerAppenderEcho">
-	        <layout class="LoggerLayoutSimple" />
-	        <param name="htmlLineBreaks" value="true" />
-	    </appender>
-	    <root>
-	        <appender_ref ref="default" />
-	    </root>
-	</configuration>
-	]]></pre>
+<pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderEcho">
+        <layout class="LoggerLayoutSimple" />
+        <param name="htmlLineBreaks" value="true" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
 						</div>
 						<div class="tab-pane">
-	<pre class="prettyprint"><![CDATA[
-	array(
-	    'appenders' => array(
-	        'default' => array(
-	            'class' => 'LoggerAppenderEcho',
-	            'layout' => array(
-	                'class' => 'LoggerLayoutSimple',
-	            ),
-	            'params' => array(
-	                'htmlLineBreaks' => 'true',
-	            ),
-	        ),
-	    ),
-	    'rootLogger' => array(
-	        'appenders' => array('default'),
-	    ),
-	);
-	]]></pre>
+<pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderEcho',
+            'layout' => array(
+                'class' => 'LoggerLayoutSimple',
+            ),
+            'params' => array(
+                'htmlLineBreaks' => 'true',
+            ),
+        ),
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+);
+]]></pre>
 						</div>
 					</div>
 				</div>
