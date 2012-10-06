@@ -25,12 +25,24 @@
 	<body>
 		<section name="LoggerAppenderDailyFile">
 		
-			<p><code>LoggerAppenderDailyFile</code> writes logging events to a file. The file is rolled over 
-			once a day. In other words, for each day a new file is created.</p>
+			<p><code>LoggerAppenderDailyFile</code> writes logging events to a file which is rolled over depending on 
+			the date/time of the logging event. By default, the file is rolled over daily, hence the appender name. 
+			However, the appender can just as easily be configured to roll over once a month, or even every minute 
+			if desired.</p>
 			
-			<p>The path specified in the <code>file</code> parameter string should contain the string <code>%s</code> 
-			which will be substituted with the current date when logging. The <code>datePattern</code> parameter 
-			determines how the date will be formatted.</p>
+			<p>Unlike <code>LoggerAppenderFile</code>, the target file is not static, and can change during script 
+			execution as the time passes. Destination file is determined by two parameters: <code>file</code> and
+			<code>datePattern</code>.</p>
+			
+			<p>The path specified in the <code>file</code> parameter should contain the string <code>%s</code>. 
+			Each time an event is logged, this string will be substituted with 
+			the event's date/time formatted according to <code>datePattern</code> and the event will be logged to 
+			the resulting file path.</p>
+			
+			<p>The date/time is formatted according to format string specified in the <code>datePattern</code> 
+			parameter. The format uses the same rules as the PHP <code><a class="external" 
+			href="http://php.net/manual/en/function.date.php">date()</a></code> function. Any format string supported
+			by <code>date()</code> function may be used as a date pattern.</p>
 			
 			<subsection name="Layout">
 				<p>This appender requires a layout. If no layout is specified in configuration, 
@@ -81,11 +93,8 @@
 				
 			<subsection name="Examples">
 				
-				<p>This example shows how to configure <code>LoggerAppenderDailyFile</code>.</p>
-				
-				<p>The date pattern used is <code>Y-m-d</code> which will result in filenames similar to 
-				<code>file-2011-10-01.log</code>.</p>
-				
+				<p>Consider the following configuration:</p>
+			
 				<div class="auto-tabs">
 					<ul>
 						<li>XML</li>
@@ -130,6 +139,30 @@ array(
 						</div>
 					</div>
 				</div>
+				
+				<p>In this example, the date pattern is set to <code>Y-m-d</code> (year, month, day) and the target 
+				file to <code>daily.%s.log</code>.</p>
+				
+				<p>Each time this appender receives a logging event, it will:</p>
+				
+				<ol>
+					<li>Format the event date/time according to the configured date pattern. Let's say this sample 
+					is run during 10th of July 2012, then the formatted date is <code>2012-07-10</code></li>
+					<li>Replace the <code>%s</code> in the filename with the formated date to get the target file. 
+					In this case, the target file will be <code>daily.2012-07-10.log</code>.</li>
+					<li>Write to the target file.</li>
+				</ol>
+				
+				<p>If you continue logging using the given configuration, the appender will continue to log to 
+				<code>daily.2012-07-10.log</code>, until the date changes. At that point it will start logging to 
+				<code>daily.2012-07-11.log</code>.</p>
+				
+				<p>Similarly, date pattern <code>Y-m</code> will result in filenames like <code>file-2012-07.log</code>,
+				 which will result in monthly rollover.</p>
+				
+				<p>Hours, minutes and seconds can also be used. Pattern <code>Y-m-d.H.i.s</code> will result 
+				in filenames similar to <code>file-2012-07-03.10.37.15.log</code>. In this case, a new file will be 
+				created each second.</p>
 			</subsection>
 		</section>
 	</body>
