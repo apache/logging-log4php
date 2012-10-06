@@ -36,6 +36,7 @@
 				<p><strong>New features:</strong></p>
 				<ul>
 					<li>New appender: <a href="docs/appenders/firephp.html">FirePHP</a> (thanks to Bruce Ingalls)</li>
+					<li>Ability to override the <a href="docs/renderers.html#Default_renderer">default renderer</a>.</li>
 				</ul>
 				
 				<p><strong>Improvements:</strong></p>
@@ -63,6 +64,8 @@
 						access $_SERVER and $_ENV values using <code>%X{server.*}</code> and <code>%X{env.*}</code>
 						conversion words; use the new words <code>%server{*}</code> and <code>%env{*}</code> instead.
 						</li>
+					<li>Custom renderer classes should implement the <code>LoggerRenderer</code> interface instead of  
+						<code>LoggerRendererObject</code>.</li>
 				</ul>
 				<p>Please review the documentation and make any necessary changes to your configuration.</p>
 				

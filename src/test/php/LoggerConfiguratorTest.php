@@ -185,7 +185,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
 
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Invalid class [stdClass] given. Not a valid LoggerRenderer class. Skipping renderers definition.
+ 	 * @expectedExceptionMessage Failed adding renderer. Rendering class [stdClass] does not implement the LoggerRenderer interface.
  	 */
  	public function testInvalidRenderingClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/renderers/config_invalid_rendering_class.xml');
@@ -193,7 +193,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  	
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Rendering class not specified. Skipping renderers definition.
+ 	 * @expectedExceptionMessage Rendering class not specified. Skipping renderer definition.
  	 */
  	public function testNoRenderingClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/renderers/config_no_rendering_class.xml');
@@ -201,23 +201,15 @@ class CostumDefaultRenderer implements LoggerRenderer {
 
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Rendered class not specified for rendering Class [LoggerRendererDefault]. Skipping renderers definition.
+ 	 * @expectedExceptionMessage Rendered class not specified. Skipping renderer definition.
  	 */
  	public function testNoRenderedClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/renderers/config_no_rendered_class.xml');
  	} 	
  	
-     /**
- 	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistant rendered class [RenderFooClass] specified for renderer [LoggerRendererDefault]. Skipping renderers definition.
- 	 */
- 	public function testNotExistingRenderedClassSet() {
- 		Logger::configure(PHPUNIT_CONFIG_DIR . '/renderers/config_not_existing_rendered_class.xml');
- 	} 	
- 	
  	/**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistant rendering class [FooRenderer] specified. Skipping renderers definition.
+ 	 * @expectedExceptionMessage Failed adding renderer. Rendering class [DoesNotExistRenderer] not found.
  	 */
  	public function testNotExistingRenderingClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/renderers/config_not_existing_rendering_class.xml');
@@ -456,34 +448,5 @@ class CostumDefaultRenderer implements LoggerRenderer {
  				),
  			) 
  		));
- 	}
- 	
- 	public function testConfigureRenderer_ShouldReturnBuildInObjectRenderer() {
- 		Logger::configure(array(
- 			'rootLogger' => array(
- 				'appenders' => array('default')
- 			),
- 			'appenders' => array(
- 				'default' => array(
- 					'class' => 'LoggerAppenderEcho',
- 					'threshold' => 'INFO'
- 				),
- 			) 
- 		));
- 			
- 		$actualDefaultObjectRenderer = Logger::getHierarchy()->getRendererMap()->getDefaultObjectRenderer();
- 		
- 		$this->assertTrue($actualDefaultObjectRenderer instanceof LoggerRendererObject, 'build in object renderer');
- 	} 	
- 	
- 	public function testConfigureRenderer_SetupCostumDefaultObjectRenderer() {
- 		Logger::configure(array(
- 			'renderers' => array(
- 					array('defaultObjectRenderer' => 'CostumDefaultRenderer')
- 			)));
- 		
- 		$actualCostumObjectRenderer = Logger::getHierarchy()->getRendererMap()->getDefaultObjectRenderer();
- 		
- 		$this->assertNotNull($actualCostumObjectRenderer, 'costum default object renderer');
  	}
  }

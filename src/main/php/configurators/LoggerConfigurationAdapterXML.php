@@ -62,6 +62,12 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		foreach($xml->renderer as $rendererNode) {
 			$this->parseRenderer($rendererNode);
 		}
+
+		// Process <defaultRenderer> node
+		foreach($xml->defaultRenderer as $rendererNode) {
+			$this->parseDefaultRenderer($rendererNode);
+		}
+
 		return $this->config;
 	}
 	
@@ -243,6 +249,18 @@ class LoggerConfigurationAdapterXML implements LoggerConfigurationAdapter
 		$renderingClass = $this->getAttributeValue($node, 'renderingClass');
 		
 		$this->config['renderers'][] = compact('renderedClass', 'renderingClass');
+	}
+	
+	/** Parses a <defaultRenderer> node. */
+	private function parseDefaultRenderer(SimpleXMLElement $node) {
+		$renderingClass = $this->getAttributeValue($node, 'renderingClass');
+		
+		// Warn on duplicates
+		if(isset($this->config['defaultRenderer'])) {
+			$this->warn("Duplicate <defaultRenderer> node. Overwriting.");
+		}
+		
+		$this->config['defaultRenderer'] = $renderingClass; 
 	}
 	
 	// ******************************************

@@ -19,19 +19,9 @@
  */
 
 /**
- * The default Renderer renders objects by type casting.
+ * The default renderer, which is used when no other renderer is found.
  * 
- * Example:
- * 
- * {@example ../../examples/php/renderer_default.php 19}<br>
- * {@example ../../examples/resources/renderer_default.properties 18}<br>
- * <pre>
- * DEBUG - Now comes the current MyClass object:
- * DEBUG - Person::__set_state(array(
- *  'firstName' => 'John',
- *  'lastName' => 'Doe',
- * ))
- * </pre>
+ * Renders the input using <var>print_r</var>.
  *
  * @package log4php
  * @subpackage renderers
@@ -39,13 +29,8 @@
  */
 class LoggerRendererDefault implements LoggerRenderer {
 
-	/**
-	 * Render objects by type casting
-	 *
-	 * @param mixed $input the object to render
-	 * @return string
-	 */
+	/** @inheritdoc */
 	public function render($input) {
-		return var_export($input, true);
+		return print_r($input, true);
 	}
 }

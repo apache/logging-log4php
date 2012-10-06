@@ -19,17 +19,7 @@
  */
 
 /**
- * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
- *
- * Implement this interface in order to render objects as strings using {@link LoggerRendererMap}.
- *
- * Example:
- * {@example ../../examples/php/renderer_map.php 19}<br>
- * {@example ../../examples/resources/renderer_map.properties 18}<br>
- * <pre>
- * DEBUG - Now comes the current MyClass object:
- * DEBUG - Doe, John
- * </pre>
+ * Implement this interface in order to render objects to strings.
  *
  * @version $Revision$
  * @package log4php
@@ -38,9 +28,9 @@
  */
 interface LoggerRenderer {
 	/**
-	 * Render the entity passed as parameter as a String.
-	 * @param mixed $input entity to render
-	 * @return string
+	 * Renders the entity passed as <var>input</var> to a string.
+	 * @param mixed $input The entity to render.
+	 * @return string The rendered string.
 	 */
 	public function render($input);
 }

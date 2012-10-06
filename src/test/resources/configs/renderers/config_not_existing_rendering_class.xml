@@ -20,7 +20,7 @@
         <layout class="LoggerLayoutSimple"/>
     </appender>
     
-    <renderer renderedClass="stdClass" renderingClass="FooRenderer" />
+    <renderer renderedClass="stdClass" renderingClass="DoesNotExistRenderer" />
     
     <root>
         <level value="DEBUG" />
