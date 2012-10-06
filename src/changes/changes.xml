@@ -24,6 +24,7 @@
 			<action date="2012-10-06" type="update" issue="LOG4PHP-186" dev="Ivan Habunek" due-to="Rasmus Lerdorf" due-to-email="rasmus at lerdorf dot com">Don't clear the entire stat cache on an append.</action>
 			<action date="2012-10-06" type="add" issue="LOG4PHP-141" dev="Ivan Habunek">Allow setting of a default renderer.</action>
 			<action date="2012-09-08" type="update" issue="LOG4PHP-120" dev="Ivan Habunek" due-to="Michal Vanek" due-to-email="michal dot vanek at gmail dot com">Fixed LoggerAppenderDailyFile to rollover on date change in long running scipts.</action>
+			<action date="2012-08-18" type="fix" issue="LOG4PHP-184" dev="Ivan Habunek">Re-enabled usage of PHP constants in config parameters.</action>
 			<action date="2012-05-29" type="update" dev="Ivan Habunek">Removed $_ENV and $_SERVER access from LoggerMDC.</action>
 		    <action date="2012-03-19" type="update" dev="Ivan Habunek">Made LoggerLayoutTTCC deprecated.</action>
 			<action date="2012-02-28" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek">Fixed formatting bug in LoggerLayoutPattern.</action>
