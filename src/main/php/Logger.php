@@ -170,7 +170,34 @@ class Logger {
 	 */
 	public function log(LoggerLevel $level, $message, $throwable = null) {
 		if($this->isEnabledFor($level)) {
-			$this->forcedLog($this->fqcn, $throwable, $level, $message);
+			$event = new LoggerLoggingEvent($this->fqcn, $this, $level, $message, null, $throwable);
+			$this->callAppenders($event);
+		}
+		
+		// Forward the event upstream if additivity is turned on
+		if(isset($this->parent) && $this->getAdditivity()) {
+			
+			// Use the event if already created
+			if (isset($event)) {
+				$this->parent->logEvent($event);
+			} else {
+				$this->parent->log($level, $message, $throwable);
+			}
+		}
+	}
+	
+	/**
+	 * Logs an already prepared logging event object. 
+	 * @param LoggerLoggingEvent $event
+	 */
+	public function logEvent(LoggerLoggingEvent $event) {
+		if($this->isEnabledFor($event->getLevel())) {
+			$this->callAppenders($event);
+		}
+		
+		// Forward the event upstream if additivity is turned on
+		if(isset($this->parent) && $this->getAdditivity()) {
+			$this->parent->logEvent($event);
 		}
 	}
 	
@@ -202,8 +229,24 @@ class Logger {
 	 * @param mixed $message message to log
 	 */
 	public function forcedLog($fqcn, $throwable, LoggerLevel $level, $message) {
-		$this->callAppenders(new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable));
-	} 
+		$event = new LoggerLoggingEvent($fqcn, $this, $level, $message, null, $throwable);
+		$this->callAppenders($event);
+		
+		// Forward the event upstream if additivity is turned on
+		if(isset($this->parent) && $this->getAdditivity()) {
+			$this->parent->logEvent($event);
+		}
+	}
+
+	/**
+	 * Forwards the given logging event to all linked appenders.
+	 * @param LoggerLoggingEvent $event
+	 */
+	public function callAppenders($event) {
+		foreach($this->appenders as $appender) {
+			$appender->doAppend($event);
+		}
+	}
 	
 	// ******************************************
 	// *** Checker methods                    ***
@@ -298,22 +341,6 @@ class Logger {
 		} else if (is_string($appender) and isset($this->appenders[$appender])) {
 			$this->appenders[$appender]->close();
 			unset($this->appenders[$appender]);
-		}
-	}
-	
-	/**
-	 * Forwards the given logging event to all linked appenders.
-	 * @param LoggerLoggingEvent $event 
-	 */
-	public function callAppenders($event) {
-		// Forward the event to each linked appender
-		foreach($this->appenders as $appender) {
-			$appender->doAppend($event);
-		}
-		
-		// Forward the event upstream if additivity is turned on
-		if(isset($this->parent) && $this->getAdditivity()) {
-			$this->parent->callAppenders($event);
 		}
 	}
 	
