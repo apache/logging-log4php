@@ -321,6 +321,7 @@
 							<configuration>
 								<statusIds>Resolved, Closed</statusIds>
 								<columnNames>Type,Key,Summary,Assignee,Status,Resolution,Fix Version</columnNames>
+								<useJql>true</useJql>
 							</configuration>
 						</plugin>
 						
