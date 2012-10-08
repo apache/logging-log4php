@@ -64,7 +64,7 @@ class LoggerPatternParser {
 			self::ESCAPE_CHAR .         // Character which marks the start of the conversion pattern
 			'(?P<modifiers>[0-9.-]*)' . // Format modifiers (optional)
 			'(?P<word>[a-zA-Z]+)' .     // The conversion word
-			'(?P<option>{[^}]*})?' .   // Conversion option in braces (optional)
+			'(?P<option>{[^}]*})?' .    // Conversion option in braces (optional)
 			'/';                        // Ending regex pattern delimiter
 	}
 	
@@ -229,10 +229,9 @@ class LoggerPatternParser {
 		if (!empty($parts[1])) {
 			$maxPart = (integer) $parts[1];
 			$info->max = abs($maxPart);
-			$info->trimLeft = ($maxPart > 0);
+			$info->trimLeft = ($maxPart < 0);
 		}
 	
 		return $info;
 	}
 }
-
