@@ -29,14 +29,17 @@
 				<param name="fromDepth" value="2"/>
 			</macro>
 
-			<subsection name="Apache log4php v2.3.0 ()" id="Apache_log4php_v2.3.0">
+			<subsection name="Apache log4php v2.3.0" id="Apache_log4php_v2.3.0">
 				<p>Release date: TBA</p>
 				<p><a href="changes-report.html#a2.3.0">JIRA change log</a></p>
+				<p>This release introduces various new features and improvements</p>
 				
 				<p><strong>New features:</strong></p>
 				<ul>
-					<li>New appender: <a href="docs/appenders/firephp.html">FirePHP</a> (thanks to Bruce Ingalls)</li>
-					<li>Ability to override the <a href="docs/renderers.html#Default_renderer">default renderer</a>.</li>
+					<li>Ability to <a href="docs/renderers.html#Overriding_the_default_renderer">override the default 
+						renderer</a>.</li>
+					<li>New appender: <a href="docs/appenders/firephp.html">FirePHP</a> (thanks to Bruce Ingalls). 
+						Still in experimental phase.</li>
 				</ul>
 				
 				<p><strong>Improvements:</strong></p>
@@ -49,10 +52,25 @@
 							<li>changed the default conversion pattern to be more verbose</li>
 						</ul>
 					</li>
+					<li><a href="docs/appenders/pdo.html">LoggerAppenderPDO</a> will attempt to reconnect a couple of 
+						times if logging fails. This solves the problem with the connection expiring in long running 
+						scripts.</li>
+					<li><a href="docs/appenders/daily-file.html">LoggerAppenderDailyFile</a> will rollover even in 
+						long running scripts.</li>
+					<li><a href="docs/appenders/mongodb.html">LoggerAppenderMongoDB</a> has improved error reporting
+						</li>
 				</ul>
+				
+		        <p><strong>Bugfixes:</strong></p>
+		        <ul>
+		            <li>Fixed a bug where upstream loggers would log events regardless of their level.</li>
+		            <li>Re-enabled usage of PHP constants in config parameters.</li>
+		        </ul>
 				
 				<p><strong>Breaking changes:</strong></p>
 				<ul>
+					<li><a href="docs/layouts/ttcc.html">LoggerLayoutTTCC</a> has been made deprecated. Please switch 
+						to <a href="docs/layouts/pattern.html">LoggerLayoutPatern</a>.</li>
 					<li>Several changes to <a href="docs/appenders/pdo.html">LoggerAppenderPDO</a>:
 						<ul>
 							<li>a database table for logging will no longer be created by the appender; the user must 
@@ -60,13 +78,14 @@
 							<li>the default date pattern does not include milliseconds (this is faster)</li>
 						</ul>
 					</li>
-					<li>In the <a href="docs/layouts/pattern.html">pattern layout</a>, it is no longer possible to 
+					<li>In <a href="docs/layouts/pattern.html">LoggerLayoutPattern</a>, it is no longer possible to 
 						access $_SERVER and $_ENV values using <code>%X{server.*}</code> and <code>%X{env.*}</code>
 						conversion words; use the new words <code>%server{*}</code> and <code>%env{*}</code> instead.
 						</li>
 					<li>Custom renderer classes should implement the <code>LoggerRenderer</code> interface instead of  
-						<code>LoggerRendererObject</code>.</li>
+					<code>LoggerRendererObject</code>.</li>
 				</ul>
+				
 				<p>Please review the documentation and make any necessary changes to your configuration.</p>
 				
 			</subsection>
