@@ -59,6 +59,7 @@ class LoggerLayoutPattern extends LoggerLayout {
 		'env' => 'LoggerPatternConverterEnvironment',
 		
 		'ex' => 'LoggerPatternConverterThrowable',
+		'exception' => 'LoggerPatternConverterThrowable',
 		'throwable' => 'LoggerPatternConverterThrowable',
 		
 		'F' => 'LoggerPatternConverterFile',

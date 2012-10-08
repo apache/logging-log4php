@@ -21,50 +21,20 @@
 /**
  * Returns the throwable information linked to the logging event, if any.
  * 
- * Option: the maximum stack trace lines to return (returns all if not set)
- * 
  * @package log4php
  * @subpackage pattern
  * @version $Revision$
  * @since 2.3
  */
 class LoggerPatternConverterThrowable extends LoggerPatternConverter {
-	
-	private $depth;
-	
-	public function activateOptions() {
-		if (isset($this->option) && is_numeric($op) && $op >= 0) {
-			$this->depth = (integer) $this->option;
-		}
-	}
-	
+
 	public function convert(LoggerLoggingEvent $event) {
-		
 		$info = $event->getThrowableInformation();
-		if ($info === null) {
-			return '';
+		if (isset($info)) {
+			$ex = $info->getThrowable();
+			return (string) $ex . PHP_EOL;
 		}
-		
-		$ex = $info->getThrowable();
-		
-		// Format exception to string
-		$strEx = get_class($ex) . ': "' . $ex->getMessage() . '"' . PHP_EOL;
-		$strEx .= 'at '. $ex->getFile() . ':' . $ex->getLine();
-		
-		// Add trace if required
-		if ($this->depth === null || $this->depth > 0) {
-			$trace = $ex->getTrace();
-			foreach($trace as $key => $item) {
-				if (isset($this->depth) && $key > $this->depth) {
-					break;
-				}
-				$strEx .= PHP_EOL . "#$key " . 
-					"{$item['file']}:{$item['line']} " .
-					"in {$item['class']}{$item['type']}{$item['function']}()"; 
-			}
-		}
-		
-		return $strEx;
+		return '';
 	}
 }
  

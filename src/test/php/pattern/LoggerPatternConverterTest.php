@@ -17,7 +17,7 @@
  *
  * @category   tests
  * @package    log4php
- * @subpackage filters
+ * @subpackage pattern
  * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @version    $Revision$
  * @link       http://logging.apache.org/log4php
@@ -171,6 +171,28 @@ class LoggerPatternConverterTest extends PHPUnit_Framework_TestCase {
 		$expected = implode(':', array(__FILE__, $line, __CLASS__, __FUNCTION__));
 		self::assertSame($expected, $actual);
 
+		Logger::resetConfiguration();
+	}
+	
+	public function testLocation2() {
+		$config = LoggerTestHelper::getEchoPatternConfig("%location");
+		Logger::configure($config);
+	
+		// Test by capturing output. Logging methods of a Logger object must
+		// be used for the location info to be formed correctly.
+		ob_start();
+		$log = Logger::getLogger('foo');
+		$log->info('foo'); $line = __LINE__; // Do NOT move this to next line.
+		$actual = ob_get_contents();
+		ob_end_clean();
+	
+		$class = __CLASS__;
+		$func = __FUNCTION__;
+		$file = __FILE__;
+		
+		$expected = "$class.$func($file:$line)";
+		self::assertSame($expected, $actual);
+	
 		Logger::resetConfiguration();
 	}
 
