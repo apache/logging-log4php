@@ -34,7 +34,6 @@
  * 
  * <samp>INFO - Hello World!</samp>
  *
- * @version $Revision$
  * @package log4php
  * @subpackage layouts
  */  

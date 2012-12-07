@@ -44,7 +44,6 @@
  * to the provision node. Other descendants of the same ancestor add
  * themselves to the previously created provision node.</p>
  *
- * @version $Revision$
  * @package log4php
  */
 class LoggerHierarchy {

@@ -21,7 +21,6 @@
 /**
  * Extend this abstract class to create your own log layout format.
  *	
- * @version $Revision$
  * @package log4php
  */
 abstract class LoggerLayout extends LoggerConfigurable {

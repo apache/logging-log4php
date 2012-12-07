@@ -28,7 +28,6 @@
  * 
  * The socket will by default be opened in blocking mode.
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

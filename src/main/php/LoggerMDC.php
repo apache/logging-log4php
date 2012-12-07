@@ -29,7 +29,6 @@
  * This class is similar to the {@link LoggerNDC} class except that 
  * it is based on a map instead of a stack.
  * 
- * @version $Revision$
  * @since 0.3
  * @package log4php
  */

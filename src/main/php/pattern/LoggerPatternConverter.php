@@ -26,7 +26,6 @@
  * individual PatternConverters. Each of which is responsible for
  * converting a logging event in a converter specific manner.</p>
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage helpers
  * @since 0.3

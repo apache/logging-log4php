@@ -32,7 +32,6 @@
  *                     conversion patterns as there are question marks in the 
  *                     insertSQL.
  *
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.0

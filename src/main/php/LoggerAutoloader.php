@@ -29,7 +29,6 @@ spl_autoload_register(array('LoggerAutoloader', 'autoload'));
  * 
  * @package log4php
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version $Revision$
  */
 class LoggerAutoloader {
 	

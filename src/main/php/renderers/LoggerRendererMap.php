@@ -22,7 +22,6 @@
  * Manages defined renderers and determines which renderer to use for a given 
  * input. 
  *
- * @version $Revision$
  * @package log4php
  * @subpackage renderers
  * @since 0.3

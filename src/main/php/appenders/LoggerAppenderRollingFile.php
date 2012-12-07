@@ -36,7 +36,6 @@
  * - **compress** - If set to true, rolled-over files will be compressed. 
  *     Requires the zlib extension.
  *
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

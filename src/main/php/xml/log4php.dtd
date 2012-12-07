@@ -19,7 +19,6 @@
 <!-- Version: 1.2 -->
 
 <!-- PHP Port Modifications Author: Marco Vassura -->
-<!-- PHP dtd Version: $Revision$ -->
 
 <!-- A configuration element consists of optional renderer
 elements,appender elements, categories and an optional root

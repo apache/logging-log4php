@@ -57,7 +57,6 @@
  * @author Simon Kitching
  * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml; 
  *
- * @version $Revision$
  * @package log4php
  * @subpackage filters
  * @since 0.6

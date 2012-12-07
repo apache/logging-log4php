@@ -49,7 +49,6 @@
  * </log4php:eventSet>
  * </pre>
  *
- * @version $Revision$
  * @package log4php
  * @subpackage layouts
  */

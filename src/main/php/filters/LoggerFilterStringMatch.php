@@ -40,7 +40,6 @@
  * 
  * {@example ../../examples/resources/filter_stringmatch.xml 18}
  *
- * @version $Revision$
  * @package log4php
  * @subpackage filters
  * @since 0.3

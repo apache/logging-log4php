@@ -44,7 +44,6 @@
  * The above would print:<br>
  * <samp>02:28 [13714] INFO root - Hello World!</samp>
  *
- * @version $Revision$
  * @package log4php
  * @subpackage layouts
  * 

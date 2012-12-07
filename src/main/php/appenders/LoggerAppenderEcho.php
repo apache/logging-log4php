@@ -26,7 +26,6 @@
  * - **htmlLineBreaks** - If set to true, a <br /> element will be inserted 
  *     before each line break in the logged message. Default is false.
  *
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

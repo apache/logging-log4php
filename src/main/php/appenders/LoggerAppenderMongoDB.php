@@ -31,7 +31,6 @@
  * - **password** - Password used to connect to the database.
  * - **timeout** - For how long the driver should try to connect to the database (in milliseconds).
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.1

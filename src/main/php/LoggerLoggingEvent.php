@@ -21,7 +21,6 @@
 /**
  * The internal representation of logging event.
  *
- * @version $Revision$
  * @package log4php
  */
 class LoggerLoggingEvent {

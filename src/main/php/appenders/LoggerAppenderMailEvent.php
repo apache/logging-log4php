@@ -34,7 +34,6 @@
  * - **port** - Used to override the default SMTP server port. Only works on 
  *     Windows.
  *
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

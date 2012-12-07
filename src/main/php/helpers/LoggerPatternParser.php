@@ -25,7 +25,6 @@
  * <p>It is this class that parses conversion patterns and creates
  * a chained list of {@link LoggerPatternConverter} converters.</p>
  * 
- * @version $Revision$ 
  * @package log4php
  * @subpackage helpers
  *

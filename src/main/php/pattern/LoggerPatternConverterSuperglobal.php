@@ -33,7 +33,6 @@
  * 
  * @package log4php
  * @subpackage pattern
- * @version $Revision$
  * @since 2.3
  */
 abstract class LoggerPatternConverterSuperglobal extends LoggerPatternConverter {

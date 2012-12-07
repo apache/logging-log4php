@@ -20,7 +20,6 @@
  * @package	   log4php
  * @subpackage configurators
  * @license	   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version    $Revision$
  * @link       http://logging.apache.org/log4php
  */
 

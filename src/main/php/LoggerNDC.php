@@ -89,7 +89,6 @@
  * 2009-09-13 19:04:27 DEBUG root : back and waiting for new connections in src/examples/php/ndc.php at 29
  * </pre>
  *	
- * @version $Revision$
  * @package log4php 
  * @since 0.3
  */

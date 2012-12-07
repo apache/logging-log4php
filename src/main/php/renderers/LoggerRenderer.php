@@ -21,7 +21,6 @@
 /**
  * Implement this interface in order to render objects to strings.
  *
- * @version $Revision$
  * @package log4php
  * @subpackage renderers
  * @since 0.3

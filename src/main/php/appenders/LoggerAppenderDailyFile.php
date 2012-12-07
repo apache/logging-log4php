@@ -34,7 +34,6 @@
  * - **append** - If set to true, the appender will append to the file, 
  *     otherwise the file contents will be overwritten. Defaults to true.
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

@@ -25,7 +25,6 @@
  * - locationInfo - If set to true, the event's location information will also
  *                  be serialized (slow, defaults to false).
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage layouts
  * @since 2.2

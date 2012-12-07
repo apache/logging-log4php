@@ -34,7 +34,6 @@
  * - **from** - Email address which will be used in the From field.
  * - **subject** - Subject of the email message.
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0

@@ -42,7 +42,6 @@
  *    0    8318   INFO  root       Hello World!
  * </pre>
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage layouts
  */

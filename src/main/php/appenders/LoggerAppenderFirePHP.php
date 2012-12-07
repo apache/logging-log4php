@@ -34,7 +34,6 @@
  * @link http://sourcemint.com/github.com/firephp/firephp/1:1.0.0b1rc6/-docs/Configuration/Constants FirePHP constants documentation.
  * @link http://logging.apache.org/log4php/docs/appenders/firephp.html Appender documentation
  * 
- * @version $Revision$
  * @package log4php
  * @subpackage appenders
  * @since 2.3

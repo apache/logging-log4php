@@ -28,7 +28,6 @@
  * 
  * @package log4php
  * @subpackage layouts
- * @version $Revision$
  */
 class LoggerLayoutPattern extends LoggerLayout {
 	

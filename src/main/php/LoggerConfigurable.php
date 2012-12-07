@@ -24,7 +24,6 @@
  * 
  * @package log4php
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @version $Revision $
  * @since 2.2
  */
 abstract class LoggerConfigurable {

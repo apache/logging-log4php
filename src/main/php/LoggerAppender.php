@@ -21,7 +21,6 @@
 /**
  * Abstract class that defines output logs strategies.
  *
- * @version $Revision$
  * @package log4php
  */
 abstract class LoggerAppender extends LoggerConfigurable {

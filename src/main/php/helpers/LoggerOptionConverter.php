@@ -21,7 +21,6 @@
 /**
  * A convenience class to convert property values to specific types.
  *
- * @version $Revision$ 
  * @package log4php
  * @subpackage helpers
  * @since 0.5

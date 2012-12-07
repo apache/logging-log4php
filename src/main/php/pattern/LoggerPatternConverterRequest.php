@@ -27,7 +27,6 @@
  * 
  * @package log4php
  * @subpackage pattern
- * @version $Revision$
  * @since 2.3
  */
 class LoggerPatternConverterRequest extends LoggerPatternConverterSuperglobal {

@@ -50,7 +50,6 @@
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains. 
  * 
- * @version $Revision$
  * @package log4php
  */
 abstract class LoggerFilter extends LoggerConfigurable {
