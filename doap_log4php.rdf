@@ -39,10 +39,10 @@
 
 		<programming-language>PHP</programming-language>
 		<repository>
-			<SVNRepository>
-				<location rdf:resource="http://svn.apache.org/repos/asf/logging/log4php/trunk"/>
-				<browse rdf:resource="http://svn.apache.org/viewvc/logging/log4php/trunk"/>
-			</SVNRepository>
+			<GitRepository>
+				<location rdf:resource="https://git-wip-us.apache.org/repos/asf/logging-log4php.git"/>
+				<browse rdf:resource="https://git-wip-us.apache.org/repos/asf?p=logging-log4php.git"/>
+			</GitRepository>
 		</repository>
 	</Project>
 </rdf:RDF>

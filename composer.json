@@ -7,7 +7,7 @@
     "license": "Apache-2.0",
     "support": {
         "issues": "https://issues.apache.org/jira/browse/LOG4PHP",
-        "source": "https://svn.apache.org/repos/asf/logging/log4php",
+        "source": "https://git-wip-us.apache.org/repos/asf/logging-log4php.git",
         "email": "log4php-user@logging.apache.org"
     },
     "autoload": {
