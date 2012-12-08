@@ -24,7 +24,7 @@ Download
 	
 	Apache log4php is distributed under the {{{http://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
 
-	Version 2.2.1 is the latest stable version, available since 18.02.2012..
+	Version 2.3.0 is the latest stable version, available since 13.10.2012.
 
 * Source package 
   
@@ -33,11 +33,35 @@ Download
 *----------+-----------+------------+
 || Mirrors || Checksum || Signature |
 *----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.2.1/apache-log4php-2.2.1-src.tar.gz}apache-log4php-2.2.1-src.tar.gz}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/apache-log4php-2.2.1-src.tar.gz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/apache-log4php-2.2.1-src.tar.gz.asc}ASC}} |
+| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz}apache-log4php-2.3.0-src.tar.gz}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.asc}ASC}} |
 *----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.2.1/apache-log4php-2.2.1-src.zip}apache-log4php-2.2.1-src.zip}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/apache-log4php-2.2.1-src.zip.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/apache-log4php-2.2.1-src.zip.asc}ASC}} |
+| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip}apache-log4php-2.3.0-src.zip}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.asc}ASC}} |
 *----------+-----------+------------+
   
+* Via Composer
+
+    Install composer in your project:
+
++--
+curl -s http://getcomposer.org/installer | php
++--
+
+	Create a composer.json file in your project root:
+
++--
+{
+    "require": {
+        "apache/log4php": "2.3.0"
+    }
+}
++--
+
+	Install using Composer:
+
++--
+php composer.phar install
++--
+
 * Pear package
 
 	To install from the Apache log4php PEAR channel:
@@ -52,7 +76,7 @@ pear install log4php/Apache_log4php
 *----------+-----------+------------+
 || Mirrors || Checksum || Signature |
 *----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.2.1/Apache_log4php-2.2.1.tgz}Apache_log4php-2.2.1.tgz}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/Apache_log4php-2.2.1.tgz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.2.1/Apache_log4php-2.2.1.tgz.asc}ASC}} |
+| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz}Apache_log4php-2.3.0.tgz}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz.asc}ASC}} |
 *----------+-----------+------------+
   
 * From repository  
@@ -77,7 +101,7 @@ pear install log4php/Apache_log4php
 
 ---
 # gpg --import KEYS
-# gpg --verify apache-log4php-2.2.1-src.tar.gz.asc
+# gpg --verify apache-log4php-2.3.0-src.tar.gz.asc
 ---
 
 	This should result in a confirmation message:
@@ -87,6 +111,6 @@ gpg: Signature made Fri 27 Nov 2009 07:47:28 AM CET using DSA key ID 42196CA8
 gpg: Good signature from "Christian Grobmeier (Apache Codesigning) <grobmeier@apache.org>"
 ---
 
-	Apache log4php 2.2.1 is signed by Ivan Habunek (key 0BD936F1).
+	Apache log4php 2.3.0 is signed by Ivan Habunek (key 0BD936F1).
 
 	Alternatively, you can verify the MD5 signature on the files.
