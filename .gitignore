@@ -1,2 +1,7 @@
 target
 temp
+
+# Eclipse project files
+.buildpath
+.settings
+.project
