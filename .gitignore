@@ -9,3 +9,6 @@ composer.lock
 .buildpath
 .settings
 .project
+
+# PhpStorm project files
+.idea
