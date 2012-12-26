@@ -14,43 +14,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
  * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
  * 
- * Configurable parameters: 
- * - {@link $locationInfo} - If set to true then the file name and line number 
- *   of the origin of the log statement will be included in output.
- * - {@link $log4jNamespace} - If set to true then log4j namespace will be used
+ * ## Configurable parameters: ##
+ * 
+ * - **locationInfo** - If set to true, adds the file name and line number at 
+ *   which the log statement originated. Slightly slower, defaults to false.
+ * - **log4jNamespace** - If set to true then log4j namespace will be used
  *   instead of log4php namespace. This can be usefull when using log viewers 
  *   which can only parse the log4j namespace such as Apache Chainsaw. 
  * 
- * <p>It does not output a complete well-formed XML file. 
- * The output is designed to be included as an external entity in a separate file to form
- * a correct XML file.</p>
+ * It does not output a complete well-formed XML file. The output is designed 
+ * to be included as an external entity in a separate file to form a correct 
+ * XML file.
  * 
- * Example:
- * 
- * {@example ../../examples/php/layout_xml.php 19}<br>
- * 
- * {@example ../../examples/resources/layout_xml.properties 18}<br>
- *
- * The above would print:
- * 
- * <pre>
- * <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
- * 	<log4php:event logger="root" level="INFO" thread="13802" timestamp="1252456226491">
- * 		<log4php:message><![CDATA[Hello World!]]></log4php:message>
- * 		<log4php:locationInfo class="main" file="examples/php/layout_xml.php" line="6" method="main" />
- * 	</log4php:event>
- * </log4php:eventSet>
- * </pre>
- *
  * @package log4php
  * @subpackage layouts
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/layouts/xml.html Layout documentation
  */
 class LoggerLayoutXml extends LoggerLayout {
 	const LOG4J_NS_PREFIX ='log4j';
@@ -65,15 +49,13 @@ class LoggerLayoutXml extends LoggerLayout {
 	const CDATA_EMBEDDED_END = ']]>]]&gt;<![CDATA[';
 
 	/**
-	 * If set to true then the file name and line number of the origin of the
-	 * log statement will be output.
+	 * Whether to log location information (file and line number).
 	 * @var boolean
 	 */
 	protected $locationInfo = true;
   
 	/**
-	 * If set to true, log4j namespace will be used instead of the log4php 
-	 * namespace.
+	 * Whether to use log4j namespace instead of log4php.
 	 * @var boolean 
 	 */
 	protected $log4jNamespace = false;
@@ -83,7 +65,7 @@ class LoggerLayoutXml extends LoggerLayout {
 	
 	/** The namespace prefix in use */
 	protected $namespacePrefix = self::LOG4PHP_NS_PREFIX;
-	 
+
 	public function activateOptions() {
 		if ($this->getLog4jNamespace()) {
 			$this->namespace        = self::LOG4J_NS;
@@ -94,9 +76,6 @@ class LoggerLayoutXml extends LoggerLayout {
 		}
 	}
 	
-	/**
-	 * @return string
-	 */
 	public function getHeader() {
 		return "<{$this->namespacePrefix}:eventSet ".
 			"xmlns:{$this->namespacePrefix}=\"{$this->namespace}\" ".
@@ -105,12 +84,6 @@ class LoggerLayoutXml extends LoggerLayout {
 			">" . PHP_EOL;
 	}
 
-	/**
-	 * Formats a {@link LoggerLoggingEvent} in conformance with the log4php.dtd.
-	 *
-	 * @param LoggerLoggingEvent $event
-	 * @return string
-	 */
 	public function format(LoggerLoggingEvent $event) {
 		$ns = $this->namespacePrefix;
 		
@@ -155,16 +128,12 @@ class LoggerLayoutXml extends LoggerLayout {
 		return $buf;
 	}
 	
-	/**
-	 * @return string
-	 */
 	public function getFooter() {
 		return "</{$this->namespacePrefix}:eventSet>" . PHP_EOL;
 	}
 	
-	
-	/** 
-	 * Whether or not file name and line number will be included in the output.
+	/**
+	 * Returns the value of the 'locationInfo' parameter.
 	 * @return boolean
 	 */
 	public function getLocationInfo() {
@@ -172,17 +141,15 @@ class LoggerLayoutXml extends LoggerLayout {
 	}
   
 	/**
-	 * The {@link $locationInfo} option takes a boolean value. By default,
-	 * it is set to false which means there will be no location
-	 * information output by this layout. If the the option is set to
-	 * true, then the file name and line number of the statement at the
-	 * origin of the log statement will be output.
+	 * Sets the 'locationInfo' parameter.
+	 * @param boolean $locationInfo
 	 */
 	public function setLocationInfo($flag) {
 		$this->setBoolean('locationInfo', $flag);
 	}
   
 	/**
+	 * Returns the value of the 'log4jNamespace' parameter.
 	 * @return boolean
 	 */
 	 public function getLog4jNamespace() {
@@ -190,7 +157,8 @@ class LoggerLayoutXml extends LoggerLayout {
 	 }
 
 	/**
-	 * @param boolean
+	 * Sets the 'log4jNamespace' parameter.
+	 * @param boolean $locationInfo
 	 */
 	public function setLog4jNamespace($flag) {
 		$this->setBoolean('log4jNamespace', $flag);
@@ -206,4 +174,3 @@ class LoggerLayoutXml extends LoggerLayout {
 		return self::CDATA_START . $string . self::CDATA_END;
 	}
 }
-

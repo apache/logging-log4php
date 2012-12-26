@@ -14,151 +14,139 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * TTCC layout format consists of <b>t</b>ime, <b>t</b>hread, <b>c</b>ategory and nested
- * diagnostic <b>c</b>ontext information, hence the name.
+ * TTCC layout format consists of:
+ * - **t**ime,
+ * - **t**hread, 
+ * - **c**ategory and
+ * - nested diagnostic **c**ontext information
  * 
- * <p>Each of the four fields can be individually enabled or
- * disabled. The time format depends on the <b>DateFormat</b> used.</p>
+ * Each of the four fields can be individually enabled or disabled. The time 
+ * format depends on the **dateFormat** used. If no dateFormat is specified 
+ * it defaults to '%c'. See php {@link PHP_MANUAL#date} function for details.
  *
- * <p>If no dateFormat is specified it defaults to '%c'. 
- * See php {@link PHP_MANUAL#date} function for details.</p>
- *
- * Configurable parameters for this layout are:
- * - {@link $threadPrinting} (true|false) enable/disable pid reporting.
- * - {@link $categoryPrefixing} (true|false) enable/disable logger category reporting.
- * - {@link $contextPrinting} (true|false) enable/disable NDC reporting.
- * - {@link $microSecondsPrinting} (true|false) enable/disable micro seconds reporting in timestamp.
- * - {@link $dateFormat} (string) set date format. See php {@link PHP_MANUAL#date} function for details.
- *
- * An example how to use this layout:
+ * ## Configurable parameters: ##
  * 
- * {@example ../../examples/php/layout_ttcc.php 19}<br>
- * 
- * {@example ../../examples/resources/layout_ttcc.properties 18}<br>
- *
- * The above would print:<br>
- * <samp>02:28 [13714] INFO root - Hello World!</samp>
+ * - **$threadPrinting** (boolean) enable/disable pid reporting.
+ * - **$categoryPrefixing** (boolean) enable/disable logger category reporting.
+ * - **$contextPrinting** (boolean) enable/disable NDC reporting.
+ * - **$microSecondsPrinting** (boolean) enable/disable micro seconds reporting 
+ *   in timestamp.
+ * - **$dateFormat** (string) sets the date format.
  *
  * @package log4php
  * @subpackage layouts
- * 
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/layouts/ttcc.html Layout documentation
  * @deprecated LoggerLayout TTCC is deprecated and will be removed in a future release. Please use 
  *   LoggerLayoutPattern instead. 
  */
 class LoggerLayoutTTCC extends LoggerLayout {
-
-	// Internal representation of options
-	protected $threadPrinting    = true;
+	 
+	/** Whether to output the process ID. */
+	protected $threadPrinting = true;
+	
+	/** Whether to output the category name. */
 	protected $categoryPrefixing = true;
+	
+	/** Whether to output the nested diagnostic context. */
 	protected $contextPrinting   = true;
+	
+	/** Whether to include microseconds in the timestmap. */
 	protected $microSecondsPrinting = true;
 	
-	/**
-	 * @var string date format. See {@link PHP_MANUAL#strftime} for details
-	 */
+	/** The date format */
 	protected $dateFormat = '%c';
 
-	/**
-	 * Constructor
-	 *
-	 * @param string date format
-	 * @see dateFormat
-	 */
-	public function __construct($dateFormat = '') {
+	public function __construct($dateFormat = null) {
 		$this->warn("LoggerLayout TTCC is deprecated and will be removed in a future release. Please use LoggerLayoutPattern instead.");
-		if (!empty($dateFormat)) {
+		if (isset($dateFormat)) {
 			$this->dateFormat = $dateFormat;
 		}
-		return;
 	}
 
 	/**
-	 * The <b>ThreadPrinting</b> option specifies whether the name of the
-	 * current thread is part of log output or not. This is true by default.
+	 * Sets the 'threadPrinting' parameter.
+	 * @param boolean $threadPrinting
 	 */
 	public function setThreadPrinting($threadPrinting) {
 		$this->setBoolean('threadPrinting', $threadPrinting);
 	}
 
 	/**
-	 * @return boolean Returns value of the <b>ThreadPrinting</b> option.
+	 * Returns the value of the 'threadPrinting' parameter.
+	 * @return boolean
 	 */
 	public function getThreadPrinting() {
 		return $this->threadPrinting;
 	}
 
 	/**
-	 * The <b>CategoryPrefixing</b> option specifies whether {@link Category}
-	 * name is part of log output or not. This is true by default.
+	 * Sets the 'categoryPrefixing' parameter.
+	 * @param boolean $categoryPrefixing
 	 */
 	public function setCategoryPrefixing($categoryPrefixing) {
 		$this->setBoolean('categoryPrefixing', $categoryPrefixing);
 	}
 
 	/**
-	 * @return boolean Returns value of the <b>CategoryPrefixing</b> option.
+	 * Returns the value of the 'categoryPrefixing' parameter.
+	 * @return boolean
 	 */
 	public function getCategoryPrefixing() {
 		return $this->categoryPrefixing;
 	}
 
 	/**
-	 * The <b>ContextPrinting</b> option specifies log output will include
-	 * the nested context information belonging to the current thread.
-	 * This is true by default.
+	 * Sets the 'contextPrinting' parameter.
+	 * @param boolean $contextPrinting
 	 */
 	public function setContextPrinting($contextPrinting) {
 		$this->setBoolean('contextPrinting', $contextPrinting);
 	}
 
 	/**
-	 * @return boolean Returns value of the <b>ContextPrinting</b> option.
+	 * Returns the value of the 'contextPrinting' parameter.
+	 * @return boolean
 	 */
 	public function getContextPrinting() {
 		return $this->contextPrinting;
 	}
 	
 	/**
-	 * The <b>MicroSecondsPrinting</b> option specifies if microseconds infos
-	 * should be printed at the end of timestamp.
-	 * This is true by default.
+	 * Sets the 'microSecondsPrinting' parameter.
+	 * @param boolean $microSecondsPrinting
 	 */
 	public function setMicroSecondsPrinting($microSecondsPrinting) {
 		$this->setBoolean('microSecondsPrinting', $microSecondsPrinting);
 	}
 
 	/**
-	 * @return boolean Returns value of the <b>MicroSecondsPrinting</b> option.
+	 * Returns the value of the 'microSecondsPrinting' parameter.
+	 * @return boolean
 	 */
 	public function getMicroSecondsPrinting() {
 		return $this->microSecondsPrinting;
 	}
 	
-	
+	/**
+	 * Sets the 'dateFormat' parameter.
+	 * @param string $dateFormat
+	 */
 	public function setDateFormat($dateFormat) {
 		$this->setString('dateFormat', $dateFormat);
 	}
 	
 	/**
+	 * Returns the value of the 'dateFormat' parameter.
 	 * @return string
 	 */
 	public function getDateFormat() {
 		return $this->dateFormat;
 	}
 
-	/**
-	 * In addition to the level of the statement and message, the
-	 * returned string includes time, thread, category.
-	 * <p>Time, thread, category are printed depending on options.
-	 *
-	 * @param LoggerLoggingEvent $event
-	 * @return string
-	 */
 	public function format(LoggerLoggingEvent $event) {
 		$timeStamp = (float)$event->getTimeStamp();
 		$format = strftime($this->dateFormat, (int)$timeStamp);
@@ -192,9 +180,5 @@ class LoggerLayoutTTCC extends LoggerLayout {
 		$format .= PHP_EOL;
 		
 		return $format;
-	}
-
-	public function ignoresThrowable() {
-		return true;
 	}
 }

@@ -14,20 +14,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
  * A flexible layout configurable with a pattern string.
  * 
- * Configurable parameters:
+ * ## Configurable parameters: ##
  * 
- * * converionPattern - A string which controls the formatting of logging 
+ * - **converionPattern** - A string which controls the formatting of logging 
  *   events. See docs for full specification.
  * 
  * @package log4php
  * @subpackage layouts
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/layouts/pattern.html Layout documentation
  */
 class LoggerLayoutPattern extends LoggerLayout {
 	
@@ -130,13 +130,19 @@ class LoggerLayoutPattern extends LoggerLayout {
 	}
 	
 	/**
-	 * Sets the conversionPattern option. This is the string which
-	 * controls formatting and consists of a mix of literal content and
-	 * conversion specifiers.
-	 * @param array $conversionPattern
+	 * Sets the 'conversionPattern' parameter.
+	 * @param string $conversionPattern
 	 */
 	public function setConversionPattern($conversionPattern) {
 		$this->pattern = $conversionPattern;
+	}
+	
+	/**
+	 * Returns the value of the 'conversionPattern' parameter.
+	 * @return string
+	 */
+	public function getConversionPattern() {
+		return $this->pattern;
 	}
 	
 	/**

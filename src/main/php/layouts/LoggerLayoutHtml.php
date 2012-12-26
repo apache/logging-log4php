@@ -14,93 +14,61 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
- * This layout outputs events in a HTML table.
+ * This layout outputs events in a HTML document.
  *
- * Configurable parameters for this layout are:
+ * ## Configurable parameters: ##
  * 
- * - title
- * - locationInfo
- *
- * An example for this layout:
- * 
- * {@example ../../examples/php/layout_html.php 19}<br>
- * 
- * The corresponding XML file:
- * 
- * {@example ../../examples/resources/layout_html.properties 18}
- * 
- * The above will print a HTML table that looks, converted back to plain text, like the following:<br>
- * <pre>
- *    Log session start time Wed Sep 9 00:11:30 2009
- *
- *    Time Thread Level Category   Message
- *    0    8318   INFO  root       Hello World!
- * </pre>
+ * - **title** - the HTML <title>
+ * - **locationInfo** - If set to true, logs the file name and line number at 
+ *   which the log statement originated. Slightly slower, defaults to false.
  * 
  * @package log4php
  * @subpackage layouts
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/layouts/html.html Layout documentation
  */
 class LoggerLayoutHtml extends LoggerLayout {
 	/**
-	 * The <b>LocationInfo</b> option takes a boolean value. By
-	 * default, it is set to false which means there will be no location
-	 * information output by this layout. If the the option is set to
-	 * true, then the file name and line number of the statement
-	 * at the origin of the log statement will be output.
-	 *
-	 * <p>If you are embedding this layout within a {@link LoggerAppenderMail}
-	 * or a {@link LoggerAppenderMailEvent} then make sure to set the
-	 * <b>LocationInfo</b> option of that appender as well.
+	 * Whether to log location information (file and line number).
 	 * @var boolean
 	 */
 	protected $locationInfo = false;
 	
-	/**
-	 * The <b>Title</b> option takes a String value. This option sets the
-	 * document title of the generated HTML document.
-	 * Defaults to 'Log4php Log Messages'.
+	/** 
+	 * The title of the HTML document. 
 	 * @var string
 	 */
 	protected $title = "Log4php Log Messages";
 	
 	/**
-	 * The <b>LocationInfo</b> option takes a boolean value. By
-	 * default, it is set to false which means there will be no location
-	 * information output by this layout. If the the option is set to
-	 * true, then the file name and line number of the statement
-	 * at the origin of the log statement will be output.
-	 *
-	 * <p>If you are embedding this layout within a {@link LoggerAppenderMail}
-	 * or a {@link LoggerAppenderMailEvent} then make sure to set the
-	 * <b>LocationInfo</b> option of that appender as well.
+	 * Sets the 'locationInfo' parameter.
+	 * @param boolean $locationInfo
 	 */
-	public function setLocationInfo($flag) {
-		$this->setBoolean('locationInfo', $flag);
+	public function setLocationInfo($locationInfo) {
+		$this->setBoolean('locationInfo', $locationInfo);
 	}
 
 	/**
-	 * Returns the current value of the <b>LocationInfo</b> option.
+	 * Returns the value of the 'locationInfo' parameter.
 	 */
 	public function getLocationInfo() {
 		return $this->locationInfo;
 	}
 	
 	/**
-	 * The <b>Title</b> option takes a String value. This option sets the
-	 * document title of the generated HTML document.
-	 * Defaults to 'Log4php Log Messages'.
+	 * Sets the 'title' parameter.
+	 * @param string $title
 	 */
 	public function setTitle($title) {
 		$this->setString('title', $title);
 	}
 
 	/**
-	 * @return string Returns the current value of the <b>Title</b> option.
+	 * Returns the value of the 'title' parameter.
+	 * @return string
 	 */
 	public function getTitle() {
 		return $this->title;

@@ -14,32 +14,39 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @package log4php
  */
 
 /**
  * Layout which formats the events using PHP's serialize() function.
  * 
- * Available options:
- * - locationInfo - If set to true, the event's location information will also
- *                  be serialized (slow, defaults to false).
+ * ## Configurable parameters: ##
+ * 
+ * - **locationInfo** - If set to true, adds the file name and line number at 
+ *   which the log statement originated. Slightly slower, defaults to false.
  * 
  * @package log4php
  * @subpackage layouts
  * @since 2.2
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php/docs/layouts/serialized.html Layout documentation
  */  
 class LoggerLayoutSerialized extends LoggerLayout {
 	
-	/** Whether to include the event's location information (slow). */
+	/** Whether to include the event's location information (slower). */
 	protected $locationInfo = false;
 	
-	/** Sets the location information flag. */
-	public function setLocationInfo($value) {
-		$this->setBoolean('locationInfo', $value);
+	/**
+	 * Sets the 'locationInfo' parameter.
+	 * @param boolean $locationInfo
+	 */
+	public function setLocationInfo($locationInfo) {
+		$this->setBoolean('locationInfo', $locationInfo);
 	}
-	
-	/** Returns the location information flag. */
+
+	/**
+	 * Returns the value of the 'locationInfo' parameter.
+	 * @return boolean
+	 */
 	public function getLocationInfo() {
 		return $this->locationInfo;
 	}
