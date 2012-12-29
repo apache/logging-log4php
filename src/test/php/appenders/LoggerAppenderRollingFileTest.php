@@ -196,6 +196,7 @@ class LoggerAppenderRollingFileTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	protected function tearDown() {
+		Logger::getLogger('mycat')->removeAllAppenders();
 		@unlink(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt');
 		@unlink(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.1');
 		@unlink(PHPUNIT_TEMP_DIR.'/TEST-rolling.txt.2');
