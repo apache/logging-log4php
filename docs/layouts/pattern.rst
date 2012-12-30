@@ -55,8 +55,8 @@ Conversion specifiers
 ---------------------
 
 .. function:: %c{length}
-.. function:: %lo{length}
-.. function:: %logger{length}
+              %lo{length}
+              %logger{length}
 
     Name of the Logger which generated the logging request.
 
@@ -101,7 +101,7 @@ Conversion specifiers
     well as the backslash.
 
 .. function:: %C{length}
-.. function:: %class{length}
+              %class{length}
 
     The fully qualified class name of the caller issuing the logging request.
     Just like **%logger**, a desired length can be defined as an option.
@@ -112,7 +112,7 @@ Conversion specifiers
     If no key is given, will return all values in key=value format.
 
 .. function:: %d{pattern}
-.. function:: %date{pattern}
+              %date{pattern}
 
     The date/time of the logging event. Accepts a pattern string as an option.
     The pattern syntax is the same as used by the
@@ -136,108 +136,108 @@ Conversion specifiers
     +-------------------------------+-------------------------------------------+
 
 .. function:: %e{key}
-.. function:: %env{key}
+              %env{key}
 
     A value from the $_ENV superglobal array corresponding to the given key.
 
     If no key is given, will return all values in key=value format.
 
 .. function:: %ex
-.. function:: %exception
-.. function:: %throwable
+              %exception
+              %throwable
 
     The exception associated with the logging event, along with it's stack
     trace. If there is no exception, evalutates to an empty string.
 
 .. function:: %F
-.. function:: %file
+              %file
 
     Name of the file from which the logging request was issued.
 
 .. function:: %l
-.. function:: %location
+              %location
 
     Location information of the caller which generated the logging event.
 
     Identical to ``%C.%M(%F:%L)``
 
 .. function:: %L
-.. function:: %line
+              %line
 
     The line number at which the logging request was issued.
 
 .. function:: %m
-.. function:: %msg
-.. function:: %message
+              %msg
+              %message
 
     The message associated with the logging event.
 
 .. function:: %M
-.. function:: %method
+              %method
 
     The method or function name from which the logging request was issued.
 
 .. function:: %n
-.. function:: %newline
+              %newline
 
     A platform dependent line-break character(s).
 
     Note that a line break will not be printed unless explicitely specified.
 
 .. function:: %p
-.. function:: %le
-.. function:: %level
+              %le
+              %level
 
     The level of the logging event.
 
 .. function:: %r
-.. function:: %relative
+              %relative
 
     The number of milliseconds elapsed since the start of the application until
     the creation of the logging event.
 
 .. function:: %req{key}
-.. function:: %request{key}
+              %request{key}
 
     A value from the $_REQUEST superglobal array corresponding to the given key.
 
     If no key is given, will return all values in key=value format.
 
 .. function:: %s{key}
-.. function:: %server{key}
+              %server{key}
 
     A value from the $_SERVER superglobal array corresponding to the given key.
 
     If no key is given, will return all values in key=value format.
 
 .. function:: %ses{key}
-.. function:: %session{key}
+              %session{key}
 
     A value from the $_SESSION superglobal array corresponding to the given key.
 
     If no key is given, will return all values in key=value format.
 
 .. function:: %sid
-.. function:: %sessionid
+              %sessionid
 
     The active session ID, or an empty string if not in session.
 
     Equivalent to calling ``session_id()``.
 
 .. function:: %t
-.. function:: %pid
-.. function:: %process
+              %pid
+              %process
 
     The ID of the process that generated the logging event.
 
 .. function:: %x
-.. function:: %ndc
+              %ndc
 
     The NDC (Nested Diagnostic Context) associated with the thread that
     generated the logging event.
 
 .. function:: %X{key}
-.. function:: %mdc{key}
+              %mdc{key}
 
     A value from the Mapped Diagnostic Context (MDC) corresponding to the given
     key.
