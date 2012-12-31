@@ -56,7 +56,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$result = $this->appender->getHost();
 		$this->assertEquals($expected, $result);
 	}
-	
+
 	public function testPort() {
 		$expected = 27017;
 		$this->appender->setPort($expected);
@@ -70,21 +70,21 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$result	= $this->appender->getDatabaseName();
 		$this->assertEquals($expected, $result);
 	}
-	
+
 	public function testCollectionName() {
 		$expected = 'logs';
 		$this->appender->setCollectionName($expected);
 		$result = $this->appender->getCollectionName();
 		$this->assertEquals($expected, $result);
 	}
-	
+
 	public function testUserName() {
 		$expected = 'char0n';
 		$this->appender->setUserName($expected);
 		$result = $this->appender->getUserName();
 		$this->assertEquals($expected, $result);
 	}
-	
+
 	public function testPassword() {
 		$expected = 'secret pass';
 		$this->appender->setPassword($expected);
@@ -96,6 +96,27 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$expected = 4000;
 		$this->appender->setTimeout($expected);
 		$result	= $this->appender->getTimeout();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testCapped() {
+		$expected = true;
+		$this->appender->setCapped($expected);
+		$result	= $this->appender->getCapped();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testCappedMax() {
+		$expected = 20;
+		$this->appender->setCappedMax($expected);
+		$result	= $this->appender->getCappedMax();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testCappedSize() {
+		$expected = 10000;
+		$this->appender->setCappedSize($expected);
+		$result	= $this->appender->getCappedSize();
 		$this->assertEquals($expected, $result);
 	}
 
@@ -113,19 +134,27 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
 	}
 
+	public function testActivateOptionsCappedCollection() {
+		$this->appender->setCollectionName('logs_capped');
+		$this->appender->setCapped(true);
+		$this->appender->activateOptions();
+		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
+	}
+
 	public function testFormat() {
 		$this->appender->activateOptions();
 		$record = $this->logOne($this->event);
-		
+
 		$this->assertEquals('ERROR', $record['level']);
 		$this->assertEquals('mongo logging event', $record['message']);
 		$this->assertEquals('test_mongo', $record['loggerName']);
-		
-		$this->assertEquals('NA', $record['fileName']);		
+
+		$this->assertEquals('NA', $record['fileName']);
 		$this->assertEquals('getLocationInformation', $record['method']);
 		$this->assertEquals('NA', $record['lineNumber']);
 		$this->assertEquals('LoggerLoggingEvent', $record['className']);
-		
+
 		$this->assertTrue(is_int($record['thread']));
 		$this->assertSame(getmypid(), $record['thread']);
 		$this->assertTrue(is_int($record['lineNumber']) || $record['lineNumber'] == 'NA');
@@ -141,53 +170,66 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 			microtime(true),
 			new Exception('test exception', 1)
 		);
-		
+
 		$record = $this->logOne($event);
-		
+
 		$this->assertArrayHasKey('exception', $record);
 		$this->assertEquals(1, $record['exception']['code']);
 		$this->assertEquals('test exception', $record['exception']['message']);
 		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
 	}
 
-	 public function testFormatThrowableInfoWithInnerException() {
+	public function testFormatThrowableInfoWithInnerException() {
+		// Skip test if PHP version is lower than 5.3.0 (no inner exception support)
+		if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+			$this->markTestSkipped();
+		}
 
-		 // Skip test if PHP version is lower than 5.3.0 (no inner exception support)
-		 if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-			 $this->markTestSkipped();
-		 }
+		$this->appender->activateOptions();
+		$event = new LoggerLoggingEvent(
+			'testFqcn',
+			new Logger('test.Logger'),
+			LoggerLevel::getLevelWarn(),
+			'test message',
+			microtime(true),
+			new Exception('test exception', 1, new Exception('test exception inner', 2))
+		);
 
-		 $this->appender->activateOptions();
-		 $event = new LoggerLoggingEvent(
-			 'testFqcn',
-			 new Logger('test.Logger'),
-			 LoggerLevel::getLevelWarn(),
-			 'test message',
-			 microtime(true),
-			 new Exception('test exception', 1, new Exception('test exception inner', 2))
-		 );
+		$record = $this->logOne($event);
 
-		 $record = $this->logOne($event);
+		$this->assertArrayHasKey('exception', $record);
+		$this->assertEquals(1, $record['exception']['code']);
+		$this->assertEquals('test exception', $record['exception']['message']);
+		$this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
 
-		 $this->assertArrayHasKey('exception', $record);
-		 $this->assertEquals(1, $record['exception']['code']);
-		 $this->assertEquals('test exception', $record['exception']['message']);
-		 $this->assertContains('[internal function]: LoggerAppenderMongoDBTest', $record['exception']['stackTrace']);
+		$this->assertArrayHasKey('innerException', $record['exception']);
+		$this->assertEquals(2, $record['exception']['innerException']['code']);
+		$this->assertEquals('test exception inner', $record['exception']['innerException']['message']);
+	}
 
-		 $this->assertArrayHasKey('innerException', $record['exception']);
-		 $this->assertEquals(2, $record['exception']['innerException']['code']);
-		 $this->assertEquals('test exception inner', $record['exception']['innerException']['message']);
-	 }
+	public function testCappedCollection() {
+		$expected = 2;
+		$this->appender->setCollectionName('logs_capped');
+		$this->appender->setCapped(true);
+		$this->appender->setCappedMax($expected);
+		$this->appender->activateOptions();
 
+		// Log 10 events into capped collection.
+		for ($i = 0; $i < 10; $i += 1) {
+			$this->appender->append($this->event);
+		}
 
-	 public function testClose() {
-		 $this->appender->activateOptions();
-		 $this->assertInstanceOf('Mongo', $this->appender->getConnection());
-		 $this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
-		 $this->appender->close();
-		 $this->assertNull($this->appender->getConnection());
-		 $this->assertNull($this->appender->getCollection());
-	 }
+		$this->assertEquals($expected, $this->appender->getCollection()->count());
+	}
+
+	public function testClose() {
+		$this->appender->activateOptions();
+		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
+		$this->appender->close();
+		$this->assertNull($this->appender->getConnection());
+		$this->assertNull($this->appender->getCollection());
+	}
 
 	/**
 	 * Logs the event and returns the record from the database.
