@@ -20,7 +20,9 @@
 		<title>Apache log4php changelog</title>
 	</properties>
 	<body>
-		<release version="2.3.0" date="SVN">
+		<release version="2.3.1" date="SVN">
+		</release>
+		<release version="2.3.0" date="2012-10-13">
 			<action date="2012-10-07" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek" due-to="Daniel Wong" due-to-email="dan at dsmwong dot com">LoggerPatternConverter formats max incorrectly</action>
 			<action date="2012-10-07" type="fix" issue="LOG4PHP-188" dev="Ivan Habunek">Events logged by upstream loggers even if disabled by level.</action>
 			<action date="2012-10-06" type="update" issue="LOG4PHP-186" dev="Ivan Habunek" due-to="Rasmus Lerdorf" due-to-email="rasmus at lerdorf dot com">Don't clear the entire stat cache on an append.</action>
