@@ -42,11 +42,16 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 			);
 		} else {
 			$this->appender = new LoggerAppenderMongoDB('mongo_appender');
+			$this->appender->setCollectionName('log4php_mongodb_test');
 			$this->event = LoggerTestHelper::getErrorEvent('mongo logging event', 'test_mongo');
 		}
 	}
 
 	protected function tearDown() {
+		$collection = $this->appender->getCollection();
+		if ($collection !== null) {
+			$collection->drop();
+		}
 		unset($this->appender);
 	}
 	
@@ -65,7 +70,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testDatabaseName() {
-		$expected = 'log4php_mongodb';
+		$expected = 'log4php_mongodb_test';
 		$this->appender->setDatabaseName($expected);
 		$result	= $this->appender->getDatabaseName();
 		$this->assertEquals($expected, $result);
