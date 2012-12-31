@@ -30,6 +30,9 @@
  * - **username** - Username used to connect to the database.
  * - **password** - Password used to connect to the database.
  * - **timeout** - For how long the driver should try to connect to the database (in milliseconds).
+ * - **capped** - Whether the collection should be a fixed size..
+ * - **cappedMax** - If the collection is fixed size, the maximum number of elements to store in the collection.
+ * - **cappedSize** - If the collection is fixed size, its size in bytes.
  * 
  * @package log4php
  * @subpackage appenders
@@ -62,31 +65,69 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	
 	/** Default value for {@link $timeout} */
 	const DEFAULT_TIMEOUT_VALUE = 3000;
+
+	/** Default value for {@link $capped} */
+	const DEFAULT_CAPPED = false;
+
+	/** Default value for {@link $cappedMax} */
+	const DEFAULT_CAPPED_MAX = 1000;
+
+	/** Default value for {@link $cappedSize} */
+	const DEFAULT_CAPPED_SIZE = 1000000;
 	
 	// ******************************************
 	// ** Configurable parameters              **
 	// ******************************************
 	
-	/** Server on which mongodb instance is located. */
+	/** Server on which mongodb instance is located.
+	 * @var string
+	 */
 	protected $host;
 	
-	/** Port on which the instance is bound. */
+	/** Port on which the instance is bound.
+	 * @var int
+	 */
 	protected $port;
 	
-	/** Name of the database to which to log. */
+	/** Name of the database to which to log.
+	 * @var string
+	 */
 	protected $databaseName;
 	
-	/** Name of the collection within the given database. */
+	/** Name of the collection within the given database.
+	 * @var string
+	 */
 	protected $collectionName;
 			
-	/** Username used to connect to the database. */
+	/** Username used to connect to the database.
+	 * @var string
+	 */
 	protected $userName;
 	
-	/** Password used to connect to the database. */
+	/** Password used to connect to the database.
+	 * @var string
+	 */
 	protected $password;
 	
-	/** Timeout value used when connecting to the database (in milliseconds). */
+	/** Timeout value used when connecting to the database (in milliseconds).
+	 * @var int
+	 */
 	protected $timeout;
+
+	/** Whether the collection should be a fixed size.
+	 * @var bool
+	 */
+	protected $capped;
+
+	/** If the collection is fixed size, the maximum number of elements to store in the collection.
+	 * @var int
+	 */
+	protected $cappedMax;
+
+	/** If the collection is fixed size, its size in bytes.
+	 * @var int
+	 */
+	protected $cappedSize;
 	
 	// ******************************************
 	// ** Member variables                     **
@@ -112,6 +153,9 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		$this->collectionName = self::DEFAULT_COLLECTION_NAME;
 		$this->timeout = self::DEFAULT_TIMEOUT_VALUE;
 		$this->requiresLayout = false;
+		$this->capped = self::DEFAULT_CAPPED;
+		$this->cappedMax = self::DEFAULT_CAPPED_MAX;
+		$this->cappedSize = self::DEFAULT_CAPPED_SIZE;
 	}
 	
 	/**
@@ -129,10 +173,15 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 					throw new Exception($authResult['errmsg'], $authResult['ok']);
 				}
 			}
-			$this->collection = $db->selectCollection($this->collectionName);
+			if ($this->capped === true) {
+				$this->collection = $db->createCollection($this->collectionName, $this->capped, $this->cappedSize,
+					                                      $this->cappedMax);
+			} else {
+				$this->collection = $db->selectCollection($this->collectionName);
+			}
 		} catch (MongoConnectionException $ex) {
 			$this->closed = true;
-			$this->warn(sprintf('Failed to connect to mongo deamon: %s', $ex->getMessage()));
+			$this->warn(sprintf('Failed to connect to mongo daemon: %s', $ex->getMessage()));
 		} catch (InvalidArgumentException $ex) {
 			$this->closed = true;
 			$this->warn(sprintf('Error while selecting mongo database: %s', $ex->getMessage()));
@@ -194,7 +243,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	/**
 	 * Converts an Exception into an array which can be logged to mongodb.
 	 * 
-	 * Supports innner exceptions (PHP >= 5.3)
+	 * Supports inner exceptions (PHP >= 5.3)
 	 * 
 	 * @param Exception $ex
 	 * @return array
@@ -235,7 +284,7 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		if (!preg_match('/^mongodb\:\/\//', $host)) {
 			$host = self::DEFAULT_MONGO_URL_PREFIX . $host;
 		}
-		$this->host = $host;
+		$this->setString('host', $host);
 	}
 		
 	/** 
@@ -341,7 +390,56 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 	public function getTimeout() {
 		return $this->timeout;
 	}
-	/** 
+
+	/**
+	 * Sets the value of {@link $capped} parameter.
+	 * @param bool $capped
+	 */
+	public function setCapped($capped) {
+		$this->setBoolean('capped', $capped);
+	}
+
+	/**
+	 * Returns the value of {@link $capped} parameter.
+	 * @return bool
+	 */
+	public function getCapped() {
+		return $this->capped;
+	}
+
+	/**
+	 * Sets the value of {@link $cappedMax} parameter.
+	 * @param int $cappedMax
+	 */
+	public function setCappedMax($cappedMax) {
+		$this->setPositiveInteger('cappedMax', $cappedMax);
+	}
+
+	/**
+	 * Returns the value of {@link $cappedMax} parameter.
+	 * @return int
+	 */
+	public function getCappedMax() {
+		return $this->cappedMax;
+	}
+
+	/**
+	 * Sets the value of {@link $cappedSize} parameter.
+	 * @param int $cappedSize
+	 */
+	public function setCappedSize($cappedSize) {
+		$this->setPositiveInteger('cappedSize', $cappedSize);
+	}
+
+	/**
+	 * Returns the value of {@link $cappedSzie} parameter.
+	 * @return int
+	 */
+	public function getCappedSize() {
+		return $this->cappedSize;
+	}
+
+	/**
 	 * Returns the mongodb connection.
 	 * @return Mongo
 	 */
