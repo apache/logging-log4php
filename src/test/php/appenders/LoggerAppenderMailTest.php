@@ -64,4 +64,28 @@ class LoggerAppenderMailTest extends PHPUnit_Framework_TestCase {
 		$appender->append(LoggerTestHelper::getFatalEvent('fatality!'));
 		$appender->close();
 	}
+
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage Required parameter 'to' not set.
+	 */
+	public function testErrorMissingTo() {
+		$appender = new LoggerAppenderMail("testAppender");
+		$appender->setLayout(new LoggerLayoutHtml());
+		$appender->setFrom('log4php@localhost');
+		$appender->setSubject("Testing text/html " . date('Y-m-d H:i:s'));
+		$appender->activateOptions();
+	}
+
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage Required parameter 'from' not set.
+	 */
+	public function testErrorMissingFrom() {
+		$appender = new LoggerAppenderMail("testAppender");
+		$appender->setLayout(new LoggerLayoutHtml());
+		$appender->setTo('log4php@gmail.com');
+		$appender->setSubject("Testing text/html " . date('Y-m-d H:i:s'));
+		$appender->activateOptions();
+	}
 }

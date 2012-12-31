@@ -45,7 +45,7 @@ class LoggerAppenderMail extends LoggerAppender {
 	 * Email address to put in From field of the email.
 	 * @var string
 	 */
-	protected $from = null;
+	protected $from;
 
 	/** 
 	 * The subject of the email.
@@ -57,14 +57,7 @@ class LoggerAppenderMail extends LoggerAppender {
 	 * One or more comma separated email addresses to which to send the email. 
 	 * @var string
 	 */
-	protected $to = null;
-
-	/** 
-	 * Indiciates whether this appender should run in dry mode.
-	 * @deprecated
-	 * @var boolean 
-	 */
-	protected $dry = false;
+	protected $to;
 
 	/** 
 	 * Buffer which holds the email contents before it is sent. 
@@ -73,29 +66,32 @@ class LoggerAppenderMail extends LoggerAppender {
 	protected $body = '';
 	
 	public function append(LoggerLoggingEvent $event) {
-		if($this->layout !== null) {
-			$this->body .= $this->layout->format($event);
+		$this->body .= $this->layout->format($event);
+	}
+
+	public function activateOptions() {
+		if (empty($this->from)) {
+			$this->warn("Required parameter 'from' not set. Closing appender.");
+			$this->closed = true;
+			return;
+		}
+		if (empty($this->to)) {
+			$this->warn("Required parameter 'to' not set. Closing appender.");
+			$this->closed = true;
+			return;
 		}
 	}
 	
 	public function close() {
-		if($this->closed != true) {
-			$from = $this->from;
-			$to = $this->to;
-	
-			if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-				if(!$this->dry) {
-					$message = $this->layout->getHeader() . $this->body . $this->layout->getFooter();
-					$subject = $this->subject;
-					$contentType = $this->layout->getContentType();
-					
-					$headers = "From: {$from}\r\n";
-					$headers .= "Content-Type: {$contentType}\r\n";
-					
-					mail($to, $subject, $message, $headers);
-				} else {
-				    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->body;
-				}
+		if(!$this->closed) {
+			if(!empty($this->body)) {
+				$message = $this->layout->getHeader() . $this->body . $this->layout->getFooter();
+				$contentType = $this->layout->getContentType();
+
+				$headers = "From: {$this->from}\r\n";
+				$headers .= "Content-Type: {$contentType}\r\n";
+
+				mail($this->to, $this->subject, $message, $headers);
 			}
 			$this->closed = true;
 		}
@@ -129,10 +125,5 @@ class LoggerAppenderMail extends LoggerAppender {
 	/** Returns the 'from' parameter. */
 	public function getFrom() {
 		return $this->from;
-	}
-
-	/** Enables or disables dry mode. */
-	public function setDry($dry) {
-		$this->setBoolean('dry', $dry);
 	}
 }
