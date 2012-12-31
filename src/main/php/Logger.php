@@ -589,7 +589,7 @@ class Logger {
 	 * Returns true if the log4php framework has been initialized.
 	 * @return boolean 
 	 */
-	private static function isInitialized() {
+	public static function isInitialized() {
 		return self::$initialized;
 	}
 }
