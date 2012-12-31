@@ -20,7 +20,8 @@
 		<title>Apache log4php changelog</title>
 	</properties>
 	<body>
-		<release version="2.3.1" date="SVN">
+		<release version="develop">
+			<action date="2012-12-31" type="update" issue="LOG4PHP-144" dev="Ivan Habunek">Improved LoggerAppenderMail to set the Content-type header as defined in layout.</action>
 		</release>
 		<release version="2.3.0" date="2012-10-13">
 			<action date="2012-10-07" type="fix" issue="LOG4PHP-163" dev="Ivan Habunek" due-to="Daniel Wong" due-to-email="dan at dsmwong dot com">LoggerPatternConverter formats max incorrectly</action>

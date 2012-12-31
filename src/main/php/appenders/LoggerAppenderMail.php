@@ -84,12 +84,15 @@ class LoggerAppenderMail extends LoggerAppender {
 			$to = $this->to;
 	
 			if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-				$subject = $this->subject;
 				if(!$this->dry) {
-					mail(
-						$to, $subject, 
-						$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
-						"From: {$from}\r\n");
+					$message = $this->layout->getHeader() . $this->body . $this->layout->getFooter();
+					$subject = $this->subject;
+					$contentType = $this->layout->getContentType();
+					
+					$headers = "From: {$from}\r\n";
+					$headers .= "Content-Type: {$contentType}\r\n";
+					
+					mail($to, $subject, $message, $headers);
 				} else {
 				    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->body;
 				}
