@@ -30,7 +30,7 @@
  * - **username** - Username used to connect to the database.
  * - **password** - Password used to connect to the database.
  * - **timeout** - For how long the driver should try to connect to the database (in milliseconds).
- * - **capped** - Whether the collection should be a fixed size..
+ * - **capped** - Whether the collection should be a fixed size.
  * - **cappedMax** - If the collection is fixed size, the maximum number of elements to store in the collection.
  * - **cappedSize** - If the collection is fixed size, its size in bytes.
  * 

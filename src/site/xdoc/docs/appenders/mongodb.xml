@@ -97,6 +97,27 @@
 							<td>3000</td>
 							<td>For how long the driver should try to connect to the database (in milliseconds).</td>
 						</tr>
+                        <tr>
+                            <td>capped</td>
+                            <td>integer</td>
+                            <td>No</td>
+                            <td>false</td>
+                            <td>Whether the collection should be a fixed size.</td>
+                        </tr>
+                        <tr>
+                            <td>cappedMax</td>
+                            <td>integer</td>
+                            <td>No</td>
+                            <td>1000</td>
+                            <td>If the collection is fixed size, the maximum number of elements to store in the collection.</td>
+                        </tr>
+                        <tr>
+                            <td>cappedSize</td>
+                            <td>integer</td>
+                            <td>No</td>
+                            <td>1000000</td>
+                            <td>If the collection is fixed size, its size in bytes.</td>
+                        </tr>
 					</tbody>
 				</table>
 			</subsection>
@@ -110,7 +131,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+                        <tr>
+                            <td><code>3.0.0</code></td>
+                            <td>Added support for capped collections.</td>
+                        </tr>
+                        <tr>
 							<td><code>2.2.0</code></td>
 							<td>Added the <code>timeout</code> parameter.</td>
 						</tr>
