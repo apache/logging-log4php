@@ -33,6 +33,7 @@
  *     addresses may be specified by separating them with a comma.
  * - **from** - Email address which will be used in the From field.
  * - **subject** - Subject of the email message.
+ * - **bufferSize** - Output buffer size. Number of messages sent together.
  * 
  * @package log4php
  * @subpackage appenders
@@ -65,8 +66,24 @@ class LoggerAppenderMail extends LoggerAppender {
 	 */
 	protected $body = '';
 	
+	/**
+	 * Output buffer size. Number of meessages kept in buffer before sending.
+	 * @var integer
+	 */
+	protected $bufferSize;
+
+	/**
+	 * Number of messages currently in buffer.
+	 * @var string
+	 */
+	protected $bufferCount = 0;
+
 	public function append(LoggerLoggingEvent $event) {
 		$this->body .= $this->layout->format($event);
+		$this->bufferCount += 1;
+		if(isset($this->bufferSize) && $this->bufferCount >= $this->bufferSize) {
+			$this->send();
+		}
 	}
 
 	public function activateOptions() {
@@ -85,16 +102,27 @@ class LoggerAppenderMail extends LoggerAppender {
 	public function close() {
 		if(!$this->closed) {
 			if(!empty($this->body)) {
-				$message = $this->layout->getHeader() . $this->body . $this->layout->getFooter();
-				$contentType = $this->layout->getContentType();
-
-				$headers = "From: {$this->from}\r\n";
-				$headers .= "Content-Type: {$contentType}\r\n";
-
-				mail($this->to, $this->subject, $message, $headers);
+				$this->send();
 			}
 			$this->closed = true;
 		}
+	}
+
+	protected function send() {
+		$message = $this->layout->getHeader() . $this->body . $this->layout->getFooter();
+		$contentType = $this->layout->getContentType();
+
+		$headers = "From: {$this->from}\r\n";
+		$headers .= "Content-Type: {$contentType}\r\n";
+
+		$success = mail($this->to, $this->subject, $message, $headers);
+		if ($success === false) {
+			$this->warn("Failed sending email. Please check your php.ini settings. Closing appender.");
+			$this->closed = true;
+		}
+
+		$this->bufferCount = 0;
+		$this->body = '';
 	}
 	
 	/** Sets the 'subject' parameter. */
@@ -125,5 +153,15 @@ class LoggerAppenderMail extends LoggerAppender {
 	/** Returns the 'from' parameter. */
 	public function getFrom() {
 		return $this->from;
+	}
+
+	/** Sets the 'bufferSize' parameter. */
+	public function setBufferSize($bufferSize) {
+		$this->setInteger('bufferSize', $bufferSize);
+	}
+
+	/** Returns the 'bufferSize' parameter. */
+	public function getBufferSize() {
+		return $this->bufferSize;
 	}
 }
