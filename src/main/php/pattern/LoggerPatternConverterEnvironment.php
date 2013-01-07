@@ -30,5 +30,7 @@
  * @since 2.3
  */
 class LoggerPatternConverterEnvironment extends LoggerPatternConverterSuperglobal {
-	protected $name = '_ENV';
+	protected function getSource() {
+		return $_ENV;
+	}
 }

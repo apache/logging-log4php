@@ -36,12 +36,6 @@
  * @since 2.3
  */
 abstract class LoggerPatternConverterSuperglobal extends LoggerPatternConverter {
-
-	/** 
-	 * Name of the superglobal variable, to be defined by subclasses. 
-	 * For example: "_SERVER" or "_ENV". 
-	 */
-	protected $name;
 	
 	protected $value = '';
 	
@@ -50,33 +44,8 @@ abstract class LoggerPatternConverterSuperglobal extends LoggerPatternConverter 
 		if (isset($this->option) && $this->option !== '') {
 			$key = $this->option;
 		}
-	
-		/*
-		 * There is a bug in PHP which doesn't allow superglobals to be 
-		 * accessed when their name is stored in a variable, e.g.:
-		 * 
-		 * $name = '_SERVER';
-		 * $array = $$name;
-		 * 
-		 * This code does not work when run from within a method (only when run
-		 * in global scope). But the following code does work: 
-		 * 
-		 * $name = '_SERVER';
-		 * global $$name;
-		 * $array = $$name;
-		 * 
-		 * That's why global is used here.
-		 */
-		global ${$this->name};
-			
-		// Check the given superglobal exists. It is possible that it is not initialized.
-		if (!isset(${$this->name})) {
-			$class = get_class($this);
-			trigger_error("log4php: $class: Cannot find superglobal variable \${$this->name}.", E_USER_WARNING);
-			return;
-		}
-		
-		$source = ${$this->name};
+
+		$source = $this->getSource();
 		
 		// When the key is set, display the matching value
 		if (isset($key)) {

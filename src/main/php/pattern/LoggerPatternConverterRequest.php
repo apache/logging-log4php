@@ -30,5 +30,7 @@
  * @since 2.3
  */
 class LoggerPatternConverterRequest extends LoggerPatternConverterSuperglobal {
-	protected $name = '_REQUEST';
+	protected function getSource() {
+		return $_REQUEST;
+	}
 }
