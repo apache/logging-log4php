@@ -31,7 +31,18 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 		$appender = new LoggerAppenderMailEvent();
 		self::assertTrue($appender->requiresLayout());
 	}
-	
+
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 * @expectedExceptionMessage LoggerAppenderMailEvent is deprecated and will be removed in a future release.Please use LoggerAppenderMail instead.
+	 */
+	public function checkDeprecationWarning() {
+		$appender = new LoggerAppenderMailEvent("myname");
+		$appender->setTo('test@example.com');
+		$appender->setFrom('Testsender');
+		$appender->activateOptions();
+	}
+
 	public function testMail() {
 		$appender = new LoggerAppenderMailEvent("myname");
 		
@@ -41,7 +52,7 @@ class LoggerAppenderMailEventTest extends PHPUnit_Framework_TestCase {
 		$appender->setTo('test@example.com');
 		$appender->setFrom('Testsender');
 		
-		$appender->activateOptions();
+		@$appender->activateOptions(); // Mute deprecation warning.
 		$event = new LoggerLoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), LoggerLevel::getLevelError(), "testmessage");
 		 
 		ob_start();

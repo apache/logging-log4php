@@ -30,6 +30,13 @@
 			<p>This appender is similar to <code><a href="mail.html">LoggerAppenderMail</a></code>, except that it 
   			sends each each log event in an individual email message at the time when it occurs.</p>
 			
+		    <div class="alert alert-error">
+		        <span class="alert-heading">Deprecated!</span>
+		        <p>LoggerAppenderMailEvent is deprecated and will be removed in a future release. Please use 
+		        <a href="mail.html">LoggerAppenderMail</a> with <code>bufferSize</code> parameter set to 
+				<code>1</code> instead.</p>
+            </div>
+			
 			<subsection name="Layout">
 				<p>This appender requires a layout. If no layout is specified in configuration, 
 				<code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
