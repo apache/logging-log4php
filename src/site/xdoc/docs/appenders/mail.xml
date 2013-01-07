@@ -26,11 +26,6 @@
 		<section name="LoggerAppenderMail">
 		
 			<p><code>LoggerAppenderMail</code> appends log events via email.</p>
-			
-			<p>This appender does not send individual emails for each logging requests but will collect them in a 
-			buffer and send them all in a single email once the appender is closed (i.e. when the script exists). 
-			Because of this, it may not appropriate for long running scripts, in which case
-			<code><a href="mail-event.html">LoggerAppenderMailEvent</a></code> might be a better choice.</p>
 		
 			<p class="alert alert-warning"><strong>Note:</strong> When working in Windows, make sure that the 
 			<code>SMTP</code> and <code>smpt_port</code> values in php.ini are set to the correct values for 
@@ -77,11 +72,44 @@
 							<td>Log4php Report</td>
 							<td>Subject of the email message.</td>
 						</tr>
+						<tr>
+							<td>bufferSize</td>
+							<td>integer</td>
+							<td>No</td>
+							<td>null</td>
+							<td>If set, determines how many messages will be buffered before sending them to the 
+							recipient. If not set, all messages will be sent when the appender is closed.</td>
+						</tr>
 					</tbody>
 				</table>
-				
 			</subsection>
 				
+			<subsection name="Changelog">
+				<table class="table table-striped table-bordered table-not-wide">
+					<thead>
+						<tr>
+							<th>Version</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+                        <tr>
+                            <td><code>3.0.0</code></td>
+                            <td>Added buffering and the <em>bufferSize</em> parameter.</td>
+                        </tr>
+					</tbody>
+				</table>
+			</subsection>
+
+			<subsection name="Buffering">
+				<p>The <code>bufferSize</code> parameter determines how many messages will be buffered before sending
+				them together in a single email. When not set, all messages will be buffered, and the email will not
+				be sent until the script exits.</p>
+				
+				<p>Setting the <code>bufferSize</code> to 1 means that each message will be sent in it's own email.
+				Setting it to 5 means that messages will be sent in batches of 5, etc...</p>
+			</subsection>
+
 			<subsection name="Examples">
 				
 				<p>This example shows how to configure <code>LoggerAppenderMail</code> to send the log to two email 
