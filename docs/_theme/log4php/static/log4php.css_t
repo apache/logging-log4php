@@ -2,7 +2,7 @@
 
 .layout-table { width: 100%; }
 .sidebar { width: 250px; vertical-align: top; }
-.content { padding-left: 20px; vertical-align: top; }
+.content { padding-right: 20px; vertical-align: top; }
 .footer { background-color: whitesmoke; padding: 15px; margin-top: 15px; text-align: right; border-top: 1px solid #EEEEEE; }
 .footer p { font-size: 11px; margin: 0 } 
 
@@ -20,6 +20,15 @@ h4 { font-size: 14px   }
 h5 { font-size: 11.9px }
 
 dl.function dd { margin-top: 15px }
+
+/* -- sidebar --------------------------------------------------------------- */
+
+.sidebar-nav ul { list-style: none; margin-left: 0 }
+.sidebar-nav ul li a { display: block; padding: 3px 15px; text-decoration: none; margin-left: -19px; margin-right: -19px; }
+.sidebar-nav ul li a:hover { background-color: #eeeeee; }
+.sidebar-nav ul li a.current { color: #fff; text-shadow: 0 -1px 0 rgba(0,0,0,0.2); background-color: #08c }
+
+.sidebar-nav h3 { text-transform: uppercase; font-size: 11px; font-weight: bold; margin: 0 0 0 -10px }
 
 /* -- header links ---------------------------------------------------------- */
 
@@ -58,7 +67,6 @@ dt:hover > a.headerlink { visibility: visible; }
 .container.tabs li { display:inline; margin-left: 8px; padding: 5px 15px 3px 15px; border: 1px solid #CCC; border-bottom: none; margin-bottom: -1px; }
 .container.tabs li.active { border-bottom: none; background-color: lemonchiffon }
 .container.tabs li a { text-decoration: none }
-
 
 .highlighttable { width: 100%; }
 .highlighttable td.linenos { width: 22px; text-align: right; padding-right: 5px } 
