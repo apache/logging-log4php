@@ -7,7 +7,7 @@ LoggerFilterLevelMatch either accepts the specified logger level or denies it.
 Parameters
 ----------
 
-This filter has the following parameters:
+The following parameters are available:
 
 +---------------+-------------+----------+---------+------------------------------------+
 | Parameter     | Type        | Required | Default | Description                        |

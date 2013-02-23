@@ -7,6 +7,8 @@ LoggerLayoutHTML formats the log as an HTML document.
 Parameters
 ----------
 
+The following parameters are available:
+
 +----------------+---------+----------+----------+-------------------------------------------------+
 | Parameter      | Type    | Required | Default  | Description                                     |
 +================+=========+==========+==========+=================================================+

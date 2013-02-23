@@ -14,6 +14,8 @@ This appender requires a layout. If no layout is specified in configuration,
 Parameters
 ----------
 
+The following parameters are available:
+
 +-----------+--------+----------+---------+-------------------------------------------------------+
 | Parameter | Type   | Required | Default | Description                                           |
 +===========+========+==========+=========+=======================================================+
