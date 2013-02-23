@@ -92,7 +92,7 @@ pygments_style = 'default'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'log4php'
+html_theme = 'log4php-sd'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -116,7 +116,7 @@ html_theme_path = ["_theme"]
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = "favicon.ico"
+# html_favicon = "favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -131,8 +131,9 @@ html_favicon = "favicon.ico"
 # typographically correct entities.
 #html_use_smartypants = True
 
-# HTML translator class for the builder
-html_translator_class = "log4phpdocs.Log4phpHTMLTranslator"
+# HTML translator class for the builder (required only for the bootstrap theme)
+if html_theme == 'log4php':
+    html_translator_class = "log4phpdocs.Log4phpHTMLTranslator"
 
 # Content template for the index page.
 #html_index = ''
