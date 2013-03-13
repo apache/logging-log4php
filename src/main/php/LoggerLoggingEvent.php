@@ -194,6 +194,14 @@ class LoggerLoggingEvent {
 	}
 
 	/**
+	 * Sets the event's location info. Can be used to override the default info.
+	 * @param LoggerLocationInfo $locationInfo
+	 */
+	public function setLocationInformation(LoggerLocationInfo $locationInfo) {
+		$this->locationInfo = $locationInfo;
+	}
+
+	/**
 	 * Return the level of this event. Use this form instead of directly
 	 * accessing the {@link $level} field.
 	 * @return LoggerLevel	
