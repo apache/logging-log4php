@@ -31,12 +31,12 @@
  * @group appenders
  */
 class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
-		
+
 	protected $appender;
 	protected $event;
-	
+
 	protected function setUp() {
-		if (!extension_loaded('mongo')) {
+		if (!extension_loaded('Mongo')) {
 			$this->markTestSkipped(
 				'The Mongo extension is not available.'
 			);
@@ -54,7 +54,14 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		}
 		unset($this->appender);
 	}
-	
+
+	public function testConnectionString() {
+		$expected = 'mongodb://localhost,localhost';
+		$this->appender->setConnectionString($expected);
+		$result = $this->appender->getConnectionString();
+		$this->assertEquals($expected, $result);
+	}
+
 	public function testHost() {
 		$expected = 'mongodb://localhost';
 		$this->appender->setHost($expected);
@@ -125,9 +132,52 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	public function testWriteConcern() {
+		$expected = 7;
+		$this->appender->setWriteConcern($expected);
+		$result = $this->appender->getWriteConcern();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testWriteConcernJournaled() {
+		$expected = true;
+		$this->appender->setWriteConcernJournaled($expected);
+		$result = $this->appender->getWriteConcernJournaled();
+		$this->assertEquals($expected, $result);
+	}
+
+
+	public function testWriteConcernTimeout() {
+		$expected = 100;
+		$this->appender->setWriteConcernTimeout($expected);
+		$result = $this->appender->getWriteConcernTimeout();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testConnectionTimeout() {
+		$expected = 200;
+		$this->appender->setConnectionTimeout($expected);
+		$result = $this->appender->getConnectionTimeout();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testSocketTimeout() {
+		$expected = 300;
+		$this->appender->setSocketTimeout($expected);
+		$result = $this->appender->getSocketTimeout();
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testReplicaSet() {
+		$expected = 'replica_set';
+		$this->appender->setReplicaSet($expected);
+		$result = $this->appender->getReplicaSet();
+		$this->assertEquals($expected, $result);
+	}
+
 	public function testActivateOptions() {
 		$this->appender->activateOptions();
-		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoClient', $this->appender->getConnection());
 		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
 	}
 
@@ -135,7 +185,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->appender->setUserName(null);
 		$this->appender->setPassword(null);
 		$this->appender->activateOptions();
-		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoClient', $this->appender->getConnection());
 		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
 	}
 
@@ -143,7 +193,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->appender->setCollectionName('logs_capped');
 		$this->appender->setCapped(true);
 		$this->appender->activateOptions();
-		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoClient', $this->appender->getConnection());
 		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
 	}
 
@@ -227,9 +277,22 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $this->appender->getCollection()->count());
 	}
 
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function testReplicaSetOption() {
+		$this->appender->setReplicaSet('mongo_appender_replica_set1');
+		$this->appender->activateOptions();
+	}
+
+	public function testMultipleHostsConnection() {
+		$this->appender->setConnectionString('mongodb://locahost:27017,localhost:27017');
+		$this->appender->activateOptions();
+	}
+
 	public function testClose() {
 		$this->appender->activateOptions();
-		$this->assertInstanceOf('Mongo', $this->appender->getConnection());
+		$this->assertInstanceOf('MongoClient', $this->appender->getConnection());
 		$this->assertInstanceOf('MongoCollection', $this->appender->getCollection());
 		$this->appender->close();
 		$this->assertNull($this->appender->getConnection());
