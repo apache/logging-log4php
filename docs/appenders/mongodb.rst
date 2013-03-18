@@ -16,22 +16,55 @@ Parameters
 ----------
 The following parameters are available:
 
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| Parameter    | Type    | Required | Default             | Description                                   |
-+==============+=========+==========+=====================+===============================================+
-| host         | string  | No       | mongodb://localhost | Server on which mongodb instance is located.  |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| port         | integer | No       | 27017               | Port on which the instance is bound.          |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| databaseName | string  | No       | log4php_mongodb     | Name of the database to which to log.         |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| username     | string  | No       |                     | Username used to connect to the database.     |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| password     | string  | No       |                     | Password used to connect to the database.     |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
-| timeout      | integer | No       | 3000                | For how long the driver should try to connect |
-|              |         |          |                     | to the database (in milliseconds).            |
-+--------------+---------+----------+---------------------+-----------------------------------------------+
+Note: additional parameters supported by the driver can be supplied by **connectionString**
+
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| Parameter              | Type    | Required | Default             | Description                                   |
++========================+=========+==========+=====================+===============================================+
+| connectionString       | string  | No       |                     | Connection string defining one or multiple    |
+|                        |         |          |                     | hosts.                                        |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| host                   | string  | No       | localhost           | Server on which mongodb instance is located.  |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| port                   | integer | No       | 27017               | Port on which the instance is bound.          |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| databaseName           | string  | No       | log4php_mongodb     | Name of the database to which to log.         |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| collectionName         | string  | No       | logs                | Name of the collection to which to log.       |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| username               | string  | No       |                     | Username used to connect to the database.     |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| password               | string  | No       |                     | Password used to connect to the database.     |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| timeout                | integer | No       | 3000                | **DEPRECATED** For how long the driver should |
+|                        |         |          |                     | try to connect to the database                |
+|                        |         |          |                     | (in milliseconds). Use connectionTimeout      |
+|                        |         |          |                     | instead                                       |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| connectionTimeout      | integer | No       |                     | How long a connection can take to be opened   |
+|                        |         |          |                     | before timing out.                          |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| socketTimeout          | integer | No       |                     | How long a send or receive on a socket can    |
+|                        |         |          |                     | take before timing out.                       |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| capped                 | boolean | No       | false               | Whether the collection should be a fixed size.|
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| cappedMax              | integer | No       | 1000                | Maximum number of elements to store.          |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| cappedSize             | integer | No       | 1000000             | Size of capped collection in bytes.           |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| writeConcern           | string  | No       | 1                   | Controls how many nodes must acknowledge the  |
+|                        |         |          |                     | write instruction before the driver continues.|
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| writeConcernJournaled  | boolean | No       | false               | The write will be acknowledged by primary and |
+|                        |         |          |                     | the journal flushed to disk.                  |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| writeConcernTimeout    | integer | No       | 3000                | Controls how many milliseconds the server     |
+|                        |         |          |                     | waits for the write concern to be satisfied.  |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
+| replicaSet             | string  | No       |                     | The name of the replica set to connect to.    |
+|                        |         |          |                     | Primary will be automatically determined.     |
++------------------------+---------+----------+---------------------+-----------------------------------------------+
 
 .. versionadded:: 2.2.0
     The ``timeout`` parameter.
@@ -48,7 +81,7 @@ database.
 
         <configuration xmlns="http://logging.apache.org/log4php/">
             <appender name="default" class="LoggerAppenderMongoDB">
-                <param name="host" value="mongodb://example.com" />
+                <param name="host" value="example.com" />
                 <param name="username" value="logger" />
                 <param name="password" value="secret" />
             </appender>
@@ -65,7 +98,7 @@ database.
                 'default' => array(
                     'class' => 'LoggerAppenderMongoDB',
                     'params' => array(
-                        'host' => 'mongodb://example.com',
+                        'host' => 'example.com',
                         'username' => 'logger',
                         'password' => 'secret',
                     ),
