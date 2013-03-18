@@ -48,9 +48,11 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDown() {
-		$collection = $this->appender->getCollection();
-		if ($collection !== null) {
-			$collection->drop();
+		if (extension_loaded('Mongo')) {
+			$collection = $this->appender->getCollection();
+			if ($collection !== null) {
+				$collection->drop();
+			}
 		}
 		unset($this->appender);
 	}
