@@ -264,7 +264,9 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 			$clientClass = class_exists('MongoClient') ? 'MongoClient' : 'Mongo';
 			# Connection string generation.
 			if ($this->connectionString === null) {
-				$connectionString = sprintf('%s%s:%d', self::DEFAULT_MONGO_URL_PREFIX, $this->host, $this->port);
+				$connectionString = sprintf('%s%s:%d', self::DEFAULT_MONGO_URL_PREFIX,
+							    preg_replace('/^'.preg_quote(self::DEFAULT_MONGO_URL_PREFIX, '/').'/', '', $this->host),
+							    $this->port);
 			} else {
 				$connectionString = $this->connectionString;
 			}
