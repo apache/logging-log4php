@@ -42,7 +42,7 @@ Note: additional parameters supported by the driver can be supplied by **connect
 |                        |         |          |                     | instead                                       |
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
 | connectionTimeout      | integer | No       |                     | How long a connection can take to be opened   |
-|                        |         |          |                     | before timing out.                          |
+|                        |         |          |                     | before timing out.                            |
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
 | socketTimeout          | integer | No       |                     | How long a send or receive on a socket can    |
 |                        |         |          |                     | take before timing out.                       |
