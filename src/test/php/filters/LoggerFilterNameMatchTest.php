@@ -64,6 +64,22 @@ class LoggerFilterNameMatchTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($filter->decide($eventFromElsewhere), LoggerFilter::NEUTRAL);
     }
 
+    public function testExactMatch() {
+        $filter = new LoggerFilterNameMatch();
+        $filter->setAcceptOnMatch("true");
+        $filter->setStringToMatch("Accept");
+        $filter->setExactMatch("true");
+
+        $eventFromAccept = new LoggerLoggingEvent("LoggerFilterNameMatchTest", new Logger('Accept'), LoggerLevel::getLevelInfo(), "Irrelevant");
+        $eventFromAccepted = new LoggerLoggingEvent("LoggerFilterNameMatchTest", new Logger('Accepted'), LoggerLevel::getLevelInfo(), "Irrelevant");
+        $eventFromElsewhere = new LoggerLoggingEvent("LoggerFilterNameMatchTest", new Logger('Elsewhere'), LoggerLevel::getLevelInfo(), "Irrelevant");
+
+        // Partial matches are accepted.
+        $this->assertEquals($filter->decide($eventFromAccept), LoggerFilter::ACCEPT);
+        $this->assertEquals($filter->decide($eventFromAccepted), LoggerFilter::NEUTRAL);
+        $this->assertEquals($filter->decide($eventFromElsewhere), LoggerFilter::NEUTRAL);
+    }
+
     public function testAcceptOnMatchTrue() {
         $filter = new LoggerFilterNameMatch();
         $filter->setAcceptOnMatch("true");

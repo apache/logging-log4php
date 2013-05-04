@@ -21,15 +21,15 @@
 /**
  * This is a very simple filter based on string matching.
  *
- * <p>The filter admits three options: {@link $stringToMatch}, {@link $caseSensitive}, and
- * {@link $acceptOnMatch}. If there is a match (using {@link PHP_MANUAL#strpos}
- * between the value of the {@link $stringToMatch} option and the name
- * of the {@link LoggerLoggingEvent},
- * then the {@link decide()} method returns {@link LoggerFilter::ACCEPT} if
- * the <b>AcceptOnMatch</b> option value is true, if it is false then
- * {@link LoggerFilter::DENY} is returned. If there is no match, {@link LoggerFilter::NEUTRAL}
+ * <p>The filter admits four options: {@link $stringToMatch}, {@link $caseSensitive},
+ * {@link $exactMatch}, and
+ * {@link $acceptOnMatch}. If the value of the {@link $stringToMatch} option is included
+ * in name of the {@link LoggerLoggingEvent}, then the {@link decide()} method returns
+ * {@link LoggerFilter::ACCEPT} if the <b>AcceptOnMatch</b> option value is true and
+ * {@link LoggerFilter::DENY} if it is false. If there is no match, {@link LoggerFilter::NEUTRAL}
  * is returned. Matching is case-sensitive by default. Setting {@link $caseSensitive}
- * to false makes matching case insensitive.</p>
+ * to false makes matching case insensitive. An exact match can be required by setting
+ * {@link $exactMatch} to true.</p>
  *
  * <p>
  * An example for this filter:
@@ -58,6 +58,11 @@ class LoggerFilterNameMatch extends LoggerFilter {
 	protected $caseSensitive = true;
 
 	/**
+	 * @var boolean
+	 */
+	protected $exactMatch = false;
+
+	/**
 	 * @var string
 	 */
 	protected $stringToMatch;
@@ -74,6 +79,13 @@ class LoggerFilterNameMatch extends LoggerFilter {
 	 */
 	public function setCaseSensitive($caseSensitive) {
 		$this->setBoolean('caseSensitive', $caseSensitive);
+	}
+
+	/**
+	 * @param mixed $caseSensitive a boolean or a string ('true' or 'false')
+	 */
+	public function setExactMatch($exactMatch) {
+		$this->setBoolean('exactMatch', $exactMatch);
 	}
 
 	/**
@@ -100,9 +112,18 @@ class LoggerFilterNameMatch extends LoggerFilter {
 		}
 	}
 
+
 	protected function testString($method, $msg) {
 		if($method($msg, $this->stringToMatch) !== false) {
-			return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY;
+			if($this->exactMatch) {
+				$lenFunc = function_exists('mb_strlen') ? 'mb_strlen' : 'strlen';
+				if($lenFunc($this->stringToMatch) === $lenFunc($msg)) {
+					// We were looking for an exact match, and we found one.
+					return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY;
+				}
+			} else { // No exact match required.
+				return ($this->acceptOnMatch) ? LoggerFilter::ACCEPT : LoggerFilter::DENY;
+			}
 		}
 		return LoggerFilter::NEUTRAL;
 	}
