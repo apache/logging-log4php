@@ -6,15 +6,15 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  *		http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * @package log4php
  */
 
@@ -26,15 +26,15 @@ spl_autoload_register(array('LoggerAutoloader', 'autoload'));
 
 /**
  * Class autoloader.
- * 
+ *
  * @package log4php
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class LoggerAutoloader {
-	
+
 	/** Maps classnames to files containing the class. */
 	private static $classes = array(
-	
+
 		// Base
 		'LoggerAppender' => '/LoggerAppender.php',
 		'LoggerAppenderPool' => '/LoggerAppenderPool.php',
@@ -52,7 +52,7 @@ class LoggerAutoloader {
 		'LoggerReflectionUtils' => '/LoggerReflectionUtils.php',
 		'LoggerRoot' => '/LoggerRoot.php',
 		'LoggerThrowableInformation' => '/LoggerThrowableInformation.php',
-		
+
 		// Appenders
 		'LoggerAppenderConsole' => '/appenders/LoggerAppenderConsole.php',
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
@@ -68,7 +68,7 @@ class LoggerAutoloader {
 		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
 		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
 		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
-		
+
 		// Configurators
 		'LoggerConfigurationAdapter' => '/configurators/LoggerConfigurationAdapter.php',
 		'LoggerConfigurationAdapterINI' => '/configurators/LoggerConfigurationAdapterINI.php',
@@ -79,7 +79,8 @@ class LoggerAutoloader {
 		// Filters
 		'LoggerFilterDenyAll' => '/filters/LoggerFilterDenyAll.php',
 		'LoggerFilterLevelMatch' => '/filters/LoggerFilterLevelMatch.php',
-		'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
+        'LoggerFilterLevelRange' => '/filters/LoggerFilterLevelRange.php',
+        'LoggerFilterNameMatch' => '/filters/LoggerFilterNameMatch.php',
 		'LoggerFilterStringMatch' => '/filters/LoggerFilterStringMatch.php',
 
 		// Helpers
@@ -87,7 +88,7 @@ class LoggerAutoloader {
 		'LoggerOptionConverter' => '/helpers/LoggerOptionConverter.php',
 		'LoggerPatternParser' => '/helpers/LoggerPatternParser.php',
 		'LoggerUtils' => '/helpers/LoggerUtils.php',
-	
+
 		// Pattern converters
 		'LoggerPatternConverter' => '/pattern/LoggerPatternConverter.php',
 		'LoggerPatternConverterClass' => '/pattern/LoggerPatternConverterClass.php',
@@ -113,7 +114,7 @@ class LoggerAutoloader {
 		'LoggerPatternConverterSessionID' => '/pattern/LoggerPatternConverterSessionID.php',
 		'LoggerPatternConverterSuperglobal' => '/pattern/LoggerPatternConverterSuperglobal.php',
 		'LoggerPatternConverterThrowable' => '/pattern/LoggerPatternConverterThrowable.php',
-		
+
 		// Layouts
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutPattern' => '/layouts/LoggerLayoutPattern.php',
@@ -121,14 +122,14 @@ class LoggerAutoloader {
 		'LoggerLayoutSimple' => '/layouts/LoggerLayoutSimple.php',
 		'LoggerLayoutTTCC' => '/layouts/LoggerLayoutTTCC.php',
 		'LoggerLayoutXml' => '/layouts/LoggerLayoutXml.php',
-		
+
 		// Renderers
 		'LoggerRendererDefault' => '/renderers/LoggerRendererDefault.php',
 		'LoggerRendererException' => '/renderers/LoggerRendererException.php',
 		'LoggerRendererMap' => '/renderers/LoggerRendererMap.php',
 		'LoggerRenderer' => '/renderers/LoggerRenderer.php',
 	);
-	
+
 	/**
 	 * Loads a class.
 	 * @param string $className The name of the class to load.
