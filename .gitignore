@@ -12,3 +12,7 @@ composer.lock
 
 # PhpStorm project files
 .idea
+
+# Vim swapfiles.
+.*.swp
+.*.swo

@@ -157,6 +157,10 @@ array(
 							<td>Filters based on logging event level range.</td>
 						</tr>
 						<tr>
+							<td><a href="#LoggerFilterNameMatch">LoggerFilterNameMatch</a></td>
+							<td>Filters by searching for a string in the logger name.</td>
+						</tr>
+						<tr>
 							<td><a href="#LoggerFilterStringMatch">LoggerFilterStringMatch</a></td>
 							<td>Filters by searching for a string in the logging event message.</td>
 						</tr>
@@ -265,6 +269,79 @@ array(
     <param name="levelMax" value="warn" />
     <param name="acceptOnMatch" value="false" />
 </filter>
+]]></pre>
+				
+			</subsection>
+            
+			<subsection name="LoggerFilterNameMatch" id="LoggerFilterNameMatch">
+				<p>This filter allows or denies logging events if the logger name contains a given string. If no match
+				is found the filter remains neutral.</p>
+
+				
+				<h4>Configurable parameters</h4>
+				
+				<table>
+					<thead>
+						<tr>
+							<th>Parameter</th>
+							<th>Type</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>stringToMatch</td>
+							<td>LoggerLevel</td>
+							<td><strong>Yes</strong></td>
+							<td>-</td>
+							<td>The string to match.</td>
+						</tr>
+						<tr>
+							<td>caseSensitive</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If true, matches are case sensitive. If false, matches ignore case differences.</td>
+						</tr>
+						<tr>
+							<td>exactMatch</td>
+							<td>LoggerLevel</td>
+							<td>No</td>
+							<td>false</td>
+							<td>If true, the stringToMatch must have the same text content as the logger name. This
+							parameter co-operates with the <code>caseSensitive</code> parameter; that is, if your 
+							match is case insensitive, then &quot;Example&quot; is considered an exact match with 
+							&quot;example&quot;.</td>
+						</tr>
+						<tr>
+							<td>acceptOnMatch</td>
+							<td>boolean</td>
+							<td>No</td>
+							<td>true</td>
+							<td>If true and a match is found, the matching log event is accepted. If false and a
+							match is found, the matching log event is denied.</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<h4>Example</h4>
+    
+				<p>One common pattern is to give each class in your application a logger via 
+				<code>$this->logger = Logger::getLogger(__CLASS__)</code> in the constructor. You could use this 
+				filter to log any events from your <code>Payment</code> class for easier debugging and greater
+				visibility.</p>
+				
+				<p>The following filter configuration only accepts events which contain the string "Payment" in 
+				the logger name.</p>
+				
+<pre class="prettyprint linenums"><![CDATA[
+<filter class="LoggerFilterNameMatch">
+    <param name="StringToMatch" value="Payment" />
+    <param name="AcceptOnMatch" value="true" />
+</filter>
+<filter class="LoggerFilterDenyAll" />
 ]]></pre>
 				
 			</subsection>
