@@ -20,8 +20,8 @@
 		<title>Apache log4php changelog</title>
 	</properties>
 	<body>
-        <release version="develop">
-            <action date="2013-05-05" type="add" dev="Alex Pounds">Added new filter for matching a logger name.</action>
+		<release version="develop">
+			<action date="2013-05-05" type="add" dev="Alex Pounds">Added new filter for matching a logger name.</action>
 			<action date="2012-12-31" type="update" issue="LOG4PHP-197" dev="Ivan Habunek" due-to="Sven Rautenberg" due-to-email="sven at rtbg dot de">Made Logger::isInitialized() public.</action>
 			<action date="2012-12-31" type="update" issue="LOG4PHP-144" dev="Ivan Habunek">Improved LoggerAppenderMail to set the Content-type header as defined in layout.</action>
 		</release>

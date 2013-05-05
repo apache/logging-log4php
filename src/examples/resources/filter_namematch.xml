@@ -20,8 +20,8 @@
 		<layout class="LoggerLayoutTTCC" />
 		<filter class="LoggerFilterNameMatch">
 			<param name="StringToMatch" value="bar" />
-        </filter>
-        <filter class="LoggerFilterDenyAll" />
+		</filter>
+		<filter class="LoggerFilterDenyAll" />
 	</appender>
 	<root>
 		<level value="INFO" />
