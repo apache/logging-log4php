@@ -217,9 +217,9 @@ array(
 			</subsection>
 			
 			<subsection name="LoggerFilterLevelRange" id="LoggerFilterLevelRange">
-                <p>This filter denies logging events if their log level is outside the specified range. None of the
-                parameters are required but it makes sense to set at least one of <code>levelMin</code> and
-                <code>levelMax</code>.</p>
+				<p>This filter denies logging events if their log level is outside the specified range. None of the
+				parameters are required but it makes sense to set at least one of <code>levelMin</code> and
+				<code>levelMax</code>.</p>
 				
 				<h4>Configurable parameters</h4>
 				
@@ -253,8 +253,8 @@ array(
 							<td>boolean</td>
 							<td>No</td>
 							<td>true</td>
-                            <td>If true, a log event within the specified range is accepted. Otherwise, the filter
-                            remains neutral.</td>
+							<td>If true, a log event within the specified range is accepted. Otherwise, the filter
+							remains neutral.</td>
 						</tr>
 					</tbody>
 				</table>
@@ -273,8 +273,8 @@ array(
 			</subsection>
 			
 			<subsection name="LoggerFilterStringMatch" id="LoggerFilterStringMatch">
-                <p>This filter allows or denies logging events if their message contains a given string. If no match
-                is found the filter remains neutral.</p>
+				<p>This filter allows or denies logging events if their message contains a given string. If no match
+				is found the filter remains neutral.</p>
 				
 				<h4>Configurable parameters</h4>
 				
@@ -301,8 +301,8 @@ array(
 							<td>boolean</td>
 							<td>No</td>
 							<td>true</td>
-                            <td>If true and a match is found, the matching log event is accepted. If false and a
-                            match is found, the matching log event is denied.</td>
+							<td>If true and a match is found, the matching log event is accepted. If false and a
+							match is found, the matching log event is denied.</td>
 						</tr>
 					</tbody>
 				</table>
