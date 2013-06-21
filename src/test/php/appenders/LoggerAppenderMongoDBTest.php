@@ -55,6 +55,7 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 			}
 		}
 		unset($this->appender);
+		LoggerMDC::clear();
 	}
 
 	public function testConnectionString() {
@@ -215,6 +216,27 @@ class LoggerAppenderMongoDBTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_int($record['thread']));
 		$this->assertSame(getmypid(), $record['thread']);
 		$this->assertTrue(is_int($record['lineNumber']) || $record['lineNumber'] == 'NA');
+		$this->assertEquals(10, count($record));
+	}
+
+	public function testFormatMDC() {
+		$this->appender->activateOptions();
+		LoggerMDC::put('extra_data', 'extra data');
+		$record = $this->logOne($this->event);
+		$this->assertEquals(1, count(LoggerMDC::getMap()));
+		$this->assertEquals(11, count($record));
+		$this->assertArrayHasKey('extra_data', $record);
+		$this->assertEquals('extra data', $record['extra_data']);
+	}
+
+	public function testFormatMDCOverride() {
+		$this->appender->activateOptions();
+		LoggerMDC::put('fileName', 'extra data');
+		$record = $this->logOne($this->event);
+		$this->assertEquals(1, count(LoggerMDC::getMap()));
+		$this->assertEquals(10, count($record));
+		$this->assertArrayHasKey('fileName', $record);
+		$this->assertEquals('NA', $record['fileName']);
 	}
 
 	public function testFormatThrowableInfo() {

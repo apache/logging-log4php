@@ -265,8 +265,9 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 			# Connection string generation.
 			if ($this->connectionString === null) {
 				$connectionString = sprintf('%s%s:%d', self::DEFAULT_MONGO_URL_PREFIX,
-							    preg_replace('/^'.preg_quote(self::DEFAULT_MONGO_URL_PREFIX, '/').'/', '', $this->host),
-							    $this->port);
+											preg_replace('/^'.preg_quote(self::DEFAULT_MONGO_URL_PREFIX, '/').'/',
+														 '', $this->host),
+											$this->port);
 			} else {
 				$connectionString = $this->connectionString;
 			}
@@ -313,7 +314,8 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 
 	/**
 	 * Converts the logging event into an array which can be logged to mongodb.
-	 * 
+	 * Note that MDC context keys that are the same as mongo appender default keys will be overridden.
+	 *
 	 * @param LoggerLoggingEvent $event
 	 * @return array The array representation of the logging event.
 	 */
@@ -321,13 +323,12 @@ class LoggerAppenderMongoDB extends LoggerAppender {
 		$timestampSec = (int) $event->getTimestamp();
 		$timestampUsec = (int) (($event->getTimestamp() - $timestampSec) * 1000000);
 
-		$document = array(
-			'timestamp' => new MongoDate($timestampSec, $timestampUsec),
-			'level' => $event->getLevel()->toString(),
-			'thread' => (int) $event->getThreadName(),
-			'message' => $event->getMessage(),
-			'loggerName' => $event->getLoggerName() 
-		);	
+		$document = LoggerMDC::getMap();
+		$document['timestamp'] = new MongoDate($timestampSec, $timestampUsec);
+		$document['level'] = $event->getLevel()->toString();
+		$document['thread'] = (int) $event->getThreadName();
+		$document['message'] = $event->getMessage();
+		$document['loggerName'] = $event->getLoggerName();
 
 		$locationInfo = $event->getLocationInformation();
 		if ($locationInfo != null) {
