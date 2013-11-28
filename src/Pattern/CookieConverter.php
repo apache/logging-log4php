@@ -27,6 +27,7 @@ namespace Apache\Log4php\Pattern;
  *
  * @since 2.3
  */
-class CookieConverter extends SuperglobalConverter {
-	protected $name = '_COOKIE';
+class CookieConverter extends SuperglobalConverter
+{
+    protected $name = '_COOKIE';
 }

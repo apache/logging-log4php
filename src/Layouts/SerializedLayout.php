@@ -28,26 +28,30 @@ use Apache\Log4php\LoggingEvent;
  *                  be serialized (slow, defaults to false).
  * @since 2.2
  */
-class SerializedLayout extends AbstractLayout {
+class SerializedLayout extends AbstractLayout
+{
+    /** Whether to include the event's location information (slow). */
+    protected $locationInfo = false;
 
-	/** Whether to include the event's location information (slow). */
-	protected $locationInfo = false;
+    /** Sets the location information flag. */
+    public function setLocationInfo($value)
+    {
+        $this->setBoolean('locationInfo', $value);
+    }
 
-	/** Sets the location information flag. */
-	public function setLocationInfo($value) {
-		$this->setBoolean('locationInfo', $value);
-	}
+    /** Returns the location information flag. */
+    public function getLocationInfo()
+    {
+        return $this->locationInfo;
+    }
 
-	/** Returns the location information flag. */
-	public function getLocationInfo() {
-		return $this->locationInfo;
-	}
+    public function format(LoggingEvent $event)
+    {
+        // If required, initialize the location data
+        if ($this->locationInfo) {
+            $event->getLocationInformation();
+        }
 
-	public function format(LoggingEvent $event) {
-		// If required, initialize the location data
-		if($this->locationInfo) {
-			$event->getLocationInformation();
-		}
-		return serialize($event) . PHP_EOL;
-	}
+        return serialize($event) . PHP_EOL;
+    }
 }

@@ -24,51 +24,58 @@ use Apache\Log4php\LoggingEvent;
 /**
  * Extend this abstract class to create your own log layout format.
  */
-abstract class AbstractLayout extends Configurable {
-	/**
-	 * Activates options for this layout.
-	 * Override this method if you have options to be activated.
-	 */
-	public function activateOptions() {
-		return true;
-	}
+abstract class AbstractLayout extends Configurable
+{
+    /**
+     * Activates options for this layout.
+     * Override this method if you have options to be activated.
+     */
+    public function activateOptions()
+    {
+        return true;
+    }
 
-	/**
-	 * Override this method to create your own layout format.
-	 *
-	 * @param LoggingEvent
-	 * @return string
-	 */
-	public function format(LoggingEvent $event) {
-		return $event->getRenderedMessage();
-	}
+    /**
+     * Override this method to create your own layout format.
+     *
+     * @param LoggingEvent
+     * @return string
+     */
+    public function format(LoggingEvent $event)
+    {
+        return $event->getRenderedMessage();
+    }
 
-	/**
-	 * Returns the content type output by this layout.
-	 * @return string
-	 */
-	public function getContentType() {
-		return "text/plain";
-	}
+    /**
+     * Returns the content type output by this layout.
+     * @return string
+     */
+    public function getContentType()
+    {
+        return "text/plain";
+    }
 
-	/**
-	 * Returns the footer for the layout format.
-	 * @return string
-	 */
-	public function getFooter() {
-		return null;
-	}
+    /**
+     * Returns the footer for the layout format.
+     * @return string
+     */
+    public function getFooter()
+    {
+        return null;
+    }
 
-	/**
-	 * Returns the header for the layout format.
-	 * @return string
-	 */
-	public function getHeader() {
-		return null;
-	}
+    /**
+     * Returns the header for the layout format.
+     * @return string
+     */
+    public function getHeader()
+    {
+        return null;
+    }
 
-	/** Triggers a warning for this layout with the given message. */
-	protected function warn($message) {
-		trigger_error("log4php: [" . get_class($this) . "]: $message", E_USER_WARNING);
-	}
+    /** Triggers a warning for this layout with the given message. */
+    protected function warn($message)
+    {
+        trigger_error("log4php: [" . get_class($this) . "]: $message", E_USER_WARNING);
+    }
 }

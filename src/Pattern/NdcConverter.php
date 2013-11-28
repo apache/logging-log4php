@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the full Nested Diagnostic Context.
  * @since 2.3
  */
-class NdcConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getNDC();
-	}
+class NdcConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getNDC();
+    }
 }

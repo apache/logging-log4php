@@ -22,12 +22,12 @@ namespace Apache\Log4php\Renderers;
  * Renderer used for Exceptions.
  * @since 2.1
  */
-class ExceptionRenderer implements RendererInterface {
-
-	public function render($input) {
-
-		// Exception class has a very decent __toString method
-		// so let's just use that instead of writing lots of code.
-		return (string) $input;
-	}
+class ExceptionRenderer implements RendererInterface
+{
+    public function render($input)
+    {
+        // Exception class has a very decent __toString method
+        // so let's just use that instead of writing lots of code.
+        return (string) $input;
+    }
 }

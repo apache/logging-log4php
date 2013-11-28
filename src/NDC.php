@@ -74,111 +74,119 @@ namespace Apache\Log4php;
  *
  * @since 0.3
  */
-class NDC {
+class NDC
+{
+    /** This is the repository of NDC stack */
+    private static $stack = array();
 
-	/** This is the repository of NDC stack */
-	private static $stack = array();
+    /**
+     * Clear any nested diagnostic information if any. This method is
+     * useful in cases where the same thread can be potentially used
+     * over and over in different unrelated contexts.
+     *
+     * <p>This method is equivalent to calling the {@link setMaxDepth()}
+     * method with a zero <var>maxDepth</var> argument.
+     */
+    public static function clear()
+    {
+        self::$stack = array();
+    }
 
-	/**
-	 * Clear any nested diagnostic information if any. This method is
-	 * useful in cases where the same thread can be potentially used
-	 * over and over in different unrelated contexts.
-	 *
-	 * <p>This method is equivalent to calling the {@link setMaxDepth()}
-	 * method with a zero <var>maxDepth</var> argument.
-	 */
-	public static function clear() {
-		self::$stack = array();
-	}
+    /**
+     * Never use this method directly, use the {@link LoggingEvent::getNDC()} method instead.
+     * @return array
+     */
+    public static function get()
+    {
+        return implode(' ', self::$stack);
+    }
 
-	/**
-	 * Never use this method directly, use the {@link LoggingEvent::getNDC()} method instead.
-	 * @return array
-	 */
-	public static function get() {
-		return implode(' ', self::$stack);
-	}
+    /**
+     * Get the current nesting depth of this diagnostic context.
+     *
+     * @see setMaxDepth()
+     * @return integer
+     */
+    public static function getDepth()
+    {
+        return count(self::$stack);
+    }
 
-	/**
-	 * Get the current nesting depth of this diagnostic context.
-	 *
-	 * @see setMaxDepth()
-	 * @return integer
-	 */
-	public static function getDepth() {
-		return count(self::$stack);
-	}
+    /**
+     * Clients should call this method before leaving a diagnostic
+     * context.
+     *
+     * <p>The returned value is the value that was pushed last. If no
+     * context is available, then the empty string "" is returned.</p>
+     *
+     * @return string The innermost diagnostic context.
+     */
+    public static function pop()
+    {
+        if (count(self::$stack) > 0) {
+            return array_pop(self::$stack);
+        } else {
+            return '';
+        }
+    }
 
-	/**
-	 * Clients should call this method before leaving a diagnostic
-	 * context.
-	 *
-	 * <p>The returned value is the value that was pushed last. If no
-	 * context is available, then the empty string "" is returned.</p>
-	 *
-	 * @return string The innermost diagnostic context.
-	 */
-	public static function pop() {
-		if(count(self::$stack) > 0) {
-			return array_pop(self::$stack);
-		} else {
-			return '';
-		}
-	}
+    /**
+     * Looks at the last diagnostic context at the top of this NDC
+     * without removing it.
+     *
+     * <p>The returned value is the value that was pushed last. If no
+     * context is available, then the empty string "" is returned.</p>
+     * @return string The innermost diagnostic context.
+     */
+    public static function peek()
+    {
+        if (count(self::$stack) > 0) {
+            return end(self::$stack);
+        } else {
+            return '';
+        }
+    }
 
-	/**
-	 * Looks at the last diagnostic context at the top of this NDC
-	 * without removing it.
-	 *
-	 * <p>The returned value is the value that was pushed last. If no
-	 * context is available, then the empty string "" is returned.</p>
-	 * @return string The innermost diagnostic context.
-	 */
-	public static function peek() {
-		if(count(self::$stack) > 0) {
-			return end(self::$stack);
-		} else {
-			return '';
-		}
-	}
+    /**
+     * Push new diagnostic context information for the current thread.
+     *
+     * <p>The contents of the <var>message</var> parameter is
+     * determined solely by the client.
+     *
+     * @param string $message The new diagnostic context information.
+     */
+    public static function push($message)
+    {
+        array_push(self::$stack, (string) $message);
+    }
 
-	/**
-	 * Push new diagnostic context information for the current thread.
-	 *
-	 * <p>The contents of the <var>message</var> parameter is
-	 * determined solely by the client.
-	 *
-	 * @param string $message The new diagnostic context information.
-	 */
-	public static function push($message) {
-		array_push(self::$stack, (string)$message);
-	}
+    /**
+     * Remove the diagnostic context for this thread.
+     */
+    public static function remove()
+    {
+        NDC::clear();
+    }
 
-	/**
-	 * Remove the diagnostic context for this thread.
-	 */
-	public static function remove() {
-		NDC::clear();
-	}
-
-	/**
-	 * Set maximum depth of this diagnostic context. If the current
-	 * depth is smaller or equal to <var>maxDepth</var>, then no
-	 * action is taken.
-	 *
-	 * <p>This method is a convenient alternative to multiple
-	 * {@link pop()} calls. Moreover, it is often the case that at
-	 * the end of complex call sequences, the depth of the NDC is
-	 * unpredictable. The {@link setMaxDepth()} method circumvents
-	 * this problem.
-	 *
-	 * @param integer $maxDepth
-	 * @see getDepth()
-	 */
-	public static function setMaxDepth($maxDepth) {
-		$maxDepth = (int)$maxDepth;
-		if(NDC::getDepth() > $maxDepth) {
-			self::$stack = array_slice(self::$stack, 0, $maxDepth);
-		}
-	}
+    /**
+     * Set maximum depth of this diagnostic context. If the current
+     * depth is smaller or equal to <var>maxDepth</var>, then no
+     * action is taken.
+     *
+     * <p>This method is a convenient alternative to multiple
+     * {@link pop()} calls. Moreover, it is often the case that at
+     * the end of complex call sequences, the depth of the NDC is
+     * unpredictable. The {@link setMaxDepth()} method circumvents
+     * this problem.
+     *
+     * @param integer $maxDepth
+     * @see getDepth()
+     */
+    public static function setMaxDepth($maxDepth)
+    {
+        $maxDepth = (int) $maxDepth;
+        if (NDC::getDepth() > $maxDepth) {
+            self::$stack = array_slice(self::$stack, 0, $maxDepth);
+        }
+    }
 }

@@ -29,39 +29,43 @@ use Apache\Log4php\RootLogger;
 /**
  * @group main
  */
-class RootLoggerTest extends \PHPUnit_Framework_TestCase {
+class RootLoggerTest extends \PHPUnit_Framework_TestCase
+{
+    public function testInitialSetup()
+    {
+        $root = new RootLogger();
+        self::assertSame(Level::getLevelAll(), $root->getLevel());
+        self::assertSame(Level::getLevelAll(), $root->getEffectiveLevel());
+        self::assertSame('root', $root->getName());
+        self::assertNull($root->getParent());
+    }
 
-	public function testInitialSetup() {
-		$root = new RootLogger();
-		self::assertSame(Level::getLevelAll(), $root->getLevel());
-		self::assertSame(Level::getLevelAll(), $root->getEffectiveLevel());
-		self::assertSame('root', $root->getName());
-		self::assertNull($root->getParent());
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage log4php: RootLogger cannot have a parent.
+     */
+    public function testSetParentWarning()
+    {
+        $root = new RootLogger();
+        $logger = new Logger('test');
+        $root->setParent($logger);
+    }
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage log4php: RootLogger cannot have a parent.
-	 */
-	public function testSetParentWarning() {
-		$root = new RootLogger();
-		$logger = new Logger('test');
-		$root->setParent($logger);
-	}
+    public function testSetParentResult()
+    {
+        $root = new RootLogger();
+        $logger = new Logger('test');
+        @$root->setParent($logger);
+        self::assertNull($root->getParent());
+    }
 
-	public function testSetParentResult() {
-		$root = new RootLogger();
-		$logger = new Logger('test');
-		@$root->setParent($logger);
-		self::assertNull($root->getParent());
-	}
-
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage log4php: Cannot set RootLogger level to null.
-	 */
-	public function testNullLevelWarning() {
-		$root = new RootLogger();
-		$root->setLevel(null);
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage log4php: Cannot set RootLogger level to null.
+     */
+    public function testNullLevelWarning()
+    {
+        $root = new RootLogger();
+        $root->setLevel(null);
+    }
 }

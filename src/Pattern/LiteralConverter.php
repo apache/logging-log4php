@@ -24,15 +24,17 @@ use Apache\Log4php\LoggingEvent;
  * Returns the literal value passed in the constructor, without modifications.
  * @since 2.3
  */
-class LiteralConverter extends AbstractConverter {
+class LiteralConverter extends AbstractConverter
+{
+    private $literalValue;
 
-	private $literalValue;
+    public function __construct($literalValue)
+    {
+        $this->literalValue = $literalValue;
+    }
 
-	public function __construct($literalValue) {
-		$this->literalValue = $literalValue;
-	}
-
-	public function convert(LoggingEvent $event) {
-		return $this->literalValue;
-	}
+    public function convert(LoggingEvent $event)
+    {
+        return $this->literalValue;
+    }
 }

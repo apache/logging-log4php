@@ -31,34 +31,36 @@ use Apache\Log4php\LoggingEvent;
 /**
  * @group appenders
  */
-class MailAppenderTest extends \PHPUnit_Framework_TestCase {
+class MailAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    public function testRequiresLayout()
+    {
+        $appender = new MailAppender();
+        self::assertTrue($appender->requiresLayout());
+    }
 
-	public function testRequiresLayout() {
-		$appender = new MailAppender();
-		self::assertTrue($appender->requiresLayout());
-	}
+    public function testMail()
+    {
+        $appender = new MailAppender("myname ");
 
-	public function testMail() {
-		$appender = new MailAppender("myname ");
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
+        $appender->setDry(true);
+        $appender->setTo('test@example.com');
+        $appender->setFrom('Testsender');
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
-		$appender->setDry(true);
-		$appender->setTo('test@example.com');
-		$appender->setFrom('Testsender');
+        $appender->activateOptions();
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
+        $event2 = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage2");
 
-		$appender->activateOptions();
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
-		$event2 = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage2");
+        ob_start();
+        $appender->append($event);
+        $appender->append($event2);
+        $appender->close();
+        $v = ob_get_contents();
+        ob_end_clean();
 
-		ob_start();
-		$appender->append($event);
-		$appender->append($event2);
-		$appender->close();
-		$v = ob_get_contents();
-		ob_end_clean();
-
-		$e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with content: ERROR - testmessage".PHP_EOL."ERROR - testmessage2".PHP_EOL;
-		self::assertEquals($e, $v);
+        $e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with content: ERROR - testmessage".PHP_EOL."ERROR - testmessage2".PHP_EOL;
+        self::assertEquals($e, $v);
     }
 }

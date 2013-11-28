@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the name of the file from which the logging request was issued.
  * @since 2.3
  */
-class FileConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getLocationInformation()->getFileName();
-	}
+class FileConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getLocationInformation()->getFileName();
+    }
 }

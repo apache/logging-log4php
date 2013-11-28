@@ -21,5 +21,6 @@ namespace Apache\Log4php;
 /**
  * LoggerException class
  */
-class LoggerException extends \Exception {
+class LoggerException extends \Exception
+{
 }

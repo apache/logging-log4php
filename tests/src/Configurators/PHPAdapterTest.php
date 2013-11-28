@@ -29,73 +29,76 @@ use Apache\Log4php\Configuration\Adapters\PhpAdapter;
 /**
  * @group configuration
  */
-class PHPAdapterTest extends \PHPUnit_Framework_TestCase {
+class PHPAdapterTest extends \PHPUnit_Framework_TestCase
+{
+    private $expected1 = array(
+        'rootLogger' => array(
+            'level' => 'info',
+            'appenders' => array('default')
+        ),
+        'appenders' => array(
+            'default' => array(
+                'class' => 'EchoAppender',
+                'layout' => array(
+                    'class' => 'SimpleLayout'
+                 )
+            )
+        )
+    );
 
-	private $expected1 = array(
-		'rootLogger' => array(
-			'level' => 'info',
-			'appenders' => array('default')
-		),
-		'appenders' => array(
-			'default' => array(
-				'class' => 'EchoAppender',
-				'layout' => array(
-					'class' => 'SimpleLayout'
-				 )
-			)
-		)
-	);
+    public function testConfig()
+    {
+        $url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_valid.php';
+        $adapter = new PhpAdapter();
+        $actual = $adapter->convert($url);
 
-	public function testConfig() {
-		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_valid.php';
-		$adapter = new PhpAdapter();
-		$actual = $adapter->convert($url);
+        $this->assertSame($this->expected1, $actual);
+    }
 
-		$this->assertSame($this->expected1, $actual);
-	}
+    /**
+     * Test exception is thrown when file cannot be found.
+      * @expectedException Apache\Log4php\LoggerException
+      * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
+     */
+    public function testNonExistantFileWarning()
+    {
+        $adapter = new PhpAdapter();
+        $adapter->convert('you/will/never/find/me.conf');
+    }
 
-	/**
-	 * Test exception is thrown when file cannot be found.
- 	 * @expectedException Apache\Log4php\LoggerException
- 	 * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
-	 */
-	public function testNonExistantFileWarning() {
-		$adapter = new PhpAdapter();
-		$adapter->convert('you/will/never/find/me.conf');
-	}
+    /**
+     * Test exception is thrown when file is not valid.
+     * @expectedException Apache\Log4php\LoggerException
+     * @expectedExceptionMessage Error parsing configuration: syntax error
+     */
+    public function testInvalidFileWarning()
+    {
+        $url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_invalid_syntax.php';
+        $adapter = new PhpAdapter();
+        $adapter->convert($url);
+    }
 
-	/**
-	 * Test exception is thrown when file is not valid.
-	 * @expectedException Apache\Log4php\LoggerException
-	 * @expectedExceptionMessage Error parsing configuration: syntax error
-	 */
-	public function testInvalidFileWarning() {
-		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_invalid_syntax.php';
-		$adapter = new PhpAdapter();
-		$adapter->convert($url);
-	}
+    /**
+     * Test exception is thrown when the configuration is empty.
+     * @expectedException Apache\Log4php\LoggerException
+     * @expectedExceptionMessage Invalid configuration: empty configuration array.
+     */
+    public function testEmptyConfigWarning()
+    {
+        $url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_empty.php';
+        $adapter = new PhpAdapter();
+        $adapter->convert($url);
+    }
 
-	/**
-	 * Test exception is thrown when the configuration is empty.
-	 * @expectedException Apache\Log4php\LoggerException
-	 * @expectedExceptionMessage Invalid configuration: empty configuration array.
-	 */
-	public function testEmptyConfigWarning() {
-		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_empty.php';
-		$adapter = new PhpAdapter();
-		$adapter->convert($url);
-	}
-
-	/**
-	 * Test exception is thrown when the configuration does not contain an array.
-	 * @expectedException Apache\Log4php\LoggerException
-	 * @expectedExceptionMessage Invalid configuration: not an array.
-	 */
-	public function testInvalidConfigWarning() {
-		$url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_not_an_array.php';
-		$adapter = new PhpAdapter();
-		$adapter->convert($url);
-	}
+    /**
+     * Test exception is thrown when the configuration does not contain an array.
+     * @expectedException Apache\Log4php\LoggerException
+     * @expectedExceptionMessage Invalid configuration: not an array.
+     */
+    public function testInvalidConfigWarning()
+    {
+        $url = PHPUNIT_CONFIG_DIR . '/adapters/php/config_not_an_array.php';
+        $adapter = new PhpAdapter();
+        $adapter->convert($url);
+    }
 }
-
-?>

@@ -53,74 +53,78 @@ use Apache\Log4php\LoggingEvent;
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains.
  */
-abstract class AbstractFilter extends Configurable {
+abstract class AbstractFilter extends Configurable
+{
+    /**
+     * The log event must be logged immediately without consulting with
+     * the remaining filters, if any, in the chain.
+     */
+    const ACCEPT = 1;
 
-	/**
-	 * The log event must be logged immediately without consulting with
-	 * the remaining filters, if any, in the chain.
-	 */
-	const ACCEPT = 1;
+    /**
+     * This filter is neutral with respect to the log event. The
+     * remaining filters, if any, should be consulted for a final decision.
+     */
+    const NEUTRAL = 0;
 
-	/**
-	 * This filter is neutral with respect to the log event. The
-	 * remaining filters, if any, should be consulted for a final decision.
-	 */
-	const NEUTRAL = 0;
+    /**
+     * The log event must be dropped immediately without consulting
+     * with the remaining filters, if any, in the chain.
+     */
+    const DENY = -1;
 
-	/**
-	 * The log event must be dropped immediately without consulting
-	 * with the remaining filters, if any, in the chain.
-	 */
-	const DENY = -1;
+    /**
+     * @var AbstractFilter Points to the next {@link AbstractFilter} in the filter chain.
+     */
+    protected $next;
 
-	/**
-	 * @var AbstractFilter Points to the next {@link AbstractFilter} in the filter chain.
-	 */
-	protected $next;
+    /**
+     * Usually filters options become active when set. We provide a
+     * default do-nothing implementation for convenience.
+    */
+    public function activateOptions()
+    {
+    }
 
-	/**
-	 * Usually filters options become active when set. We provide a
-	 * default do-nothing implementation for convenience.
-	*/
-	public function activateOptions() {
-	}
+    /**
+     * Decide what to do.
+     * <p>If the decision is {@link AbstractFilter::DENY}, then the event will be
+     * dropped. If the decision is {@link AbstractFilter::NEUTRAL}, then the next
+     * filter, if any, will be invoked. If the decision is {@link AbstractFilter::ACCEPT} then
+     * the event will be logged without consulting with other filters in
+     * the chain.
+     *
+     * @param  LoggingEvent $event The {@link LoggingEvent} to decide upon.
+     * @return integer      {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::DENY}|{@link AbstractFilter::ACCEPT}
+     */
+    public function decide(LoggingEvent $event)
+    {
+        return self::NEUTRAL;
+    }
 
-	/**
-	 * Decide what to do.
-	 * <p>If the decision is {@link AbstractFilter::DENY}, then the event will be
-	 * dropped. If the decision is {@link AbstractFilter::NEUTRAL}, then the next
-	 * filter, if any, will be invoked. If the decision is {@link AbstractFilter::ACCEPT} then
-	 * the event will be logged without consulting with other filters in
-	 * the chain.
-	 *
-	 * @param LoggingEvent $event The {@link LoggingEvent} to decide upon.
-	 * @return integer {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::DENY}|{@link AbstractFilter::ACCEPT}
-	 */
-	public function decide(LoggingEvent $event) {
-		return self::NEUTRAL;
-	}
+    /**
+     * Adds a new filter to the filter chain this filter is a part of.
+     * If this filter has already and follow up filter, the param filter
+     * is passed on until it is the last filter in chain.
+     *
+     * @param $filter - the filter to add to this chain
+     */
+    public function addNext($filter)
+    {
+        if ($this->next !== null) {
+            $this->next->addNext($filter);
+        } else {
+            $this->next = $filter;
+        }
+    }
 
-	/**
-	 * Adds a new filter to the filter chain this filter is a part of.
-	 * If this filter has already and follow up filter, the param filter
-	 * is passed on until it is the last filter in chain.
-	 *
-	 * @param $filter - the filter to add to this chain
-	 */
-	public function addNext($filter) {
-		if($this->next !== null) {
-			$this->next->addNext($filter);
-		} else {
-			$this->next = $filter;
-		}
-	}
-
-	/**
-	 * Returns the next filter in this chain
-	 * @return the next filter
-	 */
-	public function getNext() {
-		return $this->next;
-	}
+    /**
+     * Returns the next filter in this chain
+     * @return the next filter
+     */
+    public function getNext()
+    {
+        return $this->next;
+    }
 
 }

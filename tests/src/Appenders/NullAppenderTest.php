@@ -30,22 +30,25 @@ use Apache\Log4php\LoggingEvent;
 /**
  * @group appenders
  */
-class NullAppenderTest extends \PHPUnit_Framework_TestCase {
-	/**
-	 * The Null appender does nothing - nothing to assert.
-	 * Just here for the sake of completness and a good testing ratio :-)
-	 */
-	public function testActivateOptions() {
+class NullAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * The Null appender does nothing - nothing to assert.
+     * Just here for the sake of completness and a good testing ratio :-)
+     */
+    public function testActivateOptions()
+    {
         $event = new LoggingEvent("LoggerAppenderNullTest", new Logger("TEST"), Level::getLevelInfo(), "testmessage");
 
-		$appender = new NullAppender("TEST");
-		$appender->activateOptions();
-		$appender->append($event);
-		$appender->close();
+        $appender = new NullAppender("TEST");
+        $appender->activateOptions();
+        $appender->append($event);
+        $appender->close();
     }
 
-	public function testRequiresLayout() {
-		$appender = new NullAppender();
-		self::assertFalse($appender->requiresLayout());
-	}
+    public function testRequiresLayout()
+    {
+        $appender = new NullAppender();
+        self::assertFalse($appender->requiresLayout());
+    }
 }

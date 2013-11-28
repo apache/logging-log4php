@@ -49,34 +49,34 @@ use Apache\Log4php\LoggerException;
  */
 class PhpAdapter implements AdapterInterface
 {
-	public function convert($url) {
-		if (!file_exists($url)) {
-			throw new LoggerException("File [$url] does not exist.");
-		}
+    public function convert($url)
+    {
+        if (!file_exists($url)) {
+            throw new LoggerException("File [$url] does not exist.");
+        }
 
-		// Load the config file
-		$data = @file_get_contents($url);
-		if ($data === false) {
-			$error = error_get_last();
-			throw new LoggerException("Error loading config file: {$error['message']}");
-		}
+        // Load the config file
+        $data = @file_get_contents($url);
+        if ($data === false) {
+            $error = error_get_last();
+            throw new LoggerException("Error loading config file: {$error['message']}");
+        }
 
-		$config = @eval('?>' . $data);
+        $config = @eval('?>' . $data);
 
-		if ($config === false) {
-			$error = error_get_last();
-			throw new LoggerException("Error parsing configuration: " . $error['message']);
-		}
+        if ($config === false) {
+            $error = error_get_last();
+            throw new LoggerException("Error parsing configuration: " . $error['message']);
+        }
 
-		if (empty($config)) {
-			throw new LoggerException("Invalid configuration: empty configuration array.");
-		}
+        if (empty($config)) {
+            throw new LoggerException("Invalid configuration: empty configuration array.");
+        }
 
-		if (!is_array($config)) {
-			throw new LoggerException("Invalid configuration: not an array.");
-		}
+        if (!is_array($config)) {
+            throw new LoggerException("Invalid configuration: not an array.");
+        }
 
-		return $config;
-	}
+        return $config;
+    }
 }
-

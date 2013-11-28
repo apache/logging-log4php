@@ -25,10 +25,12 @@ use Apache\Log4php\LoggingEvent;
  * application until the creation of the logging event.
  * @since 2.3
  */
-class RelativeConverter extends AbstractConverter {
+class RelativeConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        $ts = $event->getRelativeTime();
 
-	public function convert(LoggingEvent $event) {
-		$ts = $event->getRelativeTime();
-		return number_format($ts, 4);
-	}
+        return number_format($ts, 4);
+    }
 }

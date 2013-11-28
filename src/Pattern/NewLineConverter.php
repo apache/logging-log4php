@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns platform-specific newline character(s).
  * @since 2.3
  */
-class NewLineConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return PHP_EOL;
-	}
+class NewLineConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return PHP_EOL;
+    }
 }

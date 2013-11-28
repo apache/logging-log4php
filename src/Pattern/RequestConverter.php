@@ -18,8 +18,6 @@
 
 namespace Apache\Log4php\Pattern;
 
-use Apache\Log4php\LoggingEvent;
-
 /**
  * Returns a value from the $_REQUEST superglobal array corresponding to the
  * given key.
@@ -30,6 +28,7 @@ use Apache\Log4php\LoggingEvent;
  *
  * @since 2.3
  */
-class RequestConverter extends SuperglobalConverter {
-	protected $name = '_REQUEST';
+class RequestConverter extends SuperglobalConverter
+{
+    protected $name = '_REQUEST';
 }

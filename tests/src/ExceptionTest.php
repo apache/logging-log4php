@@ -27,16 +27,18 @@ use Apache\Log4php\LoggerException;
 /**
  * @group main
  */
-class ExceptionTest extends \PHPUnit_Framework_TestCase {
-  	/**
-	 * @expectedException Apache\Log4php\LoggerException
-	 */
-	public function testMessage() {
-		try {
-			throw new LoggerException("TEST");
-    	} catch (LoggerException $e) {
-			self::assertEquals("TEST", $e->getMessage());
-			throw $e;
-		}
-	}
+class ExceptionTest extends \PHPUnit_Framework_TestCase
+{
+      /**
+     * @expectedException Apache\Log4php\LoggerException
+     */
+    public function testMessage()
+    {
+        try {
+            throw new LoggerException("TEST");
+        } catch (LoggerException $e) {
+            self::assertEquals("TEST", $e->getMessage());
+            throw $e;
+        }
+    }
 }

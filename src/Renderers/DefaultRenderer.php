@@ -24,10 +24,11 @@ namespace Apache\Log4php\Renderers;
  * Renders the input using <var>print_r</var>.
  * @since 0.3
  */
-class DefaultRenderer implements RendererInterface {
-
-	/** @inheritdoc */
-	public function render($input) {
-		return print_r($input, true);
-	}
+class DefaultRenderer implements RendererInterface
+{
+    /** @inheritdoc */
+    public function render($input)
+    {
+        return print_r($input, true);
+    }
 }

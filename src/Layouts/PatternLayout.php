@@ -30,142 +30,148 @@ use Apache\Log4php\LoggingEvent;
  * * converionPattern - A string which controls the formatting of logging
  *   events. See docs for full specification.
  */
-class PatternLayout extends AbstractLayout {
+class PatternLayout extends AbstractLayout
+{
+    /** Default conversion pattern */
+    const DEFAULT_CONVERSION_PATTERN = '%date %-5level %logger %message%newline';
 
-	/** Default conversion pattern */
-	const DEFAULT_CONVERSION_PATTERN = '%date %-5level %logger %message%newline';
+    /** Default conversion TTCC Pattern */
+    const TTCC_CONVERSION_PATTERN = '%d [%t] %p %c %x - %m%n';
 
-	/** Default conversion TTCC Pattern */
-	const TTCC_CONVERSION_PATTERN = '%d [%t] %p %c %x - %m%n';
+    /** The conversion pattern. */
+    protected $pattern = self::DEFAULT_CONVERSION_PATTERN;
 
-	/** The conversion pattern. */
-	protected $pattern = self::DEFAULT_CONVERSION_PATTERN;
+    /** Maps conversion keywords to the relevant converter (default implementation). */
+    protected static $defaultConverterMap = array(
+        'c' => 'LoggerConverter',
+        'lo' => 'LoggerConverter',
+        'logger' => 'LoggerConverter',
 
-	/** Maps conversion keywords to the relevant converter (default implementation). */
-	protected static $defaultConverterMap = array(
-		'c' => 'LoggerConverter',
-		'lo' => 'LoggerConverter',
-		'logger' => 'LoggerConverter',
+        'C' => 'ClassConverter',
+        'class' => 'ClassConverter',
 
-		'C' => 'ClassConverter',
-		'class' => 'ClassConverter',
+        'cookie' => 'CookieConverter',
 
-		'cookie' => 'CookieConverter',
+        'd' => 'DateConverter',
+        'date' => 'DateConverter',
 
-		'd' => 'DateConverter',
-		'date' => 'DateConverter',
+        'e' => 'EnvironmentConverter',
+        'env' => 'EnvironmentConverter',
 
-		'e' => 'EnvironmentConverter',
-		'env' => 'EnvironmentConverter',
+        'ex' => 'ThrowableConverter',
+        'exception' => 'ThrowableConverter',
+        'throwable' => 'ThrowableConverter',
 
-		'ex' => 'ThrowableConverter',
-		'exception' => 'ThrowableConverter',
-		'throwable' => 'ThrowableConverter',
+        'F' => 'FileConverter',
+        'file' => 'FileConverter',
 
-		'F' => 'FileConverter',
-		'file' => 'FileConverter',
+        'l' => 'LocationConverter',
+        'location' => 'LocationConverter',
 
-		'l' => 'LocationConverter',
-		'location' => 'LocationConverter',
+        'L' => 'LineConverter',
+        'line' => 'LineConverter',
 
-		'L' => 'LineConverter',
-		'line' => 'LineConverter',
+        'm' => 'MessageConverter',
+        'msg' => 'MessageConverter',
+        'message' => 'MessageConverter',
 
-		'm' => 'MessageConverter',
-		'msg' => 'MessageConverter',
-		'message' => 'MessageConverter',
+        'M' => 'MethodConverter',
+        'method' => 'MethodConverter',
 
-		'M' => 'MethodConverter',
-		'method' => 'MethodConverter',
+        'n' => 'NewLineConverter',
+        'newline' => 'NewLineConverter',
 
-		'n' => 'NewLineConverter',
-		'newline' => 'NewLineConverter',
+        'p' => 'LevelConverter',
+        'le' => 'LevelConverter',
+        'level' => 'LevelConverter',
 
-		'p' => 'LevelConverter',
-		'le' => 'LevelConverter',
-		'level' => 'LevelConverter',
+        'r' => 'RelativeConverter',
+        'relative' => 'RelativeConverter',
 
-		'r' => 'RelativeConverter',
-		'relative' => 'RelativeConverter',
+        'req' => 'RequestConverter',
+        'request' => 'RequestConverter',
 
-		'req' => 'RequestConverter',
-		'request' => 'RequestConverter',
+        's' => 'ServerConverter',
+        'server' => 'ServerConverter',
 
-		's' => 'ServerConverter',
-		'server' => 'ServerConverter',
+        'ses' => 'SessionConverter',
+        'session' => 'SessionConverter',
 
-		'ses' => 'SessionConverter',
-		'session' => 'SessionConverter',
+        'sid' => 'SessionIdConverter',
+        'sessionid' => 'SessionIdConverter',
 
-		'sid' => 'SessionIdConverter',
-		'sessionid' => 'SessionIdConverter',
+        't' => 'ProcessConverter',
+        'pid' => 'ProcessConverter',
+        'process' => 'ProcessConverter',
 
-		't' => 'ProcessConverter',
-		'pid' => 'ProcessConverter',
-		'process' => 'ProcessConverter',
+        'x' => 'NdcConverter',
+        'ndc' => 'NdcConverter',
 
-		'x' => 'NdcConverter',
-		'ndc' => 'NdcConverter',
+        'X' => 'MdcConverter',
+        'mdc' => 'MdcConverter',
+    );
 
-		'X' => 'MdcConverter',
-		'mdc' => 'MdcConverter',
-	);
+    /** Maps conversion keywords to the relevant converter. */
+    protected $converterMap = array();
 
-	/** Maps conversion keywords to the relevant converter. */
-	protected $converterMap = array();
+    /**
+     * Head of a chain of Converters.
+     * @var AbstractConverter
+     */
+    private $head;
 
-	/**
-	 * Head of a chain of Converters.
-	 * @var AbstractConverter
-	 */
-	private $head;
+    /** Returns the default converter map. */
+    public static function getDefaultConverterMap()
+    {
+        return self::$defaultConverterMap;
+    }
 
-	/** Returns the default converter map. */
-	public static function getDefaultConverterMap() {
-		return self::$defaultConverterMap;
-	}
+    /** Constructor. Initializes the converter map. */
+    public function __construct()
+    {
+        $this->converterMap = self::$defaultConverterMap;
+    }
 
-	/** Constructor. Initializes the converter map. */
-	public function __construct() {
-		$this->converterMap = self::$defaultConverterMap;
-	}
+    /**
+     * Sets the conversionPattern option. This is the string which
+     * controls formatting and consists of a mix of literal content and
+     * conversion specifiers.
+     * @param array $conversionPattern
+     */
+    public function setConversionPattern($conversionPattern)
+    {
+        $this->pattern = $conversionPattern;
+    }
 
-	/**
-	 * Sets the conversionPattern option. This is the string which
-	 * controls formatting and consists of a mix of literal content and
-	 * conversion specifiers.
-	 * @param array $conversionPattern
-	 */
-	public function setConversionPattern($conversionPattern) {
-		$this->pattern = $conversionPattern;
-	}
+    /**
+     * Processes the conversion pattern and creates a corresponding chain of
+     * pattern converters which will be used to format logging events.
+     */
+    public function activateOptions()
+    {
+        if (!isset($this->pattern)) {
+            throw new LoggerException("Mandatory parameter 'conversionPattern' is not set.");
+        }
 
-	/**
-	 * Processes the conversion pattern and creates a corresponding chain of
-	 * pattern converters which will be used to format logging events.
-	 */
-	public function activateOptions() {
-		if (!isset($this->pattern)) {
-			throw new LoggerException("Mandatory parameter 'conversionPattern' is not set.");
-		}
+        $parser = new PatternParser($this->pattern, $this->converterMap);
+        $this->head = $parser->parse();
+    }
 
-		$parser = new PatternParser($this->pattern, $this->converterMap);
-		$this->head = $parser->parse();
-	}
+    /**
+     * Produces a formatted string as specified by the conversion pattern.
+     *
+     * @param  LoggingEvent $event
+     * @return string
+     */
+    public function format(LoggingEvent $event)
+    {
+        $sbuf = '';
+        $converter = $this->head;
+        while ($converter !== null) {
+            $converter->format($sbuf, $event);
+            $converter = $converter->next;
+        }
 
-	/**
-	 * Produces a formatted string as specified by the conversion pattern.
-	 *
-	 * @param LoggingEvent $event
-	 * @return string
-	 */
-	public function format(LoggingEvent $event) {
-		$sbuf = '';
-		$converter = $this->head;
-		while ($converter !== null) {
-			$converter->format($sbuf, $event);
-			$converter = $converter->next;
-		}
-		return $sbuf;
-	}
+        return $sbuf;
+    }
 }

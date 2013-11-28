@@ -23,29 +23,29 @@ namespace Apache\Log4php\Helpers;
  * formatting modifiers in conversion modifiers.
  * @since 0.3
  */
-class FormattingInfo {
+class FormattingInfo
+{
+    /**
+     * Minimal output length. If output is shorter than this value, it will be
+     * padded with spaces.
+     */
+    public $min = 0;
 
-	/**
-	 * Minimal output length. If output is shorter than this value, it will be
-	 * padded with spaces.
-	 */
-	public $min = 0;
+    /**
+     * Maximum output length. If output is longer than this value, it will be
+     * trimmed.
+     */
+    public $max = PHP_INT_MAX;
 
-	/**
-	 * Maximum output length. If output is longer than this value, it will be
-	 * trimmed.
-	 */
-	public $max = PHP_INT_MAX;
+    /**
+     * Whether to pad the string from the left. If set to false, the string
+     * will be padded from the right.
+     */
+    public $padLeft = true;
 
-	/**
-	 * Whether to pad the string from the left. If set to false, the string
-	 * will be padded from the right.
-	 */
-	public $padLeft = true;
-
-	/**
-	 * Whether to trim the string from the left. If set to false, the string
-	 * will be trimmed from the right.
-	 */
-	public $trimLeft = false;
+    /**
+     * Whether to trim the string from the left. If set to false, the string
+     * will be trimmed from the right.
+     */
+    public $trimLeft = false;
 }

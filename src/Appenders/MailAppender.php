@@ -40,97 +40,106 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/mail.html Appender documentation
  */
-class MailAppender extends AbstractAppender {
+class MailAppender extends AbstractAppender
+{
+    /**
+     * Email address to put in From field of the email.
+     * @var string
+     */
+    protected $from = null;
 
-	/**
-	 * Email address to put in From field of the email.
-	 * @var string
-	 */
-	protected $from = null;
+    /**
+     * The subject of the email.
+     * @var string
+     */
+    protected $subject = 'Log4php Report';
 
-	/**
-	 * The subject of the email.
-	 * @var string
-	 */
-	protected $subject = 'Log4php Report';
+    /**
+     * One or more comma separated email addresses to which to send the email.
+     * @var string
+     */
+    protected $to = null;
 
-	/**
-	 * One or more comma separated email addresses to which to send the email.
-	 * @var string
-	 */
-	protected $to = null;
+    /**
+     * Indiciates whether this appender should run in dry mode.
+     * @deprecated
+     * @var boolean
+     */
+    protected $dry = false;
 
-	/**
-	 * Indiciates whether this appender should run in dry mode.
-	 * @deprecated
-	 * @var boolean
-	 */
-	protected $dry = false;
+    /**
+     * Buffer which holds the email contents before it is sent.
+     * @var string
+     */
+    protected $body = '';
 
-	/**
-	 * Buffer which holds the email contents before it is sent.
-	 * @var string
-	 */
-	protected $body = '';
+    public function append(LoggingEvent $event)
+    {
+        if ($this->layout !== null) {
+            $this->body .= $this->layout->format($event);
+        }
+    }
 
-	public function append(LoggingEvent $event) {
-		if($this->layout !== null) {
-			$this->body .= $this->layout->format($event);
-		}
-	}
+    public function close()
+    {
+        if ($this->closed != true) {
+            $from = $this->from;
+            $to = $this->to;
 
-	public function close() {
-		if($this->closed != true) {
-			$from = $this->from;
-			$to = $this->to;
+            if (!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
+                $subject = $this->subject;
+                if (!$this->dry) {
+                    mail(
+                        $to, $subject,
+                        $this->layout->getHeader() . $this->body . $this->layout->getFooter(),
+                        "From: {$from}\r\n");
+                } else {
+                    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->body;
+                }
+            }
+            $this->closed = true;
+        }
+    }
 
-			if(!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
-				$subject = $this->subject;
-				if(!$this->dry) {
-					mail(
-						$to, $subject,
-						$this->layout->getHeader() . $this->body . $this->layout->getFooter(),
-						"From: {$from}\r\n");
-				} else {
-				    echo "DRY MODE OF MAIL APP.: Send mail to: ".$to." with content: ".$this->body;
-				}
-			}
-			$this->closed = true;
-		}
-	}
+    /** Sets the 'subject' parameter. */
+    public function setSubject($subject)
+    {
+        $this->setString('subject', $subject);
+    }
 
-	/** Sets the 'subject' parameter. */
-	public function setSubject($subject) {
-		$this->setString('subject', $subject);
-	}
+    /** Returns the 'subject' parameter. */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
 
-	/** Returns the 'subject' parameter. */
-	public function getSubject() {
-		return $this->subject;
-	}
+    /** Sets the 'to' parameter. */
+    public function setTo($to)
+    {
+        $this->setString('to', $to);
+    }
 
-	/** Sets the 'to' parameter. */
-	public function setTo($to) {
-		$this->setString('to', $to);
-	}
+    /** Returns the 'to' parameter. */
+    public function getTo()
+    {
+        return $this->to;
+    }
 
-	/** Returns the 'to' parameter. */
-	public function getTo() {
-		return $this->to;
-	}
+    /** Sets the 'from' parameter. */
+    public function setFrom($from)
+    {
+        $this->setString('from', $from);
+    }
 
-	/** Sets the 'from' parameter. */
-	public function setFrom($from) {
-		$this->setString('from', $from);
-	}
+    /** Returns the 'from' parameter. */
+    public function getFrom()
+    {
+        return $this->from;
+    }
 
-	/** Returns the 'from' parameter. */
-	public function getFrom() {
-		return $this->from;
-	}
-
-	/** Enables or disables dry mode. */
-	public function setDry($dry) {
-		$this->setBoolean('dry', $dry);
-	}
+    /** Enables or disables dry mode. */
+    public function setDry($dry)
+    {
+        $this->setBoolean('dry', $dry);
+    }
 }

@@ -34,56 +34,59 @@ use Apache\Log4php\LoggingEvent;
  */
 class EchoAppender extends AbstractAppender
 {
-	/**
-	 * Used to mark first append. Set to false after first append.
-	 * @var boolean
-	 */
-	protected $firstAppend = true;
+    /**
+     * Used to mark first append. Set to false after first append.
+     * @var boolean
+     */
+    protected $firstAppend = true;
 
-	/**
-	 * If set to true, a <br /> element will be inserted before each line
-	 * break in the logged message. Default value is false. @var boolean
-	 */
-	protected $htmlLineBreaks = false;
+    /**
+     * If set to true, a <br /> element will be inserted before each line
+     * break in the logged message. Default value is false. @var boolean
+     */
+    protected $htmlLineBreaks = false;
 
-	public function close() {
-		if($this->closed != true) {
-			if(!$this->firstAppend) {
-				echo $this->layout->getFooter();
-			}
-		}
-		$this->closed = true;
-	}
+    public function close()
+    {
+        if ($this->closed != true) {
+            if (!$this->firstAppend) {
+                echo $this->layout->getFooter();
+            }
+        }
+        $this->closed = true;
+    }
 
-	public function append(LoggingEvent $event) {
-		if($this->layout !== null) {
-			if($this->firstAppend) {
-				echo $this->layout->getHeader();
-				$this->firstAppend = false;
-			}
-			$text = $this->layout->format($event);
+    public function append(LoggingEvent $event)
+    {
+        if ($this->layout !== null) {
+            if ($this->firstAppend) {
+                echo $this->layout->getHeader();
+                $this->firstAppend = false;
+            }
+            $text = $this->layout->format($event);
 
-			if ($this->htmlLineBreaks) {
-				$text = nl2br($text);
-			}
-			echo $text;
-		}
-	}
+            if ($this->htmlLineBreaks) {
+                $text = nl2br($text);
+            }
+            echo $text;
+        }
+    }
 
-	/**
-	 * Sets the 'htmlLineBreaks' parameter.
-	 * @param boolean $value
-	 */
-	public function setHtmlLineBreaks($value) {
-		$this->setBoolean('htmlLineBreaks', $value);
-	}
+    /**
+     * Sets the 'htmlLineBreaks' parameter.
+     * @param boolean $value
+     */
+    public function setHtmlLineBreaks($value)
+    {
+        $this->setBoolean('htmlLineBreaks', $value);
+    }
 
-	/**
-	 * Returns the 'htmlLineBreaks' parameter.
-	 * @returns boolean
-	 */
-	public function getHtmlLineBreaks() {
-		return $this->htmlLineBreaks;
-	}
+    /**
+     * Returns the 'htmlLineBreaks' parameter.
+     * @returns boolean
+     */
+    public function getHtmlLineBreaks()
+    {
+        return $this->htmlLineBreaks;
+    }
 }
-

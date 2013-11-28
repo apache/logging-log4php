@@ -27,15 +27,15 @@ use Apache\Log4php\Hierarchy;
  */
 interface ConfiguratorInterface
 {
-	/**
-	 * Configures log4php based on the given configuration.
-	 *
-	 * All configurators implementations must implement this interface.
-	 *
-	 * @param Hierarchy $hierarchy The hierarchy on which to perform
-	 * 		the configuration.
-	 * @param mixed $input Either path to the config file or the
-	 * 		configuration as an array.
-	 */
-	public function configure(Hierarchy $hierarchy, $input = null);
+    /**
+     * Configures log4php based on the given configuration.
+     *
+     * All configurators implementations must implement this interface.
+     *
+     * @param Hierarchy $hierarchy The hierarchy on which to perform
+     * 		the configuration.
+     * @param mixed $input Either path to the config file or the
+     * 		configuration as an array.
+     */
+    public function configure(Hierarchy $hierarchy, $input = null);
 }

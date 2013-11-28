@@ -28,37 +28,39 @@ use Apache\Log4php\LoggingEvent;
  * name will be shortened to the given length, if possible.
  * @since 2.3
  */
-class LoggerConverter extends AbstractConverter {
+class LoggerConverter extends AbstractConverter
+{
+    /** Length to which to shorten the name. */
+    private $length;
 
-	/** Length to which to shorten the name. */
-	private $length;
+    /** Holds processed logger names. */
+    private $cache = array();
 
-	/** Holds processed logger names. */
-	private $cache = array();
+    public function activateOptions()
+    {
+        // Parse the option (desired output length)
+        if (isset($this->option) && is_numeric($this->option) && $this->option >= 0) {
+            $this->length = (integer) $this->option;
+        }
+    }
 
-	public function activateOptions() {
-		// Parse the option (desired output length)
-		if (isset($this->option) && is_numeric($this->option) && $this->option >= 0) {
-			$this->length = (integer) $this->option;
-		}
-	}
+    public function convert(LoggingEvent $event)
+    {
+        $name = $event->getLoggerName();
 
-	public function convert(LoggingEvent $event) {
-		$name = $event->getLoggerName();
+        if (!isset($this->cache[$name])) {
 
-		if (!isset($this->cache[$name])) {
+            // If length is set return shortened logger name
+            if (isset($this->length)) {
+                $this->cache[$name] = Utils::shortenClassName($name, $this->length);
+            }
 
-			// If length is set return shortened logger name
-			if (isset($this->length)) {
-				$this->cache[$name] = Utils::shortenClassName($name, $this->length);
-			}
+            // If no length is specified return full logger name
+            else {
+                $this->cache[$name] = $name;
+            }
+        }
 
-			// If no length is specified return full logger name
-			else {
-				$this->cache[$name] = $name;
-			}
-		}
-
-		return $this->cache[$name];
-	}
+        return $this->cache[$name];
+    }
 }

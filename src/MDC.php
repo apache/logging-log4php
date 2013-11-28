@@ -32,56 +32,61 @@ namespace Apache\Log4php;
  * @since 0.3
  *
  */
-class MDC {
+class MDC
+{
+    /** Holds the context map. */
+    private static $map = array();
 
-	/** Holds the context map. */
-	private static $map = array();
+    /**
+     * Stores a context value as identified with the key parameter into the
+     * context map.
+     *
+     * @param string $key   the key
+     * @param string $value the value
+     */
+    public static function put($key, $value)
+    {
+        self::$map[$key] = $value;
+    }
 
-	/**
-	 * Stores a context value as identified with the key parameter into the
-	 * context map.
-	 *
-	 * @param string $key the key
-	 * @param string $value the value
-	 */
-	public static function put($key, $value) {
-		self::$map[$key] = $value;
-	}
+    /**
+     * Returns the context value identified by the key parameter.
+     *
+     * @param  string $key The key.
+     * @return string The context or an empty string if no context found
+     * 	for given key.
+     */
+    public static function get($key)
+    {
+        return isset(self::$map[$key]) ? self::$map[$key] : '';
+    }
 
-	/**
-	 * Returns the context value identified by the key parameter.
-	 *
-	 * @param string $key The key.
-	 * @return string The context or an empty string if no context found
-	 * 	for given key.
-	 */
-	public static function get($key) {
-		return isset(self::$map[$key]) ? self::$map[$key] : '';
-	}
+    /**
+     * Returns the contex map as an array.
+     * @return array The MDC context map.
+     */
+    public static function getMap()
+    {
+        return self::$map;
+    }
 
-	/**
-	 * Returns the contex map as an array.
-	 * @return array The MDC context map.
-	 */
-	public static function getMap() {
-		return self::$map;
-	}
+    /**
+     * Removes the the context identified by the key parameter.
+     *
+     * Only affects user mappings, not $_ENV or $_SERVER.
+     *
+     * @param string $key The key to be removed.
+     */
+    public static function remove($key)
+    {
+        unset(self::$map[$key]);
+    }
 
-	/**
-	 * Removes the the context identified by the key parameter.
-	 *
-	 * Only affects user mappings, not $_ENV or $_SERVER.
-	 *
-	 * @param string $key The key to be removed.
-	 */
-	public static function remove($key) {
-		unset(self::$map[$key]);
-	}
-
-	/**
-	 * Clears the mapped diagnostic context.
-	 */
-	public static function clear() {
-		self::$map = array();
-	}
+    /**
+     * Clears the mapped diagnostic context.
+     */
+    public static function clear()
+    {
+        self::$map = array();
+    }
 }

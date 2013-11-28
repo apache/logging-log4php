@@ -26,37 +26,39 @@ use Apache\Log4php\LoggingEvent;
  * request was issued.
  * @since 2.3
  */
-class ClassConverter extends AbstractConverter {
+class ClassConverter extends AbstractConverter
+{
+    /** Length to which to shorten the class name. */
+    private $length;
 
-	/** Length to which to shorten the class name. */
-	private $length;
+    /** Holds processed class names. */
+    private $cache = array();
 
-	/** Holds processed class names. */
-	private $cache = array();
+    public function activateOptions()
+    {
+        // Parse the option (desired output length)
+        if (isset($this->option) && is_numeric($this->option) && $this->option >= 0) {
+            $this->length = (integer) $this->option;
+        }
+    }
 
-	public function activateOptions() {
-		// Parse the option (desired output length)
-		if (isset($this->option) && is_numeric($this->option) && $this->option >= 0) {
-			$this->length = (integer) $this->option;
-		}
-	}
+    public function convert(LoggingEvent $event)
+    {
+        $name = $event->getLocationInformation()->getClassName();
 
-	public function convert(LoggingEvent $event) {
-		$name = $event->getLocationInformation()->getClassName();
+        if (!isset($this->cache[$name])) {
 
-		if (!isset($this->cache[$name])) {
+            // If length is set return shortened class name
+            if (isset($this->length)) {
+                $this->cache[$name] = Utils::shortenClassName($name, $this->length);
+            }
 
-			// If length is set return shortened class name
-			if (isset($this->length)) {
-				$this->cache[$name] = Utils::shortenClassName($name, $this->length);
-			}
+            // If no length is specified return the full class name
+            else {
+                $this->cache[$name] = $name;
+            }
+        }
 
-			// If no length is specified return the full class name
-			else {
-				$this->cache[$name] = $name;
-			}
-		}
-
-		return $this->cache[$name];
-	}
+        return $this->cache[$name];
+    }
 }

@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the PID of the current process.
  * @since 2.3
  */
-class ProcessConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return getmypid();
-	}
+class ProcessConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return getmypid();
+    }
 }

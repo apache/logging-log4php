@@ -28,6 +28,7 @@ namespace Apache\Log4php\Pattern;
  *
  * @since 2.3
  */
-class EnvironmentConverter extends SuperglobalConverter {
-	protected $name = '_ENV';
+class EnvironmentConverter extends SuperglobalConverter
+{
+    protected $name = '_ENV';
 }

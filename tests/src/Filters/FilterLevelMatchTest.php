@@ -29,156 +29,160 @@ use Apache\Log4php\Logger;
 /**
  * @group filters
  */
-class FilterLevelMatchTest extends \PHPUnit_Framework_TestCase {
+class FilterLevelMatchTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * Tests all possible combinations of event level and filter levelToMatch
+     * option, with acceptOnMatch set to TRUE.
+     */
+    public function testDecideAccept()
+    {
+        $filter = new LevelMatchFilter();
+        $filter->setAcceptOnMatch("true");
 
-	/**
-	 * Tests all possible combinations of event level and filter levelToMatch
-	 * option, with acceptOnMatch set to TRUE.
-	 */
-	public function testDecideAccept() {
-		$filter = new LevelMatchFilter();
-		$filter->setAcceptOnMatch("true");
+        $levels = TestHelper::getAllLevels();
+        $events = TestHelper::getAllEvents();
 
-		$levels = TestHelper::getAllLevels();
-		$events = TestHelper::getAllEvents();
+        foreach ($levels as $level) {
+            $filter->setLevelToMatch($level);
 
-		foreach($levels as $level) {
-			$filter->setLevelToMatch($level);
+            foreach ($events as $event) {
+                // Expecting given level to be accepted, neutral for others
+                $expected = ($event->getLevel() == $level) ? AbstractFilter::ACCEPT : AbstractFilter::NEUTRAL;
+                $actual = $filter->decide($event);
 
-			foreach($events as $event) {
-				// Expecting given level to be accepted, neutral for others
-				$expected = ($event->getLevel() == $level) ? AbstractFilter::ACCEPT : AbstractFilter::NEUTRAL;
-				$actual = $filter->decide($event);
+                // Get string represenations for logging
+                $sExpected = TestHelper::decisionToString($expected);
+                $sActual = TestHelper::decisionToString($actual);
 
-				// Get string represenations for logging
-				$sExpected = TestHelper::decisionToString($expected);
-				$sActual = TestHelper::decisionToString($actual);
+                $this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+            }
+        }
+    }
 
-				$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
-			}
-		}
-	}
+    /**
+     * Tests all possible combinations of event level and filter levelToMatch
+     * option, with acceptOnMatch set to TRUE.
+     */
+    public function testDecideDeny()
+    {
+        $filter = new LevelMatchFilter();
+        $filter->setAcceptOnMatch("false");
 
-	/**
-	 * Tests all possible combinations of event level and filter levelToMatch
-	 * option, with acceptOnMatch set to TRUE.
-	 */
-	public function testDecideDeny() {
-		$filter = new LevelMatchFilter();
-		$filter->setAcceptOnMatch("false");
+        $levels = TestHelper::getAllLevels();
+        $events = TestHelper::getAllEvents();
 
-		$levels = TestHelper::getAllLevels();
-		$events = TestHelper::getAllEvents();
+        foreach ($levels as $level) {
+            $filter->setLevelToMatch($level);
 
-		foreach($levels as $level) {
-			$filter->setLevelToMatch($level);
+            foreach ($events as $event) {
+                // Expecting given level to be denied, neutral for others
+                $expected = ($event->getLevel() == $level) ? AbstractFilter::DENY : AbstractFilter::NEUTRAL;
+                $actual = $filter->decide($event);
 
-			foreach($events as $event) {
-				// Expecting given level to be denied, neutral for others
-				$expected = ($event->getLevel() == $level) ? AbstractFilter::DENY : AbstractFilter::NEUTRAL;
-				$actual = $filter->decide($event);
+                // Get string represenations for logging
+                $sExpected = TestHelper::decisionToString($expected);
+                $sActual = TestHelper::decisionToString($actual);
 
-				// Get string represenations for logging
-				$sExpected = TestHelper::decisionToString($expected);
-				$sActual = TestHelper::decisionToString($actual);
+                $this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+            }
+        }
+    }
 
-				$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
-			}
-		}
-	}
+    /** Test that filter always decides NEUTRAL when levelToMatch is not set. */
+    public function testDecideNull()
+    {
+        $filter = new LevelMatchFilter();
+        $events = TestHelper::getAllEvents();
 
-	/** Test that filter always decides NEUTRAL when levelToMatch is not set. */
-	public function testDecideNull() {
-		$filter = new LevelMatchFilter();
-		$events = TestHelper::getAllEvents();
+        foreach ($events as $event) {
+            $expected = AbstractFilter::NEUTRAL;
+            $actual = $filter->decide($event);
 
-		foreach($events as $event) {
-			$expected = AbstractFilter::NEUTRAL;
-			$actual = $filter->decide($event);
+            // Get string represenations for logging
+            $sExpected = TestHelper::decisionToString($expected);
+            $sActual = TestHelper::decisionToString($actual);
+            $level = $event->getLevel();
 
-			// Get string represenations for logging
-			$sExpected = TestHelper::decisionToString($expected);
-			$sActual = TestHelper::decisionToString($actual);
-			$level = $event->getLevel();
+            $this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
+        }
+    }
 
-			$this->assertSame($expected, $actual, "Failed asserting filter decision for event level <$level>. Expected <$sExpected>, found <$sActual>.");
-		}
-	}
+    /** Test logger configuration. */
+    public function testAcceptConfig()
+    {
+        $config = TestHelper::getEchoConfig();
 
-	/** Test logger configuration. */
-	public function testAcceptConfig() {
-		$config = TestHelper::getEchoConfig();
+        // Add filters to default appender
+        $config['appenders']['default']['filters'] = array(
 
-		// Add filters to default appender
-		$config['appenders']['default']['filters'] = array(
+            // Accepts only INFO events
+            array(
+                'class' => 'LevelMatchFilter',
+                'params' => array(
+                    'levelToMatch' => 'info',
+                    'acceptOnMatch' => true
+                )
+            ),
 
-			// Accepts only INFO events
-			array(
-				'class' => 'LevelMatchFilter',
-				'params' => array(
-					'levelToMatch' => 'info',
-					'acceptOnMatch' => true
-				)
-			),
+            // Denies all events not accepted by first filter
+            array(
+                'class' => 'DenyAllFilter',
+            )
+        );
 
-			// Denies all events not accepted by first filter
-			array(
-				'class' => 'DenyAllFilter',
-			)
-		);
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
+        ob_start();
+        $logger->trace('Test');
+        $logger->debug('Test');
+        $logger->info('Test');
+        $logger->warn('Test');
+        $logger->error('Test');
+        $logger->fatal('Test');
 
-		ob_start();
-		$logger->trace('Test');
-		$logger->debug('Test');
-		$logger->info('Test');
-		$logger->warn('Test');
-		$logger->error('Test');
-		$logger->fatal('Test');
+        $actual = ob_get_clean();
 
-		$actual = ob_get_clean();
+        $expected = "INFO - Test" . PHP_EOL;
+    }
 
+    public function testDenyConfig()
+    {
+        $config = TestHelper::getEchoConfig();
 
-		$expected = "INFO - Test" . PHP_EOL;
-	}
+        // Add filter which denies INFO events
+        $config['appenders']['default']['filters'] = array(
+            array(
+                'class' => 'LevelMatchFilter',
+                'params' => array(
+                    'levelToMatch' => 'info',
+                    'acceptOnMatch' => false
+                )
+            )
+        );
 
-	public function testDenyConfig() {
-		$config = TestHelper::getEchoConfig();
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
 
-		// Add filter which denies INFO events
-		$config['appenders']['default']['filters'] = array(
-			array(
-				'class' => 'LevelMatchFilter',
-				'params' => array(
-					'levelToMatch' => 'info',
-					'acceptOnMatch' => false
-				)
-			)
-		);
+        ob_start();
+        $logger->trace('Test');
+        $logger->debug('Test');
+        $logger->info('Test');
+        $logger->warn('Test');
+        $logger->error('Test');
+        $logger->fatal('Test');
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
+        $actual = ob_get_clean();
 
-		ob_start();
-		$logger->trace('Test');
-		$logger->debug('Test');
-		$logger->info('Test');
-		$logger->warn('Test');
-		$logger->error('Test');
-		$logger->fatal('Test');
+        // Should log all except info
+        $expected =
+            "TRACE - Test" . PHP_EOL .
+            "DEBUG - Test" . PHP_EOL .
+            "WARN - Test"  . PHP_EOL .
+            "ERROR - Test" . PHP_EOL .
+            "FATAL - Test" . PHP_EOL;
 
-		$actual = ob_get_clean();
-
-		// Should log all except info
-		$expected =
-			"TRACE - Test" . PHP_EOL .
-			"DEBUG - Test" . PHP_EOL .
-			"WARN - Test"  . PHP_EOL .
-			"ERROR - Test" . PHP_EOL .
-			"FATAL - Test" . PHP_EOL;
-
-		$this->assertSame($expected, $actual);
-	}
+        $this->assertSame($expected, $actual);
+    }
 }

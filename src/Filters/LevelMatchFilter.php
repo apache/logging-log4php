@@ -43,56 +43,59 @@ use Apache\Log4php\LoggingEvent;
  * {@example ../../examples/resources/filter_levelmatch.xml 18}
  * @since 0.6
  */
-class LevelMatchFilter extends AbstractFilter {
+class LevelMatchFilter extends AbstractFilter
+{
+    /**
+     * Indicates if this event should be accepted or denied on match
+     * @var boolean
+     */
+    protected $acceptOnMatch = true;
 
-	/**
-	 * Indicates if this event should be accepted or denied on match
-	 * @var boolean
-	 */
-	protected $acceptOnMatch = true;
+    /**
+     * The level, when to match
+     * @var Level
+     */
+    protected $levelToMatch;
 
-	/**
-	 * The level, when to match
-	 * @var Level
-	 */
-	protected $levelToMatch;
+    /**
+     * @param boolean $acceptOnMatch
+     */
+    public function setAcceptOnMatch($acceptOnMatch)
+    {
+        $this->setBoolean('acceptOnMatch', $acceptOnMatch);
+    }
 
-	/**
-	 * @param boolean $acceptOnMatch
-	 */
-	public function setAcceptOnMatch($acceptOnMatch) {
-		$this->setBoolean('acceptOnMatch', $acceptOnMatch);
-	}
+    /**
+     * @param string $l the level to match
+     */
+    public function setLevelToMatch($level)
+    {
+        $this->setLevel('levelToMatch', $level);
+    }
 
-	/**
-	 * @param string $l the level to match
-	 */
-	public function setLevelToMatch($level) {
-		$this->setLevel('levelToMatch', $level);
-	}
+    /**
+     * Return the decision of this filter.
+     *
+     * Returns {@link AbstractFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
+     * option is not set or if there is not match.	Otherwise, if there is a
+     * match, then the returned decision is {@link AbstractFilter::ACCEPT} if the
+     * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
+     * returned decision is {@link AbstractFilter::DENY} if the
+     * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
+     *
+     * @param  LoggingEvent $event
+     * @return integer
+     */
+    public function decide(LoggingEvent $event)
+    {
+        if ($this->levelToMatch === null) {
+            return AbstractFilter::NEUTRAL;
+        }
 
-	/**
-	 * Return the decision of this filter.
-	 *
-	 * Returns {@link AbstractFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
-	 * option is not set or if there is not match.	Otherwise, if there is a
-	 * match, then the returned decision is {@link AbstractFilter::ACCEPT} if the
-	 * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
-	 * returned decision is {@link AbstractFilter::DENY} if the
-	 * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
-	 *
-	 * @param LoggingEvent $event
-	 * @return integer
-	 */
-	public function decide(LoggingEvent $event) {
-		if($this->levelToMatch === null) {
-			return AbstractFilter::NEUTRAL;
-		}
-
-		if($this->levelToMatch->equals($event->getLevel())) {
-			return $this->acceptOnMatch ? AbstractFilter::ACCEPT : AbstractFilter::DENY;
-		} else {
-			return AbstractFilter::NEUTRAL;
-		}
-	}
+        if ($this->levelToMatch->equals($event->getLevel())) {
+            return $this->acceptOnMatch ? AbstractFilter::ACCEPT : AbstractFilter::DENY;
+        } else {
+            return AbstractFilter::NEUTRAL;
+        }
+    }
 }

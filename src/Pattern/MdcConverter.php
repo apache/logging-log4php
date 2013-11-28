@@ -27,26 +27,29 @@ use Apache\Log4php\LoggingEvent;
  *  [0] the MDC key
  * @since 2.3
  */
-class MdcConverter extends AbstractConverter {
+class MdcConverter extends AbstractConverter
+{
+    private $key;
 
-	private $key;
+    public function activateOptions()
+    {
+        if (isset($this->option) && $this->option !== '') {
+            $this->key = $this->option;
+        }
+    }
 
-	public function activateOptions() {
-		if (isset($this->option) && $this->option !== '') {
-			$this->key = $this->option;
-		}
-	}
+    public function convert(LoggingEvent $event)
+    {
+        if (isset($this->key)) {
+            return $event->getMDC($this->key);
+        } else {
+            $buff = array();
+            $map = $event->getMDCMap();
+            foreach ($map as $key => $value) {
+                $buff []= "$key=$value";
+            }
 
-	public function convert(LoggingEvent $event) {
-		if (isset($this->key)) {
-			return $event->getMDC($this->key);
-		} else {
-			$buff = array();
-			$map = $event->getMDCMap();
-			foreach($map as $key => $value) {
-				$buff []= "$key=$value";
-			}
-			return implode(', ', $buff);
-		}
-	}
+            return implode(', ', $buff);
+        }
+    }
 }

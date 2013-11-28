@@ -32,19 +32,19 @@ set_time_limit(0);
 // Create a socket
 $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 if ($sock === false) {
-	die("Failed creating socket: " . socket_strerror(socket_last_error()));
+    die("Failed creating socket: " . socket_strerror(socket_last_error()));
 }
 
 if (socket_set_option($sock, SOL_SOCKET, SO_REUSEADDR, 1) === false) {
-	die("Failed setting socket options: " . socket_strerror(socket_last_error()));
+    die("Failed setting socket options: " . socket_strerror(socket_last_error()));
 }
 
 if (socket_bind($sock, 'localhost', SERVER_PORT) === false) {
-	die("Failed binding socket: " . socket_strerror(socket_last_error()));
+    die("Failed binding socket: " . socket_strerror(socket_last_error()));
 }
 
 if (socket_listen($sock, 100) === false) {
-	die("Failed binding socket: " . socket_strerror(socket_last_error()));
+    die("Failed binding socket: " . socket_strerror(socket_last_error()));
 }
 
 socket_getsockname($sock, $addr, $port);
@@ -53,43 +53,42 @@ myLog("Server Listening on $addr:$port");
 // Buffer which will store incoming messages
 $playback = "";
 
-while(true) {
-	myLog("Waiting for incoming connections...");
+while (true) {
+    myLog("Waiting for incoming connections...");
 
-	$msgsock = socket_accept($sock);
-	if ($msgsock === false) {
-		myLog("Failed accepting a connection: " . socket_strerror(socket_last_error()));
-		break;
-	}
+    $msgsock = socket_accept($sock);
+    if ($msgsock === false) {
+        myLog("Failed accepting a connection: " . socket_strerror(socket_last_error()));
+        break;
+    }
 
-	$buf = socket_read($msgsock, 2048, PHP_NORMAL_READ);
+    $buf = socket_read($msgsock, 2048, PHP_NORMAL_READ);
 
-	myLog('Received: "' . trim($buf) . '"');
+    myLog('Received: "' . trim($buf) . '"');
 
-	// Shutdown command
-	if (trim($buf) == 'shutdown') {
-		myLog("Shutting down.");
-		socket_close($msgsock);
-		break;
-	}
-	// Playback command
-	else if (trim($buf) == 'playback') {
-		myLog("Returning playback: \"$playback\"");
-		socket_write($msgsock, $playback);
-	}
-	// Default: add to playback buffer
-	else {
-		$playback .= trim($buf);
-	}
+    // Shutdown command
+    if (trim($buf) == 'shutdown') {
+        myLog("Shutting down.");
+        socket_close($msgsock);
+        break;
+    }
+    // Playback command
+    else if (trim($buf) == 'playback') {
+        myLog("Returning playback: \"$playback\"");
+        socket_write($msgsock, $playback);
+    }
+    // Default: add to playback buffer
+    else {
+        $playback .= trim($buf);
+    }
 
-	socket_close($msgsock);
+    socket_close($msgsock);
 }
 
 myLog("Closing socket.");
 socket_close($sock);
 
-function myLog($msg) {
-	echo date("Y-m-d H:i:s") . " $msg\n";
+function myLog($msg)
+{
+    echo date("Y-m-d H:i:s") . " $msg\n";
 }
-
-?>

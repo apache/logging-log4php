@@ -24,46 +24,50 @@ namespace Apache\Log4php;
  */
 class RootLogger extends Logger
 {
-	/**
-	 * Constructor
-	 *
-	 * @param integer $level initial log level
-	 */
-	public function __construct(Level $level = null) {
-		parent::__construct('root');
+    /**
+     * Constructor
+     *
+     * @param integer $level initial log level
+     */
+    public function __construct(Level $level = null)
+    {
+        parent::__construct('root');
 
-		if($level == null) {
-			$level = Level::getLevelAll();
-		}
-		$this->setLevel($level);
-	}
+        if ($level == null) {
+            $level = Level::getLevelAll();
+        }
+        $this->setLevel($level);
+    }
 
-	/**
-	 * @return Level the level
-	 */
-	public function getEffectiveLevel() {
-		return $this->getLevel();
-	}
+    /**
+     * @return Level the level
+     */
+    public function getEffectiveLevel()
+    {
+        return $this->getLevel();
+    }
 
-	/**
-	 * Override level setter to prevent setting the root logger's level to
-	 * null. Root logger must always have a level.
-	 *
-	 * @param Level $level
-	 */
-	public function setLevel(Level $level = null) {
-		if (isset($level)) {
-			parent::setLevel($level);
-		} else {
-			trigger_error("log4php: Cannot set RootLogger level to null.", E_USER_WARNING);
-		}
-	}
+    /**
+     * Override level setter to prevent setting the root logger's level to
+     * null. Root logger must always have a level.
+     *
+     * @param Level $level
+     */
+    public function setLevel(Level $level = null)
+    {
+        if (isset($level)) {
+            parent::setLevel($level);
+        } else {
+            trigger_error("log4php: Cannot set RootLogger level to null.", E_USER_WARNING);
+        }
+    }
 
-	/**
-	 * Override parent setter. Root logger cannot have a parent.
-	 * @param Logger $parent
-	 */
-	public function setParent(Logger $parent) {
-		trigger_error("log4php: RootLogger cannot have a parent.", E_USER_WARNING);
-	}
+    /**
+     * Override parent setter. Root logger cannot have a parent.
+     * @param Logger $parent
+     */
+    public function setParent(Logger $parent)
+    {
+        trigger_error("log4php: RootLogger cannot have a parent.", E_USER_WARNING);
+    }
 }

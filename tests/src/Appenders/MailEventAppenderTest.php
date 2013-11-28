@@ -31,56 +31,60 @@ use Apache\Log4php\LoggingEvent;
 /**
  * @group appenders
  */
-class MailEventAppenderTest extends \PHPUnit_Framework_TestCase {
+class MailEventAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    public function testRequiresLayout()
+    {
+        $appender = new MailEventAppender();
+        self::assertTrue($appender->requiresLayout());
+    }
 
-	public function testRequiresLayout() {
-		$appender = new MailEventAppender();
-		self::assertTrue($appender->requiresLayout());
-	}
+    public function testMail()
+    {
+        $appender = new MailEventAppender("myname");
 
-	public function testMail() {
-		$appender = new MailEventAppender("myname");
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
+        $appender->setDry(true);
+        $appender->setTo('test@example.com');
+        $appender->setFrom('Testsender');
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
-		$appender->setDry(true);
-		$appender->setTo('test@example.com');
-		$appender->setFrom('Testsender');
+        $appender->activateOptions();
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
 
-		$appender->activateOptions();
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
+        ob_start();
+        $appender->append($event);
+        $v = ob_get_contents();
+        ob_end_clean();
 
-		ob_start();
-		$appender->append($event);
-		$v = ob_get_contents();
-		ob_end_clean();
+        $e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with additional headers 'From: Testsender' and content: ERROR - testmessage".PHP_EOL;
+        self::assertEquals($e, $v);
+        $appender->close();
+    }
 
-		$e = "DRY MODE OF MAIL APP.: Send mail to: test@example.com with additional headers 'From: Testsender' and content: ERROR - testmessage".PHP_EOL;
-		self::assertEquals($e, $v);
-		$appender->close();
-	}
+    /**
+     * Check an error is reported if 'to' is not set.
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage Required parameter 'to' not set.
+     */
+    public function testEmptyTo()
+    {
+        $appender = new MailEventAppender("myname");
+        $appender->setLayout(new SimpleLayout());
+        $appender->setFrom('info@example.com');
+        $appender->activateOptions();
+    }
 
-	/**
-	 * Check an error is reported if 'to' is not set.
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage Required parameter 'to' not set.
-	 */
-	public function testEmptyTo() {
-		$appender = new MailEventAppender("myname");
-		$appender->setLayout(new SimpleLayout());
-		$appender->setFrom('info@example.com');
-		$appender->activateOptions();
-	}
-
-	/**
-	 * Check an error is reported if 'from' is not set.
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage Required parameter 'from' not set.
-	 */
-	public function testEmptyFrom() {
-		$appender = new MailEventAppender("myname");
-		$appender->setLayout(new SimpleLayout());
-		$appender->setTo('info@example.com');
-		$appender->activateOptions();
-	}
+    /**
+     * Check an error is reported if 'from' is not set.
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage Required parameter 'from' not set.
+     */
+    public function testEmptyFrom()
+    {
+        $appender = new MailEventAppender("myname");
+        $appender->setLayout(new SimpleLayout());
+        $appender->setTo('info@example.com');
+        $appender->activateOptions();
+    }
 }

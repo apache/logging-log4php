@@ -22,19 +22,17 @@
  */
 
 return array(
-	'rootLogger' => array(
-		'level' => 'info',
-		'appenders' => array('default')
-	),
-	'appenders' => array(
-		'default' => array(
-			'class' => 'EchoAppender',
-			'layout' => array(
-				'class' => 'SimpleLayout'
-			 )
-		)
-	)
+    'rootLogger' => array(
+        'level' => 'info',
+        'appenders' => array('default')
+    ),
+    'appenders' => array(
+        'default' => array(
+            'class' => 'EchoAppender',
+            'layout' => array(
+                'class' => 'SimpleLayout'
+             )
+        )
+    )
 
 // Invalid file - no closing brace.
-
-?>

@@ -35,16 +35,17 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/php.html Appender documentation
  */
-class PhpAppender extends AbstractAppender {
-
-	public function append(LoggingEvent $event) {
-		$level = $event->getLevel();
-		if($level->isGreaterOrEqual(Level::getLevelError())) {
-			trigger_error($this->layout->format($event), E_USER_ERROR);
-		} else if ($level->isGreaterOrEqual(Level::getLevelWarn())) {
-			trigger_error($this->layout->format($event), E_USER_WARNING);
-		} else {
-			trigger_error($this->layout->format($event), E_USER_NOTICE);
-		}
-	}
+class PhpAppender extends AbstractAppender
+{
+    public function append(LoggingEvent $event)
+    {
+        $level = $event->getLevel();
+        if ($level->isGreaterOrEqual(Level::getLevelError())) {
+            trigger_error($this->layout->format($event), E_USER_ERROR);
+        } elseif ($level->isGreaterOrEqual(Level::getLevelWarn())) {
+            trigger_error($this->layout->format($event), E_USER_WARNING);
+        } else {
+            trigger_error($this->layout->format($event), E_USER_NOTICE);
+        }
+    }
 }

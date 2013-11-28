@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the event's level.
  * @since 2.3
  */
-class LevelConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getLevel()->toString();
-	}
+class LevelConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getLevel()->toString();
+    }
 }

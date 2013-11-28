@@ -27,18 +27,19 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/null.html Appender documentation
  */
-class NullAppender extends AbstractAppender {
+class NullAppender extends AbstractAppender
+{
+    /**
+     * This appender does not require a layout.
+     */
+    protected $requiresLayout = false;
 
-	/**
-	 * This appender does not require a layout.
-	 */
-	protected $requiresLayout = false;
-
-	/**
-	 * Do nothing.
-	 *
-	 * @param LoggingEvent $event
-	 */
-	public function append(LoggingEvent $event) {
-	}
+    /**
+     * Do nothing.
+     *
+     * @param LoggingEvent $event
+     */
+    public function append(LoggingEvent $event)
+    {
+    }
 }

@@ -29,30 +29,33 @@ class ThrowableInformationTestException extends \Exception { }
 /**
  * @group main
  */
-class ThrowableInformationTest extends \PHPUnit_Framework_TestCase {
+class ThrowableInformationTest extends \PHPUnit_Framework_TestCase
+{
+    public function testConstructor()
+    {
+        $ex = new \Exception();
+        $tInfo = new ThrowableInformation($ex);
 
-	public function testConstructor() {
-		$ex = new \Exception();
-		$tInfo = new ThrowableInformation($ex);
+        $result	  = $tInfo->getStringRepresentation();
+        $this->assertInternalType('array', $result);
+    }
 
-		$result	  = $tInfo->getStringRepresentation();
-		$this->assertInternalType('array', $result);
-	}
+    public function testExceptionChain()
+    {
+        $ex1 = new ThrowableInformationTestException('Message1');
+        $ex2 = new ThrowableInformationTestException('Message2', 0, $ex1);
+        $ex3 = new ThrowableInformationTestException('Message3', 0, $ex2);
 
-	public function testExceptionChain() {
-		$ex1 = new ThrowableInformationTestException('Message1');
-		$ex2 = new ThrowableInformationTestException('Message2', 0, $ex1);
-		$ex3 = new ThrowableInformationTestException('Message3', 0, $ex2);
+        $tInfo = new ThrowableInformation($ex3);
+        $result	= $tInfo->getStringRepresentation();
+        $this->assertInternalType('array', $result);
+    }
 
-		$tInfo = new ThrowableInformation($ex3);
-		$result	= $tInfo->getStringRepresentation();
-		$this->assertInternalType('array', $result);
-	}
-
-	public function testGetThrowable() {
-		$ex = new ThrowableInformationTestException('Message1');
-		$tInfo = new ThrowableInformation($ex);
-		$result = $tInfo->getThrowable();
-		$this->assertEquals($ex, $result);
-	}
+    public function testGetThrowable()
+    {
+        $ex = new ThrowableInformationTestException('Message1');
+        $tInfo = new ThrowableInformation($ex);
+        $result = $tInfo->getThrowable();
+        $this->assertEquals($ex, $result);
+    }
 }

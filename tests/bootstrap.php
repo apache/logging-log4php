@@ -30,7 +30,7 @@ date_default_timezone_set('Europe/London');
 // Define a temp dir where tests may write to
 $tmpDir = __DIR__ . '/../target/temp/phpunit';
 if (!is_dir($tmpDir)) {
-	mkdir($tmpDir, 0777, true);
+    mkdir($tmpDir, 0777, true);
 }
 define('PHPUNIT_TEMP_DIR', realpath($tmpDir));
 

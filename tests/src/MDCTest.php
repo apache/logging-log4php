@@ -29,91 +29,93 @@ use Apache\Log4php\Layouts\PatternLayout;
 /**
  * @group main
  */
-class MDCTest extends \PHPUnit_Framework_TestCase {
+class MDCTest extends \PHPUnit_Framework_TestCase
+{
+    /** A pattern with 1 key. */
+    private $pattern1 = "%-5p %c: %X{key1} %m";
 
-	/** A pattern with 1 key. */
-	private $pattern1 = "%-5p %c: %X{key1} %m";
+    /** A pattern with 2 keys. */
+    private $pattern2 = "%-5p %c: %X{key1} %X{key2} %m";
 
-	/** A pattern with 2 keys. */
-	private $pattern2 = "%-5p %c: %X{key1} %X{key2} %m";
+    /** A pattern with 3 keys (one is numeric). */
+    private $pattern3 = "%-5p %c: %X{key1} %X{key2} %X{3} %m";
 
-	/** A pattern with 3 keys (one is numeric). */
-	private $pattern3 = "%-5p %c: %X{key1} %X{key2} %X{3} %m";
+    /** A pattern with a non-existant key. */
+    private $pattern4 = "%-5p %c: %X{key_does_not_exist} %m";
 
-	/** A pattern with a non-existant key. */
-	private $pattern4 = "%-5p %c: %X{key_does_not_exist} %m";
+    /** A pattern without a key. */
+    private $pattern5 = "%-5p %c: %X %m";
 
-	/** A pattern without a key. */
-	private $pattern5 = "%-5p %c: %X %m";
-
-	protected function setUp() {
-		MDC::clear();
-	}
-
-	protected function tearDown() {
-		MDC::clear();
-	}
-
-	public function testPatterns() {
-
-		// Create some data to test with
-		MDC::put('key1', 'valueofkey1');
-		MDC::put('key2', 'valueofkey2');
-		MDC::put(3, 'valueofkey3');
-
-		$expected = array(
-			'key1' => 'valueofkey1',
-			'key2' => 'valueofkey2',
-			3 => 'valueofkey3',
-		);
-		$actual = MDC::getMap();
-
-		self::assertSame($expected, $actual);
-
-		$event = TestHelper::getInfoEvent("Test message");
-
-		// Pattern with 1 key
-		$actual = $this->formatEvent($event, $this->pattern1);
-		$expected = "INFO  test: valueofkey1 Test message";
-		self::assertEquals($expected, $actual);
-
-		// Pattern with 2 keys
-		$actual = $this->formatEvent($event, $this->pattern2);
-		$expected = "INFO  test: valueofkey1 valueofkey2 Test message";
-		self::assertEquals($expected, $actual);
-
-		// Pattern with 3 keys (one numeric)
-		$actual = $this->formatEvent($event, $this->pattern3);
-		$expected = "INFO  test: valueofkey1 valueofkey2 valueofkey3 Test message";
-		self::assertEquals($expected, $actual);
-
-		// Pattern with non-existant key
-		$actual = $this->formatEvent($event, $this->pattern4);
-		$expected = "INFO  test:  Test message";
-		self::assertEquals($expected, $actual);
-
-		// Pattern with an empty key
-    	$actual = $this->formatEvent($event, $this->pattern5);
-		$expected = "INFO  test: key1=valueofkey1, key2=valueofkey2, 3=valueofkey3 Test message";
-		self::assertEquals($expected, $actual);
-
-		// Test key removal
-		MDC::remove('key1');
-		$value = MDC::get('key1');
-		self::assertEquals('', $value);
-
-		// Pattern with 1 key, now removed
-		$actual = $this->formatEvent($event, $this->pattern1);
-		$expected = "INFO  test:  Test message";
-		self::assertEquals($expected, $actual);
+    protected function setUp()
+    {
+        MDC::clear();
     }
 
-	private function formatEvent($event, $pattern) {
-		$layout = new PatternLayout();
-		$layout->setConversionPattern($pattern);
-		$layout->activateOptions();
-		return $layout->format($event);
-	}
-}
+    protected function tearDown()
+    {
+        MDC::clear();
+    }
 
-?>
+    public function testPatterns()
+    {
+        // Create some data to test with
+        MDC::put('key1', 'valueofkey1');
+        MDC::put('key2', 'valueofkey2');
+        MDC::put(3, 'valueofkey3');
+
+        $expected = array(
+            'key1' => 'valueofkey1',
+            'key2' => 'valueofkey2',
+            3 => 'valueofkey3',
+        );
+        $actual = MDC::getMap();
+
+        self::assertSame($expected, $actual);
+
+        $event = TestHelper::getInfoEvent("Test message");
+
+        // Pattern with 1 key
+        $actual = $this->formatEvent($event, $this->pattern1);
+        $expected = "INFO  test: valueofkey1 Test message";
+        self::assertEquals($expected, $actual);
+
+        // Pattern with 2 keys
+        $actual = $this->formatEvent($event, $this->pattern2);
+        $expected = "INFO  test: valueofkey1 valueofkey2 Test message";
+        self::assertEquals($expected, $actual);
+
+        // Pattern with 3 keys (one numeric)
+        $actual = $this->formatEvent($event, $this->pattern3);
+        $expected = "INFO  test: valueofkey1 valueofkey2 valueofkey3 Test message";
+        self::assertEquals($expected, $actual);
+
+        // Pattern with non-existant key
+        $actual = $this->formatEvent($event, $this->pattern4);
+        $expected = "INFO  test:  Test message";
+        self::assertEquals($expected, $actual);
+
+        // Pattern with an empty key
+        $actual = $this->formatEvent($event, $this->pattern5);
+        $expected = "INFO  test: key1=valueofkey1, key2=valueofkey2, 3=valueofkey3 Test message";
+        self::assertEquals($expected, $actual);
+
+        // Test key removal
+        MDC::remove('key1');
+        $value = MDC::get('key1');
+        self::assertEquals('', $value);
+
+        // Pattern with 1 key, now removed
+        $actual = $this->formatEvent($event, $this->pattern1);
+        $expected = "INFO  test:  Test message";
+        self::assertEquals($expected, $actual);
+    }
+
+    private function formatEvent($event, $pattern)
+    {
+        $layout = new PatternLayout();
+        $layout->setConversionPattern($pattern);
+        $layout->activateOptions();
+
+        return $layout->format($event);
+    }
+}

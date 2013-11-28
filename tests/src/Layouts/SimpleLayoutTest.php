@@ -30,14 +30,15 @@ use Apache\Log4php\Layouts\SimpleLayout;
 /**
  * @group layouts
  */
-class SimpleLayoutTest extends \PHPUnit_Framework_TestCase {
+class SimpleLayoutTest extends \PHPUnit_Framework_TestCase
+{
+    public function testSimpleLayout()
+    {
+        $event = new LoggingEvent("SimpleLayoutTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
 
-	public function testSimpleLayout() {
-		$event = new LoggingEvent("SimpleLayoutTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
-
-		$layout = new SimpleLayout();
-		$actual = $layout->format($event);
-		$expected = "ERROR - testmessage" . PHP_EOL;
-		self::assertEquals($expected, $actual);
-	}
+        $layout = new SimpleLayout();
+        $actual = $layout->format($event);
+        $expected = "ERROR - testmessage" . PHP_EOL;
+        self::assertEquals($expected, $actual);
+    }
 }

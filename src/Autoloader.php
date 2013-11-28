@@ -23,31 +23,31 @@ namespace Apache\Log4php;
  */
 class Autoloader
 {
-	const BASE_NAMESPACE = 'Apache\\Log4php\\';
+    const BASE_NAMESPACE = 'Apache\\Log4php\\';
 
-	public function autoload($class)
-	{
-	    // Base directory for the namespace prefix
-	    $baseDir = __DIR__ . '/../src/';
+    public function autoload($class)
+    {
+        // Base directory for the namespace prefix
+        $baseDir = __DIR__ . '/../src/';
 
-	    // Skip classes which are not in base namespace
-	    $len = strlen(self::BASE_NAMESPACE);
-	    if (strncmp(self::BASE_NAMESPACE, $class, $len) !== 0) {
-	        return;
-	    }
+        // Skip classes which are not in base namespace
+        $len = strlen(self::BASE_NAMESPACE);
+        if (strncmp(self::BASE_NAMESPACE, $class, $len) !== 0) {
+            return;
+        }
 
-	    // Locate the class in base dir, based on namespace
-	    $classPath = str_replace('\\', '/', substr($class, $len));
-	    $file = $baseDir . $classPath . '.php';
+        // Locate the class in base dir, based on namespace
+        $classPath = str_replace('\\', '/', substr($class, $len));
+        $file = $baseDir . $classPath . '.php';
 
-	    // If the file exists, require it
-	    if (file_exists($file)) {
-	        require $file;
-	    }
-	}
+        // If the file exists, require it
+        if (file_exists($file)) {
+            require $file;
+        }
+    }
 
-	public function register()
-	{
-		spl_autoload_register(array($this, 'autoload'));
-	}
+    public function register()
+    {
+        spl_autoload_register(array($this, 'autoload'));
+    }
 }

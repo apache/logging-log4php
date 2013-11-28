@@ -60,77 +60,81 @@ use Apache\Log4php\LoggingEvent;
  * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml;
  * @since 0.6
  */
-class LevelRangeFilter extends AbstractFilter {
+class LevelRangeFilter extends AbstractFilter
+{
+    /**
+     * @var boolean
+     */
+    protected $acceptOnMatch = true;
 
-	/**
-	 * @var boolean
-	 */
-	protected $acceptOnMatch = true;
+    /**
+     * @var Level
+     */
+    protected $levelMin;
 
-	/**
-	 * @var Level
-	 */
-	protected $levelMin;
+    /**
+     * @var Level
+     */
+    protected $levelMax;
 
-	/**
-	 * @var Level
-	 */
-	protected $levelMax;
+    /**
+     * @param boolean $acceptOnMatch
+     */
+    public function setAcceptOnMatch($acceptOnMatch)
+    {
+        $this->setBoolean('acceptOnMatch', $acceptOnMatch);
+    }
 
-	/**
-	 * @param boolean $acceptOnMatch
-	 */
-	public function setAcceptOnMatch($acceptOnMatch) {
-		$this->setBoolean('acceptOnMatch', $acceptOnMatch);
-	}
+    /**
+     * @param string $l the level min to match
+     */
+    public function setLevelMin($level)
+    {
+        $this->setLevel('levelMin', $level);
+    }
 
-	/**
-	 * @param string $l the level min to match
-	 */
-	public function setLevelMin($level) {
-		$this->setLevel('levelMin', $level);
-	}
+    /**
+     * @param string $l the level max to match
+     */
+    public function setLevelMax($level)
+    {
+        $this->setLevel('levelMax', $level);
+    }
 
-	/**
-	 * @param string $l the level max to match
-	 */
-	public function setLevelMax($level) {
-		$this->setLevel('levelMax', $level);
-	}
+    /**
+     * Return the decision of this filter.
+     *
+     * @param  LoggingEvent $event
+     * @return integer
+     */
+    public function decide(LoggingEvent $event)
+    {
+        $level = $event->getLevel();
 
-	/**
-	 * Return the decision of this filter.
-	 *
-	 * @param LoggingEvent $event
-	 * @return integer
-	 */
-	public function decide(LoggingEvent $event) {
-		$level = $event->getLevel();
+        if ($this->levelMin !== null) {
+            if ($level->isGreaterOrEqual($this->levelMin) == false) {
+                // level of event is less than minimum
+                return AbstractFilter::DENY;
+            }
+        }
 
-		if($this->levelMin !== null) {
-			if($level->isGreaterOrEqual($this->levelMin) == false) {
-				// level of event is less than minimum
-				return AbstractFilter::DENY;
-			}
-		}
+        if ($this->levelMax !== null) {
+            if ($level->toInt() > $this->levelMax->toInt()) {
+                // level of event is greater than maximum
+                // Alas, there is no Level.isGreater method. and using
+                // a combo of isGreaterOrEqual && !Equal seems worse than
+                // checking the int values of the level objects..
+                return AbstractFilter::DENY;
+            }
+        }
 
-		if($this->levelMax !== null) {
-			if($level->toInt() > $this->levelMax->toInt()) {
-				// level of event is greater than maximum
-				// Alas, there is no Level.isGreater method. and using
-				// a combo of isGreaterOrEqual && !Equal seems worse than
-				// checking the int values of the level objects..
-				return AbstractFilter::DENY;
-			}
-		}
-
-		if($this->acceptOnMatch) {
-			// this filter set up to bypass later filters and always return
-			// accept if level in range
-			return AbstractFilter::ACCEPT;
-		} else {
-			// event is ok for this filter; allow later filters to have a look..
-			return AbstractFilter::NEUTRAL;
-		}
-	}
+        if ($this->acceptOnMatch) {
+            // this filter set up to bypass later filters and always return
+            // accept if level in range
+            return AbstractFilter::ACCEPT;
+        } else {
+            // event is ok for this filter; allow later filters to have a look..
+            return AbstractFilter::NEUTRAL;
+        }
+    }
 }

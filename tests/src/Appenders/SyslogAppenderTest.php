@@ -38,216 +38,224 @@ use Apache\Log4php\LoggingEvent;
  *
  * @group appenders
  */
-class SyslogAppenderTest extends \PHPUnit_Framework_TestCase {
+class SyslogAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    public function testSettersGetters()
+    {
+        // Setters should accept any value, without validation
+        $expected = "Random string value";
 
-	public function testSettersGetters() {
+        $appender = new SyslogAppender();
+        $appender->setIdent($expected);
+        $appender->setFacility($expected);
+        $appender->setOverridePriority($expected);
+        $appender->setPriority($expected);
+        $appender->setOption($expected);
 
-		// Setters should accept any value, without validation
-		$expected = "Random string value";
+        $actuals = array(
+            $appender->getIdent(),
+            $appender->getFacility(),
+            $appender->getOverridePriority(),
+            $appender->getPriority(),
+            $appender->getOption()
+        );
 
-		$appender = new SyslogAppender();
-		$appender->setIdent($expected);
-		$appender->setFacility($expected);
-		$appender->setOverridePriority($expected);
-		$appender->setPriority($expected);
-		$appender->setOption($expected);
+        foreach ($actuals as $actual) {
+            $this->assertSame($expected, $actual);
+        }
+    }
 
-		$actuals = array(
-			$appender->getIdent(),
-			$appender->getFacility(),
-			$appender->getOverridePriority(),
-			$appender->getPriority(),
-			$appender->getOption()
-		);
+    public function testRequiresLayout()
+    {
+        $appender = new SyslogAppender();
+        $this->assertTrue($appender->requiresLayout());
+    }
 
-		foreach($actuals as $actual) {
-			$this->assertSame($expected, $actual);
-		}
-	}
+    public function testLogging()
+    {
+        $appender = new SyslogAppender("myname");
+        $appender->setLayout(new SimpleLayout());
+        $appender->activateOptions();
 
-	public function testRequiresLayout() {
-		$appender = new SyslogAppender();
-		$this->assertTrue($appender->requiresLayout());
-	}
+        $event = new LoggingEvent(__CLASS__, new Logger("TestLogger"), Level::getLevelError(), "testmessage");
+        $appender->append($event);
+    }
 
-	public function testLogging() {
-		$appender = new SyslogAppender("myname");
-		$appender->setLayout(new SimpleLayout());
-		$appender->activateOptions();
+    /** Tests parsing of "option" parameter. */
+    public function testOption()
+    {
+        $options = array(
+            'CONS' => LOG_CONS,
+            'NDELAY' => LOG_NDELAY,
+            'ODELAY' => LOG_ODELAY,
+            'PERROR' => LOG_PERROR,
+            'PID' => LOG_PID,
 
-		$event = new LoggingEvent(__CLASS__, new Logger("TestLogger"), Level::getLevelError(), "testmessage");
-		$appender->append($event);
-	}
+            // test some combinations
+            'CONS|NDELAY' => LOG_CONS | LOG_NDELAY,
+            'PID|PERROR' => LOG_PID | LOG_PERROR,
+            'CONS|PID|NDELAY' => LOG_CONS | LOG_PID | LOG_NDELAY
+        );
 
-	/** Tests parsing of "option" parameter. */
-	public function testOption() {
-		$options = array(
-			'CONS' => LOG_CONS,
-			'NDELAY' => LOG_NDELAY,
-			'ODELAY' => LOG_ODELAY,
-			'PERROR' => LOG_PERROR,
-			'PID' => LOG_PID,
+        // Defaults
+        $defaultStr = "PID|CONS";
+        $default = LOG_PID | LOG_CONS;
 
-			// test some combinations
-			'CONS|NDELAY' => LOG_CONS | LOG_NDELAY,
-			'PID|PERROR' => LOG_PID | LOG_PERROR,
-			'CONS|PID|NDELAY' => LOG_CONS | LOG_PID | LOG_NDELAY
-		);
+        // This makes reading of a private property possible
+        $property = new \ReflectionProperty('Apache\\Log4php\Appenders\\SyslogAppender', 'intOption');
+        $property->setAccessible(true);
 
-		// Defaults
-		$defaultStr = "PID|CONS";
-		$default = LOG_PID | LOG_CONS;
+        // Check default value first
+        $appender = new SyslogAppender();
+        $appender->activateOptions();
+        $actual = $property->getValue($appender);
+        $this->assertSame($default, $actual, "Failed setting default option [$defaultStr]");
 
-		// This makes reading of a private property possible
-		$property = new \ReflectionProperty('Apache\\Log4php\Appenders\\SyslogAppender', 'intOption');
-		$property->setAccessible(true);
+        foreach ($options as $option => $expected) {
+            $appender = new SyslogAppender();
+            $appender->setOption($option);
+            $appender->activateOptions();
 
-		// Check default value first
-		$appender = new SyslogAppender();
-		$appender->activateOptions();
-		$actual = $property->getValue($appender);
-		$this->assertSame($default, $actual, "Failed setting default option [$defaultStr]");
+            $actual = $property->getValue($appender);
+            $this->assertSame($expected, $actual, "Failed setting option [$option].");
+        }
+    }
 
-		foreach($options as $option => $expected) {
-			$appender = new SyslogAppender();
-			$appender->setOption($option);
-			$appender->activateOptions();
+    /** Tests parsing of "priority" parameter. */
+    public function testPriority()
+    {
+        $default = null;
+        $defaultStr = 'null';
 
-			$actual = $property->getValue($appender);
-			$this->assertSame($expected, $actual, "Failed setting option [$option].");
-		}
-	}
+        $priorities = array(
+            'EMERG' => LOG_EMERG,
+            'ALERT' => LOG_ALERT,
+            'CRIT' => LOG_CRIT,
+            'ERR' => LOG_ERR,
+            'WARNING' => LOG_WARNING,
+            'NOTICE' => LOG_NOTICE,
+            'INFO' => LOG_INFO,
+            'DEBUG' => LOG_DEBUG
+        );
 
-	/** Tests parsing of "priority" parameter. */
-	public function testPriority() {
-		$default = null;
-		$defaultStr = 'null';
+        // This makes reading of a private property possible
+        $property = new \ReflectionProperty('Apache\\Log4php\\Appenders\\SyslogAppender', 'intPriority');
+        $property->setAccessible(true);
 
-		$priorities = array(
-			'EMERG' => LOG_EMERG,
-			'ALERT' => LOG_ALERT,
-			'CRIT' => LOG_CRIT,
-			'ERR' => LOG_ERR,
-			'WARNING' => LOG_WARNING,
-			'NOTICE' => LOG_NOTICE,
-			'INFO' => LOG_INFO,
-			'DEBUG' => LOG_DEBUG
-		);
+        // Check default value first
+        $appender = new SyslogAppender();
+        $appender->activateOptions();
+        $actual = $property->getValue($appender);
+        $this->assertSame($default, $actual, "Failed setting default priority [$defaultStr].");
 
-		// This makes reading of a private property possible
-		$property = new \ReflectionProperty('Apache\\Log4php\\Appenders\\SyslogAppender', 'intPriority');
-		$property->setAccessible(true);
+        foreach ($priorities as $priority => $expected) {
+            $appender = new SyslogAppender();
+            $appender->setPriority($priority);
+            $appender->activateOptions();
 
-		// Check default value first
-		$appender = new SyslogAppender();
-		$appender->activateOptions();
-		$actual = $property->getValue($appender);
-		$this->assertSame($default, $actual, "Failed setting default priority [$defaultStr].");
+            $actual = $property->getValue($appender);
+            $this->assertSame($expected, $actual, "Failed setting priority [$priority].");
+        }
+    }
 
-		foreach($priorities as $priority => $expected) {
-			$appender = new SyslogAppender();
-			$appender->setPriority($priority);
-			$appender->activateOptions();
+    /** Tests parsing of "facility" parameter. */
+    public function testFacility()
+    {
+        // Default value is the same on all OSs
+        $default = LOG_USER;
+        $defaultStr = 'USER';
 
-			$actual = $property->getValue($appender);
-			$this->assertSame($expected, $actual, "Failed setting priority [$priority].");
-		}
-	}
+        // All possible facility strings (some of which might not exist depending on the OS)
+        $strings = array(
+            'KERN', 'USER', 'MAIL', 'DAEMON', 'AUTH',
+            'SYSLOG', 'LPR', 'NEWS', 'UUCP', 'CRON', 'AUTHPRIV',
+            'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4',
+            'LOCAL5', 'LOCAL6', 'LOCAL7',
+        );
 
-	/** Tests parsing of "facility" parameter. */
-	public function testFacility() {
-		// Default value is the same on all OSs
-		$default = LOG_USER;
-		$defaultStr = 'USER';
+        // Only test facilities which exist on this OS
+        $facilities = array();
+        foreach ($strings as $string) {
+            $const = "LOG_$string";
+            if (defined($const)) {
+                $facilities[$string] = constant($const);
+            }
+        }
 
-		// All possible facility strings (some of which might not exist depending on the OS)
-		$strings = array(
-			'KERN', 'USER', 'MAIL', 'DAEMON', 'AUTH',
-			'SYSLOG', 'LPR', 'NEWS', 'UUCP', 'CRON', 'AUTHPRIV',
-			'LOCAL0', 'LOCAL1', 'LOCAL2', 'LOCAL3', 'LOCAL4',
-			'LOCAL5', 'LOCAL6', 'LOCAL7',
-		);
+        // This makes reading of a private property possible
+        $property = new \ReflectionProperty('Apache\\Log4php\\Appenders\\SyslogAppender', 'intFacility');
+        $property->setAccessible(true);
 
-		// Only test facilities which exist on this OS
-		$facilities = array();
-		foreach($strings as $string) {
-			$const = "LOG_$string";
-			if (defined($const)) {
-				$facilities[$string] = constant($const);
-			}
-		}
+        // Check default value first
+        $appender = new SyslogAppender();
+        $appender->activateOptions();
+        $actual = $property->getValue($appender);
+        $this->assertSame($default, $default, "Failed setting default facility [$defaultStr].");
 
-		// This makes reading of a private property possible
-		$property = new \ReflectionProperty('Apache\\Log4php\\Appenders\\SyslogAppender', 'intFacility');
-		$property->setAccessible(true);
+        foreach ($facilities as $facility => $expected) {
+            $appender = new SyslogAppender();
+            $appender->setFacility($facility);
+            $appender->activateOptions();
 
-		// Check default value first
-		$appender = new SyslogAppender();
-		$appender->activateOptions();
-		$actual = $property->getValue($appender);
-		$this->assertSame($default, $default, "Failed setting default facility [$defaultStr].");
+            $actual = $property->getValue($appender);
+            $this->assertSame($expected, $actual, "Failed setting priority [$facility].");
+        }
+    }
 
-		foreach($facilities as $facility => $expected) {
-			$appender = new SyslogAppender();
-			$appender->setFacility($facility);
-			$appender->activateOptions();
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testInvalidOption()
+    {
+        $appender = new SyslogAppender();
+        $appender->setOption('CONS|XYZ');
+        $appender->activateOptions();
+    }
 
-			$actual = $property->getValue($appender);
-			$this->assertSame($expected, $actual, "Failed setting priority [$facility].");
-		}
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testInvalidPriority()
+    {
+        $appender = new SyslogAppender();
+        $appender->setPriority('XYZ');
+        $appender->activateOptions();
+    }
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 */
-	public function testInvalidOption() {
-		$appender = new SyslogAppender();
-		$appender->setOption('CONS|XYZ');
-		$appender->activateOptions();
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testInvalidFacility()
+    {
+        $appender = new SyslogAppender();
+        $appender->setFacility('XYZ');
+        $appender->activateOptions();
+    }
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 */
-	public function testInvalidPriority() {
-		$appender = new SyslogAppender();
-		$appender->setPriority('XYZ');
-		$appender->activateOptions();
-	}
+    public function testPriorityOverride()
+    {
+        $appender = new SyslogAppender();
+        $appender->setPriority('EMERG');
+        $appender->setOverridePriority(true);
+        $appender->activateOptions();
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 */
-	public function testInvalidFacility() {
-		$appender = new SyslogAppender();
-		$appender->setFacility('XYZ');
-		$appender->activateOptions();
-	}
+        $levels = array(
+            Level::getLevelTrace(),
+            Level::getLevelDebug(),
+            Level::getLevelInfo(),
+            Level::getLevelWarn(),
+            Level::getLevelError(),
+            Level::getLevelFatal(),
+        );
 
+        $expected = LOG_EMERG;
 
-	public function testPriorityOverride() {
-		$appender = new SyslogAppender();
-		$appender->setPriority('EMERG');
-		$appender->setOverridePriority(true);
-		$appender->activateOptions();
+        $method = new \ReflectionMethod('Apache\\Log4php\\Appenders\\SyslogAppender', 'getSyslogPriority');
+        $method->setAccessible(true);
 
-		$levels = array(
-			Level::getLevelTrace(),
-			Level::getLevelDebug(),
-			Level::getLevelInfo(),
-			Level::getLevelWarn(),
-			Level::getLevelError(),
-			Level::getLevelFatal(),
-		);
-
-		$expected = LOG_EMERG;
-
-		$method = new \ReflectionMethod('Apache\\Log4php\\Appenders\\SyslogAppender', 'getSyslogPriority');
-		$method->setAccessible(true);
-
-		foreach($levels as $level) {
-			$actual = $method->invoke($appender, $level);
-			$this->assertSame($expected, $actual);
-		}
-	}
+        foreach ($levels as $level) {
+            $actual = $method->invoke($appender, $level);
+            $this->assertSame($expected, $actual);
+        }
+    }
 }

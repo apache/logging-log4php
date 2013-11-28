@@ -28,29 +28,29 @@ use Apache\Log4php\Logger;
 /**
  * @group layouts
  */
-class PatternLayoutTest extends \PHPUnit_Framework_TestCase {
+class PatternLayoutTest extends \PHPUnit_Framework_TestCase
+{
+    /** Pattern used for testing. */
+    private $pattern = "%-6level %logger: %msg from %class::%method() in %file at %line%n";
 
-	/** Pattern used for testing. */
-	private $pattern = "%-6level %logger: %msg from %class::%method() in %file at %line%n";
+    public function testComplexLayout()
+    {
+        $config = TestHelper::getEchoPatternConfig($this->pattern);
+        Logger::configure($config);
 
-	public function testComplexLayout() {
+        ob_start();
+        $log = Logger::getLogger('LoggerTest');
+        $log->error("my message"); $line = __LINE__;
+        $actual = ob_get_contents();
+        ob_end_clean();
 
-		$config = TestHelper::getEchoPatternConfig($this->pattern);
-		Logger::configure($config);
+        $file = __FILE__;
+        $class = __CLASS__;
+        $method = __FUNCTION__;
 
-		ob_start();
-		$log = Logger::getLogger('LoggerTest');
-		$log->error("my message"); $line = __LINE__;
-		$actual = ob_get_contents();
-		ob_end_clean();
+        $expected = "ERROR  LoggerTest: my message from $class::$method() in $file at $line" . PHP_EOL;
+        self::assertSame($expected, $actual);
 
-		$file = __FILE__;
-		$class = __CLASS__;
-		$method = __FUNCTION__;
-
-		$expected = "ERROR  LoggerTest: my message from $class::$method() in $file at $line" . PHP_EOL;
-		self::assertSame($expected, $actual);
-
-		Logger::resetConfiguration();
+        Logger::resetConfiguration();
     }
 }

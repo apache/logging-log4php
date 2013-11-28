@@ -35,89 +35,100 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/socket.html Appender documentation
  */
-class SocketAppender extends AbstractAppender {
+class SocketAppender extends AbstractAppender
+{
+    /**
+     * Target host.
+     * @see http://php.net/manual/en/function.fsockopen.php
+     */
+    protected $remoteHost;
 
-	/**
-	 * Target host.
-	 * @see http://php.net/manual/en/function.fsockopen.php
-	 */
-	protected $remoteHost;
+    /** Target port */
+    protected $port = 4446;
 
-	/** Target port */
-	protected $port = 4446;
+    /** Connection timeout in ms. */
+    protected $timeout;
 
-	/** Connection timeout in ms. */
-	protected $timeout;
+    // ******************************************
+    // *** Appender methods                   ***
+    // ******************************************
 
-	// ******************************************
-	// *** Appender methods                   ***
-	// ******************************************
+    /** Override the default layout to use serialized. */
+    public function getDefaultLayout()
+    {
+        return new SerializedLayout();
+    }
 
-	/** Override the default layout to use serialized. */
-	public function getDefaultLayout() {
-		return new SerializedLayout();
-	}
+    public function activateOptions()
+    {
+        if (empty($this->remoteHost)) {
+            $this->warn("Required parameter [remoteHost] not set. Closing appender.");
+            $this->closed = true;
 
-	public function activateOptions() {
-		if (empty($this->remoteHost)) {
-			$this->warn("Required parameter [remoteHost] not set. Closing appender.");
-			$this->closed = true;
-			return;
-		}
+            return;
+        }
 
-		if (empty($this->timeout)) {
-			$this->timeout = ini_get("default_socket_timeout");
-		}
+        if (empty($this->timeout)) {
+            $this->timeout = ini_get("default_socket_timeout");
+        }
 
-		$this->closed = false;
-	}
+        $this->closed = false;
+    }
 
-	public function append(LoggingEvent $event) {
-		$socket = fsockopen($this->remoteHost, $this->port, $errno, $errstr, $this->timeout);
-		if ($socket === false) {
-			$this->warn("Could not open socket to {$this->remoteHost}:{$this->port}. Closing appender.");
-			$this->closed = true;
-			return;
-		}
+    public function append(LoggingEvent $event)
+    {
+        $socket = fsockopen($this->remoteHost, $this->port, $errno, $errstr, $this->timeout);
+        if ($socket === false) {
+            $this->warn("Could not open socket to {$this->remoteHost}:{$this->port}. Closing appender.");
+            $this->closed = true;
 
-		if (false === fwrite($socket, $this->layout->format($event))) {
-			$this->warn("Error writing to socket. Closing appender.");
-			$this->closed = true;
-		}
-		fclose($socket);
-	}
+            return;
+        }
 
-	// ******************************************
-	// *** Accessor methods                   ***
-	// ******************************************
+        if (false === fwrite($socket, $this->layout->format($event))) {
+            $this->warn("Error writing to socket. Closing appender.");
+            $this->closed = true;
+        }
+        fclose($socket);
+    }
 
-	/** Sets the target host. */
-	public function setRemoteHost($hostname) {
-		$this->setString('remoteHost', $hostname);
-	}
+    // ******************************************
+    // *** Accessor methods                   ***
+    // ******************************************
 
-	/** Sets the target port */
-	public function setPort($port) {
-		$this->setPositiveInteger('port', $port);
-	}
+    /** Sets the target host. */
+    public function setRemoteHost($hostname)
+    {
+        $this->setString('remoteHost', $hostname);
+    }
 
-	/** Sets the timeout. */
-	public function setTimeout($timeout) {
-		$this->setPositiveInteger('timeout', $timeout);
-	}
+    /** Sets the target port */
+    public function setPort($port)
+    {
+        $this->setPositiveInteger('port', $port);
+    }
 
-	/** Returns the target host. */
-	public function getRemoteHost() {
-		return $this->getRemoteHost();
-	}
+    /** Sets the timeout. */
+    public function setTimeout($timeout)
+    {
+        $this->setPositiveInteger('timeout', $timeout);
+    }
 
-	/** Returns the target port. */
-	public function getPort() {
-		return $this->port;
-	}
+    /** Returns the target host. */
+    public function getRemoteHost()
+    {
+        return $this->getRemoteHost();
+    }
 
-	/** Returns the timeout */
-	public function getTimeout() {
-		return $this->timeout;
-	}
+    /** Returns the target port. */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /** Returns the timeout */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
 }

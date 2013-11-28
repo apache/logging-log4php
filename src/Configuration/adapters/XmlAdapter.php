@@ -27,251 +27,266 @@ use Apache\Log4php\LoggerException;
  */
 class XmlAdapter implements AdapterInterface
 {
-	/** Path to the XML schema used for validation. */
-	const SCHEMA_PATH = '/../xml/log4php.xsd';
+    /** Path to the XML schema used for validation. */
+    const SCHEMA_PATH = '/../xml/log4php.xsd';
 
-	private $config = array(
-		'appenders' => array(),
-		'loggers' => array(),
-		'renderers' => array(),
-	);
+    private $config = array(
+        'appenders' => array(),
+        'loggers' => array(),
+        'renderers' => array(),
+    );
 
-	public function convert($url) {
-		$xml = $this->loadXML($url);
+    public function convert($url)
+    {
+        $xml = $this->loadXML($url);
 
-		$this->parseConfiguration($xml);
+        $this->parseConfiguration($xml);
 
-		// Parse the <root> node
-		if (isset($xml->root)) {
-			$this->parseRootLogger($xml->root);
-		}
+        // Parse the <root> node
+        if (isset($xml->root)) {
+            $this->parseRootLogger($xml->root);
+        }
 
-		// Process <logger> nodes
-		foreach($xml->logger as $logger) {
-			$this->parseLogger($logger);
-		}
+        // Process <logger> nodes
+        foreach ($xml->logger as $logger) {
+            $this->parseLogger($logger);
+        }
 
-		// Process <appender> nodes
-		foreach($xml->appender as $appender) {
-			$this->parseAppender($appender);
-		}
+        // Process <appender> nodes
+        foreach ($xml->appender as $appender) {
+            $this->parseAppender($appender);
+        }
 
-		// Process <renderer> nodes
-		foreach($xml->renderer as $rendererNode) {
-			$this->parseRenderer($rendererNode);
-		}
+        // Process <renderer> nodes
+        foreach ($xml->renderer as $rendererNode) {
+            $this->parseRenderer($rendererNode);
+        }
 
-		// Process <defaultRenderer> node
-		foreach($xml->defaultRenderer as $rendererNode) {
-			$this->parseDefaultRenderer($rendererNode);
-		}
+        // Process <defaultRenderer> node
+        foreach ($xml->defaultRenderer as $rendererNode) {
+            $this->parseDefaultRenderer($rendererNode);
+        }
 
-		return $this->config;
-	}
+        return $this->config;
+    }
 
-	/**
-	 * Loads and validates the XML.
-	 * @param string $url Input XML.
-	 */
-	private function loadXML($url) {
-		if (!file_exists($url)) {
-			throw new LoggerException("File [$url] does not exist.");
-		}
+    /**
+     * Loads and validates the XML.
+     * @param string $url Input XML.
+     */
+    private function loadXML($url)
+    {
+        if (!file_exists($url)) {
+            throw new LoggerException("File [$url] does not exist.");
+        }
 
-		libxml_clear_errors();
-		$oldValue = libxml_use_internal_errors(true);
+        libxml_clear_errors();
+        $oldValue = libxml_use_internal_errors(true);
 
-		// Load XML
-		$xml = @simplexml_load_file($url);
-		if ($xml === false) {
+        // Load XML
+        $xml = @simplexml_load_file($url);
+        if ($xml === false) {
 
-			$errorStr = "";
-			foreach(libxml_get_errors() as $error) {
-				$errorStr .= $error->message;
-			}
+            $errorStr = "";
+            foreach (libxml_get_errors() as $error) {
+                $errorStr .= $error->message;
+            }
 
-			throw new LoggerException("Error loading configuration file: " . trim($errorStr));
-		}
+            throw new LoggerException("Error loading configuration file: " . trim($errorStr));
+        }
 
-		libxml_clear_errors();
-		libxml_use_internal_errors($oldValue);
+        libxml_clear_errors();
+        libxml_use_internal_errors($oldValue);
 
-		return $xml;
-	}
+        return $xml;
+    }
 
-	/**
-	 * Parses the <configuration> node.
-	 */
-	private function parseConfiguration(\SimpleXMLElement $xml) {
-		$attributes = $xml->attributes();
-		if (isset($attributes['threshold'])) {
-			$this->config['threshold'] = (string) $attributes['threshold'];
-		}
-	}
+    /**
+     * Parses the <configuration> node.
+     */
+    private function parseConfiguration(\SimpleXMLElement $xml)
+    {
+        $attributes = $xml->attributes();
+        if (isset($attributes['threshold'])) {
+            $this->config['threshold'] = (string) $attributes['threshold'];
+        }
+    }
 
-	/** Parses an <appender> node. */
-	private function parseAppender(\SimpleXMLElement $node) {
-		$name = $this->getAttributeValue($node, 'name');
-		if (empty($name)) {
-			$this->warn("An <appender> node is missing the required 'name' attribute. Skipping appender definition.");
-			return;
-		}
+    /** Parses an <appender> node. */
+    private function parseAppender(\SimpleXMLElement $node)
+    {
+        $name = $this->getAttributeValue($node, 'name');
+        if (empty($name)) {
+            $this->warn("An <appender> node is missing the required 'name' attribute. Skipping appender definition.");
 
-		$appender = array();
-		$appender['class'] = $this->getAttributeValue($node, 'class');
+            return;
+        }
 
-		if (isset($node['threshold'])) {
-			$appender['threshold'] = $this->getAttributeValue($node, 'threshold');
-		}
+        $appender = array();
+        $appender['class'] = $this->getAttributeValue($node, 'class');
 
-		if (isset($node->layout)) {
-			$appender['layout']= $this->parseLayout($node->layout, $name);
-		}
+        if (isset($node['threshold'])) {
+            $appender['threshold'] = $this->getAttributeValue($node, 'threshold');
+        }
 
-		if (count($node->param) > 0) {
-			$appender['params'] = $this->parseParameters($node);
-		}
+        if (isset($node->layout)) {
+            $appender['layout']= $this->parseLayout($node->layout, $name);
+        }
 
-		foreach($node->filter as $filterNode) {
-			$appender['filters'][] = $this->parseFilter($filterNode);
-		}
+        if (count($node->param) > 0) {
+            $appender['params'] = $this->parseParameters($node);
+        }
 
-		$this->config['appenders'][$name] = $appender;
-	}
+        foreach ($node->filter as $filterNode) {
+            $appender['filters'][] = $this->parseFilter($filterNode);
+        }
 
-	/** Parses a <layout> node. */
-	private function parseLayout(\SimpleXMLElement $node, $appenderName) {
-		$layout = array();
-		$layout['class'] = $this->getAttributeValue($node, 'class');
+        $this->config['appenders'][$name] = $appender;
+    }
 
-		if (count($node->param) > 0) {
-			$layout['params'] = $this->parseParameters($node);
-		}
+    /** Parses a <layout> node. */
+    private function parseLayout(\SimpleXMLElement $node, $appenderName)
+    {
+        $layout = array();
+        $layout['class'] = $this->getAttributeValue($node, 'class');
 
-		return $layout;
-	}
+        if (count($node->param) > 0) {
+            $layout['params'] = $this->parseParameters($node);
+        }
 
-	/** Parses any <param> child nodes returning them in an array. */
-	private function parseParameters($paramsNode) {
-		$params = array();
+        return $layout;
+    }
 
-		foreach($paramsNode->param as $paramNode) {
-			if (empty($paramNode['name'])) {
-				$this->warn("A <param> node is missing the required 'name' attribute. Skipping parameter.");
-				continue;
-			}
+    /** Parses any <param> child nodes returning them in an array. */
+    private function parseParameters($paramsNode)
+    {
+        $params = array();
 
-			$name = $this->getAttributeValue($paramNode, 'name');
-			$value = $this->getAttributeValue($paramNode, 'value');
+        foreach ($paramsNode->param as $paramNode) {
+            if (empty($paramNode['name'])) {
+                $this->warn("A <param> node is missing the required 'name' attribute. Skipping parameter.");
+                continue;
+            }
 
-			$params[$name] = $value;
-		}
+            $name = $this->getAttributeValue($paramNode, 'name');
+            $value = $this->getAttributeValue($paramNode, 'value');
 
-		return $params;
-	}
+            $params[$name] = $value;
+        }
 
-	/** Parses a <root> node. */
-	private function parseRootLogger(\SimpleXMLElement $node) {
-		$logger = array();
+        return $params;
+    }
 
-		if (isset($node->level)) {
-			$logger['level'] = $this->getAttributeValue($node->level, 'value');
-		}
+    /** Parses a <root> node. */
+    private function parseRootLogger(\SimpleXMLElement $node)
+    {
+        $logger = array();
 
-		$logger['appenders'] = $this->parseAppenderReferences($node);
+        if (isset($node->level)) {
+            $logger['level'] = $this->getAttributeValue($node->level, 'value');
+        }
 
-		$this->config['rootLogger'] = $logger;
-	}
+        $logger['appenders'] = $this->parseAppenderReferences($node);
 
-	/** Parses a <logger> node. */
-	private function parseLogger(\SimpleXMLElement $node) {
-		$logger = array();
+        $this->config['rootLogger'] = $logger;
+    }
 
-		$name = $this->getAttributeValue($node, 'name');
-		if (empty($name)) {
-			$this->warn("A <logger> node is missing the required 'name' attribute. Skipping logger definition.");
-			return;
-		}
+    /** Parses a <logger> node. */
+    private function parseLogger(\SimpleXMLElement $node)
+    {
+        $logger = array();
 
-		if (isset($node->level)) {
-			$logger['level'] = $this->getAttributeValue($node->level, 'value');
-		}
+        $name = $this->getAttributeValue($node, 'name');
+        if (empty($name)) {
+            $this->warn("A <logger> node is missing the required 'name' attribute. Skipping logger definition.");
 
-		if (isset($node['additivity'])) {
-			$logger['additivity'] = $this->getAttributeValue($node, 'additivity');
-		}
+            return;
+        }
 
-		$logger['appenders'] = $this->parseAppenderReferences($node);
+        if (isset($node->level)) {
+            $logger['level'] = $this->getAttributeValue($node->level, 'value');
+        }
 
-		// Check for duplicate loggers
-		if (isset($this->config['loggers'][$name])) {
-			$this->warn("Duplicate logger definition [$name]. Overwriting.");
-		}
+        if (isset($node['additivity'])) {
+            $logger['additivity'] = $this->getAttributeValue($node, 'additivity');
+        }
 
-		$this->config['loggers'][$name] = $logger;
-	}
+        $logger['appenders'] = $this->parseAppenderReferences($node);
 
-	/**
-	 * Parses a <logger> node for appender references and returns them in an array.
-	 *
-	 * Previous versions supported appender-ref, as well as appender_ref so both
-	 * are parsed for backward compatibility.
-	 */
-	private function parseAppenderReferences(\SimpleXMLElement $node) {
-		$refs = array();
-		foreach($node->appender_ref as $ref) {
-			$refs[] = $this->getAttributeValue($ref, 'ref');
-		}
+        // Check for duplicate loggers
+        if (isset($this->config['loggers'][$name])) {
+            $this->warn("Duplicate logger definition [$name]. Overwriting.");
+        }
 
-		foreach($node->{'appender-ref'} as $ref) {
-			$refs[] = $this->getAttributeValue($ref, 'ref');
-		}
+        $this->config['loggers'][$name] = $logger;
+    }
 
-		return $refs;
-	}
+    /**
+     * Parses a <logger> node for appender references and returns them in an array.
+     *
+     * Previous versions supported appender-ref, as well as appender_ref so both
+     * are parsed for backward compatibility.
+     */
+    private function parseAppenderReferences(\SimpleXMLElement $node)
+    {
+        $refs = array();
+        foreach ($node->appender_ref as $ref) {
+            $refs[] = $this->getAttributeValue($ref, 'ref');
+        }
 
-	/** Parses a <filter> node. */
-	private function parseFilter($filterNode) {
-		$filter = array();
-		$filter['class'] = $this->getAttributeValue($filterNode, 'class');
+        foreach ($node->{'appender-ref'} as $ref) {
+            $refs[] = $this->getAttributeValue($ref, 'ref');
+        }
 
-		if (count($filterNode->param) > 0) {
-			$filter['params'] = $this->parseParameters($filterNode);
-		}
+        return $refs;
+    }
 
-		return $filter;
-	}
+    /** Parses a <filter> node. */
+    private function parseFilter($filterNode)
+    {
+        $filter = array();
+        $filter['class'] = $this->getAttributeValue($filterNode, 'class');
 
-	/** Parses a <renderer> node. */
-	private function parseRenderer(\SimpleXMLElement $node) {
-		$renderedClass = $this->getAttributeValue($node, 'renderedClass');
-		$renderingClass = $this->getAttributeValue($node, 'renderingClass');
+        if (count($filterNode->param) > 0) {
+            $filter['params'] = $this->parseParameters($filterNode);
+        }
 
-		$this->config['renderers'][] = compact('renderedClass', 'renderingClass');
-	}
+        return $filter;
+    }
 
-	/** Parses a <defaultRenderer> node. */
-	private function parseDefaultRenderer(\SimpleXMLElement $node) {
-		$renderingClass = $this->getAttributeValue($node, 'renderingClass');
+    /** Parses a <renderer> node. */
+    private function parseRenderer(\SimpleXMLElement $node)
+    {
+        $renderedClass = $this->getAttributeValue($node, 'renderedClass');
+        $renderingClass = $this->getAttributeValue($node, 'renderingClass');
 
-		// Warn on duplicates
-		if(isset($this->config['defaultRenderer'])) {
-			$this->warn("Duplicate <defaultRenderer> node. Overwriting.");
-		}
+        $this->config['renderers'][] = compact('renderedClass', 'renderingClass');
+    }
 
-		$this->config['defaultRenderer'] = $renderingClass;
-	}
+    /** Parses a <defaultRenderer> node. */
+    private function parseDefaultRenderer(\SimpleXMLElement $node)
+    {
+        $renderingClass = $this->getAttributeValue($node, 'renderingClass');
 
-	// ******************************************
-	// ** Helper methods                       **
-	// ******************************************
+        // Warn on duplicates
+        if (isset($this->config['defaultRenderer'])) {
+            $this->warn("Duplicate <defaultRenderer> node. Overwriting.");
+        }
 
-	private function getAttributeValue(\SimpleXMLElement $node, $name) {
-		return isset($node[$name]) ? (string) $node[$name] : null;
-	}
+        $this->config['defaultRenderer'] = $renderingClass;
+    }
 
-	private function warn($message) {
-		trigger_error("log4php: " . $message, E_USER_WARNING);
-	}
+    // ******************************************
+    // ** Helper methods                       **
+    // ******************************************
+
+    private function getAttributeValue(\SimpleXMLElement $node, $name)
+    {
+        return isset($node[$name]) ? (string) $node[$name] : null;
+    }
+
+    private function warn($message)
+    {
+        trigger_error("log4php: " . $message, E_USER_WARNING);
+    }
 }
-

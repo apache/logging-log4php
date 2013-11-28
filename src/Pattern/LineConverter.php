@@ -25,9 +25,10 @@ use Apache\Log4php\LoggingEvent;
  * issued.
  * @since 2.3
  */
-class LineConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getLocationInformation()->getLineNumber();
-	}
+class LineConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getLocationInformation()->getLineNumber();
+    }
 }

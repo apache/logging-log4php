@@ -30,149 +30,154 @@ use Apache\Log4php\Configuration\Adapters\XmlAdapter;
 /**
  * @group configuration
  */
-class XMLAdapterTest extends \PHPUnit_Framework_TestCase {
+class XMLAdapterTest extends \PHPUnit_Framework_TestCase
+{
+    /** Expected output of parsing config1.xml.*/
+    private $expected1 = array(
+        'appenders' => array(
+            'default' => array(
+                'class' => 'EchoAppender',
+                'layout' => array(
+                    'class' => 'LoggerLayoutTTCC',
+                ),
+                'filters' => array(
+                    array(
+                        'class' => 'LevelRangeFilter',
+                        'params' => array(
+                            'levelMin' => 'ERROR',
+                            'levelMax' => 'FATAL',
+                            'acceptOnMatch' => 'false',
+                        ),
+                    ),
+                    array(
+                        'class' => 'DenyAllFilter',
+                    ),
+                ),
+            ),
+            'file' => array(
+                'class' => 'DailyFileAppender',
+                'layout' => array(
+                    'class' => 'PatternLayout',
+                    'params' => array(
+                        'conversionPattern' => '%d{ISO8601} [%p] %c: %m (at %F line %L)%n',
+                    ),
+                ),
+                'params' => array(
+                    'datePattern' => 'Ymd',
+                    'file' => 'target/examples/daily_%s.log',
+                ),
+                'threshold' => 'warn'
+            ),
+        ),
+        'loggers' => array(
+            'foo.bar.baz' => array(
+                'level' => 'trace',
+                'additivity' => 'false',
+                'appenders' => array('default'),
+            ),
+            'foo.bar' => array(
+                'level' => 'debug',
+                'additivity' => 'true',
+                'appenders' => array('file'),
+            ),
+            'foo' => array(
+                'level' => 'warn',
+                'appenders' => array('default', 'file'),
+            ),
+        ),
+        'renderers' => array(
+            array(
+                'renderedClass' => 'Fruit',
+                'renderingClass' => 'FruitRenderer',
+            ),
+            array(
+                'renderedClass' => 'Beer',
+                'renderingClass' => 'BeerRenderer',
+            ),
+        ),
+        'threshold' => 'debug',
+        'rootLogger' => array(
+            'level' => 'DEBUG',
+            'appenders' => array('default'),
+        ),
+    );
 
-	/** Expected output of parsing config1.xml.*/
-	private $expected1 = array(
-		'appenders' => array(
-			'default' => array(
-				'class' => 'EchoAppender',
-				'layout' => array(
-					'class' => 'LoggerLayoutTTCC',
-				),
-				'filters' => array(
-					array(
-						'class' => 'LevelRangeFilter',
-						'params' => array(
-							'levelMin' => 'ERROR',
-							'levelMax' => 'FATAL',
-							'acceptOnMatch' => 'false',
-						),
-					),
-					array(
-						'class' => 'DenyAllFilter',
-					),
-				),
-			),
-			'file' => array(
-				'class' => 'DailyFileAppender',
-				'layout' => array(
-					'class' => 'PatternLayout',
-					'params' => array(
-						'conversionPattern' => '%d{ISO8601} [%p] %c: %m (at %F line %L)%n',
-					),
-				),
-				'params' => array(
-					'datePattern' => 'Ymd',
-					'file' => 'target/examples/daily_%s.log',
-				),
-				'threshold' => 'warn'
-			),
-		),
-		'loggers' => array(
-			'foo.bar.baz' => array(
-				'level' => 'trace',
-				'additivity' => 'false',
-				'appenders' => array('default'),
-			),
-			'foo.bar' => array(
-				'level' => 'debug',
-				'additivity' => 'true',
-				'appenders' => array('file'),
-			),
-			'foo' => array(
-				'level' => 'warn',
-				'appenders' => array('default', 'file'),
-			),
-		),
-		'renderers' => array(
-			array(
-				'renderedClass' => 'Fruit',
-				'renderingClass' => 'FruitRenderer',
-			),
-			array(
-				'renderedClass' => 'Beer',
-				'renderingClass' => 'BeerRenderer',
-			),
-		),
-		'threshold' => 'debug',
-		'rootLogger' => array(
-			'level' => 'DEBUG',
-			'appenders' => array('default'),
-		),
-	);
+    public function setUp()
+    {
+        Logger::resetConfiguration();
+    }
 
-	public function setUp() {
-		Logger::resetConfiguration();
-	}
+    public function tearDown()
+    {
+        Logger::resetConfiguration();
+    }
 
-	public function tearDown() {
-		Logger::resetConfiguration();
-	}
+    public function testConversion()
+    {
+        $url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid.xml';
+        $adapter = new XmlAdapter();
+        $actual = $adapter->convert($url);
+        $this->assertEquals($this->expected1, $actual);
+    }
 
-	public function testConversion() {
-		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid.xml';
-		$adapter = new XmlAdapter();
-		$actual = $adapter->convert($url);
-		$this->assertEquals($this->expected1, $actual);
-	}
+    public function testConversion2()
+    {
+        $url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid_underscore.xml';
+        $adapter = new XmlAdapter();
+        $actual = $adapter->convert($url);
 
-	public function testConversion2() {
-		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_valid_underscore.xml';
-		$adapter = new XmlAdapter();
-		$actual = $adapter->convert($url);
+        $this->assertEquals($this->expected1, $actual);
+    }
 
-		$this->assertEquals($this->expected1, $actual);
-	}
+    /**
+     * Test exception is thrown when file cannot be found.
+      * @expectedException Apache\Log4php\LoggerException
+      * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
+     */
+    public function testNonExistantFile()
+    {
+        $adapter = new XmlAdapter();
+        $adapter->convert('you/will/never/find/me.conf');
+    }
 
-	/**
-	 * Test exception is thrown when file cannot be found.
- 	 * @expectedException Apache\Log4php\LoggerException
- 	 * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
-	 */
-	public function testNonExistantFile() {
-		$adapter = new XmlAdapter();
-		$adapter->convert('you/will/never/find/me.conf');
-	}
+    /**
+     * Test exception is thrown when file contains invalid XML.
+     * @expectedException Apache\Log4php\LoggerException
+     * @expectedExceptionMessage Error loading configuration file: Premature end of data in tag configuration line
+     */
+    public function testInvalidXMLFile()
+    {
+        $url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_invalid_syntax.xml';
+        $adapter = new XmlAdapter();
+        $adapter->convert($url);
+    }
 
-	/**
-	 * Test exception is thrown when file contains invalid XML.
-	 * @expectedException Apache\Log4php\LoggerException
-	 * @expectedExceptionMessage Error loading configuration file: Premature end of data in tag configuration line
-	 */
-	public function testInvalidXMLFile() {
-		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_invalid_syntax.xml';
-		$adapter = new XmlAdapter();
-		$adapter->convert($url);
-	}
+    /**
+     * Test that a warning is triggered when two loggers with the same name
+     * are defined.
+      * @expectedException PHPUnit_Framework_Error
+      * @expectedExceptionMessage log4php: Duplicate logger definition [foo]. Overwriting
+     */
+    public function testDuplicateLoggerWarning()
+    {
+        $url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
+        $adapter = new XmlAdapter();
+        $adapter->convert($url);
+    }
 
-	/**
-	 * Test that a warning is triggered when two loggers with the same name
-	 * are defined.
- 	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage log4php: Duplicate logger definition [foo]. Overwriting
-	 */
-	public function testDuplicateLoggerWarning() {
-		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
-		$adapter = new XmlAdapter();
-		$adapter->convert($url);
-	}
+    /**
+     * Test that when two loggers with the same name are defined, the second
+     * one will overwrite the first.
+     */
+    public function testDuplicateLoggerConfig()
+    {
+        $url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
+        $adapter = new XmlAdapter();
 
+        // Supress the warning so that test can continue
+        $config = @$adapter->convert($url);
 
-	/**
-	 * Test that when two loggers with the same name are defined, the second
-	 * one will overwrite the first.
-	 */
-	public function testDuplicateLoggerConfig() {
-		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
-		$adapter = new XmlAdapter();
-
-		// Supress the warning so that test can continue
-		$config = @$adapter->convert($url);
-
-		// Second definition of foo has level set to warn (the first to info)
-		$this->assertEquals('warn', $config['loggers']['foo']['level']);
-	}
+        // Second definition of foo has level set to warn (the first to info)
+        $this->assertEquals('warn', $config['loggers']['foo']['level']);
+    }
 }
-
-?>

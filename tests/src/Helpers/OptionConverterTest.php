@@ -31,9 +31,10 @@ define('MY_CONSTANT_CONSTANT_OTHER', 'DEFINE_OTHER');
 /**
  * @group helpers
  */
-class OptionConverterTest extends \PHPUnit_Framework_TestCase {
-
-    public function testToBoolean() {
+class OptionConverterTest extends \PHPUnit_Framework_TestCase
+{
+    public function testToBoolean()
+    {
         self::assertTrue(OptionConverter::toBooleanEx(1));
         self::assertTrue(OptionConverter::toBooleanEx("1"));
         self::assertTrue(OptionConverter::toBooleanEx(true));
@@ -51,11 +52,12 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Test fail on NULL.
- 	 * @expectedException Apache\Log4php\LoggerException
- 	 * @expectedExceptionMessage Given value [NULL] cannot be converted to boolean.
+      * @expectedException Apache\Log4php\LoggerException
+      * @expectedExceptionMessage Given value [NULL] cannot be converted to boolean.
      */
-    public function testToBooleanFailure1() {
-    	OptionConverter::toBooleanEx(null);
+    public function testToBooleanFailure1()
+    {
+        OptionConverter::toBooleanEx(null);
     }
 
     /**
@@ -63,17 +65,19 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Apache\Log4php\LoggerException
      * @expectedExceptionMessage Given value ['foo'] cannot be converted to boolean.
      */
-    public function testToBooleanFailure2() {
-    	OptionConverter::toBooleanEx('foo');
+    public function testToBooleanFailure2()
+    {
+        OptionConverter::toBooleanEx('foo');
     }
 
-    public function testToInteger() {
-    	self::assertSame(1, OptionConverter::toIntegerEx('1'));
-    	self::assertSame(1, OptionConverter::toIntegerEx(1));
-    	self::assertSame(0, OptionConverter::toIntegerEx('0'));
-    	self::assertSame(0, OptionConverter::toIntegerEx(0));
-    	self::assertSame(-1, OptionConverter::toIntegerEx('-1'));
-    	self::assertSame(-1, OptionConverter::toIntegerEx(-1));
+    public function testToInteger()
+    {
+        self::assertSame(1, OptionConverter::toIntegerEx('1'));
+        self::assertSame(1, OptionConverter::toIntegerEx(1));
+        self::assertSame(0, OptionConverter::toIntegerEx('0'));
+        self::assertSame(0, OptionConverter::toIntegerEx(0));
+        self::assertSame(-1, OptionConverter::toIntegerEx('-1'));
+        self::assertSame(-1, OptionConverter::toIntegerEx(-1));
     }
 
     /**
@@ -81,8 +85,9 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
     * @expectedException Apache\Log4php\LoggerException
     * @expectedExceptionMessage Given value [NULL] cannot be converted to integer.
     */
-    public function testToIntegerFailure1() {
-    	OptionConverter::toIntegerEx(null);
+    public function testToIntegerFailure1()
+    {
+        OptionConverter::toIntegerEx(null);
     }
 
     /**
@@ -90,8 +95,9 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Apache\Log4php\LoggerException
      * @expectedExceptionMessage Given value [''] cannot be converted to integer.
      */
-    public function testToIntegerFailure2() {
-    	OptionConverter::toIntegerEx('');
+    public function testToIntegerFailure2()
+    {
+        OptionConverter::toIntegerEx('');
     }
 
     /**
@@ -99,8 +105,9 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Apache\Log4php\LoggerException
      * @expectedExceptionMessage Given value ['foo'] cannot be converted to integer.
      */
-    public function testToIntegerFailure3() {
-    	OptionConverter::toIntegerEx('foo');
+    public function testToIntegerFailure3()
+    {
+        OptionConverter::toIntegerEx('foo');
     }
 
     /**
@@ -108,8 +115,9 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Apache\Log4php\LoggerException
      * @expectedExceptionMessage Given value [true] cannot be converted to integer.
      */
-    public function testToIntegerFailure4() {
-    	OptionConverter::toIntegerEx(true);
+    public function testToIntegerFailure4()
+    {
+        OptionConverter::toIntegerEx(true);
     }
 
     /**
@@ -117,14 +125,16 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Apache\Log4php\LoggerException
      * @expectedExceptionMessage Given value [false] cannot be converted to integer.
      */
-    public function testToIntegerFailure5() {
-    	OptionConverter::toIntegerEx(false);
+    public function testToIntegerFailure5()
+    {
+        OptionConverter::toIntegerEx(false);
     }
 
-    public function testSubstituteConstants() {
-    	define('OTHER_CONSTANT', 'OTHER');
-    	define('MY_CONSTANT', 'TEST');
-    	define('NEXT_CONSTANT', 'NEXT');
+    public function testSubstituteConstants()
+    {
+        define('OTHER_CONSTANT', 'OTHER');
+        define('MY_CONSTANT', 'TEST');
+        define('NEXT_CONSTANT', 'NEXT');
 
         $result = OptionConverter::substConstants('Value of key is ${MY_CONSTANT}.');
         self::assertEquals('Value of key is TEST.', $result);
@@ -139,11 +149,12 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase {
         self::assertEquals('Value of key is DEFINE or DEFINE_OTHER.', $result);
     }
 
-    public function testActualSubstituteConstants() {
-    	$a = new FileAppender();
-    	$a->setFile('${PHPUNIT_TEMP_DIR}/log.txt');
-    	$actual = $a->getFile();
-    	$expected = PHPUNIT_TEMP_DIR . '/log.txt';
-    	self::assertSame($expected, $actual);
+    public function testActualSubstituteConstants()
+    {
+        $a = new FileAppender();
+        $a->setFile('${PHPUNIT_TEMP_DIR}/log.txt');
+        $actual = $a->getFile();
+        $expected = PHPUNIT_TEMP_DIR . '/log.txt';
+        self::assertSame($expected, $actual);
     }
 }

@@ -22,11 +22,12 @@ namespace Apache\Log4php\Renderers;
  * Implement this interface in order to render objects to strings.
  * @since 0.3
  */
-interface RendererInterface {
-	/**
-	 * Renders the entity passed as <var>input</var> to a string.
-	 * @param mixed $input The entity to render.
-	 * @return string The rendered string.
-	 */
-	public function render($input);
+interface RendererInterface
+{
+    /**
+     * Renders the entity passed as <var>input</var> to a string.
+     * @param  mixed  $input The entity to render.
+     * @return string The rendered string.
+     */
+    public function render($input);
 }

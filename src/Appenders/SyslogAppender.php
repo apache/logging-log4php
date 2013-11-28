@@ -70,235 +70,253 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/syslog.html Appender documentation
  */
-class SyslogAppender extends AbstractAppender {
+class SyslogAppender extends AbstractAppender
+{
+    /**
+     * The ident string is added to each message. Typically the name of your application.
+     *
+     * @var string
+     */
+    protected $ident = "Apache log4php";
 
-	/**
-	 * The ident string is added to each message. Typically the name of your application.
-	 *
-	 * @var string
-	 */
-	protected $ident = "Apache log4php";
+    /**
+     * The syslog priority to use when overriding priority. This setting is
+     * required if {@link overridePriority} is set to true.
+     *
+     * @var string
+     */
+    protected $priority;
 
-	/**
-	 * The syslog priority to use when overriding priority. This setting is
-	 * required if {@link overridePriority} is set to true.
-	 *
-	 * @var string
-	 */
-	protected $priority;
+    /**
+     * The option used when opening the syslog connection.
+     *
+     * @var string
+     */
+    protected $option = 'PID|CONS';
 
-	/**
-	 * The option used when opening the syslog connection.
-	 *
-	 * @var string
-	 */
-	protected $option = 'PID|CONS';
+    /**
+     * The facility value indicates the source of the message.
+     *
+     * @var string
+     */
+    protected $facility = 'USER';
 
-	/**
-	 * The facility value indicates the source of the message.
-	 *
-	 * @var string
-	 */
-	protected $facility = 'USER';
+    /**
+     * If set to true, the message priority will always use the value defined
+     * in {@link $priority}, otherwise the priority will be determined by the
+     * message's log level.
+     *
+     * @var string
+     */
+    protected $overridePriority = false;
 
-	/**
-	 * If set to true, the message priority will always use the value defined
-	 * in {@link $priority}, otherwise the priority will be determined by the
-	 * message's log level.
-	 *
-	 * @var string
-	 */
-	protected $overridePriority = false;
+    /**
+     * Holds the int value of the {@link $priority}.
+     * @var int
+     */
+    private $intPriority;
 
-	/**
-	 * Holds the int value of the {@link $priority}.
-	 * @var int
-	 */
-	private $intPriority;
+    /**
+     * Holds the int value of the {@link $facility}.
+     * @var int
+     */
+    private $intFacility;
 
-	/**
-	 * Holds the int value of the {@link $facility}.
-	 * @var int
-	 */
-	private $intFacility;
+    /**
+     * Holds the int value of the {@link $option}.
+     * @var int
+     */
+    private $intOption;
 
-	/**
-	 * Holds the int value of the {@link $option}.
-	 * @var int
-	 */
-	private $intOption;
+    /**
+     * Sets the {@link $ident}.
+     *
+     * @param string $ident
+     */
+    public function setIdent($ident)
+    {
+        $this->ident = $ident;
+    }
 
-	/**
-	 * Sets the {@link $ident}.
-	 *
-	 * @param string $ident
-	 */
-	public function setIdent($ident) {
-		$this->ident = $ident;
-	}
+    /**
+     * Sets the {@link $priority}.
+     *
+     * @param string $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+    }
 
-	/**
-	 * Sets the {@link $priority}.
-	 *
-	 * @param string $priority
-	 */
-	public function setPriority($priority) {
-		$this->priority = $priority;
-	}
+    /**
+     * Sets the {@link $facility}.
+     *
+     * @param string $facility
+     */
+    public function setFacility($facility)
+    {
+        $this->facility = $facility;
+    }
 
-	/**
-	 * Sets the {@link $facility}.
-	 *
-	 * @param string $facility
-	 */
-	public function setFacility($facility) {
-		$this->facility = $facility;
-	}
+    /**
+     * Sets the {@link $overridePriority}.
+     *
+     * @param string $overridePriority
+     */
+    public function setOverridePriority($overridePriority)
+    {
+        $this->overridePriority = $overridePriority;
+    }
 
-	/**
-	 * Sets the {@link $overridePriority}.
-	 *
-	 * @param string $overridePriority
-	 */
-	public function setOverridePriority($overridePriority) {
-		$this->overridePriority = $overridePriority;
-	}
+    /**
+    * Sets the 'option' parameter.
+    *
+    * @param string $option
+    */
+    public function setOption($option)
+    {
+        $this->option = $option;
+    }
 
-	/**
-	* Sets the 'option' parameter.
-	*
-	* @param string $option
-	*/
-	public function setOption($option) {
-		$this->option = $option;
-	}
+    /**
+    * Returns the 'ident' parameter.
+    *
+    * @return string $ident
+    */
+    public function getIdent()
+    {
+        return $this->ident;
+    }
 
-	/**
-	* Returns the 'ident' parameter.
-	*
-	* @return string $ident
-	*/
-	public function getIdent() {
-		return $this->ident;
-	}
+    /**
+     * Returns the 'priority' parameter.
+     *
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
 
-	/**
-	 * Returns the 'priority' parameter.
-	 *
-	 * @return string
-	 */
-	public function getPriority() {
-		return $this->priority;
-	}
+    /**
+     * Returns the 'facility' parameter.
+     *
+     * @return string
+     */
+    public function getFacility()
+    {
+        return $this->facility;
+    }
 
-	/**
-	 * Returns the 'facility' parameter.
-	 *
-	 * @return string
-	 */
-	public function getFacility() {
-		return $this->facility;
-	}
+    /**
+     * Returns the 'overridePriority' parameter.
+     *
+     * @return string
+     */
+    public function getOverridePriority()
+    {
+        return $this->overridePriority;
+    }
 
-	/**
-	 * Returns the 'overridePriority' parameter.
-	 *
-	 * @return string
-	 */
-	public function getOverridePriority() {
-		return $this->overridePriority;
-	}
+    /**
+     * Returns the 'option' parameter.
+     *
+     * @return string
+     */
+    public function getOption()
+    {
+        return $this->option;
+    }
 
-	/**
-	 * Returns the 'option' parameter.
-	 *
-	 * @return string
-	 */
-	public function getOption() {
-		return $this->option;
-	}
+    public function activateOptions()
+    {
+        $this->intPriority = $this->parsePriority();
+        $this->intOption   = $this->parseOption();
+        $this->intFacility = $this->parseFacility();
 
+        $this->closed = false;
+    }
 
-	public function activateOptions() {
-		$this->intPriority = $this->parsePriority();
-		$this->intOption   = $this->parseOption();
-		$this->intFacility = $this->parseFacility();
+    public function close()
+    {
+        if ($this->closed != true) {
+            closelog();
+            $this->closed = true;
+        }
+    }
 
-		$this->closed = false;
-	}
+    /**
+     * Appends the event to syslog.
+     *
+     * Log is opened and closed each time because if it is not closed, it
+     * can cause the Apache httpd server to log to whatever ident/facility
+     * was used in openlog().
+     *
+     * @see http://www.php.net/manual/en/function.syslog.php#97843
+     */
+    public function append(LoggingEvent $event)
+    {
+        $priority = $this->getSyslogPriority($event->getLevel());
+        $message = $this->layout->format($event);
 
-	public function close() {
-		if($this->closed != true) {
-			closelog();
-			$this->closed = true;
-		}
-	}
+        openlog($this->ident, $this->intOption, $this->intFacility);
+        syslog($priority, $message);
+        closelog();
+    }
 
-	/**
-	 * Appends the event to syslog.
-	 *
-	 * Log is opened and closed each time because if it is not closed, it
-	 * can cause the Apache httpd server to log to whatever ident/facility
-	 * was used in openlog().
-	 *
-	 * @see http://www.php.net/manual/en/function.syslog.php#97843
-	 */
-	public function append(LoggingEvent $event) {
-		$priority = $this->getSyslogPriority($event->getLevel());
-		$message = $this->layout->format($event);
+    /** Determines which syslog priority to use based on the given level. */
+    private function getSyslogPriority(Level $level)
+    {
+        if ($this->overridePriority) {
+            return $this->intPriority;
+        }
 
-		openlog($this->ident, $this->intOption, $this->intFacility);
-		syslog($priority, $message);
-		closelog();
-	}
+        return $level->getSyslogEquivalent();
+    }
 
-	/** Determines which syslog priority to use based on the given level. */
-	private function getSyslogPriority(Level $level) {
-		if($this->overridePriority) {
-			return $this->intPriority;
-		}
-		return $level->getSyslogEquivalent();
-	}
+    /** Parses a syslog option string and returns the correspodning int value. */
+    private function parseOption()
+    {
+        $value = 0;
+        $options = explode('|', $this->option);
 
-	/** Parses a syslog option string and returns the correspodning int value. */
-	private function parseOption() {
-		$value = 0;
-		$options = explode('|', $this->option);
+        foreach ($options as $option) {
+            if (!empty($option)) {
+                $constant = "LOG_" . trim($option);
+                if (defined($constant)) {
+                    $value |= constant($constant);
+                } else {
+                    trigger_error("log4php: Invalid syslog option provided: $option. Whole option string: {$this->option}.", E_USER_WARNING);
+                }
+            }
+        }
 
-		foreach($options as $option) {
-			if (!empty($option)) {
-				$constant = "LOG_" . trim($option);
-				if (defined($constant)) {
-					$value |= constant($constant);
-				} else {
-					trigger_error("log4php: Invalid syslog option provided: $option. Whole option string: {$this->option}.", E_USER_WARNING);
-				}
-			}
-		}
-		return $value;
-	}
+        return $value;
+    }
 
-	/** Parses the facility string and returns the corresponding int value. */
-	private function parseFacility() {
-		if (!empty($this->facility)) {
-			$constant = "LOG_" . trim($this->facility);
-			if (defined($constant)) {
-				return constant($constant);
-			} else {
-				trigger_error("log4php: Invalid syslog facility provided: {$this->facility}.", E_USER_WARNING);
-			}
-		}
-	}
+    /** Parses the facility string and returns the corresponding int value. */
+    private function parseFacility()
+    {
+        if (!empty($this->facility)) {
+            $constant = "LOG_" . trim($this->facility);
+            if (defined($constant)) {
+                return constant($constant);
+            } else {
+                trigger_error("log4php: Invalid syslog facility provided: {$this->facility}.", E_USER_WARNING);
+            }
+        }
+    }
 
-	/** Parses the priority string and returns the corresponding int value. */
-	private function parsePriority() {
-		if (!empty($this->priority)) {
-			$constant = "LOG_" . trim($this->priority);
-			if (defined($constant)) {
-				return constant($constant);
-			} else {
-				trigger_error("log4php: Invalid syslog priority provided: {$this->priority}.", E_USER_WARNING);
-			}
-		}
-	}
+    /** Parses the priority string and returns the corresponding int value. */
+    private function parsePriority()
+    {
+        if (!empty($this->priority)) {
+            $constant = "LOG_" . trim($this->priority);
+            if (defined($constant)) {
+                return constant($constant);
+            } else {
+                trigger_error("log4php: Invalid syslog priority provided: {$this->priority}.", E_USER_WARNING);
+            }
+        }
+    }
 }

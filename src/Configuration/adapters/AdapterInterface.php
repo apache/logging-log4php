@@ -29,7 +29,7 @@ namespace Apache\Log4php\Configuration\Adapters;
  */
 interface AdapterInterface
 {
-	/** Converts the configuration file to PHP format usable by the configurator. */
-	public function convert($input);
+    /** Converts the configuration file to PHP format usable by the configurator. */
+    public function convert($input);
 
 }

@@ -29,56 +29,58 @@ use Mockery as m;
 /**
  * @group filters
  */
-class AppenderPoolTest extends \PHPUnit_Framework_TestCase {
+class AppenderPoolTest extends \PHPUnit_Framework_TestCase
+{
+    public function setUp()
+    {
+        AppenderPool::clear();
+    }
 
-	public function setUp() {
-		AppenderPool::clear();
-	}
+    public function tearDown()
+    {
+        AppenderPool::clear();
+    }
 
-	public function tearDown() {
-		AppenderPool::clear();
-	}
+     /**
+      * @expectedException PHPUnit_Framework_Error
+      * @expectedExceptionMessage log4php: Cannot add unnamed appender to pool.
+      */
+    public function testAppenderHasNoName()
+    {
+        $mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
+            ->shouldReceive('getName')->andReturn('')
+            ->shouldReceive('close')
+            ->mock();
 
- 	/**
- 	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage log4php: Cannot add unnamed appender to pool.
- 	 */
-	public function testAppenderHasNoName() {
+        AppenderPool::add($mockAppender);
+    }
 
-		$mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
-			->shouldReceive('getName')->andReturn('')
-			->shouldReceive('close')
-			->mock();
+    public function testAppenderIsAdded()
+    {
+        $mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
+            ->shouldReceive('getName')->andReturn('foo')
+            ->shouldReceive('close')
+            ->mock();
 
-		AppenderPool::add($mockAppender);
-	}
+        AppenderPool::add($mockAppender);
 
-	public function testAppenderIsAdded() {
+        $expected = 1;
+        $actual = count(AppenderPool::getAppenders());
+        $this->assertEquals($expected, $actual);
+    }
 
-		$mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
-			->shouldReceive('getName')->andReturn('foo')
-			->shouldReceive('close')
-			->mock();
+    /**
+      * @expectedException PHPUnit_Framework_Error
+      * @expectedExceptionMessage log4php: Appender [foo] already exists in pool. Overwriting existing appender.
+      */
+    public function testDuplicateAppenderName()
+    {
+        $mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
+            ->shouldReceive('getName')->andReturn('foo')
+            ->shouldReceive('close')
+            ->mock();
 
-		AppenderPool::add($mockAppender);
-
-		$expected = 1;
-		$actual = count(AppenderPool::getAppenders());
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
- 	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage log4php: Appender [foo] already exists in pool. Overwriting existing appender.
- 	 */
-	public function testDuplicateAppenderName() {
-
-		$mockAppender = m::mock('Apache\\Log4php\\Appenders\\ConsoleAppender')
-			->shouldReceive('getName')->andReturn('foo')
-			->shouldReceive('close')
-			->mock();
-
-		AppenderPool::add($mockAppender);
-		AppenderPool::add($mockAppender);
-	}
+        AppenderPool::add($mockAppender);
+        AppenderPool::add($mockAppender);
+    }
 }

@@ -24,8 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the active session ID, or an empty string if out of session.
  * @since 2.3
  */
-class SessionIdConverter extends AbstractConverter {
-	public function convert(LoggingEvent $event) {
-		return session_id();
-	}
+class SessionIdConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return session_id();
+    }
 }

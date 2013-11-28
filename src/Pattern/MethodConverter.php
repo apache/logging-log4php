@@ -25,9 +25,10 @@ use Apache\Log4php\LoggingEvent;
  * was issued.
  * @since 2.3
  */
-class MethodConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getLocationInformation()->getMethodName();
-	}
+class MethodConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getLocationInformation()->getMethodName();
+    }
 }

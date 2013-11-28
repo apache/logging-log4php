@@ -32,23 +32,24 @@ class MyFilter extends AbstractFilter {}
 /**
  * @group filters
  */
-class FilterTest extends \PHPUnit_Framework_TestCase {
+class FilterTest extends \PHPUnit_Framework_TestCase
+{
+    public function testDecide()
+    {
+        $filter = new MyFilter();
+        // activateOptions is empty, but should at least throw no exeception
+        $filter->activateOptions();
+        $eventError = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
+        $eventDebug = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelDebug(), "testmessage");
+        $eventWarn = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
 
-	public function testDecide() {
-		$filter = new MyFilter();
-		// activateOptions is empty, but should at least throw no exeception
-		$filter->activateOptions();
-		$eventError = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
-		$eventDebug = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelDebug(), "testmessage");
-		$eventWarn = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
+        $result = $filter->decide($eventError);
+        self::assertEquals($result, AbstractFilter::NEUTRAL);
 
-		$result = $filter->decide($eventError);
-		self::assertEquals($result, AbstractFilter::NEUTRAL);
+        $result = $filter->decide($eventDebug);
+        self::assertEquals($result, AbstractFilter::NEUTRAL);
 
-		$result = $filter->decide($eventDebug);
-		self::assertEquals($result, AbstractFilter::NEUTRAL);
-
-		$result = $filter->decide($eventWarn);
-		self::assertEquals($result, AbstractFilter::NEUTRAL);
+        $result = $filter->decide($eventWarn);
+        self::assertEquals($result, AbstractFilter::NEUTRAL);
     }
 }

@@ -28,70 +28,77 @@ use Apache\Log4php\Appenders\AbstractAppender;
  * appender can be linked to multiple loggers. This makes sure duplicate
  * appenders are not created.
  */
-class AppenderPool {
+class AppenderPool
+{
+    /** Holds appenders indexed by their name */
+    public static $appenders =  array();
 
-	/** Holds appenders indexed by their name */
-	public static $appenders =  array();
+    /**
+     * Adds an appender to the pool.
+     * The appender must be named for this operation.
+     * @param Appender $appender
+     */
+    public static function add(AbstractAppender $appender)
+    {
+        $name = $appender->getName();
 
-	/**
-	 * Adds an appender to the pool.
-	 * The appender must be named for this operation.
-	 * @param Appender $appender
-	 */
-	public static function add(AbstractAppender $appender) {
-		$name = $appender->getName();
+        if (empty($name)) {
+            trigger_error('log4php: Cannot add unnamed appender to pool.', E_USER_WARNING);
 
-		if(empty($name)) {
-			trigger_error('log4php: Cannot add unnamed appender to pool.', E_USER_WARNING);
-			return;
-		}
+            return;
+        }
 
-		if (isset(self::$appenders[$name])) {
-			trigger_error("log4php: Appender [$name] already exists in pool. Overwriting existing appender.", E_USER_WARNING);
-		}
+        if (isset(self::$appenders[$name])) {
+            trigger_error("log4php: Appender [$name] already exists in pool. Overwriting existing appender.", E_USER_WARNING);
+        }
 
-		self::$appenders[$name] = $appender;
-	}
+        self::$appenders[$name] = $appender;
+    }
 
-	/**
-	 * Retrieves an appender from the pool by name.
-	 * @param string $name Name of the appender to retrieve.
-	 * @return Appender The named appender or NULL if no such appender
-	 *  exists in the pool.
-	 */
-	public static function get($name) {
-		return isset(self::$appenders[$name]) ? self::$appenders[$name] : null;
-	}
+    /**
+     * Retrieves an appender from the pool by name.
+     * @param  string   $name Name of the appender to retrieve.
+     * @return Appender The named appender or NULL if no such appender
+     *  exists in the pool.
+     */
+    public static function get($name)
+    {
+        return isset(self::$appenders[$name]) ? self::$appenders[$name] : null;
+    }
 
-	/**
-	* Removes an appender from the pool by name.
-	* @param string $name Name of the appender to remove.
-	*/
-	public static function delete($name) {
-		unset(self::$appenders[$name]);
-	}
+    /**
+    * Removes an appender from the pool by name.
+    * @param string $name Name of the appender to remove.
+    */
+    public static function delete($name)
+    {
+        unset(self::$appenders[$name]);
+    }
 
-	/**
-	 * Returns all appenders from the pool.
-	 * @return array Array of Appender objects.
-	 */
-	public static function getAppenders() {
-		return self::$appenders;
-	}
+    /**
+     * Returns all appenders from the pool.
+     * @return array Array of Appender objects.
+     */
+    public static function getAppenders()
+    {
+        return self::$appenders;
+    }
 
-	/**
-	 * Checks whether an appender exists in the pool.
-	 * @param string $name Name of the appender to look for.
-	 * @return boolean TRUE if the appender with the given name exists.
-	 */
-	public static function exists($name) {
-		return isset(self::$appenders[$name]);
-	}
+    /**
+     * Checks whether an appender exists in the pool.
+     * @param  string  $name Name of the appender to look for.
+     * @return boolean TRUE if the appender with the given name exists.
+     */
+    public static function exists($name)
+    {
+        return isset(self::$appenders[$name]);
+    }
 
-	/**
-	 * Clears all appenders from the pool.
-	 */
-	public static function clear() {
-		 self::$appenders =  array();
-	}
+    /**
+     * Clears all appenders from the pool.
+     */
+    public static function clear()
+    {
+         self::$appenders =  array();
+    }
 }

@@ -30,165 +30,175 @@ use Apache\Log4php\Tests\TestHelper;
 /**
  * @group appenders
  */
-class DailyFileAppenderTest extends \PHPUnit_Framework_TestCase {
+class DailyFileAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    protected function setUp()
+    {
+        @unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Ymd'));
+        @unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Y'));
+    }
 
-	protected function setUp() {
-		@unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Ymd'));
-		@unlink(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date('Y'));
-	}
+    public function testRequiresLayout()
+    {
+        $appender = new DailyFileAppender();
+        self::assertTrue($appender->requiresLayout());
+    }
 
-	public function testRequiresLayout() {
-		$appender = new DailyFileAppender();
-		self::assertTrue($appender->requiresLayout());
-	}
+    public function testDefaultLayout()
+    {
+        $appender = new DailyFileAppender();
+        $actual = $appender->getLayout();
+        self::assertInstanceOf('Apache\\Log4php\\Layouts\\SimpleLayout', $actual);
+    }
 
-	public function testDefaultLayout() {
-		$appender = new DailyFileAppender();
-		$actual = $appender->getLayout();
-		self::assertInstanceOf('Apache\\Log4php\\Layouts\\SimpleLayout', $actual);
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage Required parameter 'file' not set.
+     */
+    public function testRequiredParamWarning1()
+    {
+        $appender = new DailyFileAppender();
+        $appender->activateOptions();
+    }
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage Required parameter 'file' not set.
-	 */
-	public function testRequiredParamWarning1() {
-		$appender = new DailyFileAppender();
-		$appender->activateOptions();
-	}
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage Required parameter 'datePattern' not set.
+     */
+    public function testRequiredParamWarning2()
+    {
+        $appender = new DailyFileAppender();
+        $appender->setFile('file.log');
+        $appender->setDatePattern('');
+        $appender->activateOptions();
+    }
 
-	/**
-	 * @expectedException PHPUnit_Framework_Error
-	 * @expectedExceptionMessage Required parameter 'datePattern' not set.
-	 */
-	public function testRequiredParamWarning2() {
-		$appender = new DailyFileAppender();
-		$appender->setFile('file.log');
-		$appender->setDatePattern('');
-		$appender->activateOptions();
-	}
+    public function testGetDatePattern()
+    {
+        $appender = new DailyFileAppender();
 
-	public function testGetDatePattern() {
-		$appender = new DailyFileAppender();
+        // Default pattern
+        $actual = $appender->getDatePattern();
+        self::assertEquals('Ymd', $actual);
 
-		// Default pattern
-		$actual = $appender->getDatePattern();
-		self::assertEquals('Ymd', $actual);
+        // Custom pattern
+        $appender->setDatePattern('xyz');
+        $actual = $appender->getDatePattern();
+        self::assertEquals('xyz', $actual);
+    }
 
-		// Custom pattern
-		$appender->setDatePattern('xyz');
-		$actual = $appender->getDatePattern();
-		self::assertEquals('xyz', $actual);
-	}
+    /**
+     * For greater code coverage!
+     * Override the warning so remaining code is reached.
+     */
+    public function testRequiredParamWarning3()
+    {
+        $appender = new DailyFileAppender();
+        $appender->setFile('file.log');
+        $appender->setDatePattern('');
+        @$appender->activateOptions();
+    }
 
-	/**
-	 * For greater code coverage!
-	 * Override the warning so remaining code is reached.
-	 */
-	public function testRequiredParamWarning3() {
-		$appender = new DailyFileAppender();
-		$appender->setFile('file.log');
-		$appender->setDatePattern('');
-		@$appender->activateOptions();
-	}
+    public function testLazyFileOpen()
+    {
+        $event = TestHelper::getWarnEvent("my message");
+        $file = PHPUNIT_TEMP_DIR . '/lazy-file.%s.log';
+        $pattern = 'Y-m-d';
 
-	public function testLazyFileOpen() {
-		$event = TestHelper::getWarnEvent("my message");
-		$file = PHPUNIT_TEMP_DIR . '/lazy-file.%s.log';
-		$pattern = 'Y-m-d';
+        $date = date($pattern, $event->getTimeStamp());
+        $path =  PHPUNIT_TEMP_DIR . "/lazy-file.$date.log";
 
-		$date = date($pattern, $event->getTimeStamp());
-		$path =  PHPUNIT_TEMP_DIR . "/lazy-file.$date.log";
+        if (file_exists($path)) {
+            unlink($path);
+        }
 
-		if (file_exists($path)) {
-			unlink($path);
-		}
+        $appender = new DailyFileAppender();
+        $appender->setFile($file);
+        $appender->setDatePattern('Y-m-d');
+        $appender->activateOptions();
 
-		$appender = new DailyFileAppender();
-		$appender->setFile($file);
-		$appender->setDatePattern('Y-m-d');
-		$appender->activateOptions();
+        // File should not exist before first append
+        self::assertFileNotExists($path);
+        $appender->append($event);
+        self::assertFileExists($path);
+    }
 
-		// File should not exist before first append
-		self::assertFileNotExists($path);
-		$appender->append($event);
-		self::assertFileExists($path);
-	}
+    public function testRollover()
+    {
+        $message = uniqid();
+        $level = Level::getLevelDebug();
 
-	public function testRollover()
-	{
-		$message = uniqid();
-		$level = Level::getLevelDebug();
+        $file = PHPUNIT_TEMP_DIR . '/lazy-file.%s.log';
+        $pattern = 'Y-m-d';
 
-		$file = PHPUNIT_TEMP_DIR . '/lazy-file.%s.log';
-		$pattern = 'Y-m-d';
+        // Get some timestamps for events - different date for each
+        $ts1 = mktime(10, 0, 0, 7, 3, 1980);
+        $ts2 = mktime(10, 0, 0, 7, 4, 1980);
+        $ts3 = mktime(10, 0, 0, 7, 5, 1980);
 
-		// Get some timestamps for events - different date for each
-		$ts1 = mktime(10, 0, 0, 7, 3, 1980);
-		$ts2 = mktime(10, 0, 0, 7, 4, 1980);
-		$ts3 = mktime(10, 0, 0, 7, 5, 1980);
+        $e1 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts1);
+        $e2 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts2);
+        $e3 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts3);
 
-		$e1 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts1);
-		$e2 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts2);
-		$e3 = new LoggingEvent(__CLASS__, 'test', $level, $message, $ts3);
+        // Expected paths
+        $path1 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-03.log';
+        $path2 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-04.log';
+        $path3 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-05.log';
 
-		// Expected paths
-		$path1 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-03.log';
-		$path2 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-04.log';
-		$path3 = PHPUNIT_TEMP_DIR . '/lazy-file.1980-07-05.log';
+        @unlink($path1);
+        @unlink($path2);
+        @unlink($path3);
 
-		@unlink($path1);
-		@unlink($path2);
-		@unlink($path3);
+        $appender = new DailyFileAppender();
+        $appender->setFile($file);
+        $appender->setDatePattern('Y-m-d');
+        $appender->activateOptions();
 
-		$appender = new DailyFileAppender();
-		$appender->setFile($file);
-		$appender->setDatePattern('Y-m-d');
-		$appender->activateOptions();
+        $appender->append($e1);
+        $appender->append($e2);
+        $appender->append($e3);
 
-		$appender->append($e1);
-		$appender->append($e2);
-		$appender->append($e3);
+        $actual1 = file_get_contents($path1);
+        $actual2 = file_get_contents($path2);
+        $actual3 = file_get_contents($path3);
 
-		$actual1 = file_get_contents($path1);
-		$actual2 = file_get_contents($path2);
-		$actual3 = file_get_contents($path3);
+        $expected1 = "DEBUG - $message" . PHP_EOL;
+        $expected2 = "DEBUG - $message" . PHP_EOL;
+        $expected3 = "DEBUG - $message" . PHP_EOL;
 
-		$expected1 = "DEBUG - $message" . PHP_EOL;
-		$expected2 = "DEBUG - $message" . PHP_EOL;
-		$expected3 = "DEBUG - $message" . PHP_EOL;
+        self::assertSame($expected1, $actual1);
+        self::assertSame($expected2, $actual2);
+        self::assertSame($expected3, $actual3);
+    }
 
-		self::assertSame($expected1, $actual1);
-		self::assertSame($expected2, $actual2);
-		self::assertSame($expected3, $actual3);
-	}
+    public function testSimpleLogging()
+    {
+        $event = TestHelper::getWarnEvent("my message");
 
-	public function testSimpleLogging() {
-		$event = TestHelper::getWarnEvent("my message");
+        $appender = new DailyFileAppender();
+        $appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
+        $appender->activateOptions();
+        $appender->append($event);
+        $appender->close();
 
-		$appender = new DailyFileAppender();
-		$appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
-		$appender->activateOptions();
-		$appender->append($event);
-		$appender->close();
+        $actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Ymd"));
+        $expected = "WARN - my message".PHP_EOL;
+        self::assertEquals($expected, $actual);
+    }
 
-		$actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Ymd"));
-		$expected = "WARN - my message".PHP_EOL;
-		self::assertEquals($expected, $actual);
-	}
+    public function testChangedDateFormat()
+    {
+        $event = TestHelper::getWarnEvent("my message");
 
-	public function testChangedDateFormat() {
-		$event = TestHelper::getWarnEvent("my message");
+        $appender = new DailyFileAppender();
+        $appender->setDatePattern('Y');
+        $appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
+        $appender->activateOptions();
+        $appender->append($event);
+        $appender->close();
 
-		$appender = new DailyFileAppender();
-		$appender->setDatePattern('Y');
-		$appender->setFile(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.%s');
-		$appender->activateOptions();
-		$appender->append($event);
-		$appender->close();
-
-		$actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Y"));
-		$expected = "WARN - my message".PHP_EOL;
-		self::assertEquals($expected, $actual);
-	}
+        $actual = file_get_contents(PHPUNIT_TEMP_DIR . '/TEST-daily.txt.' . date("Y"));
+        $expected = "WARN - my message".PHP_EOL;
+        self::assertEquals($expected, $actual);
+    }
 }

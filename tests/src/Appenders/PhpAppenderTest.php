@@ -28,71 +28,74 @@ use Apache\Log4php\Logger;
 /**
  * @group appenders
  */
-class PhpAppenderTest extends \PHPUnit_Framework_TestCase {
+class PhpAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    public static $expectedMessage;
 
-	public static $expectedMessage;
+    public static $expectedError;
 
-	public static $expectedError;
+    private $config = array(
+        'rootLogger' => array(
+            'appenders' => array('default'),
+            'level' => 'trace'
+        ),
+        'appenders' => array(
+            'default' => array(
+                'class' => 'PhpAppender',
+                'layout' => array(
+                    'class' => 'SimpleLayout'
+                ),
+            )
+        )
+    );
 
-	private $config = array(
-		'rootLogger' => array(
-			'appenders' => array('default'),
-			'level' => 'trace'
-		),
-		'appenders' => array(
-			'default' => array(
-				'class' => 'PhpAppender',
-				'layout' => array(
-					'class' => 'SimpleLayout'
-				),
-			)
-		)
-	);
-
-    protected function setUp() {
-    	$that = $this; // hack for PHP 5.3
-		set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($that) {
-			$that::assertEquals($that::$expectedError, $errno);
-			$that::assertEquals($that::$expectedMessage, $errstr);
-		});
-	}
-
-	public function testRequiresLayout() {
-		$appender = new PhpAppender();
-		$this->assertTrue($appender->requiresLayout());
-	}
-
-	public function testPhp() {
-		Logger::configure($this->config);
-		$logger = Logger::getRootLogger();
-
-
-		self::$expectedError = E_USER_ERROR;
-		self::$expectedMessage = "FATAL - This is a test" . PHP_EOL;
-		$logger->fatal("This is a test");
-
-		self::$expectedError = E_USER_ERROR;
-		self::$expectedMessage = "ERROR - This is a test" . PHP_EOL;
-		$logger->error("This is a test");
-
-		self::$expectedError = E_USER_WARNING;
-		self::$expectedMessage = "WARN - This is a test" . PHP_EOL;
-		$logger->warn("This is a test");
-
-		self::$expectedError = E_USER_NOTICE;
-		self::$expectedMessage = "INFO - This is a test" . PHP_EOL;
-		$logger->info("This is a test");
-
-		self::$expectedError = E_USER_NOTICE;
-		self::$expectedMessage = "DEBUG - This is a test" . PHP_EOL;
-		$logger->debug("This is a test");
-
-		self::$expectedError = E_USER_NOTICE;
-		self::$expectedMessage = "TRACE - This is a test" . PHP_EOL;
-		$logger->trace("This is a test");
+    protected function setUp()
+    {
+        $that = $this; // hack for PHP 5.3
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($that) {
+            $that::assertEquals($that::$expectedError, $errno);
+            $that::assertEquals($that::$expectedMessage, $errstr);
+        });
     }
 
-    protected function tearDown() {
-		restore_error_handler();
-	}
+    public function testRequiresLayout()
+    {
+        $appender = new PhpAppender();
+        $this->assertTrue($appender->requiresLayout());
+    }
+
+    public function testPhp()
+    {
+        Logger::configure($this->config);
+        $logger = Logger::getRootLogger();
+
+        self::$expectedError = E_USER_ERROR;
+        self::$expectedMessage = "FATAL - This is a test" . PHP_EOL;
+        $logger->fatal("This is a test");
+
+        self::$expectedError = E_USER_ERROR;
+        self::$expectedMessage = "ERROR - This is a test" . PHP_EOL;
+        $logger->error("This is a test");
+
+        self::$expectedError = E_USER_WARNING;
+        self::$expectedMessage = "WARN - This is a test" . PHP_EOL;
+        $logger->warn("This is a test");
+
+        self::$expectedError = E_USER_NOTICE;
+        self::$expectedMessage = "INFO - This is a test" . PHP_EOL;
+        $logger->info("This is a test");
+
+        self::$expectedError = E_USER_NOTICE;
+        self::$expectedMessage = "DEBUG - This is a test" . PHP_EOL;
+        $logger->debug("This is a test");
+
+        self::$expectedError = E_USER_NOTICE;
+        self::$expectedMessage = "TRACE - This is a test" . PHP_EOL;
+        $logger->trace("This is a test");
+    }
+
+    protected function tearDown()
+    {
+        restore_error_handler();
+    }
 }

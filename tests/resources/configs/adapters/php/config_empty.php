@@ -22,5 +22,3 @@
  */
 
 // Empty config
-
-?>

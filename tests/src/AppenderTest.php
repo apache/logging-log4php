@@ -34,148 +34,155 @@ use Apache\Log4php\LoggingEvent;
 /**
  * @group appenders
  */
-class AppenderTest extends \PHPUnit_Framework_TestCase {
+class AppenderTest extends \PHPUnit_Framework_TestCase
+{
+    public function testThreshold()
+    {
+        $appender = new EchoAppender("LoggerAppenderTest");
 
-	public function testThreshold() {
-		$appender = new EchoAppender("LoggerAppenderTest");
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
+        $warn = Level::getLevelWarn();
+        $appender->setThreshold($warn);
+        $appender->activateOptions();
 
-		$warn = Level::getLevelWarn();
-		$appender->setThreshold($warn);
-		$appender->activateOptions();
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelFatal(), "testmessage");
+        ob_start();
+        $appender->doAppend($event);
+        $v = ob_get_contents();
+        ob_end_clean();
+        $e = "FATAL - testmessage" . PHP_EOL;
+        self::assertEquals($e, $v);
 
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelFatal(), "testmessage");
-		ob_start();
-		$appender->doAppend($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-		$e = "FATAL - testmessage" . PHP_EOL;
-		self::assertEquals($e, $v);
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
+        ob_start();
+        $appender->doAppend($event);
+        $v = ob_get_contents();
+        ob_end_clean();
+        $e = "ERROR - testmessage" . PHP_EOL;
+        self::assertEquals($e, $v);
 
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
-		ob_start();
-		$appender->doAppend($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-		$e = "ERROR - testmessage" . PHP_EOL;
-		self::assertEquals($e, $v);
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
+        ob_start();
+        $appender->doAppend($event);
+        $v = ob_get_contents();
+        ob_end_clean();
+        $e = "WARN - testmessage" . PHP_EOL;
+        self::assertEquals($e, $v);
 
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
-		ob_start();
-		$appender->doAppend($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-		$e = "WARN - testmessage" . PHP_EOL;
-		self::assertEquals($e, $v);
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelInfo(), "testmessage");
+        ob_start();
+        $appender->doAppend($event);
+        $v = ob_get_contents();
+        ob_end_clean();
+        $e = "";
+        self::assertEquals($e, $v);
 
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelInfo(), "testmessage");
-		ob_start();
-		$appender->doAppend($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-		$e = "";
-		self::assertEquals($e, $v);
-
-		$event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelDebug(), "testmessage");
-		ob_start();
-		$appender->doAppend($event);
-		$v = ob_get_contents();
-		ob_end_clean();
-		$e = "";
-		self::assertEquals($e, $v);
+        $event = new LoggingEvent("LoggerAppenderEchoTest", new Logger("TEST"), Level::getLevelDebug(), "testmessage");
+        ob_start();
+        $appender->doAppend($event);
+        $v = ob_get_contents();
+        ob_end_clean();
+        $e = "";
+        self::assertEquals($e, $v);
     }
 
-    public function testGetThreshold() {
-		$appender = new EchoAppender("LoggerAppenderTest");
+    public function testGetThreshold()
+    {
+        $appender = new EchoAppender("LoggerAppenderTest");
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
 
-		$warn = Level::getLevelWarn();
-		$appender->setThreshold($warn);
+        $warn = Level::getLevelWarn();
+        $appender->setThreshold($warn);
 
-		$a = $appender->getThreshold();
-		self::assertEquals($warn, $a);
+        $a = $appender->getThreshold();
+        self::assertEquals($warn, $a);
     }
 
-    public function testSetStringThreshold() {
-		$appender = new EchoAppender("LoggerAppenderTest");
+    public function testSetStringThreshold()
+    {
+        $appender = new EchoAppender("LoggerAppenderTest");
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
 
-		$warn = Level::getLevelWarn();
-		$appender->setThreshold('WARN');
-		$a = $appender->getThreshold();
-		self::assertEquals($warn, $a);
+        $warn = Level::getLevelWarn();
+        $appender->setThreshold('WARN');
+        $a = $appender->getThreshold();
+        self::assertEquals($warn, $a);
 
-		$e = Level::getLevelFatal();
-		$appender->setThreshold('FATAL');
-		$a = $appender->getThreshold();
-		self::assertEquals($e, $a);
+        $e = Level::getLevelFatal();
+        $appender->setThreshold('FATAL');
+        $a = $appender->getThreshold();
+        self::assertEquals($e, $a);
 
-		$e = Level::getLevelError();
-		$appender->setThreshold('ERROR');
-		$a = $appender->getThreshold();
-		self::assertEquals($e, $a);
+        $e = Level::getLevelError();
+        $appender->setThreshold('ERROR');
+        $a = $appender->getThreshold();
+        self::assertEquals($e, $a);
 
-		$e = Level::getLevelDebug();
-		$appender->setThreshold('DEBUG');
-		$a = $appender->getThreshold();
-		self::assertEquals($e, $a);
+        $e = Level::getLevelDebug();
+        $appender->setThreshold('DEBUG');
+        $a = $appender->getThreshold();
+        self::assertEquals($e, $a);
 
-		$e = Level::getLevelInfo();
-		$appender->setThreshold('INFO');
-		$a = $appender->getThreshold();
-		self::assertEquals($e, $a);
+        $e = Level::getLevelInfo();
+        $appender->setThreshold('INFO');
+        $a = $appender->getThreshold();
+        self::assertEquals($e, $a);
     }
 
-     public function testSetFilter() {
-		$appender = new EchoAppender("LoggerAppenderTest");
+     public function testSetFilter()
+     {
+        $appender = new EchoAppender("LoggerAppenderTest");
 
-		$layout = new SimpleLayout();
-		$appender->setLayout($layout);
+        $layout = new SimpleLayout();
+        $appender->setLayout($layout);
 
-		$filter  = new DenyAllFilter();
-		$appender->addFilter($filter);
+        $filter  = new DenyAllFilter();
+        $appender->addFilter($filter);
 
-		$filter2  = new LevelMatchFilter();
-		$appender->addFilter($filter2);
+        $filter2  = new LevelMatchFilter();
+        $appender->addFilter($filter2);
 
-		$first = $appender->getFilter();
-		self::assertEquals($first, $filter);
+        $first = $appender->getFilter();
+        self::assertEquals($first, $filter);
 
-		$next = $first->getNext();
-		self::assertEquals($next, $filter2);
+        $next = $first->getNext();
+        self::assertEquals($next, $filter2);
 
-		$appender->clearFilters();
-		$nullfilter = $appender->getFilter();
-		self::assertNull($nullfilter);
+        $appender->clearFilters();
+        $nullfilter = $appender->getFilter();
+        self::assertNull($nullfilter);
     }
 
-    public function testInstanciateWithLayout() {
-    	$appender = new EchoAppender("LoggerAppenderTest");
+    public function testInstanciateWithLayout()
+    {
+        $appender = new EchoAppender("LoggerAppenderTest");
 
-    	$expected = "Apache\\Log4php\\Layouts\\SimpleLayout";
-    	$actual = $appender->getLayout();
-    	$this->assertInstanceof($expected, $actual);
+        $expected = "Apache\\Log4php\\Layouts\\SimpleLayout";
+        $actual = $appender->getLayout();
+        $this->assertInstanceof($expected, $actual);
     }
 
-    public function testOverwriteLayout() {
-    	$layout = new SimpleLayout();
-    	$appender = new EchoAppender("LoggerAppenderTest");
-    	$appender->setLayout($layout);
+    public function testOverwriteLayout()
+    {
+        $layout = new SimpleLayout();
+        $appender = new EchoAppender("LoggerAppenderTest");
+        $appender->setLayout($layout);
 
-    	$actual = $appender->getLayout();
-    	$this->assertEquals($layout, $actual);
+        $actual = $appender->getLayout();
+        $this->assertEquals($layout, $actual);
     }
 
-    public function testRequiresNoLayout() {
-    	$appender = new NullAppender("LoggerAppenderTest");
+    public function testRequiresNoLayout()
+    {
+        $appender = new NullAppender("LoggerAppenderTest");
 
-    	$actual = $appender->getLayout();
-    	$this->assertNull($actual);
+        $actual = $appender->getLayout();
+        $this->assertNull($actual);
     }
 }

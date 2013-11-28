@@ -25,13 +25,14 @@ use Apache\Log4php\LoggingEvent;
  * issued.
  * @since 2.3
  */
-class LocationConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return
-			$event->getLocationInformation()->getClassName() . '.' .
-			$event->getLocationInformation()->getMethodName() . '(' .
-			$event->getLocationInformation()->getFileName() . ':' .
-			$event->getLocationInformation()->getLineNumber() . ')';
-	}
+class LocationConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return
+            $event->getLocationInformation()->getClassName() . '.' .
+            $event->getLocationInformation()->getMethodName() . '(' .
+            $event->getLocationInformation()->getFileName() . ':' .
+            $event->getLocationInformation()->getLineNumber() . ')';
+    }
 }

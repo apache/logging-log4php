@@ -28,226 +28,250 @@ namespace Apache\Log4php;
  * level set.</p>
  * @since 0.5
  */
-class Level {
+class Level
+{
+    const OFF = 2147483647;
+    const FATAL = 50000;
+    const ERROR = 40000;
+    const WARN = 30000;
+    const INFO = 20000;
+    const DEBUG = 10000;
+    const TRACE = 5000;
+    const ALL = -2147483647;
 
-	const OFF = 2147483647;
-	const FATAL = 50000;
-	const ERROR = 40000;
-	const WARN = 30000;
-	const INFO = 20000;
-	const DEBUG = 10000;
-	const TRACE = 5000;
-	const ALL = -2147483647;
+    /** Integer level value. */
+    private $level;
 
-	/** Integer level value. */
-	private $level;
+    /** Contains a list of instantiated levels. */
+    private static $levelMap;
 
-	/** Contains a list of instantiated levels. */
-	private static $levelMap;
+    /** String representation of the level. */
+    private $levelStr;
 
-	/** String representation of the level. */
-	private $levelStr;
+    /**
+     * Equivalent syslog level.
+     * @var integer
+     */
+    private $syslogEquivalent;
 
-	/**
-	 * Equivalent syslog level.
-	 * @var integer
-	 */
-	private $syslogEquivalent;
+    /**
+     * Constructor
+     *
+     * @param integer $level
+     * @param string  $levelStr
+     * @param integer $syslogEquivalent
+     */
+    private function __construct($level, $levelStr, $syslogEquivalent)
+    {
+        $this->level = $level;
+        $this->levelStr = $levelStr;
+        $this->syslogEquivalent = $syslogEquivalent;
+    }
 
-	/**
-	 * Constructor
-	 *
-	 * @param integer $level
-	 * @param string $levelStr
-	 * @param integer $syslogEquivalent
-	 */
-	private function __construct($level, $levelStr, $syslogEquivalent) {
-		$this->level = $level;
-		$this->levelStr = $levelStr;
-		$this->syslogEquivalent = $syslogEquivalent;
-	}
+    /**
+     * Compares two logger levels.
+     *
+     * @param  Level   $other
+     * @return boolean
+     */
+    public function equals($other)
+    {
+        if ($other instanceof Level) {
+            if ($this->level == $other->level) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * Compares two logger levels.
-	 *
-	 * @param Level $other
-	 * @return boolean
-	 */
-	public function equals($other) {
-		if($other instanceof Level) {
-			if($this->level == $other->level) {
-				return true;
-			}
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Returns an Off Level
+     * @return Level
+     */
+    public static function getLevelOff()
+    {
+        if (!isset(self::$levelMap[Level::OFF])) {
+            self::$levelMap[Level::OFF] = new Level(Level::OFF, 'OFF', LOG_ALERT);
+        }
 
-	/**
-	 * Returns an Off Level
-	 * @return Level
-	 */
-	public static function getLevelOff() {
-		if(!isset(self::$levelMap[Level::OFF])) {
-			self::$levelMap[Level::OFF] = new Level(Level::OFF, 'OFF', LOG_ALERT);
-		}
-		return self::$levelMap[Level::OFF];
-	}
+        return self::$levelMap[Level::OFF];
+    }
 
-	/**
-	 * Returns a Fatal Level
-	 * @return Level
-	 */
-	public static function getLevelFatal() {
-		if(!isset(self::$levelMap[Level::FATAL])) {
-			self::$levelMap[Level::FATAL] = new Level(Level::FATAL, 'FATAL', LOG_ALERT);
-		}
-		return self::$levelMap[Level::FATAL];
-	}
+    /**
+     * Returns a Fatal Level
+     * @return Level
+     */
+    public static function getLevelFatal()
+    {
+        if (!isset(self::$levelMap[Level::FATAL])) {
+            self::$levelMap[Level::FATAL] = new Level(Level::FATAL, 'FATAL', LOG_ALERT);
+        }
 
-	/**
-	 * Returns an Error Level
-	 * @return Level
-	 */
-	public static function getLevelError() {
-		if(!isset(self::$levelMap[Level::ERROR])) {
-			self::$levelMap[Level::ERROR] = new Level(Level::ERROR, 'ERROR', LOG_ERR);
-		}
-		return self::$levelMap[Level::ERROR];
-	}
+        return self::$levelMap[Level::FATAL];
+    }
 
-	/**
-	 * Returns a Warn Level
-	 * @return Level
-	 */
-	public static function getLevelWarn() {
-		if(!isset(self::$levelMap[Level::WARN])) {
-			self::$levelMap[Level::WARN] = new Level(Level::WARN, 'WARN', LOG_WARNING);
-		}
-		return self::$levelMap[Level::WARN];
-	}
+    /**
+     * Returns an Error Level
+     * @return Level
+     */
+    public static function getLevelError()
+    {
+        if (!isset(self::$levelMap[Level::ERROR])) {
+            self::$levelMap[Level::ERROR] = new Level(Level::ERROR, 'ERROR', LOG_ERR);
+        }
 
-	/**
-	 * Returns an Info Level
-	 * @return Level
-	 */
-	public static function getLevelInfo() {
-		if(!isset(self::$levelMap[Level::INFO])) {
-			self::$levelMap[Level::INFO] = new Level(Level::INFO, 'INFO', LOG_INFO);
-		}
-		return self::$levelMap[Level::INFO];
-	}
+        return self::$levelMap[Level::ERROR];
+    }
 
-	/**
-	 * Returns a Debug Level
-	 * @return Level
-	 */
-	public static function getLevelDebug() {
-		if(!isset(self::$levelMap[Level::DEBUG])) {
-			self::$levelMap[Level::DEBUG] = new Level(Level::DEBUG, 'DEBUG', LOG_DEBUG);
-		}
-		return self::$levelMap[Level::DEBUG];
-	}
+    /**
+     * Returns a Warn Level
+     * @return Level
+     */
+    public static function getLevelWarn()
+    {
+        if (!isset(self::$levelMap[Level::WARN])) {
+            self::$levelMap[Level::WARN] = new Level(Level::WARN, 'WARN', LOG_WARNING);
+        }
 
-	/**
-	 * Returns a Trace Level
-	 * @return Level
-	 */
-	public static function getLevelTrace() {
-		if(!isset(self::$levelMap[Level::TRACE])) {
-			self::$levelMap[Level::TRACE] = new Level(Level::TRACE, 'TRACE', LOG_DEBUG);
-		}
-		return self::$levelMap[Level::TRACE];
-	}
+        return self::$levelMap[Level::WARN];
+    }
 
-	/**
-	 * Returns an All Level
-	 * @return Level
-	 */
-	public static function getLevelAll() {
-		if(!isset(self::$levelMap[Level::ALL])) {
-			self::$levelMap[Level::ALL] = new Level(Level::ALL, 'ALL', LOG_DEBUG);
-		}
-		return self::$levelMap[Level::ALL];
-	}
+    /**
+     * Returns an Info Level
+     * @return Level
+     */
+    public static function getLevelInfo()
+    {
+        if (!isset(self::$levelMap[Level::INFO])) {
+            self::$levelMap[Level::INFO] = new Level(Level::INFO, 'INFO', LOG_INFO);
+        }
 
-	/**
-	 * Return the syslog equivalent of this level as an integer.
-	 * @return integer
-	 */
-	public function getSyslogEquivalent() {
-		return $this->syslogEquivalent;
-	}
+        return self::$levelMap[Level::INFO];
+    }
 
-	/**
-	 * Returns <i>true</i> if this level has a higher or equal
-	 * level than the level passed as argument, <i>false</i>
-	 * otherwise.
-	 *
-	 * @param Level $other
-	 * @return boolean
-	 */
-	public function isGreaterOrEqual($other) {
-		return $this->level >= $other->level;
-	}
+    /**
+     * Returns a Debug Level
+     * @return Level
+     */
+    public static function getLevelDebug()
+    {
+        if (!isset(self::$levelMap[Level::DEBUG])) {
+            self::$levelMap[Level::DEBUG] = new Level(Level::DEBUG, 'DEBUG', LOG_DEBUG);
+        }
 
-	/**
-	 * Returns the string representation of this level.
-	 * @return string
-	 */
-	public function toString() {
-		return $this->levelStr;
-	}
+        return self::$levelMap[Level::DEBUG];
+    }
 
-	/**
-	 * Returns the string representation of this level.
-	 * @return string
-	 */
-	public function __toString() {
-		return $this->toString();
-	}
+    /**
+     * Returns a Trace Level
+     * @return Level
+     */
+    public static function getLevelTrace()
+    {
+        if (!isset(self::$levelMap[Level::TRACE])) {
+            self::$levelMap[Level::TRACE] = new Level(Level::TRACE, 'TRACE', LOG_DEBUG);
+        }
 
-	/**
-	 * Returns the integer representation of this level.
-	 * @return integer
-	 */
-	public function toInt() {
-		return $this->level;
-	}
+        return self::$levelMap[Level::TRACE];
+    }
 
-	/**
-	 * Convert the input argument to a level. If the conversion fails, then
-	 * this method returns the provided default level.
-	 *
-	 * @param mixed $arg The value to convert to level.
-	 * @param Level $default Value to return if conversion is not possible.
-	 * @return Level
-	 */
-	public static function toLevel($arg, $defaultLevel = null) {
-		if(is_int($arg)) {
-			switch($arg) {
-				case self::ALL:	return self::getLevelAll();
-				case self::TRACE: return self::getLevelTrace();
-				case self::DEBUG: return self::getLevelDebug();
-				case self::INFO: return self::getLevelInfo();
-				case self::WARN: return self::getLevelWarn();
-				case self::ERROR: return self::getLevelError();
-				case self::FATAL: return self::getLevelFatal();
-				case self::OFF:	return self::getLevelOff();
-				default: return $defaultLevel;
-			}
-		} else {
-			switch(strtoupper($arg)) {
-				case 'ALL':	return self::getLevelAll();
-				case 'TRACE': return self::getLevelTrace();
-				case 'DEBUG': return self::getLevelDebug();
-				case 'INFO': return self::getLevelInfo();
-				case 'WARN': return self::getLevelWarn();
-				case 'ERROR': return self::getLevelError();
-				case 'FATAL': return self::getLevelFatal();
-				case 'OFF':	return self::getLevelOff();
-				default: return $defaultLevel;
-			}
-		}
-	}
+    /**
+     * Returns an All Level
+     * @return Level
+     */
+    public static function getLevelAll()
+    {
+        if (!isset(self::$levelMap[Level::ALL])) {
+            self::$levelMap[Level::ALL] = new Level(Level::ALL, 'ALL', LOG_DEBUG);
+        }
+
+        return self::$levelMap[Level::ALL];
+    }
+
+    /**
+     * Return the syslog equivalent of this level as an integer.
+     * @return integer
+     */
+    public function getSyslogEquivalent()
+    {
+        return $this->syslogEquivalent;
+    }
+
+    /**
+     * Returns <i>true</i> if this level has a higher or equal
+     * level than the level passed as argument, <i>false</i>
+     * otherwise.
+     *
+     * @param  Level   $other
+     * @return boolean
+     */
+    public function isGreaterOrEqual($other)
+    {
+        return $this->level >= $other->level;
+    }
+
+    /**
+     * Returns the string representation of this level.
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->levelStr;
+    }
+
+    /**
+     * Returns the string representation of this level.
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
+    }
+
+    /**
+     * Returns the integer representation of this level.
+     * @return integer
+     */
+    public function toInt()
+    {
+        return $this->level;
+    }
+
+    /**
+     * Convert the input argument to a level. If the conversion fails, then
+     * this method returns the provided default level.
+     *
+     * @param  mixed $arg     The value to convert to level.
+     * @param  Level $default Value to return if conversion is not possible.
+     * @return Level
+     */
+    public static function toLevel($arg, $defaultLevel = null)
+    {
+        if (is_int($arg)) {
+            switch ($arg) {
+                case self::ALL:	return self::getLevelAll();
+                case self::TRACE: return self::getLevelTrace();
+                case self::DEBUG: return self::getLevelDebug();
+                case self::INFO: return self::getLevelInfo();
+                case self::WARN: return self::getLevelWarn();
+                case self::ERROR: return self::getLevelError();
+                case self::FATAL: return self::getLevelFatal();
+                case self::OFF:	return self::getLevelOff();
+                default: return $defaultLevel;
+            }
+        } else {
+            switch (strtoupper($arg)) {
+                case 'ALL':	return self::getLevelAll();
+                case 'TRACE': return self::getLevelTrace();
+                case 'DEBUG': return self::getLevelDebug();
+                case 'INFO': return self::getLevelInfo();
+                case 'WARN': return self::getLevelWarn();
+                case 'ERROR': return self::getLevelError();
+                case 'FATAL': return self::getLevelFatal();
+                case 'OFF':	return self::getLevelOff();
+                default: return $defaultLevel;
+            }
+        }
+    }
 }

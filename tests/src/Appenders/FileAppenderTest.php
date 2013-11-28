@@ -30,110 +30,118 @@ use Apache\Log4php\Tests\TestHelper;
 /**
  * @group appenders
  */
-class FileAppenderTest extends \PHPUnit_Framework_TestCase {
+class FileAppenderTest extends \PHPUnit_Framework_TestCase
+{
+    private $config1 = array(
+        'rootLogger' => array(
+            'appenders' => array('default'),
+        ),
+        'appenders' => array(
+            'default' => array(
+                'class' => 'FileAppender',
+                'layout' => array(
+                    'class' => 'SimpleLayout'
+                ),
+                'params' => array()
+            )
+        )
+    );
 
-	private $config1 = array(
-		'rootLogger' => array(
-			'appenders' => array('default'),
-		),
-		'appenders' => array(
-			'default' => array(
-				'class' => 'FileAppender',
-				'layout' => array(
-					'class' => 'SimpleLayout'
-				),
-				'params' => array()
-			)
-		)
-	);
+    private $testPath;
 
-	private $testPath;
+    public function __construct()
+    {
+        $this->testPath = PHPUNIT_TEMP_DIR . '/TEST.txt';
+    }
 
-	public function __construct() {
-		$this->testPath = PHPUNIT_TEMP_DIR . '/TEST.txt';
-	}
+    public function setUp()
+    {
+        Logger::resetConfiguration();
+        if (file_exists($this->testPath)) {
+            unlink($this->testPath);
+        }
+    }
 
-	public function setUp() {
-		Logger::resetConfiguration();
-		if(file_exists($this->testPath)) {
-			unlink($this->testPath);
-		}
-	}
+    public function tearDown()
+    {
+        Logger::resetConfiguration();
+        if (file_exists($this->testPath)) {
+            unlink($this->testPath);
+        }
+    }
 
-	public function tearDown() {
-		Logger::resetConfiguration();
-		if(file_exists($this->testPath)) {
-			unlink($this->testPath);
-		}
-	}
+    public function testRequiresLayout()
+    {
+        $appender = new FileAppender();
+        self::assertTrue($appender->requiresLayout());
+    }
 
-	public function testRequiresLayout() {
-		$appender = new FileAppender();
-		self::assertTrue($appender->requiresLayout());
-	}
+    public function testActivationDoesNotCreateTheFile()
+    {
+        $path = PHPUNIT_TEMP_DIR . "/doesnotexisthopefully.log";
+        @unlink($path);
+        $appender = new FileAppender();
+        $appender->setFile($path);
+        $appender->activateOptions();
 
-	public function testActivationDoesNotCreateTheFile() {
-		$path = PHPUNIT_TEMP_DIR . "/doesnotexisthopefully.log";
-		@unlink($path);
-		$appender = new FileAppender();
-		$appender->setFile($path);
-		$appender->activateOptions();
+        self::assertFalse(file_exists($path));
 
-		self::assertFalse(file_exists($path));
+        $event = TestHelper::getInfoEvent('bla');
+        $appender->append($event);
 
-		$event = TestHelper::getInfoEvent('bla');
-		$appender->append($event);
+        self::assertTrue(file_exists($path));
+    }
 
-		self::assertTrue(file_exists($path));
-	}
+    public function testSimpleLogging()
+    {
+        $config = $this->config1;
+        $config['appenders']['default']['params']['file'] = $this->testPath;
 
-	public function testSimpleLogging() {
-		$config = $this->config1;
-		$config['appenders']['default']['params']['file'] = $this->testPath;
+        Logger::configure($config);
 
-		Logger::configure($config);
+        $logger = Logger::getRootLogger();
+        $logger->info('This is a test');
 
-		$logger = Logger::getRootLogger();
-		$logger->info('This is a test');
+        $expected = "INFO - This is a test" . PHP_EOL;
+        $actual = file_get_contents($this->testPath);
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = "INFO - This is a test" . PHP_EOL;
-		$actual = file_get_contents($this->testPath);
-		$this->assertSame($expected, $actual);
-	}
+    public function testAppendFlagTrue()
+    {
+        $config = $this->config1;
+        $config['appenders']['default']['params']['file'] = $this->testPath;
+        $config['appenders']['default']['params']['append'] = true;
 
-	public function testAppendFlagTrue() {
-		$config = $this->config1;
-		$config['appenders']['default']['params']['file'] = $this->testPath;
-		$config['appenders']['default']['params']['append'] = true;
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
+        $logger->info('This is a test');
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
-		$logger->info('This is a test');
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
+        $logger->info('This is a test');
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
-		$logger->info('This is a test');
+        $expected = "INFO - This is a test" . PHP_EOL . "INFO - This is a test" . PHP_EOL;
+        $actual = file_get_contents($this->testPath);
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = "INFO - This is a test" . PHP_EOL . "INFO - This is a test" . PHP_EOL;
-		$actual = file_get_contents($this->testPath);
-		$this->assertSame($expected, $actual);
-	}
+    public function testAppendFlagFalse()
+    {
+        $config = $this->config1;
+        $config['appenders']['default']['params']['file'] = $this->testPath;
+        $config['appenders']['default']['params']['append'] = false;
 
-	public function testAppendFlagFalse() {
-		$config = $this->config1;
-		$config['appenders']['default']['params']['file'] = $this->testPath;
-		$config['appenders']['default']['params']['append'] = false;
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
+        $logger->info('This is a test');
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
-		$logger->info('This is a test');
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
+        $logger->info('This is a test');
 
-		Logger::configure($config);
-		$logger = Logger::getRootLogger();
-		$logger->info('This is a test');
-
-		$expected = "INFO - This is a test" . PHP_EOL;
-		$actual = file_get_contents($this->testPath);
-		$this->assertSame($expected, $actual);
-	}
+        $expected = "INFO - This is a test" . PHP_EOL;
+        $actual = file_get_contents($this->testPath);
+        $this->assertSame($expected, $actual);
+    }
 }

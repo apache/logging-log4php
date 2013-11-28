@@ -24,23 +24,28 @@ namespace Apache\Log4php\Tests;
 
 use Apache\Log4php\ReflectionUtils;
 
-class Simple {
+class Simple
+{
     private $name;
     private $male;
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function isMale() {
+    public function isMale()
+    {
         return $this->male;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setMale($male) {
+    public function setMale($male)
+    {
         $this->male = $male;
     }
 }
@@ -48,44 +53,48 @@ class Simple {
 /**
  * @group main
  */
-class ReflectionUtilsTest extends \PHPUnit_Framework_TestCase {
+class ReflectionUtilsTest extends \PHPUnit_Framework_TestCase
+{
+    public function testSimpleSet()
+    {
+        $s = new Simple();
+        $ps = new ReflectionUtils($s);
+         $ps->setProperty("name", "Joe");
+         $ps->setProperty("male", true);
 
-	public function testSimpleSet() {
-		$s = new Simple();
-		$ps = new ReflectionUtils($s);
- 		$ps->setProperty("name", "Joe");
- 		$ps->setProperty("male", true);
+         $this->assertEquals($s->isMale(), true);
+         $this->assertEquals($s->getName(), 'Joe');
+    }
 
- 		$this->assertEquals($s->isMale(), true);
- 		$this->assertEquals($s->getName(), 'Joe');
-	}
+    public function testSimpleArraySet()
+    {
+        $arr['xxxname'] = 'Joe';
+        $arr['xxxmale'] = true;
 
-	public function testSimpleArraySet() {
-		$arr['xxxname'] = 'Joe';
-		$arr['xxxmale'] = true;
+        $s = new Simple();
+        $ps = new ReflectionUtils($s);
+         $ps->setProperties($arr, "xxx");
 
-		$s = new Simple();
-		$ps = new ReflectionUtils($s);
- 		$ps->setProperties($arr, "xxx");
+         $this->assertEquals($s->getName(), 'Joe');
+         $this->assertEquals($s->isMale(), true);
+    }
 
- 		$this->assertEquals($s->getName(), 'Joe');
- 		$this->assertEquals($s->isMale(), true);
-	}
+    public function testStaticArraySet()
+    {
+        $arr['xxxname'] = 'Joe';
+        $arr['xxxmale'] = true;
 
-	public function testStaticArraySet() {
-		$arr['xxxname'] = 'Joe';
-		$arr['xxxmale'] = true;
+        $s = new Simple();
+        ReflectionUtils::setPropertiesByObject($s,$arr,"xxx");
 
-		$s = new Simple();
-		ReflectionUtils::setPropertiesByObject($s,$arr,"xxx");
-
- 		$this->assertEquals($s->getName(), 'Joe');
- 		$this->assertEquals($s->isMale(), true);
-	}
-	public function testCreateObject() {
+         $this->assertEquals($s->getName(), 'Joe');
+         $this->assertEquals($s->isMale(), true);
+    }
+    public function testCreateObject()
+    {
         $class = 'Apache\\Log4php\\Layouts\\SimpleLayout';
-		$object = ReflectionUtils::createObject($class);
-		$name = get_class($object);
-		self::assertEquals($name, $class);
-	}
+        $object = ReflectionUtils::createObject($class);
+        $name = get_class($object);
+        self::assertEquals($name, $class);
+    }
 }

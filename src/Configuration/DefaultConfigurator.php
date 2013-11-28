@@ -36,24 +36,24 @@ use Apache\Log4php\LoggerException;
  */
 class DefaultConfigurator implements ConfiguratorInterface
 {
-	/** XML configuration file format. */
-	const FORMAT_XML = 'xml';
+    /** XML configuration file format. */
+    const FORMAT_XML = 'xml';
 
-	/** PHP configuration file format. */
-	const FORMAT_PHP = 'php';
+    /** PHP configuration file format. */
+    const FORMAT_PHP = 'php';
 
-	/** INI (properties) configuration file format. */
-	const FORMAT_INI = 'ini';
+    /** INI (properties) configuration file format. */
+    const FORMAT_INI = 'ini';
 
-	/** Defines which adapter should be used for parsing which format. */
-	private $adapters = array(
-		self::FORMAT_XML => 'XmlAdapter',
-		self::FORMAT_INI => 'IniAdapter',
-		self::FORMAT_PHP => 'PhpAdapter',
-	);
+    /** Defines which adapter should be used for parsing which format. */
+    private $adapters = array(
+        self::FORMAT_XML => 'XmlAdapter',
+        self::FORMAT_INI => 'IniAdapter',
+        self::FORMAT_PHP => 'PhpAdapter',
+    );
 
-	/** Default configuration; used if no configuration file is provided. */
-	private static $defaultConfiguration = array(
+    /** Default configuration; used if no configuration file is provided. */
+    private static $defaultConfiguration = array(
         'threshold' => 'ALL',
         'rootLogger' => array(
             'level' => 'DEBUG',
@@ -64,449 +64,475 @@ class DefaultConfigurator implements ConfiguratorInterface
                 'class' => '\\Apache\\Log4php\\Appenders\\EchoAppender'
             ),
         ),
-	);
+    );
 
-	/** Holds the appenders before they are linked to loggers. */
-	private $appenders = array();
+    /** Holds the appenders before they are linked to loggers. */
+    private $appenders = array();
 
-	/**
-	 * Configures log4php based on the given configuration. The input can
-	 * either be a path to the config file, or a PHP array holding the
-	 * configuration.
-	 *
-	 * If no configuration is given, or if the given configuration cannot be
-	 * parsed for whatever reason, a warning will be issued, and log4php
-	 * will use the default configuration contained in
-	 * {@link $defaultConfiguration}.
-	 *
-	 * @param Hierarchy $hierarchy The hierarchy on which to perform
-	 * 		the configuration.
-	 * @param string|array $input Either path to the config file or the
-	 * 		configuration as an array. If not set, default configuration
-	 * 		will be used.
-	 */
-	public function configure(Hierarchy $hierarchy, $input = null) {
-		$config = $this->parse($input);
-		$this->doConfigure($hierarchy, $config);
-	}
+    /**
+     * Configures log4php based on the given configuration. The input can
+     * either be a path to the config file, or a PHP array holding the
+     * configuration.
+     *
+     * If no configuration is given, or if the given configuration cannot be
+     * parsed for whatever reason, a warning will be issued, and log4php
+     * will use the default configuration contained in
+     * {@link $defaultConfiguration}.
+     *
+     * @param Hierarchy $hierarchy The hierarchy on which to perform
+     * 		the configuration.
+     * @param string|array $input Either path to the config file or the
+     * 		configuration as an array. If not set, default configuration
+     * 		will be used.
+     */
+    public function configure(Hierarchy $hierarchy, $input = null)
+    {
+        $config = $this->parse($input);
+        $this->doConfigure($hierarchy, $config);
+    }
 
-	/**
-	 * Parses the given configuration and returns the parsed configuration
-	 * as a PHP array. Does not perform any configuration.
-	 *
-	 * If no configuration is given, or if the given configuration cannot be
-	 * parsed for whatever reason, a warning will be issued, and the default
-	 * configuration will be returned ({@link $defaultConfiguration}).
-	 *
-	 * @param string|array $input Either path to the config file or the
-	 * 		configuration as an array. If not set, default configuration
-	 * 		will be used.
-	 * @return array The parsed configuration.
-	 */
-	public function parse($input) {
-		// No input - use default configuration
-		if (!isset($input)) {
-			$config = self::$defaultConfiguration;
-		}
+    /**
+     * Parses the given configuration and returns the parsed configuration
+     * as a PHP array. Does not perform any configuration.
+     *
+     * If no configuration is given, or if the given configuration cannot be
+     * parsed for whatever reason, a warning will be issued, and the default
+     * configuration will be returned ({@link $defaultConfiguration}).
+     *
+     * @param string|array $input Either path to the config file or the
+     * 		configuration as an array. If not set, default configuration
+     * 		will be used.
+     * @return array The parsed configuration.
+     */
+    public function parse($input)
+    {
+        // No input - use default configuration
+        if (!isset($input)) {
+            $config = self::$defaultConfiguration;
+        }
 
-		// Array input - contains configuration within the array
-		else if (is_array($input)) {
-			$config = $input;
-		}
+        // Array input - contains configuration within the array
+        else if (is_array($input)) {
+            $config = $input;
+        }
 
-		// String input - contains path to configuration file
-		else if (is_string($input)) {
-			try {
-				$config = $this->parseFile($input);
-			} catch (LoggerException $e) {
-				$this->warn("Configuration failed. " . $e->getMessage() . " Using default configuration.");
-				$config = self::$defaultConfiguration;
-			}
-		}
+        // String input - contains path to configuration file
+        else if (is_string($input)) {
+            try {
+                $config = $this->parseFile($input);
+            } catch (LoggerException $e) {
+                $this->warn("Configuration failed. " . $e->getMessage() . " Using default configuration.");
+                $config = self::$defaultConfiguration;
+            }
+        }
 
-		// Anything else is an error
-		else {
-			$this->warn("Invalid configuration param given. Reverting to default configuration.");
-			$config = self::$defaultConfiguration;
-		}
+        // Anything else is an error
+        else {
+            $this->warn("Invalid configuration param given. Reverting to default configuration.");
+            $config = self::$defaultConfiguration;
+        }
 
-		return $config;
-	}
+        return $config;
+    }
 
-	/**
-	 * Returns the default log4php configuration.
-	 * @return array
-	 */
-	public static function getDefaultConfiguration() {
-		return self::$defaultConfiguration;
-	}
+    /**
+     * Returns the default log4php configuration.
+     * @return array
+     */
+    public static function getDefaultConfiguration()
+    {
+        return self::$defaultConfiguration;
+    }
 
-	/**
-	 * Loads the configuration file from the given URL, determines which
-	 * adapter to use, converts the configuration to a PHP array and
-	 * returns it.
-	 *
-	 * @param string $url Path to the config file.
-	 * @return The configuration from the config file, as a PHP array.
-	 * @throws LoggerException If the configuration file cannot be loaded, or
-	 * 		if the parsing fails.
-	 */
-	private function parseFile($url) {
+    /**
+     * Loads the configuration file from the given URL, determines which
+     * adapter to use, converts the configuration to a PHP array and
+     * returns it.
+     *
+     * @param  string          $url Path to the config file.
+     * @return The             configuration from the config file, as a PHP array.
+     * @throws LoggerException If the configuration file cannot be loaded, or
+     * 		if the parsing fails.
+     */
+    private function parseFile($url)
+    {
+        if (!file_exists($url)) {
+            throw new LoggerException("File not found at [$url].");
+        }
 
-		if (!file_exists($url)) {
-			throw new LoggerException("File not found at [$url].");
-		}
+        $type = $this->getConfigType($url);
+        $adapterClass = "Apache\\Log4php\\Configuration\\Adapters\\" . $this->adapters[$type];
 
-		$type = $this->getConfigType($url);
-		$adapterClass = "Apache\\Log4php\\Configuration\\Adapters\\" . $this->adapters[$type];
+        $adapter = new $adapterClass();
 
-		$adapter = new $adapterClass();
-		return $adapter->convert($url);
-	}
+        return $adapter->convert($url);
+    }
 
-	/** Determines configuration file type based on the file extension. */
-	private function getConfigType($url) {
-		$info = pathinfo($url);
-		$ext = strtolower($info['extension']);
+    /** Determines configuration file type based on the file extension. */
+    private function getConfigType($url)
+    {
+        $info = pathinfo($url);
+        $ext = strtolower($info['extension']);
 
-		switch($ext) {
-			case 'xml':
-				return self::FORMAT_XML;
+        switch ($ext) {
+            case 'xml':
+                return self::FORMAT_XML;
 
-			case 'ini':
-			case 'properties':
-				return self::FORMAT_INI;
+            case 'ini':
+            case 'properties':
+                return self::FORMAT_INI;
 
-			case 'php':
-				return self::FORMAT_PHP;
+            case 'php':
+                return self::FORMAT_PHP;
 
-			default:
-				throw new LoggerException("Unsupported configuration file extension: $ext");
-		}
-	}
+            default:
+                throw new LoggerException("Unsupported configuration file extension: $ext");
+        }
+    }
 
-	/**
-	 * Constructs the logger hierarchy based on configuration.
-	 *
-	 * @param Hierarchy $hierarchy
-	 * @param array $config
-	 */
-	private function doConfigure(Hierarchy $hierarchy, $config) {
-		if (isset($config['threshold'])) {
-			$threshold = Level::toLevel($config['threshold']);
-			if (isset($threshold)) {
-				$hierarchy->setThreshold($threshold);
-			} else {
-				$this->warn("Invalid threshold value [{$config['threshold']}] specified. Ignoring threshold definition.");
-			}
-		}
+    /**
+     * Constructs the logger hierarchy based on configuration.
+     *
+     * @param Hierarchy $hierarchy
+     * @param array     $config
+     */
+    private function doConfigure(Hierarchy $hierarchy, $config)
+    {
+        if (isset($config['threshold'])) {
+            $threshold = Level::toLevel($config['threshold']);
+            if (isset($threshold)) {
+                $hierarchy->setThreshold($threshold);
+            } else {
+                $this->warn("Invalid threshold value [{$config['threshold']}] specified. Ignoring threshold definition.");
+            }
+        }
 
-		// Configure appenders and add them to the appender pool
-		if (isset($config['appenders']) && is_array($config['appenders'])) {
-			foreach($config['appenders'] as $name => $appenderConfig) {
-				$this->configureAppender($name, $appenderConfig);
-			}
-		}
+        // Configure appenders and add them to the appender pool
+        if (isset($config['appenders']) && is_array($config['appenders'])) {
+            foreach ($config['appenders'] as $name => $appenderConfig) {
+                $this->configureAppender($name, $appenderConfig);
+            }
+        }
 
-		// Configure root logger
-		if (isset($config['rootLogger'])) {
-			$this->configureRootLogger($hierarchy, $config['rootLogger']);
-		}
+        // Configure root logger
+        if (isset($config['rootLogger'])) {
+            $this->configureRootLogger($hierarchy, $config['rootLogger']);
+        }
 
-		// Configure loggers
-		if (isset($config['loggers']) && is_array($config['loggers'])) {
-			foreach($config['loggers'] as $loggerName => $loggerConfig) {
-				$this->configureOtherLogger($hierarchy, $loggerName, $loggerConfig);
-			}
-		}
+        // Configure loggers
+        if (isset($config['loggers']) && is_array($config['loggers'])) {
+            foreach ($config['loggers'] as $loggerName => $loggerConfig) {
+                $this->configureOtherLogger($hierarchy, $loggerName, $loggerConfig);
+            }
+        }
 
-		// Configure renderers
-		if (isset($config['renderers']) && is_array($config['renderers'])) {
-			foreach($config['renderers'] as $rendererConfig) {
-				$this->configureRenderer($hierarchy, $rendererConfig);
-			}
-		}
+        // Configure renderers
+        if (isset($config['renderers']) && is_array($config['renderers'])) {
+            foreach ($config['renderers'] as $rendererConfig) {
+                $this->configureRenderer($hierarchy, $rendererConfig);
+            }
+        }
 
-		if (isset($config['defaultRenderer'])) {
-			$this->configureDefaultRenderer($hierarchy, $config['defaultRenderer']);
-		}
-	}
+        if (isset($config['defaultRenderer'])) {
+            $this->configureDefaultRenderer($hierarchy, $config['defaultRenderer']);
+        }
+    }
 
-	private function configureRenderer(Hierarchy $hierarchy, $config) {
-		if (empty($config['renderingClass'])) {
-			$this->warn("Rendering class not specified. Skipping renderer definition.");
-			return;
-		}
+    private function configureRenderer(Hierarchy $hierarchy, $config)
+    {
+        if (empty($config['renderingClass'])) {
+            $this->warn("Rendering class not specified. Skipping renderer definition.");
 
-		if (empty($config['renderedClass'])) {
-			$this->warn("Rendered class not specified. Skipping renderer definition.");
-			return;
-		}
+            return;
+        }
 
-		// Error handling performed by RendererMap
-		$hierarchy->getRendererMap()->addRenderer($config['renderedClass'], $config['renderingClass']);
-	}
+        if (empty($config['renderedClass'])) {
+            $this->warn("Rendered class not specified. Skipping renderer definition.");
 
-	private function configureDefaultRenderer(Hierarchy $hierarchy, $class) {
-		if (empty($class)) {
-			$this->warn("Rendering class not specified. Skipping default renderer definition.");
-			return;
-		}
+            return;
+        }
 
-		// Error handling performed by RendererMap
-		$hierarchy->getRendererMap()->setDefaultRenderer($class);
-	}
+        // Error handling performed by RendererMap
+        $hierarchy->getRendererMap()->addRenderer($config['renderedClass'], $config['renderingClass']);
+    }
 
-	/**
-	 * Configures an appender based on given config and saves it to
-	 * {@link $appenders} array so it can be later linked to loggers.
-	 * @param string $name Appender name.
-	 * @param array $config Appender configuration options.
-	 */
-	private function configureAppender($name, $config) {
+    private function configureDefaultRenderer(Hierarchy $hierarchy, $class)
+    {
+        if (empty($class)) {
+            $this->warn("Rendering class not specified. Skipping default renderer definition.");
 
-		// TODO: add this check to other places where it might be useful
-		if (!is_array($config)) {
-			$type = gettype($config);
-			$this->warn("Invalid configuration provided for appender [$name]. Expected an array, found <$type>. Skipping appender definition.");
-			return;
-		}
+            return;
+        }
 
-		// Parse appender class
-		$class = $config['class'];
-		if (empty($class)) {
-			$this->warn("No class given for appender [$name]. Skipping appender definition.");
-			return;
-		}
+        // Error handling performed by RendererMap
+        $hierarchy->getRendererMap()->setDefaultRenderer($class);
+    }
 
-		// Instantiate the appender
-		if (class_exists($class)) {
-			$appender = new $class($name);
-		} else {
-			// Try the default namespace
-			$nsClass = "\\Apache\\Log4php\\Appenders\\$class";
-			if (class_exists($nsClass)) {
-				$appender = new $nsClass($name);
-			}
-		}
+    /**
+     * Configures an appender based on given config and saves it to
+     * {@link $appenders} array so it can be later linked to loggers.
+     * @param string $name   Appender name.
+     * @param array  $config Appender configuration options.
+     */
+    private function configureAppender($name, $config)
+    {
+        // TODO: add this check to other places where it might be useful
+        if (!is_array($config)) {
+            $type = gettype($config);
+            $this->warn("Invalid configuration provided for appender [$name]. Expected an array, found <$type>. Skipping appender definition.");
 
-		if (!isset($appender)) {
-			$this->warn("Invalid class [$class] given for appender [$name]. Class does not exist. Skipping appender definition.");
-			return;
-		}
+            return;
+        }
 
-		if (!($appender instanceof AbstractAppender)) {
-			$this->warn("Invalid class [$class] given for appender [$name]. Not a valid Appender class. Skipping appender definition.");
-			return;
-		}
+        // Parse appender class
+        $class = $config['class'];
+        if (empty($class)) {
+            $this->warn("No class given for appender [$name]. Skipping appender definition.");
 
-		// Parse the appender threshold
-		if (isset($config['threshold'])) {
-			$threshold = Level::toLevel($config['threshold']);
-			if ($threshold instanceof Level) {
-				$appender->setThreshold($threshold);
-			} else {
-				$this->warn("Invalid threshold value [{$config['threshold']}] specified for appender [$name]. Ignoring threshold definition.");
-			}
-		}
+            return;
+        }
 
-		// Parse the appender layout
-		if ($appender->requiresLayout() && isset($config['layout'])) {
-			$this->createAppenderLayout($appender, $config['layout']);
-		}
+        // Instantiate the appender
+        if (class_exists($class)) {
+            $appender = new $class($name);
+        } else {
+            // Try the default namespace
+            $nsClass = "\\Apache\\Log4php\\Appenders\\$class";
+            if (class_exists($nsClass)) {
+                $appender = new $nsClass($name);
+            }
+        }
 
-		// Parse filters
-		if (isset($config['filters']) && is_array($config['filters'])) {
-			foreach($config['filters'] as $filterConfig) {
-				$this->createAppenderFilter($appender, $filterConfig);
-			}
-		}
+        if (!isset($appender)) {
+            $this->warn("Invalid class [$class] given for appender [$name]. Class does not exist. Skipping appender definition.");
 
-		// Set options if any
-		if (isset($config['params'])) {
-			$this->setOptions($appender, $config['params']);
-		}
+            return;
+        }
 
-		// Activate and save for later linking to loggers
-		$appender->activateOptions();
-		$this->appenders[$name] = $appender;
-	}
+        if (!($appender instanceof AbstractAppender)) {
+            $this->warn("Invalid class [$class] given for appender [$name]. Not a valid Appender class. Skipping appender definition.");
 
-	/**
-	 * Parses layout config, creates the layout and links it to the appender.
-	 * @param AbstractAppender $appender
-	 * @param array $config Layout configuration.
-	 */
-	private function createAppenderLayout(AbstractAppender $appender, $config) {
-		$name = $appender->getName();
-		$class = $config['class'];
-		if (empty($class)) {
-			$this->warn("Layout class not specified for appender [$name]. Reverting to default layout.");
-			return;
-		}
+            return;
+        }
 
-		if (class_exists($class)) {
-			$layout = new $class();
-		} else {
-			$nsClass = "Apache\\Log4php\\Layouts\\$class";
-			if (class_exists($nsClass)) {
-				$layout = new $nsClass();
-			}
-		}
+        // Parse the appender threshold
+        if (isset($config['threshold'])) {
+            $threshold = Level::toLevel($config['threshold']);
+            if ($threshold instanceof Level) {
+                $appender->setThreshold($threshold);
+            } else {
+                $this->warn("Invalid threshold value [{$config['threshold']}] specified for appender [$name]. Ignoring threshold definition.");
+            }
+        }
 
-		if (!isset($layout)) {
-			$this->warn("Nonexistant layout class [$class] specified for appender [$name]. Reverting to default layout.");
-			return;
-		}
+        // Parse the appender layout
+        if ($appender->requiresLayout() && isset($config['layout'])) {
+            $this->createAppenderLayout($appender, $config['layout']);
+        }
 
+        // Parse filters
+        if (isset($config['filters']) && is_array($config['filters'])) {
+            foreach ($config['filters'] as $filterConfig) {
+                $this->createAppenderFilter($appender, $filterConfig);
+            }
+        }
 
-		if (!($layout instanceof AbstractLayout)) {
-			$this->warn("Invalid layout class [$class] sepcified for appender [$name]. Reverting to default layout.");
-			return;
-		}
+        // Set options if any
+        if (isset($config['params'])) {
+            $this->setOptions($appender, $config['params']);
+        }
 
-		if (isset($config['params'])) {
-			$this->setOptions($layout, $config['params']);
-		}
+        // Activate and save for later linking to loggers
+        $appender->activateOptions();
+        $this->appenders[$name] = $appender;
+    }
 
-		$layout->activateOptions();
-		$appender->setLayout($layout);
-	}
+    /**
+     * Parses layout config, creates the layout and links it to the appender.
+     * @param AbstractAppender $appender
+     * @param array            $config   Layout configuration.
+     */
+    private function createAppenderLayout(AbstractAppender $appender, $config)
+    {
+        $name = $appender->getName();
+        $class = $config['class'];
+        if (empty($class)) {
+            $this->warn("Layout class not specified for appender [$name]. Reverting to default layout.");
 
-	/**
-	 * Parses filter config, creates the filter and adds it to the appender's
-	 * filter chain.
-	 * @param Appender $appender
-	 * @param array $config Filter configuration.
-	 */
-	private function createAppenderFilter(AbstractAppender $appender, $config) {
-		$name = $appender->getName();
-		$class = $config['class'];
+            return;
+        }
 
-		if (class_exists($class)) {
-			$filter = new $class();
-		} else {
-			$nsClass = "Apache\\Log4php\\Filters\\$class";
-			if (class_exists($nsClass)) {
-				$filter = new $nsClass();
-			}
-		}
+        if (class_exists($class)) {
+            $layout = new $class();
+        } else {
+            $nsClass = "Apache\\Log4php\\Layouts\\$class";
+            if (class_exists($nsClass)) {
+                $layout = new $nsClass();
+            }
+        }
 
-		if (!isset($filter)) {
-			$this->warn("Nonexistant filter class [$class] specified on appender [$name]. Skipping filter definition.");
-			return;
-		}
+        if (!isset($layout)) {
+            $this->warn("Nonexistant layout class [$class] specified for appender [$name]. Reverting to default layout.");
 
-		if (!($filter instanceof AbstractFilter)) {
-			$this->warn("Invalid filter class [$class] sepcified on appender [$name]. Skipping filter definition.");
-			return;
-		}
+            return;
+        }
 
-		if (isset($config['params'])) {
-			$this->setOptions($filter, $config['params']);
-		}
+        if (!($layout instanceof AbstractLayout)) {
+            $this->warn("Invalid layout class [$class] sepcified for appender [$name]. Reverting to default layout.");
 
-		$filter->activateOptions();
-		$appender->addFilter($filter);
-	}
+            return;
+        }
 
-	/**
-	 * Configures the root logger
-	 * @see configureLogger()
-	 */
-	private function configureRootLogger(Hierarchy $hierarchy, $config) {
-		$logger = $hierarchy->getRootLogger();
-		$this->configureLogger($logger, $config);
-	}
+        if (isset($config['params'])) {
+            $this->setOptions($layout, $config['params']);
+        }
 
-	/**
-	 * Configures a logger which is not root.
-	 * @see configureLogger()
-	 */
-	private function configureOtherLogger(Hierarchy $hierarchy, $name, $config) {
-		// Get logger from hierarchy (this creates it if it doesn't already exist)
-		$logger = $hierarchy->getLogger($name);
-		$this->configureLogger($logger, $config);
-	}
+        $layout->activateOptions();
+        $appender->setLayout($layout);
+    }
 
-	/**
-	 * Configures a logger.
-	 *
-	 * @param Logger $logger The logger to configure
-	 * @param array $config Logger configuration options.
-	 */
-	private function configureLogger(Logger $logger, $config) {
-		$loggerName = $logger->getName();
+    /**
+     * Parses filter config, creates the filter and adds it to the appender's
+     * filter chain.
+     * @param Appender $appender
+     * @param array    $config   Filter configuration.
+     */
+    private function createAppenderFilter(AbstractAppender $appender, $config)
+    {
+        $name = $appender->getName();
+        $class = $config['class'];
 
-		// Set logger level
-		if (isset($config['level'])) {
-			$level = Level::toLevel($config['level']);
-			if (isset($level)) {
-				$logger->setLevel($level);
-			} else {
-				$this->warn("Invalid level value [{$config['level']}] specified for logger [$loggerName]. Ignoring level definition.");
-			}
-		}
+        if (class_exists($class)) {
+            $filter = new $class();
+        } else {
+            $nsClass = "Apache\\Log4php\\Filters\\$class";
+            if (class_exists($nsClass)) {
+                $filter = new $nsClass();
+            }
+        }
 
-		// Link appenders to logger
-		if (isset($config['appenders'])) {
-			foreach($config['appenders'] as $appenderName) {
-				if (isset($this->appenders[$appenderName])) {
-					$logger->addAppender($this->appenders[$appenderName]);
-				} else {
-					$this->warn("Nonexistnant appender [$appenderName] linked to logger [$loggerName].");
-				}
-			}
-		}
+        if (!isset($filter)) {
+            $this->warn("Nonexistant filter class [$class] specified on appender [$name]. Skipping filter definition.");
 
-		// Set logger additivity
-		if (isset($config['additivity'])) {
-			try {
-				$additivity = OptionConverter::toBooleanEx($config['additivity'], null);
-				$logger->setAdditivity($additivity);
-			} catch (LoggerException $ex) {
-				$this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName]. Ignoring additivity setting.");
-			}
-		}
-	}
+            return;
+        }
 
-	/**
-	 * Helper method which applies given options to an object which has setters
-	 * for these options (such as appenders, layouts, etc.).
-	 *
-	 * For example, if options are:
-	 * <code>
-	 * array(
-	 * 	'file' => '/tmp/myfile.log',
-	 * 	'append' => true
-	 * )
-	 * </code>
-	 *
-	 * This method will call:
-	 * <code>
-	 * $object->setFile('/tmp/myfile.log')
-	 * $object->setAppend(true)
-	 * </code>
-	 *
-	 * If required setters do not exist, it will produce a warning.
-	 *
-	 * @param mixed $object The object to configure.
-	 * @param unknown_type $options
-	 */
-	private function setOptions($object, $options) {
-		foreach($options as $name => $value) {
-			$setter = "set$name";
-			if (method_exists($object, $setter)) {
-				$object->$setter($value);
-			} else {
-				$class = get_class($object);
-				$this->warn("Nonexistant option [$name] specified on [$class]. Skipping.");
-			}
-		}
-	}
+        if (!($filter instanceof AbstractFilter)) {
+            $this->warn("Invalid filter class [$class] sepcified on appender [$name]. Skipping filter definition.");
 
-	/** Helper method to simplify error reporting. */
-	private function warn($message) {
-		trigger_error("log4php: $message", E_USER_WARNING);
-	}
+            return;
+        }
+
+        if (isset($config['params'])) {
+            $this->setOptions($filter, $config['params']);
+        }
+
+        $filter->activateOptions();
+        $appender->addFilter($filter);
+    }
+
+    /**
+     * Configures the root logger
+     * @see configureLogger()
+     */
+    private function configureRootLogger(Hierarchy $hierarchy, $config)
+    {
+        $logger = $hierarchy->getRootLogger();
+        $this->configureLogger($logger, $config);
+    }
+
+    /**
+     * Configures a logger which is not root.
+     * @see configureLogger()
+     */
+    private function configureOtherLogger(Hierarchy $hierarchy, $name, $config)
+    {
+        // Get logger from hierarchy (this creates it if it doesn't already exist)
+        $logger = $hierarchy->getLogger($name);
+        $this->configureLogger($logger, $config);
+    }
+
+    /**
+     * Configures a logger.
+     *
+     * @param Logger $logger The logger to configure
+     * @param array  $config Logger configuration options.
+     */
+    private function configureLogger(Logger $logger, $config)
+    {
+        $loggerName = $logger->getName();
+
+        // Set logger level
+        if (isset($config['level'])) {
+            $level = Level::toLevel($config['level']);
+            if (isset($level)) {
+                $logger->setLevel($level);
+            } else {
+                $this->warn("Invalid level value [{$config['level']}] specified for logger [$loggerName]. Ignoring level definition.");
+            }
+        }
+
+        // Link appenders to logger
+        if (isset($config['appenders'])) {
+            foreach ($config['appenders'] as $appenderName) {
+                if (isset($this->appenders[$appenderName])) {
+                    $logger->addAppender($this->appenders[$appenderName]);
+                } else {
+                    $this->warn("Nonexistnant appender [$appenderName] linked to logger [$loggerName].");
+                }
+            }
+        }
+
+        // Set logger additivity
+        if (isset($config['additivity'])) {
+            try {
+                $additivity = OptionConverter::toBooleanEx($config['additivity'], null);
+                $logger->setAdditivity($additivity);
+            } catch (LoggerException $ex) {
+                $this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName]. Ignoring additivity setting.");
+            }
+        }
+    }
+
+    /**
+     * Helper method which applies given options to an object which has setters
+     * for these options (such as appenders, layouts, etc.).
+     *
+     * For example, if options are:
+     * <code>
+     * array(
+     * 	'file' => '/tmp/myfile.log',
+     * 	'append' => true
+     * )
+     * </code>
+     *
+     * This method will call:
+     * <code>
+     * $object->setFile('/tmp/myfile.log')
+     * $object->setAppend(true)
+     * </code>
+     *
+     * If required setters do not exist, it will produce a warning.
+     *
+     * @param mixed        $object  The object to configure.
+     * @param unknown_type $options
+     */
+    private function setOptions($object, $options)
+    {
+        foreach ($options as $name => $value) {
+            $setter = "set$name";
+            if (method_exists($object, $setter)) {
+                $object->$setter($value);
+            } else {
+                $class = get_class($object);
+                $this->warn("Nonexistant option [$name] specified on [$class]. Skipping.");
+            }
+        }
+    }
+
+    /** Helper method to simplify error reporting. */
+    private function warn($message)
+    {
+        trigger_error("log4php: $message", E_USER_WARNING);
+    }
 }

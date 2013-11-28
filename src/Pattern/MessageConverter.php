@@ -24,9 +24,10 @@ use Apache\Log4php\LoggingEvent;
  * Returns the logged message.
  * @since 2.3
  */
-class MessageConverter extends AbstractConverter {
-
-	public function convert(LoggingEvent $event) {
-		return $event->getRenderedMessage();
-	}
+class MessageConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        return $event->getRenderedMessage();
+    }
 }

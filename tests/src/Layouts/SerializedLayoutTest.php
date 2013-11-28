@@ -29,82 +29,86 @@ use Apache\Log4php\Logger;
 /**
  * @group layouts
  */
-class SerializedLayoutTest extends \PHPUnit_Framework_TestCase {
+class SerializedLayoutTest extends \PHPUnit_Framework_TestCase
+{
+    public function testLocationInfo()
+    {
+        $layout = new SerializedLayout();
+        self::assertFalse($layout->getLocationInfo());
+        $layout->setLocationInfo(true);
+        self::assertTrue($layout->getLocationInfo());
+        $layout->setLocationInfo(false);
+        self::assertFalse($layout->getLocationInfo());
+    }
 
-	public function testLocationInfo() {
-		$layout = new SerializedLayout();
-		self::assertFalse($layout->getLocationInfo());
-		$layout->setLocationInfo(true);
-		self::assertTrue($layout->getLocationInfo());
-		$layout->setLocationInfo(false);
-		self::assertFalse($layout->getLocationInfo());
-	}
+    /**
+      * @expectedException PHPUnit_Framework_Error
+      * @expectedExceptionMessage Invalid value given for 'locationInfo' property: ['foo']. Expected a boolean value. Property not changed.
+     */
+    public function testLocationInfoFail()
+    {
+        $layout = new SerializedLayout();
+        $layout->setLocationInfo('foo');
+    }
 
-	/**
- 	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Invalid value given for 'locationInfo' property: ['foo']. Expected a boolean value. Property not changed.
-	 */
-	public function testLocationInfoFail() {
-		$layout = new SerializedLayout();
-		$layout->setLocationInfo('foo');
-	}
+    public function testLayout()
+    {
+        Logger::configure(array(
+            'appenders' => array(
+                'default' => array(
+                    'class' => 'EchoAppender',
+                    'layout' => array(
+                        'class' => 'SerializedLayout'
+                    )
+                )
+            ),
+            'rootLogger' => array(
+                'appenders' => array('default')
+            )
+        ));
 
-	public function testLayout() {
-		Logger::configure(array(
-			'appenders' => array(
-				'default' => array(
-					'class' => 'EchoAppender',
-					'layout' => array(
-						'class' => 'SerializedLayout'
-					)
-				)
-			),
-			'rootLogger' => array(
-				'appenders' => array('default')
-			)
-		));
+        ob_start();
+        $foo = Logger::getLogger('foo');
+        $foo->info("Interesting message.");
+        $actual = ob_get_contents();
+        ob_end_clean();
 
-		ob_start();
-		$foo = Logger::getLogger('foo');
-		$foo->info("Interesting message.");
-		$actual = ob_get_contents();
-		ob_end_clean();
+        $event = unserialize($actual);
 
-		$event = unserialize($actual);
+        self::assertInstanceOf('Apache\\Log4php\\LoggingEvent', $event);
+        self::assertEquals('Interesting message.', $event->getMessage());
+        self::assertEquals(Level::getLevelInfo(), $event->getLevel());
+    }
 
-		self::assertInstanceOf('Apache\\Log4php\\LoggingEvent', $event);
-		self::assertEquals('Interesting message.', $event->getMessage());
-		self::assertEquals(Level::getLevelInfo(), $event->getLevel());
-	}
+    public function testLayoutWithLocationInfo()
+    {
+        Logger::configure(array(
+            'appenders' => array(
+                'default' => array(
+                    'class' => 'EchoAppender',
+                    'layout' => array(
+                        'class' => 'SerializedLayout',
+                        'params' => array(
+                            'locationInfo' => true
+                        )
+                    )
+                )
+            ),
+            'rootLogger' => array(
+                'appenders' => array('default')
+            )
+        ));
 
-	public function testLayoutWithLocationInfo() {
-		Logger::configure(array(
-			'appenders' => array(
-				'default' => array(
-					'class' => 'EchoAppender',
-					'layout' => array(
-						'class' => 'SerializedLayout',
-						'params' => array(
-							'locationInfo' => true
-						)
-					)
-				)
-			),
-			'rootLogger' => array(
-				'appenders' => array('default')
-			)
-		));
+        ob_start();
+        $foo = Logger::getLogger('foo');
+        $foo->info("Interesting message.");
+        $actual = ob_get_contents();
+        ob_end_clean();
 
-		ob_start();
-		$foo = Logger::getLogger('foo');
-		$foo->info("Interesting message.");
-		$actual = ob_get_contents();
-		ob_end_clean();
+        $event = unserialize($actual);
 
-		$event = unserialize($actual);
-
-		self::assertInstanceOf('Apache\\Log4php\\LoggingEvent', $event);
-		self::assertEquals('Interesting message.', $event->getMessage());
-		self::assertEquals(Level::getLevelInfo(), $event->getLevel());
-	}
+        self::assertInstanceOf('Apache\\Log4php\\LoggingEvent', $event);
+        self::assertEquals('Interesting message.', $event->getMessage());
+        self::assertEquals(Level::getLevelInfo(), $event->getLevel());
+    }
 }

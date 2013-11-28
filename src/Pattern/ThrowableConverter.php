@@ -22,14 +22,17 @@ namespace Apache\Log4php\Pattern;
  * Returns the throwable information linked to the logging event, if any.
  * @since 2.3
  */
-class ThrowableConverter extends AbstractConverter {
+class ThrowableConverter extends AbstractConverter
+{
+    public function convert(LoggingEvent $event)
+    {
+        $info = $event->getThrowableInformation();
+        if (isset($info)) {
+            $ex = $info->getThrowable();
 
-	public function convert(LoggingEvent $event) {
-		$info = $event->getThrowableInformation();
-		if (isset($info)) {
-			$ex = $info->getThrowable();
-			return (string) $ex . PHP_EOL;
-		}
-		return '';
-	}
+            return (string) $ex . PHP_EOL;
+        }
+
+        return '';
+    }
 }

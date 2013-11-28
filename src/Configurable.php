@@ -29,90 +29,98 @@ use Exception;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.2
  */
-abstract class Configurable {
+abstract class Configurable
+{
+    /** Setter function for boolean type. */
+    protected function setBoolean($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toBooleanEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected a boolean value. Property not changed.");
+        }
+    }
 
-	/** Setter function for boolean type. */
-	protected function setBoolean($property, $value) {
-		try {
-			$this->$property = OptionConverter::toBooleanEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected a boolean value. Property not changed.");
-		}
-	}
+    /** Setter function for integer type. */
+    protected function setInteger($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toIntegerEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected an integer. Property not changed.");
+        }
+    }
 
-	/** Setter function for integer type. */
-	protected function setInteger($property, $value) {
-		try {
-			$this->$property = OptionConverter::toIntegerEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected an integer. Property not changed.");
-		}
-	}
+    /** Setter function for Level values. */
+    protected function setLevel($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toLevelEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected a level value. Property not changed.");
+        }
+    }
 
-	/** Setter function for Level values. */
-	protected function setLevel($property, $value) {
-		try {
-			$this->$property = OptionConverter::toLevelEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected a level value. Property not changed.");
-		}
-	}
+    /** Setter function for integer type. */
+    protected function setPositiveInteger($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toPositiveIntegerEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected a positive integer. Property not changed.");
+        }
+    }
 
-	/** Setter function for integer type. */
-	protected function setPositiveInteger($property, $value) {
-		try {
-			$this->$property = OptionConverter::toPositiveIntegerEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected a positive integer. Property not changed.");
-		}
-	}
+    /** Setter for file size. */
+    protected function setFileSize($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toFileSizeEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected a file size value.  Property not changed.");
+        }
+    }
 
-	/** Setter for file size. */
-	protected function setFileSize($property, $value) {
-		try {
-			$this->$property = OptionConverter::toFileSizeEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected a file size value.  Property not changed.");
-		}
-	}
+    /** Setter function for numeric type. */
+    protected function setNumeric($property, $value)
+    {
+        try {
+            $this->$property = OptionConverter::toNumericEx($value);
+        } catch (Exception $ex) {
+            $value = var_export($value, true);
+            $this->warn("Invalid value given for '$property' property: [$value]. Expected a number. Property not changed.");
+        }
+    }
 
-	/** Setter function for numeric type. */
-	protected function setNumeric($property, $value) {
-		try {
-			$this->$property = OptionConverter::toNumericEx($value);
-		} catch (Exception $ex) {
-			$value = var_export($value, true);
-			$this->warn("Invalid value given for '$property' property: [$value]. Expected a number. Property not changed.");
-		}
-	}
+    /** Setter function for string type. */
+    protected function setString($property, $value, $nullable = false)
+    {
+        if ($value === null) {
+            if ($nullable) {
+                $this->$property= null;
+            } else {
+                $this->warn("Null value given for '$property' property. Expected a string. Property not changed.");
+            }
+        } else {
+            try {
+                $value = OptionConverter::toStringEx($value);
+                $this->$property = OptionConverter::substConstants($value);
+            } catch (Exception $ex) {
+                $value = var_export($value, true);
+                $this->warn("Invalid value given for '$property' property: [$value]. Expected a string. Property not changed.");
+            }
+        }
+    }
 
-	/** Setter function for string type. */
-	protected function setString($property, $value, $nullable = false) {
-		if ($value === null) {
-			if($nullable) {
-				$this->$property= null;
-			} else {
-				$this->warn("Null value given for '$property' property. Expected a string. Property not changed.");
-			}
-		} else {
-			try {
-				$value = OptionConverter::toStringEx($value);
-				$this->$property = OptionConverter::substConstants($value);
-			} catch (Exception $ex) {
-				$value = var_export($value, true);
-				$this->warn("Invalid value given for '$property' property: [$value]. Expected a string. Property not changed.");
-			}
-		}
-	}
-
-	/** Triggers a warning. */
-	protected function warn($message) {
-		$class = get_class($this);
-		trigger_error("log4php: $class: $message", E_USER_WARNING);
-	}
+    /** Triggers a warning. */
+    protected function warn($message)
+    {
+        $class = get_class($this);
+        trigger_error("log4php: $class: $message", E_USER_WARNING);
+    }
 }

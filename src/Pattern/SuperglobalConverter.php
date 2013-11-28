@@ -34,67 +34,70 @@ use Apache\Log4php\LoggingEvent;
  * @see http://www.php.net/manual/en/ini.core.php#ini.variables-order
  * @since 2.3
  */
-abstract class SuperglobalConverter extends AbstractConverter {
+abstract class SuperglobalConverter extends AbstractConverter
+{
+    /**
+     * Name of the superglobal variable, to be defined by subclasses.
+     * For example: "_SERVER" or "_ENV".
+     */
+    protected $name;
 
-	/**
-	 * Name of the superglobal variable, to be defined by subclasses.
-	 * For example: "_SERVER" or "_ENV".
-	 */
-	protected $name;
+    protected $value = '';
 
-	protected $value = '';
+    public function activateOptions()
+    {
+        // Read the key from options array
+        if (isset($this->option) && $this->option !== '') {
+            $key = $this->option;
+        }
 
-	public function activateOptions() {
-		// Read the key from options array
-		if (isset($this->option) && $this->option !== '') {
-			$key = $this->option;
-		}
+        /*
+         * There is a bug in PHP which doesn't allow superglobals to be
+         * accessed when their name is stored in a variable, e.g.:
+         *
+         * $name = '_SERVER';
+         * $array = $$name;
+         *
+         * This code does not work when run from within a method (only when run
+         * in global scope). But the following code does work:
+         *
+         * $name = '_SERVER';
+         * global $$name;
+         * $array = $$name;
+         *
+         * That's why global is used here.
+         */
+        global ${$this->name};
 
-		/*
-		 * There is a bug in PHP which doesn't allow superglobals to be
-		 * accessed when their name is stored in a variable, e.g.:
-		 *
-		 * $name = '_SERVER';
-		 * $array = $$name;
-		 *
-		 * This code does not work when run from within a method (only when run
-		 * in global scope). But the following code does work:
-		 *
-		 * $name = '_SERVER';
-		 * global $$name;
-		 * $array = $$name;
-		 *
-		 * That's why global is used here.
-		 */
-		global ${$this->name};
+        // Check the given superglobal exists. It is possible that it is not initialized.
+        if (!isset(${$this->name})) {
+            $class = basename(get_class($this));
+            trigger_error("log4php: $class: Cannot find superglobal variable \${$this->name}.", E_USER_WARNING);
 
-		// Check the given superglobal exists. It is possible that it is not initialized.
-		if (!isset(${$this->name})) {
-			$class = basename(get_class($this));
-			trigger_error("log4php: $class: Cannot find superglobal variable \${$this->name}.", E_USER_WARNING);
-			return;
-		}
+            return;
+        }
 
-		$source = ${$this->name};
+        $source = ${$this->name};
 
-		// When the key is set, display the matching value
-		if (isset($key)) {
-			if (isset($source[$key])) {
-				$this->value = $source[$key];
-			}
-		}
+        // When the key is set, display the matching value
+        if (isset($key)) {
+            if (isset($source[$key])) {
+                $this->value = $source[$key];
+            }
+        }
 
-		// When the key is not set, display all values
-		else {
-			$values = array();
-			foreach($source as $key => $value) {
-				$values[] = "$key=$value";
-			}
-			$this->value = implode(', ', $values);
-		}
-	}
+        // When the key is not set, display all values
+        else {
+            $values = array();
+            foreach ($source as $key => $value) {
+                $values[] = "$key=$value";
+            }
+            $this->value = implode(', ', $values);
+        }
+    }
 
-	public function convert(LoggingEvent $event) {
-		return $this->value;
-	}
+    public function convert(LoggingEvent $event)
+    {
+        return $this->value;
+    }
 }

@@ -21,131 +21,140 @@ namespace Apache\Log4php;
 /**
  * Provides methods for reflective use on php objects
  */
-class ReflectionUtils {
+class ReflectionUtils
+{
+    /** the target object */
+    private $obj;
 
-	/** the target object */
-	private $obj;
+    /**
+     * Create a new ReflectionUtils for the specified Object.
+     * This is done in prepartion for invoking {@link setProperty()}
+     * one or more times.
+     * @param object &$obj the object for which to set properties
+     */
+    public function __construct($obj)
+    {
+        $this->obj = $obj;
+    }
 
-	/**
-	 * Create a new ReflectionUtils for the specified Object.
-	 * This is done in prepartion for invoking {@link setProperty()}
-	 * one or more times.
-	 * @param object &$obj the object for which to set properties
-	 */
-	public function __construct($obj) {
-		$this->obj = $obj;
-	}
+    /**
+     * Set the properties of an object passed as a parameter in one
+     * go. The <code>properties</code> are parsed relative to a
+     * <code>prefix</code>.
+     *
+     * @param object $obj        The object to configure.
+     * @param array  $properties An array containing keys and values.
+     * @param string $prefix     Only keys having the specified prefix will be set.
+     */
+     // TODO: check, if this is really useful
+    public static function setPropertiesByObject($obj, $properties, $prefix)
+    {
+        $pSetter = new ReflectionUtils($obj);
 
-	/**
-	 * Set the properties of an object passed as a parameter in one
-	 * go. The <code>properties</code> are parsed relative to a
-	 * <code>prefix</code>.
-	 *
-	 * @param object $obj The object to configure.
-	 * @param array $properties An array containing keys and values.
-	 * @param string $prefix Only keys having the specified prefix will be set.
-	 */
-	 // TODO: check, if this is really useful
-	public static function setPropertiesByObject($obj, $properties, $prefix) {
-		$pSetter = new ReflectionUtils($obj);
-		return $pSetter->setProperties($properties, $prefix);
-	}
+        return $pSetter->setProperties($properties, $prefix);
+    }
 
-	/**
-	 * Set the properites for the object that match the
-	 * <code>prefix</code> passed as parameter.
-	 *
-	 * Example:
-	 *
-	 * $arr['xxxname'] = 'Joe';
- 	 * $arr['xxxmale'] = true;
-	 * and prefix xxx causes setName and setMale.
-	 *
-	 * @param array $properties An array containing keys and values.
-	 * @param string $prefix Only keys having the specified prefix will be set.
-	 */
-	public function setProperties($properties, $prefix) {
-		$len = strlen($prefix);
-		reset($properties);
-		while(list($key,) = each($properties)) {
-			if(strpos($key, $prefix) === 0) {
-				if(strpos($key, '.', ($len + 1)) > 0) {
-					continue;
-				}
-				$value = $properties[$key];
-				$key = substr($key, $len);
-				if($key == 'layout' and ($this->obj instanceof Appender)) {
-					continue;
-				}
-				$this->setProperty($key, $value);
-			}
-		}
-		$this->activate();
-	}
+    /**
+     * Set the properites for the object that match the
+     * <code>prefix</code> passed as parameter.
+     *
+     * Example:
+     *
+     * $arr['xxxname'] = 'Joe';
+      * $arr['xxxmale'] = true;
+     * and prefix xxx causes setName and setMale.
+     *
+     * @param array  $properties An array containing keys and values.
+     * @param string $prefix     Only keys having the specified prefix will be set.
+     */
+    public function setProperties($properties, $prefix)
+    {
+        $len = strlen($prefix);
+        reset($properties);
+        while (list($key,) = each($properties)) {
+            if (strpos($key, $prefix) === 0) {
+                if (strpos($key, '.', ($len + 1)) > 0) {
+                    continue;
+                }
+                $value = $properties[$key];
+                $key = substr($key, $len);
+                if ($key == 'layout' and ($this->obj instanceof Appender)) {
+                    continue;
+                }
+                $this->setProperty($key, $value);
+            }
+        }
+        $this->activate();
+    }
 
-	/**
-	 * Set a property on this PropertySetter's Object. If successful, this
-	 * method will invoke a setter method on the underlying Object. The
-	 * setter is the one for the specified property name and the value is
-	 * determined partly from the setter argument type and partly from the
-	 * value specified in the call to this method.
-	 *
-	 * <p>If the setter expects a String no conversion is necessary.
-	 * If it expects an int, then an attempt is made to convert 'value'
-	 * to an int using new Integer(value). If the setter expects a boolean,
-	 * the conversion is by new Boolean(value).
-	 *
-	 * @param string $name	name of the property
-	 * @param string $value	String value of the property
-	 */
-	public function setProperty($name, $value) {
-		if($value === null) {
-			return;
-		}
+    /**
+     * Set a property on this PropertySetter's Object. If successful, this
+     * method will invoke a setter method on the underlying Object. The
+     * setter is the one for the specified property name and the value is
+     * determined partly from the setter argument type and partly from the
+     * value specified in the call to this method.
+     *
+     * <p>If the setter expects a String no conversion is necessary.
+     * If it expects an int, then an attempt is made to convert 'value'
+     * to an int using new Integer(value). If the setter expects a boolean,
+     * the conversion is by new Boolean(value).
+     *
+     * @param string $name  name of the property
+     * @param string $value String value of the property
+     */
+    public function setProperty($name, $value)
+    {
+        if ($value === null) {
+            return;
+        }
 
-		$method = "set" . ucfirst($name);
+        $method = "set" . ucfirst($name);
 
-		if(!method_exists($this->obj, $method)) {
-			throw new Exception("Error setting log4php property $name to $value: no method $method in class ".get_class($this->obj)."!");
-		} else {
-			return call_user_func(array($this->obj, $method), $value);
-		}
-	}
+        if (!method_exists($this->obj, $method)) {
+            throw new Exception("Error setting log4php property $name to $value: no method $method in class ".get_class($this->obj)."!");
+        } else {
+            return call_user_func(array($this->obj, $method), $value);
+        }
+    }
 
-	public function activate() {
-		if(method_exists($this->obj, 'activateoptions')) {
-			return call_user_func(array($this->obj, 'activateoptions'));
-		}
-	}
+    public function activate()
+    {
+        if (method_exists($this->obj, 'activateoptions')) {
+            return call_user_func(array($this->obj, 'activateoptions'));
+        }
+    }
 
-	/**
-	 * Creates an instances from the given class name.
-	 *
-	 * @param string $classname
-	 * @return an object from the class with the given classname
-	 */
-	public static function createObject($class) {
-		if(!empty($class)) {
-			return new $class();
-		}
-		return null;
-	}
+    /**
+     * Creates an instances from the given class name.
+     *
+     * @param  string $classname
+     * @return an     object from the class with the given classname
+     */
+    public static function createObject($class)
+    {
+        if (!empty($class)) {
+            return new $class();
+        }
 
-	/**
-	 * @param object $object
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public static function setter($object, $name, $value) {
-		if (empty($name)) {
-			return false;
-		}
-		$methodName = 'set'.ucfirst($name);
-		if (method_exists($object, $methodName)) {
-			return call_user_func(array($object, $methodName), $value);
-		} else {
-			return false;
-		}
-	}
+        return null;
+    }
+
+    /**
+     * @param object $object
+     * @param string $name
+     * @param mixed  $value
+     */
+    public static function setter($object, $name, $value)
+    {
+        if (empty($name)) {
+            return false;
+        }
+        $methodName = 'set'.ucfirst($name);
+        if (method_exists($object, $methodName)) {
+            return call_user_func(array($object, $methodName), $value);
+        } else {
+            return false;
+        }
+    }
 
 }

@@ -29,111 +29,120 @@ use Apache\Log4php\Level;
 use Apache\Log4php\Logger;
 use Apache\Log4php\LoggingEvent;
 
-class LoggingEventTestCaseAppender extends NullAppender {
+class LoggingEventTestCaseAppender extends NullAppender
+{
+    protected $requiresLayout = true;
 
-	protected $requiresLayout = true;
-
-	public function append(LoggingEvent $event) {
-		$this->layout->format($event);
-	}
+    public function append(LoggingEvent $event)
+    {
+        $this->layout->format($event);
+    }
 }
 
-class LoggingEventTestCaseLayout extends AbstractLayout {
+class LoggingEventTestCaseLayout extends AbstractLayout
+{
+    public function activateOptions()
+    {
+        return;
+    }
 
-	public function activateOptions() {
-		return;
-	}
-
-	public function format(LoggingEvent $event) {
-		LoggingEventTest::$locationInfo  = $event->getLocationInformation();
+    public function format(LoggingEvent $event)
+    {
+        LoggingEventTest::$locationInfo  = $event->getLocationInformation();
         LoggingEventTest::$throwableInfo = $event->getThrowableInformation();
-	}
+    }
 }
 
 /**
  * @group main
  */
-class LoggingEventTest extends \PHPUnit_Framework_TestCase {
-
-	public static $locationInfo;
+class LoggingEventTest extends \PHPUnit_Framework_TestCase
+{
+    public static $locationInfo;
     public static $throwableInfo;
 
-	public function testConstructWithLoggerName() {
-		$l = Level::getLevelDebug();
-		$e = new LoggingEvent('fqcn', 'TestLogger', $l, 'test');
-		self::assertEquals($e->getLoggerName(), 'TestLogger');
-	}
+    public function testConstructWithLoggerName()
+    {
+        $l = Level::getLevelDebug();
+        $e = new LoggingEvent('fqcn', 'TestLogger', $l, 'test');
+        self::assertEquals($e->getLoggerName(), 'TestLogger');
+    }
 
-	public function testConstructWithTimestamp() {
-		$l = Level::getLevelDebug();
-		$timestamp = microtime(true);
-		$e = new LoggingEvent('fqcn', 'TestLogger', $l, 'test', $timestamp);
-		self::assertEquals($e->getTimeStamp(), $timestamp);
- 	}
+    public function testConstructWithTimestamp()
+    {
+        $l = Level::getLevelDebug();
+        $timestamp = microtime(true);
+        $e = new LoggingEvent('fqcn', 'TestLogger', $l, 'test', $timestamp);
+        self::assertEquals($e->getTimeStamp(), $timestamp);
+     }
 
-	public function testGetStartTime() {
-		$time = LoggingEvent::getStartTime();
-		self::assertInternalType('float', $time);
-		$time2 = LoggingEvent::getStartTime();
-		self::assertEquals($time, $time2);
-	}
+    public function testGetStartTime()
+    {
+        $time = LoggingEvent::getStartTime();
+        self::assertInternalType('float', $time);
+        $time2 = LoggingEvent::getStartTime();
+        self::assertEquals($time, $time2);
+    }
 
-	public function testGetLocationInformation() {
-		$hierarchy = Logger::getHierarchy();
-		$root = $hierarchy->getRootLogger();
+    public function testGetLocationInformation()
+    {
+        $hierarchy = Logger::getHierarchy();
+        $root = $hierarchy->getRootLogger();
 
-		$a = new LoggingEventTestCaseAppender('A1');
-		$a->setLayout(new LoggingEventTestCaseLayout());
-		$root->addAppender($a);
+        $a = new LoggingEventTestCaseAppender('A1');
+        $a->setLayout(new LoggingEventTestCaseLayout());
+        $root->addAppender($a);
 
-		$logger = $hierarchy->getLogger('test');
+        $logger = $hierarchy->getLogger('test');
 
-		$line = __LINE__; $logger->debug('test');
-		$hierarchy->shutdown();
+        $line = __LINE__; $logger->debug('test');
+        $hierarchy->shutdown();
 
-		$li = self::$locationInfo;
+        $li = self::$locationInfo;
 
-		self::assertEquals(get_class($this), $li->getClassName());
-		self::assertEquals(__FILE__, $li->getFileName());
-		self::assertEquals($line, $li->getLineNumber());
-		self::assertEquals(__FUNCTION__, $li->getMethodName());
-	}
+        self::assertEquals(get_class($this), $li->getClassName());
+        self::assertEquals(__FILE__, $li->getFileName());
+        self::assertEquals($line, $li->getLineNumber());
+        self::assertEquals(__FUNCTION__, $li->getMethodName());
+    }
 
-	public function testGetThrowableInformation1() {
-		$hierarchy = Logger::getHierarchy();
-		$root = $hierarchy->getRootLogger();
+    public function testGetThrowableInformation1()
+    {
+        $hierarchy = Logger::getHierarchy();
+        $root = $hierarchy->getRootLogger();
 
-		$a = new LoggingEventTestCaseAppender('A1');
-		$a->setLayout( new LoggingEventTestCaseLayout() );
-		$root->addAppender($a);
+        $a = new LoggingEventTestCaseAppender('A1');
+        $a->setLayout( new LoggingEventTestCaseLayout() );
+        $root->addAppender($a);
 
-		$logger = $hierarchy->getLogger('test');
-		$logger->debug('test');
-		$hierarchy->shutdown();
+        $logger = $hierarchy->getLogger('test');
+        $logger->debug('test');
+        $hierarchy->shutdown();
 
-		$ti = self::$throwableInfo;
+        $ti = self::$throwableInfo;
 
-		self::assertEquals($ti, null);
-	}
+        self::assertEquals($ti, null);
+    }
 
-	public function testGetThrowableInformation2() {
-		$hierarchy = Logger::getHierarchy();
-		$root = $hierarchy->getRootLogger();
+    public function testGetThrowableInformation2()
+    {
+        $hierarchy = Logger::getHierarchy();
+        $root = $hierarchy->getRootLogger();
 
-		$a = new LoggingEventTestCaseAppender('A1');
-		$a->setLayout( new LoggingEventTestCaseLayout() );
-		$root->addAppender($a);
+        $a = new LoggingEventTestCaseAppender('A1');
+        $a->setLayout( new LoggingEventTestCaseLayout() );
+        $root->addAppender($a);
 
-		$ex	= new \Exception('Message1');
-		$logger = $hierarchy->getLogger('test');
-		$logger->debug('test', $ex);
-		$hierarchy->shutdown();
+        $ex	= new \Exception('Message1');
+        $logger = $hierarchy->getLogger('test');
+        $logger->debug('test', $ex);
+        $hierarchy->shutdown();
 
-		$ti = self::$throwableInfo;
+        $ti = self::$throwableInfo;
 
-		self::assertInstanceOf("Apache\\Log4php\\ThrowableInformation", $ti);
+        self::assertInstanceOf("Apache\\Log4php\\ThrowableInformation", $ti);
 
-		$result	= $ti->getStringRepresentation();
-		self::assertInternalType('array', $result);
-	}
+        $result	= $ti->getStringRepresentation();
+        self::assertInternalType('array', $result);
+    }
 }

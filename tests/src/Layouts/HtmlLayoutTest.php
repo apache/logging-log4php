@@ -30,50 +30,54 @@ use Apache\Log4php\Layouts\HtmlLayout;
 /**
  * @group layouts
  */
-class HtmlLayoutTest extends \PHPUnit_Framework_TestCase {
+class HtmlLayoutTest extends \PHPUnit_Framework_TestCase
+{
+    public function testErrorLayout()
+    {
+        $event = new LoggingEvent("HtmlLayoutTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
 
-	public function testErrorLayout() {
-		$event = new LoggingEvent("HtmlLayoutTest", new Logger("TEST"), Level::getLevelError(), "testmessage");
+        $layout = new HtmlLayout();
+        $v = $layout->format($event);
 
-		$layout = new HtmlLayout();
-		$v = $layout->format($event);
+        $e = PHP_EOL."<tr>".PHP_EOL.
+            "<td>".round(1000*$event->getRelativeTime())."</td>".PHP_EOL.
+            "<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
+            "<td title=\"Level\">ERROR</td>".PHP_EOL.
+            "<td title=\"TEST category\">TEST</td>".PHP_EOL.
+            "<td title=\"Message\">testmessage</td>".PHP_EOL.
+            "</tr>".PHP_EOL;
 
-		$e = PHP_EOL."<tr>".PHP_EOL.
-			"<td>".round(1000*$event->getRelativeTime())."</td>".PHP_EOL.
-			"<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
-			"<td title=\"Level\">ERROR</td>".PHP_EOL.
-			"<td title=\"TEST category\">TEST</td>".PHP_EOL.
-			"<td title=\"Message\">testmessage</td>".PHP_EOL.
-			"</tr>".PHP_EOL;
-
-		self::assertEquals($v, $e);
+        self::assertEquals($v, $e);
     }
 
-    public function testWarnLayout() {
-		$event = new LoggingEvent("HtmlLayoutTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
+    public function testWarnLayout()
+    {
+        $event = new LoggingEvent("HtmlLayoutTest", new Logger("TEST"), Level::getLevelWarn(), "testmessage");
 
-		$layout = new HtmlLayout();
-		$v = $layout->format($event);
+        $layout = new HtmlLayout();
+        $v = $layout->format($event);
 
-		$e = PHP_EOL."<tr>".PHP_EOL.
-			"<td>".round(1000*$event->getRelativeTime())."</td>".PHP_EOL.
-			"<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
-			"<td title=\"Level\"><font color=\"#993300\"><strong>WARN</strong></font></td>".PHP_EOL.
-			"<td title=\"TEST category\">TEST</td>".PHP_EOL.
-			"<td title=\"Message\">testmessage</td>".PHP_EOL.
-			"</tr>".PHP_EOL;
+        $e = PHP_EOL."<tr>".PHP_EOL.
+            "<td>".round(1000*$event->getRelativeTime())."</td>".PHP_EOL.
+            "<td title=\"".$event->getThreadName()." thread\">".$event->getThreadName()."</td>".PHP_EOL.
+            "<td title=\"Level\"><font color=\"#993300\"><strong>WARN</strong></font></td>".PHP_EOL.
+            "<td title=\"TEST category\">TEST</td>".PHP_EOL.
+            "<td title=\"Message\">testmessage</td>".PHP_EOL.
+            "</tr>".PHP_EOL;
 
-		self::assertEquals($v, $e);
+        self::assertEquals($v, $e);
     }
 
-    public function testContentType() {
+    public function testContentType()
+    {
         $layout = new HtmlLayout();
         $v = $layout->getContentType();
         $e = "text/html";
         self::assertEquals($v, $e);
     }
 
-    public function testTitle() {
+    public function testTitle()
+    {
         $layout = new HtmlLayout();
         $v = $layout->getTitle();
         $e = "Log4php Log Messages";
@@ -85,13 +89,15 @@ class HtmlLayoutTest extends \PHPUnit_Framework_TestCase {
         self::assertEquals($v, $e);
     }
 
-     public function testHeader() {
+     public function testHeader()
+     {
         $layout = new HtmlLayout();
         $v = $layout->getHeader();
         self::assertTrue(strpos($v, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">") === 0);
     }
 
-    public function testFooter() {
+    public function testFooter()
+    {
         $layout = new HtmlLayout();
         $v = $layout->getFooter();
         self::assertTrue(strpos($v, "</table>") === 0);

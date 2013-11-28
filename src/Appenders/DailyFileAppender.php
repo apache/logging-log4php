@@ -40,91 +40,98 @@ use Apache\Log4php\LoggingEvent;
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/daily-file.html Appender documentation
  */
-class DailyFileAppender extends FileAppender {
+class DailyFileAppender extends FileAppender
+{
+    /**
+     * The 'datePattern' parameter.
+     * Determines how date will be formatted in file name.
+     * @var string
+     */
+    protected $datePattern = "Ymd";
 
-	/**
-	 * The 'datePattern' parameter.
-	 * Determines how date will be formatted in file name.
-	 * @var string
-	 */
-	protected $datePattern = "Ymd";
+    /**
+     * Current date which was used when opening a file.
+     * Used to determine if a rollover is needed when the date changes.
+     * @var string
+     */
+    protected $currentDate;
 
-	/**
-	 * Current date which was used when opening a file.
-	 * Used to determine if a rollover is needed when the date changes.
-	 * @var string
-	 */
-	protected $currentDate;
+    /** Additional validation for the date pattern. */
+    public function activateOptions()
+    {
+        parent::activateOptions();
 
-	/** Additional validation for the date pattern. */
-	public function activateOptions() {
-		parent::activateOptions();
+        if (empty($this->datePattern)) {
+            $this->warn("Required parameter 'datePattern' not set. Closing appender.");
+            $this->closed = true;
 
-		if (empty($this->datePattern)) {
-			$this->warn("Required parameter 'datePattern' not set. Closing appender.");
-			$this->closed = true;
-			return;
-		}
-	}
+            return;
+        }
+    }
 
-	/**
-	 * Appends a logging event.
-	 *
-	 * If the target file changes because of passage of time (e.g. at midnight)
-	 * the current file is closed. A new file, with the new date, will be
-	 * opened by the write() method.
-	 */
-	public function append(LoggingEvent $event) {
-		$eventDate = $this->getDate($event->getTimestamp());
+    /**
+     * Appends a logging event.
+     *
+     * If the target file changes because of passage of time (e.g. at midnight)
+     * the current file is closed. A new file, with the new date, will be
+     * opened by the write() method.
+     */
+    public function append(LoggingEvent $event)
+    {
+        $eventDate = $this->getDate($event->getTimestamp());
 
-		// Initial setting of current date
-		if (!isset($this->currentDate)) {
-			$this->currentDate = $eventDate;
-		}
+        // Initial setting of current date
+        if (!isset($this->currentDate)) {
+            $this->currentDate = $eventDate;
+        }
 
-		// Check if rollover is needed
-		else if ($this->currentDate !== $eventDate) {
-			$this->currentDate = $eventDate;
+        // Check if rollover is needed
+        else if ($this->currentDate !== $eventDate) {
+            $this->currentDate = $eventDate;
 
-			// Close the file if it's open.
-			// Note: $this->close() is not called here because it would set
-			//       $this->closed to true and the appender would not recieve
-			//       any more logging requests
-			if (is_resource($this->fp)) {
-				$this->write($this->layout->getFooter());
-				fclose($this->fp);
-			}
-			$this->fp = null;
-		}
+            // Close the file if it's open.
+            // Note: $this->close() is not called here because it would set
+            //       $this->closed to true and the appender would not recieve
+            //       any more logging requests
+            if (is_resource($this->fp)) {
+                $this->write($this->layout->getFooter());
+                fclose($this->fp);
+            }
+            $this->fp = null;
+        }
 
-		parent::append($event);
-	}
+        parent::append($event);
+    }
 
-	/** Renders the date using the configured <var>datePattern<var>. */
-	protected function getDate($timestamp = null) {
-		return date($this->datePattern, $timestamp);
-	}
+    /** Renders the date using the configured <var>datePattern<var>. */
+    protected function getDate($timestamp = null)
+    {
+        return date($this->datePattern, $timestamp);
+    }
 
-	/**
-	 * Determines target file. Replaces %s in file path with a date.
-	 */
-	protected function getTargetFile() {
-		return str_replace('%s', $this->currentDate, $this->file);
-	}
+    /**
+     * Determines target file. Replaces %s in file path with a date.
+     */
+    protected function getTargetFile()
+    {
+        return str_replace('%s', $this->currentDate, $this->file);
+    }
 
-	/**
-	 * Sets the 'datePattern' parameter.
-	 * @param string $datePattern
-	 */
-	public function setDatePattern($datePattern) {
-		$this->setString('datePattern', $datePattern);
-	}
+    /**
+     * Sets the 'datePattern' parameter.
+     * @param string $datePattern
+     */
+    public function setDatePattern($datePattern)
+    {
+        $this->setString('datePattern', $datePattern);
+    }
 
-	/**
-	 * Returns the 'datePattern' parameter.
-	 * @return string
-	 */
-	public function getDatePattern() {
-		return $this->datePattern;
-	}
+    /**
+     * Returns the 'datePattern' parameter.
+     * @return string
+     */
+    public function getDatePattern()
+    {
+        return $this->datePattern;
+    }
 }

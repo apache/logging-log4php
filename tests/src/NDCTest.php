@@ -28,67 +28,65 @@ use Apache\Log4php\NDC;
 /**
  * @group main
  */
-class NDCTest extends \PHPUnit_Framework_TestCase {
+class NDCTest extends \PHPUnit_Framework_TestCase
+{
+    public function testItemHandling()
+    {
+        // Test the empty stack
+        self::assertSame('', NDC::get());
+        self::assertSame('', NDC::peek());
+        self::assertSame(0, NDC::getDepth());
+        self::assertSame('', NDC::pop());
 
-	public function testItemHandling()
-	{
-		// Test the empty stack
-		self::assertSame('', NDC::get());
-		self::assertSame('', NDC::peek());
-		self::assertSame(0, NDC::getDepth());
-		self::assertSame('', NDC::pop());
+        // Add some data to the stack
+        NDC::push('1');
+        NDC::push('2');
+        NDC::push('3');
 
-		// Add some data to the stack
-		NDC::push('1');
-		NDC::push('2');
-		NDC::push('3');
+        self::assertSame('1 2 3', NDC::get());
+        self::assertSame('3', NDC::peek());
+        self::assertSame(3, NDC::getDepth());
 
-		self::assertSame('1 2 3', NDC::get());
-		self::assertSame('3', NDC::peek());
-		self::assertSame(3, NDC::getDepth());
+        // Remove last item
+        self::assertSame('3', NDC::pop());
+        self::assertSame('1 2', NDC::get());
+        self::assertSame('2', NDC::peek());
+        self::assertSame(2, NDC::getDepth());
 
-		// Remove last item
-		self::assertSame('3', NDC::pop());
-		self::assertSame('1 2', NDC::get());
-		self::assertSame('2', NDC::peek());
-		self::assertSame(2, NDC::getDepth());
+        // Remove all items
+        NDC::remove();
 
-		// Remove all items
-		NDC::remove();
+        // Test the empty stack
+        self::assertSame('', NDC::get());
+        self::assertSame('', NDC::peek());
+        self::assertSame(0, NDC::getDepth());
+        self::assertSame('', NDC::pop());
+    }
 
-		// Test the empty stack
-		self::assertSame('', NDC::get());
-		self::assertSame('', NDC::peek());
-		self::assertSame(0, NDC::getDepth());
-		self::assertSame('', NDC::pop());
-	}
+    public function testMaxDepth()
+    {
+        // Clear stack; add some testing data
+        NDC::clear();
+        NDC::push('1');
+        NDC::push('2');
+        NDC::push('3');
+        NDC::push('4');
+        NDC::push('5');
+        NDC::push('6');
 
-	public function testMaxDepth()
-	{
-		// Clear stack; add some testing data
-		NDC::clear();
-		NDC::push('1');
-		NDC::push('2');
-		NDC::push('3');
-		NDC::push('4');
-		NDC::push('5');
-		NDC::push('6');
+        self::assertSame('1 2 3 4 5 6', NDC::get());
 
-		self::assertSame('1 2 3 4 5 6', NDC::get());
+        // Edge case, should not change stack
+        NDC::setMaxDepth(6);
+        self::assertSame('1 2 3 4 5 6', NDC::get());
+        self::assertSame(6, NDC::getDepth());
 
-		// Edge case, should not change stack
-		NDC::setMaxDepth(6);
-		self::assertSame('1 2 3 4 5 6', NDC::get());
-		self::assertSame(6, NDC::getDepth());
+        NDC::setMaxDepth(3);
+        self::assertSame('1 2 3', NDC::get());
+        self::assertSame(3, NDC::getDepth());
 
-		NDC::setMaxDepth(3);
-		self::assertSame('1 2 3', NDC::get());
-		self::assertSame(3, NDC::getDepth());
-
-		NDC::setMaxDepth(0);
-		self::assertSame('', NDC::get());
-		self::assertSame(0, NDC::getDepth());
-	}
+        NDC::setMaxDepth(0);
+        self::assertSame('', NDC::get());
+        self::assertSame(0, NDC::getDepth());
+    }
 }
-
-?>

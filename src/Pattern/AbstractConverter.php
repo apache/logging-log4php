@@ -30,101 +30,105 @@ use Apache\Log4php\LoggingEvent;
  * converting a logging event in a converter specific manner.</p>
  * @since 0.3
  */
-abstract class AbstractConverter {
+abstract class AbstractConverter
+{
+    /**
+     * Next converter in the converter chain.
+     * @var AbstractConverter
+     */
+    public $next = null;
 
-	/**
-	 * Next converter in the converter chain.
-	 * @var AbstractConverter
-	 */
-	public $next = null;
+    /**
+     * Formatting information, parsed from pattern modifiers.
+     * @var FormattingInfo
+     */
+    protected $formattingInfo;
 
-	/**
-	 * Formatting information, parsed from pattern modifiers.
-	 * @var FormattingInfo
-	 */
-	protected $formattingInfo;
+    /**
+     * Converter-specific formatting options.
+     * @var array
+     */
+    protected $option;
 
-	/**
-	 * Converter-specific formatting options.
-	 * @var array
-	 */
-	protected $option;
+    /**
+     * Constructor
+     * @param FormattingInfo $formattingInfo
+     * @param array          $option
+     */
+    public function __construct(FormattingInfo $formattingInfo = null, $option = null)
+    {
+        $this->formattingInfo = $formattingInfo;
+        $this->option = $option;
+        $this->activateOptions();
+    }
 
-	/**
-	 * Constructor
-	 * @param FormattingInfo $formattingInfo
-	 * @param array $option
-	 */
-	public function __construct(FormattingInfo $formattingInfo = null, $option = null) {
-		$this->formattingInfo = $formattingInfo;
-		$this->option = $option;
-		$this->activateOptions();
-	}
+    /**
+     * Called in constructor. Converters which need to process the options
+     * can override this method.
+     */
+    public function activateOptions() { }
 
-	/**
-	 * Called in constructor. Converters which need to process the options
-	 * can override this method.
-	 */
-	public function activateOptions() { }
+    /**
+     * Converts the logging event to the desired format. Derived pattern
+     * converters must implement this method.
+     *
+     * @param LoggingEvent $event
+     */
+    abstract public function convert(LoggingEvent $event);
 
-	/**
-	 * Converts the logging event to the desired format. Derived pattern
-	 * converters must implement this method.
-	 *
-	 * @param LoggingEvent $event
-	 */
-	abstract public function convert(LoggingEvent $event);
+    /**
+     * Converts the event and formats it according to setting in the
+     * Formatting information object.
+     *
+     * @param string       &$sbuf string buffer to write to
+     * @param LoggingEvent $event Event to be formatted.
+     */
+    public function format(&$sbuf, $event)
+    {
+        $string = $this->convert($event);
 
-	/**
-	 * Converts the event and formats it according to setting in the
-	 * Formatting information object.
-	 *
-	 * @param string &$sbuf string buffer to write to
-	 * @param LoggingEvent $event Event to be formatted.
-	 */
-	public function format(&$sbuf, $event) {
-		$string = $this->convert($event);
+        if (!isset($this->formattingInfo)) {
+            $sbuf .= $string;
 
-		if (!isset($this->formattingInfo)) {
-			$sbuf .= $string;
-			return;
-		}
+            return;
+        }
 
-		$fi = $this->formattingInfo;
+        $fi = $this->formattingInfo;
 
-		// Empty string
-		if($string === '' || is_null($string)) {
-			if($fi->min > 0) {
-				$sbuf .= str_repeat(' ', $fi->min);
-			}
-			return;
-		}
+        // Empty string
+        if ($string === '' || is_null($string)) {
+            if ($fi->min > 0) {
+                $sbuf .= str_repeat(' ', $fi->min);
+            }
 
-		$len = strlen($string);
+            return;
+        }
 
-		// Trim the string if needed
-		if($len > $fi->max) {
-			if ($fi->trimLeft) {
-				$sbuf .= substr($string, $len - $fi->max, $fi->max);
-			} else {
-				$sbuf .= substr($string , 0, $fi->max);
-			}
-		}
+        $len = strlen($string);
 
-		// Add padding if needed
-		else if($len < $fi->min) {
-			if($fi->padLeft) {
-				$sbuf .= str_repeat(' ', $fi->min - $len);
-				$sbuf .= $string;
-			} else {
-				$sbuf .= $string;
-				$sbuf .= str_repeat(' ', $fi->min - $len);
-			}
-		}
+        // Trim the string if needed
+        if ($len > $fi->max) {
+            if ($fi->trimLeft) {
+                $sbuf .= substr($string, $len - $fi->max, $fi->max);
+            } else {
+                $sbuf .= substr($string , 0, $fi->max);
+            }
+        }
 
-		// No action needed
-		else {
-			$sbuf .= $string;
-		}
-	}
+        // Add padding if needed
+        else if ($len < $fi->min) {
+            if ($fi->padLeft) {
+                $sbuf .= str_repeat(' ', $fi->min - $len);
+                $sbuf .= $string;
+            } else {
+                $sbuf .= $string;
+                $sbuf .= str_repeat(' ', $fi->min - $len);
+            }
+        }
+
+        // No action needed
+        else {
+            $sbuf .= $string;
+        }
+    }
 }

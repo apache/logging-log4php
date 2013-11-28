@@ -30,16 +30,17 @@ use Apache\Log4php\LoggingEvent;
  *
  * @since 0.3
  */
-class DenyAllFilter extends AbstractFilter {
-
-	/**
-	 * Always returns the integer constant {@link AbstractFilter::DENY}
-	 * regardless of the {@link LoggingEvent} parameter.
-	 *
-	 * @param LoggingEvent $event The {@link LoggingEvent} to filter.
-	 * @return AbstractFilter::DENY Always returns {@link AbstractFilter::DENY}
-	 */
-	public function decide(LoggingEvent $event) {
-		return AbstractFilter::DENY;
-	}
+class DenyAllFilter extends AbstractFilter
+{
+    /**
+     * Always returns the integer constant {@link AbstractFilter::DENY}
+     * regardless of the {@link LoggingEvent} parameter.
+     *
+     * @param  LoggingEvent         $event The {@link LoggingEvent} to filter.
+     * @return AbstractFilter::DENY Always returns {@link AbstractFilter::DENY}
+     */
+    public function decide(LoggingEvent $event)
+    {
+        return AbstractFilter::DENY;
+    }
 }

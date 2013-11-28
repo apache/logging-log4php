@@ -43,45 +43,49 @@ use Apache\Log4php\LoggingEvent;
  * {@example ../../examples/resources/filter_stringmatch.xml 18}
  * @since 0.3
  */
-class StringMatchFilter extends AbstractFilter {
+class StringMatchFilter extends AbstractFilter
+{
+    /**
+     * @var boolean
+     */
+    protected $acceptOnMatch = true;
 
-	/**
-	 * @var boolean
-	 */
-	protected $acceptOnMatch = true;
+    /**
+     * @var string
+     */
+    protected $stringToMatch;
 
-	/**
-	 * @var string
-	 */
-	protected $stringToMatch;
+    /**
+     * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
+     */
+    public function setAcceptOnMatch($acceptOnMatch)
+    {
+        $this->setBoolean('acceptOnMatch', $acceptOnMatch);
+    }
 
-	/**
-	 * @param mixed $acceptOnMatch a boolean or a string ('true' or 'false')
-	 */
-	public function setAcceptOnMatch($acceptOnMatch) {
-		$this->setBoolean('acceptOnMatch', $acceptOnMatch);
-	}
+    /**
+     * @param string $s the string to match
+     */
+    public function setStringToMatch($string)
+    {
+        $this->setString('stringToMatch', $string);
+    }
 
-	/**
-	 * @param string $s the string to match
-	 */
-	public function setStringToMatch($string) {
-		$this->setString('stringToMatch', $string);
-	}
+    /**
+     * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
+     */
+    public function decide(LoggingEvent $event)
+    {
+        $msg = $event->getRenderedMessage();
 
-	/**
-	 * @return integer a {@link LOGGER_FILTER_NEUTRAL} is there is no string match.
-	 */
-	public function decide(LoggingEvent $event) {
-		$msg = $event->getRenderedMessage();
+        if ($msg === null or $this->stringToMatch === null) {
+            return AbstractFilter::NEUTRAL;
+        }
 
-		if($msg === null or $this->stringToMatch === null) {
-			return AbstractFilter::NEUTRAL;
-		}
+        if (strpos($msg, $this->stringToMatch) !== false ) {
+            return ($this->acceptOnMatch) ? AbstractFilter::ACCEPT : AbstractFilter::DENY;
+        }
 
-		if(strpos($msg, $this->stringToMatch) !== false ) {
-			return ($this->acceptOnMatch) ? AbstractFilter::ACCEPT : AbstractFilter::DENY;
-		}
-		return AbstractFilter::NEUTRAL;
-	}
+        return AbstractFilter::NEUTRAL;
+    }
 }

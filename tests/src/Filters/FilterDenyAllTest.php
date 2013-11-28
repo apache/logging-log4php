@@ -30,46 +30,48 @@ use Apache\Log4php\Logger;
 /**
  * @group filters
  */
-class FilterDenyAllTest extends \PHPUnit_Framework_TestCase {
+class FilterDenyAllTest extends \PHPUnit_Framework_TestCase
+{
+    public function testDecide()
+    {
+        $filter = new DenyAllFilter();
 
-	public function testDecide() {
-		$filter = new DenyAllFilter();
+        $events = array(
+            TestHelper::getTraceEvent(),
+            TestHelper::getDebugEvent(),
+            TestHelper::getInfoEvent(),
+            TestHelper::getWarnEvent(),
+            TestHelper::getErrorEvent(),
+            TestHelper::getFatalEvent(),
+        );
 
-		$events = array(
-			TestHelper::getTraceEvent(),
-			TestHelper::getDebugEvent(),
-			TestHelper::getInfoEvent(),
-			TestHelper::getWarnEvent(),
-			TestHelper::getErrorEvent(),
-			TestHelper::getFatalEvent(),
-		);
-
-		foreach($events as $event) {
-			$actual = $filter->decide($event);
-			self::assertEquals(AbstractFilter::DENY, $actual);
-		}
+        foreach ($events as $event) {
+            $actual = $filter->decide($event);
+            self::assertEquals(AbstractFilter::DENY, $actual);
+        }
     }
 
-    public function testConfiguration() {
-    	$config = DefaultConfigurator::getDefaultConfiguration();
-    	$config['appenders']['default']['filters'] = array(
-    		array(
-    			'class' => 'DenyAllFilter'
-    		)
-    	);
+    public function testConfiguration()
+    {
+        $config = DefaultConfigurator::getDefaultConfiguration();
+        $config['appenders']['default']['filters'] = array(
+            array(
+                'class' => 'DenyAllFilter'
+            )
+        );
 
-    	Logger::configure($config);
-    	$logger = Logger::getRootLogger();
+        Logger::configure($config);
+        $logger = Logger::getRootLogger();
 
-    	ob_start();
-    	$logger->trace('Test');
-    	$logger->debug('Test');
-    	$logger->info('Test');
-    	$logger->warn('Test');
-    	$logger->error('Test');
-    	$logger->fatal('Test');
-    	$actual = ob_get_clean();
+        ob_start();
+        $logger->trace('Test');
+        $logger->debug('Test');
+        $logger->info('Test');
+        $logger->warn('Test');
+        $logger->error('Test');
+        $logger->fatal('Test');
+        $actual = ob_get_clean();
 
-    	$this->assertEmpty($actual);
+        $this->assertEmpty($actual);
     }
 }
