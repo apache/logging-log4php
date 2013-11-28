@@ -65,7 +65,7 @@ class ReflectionUtils
      * Example:
      *
      * $arr['xxxname'] = 'Joe';
-      * $arr['xxxmale'] = true;
+     * $arr['xxxmale'] = true;
      * and prefix xxx causes setName and setMale.
      *
      * @param array  $properties An array containing keys and values.
@@ -116,7 +116,7 @@ class ReflectionUtils
 
         if (!method_exists($this->obj, $method)) {
             $class = get_class($this->obj);
-            throw new Exception("Error setting log4php property $name to $value: no method $method in class $class.");
+            throw new \Exception("Error setting log4php property $name to $value: no method $method in class $class.");
         } else {
             return call_user_func(array($this->obj, $method), $value);
         }

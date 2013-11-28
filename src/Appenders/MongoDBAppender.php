@@ -20,8 +20,6 @@ namespace Apache\Log4php\Appenders;
 
 use Apache\Log4php\LoggingEvent;
 
-use Exception;
-
 use Mongo;
 use MongoCollection;
 use MongoDate;
@@ -148,7 +146,7 @@ class MongoDBAppender extends AbstractAppender
         } catch (\InvalidArgumentException $ex) {
             $this->closed = true;
             $this->warn(sprintf('Error while selecting mongo database: %s', $ex->getMessage()));
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $this->closed = true;
             $this->warn('Invalid credentials for mongo database authentication');
         }

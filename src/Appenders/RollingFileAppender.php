@@ -18,6 +18,8 @@
 
 namespace Apache\Log4php\Appenders;
 
+use Apache\Log4php\LoggerException;
+
 /**
  * RollingFileAppender writes logging events to a specified file. The
  * file is rolled over after a specified size has been reached.
