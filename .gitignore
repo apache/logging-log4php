@@ -1,2 +1,5 @@
+composer.lock
 target
 temp
+tmp
+vendor
