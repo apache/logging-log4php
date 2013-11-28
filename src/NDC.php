@@ -72,6 +72,8 @@ namespace Apache\Log4php;
  * the same category) can still be distinguished because each client
  * request will have a different NDC tag.
  *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  * @since 0.3
  */
 class NDC

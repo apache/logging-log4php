@@ -52,6 +52,8 @@ use Apache\Log4php\LoggingEvent;
  *
  * <p>The philosophy of log4php filters is largely inspired from the
  * Linux ipchains.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 abstract class AbstractFilter extends Configurable
 {

@@ -22,6 +22,8 @@ use Apache\Log4php\LoggingEvent;
 
 /**
  * Returns the event's level.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class LevelConverter extends AbstractConverter

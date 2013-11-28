@@ -20,6 +20,9 @@ namespace Apache\Log4php;
 
 /**
  * The internal representation of caller location information.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  * @since 0.3
  */
 class LocationInfo

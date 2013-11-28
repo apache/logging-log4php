@@ -20,7 +20,9 @@ namespace Apache\Log4php;
 
 /**
  * The root logger.
- * @see Logger
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  */
 class RootLogger extends Logger
 {

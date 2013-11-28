@@ -32,7 +32,7 @@ namespace Apache\Log4php;
  * 		<li>{@link fatal()}</li>
  * 	</ul>
  *
- * @license	http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php
  */
 class Logger

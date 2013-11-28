@@ -20,6 +20,8 @@ namespace Apache\Log4php\Renderers;
 
 /**
  * Implement this interface in order to render objects to strings.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
  */
 interface RendererInterface

@@ -27,6 +27,9 @@ use Apache\Log4php\Appenders\AbstractAppender;
  * are created in the pool. Afterward, they are linked to loggers, each
  * appender can be linked to multiple loggers. This makes sure duplicate
  * appenders are not created.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  */
 class AppenderPool
 {

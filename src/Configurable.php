@@ -27,6 +27,7 @@ use Exception;
  * extended. Provides a generic setter with integrated validation.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  * @since 2.2
  */
 abstract class Configurable

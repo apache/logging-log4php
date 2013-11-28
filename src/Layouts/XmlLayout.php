@@ -34,6 +34,7 @@ use Apache\Log4php\LoggingEvent;
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
  *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class XmlLayout extends AbstractLayout
 {

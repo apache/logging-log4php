@@ -23,6 +23,8 @@ use Apache\Log4php\LoggingEvent;
 /**
  * Returns the line number within the file from which the logging request was
  * issued.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class LocationConverter extends AbstractConverter

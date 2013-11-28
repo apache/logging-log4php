@@ -25,7 +25,7 @@ namespace Apache\Log4php\Pattern;
  * Options:
  *  [0] $_SESSION key value
  *
- *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class SessionConverter extends SuperglobalConverter

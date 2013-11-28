@@ -26,6 +26,8 @@ use Apache\Log4php\LoggingEvent;
  * Available options:
  * - locationInfo - If set to true, the event's location information will also
  *                  be serialized (slow, defaults to false).
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.2
  */
 class SerializedLayout extends AbstractLayout

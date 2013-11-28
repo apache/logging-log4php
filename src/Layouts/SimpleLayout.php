@@ -25,6 +25,8 @@ use Apache\Log4php\LoggingEvent;
  *
  * Returns the log statement in a format consisting of the
  * <b>level</b>, followed by " - " and then the <b>message</b>.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class SimpleLayout extends AbstractLayout
 {

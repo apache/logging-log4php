@@ -58,6 +58,7 @@ use Apache\Log4php\LoggingEvent;
  *
  * @author Simon Kitching
  * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml;
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.6
  */
 class LevelRangeFilter extends AbstractFilter

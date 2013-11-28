@@ -26,6 +26,8 @@ use Apache\Log4php\LoggingEvent;
  *
  * Takes one option, which is an integer. If the option is given, the logger
  * name will be shortened to the given length, if possible.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class LoggerConverter extends AbstractConverter

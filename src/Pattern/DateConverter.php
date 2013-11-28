@@ -28,6 +28,8 @@ use Apache\Log4php\LoggingEvent;
  *
  * There are several "special" values which can be given for this option:
  * 'ISO8601', 'ABSOLUTE' and 'DATE'.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class DateConverter extends AbstractConverter

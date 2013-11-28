@@ -26,6 +26,9 @@ namespace Apache\Log4php;
  *
  * <p>The <i>Level</i> class may be subclassed to define a larger
  * level set.</p>
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  * @since 0.5
  */
 class Level

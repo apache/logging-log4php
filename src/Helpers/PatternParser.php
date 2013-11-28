@@ -29,6 +29,7 @@ use Apache\Log4php\Pattern\LiteralConverter;
  * <p>It is this class that parses conversion patterns and creates
  * a chained list of {@link AbstractConverter} converters.</p>
  *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
  */
 class PatternParser

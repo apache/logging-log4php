@@ -20,6 +20,8 @@ namespace Apache\Log4php\Pattern;
 
 /**
  * Returns the throwable information linked to the logging event, if any.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class ThrowableConverter extends AbstractConverter

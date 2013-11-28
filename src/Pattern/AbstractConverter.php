@@ -28,6 +28,8 @@ use Apache\Log4php\LoggingEvent;
  * <p>Conversion specifiers in a conversion patterns are parsed to
  * individual PatternConverters. Each of which is responsible for
  * converting a logging event in a converter specific manner.</p>
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
  */
 abstract class AbstractConverter

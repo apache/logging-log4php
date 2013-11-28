@@ -41,6 +41,8 @@ use Apache\Log4php\LoggingEvent;
  * The corresponding XML file:
  *
  * {@example ../../examples/resources/filter_levelmatch.xml 18}
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.6
  */
 class LevelMatchFilter extends AbstractFilter

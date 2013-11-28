@@ -22,6 +22,8 @@ use Apache\Log4php\LoggingEvent;
 
 /**
  * Returns the full Nested Diagnostic Context.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 class NdcConverter extends AbstractConverter

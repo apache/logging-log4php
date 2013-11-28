@@ -21,6 +21,8 @@ namespace Apache\Log4php\Renderers;
 /**
  * Manages defined renderers and determines which renderer to use for a given
  * input.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
  */
 class RendererMap

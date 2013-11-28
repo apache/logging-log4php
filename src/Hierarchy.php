@@ -45,6 +45,9 @@ use Apache\Log4php\Renderers\RendererMap;
  * then it creates a provision node for the ancestor and adds itself
  * to the provision node. Other descendants of the same ancestor add
  * themselves to the previously created provision node.</p>
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @link http://logging.apache.org/log4php
  */
 class Hierarchy
 {

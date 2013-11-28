@@ -29,6 +29,8 @@ use Apache\Log4php\LoggingEvent;
  *
  * * converionPattern - A string which controls the formatting of logging
  *   events. See docs for full specification.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class PatternLayout extends AbstractLayout
 {

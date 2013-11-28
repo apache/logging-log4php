@@ -21,6 +21,8 @@ namespace Apache\Log4php\Helpers;
 /**
  * This class encapsulates the information obtained when parsing
  * formatting modifiers in conversion modifiers.
+ *
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
  */
 class FormattingInfo

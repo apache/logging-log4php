@@ -32,6 +32,7 @@ use Apache\Log4php\LoggingEvent;
  *
  * @see http://php.net/manual/en/language.variables.superglobals.php
  * @see http://www.php.net/manual/en/ini.core.php#ini.variables-order
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 2.3
  */
 abstract class SuperglobalConverter extends AbstractConverter
