@@ -105,5 +105,4 @@ class LocationInfo
     {
         return ($this->fullInfo === null) ? self::LOCATION_INFO_NA : $this->fullInfo;
     }
-
 }

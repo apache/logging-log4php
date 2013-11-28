@@ -99,25 +99,20 @@ class IniAdapter implements AdapterInterface
         $appenders = array();
 
         foreach ($properties as $key => $value) {
-            // Parse loggers
+
             if ($this->beginsWith($key, self::LOGGER_PREFIX)) {
+                // Parse loggers
                 $name = substr($key, strlen(self::LOGGER_PREFIX));
                 $this->parseLogger($value, $name);
-            }
-
-            // Parse additivity
-            if ($this->beginsWith($key, self::ADDITIVITY_PREFIX)) {
+            } elseif ($this->beginsWith($key, self::ADDITIVITY_PREFIX)) {
+                // Parse additivity
                 $name = substr($key, strlen(self::ADDITIVITY_PREFIX));
                 $this->config['loggers'][$name]['additivity'] = $value;
-            }
-
-            // Parse appenders
-            else if ($this->beginsWith($key, self::APPENDER_PREFIX)) {
+            } elseif ($this->beginsWith($key, self::APPENDER_PREFIX)) {
+                // Parse appenders
                 $this->parseAppender($key, $value);
-            }
-
-            // Parse renderers
-            else if ($this->beginsWith($key, self::RENDERER_PREFIX)) {
+            } elseif ($this->beginsWith($key, self::RENDERER_PREFIX)) {
+                // Parse renderers
                 $this->parseRenderer($key, $value);
             }
         }
@@ -238,16 +233,12 @@ class IniAdapter implements AdapterInterface
         // The first part is always the appender name
         $name = trim($parts[0]);
 
-        // Only one part - this line defines the appender class
         if ($count == 1) {
+            // Only one part - this line defines the appender class
             $this->config['appenders'][$name]['class'] = $value;
-
             return;
-        }
-
-        // Two parts - either a parameter, a threshold or layout class
-        else if ($count == 2) {
-
+        } elseif ($count == 2) {
+            // Two parts - either a parameter, a threshold or layout class
             if ($parts[1] == 'layout') {
                 $this->config['appenders'][$name]['layout']['class'] = $value;
 
@@ -261,10 +252,8 @@ class IniAdapter implements AdapterInterface
 
                 return;
             }
-        }
-
-        // Three parts - this can only be a layout parameter
-        else if ($count == 3) {
+        } elseif ($count == 3) {
+            // Three parts - this can only be a layout parameter
             if ($parts[1] == 'layout') {
                 $this->config['appenders'][$name]['layout']['params'][$parts[2]] = $value;
 
@@ -272,7 +261,7 @@ class IniAdapter implements AdapterInterface
             }
         }
 
-        trigger_error("log4php: Don't know how to parse the following line: \"$key = $value\". Skipping.", E_USER_WARNING);
+        trigger_error("log4php: Don't know how to parse line: \"$key = $value\". Skipping.", E_USER_WARNING);
     }
 
     /**

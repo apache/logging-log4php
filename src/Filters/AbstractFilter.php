@@ -97,7 +97,7 @@ abstract class AbstractFilter extends Configurable
      * the chain.
      *
      * @param  LoggingEvent $event The {@link LoggingEvent} to decide upon.
-     * @return integer      {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::DENY}|{@link AbstractFilter::ACCEPT}
+     * @return integer {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::DENY} or {@link AbstractFilter::ACCEPT}
      */
     public function decide(LoggingEvent $event)
     {
@@ -128,5 +128,4 @@ abstract class AbstractFilter extends Configurable
     {
         return $this->next;
     }
-
 }

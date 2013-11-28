@@ -52,7 +52,10 @@ class AppenderPool
         }
 
         if (isset(self::$appenders[$name])) {
-            trigger_error("log4php: Appender [$name] already exists in pool. Overwriting existing appender.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Appender [$name] already exists in pool. Overwriting existing appender.",
+                E_USER_WARNING
+            );
         }
 
         self::$appenders[$name] = $appender;

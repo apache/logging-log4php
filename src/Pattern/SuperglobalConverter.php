@@ -80,15 +80,13 @@ abstract class SuperglobalConverter extends AbstractConverter
 
         $source = ${$this->name};
 
-        // When the key is set, display the matching value
         if (isset($key)) {
+            // When the key is set, display the matching value
             if (isset($source[$key])) {
                 $this->value = $source[$key];
             }
-        }
-
-        // When the key is not set, display all values
-        else {
+        } else {
+            // When the key is not set, display all values
             $values = array();
             foreach ($source as $key => $value) {
                 $values[] = "$key=$value";

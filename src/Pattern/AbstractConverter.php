@@ -68,7 +68,10 @@ abstract class AbstractConverter
      * Called in constructor. Converters which need to process the options
      * can override this method.
      */
-    public function activateOptions() { }
+    public function activateOptions()
+    {
+
+    }
 
     /**
      * Converts the logging event to the desired format. Derived pattern
@@ -108,17 +111,16 @@ abstract class AbstractConverter
 
         $len = strlen($string);
 
-        // Trim the string if needed
+        // Trim the string or add padding if needed
         if ($len > $fi->max) {
+            // Trim
             if ($fi->trimLeft) {
                 $sbuf .= substr($string, $len - $fi->max, $fi->max);
             } else {
-                $sbuf .= substr($string , 0, $fi->max);
+                $sbuf .= substr($string, 0, $fi->max);
             }
-        }
-
-        // Add padding if needed
-        else if ($len < $fi->min) {
+        } elseif ($len < $fi->min) {
+            // Pad
             if ($fi->padLeft) {
                 $sbuf .= str_repeat(' ', $fi->min - $len);
                 $sbuf .= $string;
@@ -126,10 +128,8 @@ abstract class AbstractConverter
                 $sbuf .= $string;
                 $sbuf .= str_repeat(' ', $fi->min - $len);
             }
-        }
-
-        // No action needed
-        else {
+        } else {
+            // No action needed
             $sbuf .= $string;
         }
     }

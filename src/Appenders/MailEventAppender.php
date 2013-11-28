@@ -118,9 +118,16 @@ class MailEventAppender extends AbstractAppender
         $addHeader = empty($this->from) ? '' : "From: {$this->from}\r\n";
 
         if (!$this->dry) {
-            $result = mail($this->to, $this->subject, $this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event), $addHeader);
+            $result = mail(
+                $this->to,
+                $this->subject,
+                $this->layout->getHeader() . $this->layout->format($event) . $this->layout->getFooter($event),
+                $addHeader
+            );
         } else {
-            echo "DRY MODE OF MAIL APP.: Send mail to: ".$this->to." with additional headers '".trim($addHeader)."' and content: ".$this->layout->format($event);
+            echo "DRY MODE OF MAIL APP.: Send mail to: " . $this->to .
+                " with additional headers '" . trim($addHeader) .
+                "' and content: " . $this->layout->format($event);
         }
 
         ini_set('SMTP', $prevSmtpHost);
@@ -166,7 +173,7 @@ class MailEventAppender extends AbstractAppender
     /** Sets the 'subject' parameter. */
     public function setSubject($subject)
     {
-        $this->setString('subject',  $subject);
+        $this->setString('subject', $subject);
     }
 
     /** Returns the 'subject' parameter. */
@@ -178,7 +185,7 @@ class MailEventAppender extends AbstractAppender
     /** Sets the 'to' parameter. */
     public function setTo($to)
     {
-        $this->setString('to',  $to);
+        $this->setString('to', $to);
     }
 
     /** Returns the 'to' parameter. */

@@ -83,7 +83,8 @@ class OptionConverter
             }
         }
 
-        throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to boolean.");
+        $value = var_export($value, true);
+        throw new LoggerException("Given value [$value] cannot be converted to boolean.");
     }
 
     /**
@@ -99,7 +100,8 @@ class OptionConverter
             return (integer) $value;
         }
 
-        throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to integer.");
+        $value = var_export($value, true);
+        throw new LoggerException("Given value [$value] cannot be converted to integer.");
     }
 
     /**
@@ -115,7 +117,8 @@ class OptionConverter
             return (integer) $value;
         }
 
-        throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a positive integer.");
+        $value = var_export($value, true);
+        throw new LoggerException("Given value [$value] cannot be converted to a positive integer.");
     }
 
     /** Converts the value to a level. Throws an exception if not possible. */
@@ -126,7 +129,8 @@ class OptionConverter
         }
         $level = Level::toLevel($value);
         if ($level === null) {
-            throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a logger level.");
+            $value = var_export($value, true);
+            throw new LoggerException("Given value [$value] cannot be converted to a logger level.");
         }
 
         return $level;
@@ -159,7 +163,8 @@ class OptionConverter
         }
 
         if (!is_string($value)) {
-            throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to a file size.");
+            $value = var_export($value, true);
+            throw new LoggerException("Given value [$value] cannot be converted to a file size.");
         }
 
         $str = strtoupper(trim($value));
@@ -170,9 +175,15 @@ class OptionConverter
             $unit = $matches[2];
 
             switch ($unit) {
-                case 'KB': $size *= pow(1024, 1); break;
-                case 'MB': $size *= pow(1024, 2); break;
-                case 'GB': $size *= pow(1024, 3); break;
+                case 'KB':
+                    $size *= pow(1024, 1);
+                    break;
+                case 'MB':
+                    $size *= pow(1024, 2);
+                    break;
+                case 'GB':
+                    $size *= pow(1024, 3);
+                    break;
             }
 
             return (integer) $size;
@@ -200,7 +211,8 @@ class OptionConverter
             return (string) $value;
         }
 
-        throw new LoggerException("Given value [" . var_export($value, true) . "] cannot be converted to string.");
+        $value = var_export($value, true);
+        throw new LoggerException("Given value [$value] cannot be converted to string.");
     }
 
     /**

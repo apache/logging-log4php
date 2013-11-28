@@ -603,7 +603,11 @@ class Logger
             if ($configurator instanceof Configurator) {
                 return $configurator;
             } else {
-                trigger_error("log4php: Given configurator object [$configurator] does not implement the Configurator interface. Reverting to default configurator.", E_USER_WARNING);
+                trigger_error(
+                    "log4php: Given configurator object [$configurator] does not implement Configurator interface. " .
+                    "Reverting to default configurator.",
+                    E_USER_WARNING
+                );
 
                 return new Configuration\DefaultConfigurator();
             }
@@ -611,7 +615,11 @@ class Logger
 
         if (is_string($configurator)) {
             if (!class_exists($configurator)) {
-                trigger_error("log4php: Specified configurator class [$configurator] does not exist. Reverting to default configurator.", E_USER_WARNING);
+                trigger_error(
+                    "log4php: Given configurator class [$configurator] does not exist. " .
+                    "Reverting to default configurator.",
+                    E_USER_WARNING
+                );
 
                 return new Configuration\DefaultConfigurator();
             }
@@ -619,7 +627,11 @@ class Logger
             $instance = new $configurator();
 
             if (!($instance instanceof Configurator)) {
-                trigger_error("log4php: Specified configurator class [$configurator] does not implement the Configurator interface. Reverting to default configurator.", E_USER_WARNING);
+                trigger_error(
+                    "log4php: Specified configurator class [$configurator] does not implement Configurator interface." .
+                    " Reverting to default configurator.",
+                    E_USER_WARNING
+                );
 
                 return new Configuration\DefaultConfigurator();
             }
@@ -627,7 +639,11 @@ class Logger
             return $instance;
         }
 
-        trigger_error("log4php: Invalid configurator specified. Expected either a string or a Configurator instance. Reverting to default configurator.", E_USER_WARNING);
+        trigger_error(
+            "log4php: Invalid configurator specified. Expected either a string or a Configurator instance. " .
+            "Reverting to default configurator.",
+            E_USER_WARNING
+        );
 
         return new Configuration\DefaultConfigurator();
     }

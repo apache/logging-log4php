@@ -124,7 +124,7 @@ class INIAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * Test a warning is triggered when configurator doesn't understand a line.
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage log4php: Don't know how to parse the following line: "log4php.appender.default.layout.param.bla = LoggerLayoutTTCC". Skipping.
+     * @expectedExceptionMessage log4php: Don't know how to parse line: "log4php.appender.default.layout.param.bla = LoggerLayoutTTCC". Skipping.
      */
     public function testInvalidLineWarning1()
     {
@@ -136,7 +136,7 @@ class INIAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * Test a warning is triggered when configurator doesn't understand a line.
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage log4php: Don't know how to parse the following line: "log4php.appender.default.not-layout.param = LoggerLayoutTTCC". Skipping.
+     * @expectedExceptionMessage log4php: Don't know how to parse line: "log4php.appender.default.not-layout.param = LoggerLayoutTTCC". Skipping.
      */
     public function testInvalidLineWarning2()
     {

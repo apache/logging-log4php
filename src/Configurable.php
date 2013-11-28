@@ -39,7 +39,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toBooleanEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected a boolean value. Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. " .
+                "Expected a boolean value. Property not changed."
+            );
         }
     }
 
@@ -50,7 +53,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toIntegerEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected an integer. Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. Expected an integer. " .
+                "Property not changed."
+            );
         }
     }
 
@@ -61,7 +67,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toLevelEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected a level value. Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. Expected a level value. " .
+                "Property not changed."
+            );
         }
     }
 
@@ -72,7 +81,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toPositiveIntegerEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected a positive integer. Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. Expected a positive integer. " .
+                "Property not changed."
+            );
         }
     }
 
@@ -83,7 +95,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toFileSizeEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected a file size value.  Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. Expected a file size value.  " .
+                "Property not changed."
+            );
         }
     }
 
@@ -94,7 +109,10 @@ abstract class Configurable
             $this->$property = OptionConverter::toNumericEx($value);
         } catch (Exception $ex) {
             $value = var_export($value, true);
-            $this->warn("Invalid value given for '$property' property: [$value]. Expected a number. Property not changed.");
+            $this->warn(
+                "Invalid value given for '$property' property: [$value]. Expected a number. " .
+                "Property not changed."
+            );
         }
     }
 
@@ -105,7 +123,10 @@ abstract class Configurable
             if ($nullable) {
                 $this->$property= null;
             } else {
-                $this->warn("Null value given for '$property' property. Expected a string. Property not changed.");
+                $this->warn(
+                    "Null value given for '$property' property. Expected a string. " .
+                    "Property not changed."
+                );
             }
         } else {
             try {
@@ -113,7 +134,10 @@ abstract class Configurable
                 $this->$property = OptionConverter::substConstants($value);
             } catch (Exception $ex) {
                 $value = var_export($value, true);
-                $this->warn("Invalid value given for '$property' property: [$value]. Expected a string. Property not changed.");
+                $this->warn(
+                    "Invalid value given for '$property' property: [$value]. Expected a string. " .
+                    "Property not changed."
+                );
             }
         }
     }

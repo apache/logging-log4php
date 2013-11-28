@@ -104,12 +104,16 @@ class RollingFileAppender extends FileAppender
     /**
      * Implements the usual roll over behaviour.
      *
-     * If MaxBackupIndex is positive, then files File.1, ..., File.MaxBackupIndex -1 are renamed to File.2, ..., File.MaxBackupIndex.
-     * Moreover, File is renamed File.1 and closed. A new File is created to receive further log output.
+     * If MaxBackupIndex is positive, then files File.1, ...,
+     * File.MaxBackupIndex -1 are renamed to File.2, ..., File.MaxBackupIndex.
+     * Moreover, File is renamed File.1 and closed. A new File is created to
+     * receive further log output.
      *
-     * If MaxBackupIndex is equal to zero, then the File is truncated with no backup files created.
+     * If MaxBackupIndex is equal to zero, then the File is truncated with no
+     * backup files created.
      *
-     * Rollover must be called while the file is locked so that it is safe for concurrent access.
+     * Rollover must be called while the file is locked so that it is safe for
+     * concurrent access.
      *
      * @throws LoggerException If any part of the rollover procedure fails.
      */

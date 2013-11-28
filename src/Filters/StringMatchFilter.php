@@ -84,7 +84,7 @@ class StringMatchFilter extends AbstractFilter
             return AbstractFilter::NEUTRAL;
         }
 
-        if (strpos($msg, $this->stringToMatch) !== false ) {
+        if (strpos($msg, $this->stringToMatch) !== false) {
             return ($this->acceptOnMatch) ? AbstractFilter::ACCEPT : AbstractFilter::DENY;
         }
 

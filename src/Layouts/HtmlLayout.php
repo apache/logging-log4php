@@ -152,7 +152,8 @@ class HtmlLayout extends AbstractLayout
         $sbuf .= "</tr>" . PHP_EOL;
 
         if ($event->getNDC() != null) {
-            $sbuf .= "<tr><td bgcolor=\"#EEEEEE\" style=\"font-size : xx-small;\" colspan=\"6\" title=\"Nested Diagnostic Context\">";
+            $sbuf .= "<tr><td bgcolor=\"#EEEEEE\" style=\"font-size : xx-small;\" ";
+            $sbuf .= "colspan=\"6\" title=\"Nested Diagnostic Context\">";
             $sbuf .= "NDC: " . htmlentities($event->getNDC(), ENT_QUOTES);
             $sbuf .= "</td></tr>" . PHP_EOL;
         }
@@ -165,7 +166,8 @@ class HtmlLayout extends AbstractLayout
      */
     public function getHeader()
     {
-        $sbuf = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
+        $sbuf = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" ";
+        $sbuf .= "\"http://www.w3.org/TR/html4/loose.dtd\">" . PHP_EOL;
         $sbuf .= "<html>" . PHP_EOL;
         $sbuf .= "<head>" . PHP_EOL;
         $sbuf .= "<title>" . $this->title . "</title>" . PHP_EOL;
@@ -180,7 +182,8 @@ class HtmlLayout extends AbstractLayout
         $sbuf .= "<hr size=\"1\" noshade>" . PHP_EOL;
         $sbuf .= "Log session start time " . strftime('%c', time()) . "<br>" . PHP_EOL;
         $sbuf .= "<br>" . PHP_EOL;
-        $sbuf .= "<table cellspacing=\"0\" cellpadding=\"4\" border=\"1\" bordercolor=\"#224466\" width=\"100%\">" . PHP_EOL;
+        $sbuf .= "<table cellspacing=\"0\" cellpadding=\"4\" border=\"1\" ";
+        $sbuf .= "bordercolor=\"#224466\" width=\"100%\">" . PHP_EOL;
         $sbuf .= "<tr>" . PHP_EOL;
         $sbuf .= "<th>Time</th>" . PHP_EOL;
         $sbuf .= "<th>Thread</th>" . PHP_EOL;

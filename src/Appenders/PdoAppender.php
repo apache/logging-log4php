@@ -71,7 +71,8 @@ class PdoAppender extends AbstractAppender
      * The questionmarks are part of the prepared statement, and they must
      * match the number of conversion specifiers in {@link insertPattern}.
      */
-    protected $insertSQL = "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    protected $insertSQL =
+        "INSERT INTO __TABLE__ (timestamp, logger, level, message, thread, file, line) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     /**
      * A comma separated list of {@link LoggerPatternLayout} format strings
@@ -177,7 +178,10 @@ class PdoAppender extends AbstractAppender
 
                 // Close the appender if it's the last attempt
                 if ($attempt > $this->reconnectAttempts) {
-                    $this->warn("Failed writing to database after {$this->reconnectAttempts} reconnect attempts. Closing appender.");
+                    $this->warn(
+                        "Failed writing to database after {$this->reconnectAttempts} reconnect attempts. " .
+                        "Closing appender."
+                    );
                     $this->close();
                 // Otherwise reconnect and try to write again
                 } else {

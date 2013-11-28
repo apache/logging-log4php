@@ -106,28 +106,22 @@ class DefaultConfigurator implements ConfiguratorInterface
      */
     public function parse($input)
     {
-        // No input - use default configuration
         if (!isset($input)) {
+            // No input - use default configuration
             $config = self::$defaultConfiguration;
-        }
-
-        // Array input - contains configuration within the array
-        else if (is_array($input)) {
+        } elseif (is_array($input)) {
+            // Array input - contains configuration within the array
             $config = $input;
-        }
-
-        // String input - contains path to configuration file
-        else if (is_string($input)) {
+        } elseif (is_string($input)) {
+            // String input - contains path to configuration file
             try {
                 $config = $this->parseFile($input);
             } catch (LoggerException $e) {
                 $this->warn("Configuration failed. " . $e->getMessage() . " Using default configuration.");
                 $config = self::$defaultConfiguration;
             }
-        }
-
-        // Anything else is an error
-        else {
+        } else {
+            // Anything else is an error
             $this->warn("Invalid configuration param given. Reverting to default configuration.");
             $config = self::$defaultConfiguration;
         }
@@ -203,7 +197,10 @@ class DefaultConfigurator implements ConfiguratorInterface
             if (isset($threshold)) {
                 $hierarchy->setThreshold($threshold);
             } else {
-                $this->warn("Invalid threshold value [{$config['threshold']}] specified. Ignoring threshold definition.");
+                $this->warn(
+                    "Invalid threshold value [{$config['threshold']}] specified. " .
+                    "Ignoring threshold definition."
+                );
             }
         }
 
@@ -279,7 +276,10 @@ class DefaultConfigurator implements ConfiguratorInterface
         // TODO: add this check to other places where it might be useful
         if (!is_array($config)) {
             $type = gettype($config);
-            $this->warn("Invalid configuration provided for appender [$name]. Expected an array, found <$type>. Skipping appender definition.");
+            $this->warn(
+                "Invalid configuration provided for appender [$name]. Expected an array, found <$type>. " .
+                "Skipping appender definition."
+            );
 
             return;
         }
@@ -304,13 +304,19 @@ class DefaultConfigurator implements ConfiguratorInterface
         }
 
         if (!isset($appender)) {
-            $this->warn("Invalid class [$class] given for appender [$name]. Class does not exist. Skipping appender definition.");
+            $this->warn(
+                "Invalid class [$class] given for appender [$name]. Class does not exist. " .
+                "Skipping appender definition."
+            );
 
             return;
         }
 
         if (!($appender instanceof AbstractAppender)) {
-            $this->warn("Invalid class [$class] given for appender [$name]. Not a valid Appender class. Skipping appender definition.");
+            $this->warn(
+                "Invalid class [$class] given for appender [$name]. Not a valid Appender class. " .
+                "Skipping appender definition."
+            );
 
             return;
         }
@@ -321,7 +327,10 @@ class DefaultConfigurator implements ConfiguratorInterface
             if ($threshold instanceof Level) {
                 $appender->setThreshold($threshold);
             } else {
-                $this->warn("Invalid threshold value [{$config['threshold']}] specified for appender [$name]. Ignoring threshold definition.");
+                $this->warn(
+                    "Invalid threshold value [{$config['threshold']}] specified for appender [$name]. " .
+                    "Ignoring threshold definition."
+                );
             }
         }
 
@@ -372,7 +381,10 @@ class DefaultConfigurator implements ConfiguratorInterface
         }
 
         if (!isset($layout)) {
-            $this->warn("Nonexistant layout class [$class] specified for appender [$name]. Reverting to default layout.");
+            $this->warn(
+                "Nonexistant layout class [$class] specified for appender [$name]. " .
+                "Reverting to default layout."
+            );
 
             return;
         }
@@ -468,7 +480,10 @@ class DefaultConfigurator implements ConfiguratorInterface
             if (isset($level)) {
                 $logger->setLevel($level);
             } else {
-                $this->warn("Invalid level value [{$config['level']}] specified for logger [$loggerName]. Ignoring level definition.");
+                $this->warn(
+                    "Invalid level value [{$config['level']}] specified for logger [$loggerName]. " .
+                    "Ignoring level definition."
+                );
             }
         }
 
@@ -489,7 +504,10 @@ class DefaultConfigurator implements ConfiguratorInterface
                 $additivity = OptionConverter::toBooleanEx($config['additivity'], null);
                 $logger->setAdditivity($additivity);
             } catch (LoggerException $ex) {
-                $this->warn("Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName]. Ignoring additivity setting.");
+                $this->warn(
+                    "Invalid additivity value [{$config['additivity']}] specified for logger [$loggerName]. " .
+                    "Ignoring additivity setting."
+                );
             }
         }
     }

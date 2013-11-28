@@ -107,7 +107,8 @@ class XmlLayout extends AbstractLayout
         $thread = $event->getThreadName();
         $level = $event->getLevel()->toString();
 
-        $buf  = "<$ns:event logger=\"{$loggerName}\" level=\"{$level}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">".PHP_EOL;
+        $buf  = "<$ns:event logger=\"{$loggerName}\" level=\"{$level}\" thread=\"{$thread}\" ";
+        $buf .= "timestamp=\"{$timeStamp}\">" . PHP_EOL;
         $buf .= "<$ns:message>";
         $buf .= $this->encodeCDATA($event->getRenderedMessage());
         $buf .= "</$ns:message>".PHP_EOL;
@@ -122,7 +123,7 @@ class XmlLayout extends AbstractLayout
         $mdcMap = $event->getMDCMap();
         if (!empty($mdcMap)) {
             $buf .= "<$ns:properties>".PHP_EOL;
-            foreach ($mdcMap as $name=>$value) {
+            foreach ($mdcMap as $name => $value) {
                 $buf .= "<$ns:data name=\"$name\" value=\"$value\" />".PHP_EOL;
             }
             $buf .= "</$ns:properties>".PHP_EOL;
@@ -175,10 +176,10 @@ class XmlLayout extends AbstractLayout
     /**
      * @return boolean
      */
-     public function getLog4jNamespace()
-     {
+    public function getLog4jNamespace()
+    {
          return $this->log4jNamespace;
-     }
+    }
 
     /**
      * @param boolean

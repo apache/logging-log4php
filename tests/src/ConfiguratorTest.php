@@ -202,7 +202,7 @@ class CostumDefaultRenderer implements RendererInterface
 
     /**
       * @expectedException PHPUnit_Framework_Error
-      * @expectedExceptionMessage Failed adding renderer. Rendering class [stdClass] does not implement the RendererInterface interface.
+      * @expectedExceptionMessage Failed adding renderer. Rendering class [stdClass] does not implement RendererInterface.
       */
      public function testInvalidRenderingClassSet()
      {

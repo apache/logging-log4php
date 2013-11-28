@@ -80,13 +80,11 @@ class DailyFileAppender extends FileAppender
     {
         $eventDate = $this->getDate($event->getTimestamp());
 
-        // Initial setting of current date
         if (!isset($this->currentDate)) {
+            // Initial setting of current date
             $this->currentDate = $eventDate;
-        }
-
-        // Check if rollover is needed
-        else if ($this->currentDate !== $eventDate) {
+        } elseif ($this->currentDate !== $eventDate) {
+            // Check if rollover is needed
             $this->currentDate = $eventDate;
 
             // Close the file if it's open.

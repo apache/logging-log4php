@@ -130,7 +130,10 @@ class MongoDBAppender extends AbstractAppender
     public function activateOptions()
     {
         try {
-            $this->connection = new Mongo(sprintf('%s:%d', $this->host, $this->port), array('timeout' => $this->timeout));
+            $this->connection = new Mongo(
+                sprintf('%s:%d', $this->host, $this->port),
+                array('timeout' => $this->timeout)
+            );
             $db	= $this->connection->selectDB($this->databaseName);
             if ($this->userName !== null && $this->password !== null) {
                 $authResult = $db->authenticate($this->userName, $this->password);
@@ -190,7 +193,8 @@ class MongoDBAppender extends AbstractAppender
         if ($locationInfo != null) {
             $document['fileName'] = $locationInfo->getFileName();
             $document['method'] = $locationInfo->getMethodName();
-            $document['lineNumber'] = ($locationInfo->getLineNumber() == 'NA') ? 'NA' : (int) $locationInfo->getLineNumber();
+            $document['lineNumber'] = ($locationInfo->getLineNumber() == 'NA') ?
+                'NA' : (int) $locationInfo->getLineNumber();
             $document['className'] = $locationInfo->getClassName();
         }
 

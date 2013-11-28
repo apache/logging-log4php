@@ -126,7 +126,7 @@ class RendererMapTest extends \PHPUnit_Framework_TestCase
     /**
      * Try adding a class which does not implement RendererInterface as renderer.
      * @expectedException PHPUnit_Framework_Error
-      * @expectedExceptionMessage Failed adding renderer. Rendering class [stdClass] does not implement the RendererInterface interface.
+      * @expectedExceptionMessage Failed adding renderer. Rendering class [stdClass] does not implement RendererInterface.
      */
     public function testAddRendererError2()
     {
@@ -158,7 +158,7 @@ class RendererMapTest extends \PHPUnit_Framework_TestCase
     /**
      * Try setting a class which does not implement RendererInterface as default renderer.
      * @expectedException PHPUnit_Framework_Error
-     * @expectedExceptionMessage Failed setting default renderer. Rendering class [stdClass] does not implement the RendererInterface interface.
+     * @expectedExceptionMessage Failed setting default renderer. Rendering class [stdClass] does not implement RendererInterface.
      */
     public function testSetDefaultRendererError2()
     {

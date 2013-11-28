@@ -143,10 +143,10 @@ class LoggingEvent
      * Returns the full qualified classname.
      * TODO: PHP does contain namespaces in 5.3. Those should be returned too,
      */
-     public function getFullQualifiedClassname()
-     {
-         return $this->fqcn;
-     }
+    public function getFullQualifiedClassname()
+    {
+        return $this->fqcn;
+    }
 
     /**
      * Set the location information for this logging event. The collected
@@ -182,7 +182,7 @@ class LoggingEvent
                 $hop = array_pop($trace);
             }
             $locationInfo['class'] = isset($prevHop['class']) ? $prevHop['class'] : 'main';
-            if(isset($prevHop['function']) and
+            if (isset($prevHop['function']) and
                 $prevHop['function'] !== 'include' and
                 $prevHop['function'] !== 'include_once' and
                 $prevHop['function'] !== 'require' and
@@ -388,7 +388,6 @@ class LoggingEvent
             'locationInfo',
         );
     }
-
 }
 
 LoggingEvent::getStartTime();

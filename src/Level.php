@@ -252,29 +252,44 @@ class Level
     public static function toLevel($arg, $defaultLevel = null)
     {
         if (is_int($arg)) {
-            switch ($arg) {
-                case self::ALL:	return self::getLevelAll();
-                case self::TRACE: return self::getLevelTrace();
-                case self::DEBUG: return self::getLevelDebug();
-                case self::INFO: return self::getLevelInfo();
-                case self::WARN: return self::getLevelWarn();
-                case self::ERROR: return self::getLevelError();
-                case self::FATAL: return self::getLevelFatal();
-                case self::OFF:	return self::getLevelOff();
-                default: return $defaultLevel;
+            if ($arg === self::ALL) {
+                return self::getLevelAll();
+            } elseif ($arg === self::TRACE) {
+                return self::getLevelTrace();
+            } elseif ($arg === self::DEBUG) {
+                return self::getLevelDebug();
+            } elseif ($arg === self::INFO) {
+                return self::getLevelInfo();
+            } elseif ($arg === self::WARN) {
+                return self::getLevelWarn();
+            } elseif ($arg === self::ERROR) {
+                return self::getLevelError();
+            } elseif ($arg === self::FATAL) {
+                return self::getLevelFatal();
+            } elseif ($arg === self::OFF) {
+                return self::getLevelOff();
             }
         } else {
-            switch (strtoupper($arg)) {
-                case 'ALL':	return self::getLevelAll();
-                case 'TRACE': return self::getLevelTrace();
-                case 'DEBUG': return self::getLevelDebug();
-                case 'INFO': return self::getLevelInfo();
-                case 'WARN': return self::getLevelWarn();
-                case 'ERROR': return self::getLevelError();
-                case 'FATAL': return self::getLevelFatal();
-                case 'OFF':	return self::getLevelOff();
-                default: return $defaultLevel;
+            $arg = strtoupper($arg);
+            if ($arg === 'ALL') {
+                return self::getLevelAll();
+            } elseif ($arg === 'TRACE') {
+                return self::getLevelTrace();
+            } elseif ($arg === 'DEBUG') {
+                return self::getLevelDebug();
+            } elseif ($arg === 'INFO') {
+                return self::getLevelInfo();
+            } elseif ($arg === 'WARN') {
+                return self::getLevelWarn();
+            } elseif ($arg === 'ERROR') {
+                return self::getLevelError();
+            } elseif ($arg === 'FATAL') {
+                return self::getLevelFatal();
+            } elseif ($arg === 'OFF') {
+                return self::getLevelOff();
             }
         }
+
+        return $defaultLevel;
     }
 }

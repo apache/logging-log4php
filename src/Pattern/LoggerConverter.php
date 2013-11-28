@@ -52,13 +52,11 @@ class LoggerConverter extends AbstractConverter
 
         if (!isset($this->cache[$name])) {
 
-            // If length is set return shortened logger name
             if (isset($this->length)) {
+                // If length is set return shortened logger name
                 $this->cache[$name] = Utils::shortenClassName($name, $this->length);
-            }
-
-            // If no length is specified return full logger name
-            else {
+            } else {
+                // If no length is specified return full logger name
                 $this->cache[$name] = $name;
             }
         }

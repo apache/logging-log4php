@@ -163,9 +163,12 @@ abstract class AbstractAppender extends Configurable
         $filter = $this->getFirstFilter();
         while ($filter !== null) {
             switch ($filter->decide($event)) {
-                case AbstractFilter::DENY: return;
-                case AbstractFilter::ACCEPT: return $this->append($event);
-                case AbstractFilter::NEUTRAL: $filter = $filter->getNext();
+                case AbstractFilter::DENY:
+                    return;
+                case AbstractFilter::ACCEPT:
+                    return $this->append($event);
+                case AbstractFilter::NEUTRAL:
+                    $filter = $filter->getNext();
             }
         }
         $this->append($event);
@@ -307,5 +310,4 @@ abstract class AbstractAppender extends Configurable
         $id = get_class($this) . (empty($this->name) ? '' : ":{$this->name}");
         trigger_error("log4php: [$id]: $message", E_USER_WARNING);
     }
-
 }

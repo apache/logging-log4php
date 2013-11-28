@@ -230,7 +230,10 @@ class PatternParser
         // Validate
         $pattern = '/^(-?[0-9]+)?\.?-?[0-9]+$/';
         if (!preg_match($pattern, $modifiers)) {
-            trigger_error("log4php: Invalid modifier in conversion pattern: [$modifiers]. Ignoring modifier.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Invalid modifier in conversion pattern: [$modifiers]. Ignoring modifier.",
+                E_USER_WARNING
+            );
 
             return $info;
         }

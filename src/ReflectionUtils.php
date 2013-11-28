@@ -45,11 +45,12 @@ class ReflectionUtils
      * go. The <code>properties</code> are parsed relative to a
      * <code>prefix</code>.
      *
+     * TODO: check, if this is really useful
+     *
      * @param object $obj        The object to configure.
      * @param array  $properties An array containing keys and values.
      * @param string $prefix     Only keys having the specified prefix will be set.
      */
-     // TODO: check, if this is really useful
     public static function setPropertiesByObject($obj, $properties, $prefix)
     {
         $pSetter = new ReflectionUtils($obj);
@@ -114,7 +115,8 @@ class ReflectionUtils
         $method = "set" . ucfirst($name);
 
         if (!method_exists($this->obj, $method)) {
-            throw new Exception("Error setting log4php property $name to $value: no method $method in class ".get_class($this->obj)."!");
+            $class = get_class($this->obj);
+            throw new Exception("Error setting log4php property $name to $value: no method $method in class $class.");
         } else {
             return call_user_func(array($this->obj, $method), $value);
         }
@@ -159,5 +161,4 @@ class ReflectionUtils
             return false;
         }
     }
-
 }

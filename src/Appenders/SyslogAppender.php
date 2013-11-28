@@ -286,7 +286,10 @@ class SyslogAppender extends AbstractAppender
                 if (defined($constant)) {
                     $value |= constant($constant);
                 } else {
-                    trigger_error("log4php: Invalid syslog option provided: $option. Whole option string: {$this->option}.", E_USER_WARNING);
+                    trigger_error(
+                        "log4php: Invalid syslog option provided: $option. Whole option string: {$this->option}.",
+                        E_USER_WARNING
+                    );
                 }
             }
         }

@@ -50,13 +50,11 @@ class ClassConverter extends AbstractConverter
 
         if (!isset($this->cache[$name])) {
 
-            // If length is set return shortened class name
             if (isset($this->length)) {
+                // If length is set return shortened class name
                 $this->cache[$name] = Utils::shortenClassName($name, $this->length);
-            }
-
-            // If no length is specified return the full class name
-            else {
+            } else {
+                // If no length is specified return the full class name
                 $this->cache[$name] = $name;
             }
         }

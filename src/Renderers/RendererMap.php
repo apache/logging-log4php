@@ -69,14 +69,21 @@ class RendererMap
         }
 
         if (!isset($renderer)) {
-            trigger_error("log4php: Failed adding renderer. Rendering class [$renderingClass] not found.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Failed adding renderer. Rendering class [$renderingClass] not found.",
+                E_USER_WARNING
+            );
 
             return;
         }
 
         // Check the class implements the right interface
         if (!($renderer instanceof RendererInterface)) {
-            trigger_error("log4php: Failed adding renderer. Rendering class [$renderingClass] does not implement the RendererInterface interface.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Failed adding renderer. " .
+                "Rendering class [$renderingClass] does not implement RendererInterface.",
+                E_USER_WARNING
+            );
 
             return;
         }
@@ -101,7 +108,10 @@ class RendererMap
     {
         // Check the class exists
         if (!class_exists($renderingClass)) {
-            trigger_error("log4php: Failed setting default renderer. Rendering class [$renderingClass] not found.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Failed setting default renderer. Rendering class [$renderingClass] not found.",
+                E_USER_WARNING
+            );
 
             return;
         }
@@ -111,7 +121,11 @@ class RendererMap
 
         // Check the class implements the right interface
         if (!($renderer instanceof RendererInterface)) {
-            trigger_error("log4php: Failed setting default renderer. Rendering class [$renderingClass] does not implement the RendererInterface interface.", E_USER_WARNING);
+            trigger_error(
+                "log4php: Failed setting default renderer. " .
+                "Rendering class [$renderingClass] does not implement RendererInterface.",
+                E_USER_WARNING
+            );
 
             return;
         }
