@@ -272,7 +272,7 @@ class IniAdapter implements AdapterInterface
             }
         }
 
-        trigger_error("log4php: Don't know how to parse the following line: \"$key = $value\". Skipping.");
+        trigger_error("log4php: Don't know how to parse the following line: \"$key = $value\". Skipping.", E_USER_WARNING);
     }
 
     /**
