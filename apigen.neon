@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source: src/main/php
-destination: target/site/apidocs
+source: src/
+destination: target/apidocs
 charset: UTF-8
 title: Apache log4php
 progressbar: no
