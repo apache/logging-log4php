@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,18 +33,18 @@ use Apache\Log4php\Renderers\RendererMap;
  * Child Loggers do inherit their Log-Levels from their Ancestors. They can
  * increase their Log-Level compared to their Ancestors, but they cannot decrease it.
  *
- * <p>The casual user does not have to deal with this class directly.</p>
+ * The casual user does not have to deal with this class directly.
  *
- * <p>The structure of the logger hierarchy is maintained by the
+ * The structure of the logger hierarchy is maintained by the
  * getLogger method. The hierarchy is such that children link
  * to their parent but parents do not have any pointers to their
  * children. Moreover, loggers can be instantiated in any order, in
- * particular descendant before ancestor.</p>
+ * particular descendant before ancestor.
  *
- * <p>In case a descendant is created before a particular ancestor,
+ * In case a descendant is created before a particular ancestor,
  * then it creates a provision node for the ancestor and adds itself
  * to the provision node. Other descendants of the same ancestor add
- * themselves to the previously created provision node.</p>
+ * themselves to the previously created provision node.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php
@@ -193,14 +193,14 @@ class Hierarchy
      * default.
      *
      * This removes all appenders from all loggers, sets
-     * the level of all non-root loggers to <i>null</i>,
-     * sets their additivity flag to <i>true</i> and sets the level
+     * the level of all non-root loggers to *null*,
+     * sets their additivity flag to *true* and sets the level
      * of the root logger to {@link LOGGER_LEVEL_DEBUG}.
      *
-     * <p>Existing loggers are not removed. They are just reset.
+     * Existing loggers are not removed. They are just reset.
      *
-     * <p>This method should be used sparingly and with care as it will
-     * block all logging until it is completed.</p>
+     * This method should be used sparingly and with care as it will
+     * block all logging until it is completed.
      */
     public function resetConfiguration()
     {
@@ -230,7 +230,7 @@ class Hierarchy
     }
 
     /**
-     * Shutting down a hierarchy will <i>safely</i> close and remove
+     * Shutting down a hierarchy will *safely* close and remove
      * all appenders in all loggers including the root logger.
      *
      * The shutdown method is careful to close nested

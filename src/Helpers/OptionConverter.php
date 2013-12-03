@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,7 +52,7 @@ class OptionConverter
      * @param  string $key The key to search for.
      * @param  string $def The default value to return.
      * @return string the string value of the system property, or the default
-     *					value if there is no property with that key.
+     *     value if there is no property with that key.
      */
     public static function getSystemProperty($key, $def)
     {

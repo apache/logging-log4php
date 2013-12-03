@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,9 +29,9 @@ use Apache\Log4php\LoggingEvent;
  *
  * Levels are mapped as follows:
  *
- * - <b>level < WARN</b> mapped to E_USER_NOTICE
- * - <b>WARN <= level < ERROR</b> mapped to E_USER_WARNING
- * - <b>level >= ERROR</b> mapped to E_USER_ERROR
+ * - **level < WARN** mapped to E_USER_NOTICE
+ * - **WARN <= level < ERROR** mapped to E_USER_WARNING
+ * - **level >= ERROR** mapped to E_USER_ERROR
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/php.html Appender documentation
  */

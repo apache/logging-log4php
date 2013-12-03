@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,21 +34,21 @@ use Apache\Log4php\Level;
 class HtmlLayout extends AbstractLayout
 {
     /**
-     * The <b>LocationInfo</b> option takes a boolean value. By
+     * The **LocationInfo** option takes a boolean value. By
      * default, it is set to false which means there will be no location
      * information output by this layout. If the the option is set to
      * true, then the file name and line number of the statement
      * at the origin of the log statement will be output.
      *
-     * <p>If you are embedding this layout within a {@link MailAppender}
+     * If you are embedding this layout within a {@link MailAppender}
      * or a {@link MailEventAppender} then make sure to set the
-     * <b>LocationInfo</b> option of that appender as well.
+     * **LocationInfo** option of that appender as well.
      * @var boolean
      */
     protected $locationInfo = false;
 
     /**
-     * The <b>Title</b> option takes a String value. This option sets the
+     * The **Title** option takes a String value. This option sets the
      * document title of the generated HTML document.
      * Defaults to 'Log4php Log Messages'.
      * @var string
@@ -56,15 +56,15 @@ class HtmlLayout extends AbstractLayout
     protected $title = "Log4php Log Messages";
 
     /**
-     * The <b>LocationInfo</b> option takes a boolean value. By
+     * The **LocationInfo** option takes a boolean value. By
      * default, it is set to false which means there will be no location
      * information output by this layout. If the the option is set to
      * true, then the file name and line number of the statement
      * at the origin of the log statement will be output.
      *
-     * <p>If you are embedding this layout within a {@link MailAppender}
+     * If you are embedding this layout within a {@link MailAppender}
      * or a {@link MailEventAppender} then make sure to set the
-     * <b>LocationInfo</b> option of that appender as well.
+     * **LocationInfo** option of that appender as well.
      */
     public function setLocationInfo($flag)
     {
@@ -72,7 +72,7 @@ class HtmlLayout extends AbstractLayout
     }
 
     /**
-     * Returns the current value of the <b>LocationInfo</b> option.
+     * Returns the current value of the **LocationInfo** option.
      */
     public function getLocationInfo()
     {
@@ -80,7 +80,7 @@ class HtmlLayout extends AbstractLayout
     }
 
     /**
-     * The <b>Title</b> option takes a String value. This option sets the
+     * The **Title** option takes a String value. This option sets the
      * document title of the generated HTML document.
      * Defaults to 'Log4php Log Messages'.
      */
@@ -90,7 +90,7 @@ class HtmlLayout extends AbstractLayout
     }
 
     /**
-     * @return string Returns the current value of the <b>Title</b> option.
+     * @return string Returns the current value of the **Title** option.
      */
     public function getTitle()
     {

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,9 +30,9 @@ use Apache\Log4php\LoggingEvent;
  *   instead of log4php namespace. This can be usefull when using log viewers
  *   which can only parse the log4j namespace such as Apache Chainsaw.
  *
- * <p>It does not output a complete well-formed XML file.
+ * It does not output a complete well-formed XML file.
  * The output is designed to be included as an external entity in a separate file to form
- * a correct XML file.</p>
+ * a correct XML file.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */

@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,13 +19,17 @@
 namespace Apache\Log4php;
 
 /**
- * Defines the minimum set of levels recognized by the system, that is
- * <i>OFF</i>, <i>FATAL</i>, <i>ERROR</i>,
- * <i>WARN</i>, <i>INFO</i>, <i>DEBUG</i> and
- * <i>ALL</i>.
+ * Defines the minimum set of levels recognized by the system, which are:
  *
- * <p>The <i>Level</i> class may be subclassed to define a larger
- * level set.</p>
+ * - <var>OFF</var>
+ * - <var>FATAL</var>
+ * - <var>ERROR</var>
+ * - <var>WARN</var>
+ * - <var>INFO</var>
+ * - <var>DEBUG</var>
+ * - <var>ALL</var>
+ *
+ * The {@link Level} class may be subclassed to define a larger level set.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php
@@ -202,8 +206,8 @@ class Level
     }
 
     /**
-     * Returns <i>true</i> if this level has a higher or equal
-     * level than the level passed as argument, <i>false</i>
+     * Returns *true* if this level has a higher or equal
+     * level than the level passed as argument, *false*
      * otherwise.
      *
      * @param  Level   $other

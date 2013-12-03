@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,40 +21,28 @@ namespace Apache\Log4php\Filters;
 use Apache\Log4php\LoggingEvent;
 
 /**
- * This is a very simple filter based on level matching, which can be
- * used to reject messages with priorities outside a certain range.
+ * This is a very simple filter based on level matching, which can be used to
+ * reject messages with priorities outside a certain range.
  *
- * <p>The filter admits three options <b><var>LevelMin</var></b>, <b><var>LevelMax</var></b>
- * and <b><var>AcceptOnMatch</var></b>.</p>
+ * The filter admits three options <var>levelMin</var>, <var>levelMax</var> and
+ * <var>acceptOnMatch</var>.
  *
- * <p>If the level of the {@link LoggingEvent} is not between Min and Max
- * (inclusive), then {@link AbstractFilter::DENY} is returned.</p>
+ * If the level of the {@link LoggingEvent} is not between Min and Max
+ * (inclusive), then {@link AbstractFilter::DENY} is returned.
  *
- * <p>If the Logging event level is within the specified range, then if
- * <b><var>AcceptOnMatch</var></b> is <i>true</i>,
- * {@link AbstractFilter::ACCEPT} is returned, and if
- * <b><var>AcceptOnMatch</var></b> is <i>false</i>,
- * {@link AbstractFilter::NEUTRAL} is returned.</p>
+ * If the Logging event level is within the specified range, then if
+ * <var>acceptOnMatch</var> is *true*, {@link AbstractFilter::ACCEPT} is
+ * returned, and if <var>acceptOnMatch</var> is *false*, {@link
+ * AbstractFilter::NEUTRAL} is returned.
  *
- * <p>If <b><var>LevelMin</var></b> is not defined, then there is no
- * minimum acceptable level (i.e. a level is never rejected for
- * being too "low"/unimportant).  If <b><var>LevelMax</var></b> is not
- * defined, then there is no maximum acceptable level (ie a
- * level is never rejected for being too "high"/important).</p>
+ * If <var>levelMin</var> is not defined, then there is no minimum acceptable
+ * level (i.e. a level is never rejected for being too "low"/unimportant). If
+ * <var>levelMax</var> is not defined, then there is no maximum acceptable level
+ * (ie a level is never rejected for being too "high"/important).
  *
- * <p>Refer to the {@link Appender::setThreshold()} method
- * available to <b>all</b> appenders extending {@link Appender}
- * for a more convenient way to filter out events by level.</p>
- *
- * <p>
- * An example for this filter:
- *
- * {@example ../../examples/php/filter_levelrange.php 19}
- *
- * <p>
- * The corresponding XML file:
- *
- * {@example ../../examples/resources/filter_levelrange.xml 18}
+ * Refer to the {@link Appender::setThreshold()} method available to **all**
+ * appenders extending {@link Appender} for a more convenient way to filter out
+ * events by level.
  *
  * @author Simon Kitching
  * @author based on the org.apache.log4j.varia.LevelRangeFilte Java code by Ceki G&uuml;lc&uuml;

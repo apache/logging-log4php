@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,20 +70,19 @@ class DefaultConfigurator implements ConfiguratorInterface
     private $appenders = array();
 
     /**
-     * Configures log4php based on the given configuration. The input can
-     * either be a path to the config file, or a PHP array holding the
-     * configuration.
+     * Configures log4php based on the given configuration. The input can either
+     * be a path to the config file, or a PHP array holding the configuration.
      *
      * If no configuration is given, or if the given configuration cannot be
-     * parsed for whatever reason, a warning will be issued, and log4php
-     * will use the default configuration contained in
-     * {@link $defaultConfiguration}.
+     * parsed for whatever reason, a warning will be issued, and log4php will
+     * use the default configuration contained in {@link $defaultConfiguration}.
      *
-     * @param Hierarchy $hierarchy The hierarchy on which to perform
-     * 		the configuration.
+     * @param Hierarchy $hierarchy The hierarchy on which to perform the
+     * configuration.
+     *
      * @param string|array $input Either path to the config file or the
-     * 		configuration as an array. If not set, default configuration
-     * 		will be used.
+     * configuration as an array. If not set, default configuration will be
+     * used.
      */
     public function configure(Hierarchy $hierarchy, $input = null)
     {
@@ -92,16 +91,17 @@ class DefaultConfigurator implements ConfiguratorInterface
     }
 
     /**
-     * Parses the given configuration and returns the parsed configuration
-     * as a PHP array. Does not perform any configuration.
+     * Parses the given configuration and returns the parsed configuration as a
+     * PHP array. Does not perform any configuration.
      *
      * If no configuration is given, or if the given configuration cannot be
      * parsed for whatever reason, a warning will be issued, and the default
      * configuration will be returned ({@link $defaultConfiguration}).
      *
      * @param string|array $input Either path to the config file or the
-     * 		configuration as an array. If not set, default configuration
-     * 		will be used.
+     * configuration as an array. If not set, default configuration will be
+     * used.
+     *
      * @return array The parsed configuration.
      */
     public function parse($input)
@@ -143,10 +143,10 @@ class DefaultConfigurator implements ConfiguratorInterface
      * adapter to use, converts the configuration to a PHP array and
      * returns it.
      *
-     * @param  string          $url Path to the config file.
-     * @return The             configuration from the config file, as a PHP array.
+     * @param  string $url Path to the config file.
+     * @return The configuration from the config file, as a PHP array.
      * @throws LoggerException If the configuration file cannot be loaded, or
-     * 		if the parsing fails.
+     * if the parsing fails.
      */
     private function parseFile($url)
     {
@@ -519,8 +519,8 @@ class DefaultConfigurator implements ConfiguratorInterface
      * For example, if options are:
      * <code>
      * array(
-     * 	'file' => '/tmp/myfile.log',
-     * 	'append' => true
+     *   'file' => '/tmp/myfile.log',
+     *   'append' => true
      * )
      * </code>
      *
@@ -532,8 +532,8 @@ class DefaultConfigurator implements ConfiguratorInterface
      *
      * If required setters do not exist, it will produce a warning.
      *
-     * @param mixed        $object  The object to configure.
-     * @param unknown_type $options
+     * @param mixed $object  The object to configure.
+     * @param array $options
      */
     private function setOptions($object, $options)
     {

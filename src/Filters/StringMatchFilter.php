@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,21 +23,21 @@ use Apache\Log4php\LoggingEvent;
 /**
  * This is a very simple filter based on string matching.
  *
- * <p>The filter admits two options {@link $stringToMatch} and
+ * The filter admits two options {@link $stringToMatch} and
  * {@link $acceptOnMatch}. If there is a match (using {@link PHP_MANUAL#strpos}
  * between the value of the {@link $stringToMatch} option and the message
  * of the {@link LoggingEvent},
  * then the {@link decide()} method returns {@link AbstractFilter::ACCEPT} if
- * the <b>AcceptOnMatch</b> option value is true, if it is false then
+ * the **AcceptOnMatch** option value is true, if it is false then
  * {@link AbstractFilter::DENY} is returned. If there is no match, {@link AbstractFilter::NEUTRAL}
- * is returned.</p>
+ * is returned.
  *
- * <p>
+ *
  * An example for this filter:
  *
  * {@example ../../examples/php/filter_stringmatch.php 19}
  *
- * <p>
+ *
  * The corresponding XML file:
  *
  * {@example ../../examples/resources/filter_stringmatch.xml 18}

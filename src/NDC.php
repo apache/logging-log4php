@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,11 +19,11 @@
 namespace Apache\Log4php;
 
 /**
- * The NDC class implements <i>nested diagnostic contexts</i>.
+ * The NDC class implements *nested diagnostic contexts*.
  *
  * NDC was defined by Neil Harrison in the article "Patterns for Logging
- * Diagnostic Messages" part of the book <i>"Pattern Languages of
- * Program Design 3"</i> edited by Martin et al.
+ * Diagnostic Messages" part of the book *"Pattern Languages of
+ * Program Design 3"* edited by Martin et al.
  *
  * A Nested Diagnostic Context, or NDC in short, is an instrument
  * to distinguish interleaved log output from different sources. Log
@@ -37,16 +37,16 @@ namespace Apache\Log4php;
  * from different contexts had a distinctive stamp. This is where NDCs
  * come into play.
  *
- * <b>Note that NDCs are managed on a per thread basis</b>.
+ * **Note that NDCs are managed on a per thread basis**.
  *
  * NDC operations such as {@link push()}, {@link pop()},
  * {@link clear()}, {@link getDepth()} and {@link setMaxDepth()}
- * affect the NDC of the <i>current</i> thread only. NDCs of other
+ * affect the NDC of the *current* thread only. NDCs of other
  * threads remain unaffected.
  *
  * For example, a servlet can build a per client request NDC
  * consisting the clients host name and other information contained in
- * the the request. <i>Cookies</i> are another source of distinctive
+ * the the request. *Cookies* are another source of distinctive
  * information. To build an NDC one uses the {@link push()}
  * operation.
  *
@@ -54,10 +54,10 @@ namespace Apache\Log4php;
  *
  * - Contexts can be nested.
  * - When entering a context, call <kbd>NDC::push()</kbd>
- *	 As a side effect, if there is no nested diagnostic context for the
- *	 current thread, this method will create it.
+ *   As a side effect, if there is no nested diagnostic context for the
+ *   current thread, this method will create it.
  * - When leaving a context, call <kbd>NDC::pop()</kbd>
- * - <b>When exiting a thread make sure to call {@link remove()}</b>
+ * - **When exiting a thread make sure to call {@link remove()}**
  *
  * There is no penalty for forgetting to match each
  * <kbd>push</kbd> operation with a corresponding <kbd>pop</kbd>,
@@ -82,12 +82,12 @@ class NDC
     private static $stack = array();
 
     /**
-     * Clear any nested diagnostic information if any. This method is
-     * useful in cases where the same thread can be potentially used
-     * over and over in different unrelated contexts.
+     * Clear any nested diagnostic information if any. This method is useful in
+     * cases where the same thread can be potentially used over and over in
+     * different unrelated contexts.
      *
-     * <p>This method is equivalent to calling the {@link setMaxDepth()}
-     * method with a zero <var>maxDepth</var> argument.
+     * This method is equivalent to calling the {@link setMaxDepth()} method
+     * with a zero <var>maxDepth</var> argument.
      */
     public static function clear()
     {
@@ -95,7 +95,8 @@ class NDC
     }
 
     /**
-     * Never use this method directly, use the {@link LoggingEvent::getNDC()} method instead.
+     * Never use this method directly, use the {@link LoggingEvent::getNDC()}
+     * method instead.
      * @return array
      */
     public static function get()
@@ -115,11 +116,10 @@ class NDC
     }
 
     /**
-     * Clients should call this method before leaving a diagnostic
-     * context.
+     * Clients should call this method before leaving a diagnostic context.
      *
-     * <p>The returned value is the value that was pushed last. If no
-     * context is available, then the empty string "" is returned.</p>
+     * The returned value is the value that was pushed last. If no context is
+     * available, then the empty string "" is returned.
      *
      * @return string The innermost diagnostic context.
      */
@@ -133,11 +133,12 @@ class NDC
     }
 
     /**
-     * Looks at the last diagnostic context at the top of this NDC
-     * without removing it.
+     * Looks at the last diagnostic context at the top of this NDC without
+     * removing it.
      *
-     * <p>The returned value is the value that was pushed last. If no
-     * context is available, then the empty string "" is returned.</p>
+     * The returned value is the value that was pushed last. If no context is
+     * available, then the empty string "" is returned.
+     *
      * @return string The innermost diagnostic context.
      */
     public static function peek()
@@ -152,8 +153,8 @@ class NDC
     /**
      * Push new diagnostic context information for the current thread.
      *
-     * <p>The contents of the <var>message</var> parameter is
-     * determined solely by the client.
+     * The contents of the <var>message</var> parameter is determined solely by
+     * the client.
      *
      * @param string $message The new diagnostic context information.
      */
@@ -171,15 +172,13 @@ class NDC
     }
 
     /**
-     * Set maximum depth of this diagnostic context. If the current
-     * depth is smaller or equal to <var>maxDepth</var>, then no
-     * action is taken.
+     * Set maximum depth of this diagnostic context. If the current depth is
+     * smaller or equal to <var>maxDepth</var>, then no action is taken.
      *
-     * <p>This method is a convenient alternative to multiple
-     * {@link pop()} calls. Moreover, it is often the case that at
-     * the end of complex call sequences, the depth of the NDC is
-     * unpredictable. The {@link setMaxDepth()} method circumvents
-     * this problem.
+     * This method is a convenient alternative to multiple {@link pop()} calls.
+     * Moreover, it is often the case that at the end of complex call sequences,
+     * the depth of the NDC is unpredictable. The {@link setMaxDepth()} method
+     * circumvents this problem.
      *
      * @param integer $maxDepth
      * @see getDepth()

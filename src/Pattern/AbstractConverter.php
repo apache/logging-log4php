@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,9 @@ use Apache\Log4php\LoggingEvent;
  * AbstractConverter is an abstract class that provides the formatting
  * functionality that derived classes need.
  *
- * <p>Conversion specifiers in a conversion patterns are parsed to
+ * Conversion specifiers in a conversion patterns are parsed to
  * individual PatternConverters. Each of which is responsible for
- * converting a logging event in a converter specific manner.</p>
+ * converting a logging event in a converter specific manner.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3

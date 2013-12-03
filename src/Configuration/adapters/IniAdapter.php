@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -176,12 +176,12 @@ class IniAdapter implements AdapterInterface
      * log4php.appender.<name>.<param> = <value>
      * </pre>
      *
-      * Appender threshold:
+     * Appender threshold:
      * <pre>
      * log4php.appender.<name>.threshold = <level>
      * </pre>
      *
-      * Appender layout:
+     * Appender layout:
      * <pre>
      * log4php.appender.<name>.layout = <layoutClass>
      * </pre>
@@ -204,17 +204,17 @@ class IniAdapter implements AdapterInterface
      * found under $this->config['appenders']['myAppender']:
      * <pre>
      * array(
-     * 	'class' => ConsoleAppender,
-     * 	'threshold' => info,
-     * 	'params' => array(
-     * 		'target' => 'stdout'
-     * 	),
-     * 	'layout' => array(
-     * 		'class' => 'ConsoleAppender',
-     * 		'params' => array(
-     * 			'conversionPattern' => '%d %c: %m%n'
-     * 		)
-     * 	)
+     *     'class' => ConsoleAppender,
+     *     'threshold' => info,
+     *     'params' => array(
+     *         'target' => 'stdout'
+     *     ),
+     *     'layout' => array(
+     *         'class' => 'ConsoleAppender',
+     *         'params' => array(
+     *             'conversionPattern' => '%d %c: %m%n'
+     *         )
+     *     )
      * )
      * </pre>
      *

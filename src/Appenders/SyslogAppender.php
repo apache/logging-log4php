@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,7 @@ use Apache\Log4php\LoggingEvent;
  *
  * This appenders requires a layout.
  *
- * ## Configurable parameters: ##
+ * **Configurable parameters:**
  *
  * - **ident** - The ident of the syslog message.
  * - **priority** - The priority for the syslog message (used when overriding
@@ -39,17 +39,16 @@ use Apache\Log4php\LoggingEvent;
  *
  * Recognised syslog options are:
  *
- * - CONS 	 - if there is an error while sending data to the system logger, write directly to the system console
+ * - CONS - if there is an error while sending data to the system logger, write directly to the system console
  * - NDELAY - open the connection to the logger immediately
  * - ODELAY - delay opening the connection until the first message is logged (default)
  * - PERROR - print log message also to standard error
- * - PID    - include PID with each message
+ * - PID - include PID with each message
  *
  * Multiple options can be set by delimiting them with a pipe character,
  * e.g.: "CONS|PID|PERROR".
  *
  * Recognised syslog priorities are:
- *
  * - EMERG
  * - ALERT
  * - CRIT
@@ -61,12 +60,13 @@ use Apache\Log4php\LoggingEvent;
  *
  * Levels are mapped as follows:
  *
- * - <b>FATAL</b> to LOG_ALERT
- * - <b>ERROR</b> to LOG_ERR
- * - <b>WARN</b> to LOG_WARNING
- * - <b>INFO</b> to LOG_INFO
- * - <b>DEBUG</b> to LOG_DEBUG
- * - <b>TRACE</b> to LOG_DEBUG
+ * - **FATAL** to LOG_ALERT
+ * - **ERROR** to LOG_ERR
+ * - **WARN** to LOG_WARNING
+ * - **INFO** to LOG_INFO
+ * - **DEBUG** to LOG_DEBUG
+ * - **TRACE** to LOG_DEBUG
+ *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php/docs/appenders/syslog.html Appender documentation
  */

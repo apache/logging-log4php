@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -132,7 +132,7 @@ class MongoDBAppender extends AbstractAppender
                 sprintf('%s:%d', $this->host, $this->port),
                 array('timeout' => $this->timeout)
             );
-            $db	= $this->connection->selectDB($this->databaseName);
+            $db = $this->connection->selectDB($this->databaseName);
             if ($this->userName !== null && $this->password !== null) {
                 $authResult = $db->authenticate($this->userName, $this->password);
                 if ($authResult['ok'] == floatval(0)) {
@@ -212,7 +212,7 @@ class MongoDBAppender extends AbstractAppender
      * @param  Exception $ex
      * @return array
      */
-    protected function formatThrowable(Exception $ex)
+    protected function formatThrowable(\Exception $ex)
     {
         $array = array(
             'message' => $ex->getMessage(),

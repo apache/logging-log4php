@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@
 namespace Apache\Log4php;
 
 /**
- * The MDC class provides _mapped diagnostic contexts_.
+ * The MDC class provides *mapped diagnostic contexts*.
  *
  * A Mapped Diagnostic Context, or MDC in short, is an instrument for
  * distinguishing interleaved log output from different sources. Log output
@@ -55,7 +55,7 @@ class MDC
      *
      * @param  string $key The key.
      * @return string The context or an empty string if no context found
-     * 	for given key.
+     *     for given key.
      */
     public static function get($key)
     {

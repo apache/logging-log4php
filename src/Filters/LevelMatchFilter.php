@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,24 +23,13 @@ use Apache\Log4php\LoggingEvent;
 /**
  * This is a very simple filter based on level matching.
  *
- * <p>The filter admits two options <b><var>LevelToMatch</var></b> and
- * <b><var>AcceptOnMatch</var></b>. If there is an exact match between the value
- * of the <b><var>LevelToMatch</var></b> option and the level of the
- * {@link LoggingEvent}, then the {@link decide()} method returns
- * {@link AbstractFilter::ACCEPT} in case the <b><var>AcceptOnMatch</var></b>
- * option value is set to <i>true</i>, if it is <i>false</i> then
- * {@link AbstractFilter::DENY} is returned. If there is no match,
- * {@link AbstractFilter::NEUTRAL} is returned.</p>
- *
- * <p>
- * An example for this filter:
- *
- * {@example ../../examples/php/filter_levelmatch.php 19}
- *
- * <p>
- * The corresponding XML file:
- *
- * {@example ../../examples/resources/filter_levelmatch.xml 18}
+ * The filter admits two options <var>LevelToMatch</var> and
+ * <var>AcceptOnMatch</var>. If there is an exact match between the value of the
+ * <var>LevelToMatch</var> option and the level of the {@link LoggingEvent},
+ * then the {@link decide()} method returns {@link AbstractFilter::ACCEPT} in
+ * case the <var>AcceptOnMatch</var> option value is set to *true*, if it is
+ * *false* then {@link AbstractFilter::DENY} is returned. If there is no match,
+ * {@link AbstractFilter::NEUTRAL} is returned.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.6
@@ -78,14 +67,14 @@ class LevelMatchFilter extends AbstractFilter
     /**
      * Return the decision of this filter.
      *
-     * Returns {@link AbstractFilter::NEUTRAL} if the <b><var>LevelToMatch</var></b>
-     * option is not set or if there is not match.	Otherwise, if there is a
-     * match, then the returned decision is {@link AbstractFilter::ACCEPT} if the
-     * <b><var>AcceptOnMatch</var></b> property is set to <i>true</i>. The
-     * returned decision is {@link AbstractFilter::DENY} if the
-     * <b><var>AcceptOnMatch</var></b> property is set to <i>false</i>.
+     * Returns {@link AbstractFilter::NEUTRAL} if the <var>LevelToMatch</var>
+     * option is not set or if there is not match. Otherwise, if there is a
+     * match, then the returned decision is {@link AbstractFilter::ACCEPT} if
+     * the <var>AcceptOnMatch</var> property is set to *true*. The returned
+     * decision is {@link AbstractFilter::DENY} if the <var>AcceptOnMatch</var>
+     * property is set to *false*.
      *
-     * @param  LoggingEvent $event
+     * @param LoggingEvent $event
      * @return integer
      */
     public function decide(LoggingEvent $event)

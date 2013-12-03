@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,7 +39,7 @@ class AppenderPool
     /**
      * Adds an appender to the pool.
      * The appender must be named for this operation.
-     * @param Appender $appender
+     * @param AbstractAppender $appender
      */
     public static function add(AbstractAppender $appender)
     {
@@ -64,7 +64,7 @@ class AppenderPool
     /**
      * Retrieves an appender from the pool by name.
      * @param  string   $name Name of the appender to retrieve.
-     * @return Appender The named appender or NULL if no such appender
+     * @return AbstractAppender The named appender or NULL if no such appender
      *  exists in the pool.
      */
     public static function get($name)

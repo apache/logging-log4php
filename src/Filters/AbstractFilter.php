@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,28 +29,28 @@ use Apache\Log4php\LoggingEvent;
  * first use and understand the built-in rules before rushing to write
  * your own custom filters.
  *
- * <p>This abstract class assumes and also imposes that filters be
+ * This abstract class assumes and also imposes that filters be
  * organized in a linear chain. The {@link #decide
  * decide(LoggingEvent)} method of each filter is called sequentially,
  * in the order of their addition to the chain.
  *
- * <p>The {@link decide()} method must return one
+ * The {@link decide()} method must return one
  * of the integer constants {@link AbstractFilter::DENY},
  * {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::ACCEPT}.
  *
- * <p>If the value {@link AbstractFilter::DENY} is returned, then the log event is
+ * If the value {@link AbstractFilter::DENY} is returned, then the log event is
  * dropped immediately without consulting with the remaining
  * filters.
  *
- * <p>If the value {@link AbstractFilter::NEUTRAL} is returned, then the next filter
+ * If the value {@link AbstractFilter::NEUTRAL} is returned, then the next filter
  * in the chain is consulted. If there are no more filters in the
  * chain, then the log event is logged. Thus, in the presence of no
  * filters, the default behaviour is to log all logging events.
  *
- * <p>If the value {@link AbstractFilter::ACCEPT} is returned, then the log
+ * If the value {@link AbstractFilter::ACCEPT} is returned, then the log
  * event is logged without consulting the remaining filters.
  *
- * <p>The philosophy of log4php filters is largely inspired from the
+ * The philosophy of log4php filters is largely inspired from the
  * Linux ipchains.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
@@ -76,7 +76,8 @@ abstract class AbstractFilter extends Configurable
     const DENY = -1;
 
     /**
-     * @var AbstractFilter Points to the next {@link AbstractFilter} in the filter chain.
+     * Points to the next filter in the filter chain.
+     * @var AbstractFilter
      */
     protected $next;
 
@@ -90,14 +91,19 @@ abstract class AbstractFilter extends Configurable
 
     /**
      * Decide what to do.
-     * <p>If the decision is {@link AbstractFilter::DENY}, then the event will be
-     * dropped. If the decision is {@link AbstractFilter::NEUTRAL}, then the next
-     * filter, if any, will be invoked. If the decision is {@link AbstractFilter::ACCEPT} then
-     * the event will be logged without consulting with other filters in
-     * the chain.
      *
-     * @param  LoggingEvent $event The {@link LoggingEvent} to decide upon.
-     * @return integer {@link AbstractFilter::NEUTRAL} or {@link AbstractFilter::DENY} or {@link AbstractFilter::ACCEPT}
+     * Returns one of:
+     * - {@link AbstractFilter::DENY}
+     * - {@link AbstractFilter::NEUTRAL}
+     * - {@link AbstractFilter::ACCEPT}
+     *
+     * If the decision is <var>DENY</var>, then the event will be dropped. If
+     * the decision is <var>NEUTRAL</var>, then the next filter, if any, will be
+     * invoked. If the decision is <var>ACCEPT</var> then the event will be
+     * logged without consulting with other filters in the chain.
+     *
+     * @param LoggingEvent $event The logging event to decide upon.
+     * @return integer
      */
     public function decide(LoggingEvent $event)
     {
@@ -109,7 +115,7 @@ abstract class AbstractFilter extends Configurable
      * If this filter has already and follow up filter, the param filter
      * is passed on until it is the last filter in chain.
      *
-     * @param $filter - the filter to add to this chain
+     * @param AbstractFilter $filter The filter to add to the chain.
      */
     public function addNext($filter)
     {
@@ -121,8 +127,9 @@ abstract class AbstractFilter extends Configurable
     }
 
     /**
-     * Returns the next filter in this chain
-     * @return the next filter
+     * Returns the next filter in the chain.
+     *
+     * @return AbstractFilter The next filter in the chain.
      */
     public function getNext()
     {

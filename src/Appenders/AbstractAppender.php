@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *		http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -126,7 +126,7 @@ abstract class AbstractAppender extends Configurable
 
     /**
      * Returns the first filter in the filter chain.
-     * The return value may be <i>null</i> if no is filter is set.
+     * The return value may be *null* if no is filter is set.
      * @return AbstractFilter
      */
     public function getFilter()
@@ -136,7 +136,7 @@ abstract class AbstractAppender extends Configurable
 
     /**
      * Returns the first filter in the filter chain.
-     * The return value may be <i>null</i> if no is filter is set.
+     * The return value may be *null* if no is filter is set.
      * @return AbstractFilter
      */
     public function getFirstFilter()
@@ -146,7 +146,7 @@ abstract class AbstractAppender extends Configurable
 
     /**
      * Performs threshold checks and invokes filters before delegating logging
-     * to the subclass' specific <i>append()</i> method.
+     * to the subclass' specific *append*i> method.
      * @see Appender::append()
      * @param LoggingEvent $event
      */
@@ -198,16 +198,16 @@ abstract class AbstractAppender extends Configurable
      * Configurators call this method to determine if the appender
      * requires a layout.
      *
-     * <p>If this method returns <i>true</i>, meaning that layout is required,
+     * If this method returns *true*, meaning that layout is required,
      * then the configurator will configure a layout using the configuration
-     * information at its disposal.	 If this method returns <i>false</i>,
+     * information at its disposal. If this method returns *false*,
      * meaning that a layout is not required, then layout configuration will be
      * skipped even if there is available layout configuration
-     * information at the disposal of the configurator.</p>
+     * information at the disposal of the configurator.
      *
-     * <p>In the rather exceptional case, where the appender
+     * In the rather exceptional case, where the appender
      * implementation admits a layout but can also work without it, then
-     * the appender should return <i>true</i>.</p>
+     * the appender should return *true*.
      *
      * @return boolean
      */
@@ -258,7 +258,7 @@ abstract class AbstractAppender extends Configurable
     /**
      * Checks whether the message level is below the appender's threshold.
      *
-     * If there is no threshold set, then the return value is always <i>true</i>.
+     * If there is no threshold set, then the return value is always *true*.
      *
      * @param  Level   $level
      * @return boolean Returns true if level is greater or equal than

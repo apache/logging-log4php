@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@ use Apache\Log4php\LoggingEvent;
  * A simple layout.
  *
  * Returns the log statement in a format consisting of the
- * <b>level</b>, followed by " - " and then the <b>message</b>.
+ * **level**, followed by " - " and then the **message**.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
@@ -32,8 +32,8 @@ class SimpleLayout extends AbstractLayout
 {
     /**
      * Returns the log statement in a format consisting of the
-     * <b>level</b>, followed by " - " and then the
-     * <b>message</b>. For example,
+     * **level**, followed by " - " and then the
+     * **message**. For example,
      * <samp> INFO - "A message" </samp>
      *
      * @param  LoggingEvent $event

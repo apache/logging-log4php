@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,7 +98,7 @@ class ReflectionUtils
      * determined partly from the setter argument type and partly from the
      * value specified in the call to this method.
      *
-     * <p>If the setter expects a String no conversion is necessary.
+     * If the setter expects a String no conversion is necessary.
      * If it expects an int, then an attempt is made to convert 'value'
      * to an int using new Integer(value). If the setter expects a boolean,
      * the conversion is by new Boolean(value).

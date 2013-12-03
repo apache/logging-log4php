@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *		http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,14 +23,14 @@ namespace Apache\Log4php;
  * are done through this class.
  *
  * The main logging methods are:
- * 	<ul>
- * 		<li>{@link trace()}</li>
- * 		<li>{@link debug()}</li>
- * 		<li>{@link info()}</li>
- * 		<li>{@link warn()}</li>
- * 		<li>{@link error()}</li>
- * 		<li>{@link fatal()}</li>
- * 	</ul>
+ * <ul>
+ *     <li>{@link trace()}</li>
+ *     <li>{@link debug()}</li>
+ *     <li>{@link info()}</li>
+ *     <li>{@link warn()}</li>
+ *     <li>{@link error()}</li>
+ *     <li>{@link fatal()}</li>
+ * </ul>
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @link http://logging.apache.org/log4php

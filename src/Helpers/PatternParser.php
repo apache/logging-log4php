@@ -7,7 +7,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *	   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,8 @@ use Apache\Log4php\Pattern\LiteralConverter;
  * Most of the work of the {@link LoggerPatternLayout} class
  * is delegated to the {@link PatternParser} class.
  *
- * <p>It is this class that parses conversion patterns and creates
- * a chained list of {@link AbstractConverter} converters.</p>
+ * It is this class that parses conversion patterns and creates
+ * a chained list of {@link AbstractConverter} converters.
  *
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  * @since 0.3
