@@ -25,6 +25,8 @@ namespace Apache\Log4php\Tests\Appenders;
 use Apache\Log4php\Appenders\SocketAppender;
 use Apache\Log4php\Logger;
 
+use Exception;
+
 /**
  * @group appenders
  */
