@@ -168,8 +168,12 @@ class LoggerLoggingEvent {
 					$className = strtolower($hop['class']);
 					if(!empty($className) and ($className == 'logger' or 
 						strtolower(get_parent_class($className)) == 'logger')) {
-						$locationInfo['line'] = $hop['line'];
-						$locationInfo['file'] = $hop['file'];
+						if (isset($hop['line'])) {
+							$locationInfo['line'] = $hop['line'];
+						}
+						if (isset($hop['file'])) {
+							$locationInfo['file'] = $hop['file'];
+						}
 						break;
 					}
 				}
