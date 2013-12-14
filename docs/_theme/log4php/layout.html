@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset={{ encoding }}" />
+    {{ metatags }}
+
+    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
+
+    <link rel="stylesheet" href="{{ pathto('_static/bootstrap/css/bootstrap-2.2.1.css', 1) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+    {% if favicon %}
+    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+    {% endif %}
+    {%- if hasdoc('about') %}
+    <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
+    {%- endif %}
+    {%- if hasdoc('genindex') %}
+    <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+    {%- endif %}
+    {%- if hasdoc('search') %}
+    <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+    {%- endif %}
+    {%- if hasdoc('copyright') %}
+    <link rel="copyright" title="{{ _('Copyright') }}" href="{{ pathto('copyright') }}" />
+    {%- endif %}
+    <link rel="top" title="{{ docstitle|e }}" href="{{ pathto('index') }}" />
+    {%- if parents %}
+    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
+    {%- endif %}
+    {%- if next %}
+    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+    {%- endif %}
+    {%- if prev %}
+    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+    {%- endif %}
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '{{ url_root }}',
+            VERSION:     '{{ release|e }}',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '{{ '' if no_search_suffix else file_suffix }}',
+            HAS_SOURCE:  {{ has_source|lower }}
+        };
+    </script>
+
+    <script type="text/javascript" src="{{ pathto('_static/jquery-1.8.2.min.js', 1) }}"></script>
+    <script type="text/javascript" src="{{ pathto('_static/bootstrap/js/bootstrap-2.2.1.min.js ', 1) }}"></script>
+    <script type="text/javascript" src="{{ pathto('_static/log4php.js', 1) }}"></script>
+</head>
+<body>
+    {%- block header %}{% endblock %}
+
+    {% block relbar1 %}
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="http://logging.apache.org/log4php">Apache log4php &trade;</a>
+                <ul class="nav">
+                    <li><a href="index.html" title="About">About</a></li>
+                    <li><a href="download.html" title="Download">Download</a></li>
+                    <li><a href="install.html" title="Install">Install</a></li>
+                    <li class="active"><a href="{{ pathto(master_doc) }}" title="Docs">Docs</a></li>
+                </ul>
+
+                <!-- Twitter link -->
+                <ul class="nav pull-right">
+                    <li><a href="http://twitter.com/log4php/" class="external">Follow <strong>@log4php</strong></a></li>
+                </ul>
+
+                <!-- Google CSE Search Box -->
+                <form class="navbar-search pull-right" id="cref" action="http://www.google.com/cse">
+                    <input type="hidden" name="cref" value="http://logging.apache.org/log4php/cse.xml" />
+                    <input class="search-query pull-left" type="text" name="q" size="40" placeholder="Search" />
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    <div class="container-fluid">
+        <table class="layout-table">
+            <tr>
+                <td class="content">
+                    <ul class="breadcrumbs">
+                        <li><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a> &raquo;</li>
+                        {%- for parent in parents %}
+                            <li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a> &raquo;</li>
+                        {%- endfor %}
+                    </ul>
+                    {% block body %}{% endblock %}
+                </td>
+                <td class="sidebar">
+                    <div class="well sidebar-nav">
+                        <h3>{{ _('Chapters') }}</h3>
+                        {{ toctree(collapse=False,maxdepth=1) }}
+
+                        {%- include "localtoc.html" %}
+
+                        <div class="related">
+                          <h3>{{ _('Navigation') }}</h3>
+                          <ul>
+                            {%- for rellink in rellinks %}
+                            <li class="right" {% if loop.first %}style="margin-right: 10px"{% endif %}>
+                              <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags|e }}"
+                                 {{ accesskey(rellink[2]) }}>{{ rellink[3] }}</a>
+                              {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
+                            {%- endfor %}
+                            {%- block rootrellink %}
+                            <li><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}</li>
+                            {%- endblock %}
+                            {%- for parent in parents %}
+                              <li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>{{ reldelim1 }}</li>
+                            {%- endfor %}
+                            {%- block relbaritems %} {% endblock %}
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endblock %}
+
+    <div class="footer">
+        <p>
+            Copyright &#169; {{ year }} <a href="http://www.apache.org">Apache Software Foundation</a>.
+            All Rights Reserved. Licensed under the
+            <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software License, Version 2.0</a>.
+            Please read the <a href="./privacy.html">Privacy policy</a>
+        </p>
+        <p>
+            Apache log4php, Apache, log4php, the Apache feather logo, the Apache Logging Services
+            project logo and the Built by Maven logo are trademarks of The Apache Software Foundation.
+        </p>
+        <p>
+            Site powered by <a class="external" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.
+            Icons from <a class="external" href="http://glyphicons.com/">Glyphicons Free</a>.
+        </p>
+    </div>
+</body>
+</html>

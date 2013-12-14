@@ -1,0 +1,14 @@
+@import url("sphinxdoc.css");
+
+/* -- tabs ------------------------------------------------------------------ */
+
+.container.tabs { margin: inherit; width: inherit }
+.container.tabs ul { list-style: none; padding: 0; margin: 10px 0 0 0; }
+.container.tabs li { display:inline; margin-left: 8px; padding: 5px 15px 3px 15px; border: 1px solid #CCC; border-bottom: none; margin-bottom: -1px; }
+.container.tabs li.active { border-bottom: none; background-color: lemonchiffon }
+.container.tabs li a { text-decoration: none }
+.container.tabs pre { margin-top: 0px }
+
+.highlighttable { width: 100%; }
+.highlighttable td.linenos { width: 22px; text-align: right; padding-right: 5px } 
+.highlighttable td.linenos pre { padding: 5px 0px; border: 0; background-color: transparent; color: #aaa }
