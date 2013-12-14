@@ -23,6 +23,9 @@ The following appender classes are available:
    mail
    mail-event
    mongodb
+   null
+   pdo
+   php
 
 Configuring appenders
 ---------------------

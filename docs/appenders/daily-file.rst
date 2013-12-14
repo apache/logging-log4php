@@ -35,7 +35,7 @@ The following parameters are available:
 +-------------+---------+----------+---------+-------------------------------------------------------+
 | Parameter   | Type    | Required | Default | Description                                           |
 +=============+=========+==========+=========+=======================================================+
-| file        | string  | **Yes**  | -       | Path to the target file. Should contain a ``%s``      |
+| file        | string  | **Yes**  | \-      | Path to the target file. Should contain a ``%s``      |
 |             |         |          |         | which gets substituted by the date.                   |
 +-------------+---------+----------+---------+-------------------------------------------------------+
 | append      | boolean | No       | true    | If set to true, the appender will append to the file, |

@@ -30,7 +30,8 @@ Note: additional parameters supported by the driver can be supplied by **connect
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
 | databaseName           | string  | No       | log4php_mongodb     | Name of the database to which to log.         |
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
-| collectionName         | string  | No       | logs                | Name of the collection to which to log.       |
+| collectionName         | string  | No       | logs                | Name of the target collection within the      |
+|                        |         |          |                     | given database.                               |
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
 | username               | string  | No       |                     | Username used to connect to the database.     |
 +------------------------+---------+----------+---------------------+-----------------------------------------------+
