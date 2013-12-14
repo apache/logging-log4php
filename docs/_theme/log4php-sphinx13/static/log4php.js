@@ -40,16 +40,29 @@ function reformatTabs()
 
 function activateTabs()
 {
+    // Hide all tabs
     $('.container.tabs > div').hide();
-    $('.container.tabs > div:first').show();
-    $('.container.tabs ul li:first').addClass('active');
 
-    $('.container.tabs ul li a').click(function(){
-        $('.container.tabs ul li').removeClass('active');
-        $(this).parent().addClass('active');
+    // For each tabs container show first tab and activate first label
+    $('.container.tabs').each(function() {
+        $(this).children('div:first').show();
+        $(this).find('li:first').addClass('active');
+    });
+
+    // On tab click
+    $('.container.tabs ul li a').click(function(event) {
+
+        event.preventDefault();
+
+        var list_item = $(this).parent();
+        var list = list_item.parent();
+        var container = list.parent();
+
+        list.children().removeClass('active');
+        list_item.addClass('active');
+
+        container.children('div').hide();
         var currentTab = $(this).attr('href');
-        $('.container.tabs > div').hide();
         $(currentTab).show();
-        return false;
     });
 }
