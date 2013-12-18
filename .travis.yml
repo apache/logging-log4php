@@ -1,11 +1,19 @@
 language: php
 
 php:
+    - 5.2
     - 5.3
     - 5.4
     - 5.5
 
-services: mongodb
+before_script:
+    - phpenv config-add src/test/config/php.travis.ini
+
+script:
+    - phpunit --verbose
+
+services:
+    - mongodb
 
 notifications:
     email: log4php-dev@logging.apache.org
