@@ -44,6 +44,7 @@
 			<item name="Configuration" href="/docs/configuration.html" />
 			<item name="Loggers" href="/docs/loggers.html" />
 			<item name="Appenders" href="/docs/appenders.html" collapse="true">
+                <item name="LoggerAppenderAMQP" href="/docs/appenders/amqp.html" />
 				<item name="LoggerAppenderConsole" href="/docs/appenders/console.html" />
 				<item name="LoggerAppenderDailyFile" href="/docs/appenders/daily-file.html" />
 				<item name="LoggerAppenderEcho" href="/docs/appenders/echo.html" />
