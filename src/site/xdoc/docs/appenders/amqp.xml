@@ -111,7 +111,7 @@
                             <td>float</td>
                             <td>No</td>
                             <td>0.5</td>
-                            <td>Connection timeout in seconds.</td>
+                            <td>How long a connection can take to be opened before timing out (in seconds).</td>
                         </tr>
                         <tr>
                             <td>contentType</td>
@@ -152,9 +152,8 @@
                             <pre class="prettyprint"><![CDATA[
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="default" class="LoggerAppenderAMQP">
-        <param name="host" value="localhost" />
-        <param name="port" value="5672" />
-        <param name="vhost" value="/" />
+        <param name="host" value="example.com" />
+        <param name="vhost" value="/logs" />
         <param name="login" value="my_login" />
         <param name="password" value="my_secret_password" />
         <param name="exchangeName" value="my_exchange" />
@@ -173,9 +172,8 @@ array(
         'default' => array(
             'class' => 'LoggerAppenderAMQP',
             'params' => array(
-                'host' => 'localhost',
-                'port' => 5672,
-                'vhost' => '/',
+                'host' => 'example.com',
+                'vhost' => '/logs',
                 'login' => 'my_login',
                 'password' => 'my_secret_password',
                 'exchangeName' => 'my_exchange',
