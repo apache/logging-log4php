@@ -329,7 +329,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 			return;
 		}
 		if (!class_exists($class)) {
-			$this->warn("Nonexistant layout class [$class] specified for appender [$name]. Reverting to default layout.");
+			$this->warn("Nonexistent layout class [$class] specified for appender [$name]. Reverting to default layout.");
 			return;
 		}
 		
@@ -357,7 +357,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 		$name = $appender->getName();
 		$class = $config['class'];
 		if (!class_exists($class)) {
-			$this->warn("Nonexistant filter class [$class] specified on appender [$name]. Skipping filter definition.");
+			$this->warn("Nonexistent filter class [$class] specified on appender [$name]. Skipping filter definition.");
 			return;
 		}
 	
@@ -465,7 +465,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 				$object->$setter($value);
 			} else {
 				$class = get_class($object);
-				$this->warn("Nonexistant option [$name] specified on [$class]. Skipping.");
+				$this->warn("Nonexistent option [$name] specified on [$class]. Skipping.");
 			}
 		}
 	}

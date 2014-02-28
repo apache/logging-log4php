@@ -137,7 +137,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  	
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistant filter class [Foo] specified on appender [foo]. Skipping filter definition.
+ 	 * @expectedExceptionMessage Nonexistent filter class [Foo] specified on appender [foo]. Skipping filter definition.
  	 */
  	public function testNotExistingAppenderFilterClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/appenders/config_not_existing_filter_class.xml');
@@ -145,9 +145,9 @@ class CostumDefaultRenderer implements LoggerRenderer {
 
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistant option [fooParameter] specified on [LoggerFilterStringMatch]. Skipping.
+ 	 * @expectedExceptionMessage Nonexistent option [fooParameter] specified on [LoggerFilterStringMatch]. Skipping.
  	 */
- 	public function testInvalidAppenderFilterParamter() {
+ 	public function testInvalidAppenderFilterParameter() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/appenders/config_invalid_filter_parameters.xml');
  	} 	
  	
@@ -161,7 +161,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  	
     /**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistant layout class [Foo] specified for appender [foo]. Reverting to default layout.
+ 	 * @expectedExceptionMessage Nonexistent layout class [Foo] specified for appender [foo]. Reverting to default layout.
  	 */
  	public function testNotExistingAppenderLayoutClassSet() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/appenders/config_not_existing_layout_class.xml');
@@ -236,13 +236,13 @@ class CostumDefaultRenderer implements LoggerRenderer {
  	 * @expectedException PHPUnit_Framework_Error
  	 * @expectedExceptionMessage log4php: Configuration failed. File not found
  	 */
- 	public function testNonexistantFile() {
+ 	public function testNonexistentFile() {
  		Logger::configure('hopefully/this/path/doesnt/exist/config.xml');
  		
  	}
  	
  	/** Test correct fallback to the default configuration. */
- 	public function testNonexistantFileFallback() {
+ 	public function testNonexistentFileFallback() {
  		@Logger::configure('hopefully/this/path/doesnt/exist/config.xml');
  		$this->testDefaultConfig();
  	}

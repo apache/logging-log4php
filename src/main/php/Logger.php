@@ -526,7 +526,7 @@ class Logger {
 	 * Configures log4php.
 	 * 
 	 * This method needs to be called before the first logging event has 
-	 * occured. If this method is not called before then the default
+	 * occurred. If this method is not called before then the default
 	 * configuration will be used.
 	 *
 	 * @param string|array $configuration Either a path to the configuration

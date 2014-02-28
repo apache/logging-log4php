@@ -149,7 +149,7 @@ class LoggerPatternParser {
 			$converter = $this->getConverter($word, $formattingInfo, $option);
 			$this->addToChain($converter);	
 		} else {
-			trigger_error("log4php: Invalid keyword '%$word' in converison pattern. Ignoring keyword.", E_USER_WARNING);
+			trigger_error("log4php: Invalid keyword '%$word' in conversion pattern. Ignoring keyword.", E_USER_WARNING);
 		}
 	}
 	
@@ -168,7 +168,7 @@ class LoggerPatternParser {
 	 */
 	private function getConverter($word, $info, $option) {
 		if (!isset($this->converterMap[$word])) {
-			throw new LoggerException("Invalid keyword '%$word' in converison pattern. Ignoring keyword.");
+			throw new LoggerException("Invalid keyword '%$word' in conversion pattern. Ignoring keyword.");
 		}
 		
 		$converterClass = $this->converterMap[$word];

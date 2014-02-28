@@ -81,7 +81,7 @@ WARN - I'm not feeling so good...
 					<li><em>line 6</em>: Sets the root logger level to <code>WARN</code>. This means that logging requests 
 					with the level lower than <code>WARN</code> will not be logged by the root logger.</li>
 					
-					<li><em>line 7</em>: Links <code>myAppender</code> to the root logger so that all events recieved by the root 
+					<li><em>line 7</em>: Links <code>myAppender</code> to the root logger so that all events received by the root 
 					logger will be forwarded to <code>myAppender</code> and written into the log file.</li>
 				</ul>
 

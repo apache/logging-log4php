@@ -273,7 +273,7 @@
     						</td>
     						<td>
     							<p>A platform dependent line-break character(s).</p>
-    							<p>Note that a line break will not be printed unless explicitely specified.</p>
+    							<p>Note that a line break will not be printed unless explicitly specified.</p>
     						</td>
     					</tr>
     					<tr>
@@ -572,7 +572,7 @@ $logger->warn("Sed sit amet ipsum mauris.");
 			    ensures that the message always starts at the same character position which improves log 
 			    readability.</p>
 			    
-			    <p>Notice that the newline between logging events (%n) has to be explicitely defined. Otherwise all 
+			    <p>Notice that the newline between logging events (%n) has to be explicitly defined. Otherwise all 
 			    logging events will be logged in the same line.</p>
 			    
 			    <h4>Formatting the date</h4>

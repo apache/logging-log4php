@@ -27,7 +27,7 @@
  * - table           - Name of the table to which log entries are be inserted.
  * - insertSQL       - Sets the insert statement for a logging event. Defaults
  *                     to the correct one - change only if you are sure what you are doing.
- * - insertPattern   - The conversion pattern to use in conjuction with insert 
+ * - insertPattern   - The conversion pattern to use in conjunction with insert 
  *                     SQL. Must contain the same number of comma separated 
  *                     conversion patterns as there are question marks in the 
  *                     insertSQL.

@@ -37,7 +37,7 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	/** A pattern with 3 keys (one is numeric). */
 	private $pattern3 = "%-5p %c: %X{key1} %X{key2} %X{3} %m";
 	
-	/** A pattern with a non-existant key. */
+	/** A pattern with a non-existent key. */
 	private $pattern4 = "%-5p %c: %X{key_does_not_exist} %m";
 	
 	/** A pattern without a key. */
@@ -84,7 +84,7 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 		$expected = "INFO  test: valueofkey1 valueofkey2 valueofkey3 Test message";
 		self::assertEquals($expected, $actual);
 		
-		// Pattern with non-existant key
+		// Pattern with non-existent key
 		$actual = $this->formatEvent($event, $this->pattern4);
 		$expected = "INFO  test:  Test message";
 		self::assertEquals($expected, $actual);
