@@ -1,6 +1,6 @@
-=====================
-LoggerAppenderMongoDB
-=====================
+==================
+LoggerAppenderAMQP
+==================
 
 ``LoggerAppenderAMQP`` appends log events to a AMQP instance.
 
