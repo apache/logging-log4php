@@ -115,6 +115,7 @@ class LoggerAutoloader {
 		'LoggerPatternConverterThrowable' => '/pattern/LoggerPatternConverterThrowable.php',
 		
 		// Layouts
+		'LoggerLayoutGelf' => '/layouts/LoggerLayoutGelf.php',
 		'LoggerLayoutHtml' => '/layouts/LoggerLayoutHtml.php',
 		'LoggerLayoutPattern' => '/layouts/LoggerLayoutPattern.php',
 		'LoggerLayoutSerialized' => '/layouts/LoggerLayoutSerialized.php',
