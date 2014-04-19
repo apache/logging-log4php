@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements. See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License. You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <properties>
+        <title>LoggerAppenderAMQP</title>
+    </properties>
+
+    <body>
+        <section name="LoggerAppenderAMQP">
+
+            <p><code>LoggerAppenderAMQP</code> appends log events to a AMQP instance.</p>
+
+            <p>The Advanced Message Queuing Protocol (AMQP) is an open standard application layer protocol
+                for message-oriented middleware. The defining features of AMQP are message orientation,
+                queuing, routing (including point-to-point and publish-and-subscribe), reliability and security.</p>
+
+            <subsection name="Layout">
+                <p>This appender requires a layout. If no layout is specified in configuration,
+                    <code><a href="../layouts/simple.html">LoggerLayoutSimple</a></code> will be used by default.</p>
+            </subsection>
+
+            <subsection name="Parameters">
+                <p>The following parameters are available:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>host</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>localhost</td>
+                            <td>Server on which AMQP instance is located.</td>
+                        </tr>
+                        <tr>
+                            <td>port</td>
+                            <td>integer</td>
+                            <td>No</td>
+                            <td>5672</td>
+                            <td>Port on which the instance is bound.</td>
+                        </tr>
+                        <tr>
+                            <td>vhost</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>/</td>
+                            <td>The name of the "virtual host".</td>
+                        </tr>
+                        <tr>
+                            <td>login</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>guest</td>
+                            <td>Login used to connect to the AMQP server.</td>
+                        </tr>
+                        <tr>
+                            <td>password</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>guest</td>
+                            <td>Password used to connect to the AMQP server.</td>
+                        </tr>
+                        <tr>
+                            <td>exchangeName</td>
+                            <td>string</td>
+                            <td>Yes</td>
+                            <td>-</td>
+                            <td>Name of AMQP exchange which used to routing logs.</td>
+                        </tr>
+                        <tr>
+                            <td>exchangeType</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>direct</td>
+                            <td>Type of AMQP exchange.</td>
+                        </tr>
+                        <tr>
+                            <td>routingKey</td>
+                            <td>string</td>
+                            <td>Yes</td>
+                            <td>-</td>
+                            <td>Routing key which used to routing logs.</td>
+                        </tr>
+                        <tr>
+                            <td>connectionTimeout</td>
+                            <td>float</td>
+                            <td>No</td>
+                            <td>0.5</td>
+                            <td>How long a connection can take to be opened before timing out (in seconds).</td>
+                        </tr>
+                        <tr>
+                            <td>contentType</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>text/plain</td>
+                            <td>Content-type header.</td>
+                        </tr>
+                        <tr>
+                            <td>contentEncoding</td>
+                            <td>string</td>
+                            <td>No</td>
+                            <td>UTF-8</td>
+                            <td>Content-encoding header.</td>
+                        </tr>
+                        <tr>
+                            <td>flushOnShutdown</td>
+                            <td>boolean</td>
+                            <td>No</td>
+                            <td>false</td>
+                            <td>Send logs immediately or stash it and send on shutdown.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </subsection>
+
+            <subsection name="Examples">
+                <p>This example shows how to configure <code>LoggerAppenderAMQP</code> to log to a remote server.</p>
+
+                <div class="auto-tabs">
+                    <ul>
+                        <li>XML</li>
+                        <li>PHP</li>
+                    </ul>
+
+                    <div class="tab-content" >
+                        <div class="tab-pane">
+                            <pre class="prettyprint"><![CDATA[
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderAMQP">
+        <param name="host" value="example.com" />
+        <param name="vhost" value="/logs" />
+        <param name="login" value="my_login" />
+        <param name="password" value="my_secret_password" />
+        <param name="exchangeName" value="my_exchange" />
+        <param name="routingKey" value="php_application" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+]]></pre>
+                        </div>
+                        <div class="tab-pane">
+                            <pre class="prettyprint"><![CDATA[
+array(
+    'appenders' => array(
+        'default' => array(
+            'class' => 'LoggerAppenderAMQP',
+            'params' => array(
+                'host' => 'example.com',
+                'vhost' => '/logs',
+                'login' => 'my_login',
+                'password' => 'my_secret_password',
+                'exchangeName' => 'my_exchange',
+                'routingKey' => 'php_application',
+            ),
+        ),
+    ),
+    'rootLogger' => array(
+        'appenders' => array('default'),
+    ),
+);
+]]></pre>
+                        </div>
+                    </div>
+                </div>
+            </subsection>
+        </section>
+    </body>
+</document>
