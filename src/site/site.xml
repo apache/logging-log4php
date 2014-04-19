@@ -60,6 +60,7 @@
 				<item name="LoggerAppenderSyslog" href="/docs/appenders/syslog.html" />
 			</item>
 			<item name="Layouts" href="/docs/layouts.html" collapse="true">
+				<item name="LoggerLayoutGelf" href="/docs/layouts/gelf.html" />
 				<item name="LoggerLayoutHtml" href="/docs/layouts/html.html" />
 				<item name="LoggerLayoutPattern" href="/docs/layouts/pattern.html" />
 				<item name="LoggerLayoutSerialized" href="/docs/layouts/serialized.html" />
