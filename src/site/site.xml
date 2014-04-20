@@ -49,6 +49,7 @@
 				<item name="LoggerAppenderEcho" href="/docs/appenders/echo.html" />
 				<item name="LoggerAppenderFile" href="/docs/appenders/file.html" />
 				<item name="LoggerAppenderFirePHP" href="/docs/appenders/firephp.html" />
+				<item name="LoggerAppenderGraylog2" href="/docs/appenders/graylog2.html" />
 				<item name="LoggerAppenderMail" href="/docs/appenders/mail.html" />
 				<item name="LoggerAppenderMailEvent" href="/docs/appenders/mail-event.html" />
 				<item name="LoggerAppenderMongoDB" href="/docs/appenders/mongodb.html" />
