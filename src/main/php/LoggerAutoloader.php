@@ -58,6 +58,7 @@ class LoggerAutoloader {
 		'LoggerAppenderDailyFile' => '/appenders/LoggerAppenderDailyFile.php',
 		'LoggerAppenderEcho' => '/appenders/LoggerAppenderEcho.php',
 		'LoggerAppenderFile' => '/appenders/LoggerAppenderFile.php',
+		'LoggerAppenderGraylog2' => '/appenders/LoggerAppenderGraylog2.php',
 		'LoggerAppenderMail' => '/appenders/LoggerAppenderMail.php',
 		'LoggerAppenderMailEvent' => '/appenders/LoggerAppenderMailEvent.php',
 		'LoggerAppenderMongoDB' => '/appenders/LoggerAppenderMongoDB.php',
