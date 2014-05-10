@@ -20,6 +20,7 @@ The following appender classes are available:
    echo
    file
    firephp
+   graylog2
    mail
    mail-event
    mongodb
@@ -86,20 +87,20 @@ Consider the following configuration:
         </logger>
     </log4php:configuration>
 
-This configures two appenders, called *primus* and *secundus*, and two loggers 
-named *main* and *alternative*. The logger *main* is linked to *primus* and 
-*secundus* and will therefore forward logging events to both of them. In other 
-words, it will log both to console and to a file. Logger *alternative* is only 
+This configures two appenders, called *primus* and *secundus*, and two loggers
+named *main* and *alternative*. The logger *main* is linked to *primus* and
+*secundus* and will therefore forward logging events to both of them. In other
+words, it will log both to console and to a file. Logger *alternative* is only
 linked to appender *primus* and will therefore only log to the console.
 
 Appender threshold
 ------------------
 
-An appender can be assigned a threshold level. All logging requests with level 
+An appender can be assigned a threshold level. All logging requests with level
 lower than this threshold will be ignored.
 
-For example, if you set ``WARN`` as a threshold, then ``INFO``, ``DEBUG`` and 
-``TRACE`` level events recieved by the appender will not be logged, but 
+For example, if you set ``WARN`` as a threshold, then ``INFO``, ``DEBUG`` and
+``TRACE`` level events recieved by the appender will not be logged, but
 ``WARN``, ``ERROR`` and ``FATAL`` will.
 
 An example of setting an appender threshold:

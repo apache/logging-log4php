@@ -2,12 +2,12 @@
 Layouts
 =======
 
-Layouts are components responsible for transforming a logging event into a 
-string. 
+Layouts are components responsible for transforming a logging event into a
+string.
 
-More often than not, users wish to customize not only the output destination but 
-also the output format. This is accomplished by associating a layout with an 
-appender. All messages logged by that appender will use the given layout. 
+More often than not, users wish to customize not only the output destination but
+also the output format. This is accomplished by associating a layout with an
+appender. All messages logged by that appender will use the given layout.
 
 
 Layout reference
@@ -16,6 +16,7 @@ Layout reference
 .. toctree::
    :maxdepth: 1
 
+   gelf
    html
    pattern
    serialized
