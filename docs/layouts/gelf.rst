@@ -30,7 +30,7 @@ Examples
 .. container:: tabs
 
     .. rubric:: XML format
-.. code-block:: xml
+    .. code-block:: xml
 
         <configuration xmlns="http://logging.apache.org/log4php/">
             <appender name="default" class="LoggerAppenderEcho">
@@ -46,7 +46,7 @@ Examples
         </configuration>
 
     .. rubric:: PHP format
-.. code-block:: php
+    .. code-block:: php
 
         array(
             'appenders' => array(
