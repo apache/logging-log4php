@@ -15,6 +15,7 @@ The following appender classes are available:
 .. toctree::
    :maxdepth: 1
 
+   amqp
    console
    daily-file
    echo
