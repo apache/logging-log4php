@@ -16,13 +16,13 @@
  limitations under the License.
 
 -->
-<project name="Apache log4php" 
-	xmlns="http://maven.apache.org/DECORATION/1.1.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project name="Apache log4php"
+	xmlns="http://maven.apache.org/DECORATION/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 http://maven.apache.org/xsd/decoration-1.1.0.xsd">
-	
+
 	<googleAnalyticsAccountId>UA-26177991-1</googleAnalyticsAccountId>
-	
+
 	<body>
 		<links>
 			<item name="About" href="/index.html" />
@@ -52,10 +52,9 @@
 				<item name="LoggerAppenderFirePHP" href="/docs/appenders/firephp.html" />
 				<item name="LoggerAppenderGraylog2" href="/docs/appenders/graylog2.html" />
 				<item name="LoggerAppenderMail" href="/docs/appenders/mail.html" />
-				<item name="LoggerAppenderMailEvent" href="/docs/appenders/mail-event.html" />
 				<item name="LoggerAppenderMongoDB" href="/docs/appenders/mongodb.html" />
 				<item name="LoggerAppenderNull" href="/docs/appenders/null.html" />
-				<item name="LoggerAppenderPDO" href="/docs/appenders/pdo.html" />					
+				<item name="LoggerAppenderPDO" href="/docs/appenders/pdo.html" />
 				<item name="LoggerAppenderPHP" href="/docs/appenders/php.html" />
 				<item name="LoggerAppenderRollingFile" href="/docs/appenders/rolling-file.html" />
 				<item name="LoggerAppenderSocket" href="/docs/appenders/socket.html" />
@@ -81,7 +80,7 @@
 			<item name="Wiki" href="http://wiki.apache.org/logging-log4php" />
 			<item name="Blog" href="http://blogs.apache.org/logging/" />
 		</menu>
-		
+
 		<menu name="Project Information" img="icon-info-sign">
 			<item name="Continuous Integration" href="/integration.html" />
 			<item name="Source Repository" href="/source-repository.html" />

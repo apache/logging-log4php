@@ -4,13 +4,9 @@ LoggerAppenderMail
 
 ``LoggerAppenderMail`` appends log events via email.
 
-This appender does not send individual emails for each logging requests but will
-collect them in a buffer and send them all in a single email once the appender
-is closed (i.e. when the script exists). Because of this, it may not appropriate
-for long running scripts, in which case `LoggerAppenderMailEvent`_ might be a
-better choice.
-
-.. _LoggerAppenderMailEvent: mail-event.html
+This appender can either send individual emails for each log message
+(bufferCount = 0) or collect them in a buffer and send them in batches
+(bufferCount > 0).
 
 .. warning::
 
@@ -30,18 +26,21 @@ Parameters
 
 The following parameters are available:
 
-+-----------+---------+----------+---------+---------------------------------------------------------+
-| Parameter | Type    | Required | Default | Description                                             |
-+===========+=========+==========+=========+=========================================================+
-| to        | string  | **Yes**  |         | Email address(es) to which the log will be sent.        |
-|           |         |          |         | Multiple email addresses may be specified by separating |
-|           |         |          |         | them with a comma.                                      |
-+-----------+---------+----------+---------+---------------------------------------------------------+
-| from      | string  | **Yes**  |         | Email address which will be used in the From field.     |
-+-----------+---------+----------+---------+---------------------------------------------------------+
-| subject   | string  | No       | Log4php | Subject of the email message.                           |
-|           |         |          | Report  |                                                         |
-+-----------+---------+----------+---------+---------------------------------------------------------+
++-------------+---------+----------+---------+---------------------------------------------------------+
+| Parameter   | Type    | Required | Default | Description                                             |
++=============+=========+==========+=========+=========================================================+
+| to          | string  | **Yes**  |         | Email address(es) to which the log will be sent.        |
+|             |         |          |         | Multiple email addresses may be specified by separating |
+|             |         |          |         | them with a comma.                                      |
++-------------+---------+----------+---------+---------------------------------------------------------+
+| from        | string  | **Yes**  |         | Email address which will be used in the From field.     |
++-------------+---------+----------+---------+---------------------------------------------------------+
+| subject     | string  | No       | Log4php | Subject of the email message.                           |
+|             |         |          | Report  |                                                         |
++-------------+---------+----------+---------+---------------------------------------------------------+
+| bufferCount | integer | No       | 0       | How many log messages to buffer before sending them in  |
+|             |         |          |         | a batch. Set to 0 to send each log message individaully |
++-------------+---------+----------+---------+---------------------------------------------------------+
 
 Examples
 --------

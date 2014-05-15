@@ -19,14 +19,6 @@
 /**
  * LoggerAppenderMail appends log events via email.
  *
- * This appender does not send individual emails for each logging requests but
- * will collect them in a buffer and send them all in a single email once the
- * appender is closed (i.e. when the script exists). Because of this, it may
- * not appropriate for long running scripts, in which case
- * LoggerAppenderMailEvent might be a better choice.
- *
- * This appender uses a layout.
- *
  * ## Configurable parameters: ##
  *
  * - **to** - Email address(es) to which the log will be sent. Multiple email

@@ -23,7 +23,6 @@ The following appender classes are available:
    firephp
    graylog2
    mail
-   mail-event
    mongodb
    null
    pdo
