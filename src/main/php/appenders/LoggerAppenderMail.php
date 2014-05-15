@@ -19,22 +19,22 @@
 /**
  * LoggerAppenderMail appends log events via email.
  *
- * This appender does not send individual emails for each logging requests but 
- * will collect them in a buffer and send them all in a single email once the 
- * appender is closed (i.e. when the script exists). Because of this, it may 
- * not appropriate for long running scripts, in which case 
+ * This appender does not send individual emails for each logging requests but
+ * will collect them in a buffer and send them all in a single email once the
+ * appender is closed (i.e. when the script exists). Because of this, it may
+ * not appropriate for long running scripts, in which case
  * LoggerAppenderMailEvent might be a better choice.
- * 
+ *
  * This appender uses a layout.
- * 
+ *
  * ## Configurable parameters: ##
- * 
- * - **to** - Email address(es) to which the log will be sent. Multiple email 
+ *
+ * - **to** - Email address(es) to which the log will be sent. Multiple email
  *     addresses may be specified by separating them with a comma.
  * - **from** - Email address which will be used in the From field.
  * - **subject** - Subject of the email message.
  * - **bufferSize** - Output buffer size. Number of messages sent together.
- * 
+ *
  * @package log4php
  * @subpackage appenders
  * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
@@ -42,30 +42,30 @@
  */
 class LoggerAppenderMail extends LoggerAppender {
 
-	/** 
+	/**
 	 * Email address to put in From field of the email.
 	 * @var string
 	 */
 	protected $from;
 
-	/** 
+	/**
 	 * The subject of the email.
 	 * @var string
 	 */
 	protected $subject = 'Log4php Report';
-	
+
 	/**
-	 * One or more comma separated email addresses to which to send the email. 
+	 * One or more comma separated email addresses to which to send the email.
 	 * @var string
 	 */
 	protected $to;
 
-	/** 
-	 * Buffer which holds the email contents before it is sent. 
-	 * @var string  
+	/**
+	 * Buffer which holds the email contents before it is sent.
+	 * @var string
 	 */
 	protected $body = '';
-	
+
 	/**
 	 * Output buffer size. Number of meessages kept in buffer before sending.
 	 * @var integer
@@ -77,6 +77,12 @@ class LoggerAppenderMail extends LoggerAppender {
 	 * @var string
 	 */
 	protected $bufferCount = 0;
+
+	/**
+	 * Class used to send emails.
+	 * @var LoggerMailerInterface
+	 */
+	protected $mailer;
 
 	public function append(LoggerLoggingEvent $event) {
 		$this->body .= $this->layout->format($event);
@@ -97,8 +103,11 @@ class LoggerAppenderMail extends LoggerAppender {
 			$this->closed = true;
 			return;
 		}
+		if (empty($this->mailer)) {
+			$this->mailer = new LoggerMailerPHP();
+		}
 	}
-	
+
 	public function close() {
 		if(!$this->closed) {
 			if(!empty($this->body)) {
@@ -115,7 +124,7 @@ class LoggerAppenderMail extends LoggerAppender {
 		$headers = "From: {$this->from}\r\n";
 		$headers .= "Content-Type: {$contentType}\r\n";
 
-		$success = mail($this->to, $this->subject, $message, $headers);
+		$success = $this->mailer->send($this->to, $this->subject, $message, $headers);
 		if ($success === false) {
 			$this->warn("Failed sending email. Please check your php.ini settings. Closing appender.");
 			$this->closed = true;
@@ -124,22 +133,22 @@ class LoggerAppenderMail extends LoggerAppender {
 		$this->bufferCount = 0;
 		$this->body = '';
 	}
-	
+
 	/** Sets the 'subject' parameter. */
 	public function setSubject($subject) {
 		$this->setString('subject', $subject);
 	}
-	
+
 	/** Returns the 'subject' parameter. */
 	public function getSubject() {
 		return $this->subject;
 	}
-	
+
 	/** Sets the 'to' parameter. */
 	public function setTo($to) {
 		$this->setString('to', $to);
 	}
-	
+
 	/** Returns the 'to' parameter. */
 	public function getTo() {
 		return $this->to;
@@ -149,7 +158,7 @@ class LoggerAppenderMail extends LoggerAppender {
 	public function setFrom($from) {
 		$this->setString('from', $from);
 	}
-	
+
 	/** Returns the 'from' parameter. */
 	public function getFrom() {
 		return $this->from;
@@ -163,5 +172,15 @@ class LoggerAppenderMail extends LoggerAppender {
 	/** Returns the 'bufferSize' parameter. */
 	public function getBufferSize() {
 		return $this->bufferSize;
+	}
+
+	/** Sets the 'bufferSize' parameter. */
+	public function setMailer(LoggerMailerInterface $mailer) {
+		$this->mailer = $mailer;
+	}
+
+	/** Returns the 'mailer' parameter. */
+	public function getMailer() {
+		return $this->mailer;
 	}
 }
