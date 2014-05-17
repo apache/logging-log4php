@@ -21,6 +21,10 @@
 	</properties>
 	<body>
 		<release version="develop">
+			<action date="2014-05-17" type="remove" dev="Ivan Habunek">Removed LoggerAppenderMailEvent.</action>
+			<action date="2014-05-16" type="add" dev="Ivan Habunek" due-to="Dmitry Ulayanov" due-to-email="dmitriy dot ulyanov at wikimart dot ru">Added LoggerAppenderAMQP.</action>
+			<action date="2014-05-11" type="add" dev="Ivan Habunek" due-to="Dmitry Ulayanov" due-to-email="dmitriy dot ulyanov at wikimart dot ru">Added LoggerLayoutGelf.</action>
+			<action date="2014-05-11" type="add" dev="Ivan Habunek" due-to="Dmitry Ulayanov" due-to-email="dmitriy dot ulyanov at wikimart dot ru">Added LoggerAppenderGraylog2.</action>
 			<action date="2013-07-22" type="fix" issue="LOG4PHP-210" dev="Christian grobmeier">Appenders cause filesize(): stat failed</action>
 			<action date="2012-12-31" type="update" issue="LOG4PHP-197" dev="Ivan Habunek" due-to="Sven Rautenberg" due-to-email="sven at rtbg dot de">Made Logger::isInitialized() public.</action>
 			<action date="2012-12-31" type="update" issue="LOG4PHP-144" dev="Ivan Habunek">Improved LoggerAppenderMail to set the Content-type header as defined in layout.</action>
