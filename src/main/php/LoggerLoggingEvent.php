@@ -191,16 +191,16 @@ class LoggerLoggingEvent {
 					if (isset($hop['file']) and isset(self::$ignoreFileRegex)) {
 						if(1 === preg_match(self::$ignoreFileRegex, $hop['file'])) {
 							// come here if detected a caller wrapper for log4php
-							$locationInfo['line'] =                                                              $prevHop['line'] ;
-							$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, $ignorePathRegexDst, $prevHop['file']); // replace annoyingly verbose path prefix
+							$locationInfo['line'] =                                                                    $prevHop['line'] ;
+							$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, self::$ignorePathRegexDst, $prevHop['file']); // replace annoyingly verbose path prefix
 							break;
 						}
 					}
 					// we are sometimes in functions = no class available: avoid php warning here
 					$className = strtolower($hop['class']);
 					if(!empty($className) and ($className == 'logger' or strtolower(get_parent_class($className)) == 'logger')) {
-						$locationInfo['line'] =                                                              $hop['line'] ;
-						$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, $ignorePathRegexDst, $hop['file']); // replace annoyingly verbose path prefix
+						$locationInfo['line'] =                                                                    $hop['line'] ;
+						$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, self::$ignorePathRegexDst, $hop['file']); // replace annoyingly verbose path prefix
 						break;
 					}
 				}
