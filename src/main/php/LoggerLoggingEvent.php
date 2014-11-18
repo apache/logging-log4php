@@ -147,7 +147,8 @@ class LoggerLoggingEvent {
 	 }
 
 	private static $ignoreFileRegex;
-	private static $ignorePathRegex = "//";
+	private static $ignorePathRegexSrc = "//";
+	private static $ignorePathRegexDst = "";
 
 	/**
 	 * Set filter for use by getLocationInformation() to ignore log4php caller wrapper functions.
@@ -159,8 +160,9 @@ class LoggerLoggingEvent {
 	/**
 	 * Set filter for use by getLocationInformation() to ignore a common file prefix, or ignore entire path.
 	 */
-	public static function setIgnorePathRegex($regex) {
-		self::$ignorePathRegex = $regex; // e.g. '/^.*\/(ignore everything before this folder\/)/' or ignore entire path '/^.*\/([^\/]+)/'
+	public static function setIgnorePathRegex($regexSrc, $regexDst = "") {
+		self::$ignorePathRegexSrc = $regexSrc; // e.g. '/^.*\/(ignore everything before this folder\/)/' or ignore entire path '/^.*\/([^\/]+)/'
+		self::$ignorePathRegexDst = $regexDst; // e.g. '' or '$1'
 	}
 
 	/**
@@ -189,16 +191,16 @@ class LoggerLoggingEvent {
 					if (isset($hop['file']) and isset(self::$ignoreFileRegex)) {
 						if(1 === preg_match(self::$ignoreFileRegex, $hop['file'])) {
 							// come here if detected a caller wrapper for log4php
-							$locationInfo['line'] =                                            $prevHop['line'] ;
-							$locationInfo['file'] = preg_replace(self::$ignorePathRegex, "$1", $prevHop['file']); // replace annoyingly verbose path prefix
+							$locationInfo['line'] =                                                              $prevHop['line'] ;
+							$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, $ignorePathRegexDst, $prevHop['file']); // replace annoyingly verbose path prefix
 							break;
 						}
 					}
 					// we are sometimes in functions = no class available: avoid php warning here
 					$className = strtolower($hop['class']);
 					if(!empty($className) and ($className == 'logger' or strtolower(get_parent_class($className)) == 'logger')) {
-						$locationInfo['line'] =                                            $hop['line'] ;
-						$locationInfo['file'] = preg_replace(self::$ignorePathRegex, "$1", $hop['file']); // replace annoyingly verbose path prefix
+						$locationInfo['line'] =                                                              $hop['line'] ;
+						$locationInfo['file'] = preg_replace(self::$ignorePathRegexSrc, $ignorePathRegexDst, $hop['file']); // replace annoyingly verbose path prefix
 						break;
 					}
 				}
