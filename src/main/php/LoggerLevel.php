@@ -73,7 +73,7 @@ class LoggerLevel {
 	/**
 	 * Compares two logger levels.
 	 *
-	 * @param LoggerLevels $other
+	 * @param LoggerLevel $other
 	 * @return boolean 
 	 */
 	public function equals($other) {
