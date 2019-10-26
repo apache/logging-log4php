@@ -23,5 +23,4 @@
  */
 
 // Empty config
-
-?>
+return array();

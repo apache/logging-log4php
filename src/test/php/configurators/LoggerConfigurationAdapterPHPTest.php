@@ -94,5 +94,3 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
 		$adapter->convert($url);
 	}
 }
-
-?>

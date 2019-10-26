@@ -21,10 +21,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerRootTest extends PHPUnit_Framework_TestCase {
+class LoggerRootTest extends TestCase {
     
 	public function testInitialSetup() {
 		$root = new LoggerRoot();

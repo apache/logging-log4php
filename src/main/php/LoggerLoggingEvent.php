@@ -132,7 +132,7 @@ class LoggerLoggingEvent {
 			$this->timeStamp = microtime(true);
 		}
 		
-		if ($throwable !== null && $throwable instanceof Exception) {
+		if ($throwable !== null && $throwable instanceof Throwable) {
 			$this->throwableInfo = new LoggerThrowableInformation($throwable);
 		}
 	}

@@ -35,7 +35,3 @@ return array(
 			 )
 		)
 	)
-
-// Invalid file - no closing brace.
-	
-?>

@@ -22,10 +22,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerNDCTest extends PHPUnit_Framework_TestCase {
+class LoggerNDCTest extends TestCase {
 	
 	public function testItemHandling()
 	{
