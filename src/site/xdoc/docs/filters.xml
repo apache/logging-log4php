@@ -217,7 +217,9 @@ array(
 			</subsection>
 			
 			<subsection name="LoggerFilterLevelRange" id="LoggerFilterLevelRange">
-				<p>This filter accepts or denies logging events if their log level is within the specified range.</p>
+				<p>This filter denies logging events if their log level is outside the specified range. None of the
+				parameters are required but it makes sense to set at least one of <code>levelMin</code> and
+				<code>levelMax</code>.</p>
 				
 				<h4>Configurable parameters</h4>
 				
@@ -235,14 +237,14 @@ array(
 						<tr>
 							<td>levelMin</td>
 							<td>LoggerLevel</td>
-							<td><strong>Yes</strong></td>
+							<td>No</td>
 							<td>-</td>
 							<td>The minimum level to log. If set, levels lower than this will be denied.</td>
 						</tr>
 						<tr>
 							<td>levelMax</td>
 							<td>LoggerLevel</td>
-							<td><strong>Yes</strong></td>
+							<td>No</td>
 							<td>-</td>
 							<td>The maximum level to log. If set, levels higher than this will be denied.</td>
 						</tr>
@@ -251,7 +253,8 @@ array(
 							<td>boolean</td>
 							<td>No</td>
 							<td>true</td>
-							<td>If true, the matching log level is accepted, denied otherwise.</td>
+							<td>If true, a log event within the specified range is accepted. Otherwise, the filter
+							remains neutral.</td>
 						</tr>
 					</tbody>
 				</table>
@@ -270,7 +273,8 @@ array(
 			</subsection>
 			
 			<subsection name="LoggerFilterStringMatch" id="LoggerFilterStringMatch">
-				<p>This filter allows or denies logging events if their message contains a given string.</p>
+				<p>This filter allows or denies logging events if their message contains a given string. If no match
+				is found the filter remains neutral.</p>
 				
 				<h4>Configurable parameters</h4>
 				
@@ -290,21 +294,15 @@ array(
 							<td>LoggerLevel</td>
 							<td><strong>Yes</strong></td>
 							<td>-</td>
-							<td>The level to match</td>
-						</tr>
-						<tr>
-							<td>levelMax</td>
-							<td>LoggerLevel</td>
-							<td><strong>Yes</strong></td>
-							<td>-</td>
-							<td>The level to match</td>
+							<td>The string to match. Matches are case sensitive.</td>
 						</tr>
 						<tr>
 							<td>acceptOnMatch</td>
 							<td>boolean</td>
 							<td>No</td>
 							<td>true</td>
-							<td>If true, the matching log level is accepted, denied otherwise.</td>
+							<td>If true and a match is found, the matching log event is accepted. If false and a
+							match is found, the matching log event is denied.</td>
 						</tr>
 					</tbody>
 				</table>
