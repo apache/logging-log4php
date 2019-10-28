@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -46,7 +49,7 @@ class Simple {
 /**
  * @group main
  */
-class LoggerReflectionUtilsTest extends PHPUnit_Framework_TestCase {
+class LoggerReflectionUtilsTest extends TestCase {
 
 	public function testSimpleSet() {
 		$s = new Simple();

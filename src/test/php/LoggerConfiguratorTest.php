@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -34,7 +36,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  * @group configurators
  *
  */
- class LoggerConfiguratorTest extends PHPUnit_Framework_TestCase
+ class LoggerConfiguratorTest extends TestCase
  {
  	/** Reset configuration after each test. */
  	public function setUp() {
@@ -98,7 +100,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
  	 * @expectedExceptionMessage Invalid configuration provided for appender
  	 */
  	public function testAppenderConfigNotArray() {
- 		$hierachyMock = $this->getMock('LoggerHierarchy', array(), array(), '', false);
+ 		$hierachyMock = $this->createMock('LoggerHierarchy', array(), array(), '', false);
  		
  		$config = array(
 	 		'appenders' => array(

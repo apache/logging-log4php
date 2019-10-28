@@ -21,10 +21,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerHierarchyTest extends PHPUnit_Framework_TestCase {
+class LoggerHierarchyTest extends TestCase {
         
 	private $hierarchy;
         

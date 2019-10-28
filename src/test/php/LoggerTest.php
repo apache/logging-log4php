@@ -21,10 +21,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerTest extends PHPUnit_Framework_TestCase {
+class LoggerTest extends TestCase {
 	
 	private $testConfig1 = array (
 		'rootLogger' =>	array (

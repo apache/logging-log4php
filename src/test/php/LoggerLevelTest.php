@@ -21,10 +21,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerLevelTest extends PHPUnit_Framework_TestCase {
+class LoggerLevelTest extends TestCase {
         
 	protected function doTestLevel($level, $code, $str, $syslog) {
 		self::assertTrue($level instanceof LoggerLevel);

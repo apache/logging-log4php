@@ -56,19 +56,17 @@ class LoggerConfigurationAdapterPHP implements LoggerConfigurationAdapter
 		}
 		
 		// Load the config file
-		$data = @file_get_contents($url);
-		if ($data === false) {
+        if (!file_exists($url)) {
 			$error = error_get_last();
 			throw new LoggerException("Error loading config file: {$error['message']}");
 		}
-		
-		$config = @eval('?>' . $data);
-		
-		if ($config === false) {
-			$error = error_get_last();
-			throw new LoggerException("Error parsing configuration: " . $error['message']);
-		}
-		
+
+        try {
+            $config = require_once($url);
+        } catch (ParseError $exception) {
+            throw new LoggerException("Error parsing configuration: " . $exception->getMessage());
+        }
+
 		if (empty($config)) {
 			throw new LoggerException("Invalid configuration: empty configuration array.");
 		}

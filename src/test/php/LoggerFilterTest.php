@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -26,7 +29,7 @@ class MyFilter extends LoggerFilter {}
 /**
  * @group filters
  */
-class LoggerFilterTest extends PHPUnit_Framework_TestCase {
+class LoggerFilterTest extends TestCase {
         
 	public function testDecide() {
 		$filter = new MyFilter();

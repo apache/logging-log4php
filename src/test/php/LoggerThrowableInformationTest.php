@@ -21,10 +21,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerThrowableInformationTest extends PHPUnit_Framework_TestCase {
+class LoggerThrowableInformationTest extends TestCase {
 
 	public function testConstructor() {
 		$ex = new Exception();

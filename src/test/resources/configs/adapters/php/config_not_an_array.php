@@ -23,6 +23,4 @@
  */
  
 // Not an array
-return new Exception();
-
-?>
+return new Exception ();

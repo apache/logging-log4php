@@ -22,10 +22,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group appenders
  */
-class LoggerAppenderTest extends PHPUnit_Framework_TestCase {
+class LoggerAppenderTest extends TestCase {
         
 	public function testThreshold() {
 		$appender = new LoggerAppenderEcho("LoggerAppenderTest");

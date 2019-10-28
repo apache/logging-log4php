@@ -22,10 +22,12 @@
  * @link       http://logging.apache.org/log4php
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group main
  */
-class LoggerMDCTest extends PHPUnit_Framework_TestCase {
+class LoggerMDCTest extends TestCase {
 	
 	/** A pattern with 1 key. */
 	private $pattern1 = "%-5p %c: %X{key1} %m";

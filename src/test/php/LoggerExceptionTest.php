@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,7 +28,7 @@ class MyException extends Exception { }
 /**
  * @group main
  */
-class LoggerExceptionTest extends PHPUnit_Framework_TestCase {
+class LoggerExceptionTest extends TestCase {
   	/**
 	 * @expectedException LoggerException
 	 */
