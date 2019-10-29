@@ -54,7 +54,7 @@ class Net_Server_Handler_Log extends Net_Server_Handler {
                     throw new Exception("Please use 'log4php.appender.default.useXml = false' in appender_socket.properties file!");
                 }
                 preg_match('/^(O:\d+)/', $data, $parts);
-                $events = split($parts[1], $data);
+                $events = explode($parts[1], $data);
                 array_shift($events);
                 $size = count($events);
                 for($i=0; $i<$size; $i++) {
