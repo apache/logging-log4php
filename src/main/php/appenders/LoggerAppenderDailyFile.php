@@ -88,7 +88,7 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
 			
 			// Close the file if it's open.
 			// Note: $this->close() is not called here because it would set
-			//       $this->closed to true and the appender would not recieve
+			//       $this->closed to true and the appender would not receive
 			//       any more logging requests
 			if (is_resource($this->fp)) {
 				$this->write($this->layout->getFooter());

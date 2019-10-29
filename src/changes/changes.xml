@@ -123,7 +123,7 @@
 			<action type="update" issue="LOG4PHP-29" dev="Knut Urdalen">Load classes through autoload instead of explicitly include them</action>
 			<action type="update" issue="LOG4PHP-30" dev="Christian Grobmeier">Implement LoggerAppenderPDO</action>
 			<action type="update" issue="LOG4PHP-31" dev="Knut Urdalen">Removing unnecessary use of LOG4PHP_DIR</action>
-			<action type="update" issue="LOG4PHP-32" dev="Knut Urdalen, Christian Grobmeier">Refactor from using define to class contants (Knut Urdalen, Christian Grobmeier)</action>
+			<action type="update" issue="LOG4PHP-32" dev="Knut Urdalen, Christian Grobmeier">Refactor from using define to class constants (Knut Urdalen, Christian Grobmeier)</action>
 			<action type="update" issue="LOG4PHP-34" dev="Christian Grobmeier">Remove all internal debugging</action>
 			<action type="update" issue="LOG4PHP-35" dev="Knut Urdalen">Replace LOG4PHP_LINE_SEP with PHP_EOL</action>
 			<action type="update" issue="LOG4PHP-37" dev="Christian Grobmeier">removed LoggerAppenderDB in favour to LoggerAppenderPDO</action>

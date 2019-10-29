@@ -30,7 +30,7 @@ Contributing patches
 
 * Respect the original style
 
-  Please respect the style of the orginal file. Make sure that your additions fit in with that style.
+  Please respect the style of the original file. Make sure that your additions fit in with that style.
   The framework has coding conventions and every contribution is supposed to adhere to them. 
   You might find it a little difficult to discover the conventions used by a particular class 
   but if you stick to the style of the original then that'll be fine. If in doubt, ask on the developers
@@ -42,7 +42,7 @@ Contributing patches
 
   Most important codestyles:
 
-    * don't use vertical alignement
+    * don't use vertical alignment
     
     * keep brackets on the same line as the method signature
     

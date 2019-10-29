@@ -49,7 +49,7 @@ class LoggerAppenderFirePHP extends LoggerAppender {
 	
 	/**
 	 * The target for log messages. Possible values are: 'page' (default), 
-	 * 'request', 'package' and 'contoller'.
+	 * 'request', 'package' and 'controller'.
 	 */
 	protected $target = 'page';
 

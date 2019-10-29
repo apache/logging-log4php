@@ -23,7 +23,7 @@
  * @link       http://logging.apache.org/log4php
  */
 
-/** Converter referencing non-existant superglobal variable. */
+/** Converter referencing non-existent superglobal variable. */
 class LoggerInvalidSuperglobalConverter extends LoggerPatternConverterSuperglobal {
 	protected $name = '_FOO';
 }
@@ -220,7 +220,7 @@ class LoggerPatternConverterTest extends PHPUnit_Framework_TestCase {
 		$expected = 'bar';
 		self::assertSame($expected, $actual);
 
-		// Non existant key
+		// Non existent key
 		$converter = new LoggerPatternConverterMDC($this->info, 'doesnotexist');
 		$actual = $converter->convert($this->event);
 		$expected = '';
@@ -310,7 +310,7 @@ class LoggerPatternConverterTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException PHPUnit_Framework_Error
 	 * @expectedExceptionMessage log4php: LoggerInvalidSuperglobalConverter: Cannot find superglobal variable $_FOO
 	 */
-	public function testNonexistantSuperglobal() {
+	public function testNonexistentSuperglobal() {
 		$converter = new LoggerInvalidSuperglobalConverter($this->info);
 		$actual = $converter->convert($this->event);
 	}

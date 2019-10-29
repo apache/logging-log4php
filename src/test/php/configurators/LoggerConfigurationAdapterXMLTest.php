@@ -127,7 +127,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
  	 * @expectedException LoggerException
  	 * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
 	 */
-	public function testNonExistantFile() {
+	public function testNonExistentFile() {
 		$adapter = new LoggerConfigurationAdapterXML();
 		$adapter->convert('you/will/never/find/me.conf');
 	}
@@ -164,7 +164,7 @@ class LoggerConfigurationAdapterXMLTest extends PHPUnit_Framework_TestCase {
 		$url =  PHPUNIT_CONFIG_DIR . '/adapters/xml/config_duplicate_logger.xml';
 		$adapter = new LoggerConfigurationAdapterXML();
 		
-		// Supress the warning so that test can continue 
+		// Suppress the warning so that test can continue 
 		$config = @$adapter->convert($url);
 
 		// Second definition of foo has level set to warn (the first to info)

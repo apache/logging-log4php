@@ -57,7 +57,7 @@ class LoggerConfigurationAdapterPHPTest extends PHPUnit_Framework_TestCase {
  	 * @expectedException LoggerException
  	 * @expectedExceptionMessage File [you/will/never/find/me.conf] does not exist.
 	 */
-	public function testNonExistantFileWarning() {
+	public function testNonExistentFileWarning() {
 		$adapter = new LoggerConfigurationAdapterPHP();
 		$adapter->convert('you/will/never/find/me.conf');
 	}

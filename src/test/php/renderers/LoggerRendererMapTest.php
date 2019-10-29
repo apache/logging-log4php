@@ -102,7 +102,7 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * Try adding a non-existant class as renderer.
+	 * Try adding a non-existent class as renderer.
 	 * @expectedException PHPUnit_Framework_Error
  	 * @expectedExceptionMessage Failed adding renderer. Rendering class [DoesNotExist] not found.
 	 */
@@ -134,7 +134,7 @@ class LoggerRendererMapTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * Try setting a non-existant class as default renderer.
+	 * Try setting a non-existent class as default renderer.
 	 * @expectedException PHPUnit_Framework_Error
 	 * @expectedExceptionMessage Failed setting default renderer. Rendering class [DoesNotExist] not found.
 	 */

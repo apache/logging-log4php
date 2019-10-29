@@ -47,7 +47,7 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 				$expected = ($event->getLevel() == $level) ? LoggerFilter::ACCEPT : LoggerFilter::NEUTRAL;
 				$actual = $filter->decide($event);
 					
-				// Get string represenations for logging
+				// Get string representations for logging
 				$sExpected = LoggerTestHelper::decisionToString($expected);
 				$sActual = LoggerTestHelper::decisionToString($actual);
 				
@@ -75,7 +75,7 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 				$expected = ($event->getLevel() == $level) ? LoggerFilter::DENY : LoggerFilter::NEUTRAL;
 				$actual = $filter->decide($event);
 					
-				// Get string represenations for logging
+				// Get string representations for logging
 				$sExpected = LoggerTestHelper::decisionToString($expected);
 				$sActual = LoggerTestHelper::decisionToString($actual);
 	
@@ -93,7 +93,7 @@ class LoggerFilterLevelMatchTest extends PHPUnit_Framework_TestCase {
 			$expected = LoggerFilter::NEUTRAL;
 			$actual = $filter->decide($event);
 				
-			// Get string represenations for logging
+			// Get string representations for logging
 			$sExpected = LoggerTestHelper::decisionToString($expected);
 			$sActual = LoggerTestHelper::decisionToString($actual);
 			$level = $event->getLevel();

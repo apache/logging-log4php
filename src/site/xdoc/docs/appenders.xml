@@ -172,7 +172,7 @@
 				will be ignored.</p>
 				
 				<p>For example, if you set <code>WARN</code> as a threshold, then <code>INFO</code>, <code>DEBUG</code>
-				and <code>TRACE</code> level events recieved by the appender will not be logged, but <code>WARN</code>,
+				and <code>TRACE</code> level events received by the appender will not be logged, but <code>WARN</code>,
 				<code>ERROR</code> and <code>FATAL</code> will.</p>
 				
 				<p>An example of setting an appender threshold:</p>

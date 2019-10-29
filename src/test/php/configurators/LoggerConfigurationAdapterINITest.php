@@ -98,7 +98,7 @@ class LoggerConfigurationAdapterINITest extends PHPUnit_Framework_TestCase {
  	 * @expectedException LoggerException
  	 * @expectedExceptionMessage File [you/will/never/find/me.ini] does not exist.
 	 */
-	public function testNonExistantFileException() {
+	public function testNonExistentFileException() {
 		$adapter = new LoggerConfigurationAdapterINI();
 		$adapter->convert('you/will/never/find/me.ini');
 	}

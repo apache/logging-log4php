@@ -310,7 +310,7 @@ class LoggerLoggingEvent {
 	 * to the time the event was constructed.
 	 * 
 	 * @deprecated This method has been replaced by getRelativeTime which 
-	 * 		does not perform unneccesary multiplication and formatting.
+	 * 		does not perform unnecessary multiplication and formatting.
 	 * 
 	 * @return integer 
 	 */

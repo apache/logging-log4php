@@ -62,7 +62,7 @@ element. -->
 <!-- Appenders may contain an error handler, a layout, optional parameters -->
 <!-- and filters. They may also reference (or include) other appenders. -->
 <!-- [log4php] -->
-<!-- error handler tag has no effects since log4php does not handle errors. Defintion deleted. -->
+<!-- error handler tag has no effects since log4php does not handle errors. Definition deleted. -->
 <!-- [/log4php] -->
 <!ELEMENT appender (param*, layout?, filter*, appender-ref*)>
 <!ATTLIST appender
