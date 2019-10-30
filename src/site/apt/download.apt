@@ -5,7 +5,7 @@
 ~~ (the "License"); you may not use this file except in compliance with
 ~~ the License.  You may obtain a copy of the License at
 ~~
-~~      http://www.apache.org/licenses/LICENSE-2.0
+~~      https://www.apache.org/licenses/LICENSE-2.0
 ~~
 ~~ Unless required by applicable law or agreed to in writing, software
 ~~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ Download
 
 	Apache log4php\u2122 is a versatile logging framework for PHP.
 	
-	Apache log4php is distributed under the {{{http://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
+	Apache log4php is distributed under the {{{https://www.apache.org/licenses/LICENSE-2.0.html} Apache License, version 2.0}}.
 
 	Version 2.3.0 is the latest stable version, available since 13.10.2012.
 
@@ -33,9 +33,9 @@ Download
 *----------+-----------+------------+
 || Mirrors || Checksum || Signature |
 *----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz}apache-log4php-2.3.0-src.tar.gz}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.asc}ASC}} |
+| {{{https://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz}apache-log4php-2.3.0-src.tar.gz}} | {{{https://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.sha512}SHA-512}} | {{{https://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.tar.gz.asc}ASC}} |
 *----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip}apache-log4php-2.3.0-src.zip}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.asc}ASC}} |
+| {{{https://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip}apache-log4php-2.3.0-src.zip}} | {{{https://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.sha512}SHA-512}} | {{{https://www.apache.org/dist/logging/log4php/2.3.0/apache-log4php-2.3.0-src.zip.asc}ASC}} |
 *----------+-----------+------------+
   
 * Via Composer
@@ -43,7 +43,7 @@ Download
     Install composer in your project:
 
 +--
-curl -s http://getcomposer.org/installer | php
+curl -s https://getcomposer.org/installer | php
 +--
 
 	Create a composer.json file in your project root:
@@ -51,7 +51,7 @@ curl -s http://getcomposer.org/installer | php
 +--
 {
     "require": {
-        "apache/log4php": "2.3.0"
+        "apache/log4php": "^2.3"
     }
 }
 +--
@@ -64,20 +64,7 @@ php composer.phar install
 
 * Pear package
 
-	To install from the Apache log4php PEAR channel:
-	
-+--
-pear channel-discover pear.apache.org/log4php
-pear install log4php/Apache_log4php
-+--
-	
-	Alternatively, the PEAR package can be downloaded from:
-
-*----------+-----------+------------+
-|| Mirrors || Checksum || Signature |
-*----------+-----------+------------+
-| {{{http://www.apache.org/dyn/closer.cgi/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz}Apache_log4php-2.3.0.tgz}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz.md5}MD5}} | {{{http://www.apache.org/dist/logging/log4php/2.3.0/Apache_log4php-2.3.0.tgz.asc}ASC}} |
-*----------+-----------+------------+
+	PEAR is no longer supported.
   
 * From repository  
   
@@ -89,8 +76,8 @@ pear install log4php/Apache_log4php
 	
 * Please mind the signatures
 
-	It is important that you verify the integrity of the downloaded files using the PGP or MD5 signatures. 
-	Please read {{{http://httpd.apache.org/dev/verification.html}Verifying Apache HTTP Server Releases}} for more
+	It is important that you verify the integrity of the downloaded files using the PGP or SHA512 signatures.
+	Please read {{{https://httpd.apache.org/dev/verification.html}Verifying Apache HTTP Server Releases}} for more
 	information on why you should verify our releases.
 
 	The PGP signatures can be verified using PGP or GPG. First download the {{{http://www.apache.org/dist/logging/log4php/KEYS}KEYS}}
@@ -113,4 +100,4 @@ gpg: Good signature from "Christian Grobmeier (Apache Codesigning) <grobmeier@ap
 
 	Apache log4php 2.3.0 is signed by Ivan Habunek (key 0BD936F1).
 
-	Alternatively, you can verify the MD5 signature on the files.
+	Alternatively, you can verify the SHA512 signature on the files.
