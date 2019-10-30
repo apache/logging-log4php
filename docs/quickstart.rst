@@ -15,8 +15,14 @@ Just want logging to stdout?
 
 .. code-block:: php
 
-    include('Logger.php');
-    $logger = Logger::getLogger("main");
+    // Verify that the class is not already loaded (for example, by other plugins or libraries)
+    if (!class_exists('Logger')) {
+        require_once('Logger.php');
+    }
+
+    // Using a unique logger name can help avoid conflicts
+    $logger = Logger::getLogger('application_name');
+
     $logger->info("This is an informational message.");
     $logger->warn("I'm not feeling so good...");
 
