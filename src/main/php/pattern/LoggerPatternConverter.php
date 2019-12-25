@@ -101,6 +101,10 @@ abstract class LoggerPatternConverter {
 			return;
 		}
 		
+		if ($string instanceof Closure) {
+			$string = ($string)();
+		}
+		
 		$len = strlen($string);
 	
 		// Trim the string if needed
