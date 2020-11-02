@@ -57,12 +57,12 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	public function testClosure() {
 		if (version_compare(phpversion(), '5.3.0', '>=')) {
 			LoggerMDC::put("requestSequence",
-				function() {
+				function () {
 					return sprintf("%02d", LoggerIdGenerator::me()->getSeq());
 				}
 			);
 			// Test in a cycle
-			for($i=1; $i <= 10; $i++) {
+			for ($i = 1; $i <= 10; $i++) {
 				$event = LoggerTestHelper::getInfoEvent(sprintf('Iteration %02d', $i));
 				$actual = $this->formatEvent($event, $this->pattern6);
 				$expected = sprintf("Iteration %02d - sequence: %02d", $i, $i);
@@ -78,7 +78,6 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 			$expected = sprintf("Debug %02d - sequence: %02d", $i, $i);
 
 			self::assertEquals($expected, $actual);
-
 		} else {
 			// Closures available Since 5.3.0
 			self::assertSame(1, 1);
