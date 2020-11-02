@@ -101,6 +101,12 @@ abstract class LoggerPatternConverter {
 			return;
 		}
 		
+		if (version_compare(phpversion(), '5.3.0', '>=')) {
+			if ($string instanceof Closure) {
+				$string = $string();
+			}
+		}
+		
 		$len = strlen($string);
 	
 		// Trim the string if needed

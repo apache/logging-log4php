@@ -42,7 +42,10 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	
 	/** A pattern without a key. */
 	private $pattern5 = "%-5p %c: %X %m";
-	
+
+	/** Pattern for closure */
+	private $pattern6 = "%m - sequence: %X{requestSequence}";
+
 	protected function setUp() {
 		LoggerMDC::clear();
 	}
@@ -50,7 +53,37 @@ class LoggerMDCTest extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 		LoggerMDC::clear();
 	}
-	
+
+	public function testClosure() {
+		if (version_compare(phpversion(), '5.3.0', '>=')) {
+			LoggerMDC::put("requestSequence",
+				function () {
+					return sprintf("%02d", LoggerIdGenerator::me()->getSeq());
+				}
+			);
+			// Test in a cycle
+			for ($i = 1; $i <= 10; $i++) {
+				$event = LoggerTestHelper::getInfoEvent(sprintf('Iteration %02d', $i));
+				$actual = $this->formatEvent($event, $this->pattern6);
+				$expected = sprintf("Iteration %02d - sequence: %02d", $i, $i);
+				self::assertEquals($expected, $actual);
+			}
+			// Increment outside of MDC
+			self::assertEquals($i, LoggerIdGenerator::me()->getSeq());
+			$i++;
+
+			// Recheck MDC has correct sequence
+			$event = LoggerTestHelper::getDebugEvent(sprintf('Debug %02d', $i));
+			$actual = $this->formatEvent($event, $this->pattern6);
+			$expected = sprintf("Debug %02d - sequence: %02d", $i, $i);
+
+			self::assertEquals($expected, $actual);
+		} else {
+			// Closures available Since 5.3.0
+			self::assertSame(1, 1);
+		}
+	}
+
 	public function testPatterns() {
 
 		// Create some data to test with
