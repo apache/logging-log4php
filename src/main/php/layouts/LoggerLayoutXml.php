@@ -19,27 +19,27 @@
  */
 
 /**
- * The output of the LoggerXmlLayout consists of a series of log4php:event elements. 
- * 
- * Configurable parameters: 
- * - {@link $locationInfo} - If set to true then the file name and line number 
+ * The output of the LoggerXmlLayout consists of a series of log4php:event elements.
+ *
+ * Configurable parameters:
+ * - {@link $locationInfo} - If set to true then the file name and line number
  *   of the origin of the log statement will be included in output.
  * - {@link $log4jNamespace} - If set to true then log4j namespace will be used
- *   instead of log4php namespace. This can be usefull when using log viewers 
- *   which can only parse the log4j namespace such as Apache Chainsaw. 
- * 
- * <p>It does not output a complete well-formed XML file. 
+ *   instead of log4php namespace. This can be usefull when using log viewers
+ *   which can only parse the log4j namespace such as Apache Chainsaw.
+ *
+ * <p>It does not output a complete well-formed XML file.
  * The output is designed to be included as an external entity in a separate file to form
  * a correct XML file.</p>
- * 
+ *
  * Example:
- * 
+ *
  * {@example ../../examples/php/layout_xml.php 19}<br>
- * 
+ *
  * {@example ../../examples/resources/layout_xml.properties 18}<br>
  *
  * The above would print:
- * 
+ *
  * <pre>
  * <log4php:eventSet xmlns:log4php="http://logging.apache.org/log4php/" version="0.3" includesLocationInfo="true">
  * 	<log4php:event logger="root" level="INFO" thread="13802" timestamp="1252456226491">
@@ -56,10 +56,10 @@
 class LoggerLayoutXml extends LoggerLayout {
 	const LOG4J_NS_PREFIX ='log4j';
 	const LOG4J_NS = 'http://jakarta.apache.org/log4j/';
-	
+
 	const LOG4PHP_NS_PREFIX = 'log4php';
 	const LOG4PHP_NS = 'http://logging.apache.org/log4php/';
-	
+
 	const CDATA_START = '<![CDATA[';
 	const CDATA_END = ']]>';
 	const CDATA_PSEUDO_END = ']]&gt;';
@@ -71,20 +71,20 @@ class LoggerLayoutXml extends LoggerLayout {
 	 * @var boolean
 	 */
 	protected $locationInfo = true;
-  
+
 	/**
-	 * If set to true, log4j namespace will be used instead of the log4php 
+	 * If set to true, log4j namespace will be used instead of the log4php
 	 * namespace.
-	 * @var boolean 
+	 * @var boolean
 	 */
 	protected $log4jNamespace = false;
-	
+
 	/** The namespace in use. */
 	protected $namespace = self::LOG4PHP_NS;
-	
+
 	/** The namespace prefix in use */
 	protected $namespacePrefix = self::LOG4PHP_NS_PREFIX;
-	 
+
 	public function activateOptions() {
 		if ($this->getLog4jNamespace()) {
 			$this->namespace        = self::LOG4J_NS;
@@ -94,7 +94,7 @@ class LoggerLayoutXml extends LoggerLayout {
 			$this->namespacePrefix  = self::LOG4PHP_NS_PREFIX;
 		}
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -114,15 +114,15 @@ class LoggerLayoutXml extends LoggerLayout {
 	 */
 	public function format(LoggerLoggingEvent $event) {
 		$ns = $this->namespacePrefix;
-		
+
 		$loggerName = $event->getLoggerName();
 		$timeStamp = number_format((float)($event->getTimeStamp() * 1000), 0, '', '');
 		$thread = $event->getThreadName();
 		$level = $event->getLevel()->toString();
 
 		$buf  = "<$ns:event logger=\"{$loggerName}\" level=\"{$level}\" thread=\"{$thread}\" timestamp=\"{$timeStamp}\">".PHP_EOL;
-		$buf .= "<$ns:message>"; 
-		$buf .= $this->encodeCDATA($event->getRenderedMessage()); 
+		$buf .= "<$ns:message>";
+		$buf .= $this->encodeCDATA($event->getRenderedMessage());
 		$buf .= "</$ns:message>".PHP_EOL;
 
 		$ndc = $event->getNDC();
@@ -131,7 +131,7 @@ class LoggerLayoutXml extends LoggerLayout {
 			$buf .= $this->encodeCDATA($ndc);
 			$buf .= "]]></$ns:NDC>".PHP_EOL;
 		}
-		
+
 		$mdcMap = $event->getMDCMap();
 		if (!empty($mdcMap)) {
 			$buf .= "<$ns:properties>".PHP_EOL;
@@ -141,9 +141,23 @@ class LoggerLayoutXml extends LoggerLayout {
 			$buf .= "</$ns:properties>".PHP_EOL;
 		}
 
+        $throwable = $event->getThrowableInformation();
+        if (!empty($throwable)) {
+            $throwableStrRep = $throwable->getStringRepresentation();
+            if (!empty($throwableStrRep)) {
+                $buf .= "<$ns:throwable>" . PHP_EOL;
+                $sbuf = '';
+                foreach ($throwableStrRep as $row) {
+                    $sbuf .= $row . PHP_EOL;
+                }
+                $buf .= $this->encodeCDATA($sbuf);
+                $buf .= "</$ns:throwable>" . PHP_EOL;
+            }
+        }
+
 		if ($this->getLocationInfo()) {
 			$locationInfo = $event->getLocationInformation();
-			$buf .= "<$ns:locationInfo ". 
+			$buf .= "<$ns:locationInfo ".
 					"class=\"" . $locationInfo->getClassName() . "\" ".
 					"file=\"" .  htmlentities($locationInfo->getFileName(), ENT_QUOTES) . "\" ".
 					"line=\"" .  $locationInfo->getLineNumber() . "\" ".
@@ -152,26 +166,26 @@ class LoggerLayoutXml extends LoggerLayout {
 		}
 
 		$buf .= "</$ns:event>".PHP_EOL;
-		
+
 		return $buf;
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getFooter() {
 		return "</{$this->namespacePrefix}:eventSet>" . PHP_EOL;
 	}
-	
-	
-	/** 
+
+
+	/**
 	 * Whether or not file name and line number will be included in the output.
 	 * @return boolean
 	 */
 	public function getLocationInfo() {
 		return $this->locationInfo;
 	}
-  
+
 	/**
 	 * The {@link $locationInfo} option takes a boolean value. By default,
 	 * it is set to false which means there will be no location
@@ -182,7 +196,7 @@ class LoggerLayoutXml extends LoggerLayout {
 	public function setLocationInfo($flag) {
 		$this->setBoolean('locationInfo', $flag);
 	}
-  
+
 	/**
 	 * @return boolean
 	 */
@@ -196,11 +210,11 @@ class LoggerLayoutXml extends LoggerLayout {
 	public function setLog4jNamespace($flag) {
 		$this->setBoolean('log4jNamespace', $flag);
 	}
-	
-	/** 
-	 * Encases a string in CDATA tags, and escapes any existing CDATA end 
+
+	/**
+	 * Encases a string in CDATA tags, and escapes any existing CDATA end
 	 * tags already present in the string.
-	 * @param string $string 
+	 * @param string $string
 	 */
 	private function encodeCDATA($string) {
 		$string = str_replace(self::CDATA_END, self::CDATA_EMBEDDED_END, $string);
