@@ -225,7 +225,7 @@ class CostumDefaultRenderer implements LoggerRenderer {
 
  	/**
  	 * @expectedException PHPUnit_Framework_Error
- 	 * @expectedExceptionMessage Nonexistnant appender [unknownAppender] linked to logger [myLogger].
+ 	 * @expectedExceptionMessage Nonexistent appender [unknownAppender] linked to logger [myLogger].
  	 */
  	public function testNotExistingLoggerAppendersClass() {
  		Logger::configure(PHPUNIT_CONFIG_DIR . '/loggers/config_not_existing_appenders.xml');

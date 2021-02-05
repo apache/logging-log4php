@@ -419,7 +419,7 @@ class LoggerConfiguratorDefault implements LoggerConfigurator
 				if (isset($this->appenders[$appenderName])) {
 					$logger->addAppender($this->appenders[$appenderName]);
 				} else {
-					$this->warn("Nonexistnant appender [$appenderName] linked to logger [$loggerName].");
+					$this->warn("Nonexistent appender [$appenderName] linked to logger [$loggerName].");
 				}
 			}
 		}
